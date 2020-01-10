@@ -1,6 +1,38 @@
 {
   "name": "one-platform",
   "private": true,
+  "description": "An integrated application hosting platform.",
+  "keywords": [
+    "one",
+    "platform",
+    "spaship",
+    "red",
+    "hat"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1-Platform/one-platform.git"
+  },
+  "version": "0.0.0",
+  "author": {
+    "name": "Sayak Sarkar",
+    "email": "sayak.bugsmith@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Diwanshi Pandey",
+      "email": "diwanshipandey@gmail.com",
+      "url": "https://github.com/diwanshi"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/1-Platform/one-platform/issues"
+  },
+  "homepage": "https://github.com/1-Platform/one-platform#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "2.15.0",
     "@typescript-eslint/parser": "2.15.0",
@@ -11,30 +43,5 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
     "lerna": "3.20.2"
-  },
-  "description": "An integrated application hosting platform.",
-  "version": "0.0.0",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/1-Platform/one-platform.git"
-  },
-  "keywords": [
-    "one",
-    "platform",
-    "spaship",
-    "red",
-    "hat"
-  ],
-  "author": {
-    "name": "Sayak Sarkar",
-    "email": "sayak.bugsmith@gmail.com"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/1-Platform/one-platform/issues"
-  },
-  "homepage": "https://github.com/1-Platform/one-platform#readme"
+  }
 }
