@@ -1,13 +1,13 @@
 ---
 name: Bug report
-about: Help us improve
+about: Report something that doesn't work
 title: ''
 labels: bug
 assignees: ''
 
 ---
 
-**For bug reports, please provide as much relevant info as possible:**
+**A Bug is a superset of regressions, but it doesn't have to have worked on One Platform previously. For bug reports, please provide as much relevant info as possible:**
 
 * What browser(s), device and OS experience the problem?
 * What are the steps to reproduce the issue and what is the expected behavior?  For the fastest support, provide a working demo or minimal reproduction using tools such as [codepen](https://codepen.io/) or [jsfiddle](https://jsfiddle.net/)
