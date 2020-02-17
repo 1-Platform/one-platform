@@ -9,13 +9,13 @@ assignees: ''
 
 <!--For regression reports, please provide as much relevant info as possible.-->
 
-**Potential Commit/PR that introduced the regression:**
+## Potential Commit/PR that introduced the regression:
 <!-- If you have time to investigate, what PR/date introduced this issue. -->
 
-**Describe the regression:**
+## Describe the regression:
 <!-- A clear and concise description of what the regression is. -->
 
-**Steps to reproduce:**
+## Steps to reproduce:
 <!--
 1. Do '...'
 2. Click on '....'
@@ -24,13 +24,13 @@ assignees: ''
 For the fastest support, provide a working demo or minimal reproduction using tools such as [codepen](https://codepen.io/) or [jsfiddle](https://jsfiddle.net/)
 -->
 
-**Expected behavior:**
+## Expected behavior:
 <!-- A clear and concise description of what you expected to happen. -->
 
-**Screenshots:**
+## Screenshots:
 <!-- If applicable, add screenshots to help explain your problem. -->
 
-**Environment:**
+## Environment:
    - [ ] Operating System(s): 
        - [ ] Linux [Variant and Version]
        - [ ] macOS [Variant and Version]
@@ -42,7 +42,7 @@ For the fastest support, provide a working demo or minimal reproduction using to
        - [ ] Other (please specify) 
    - [ ] Other: please specify [Variant and Version]
 
-**Tell us more about your product/project and timeline to help prioritize this issue:**
+## Tell us more about your product/project and timeline to help prioritize this issue:
 <!--
 * What product/project does this impact?
 * List product/project release(s) and timelines.
