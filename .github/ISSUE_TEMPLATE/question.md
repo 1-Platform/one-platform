@@ -13,8 +13,8 @@ assignees: ''
   Before opening a new issue, please search existing issues https://github.com/1-Platform/one-platform/issues
 -->
 
-**Summary:**
+## Summary:
 
-**Relevant information:**
+## Relevant information:
 
 <!-- Provide as much useful information as you can -->
