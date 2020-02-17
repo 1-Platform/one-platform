@@ -1,20 +1,19 @@
 ---
-name: "Bug report \U0001F41E"
-about: Report something that doesn't work
+name: "Regression report \U0001F570"
+about: Tell us about something that worked at one point and now doesn't
 title: ''
-labels: bug
+labels: regression
 assignees: ''
 
 ---
 
-<!--
-A Bug is a superset of regressions, but it doesn't have to have worked on One Platform previously. Please provide as much relevant info as possible.
+<!--For regression reports, please provide as much relevant info as possible.-->
 
-Before opening a new issue, please search existing issues https://github.com/1-Platform/one-platform/issues
--->
+**Potential Commit/PR that introduced the regression:**
+<!-- If you have time to investigate, what PR/date introduced this issue. -->
 
-**Describe the bug:**
-<!-- A clear and concise description of what the bug is. -->
+**Describe the regression:**
+<!-- A clear and concise description of what the regression is. -->
 
 **Steps to reproduce:**
 <!--
@@ -31,7 +30,7 @@ For the fastest support, provide a working demo or minimal reproduction using to
 **Screenshots:**
 <!-- If applicable, add screenshots to help explain your problem. -->
 
-Environment
+**Environment:**
    - [ ] Operating System(s): 
        - [ ] Linux [Variant and Version]
        - [ ] macOS [Variant and Version]
