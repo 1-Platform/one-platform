@@ -1,0 +1,96 @@
+<style>
+  :root {
+    --nav-width: 4.5rem;
+  }
+  body {
+    margin-left: calc(var(--nav-width, 4rem) + 1.5rem);
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--nav-width, 4rem);
+    background: white;
+    box-shadow: 0 0 1rem rgba(0,0,0,.16);
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  a.opf-logo {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+
+    flex: 0 0 auto;
+    height: var(--nav-width);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  a.opf-logo > img {
+    width: 3rem;
+  }
+
+  button {
+    list-style: none;
+    font-size: .625rem;
+    text-align: center;
+    width: var(--nav-width);
+    padding: 1rem 0;
+    background: none;
+    border: 2px solid transparent;
+
+    outline: none;
+  }
+  button:hover, button:focus {
+    background: rgba(37, 156, 255, 0.08);
+  }
+  button:active {
+    border-right-color: rgba(37, 156, 255);
+  }
+
+  button > img {
+    width: 1rem;
+    margin-bottom: .5rem;
+  }
+
+  button > label {
+    display: block;
+  }
+
+  .bottom-options {
+    margin-top: auto;
+    flex: 0 0 auto;
+  }
+</style>
+
+<nav>
+  <a href="/" class="opf-logo">
+    <img src="/templates/assets/op-logo.svg" alt="One Platform">
+  </a>
+
+  <button>
+    <img src="/templates/assets/apps.svg" alt="Apps">
+    <label for="apps">Apps</label>
+  </button>
+  <button>
+    <img src="/templates/assets/bell.svg" alt="Notifications">
+    <label for="notifications">Notifications</label>
+  </button>
+  <button>
+    <img src="/templates/assets/search.svg" alt="Search">
+    <label for="search">Search</label>
+  </button>
+
+  <div class="bottom-options">
+    <button>
+      <img src="/templates/assets/user.svg" alt="Log In">
+      <label for="login">Log In</label>
+    </button>
+  </div>
+</nav>

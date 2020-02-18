@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  ssi-templates:
+    build: ./packages/ssi-service/.
+    ports:
+      - 5500:80
+    volumes:
+      - ./packages/ssi-service/src:/usr/local/apache2/htdocs/templates
+      - ./packages/ssi-service/public/index.html:/usr/local/apache2/htdocs/index.html
