@@ -1,0 +1,13 @@
+<script async src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
+
+<script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+
+<script type="module" src="/templates/op-nav.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const opfNav = document.createElement('op-nav');
+    document.body.prepend(opfNav);
+  });
+</script>
