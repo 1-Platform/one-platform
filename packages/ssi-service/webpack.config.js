@@ -6,7 +6,8 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-    'op-nav': path.join(__dirname, 'src', 'nav', 'nav')
+    'op-nav': path.join(__dirname, 'src', 'nav', 'nav'),
+    'op-feedback-panel': path.join(__dirname, 'src', 'feedback-panel', 'feedback')
   },
   output: {
     path: path.join(__dirname, 'dist'),
