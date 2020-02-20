@@ -1,39 +1,19 @@
-## PR Checklist
-Please check if your PR fulfills the following requirements:
+---
+title: "feat/fix/docs(#issue_id): <PR Subject>"
+projects: 1-Platform/1
+---
 
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+> ### Closes/Fixes/Resolves #issue_id
 
+## Explain the feature/fix:
 
-## PR Type
-What kind of change does this PR introduce?
+<!-- Provide a clear explaination of the feature/fix implemented -->
 
-<!-- Please check the one that applies to this PR using "x". -->
-
-- [ ] Bugfix
-- [ ] Feature
-- [ ] Code style update (formatting, local variables)
-- [ ] Refactoring (no functional changes, no api changes)
-- [ ] Build related changes
-- [ ] CI related changes
-- [ ] Documentation content changes
-- [ ] Other... Please describe:
-
-
-## What is the current behavior?
-<!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
-
-Issue Number: N/A
-
-
-## What is the new behavior?
 
 
 ## Does this PR introduce a breaking change?
 
-- [ ] Yes
-- [ ] No
-
+> Yes/No
 
 <!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. -->
 
@@ -41,4 +21,19 @@ Issue Number: N/A
 ## Screenshots:
 <!-- If applicable, add screenshots to help explain your problem. -->
 
-## Other information
+<details>
+<summary>View Screenshots</summary>
+
+<!-- Add your screenshots below this line -->
+
+
+</details>
+
+
+### Ready-for-merge Checklist
+
+- [ ] Expected files: all files in this pull request are related to one feature request or issue (no stragglers)?
+- [ ] Does the change have appropriate unit tests?
+- [ ] Did tests pass?
+- [ ] Did you update or add any necessary documentation (README.md, WHY.md, etc.)?
+- [ ] Was this feature demo'd and the design review approved?
