@@ -1,0 +1,52 @@
+@import './_colors.scss';
+@import './_mixin.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Red Hat Text', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1190px;
+  margin: auto;
+}
+
+.button--primary {
+  @include button;
+  background: #0070E0;
+  color: var(--op-white);
+  &:hover {
+      background: #0281ff;
+  }
+  &>a {
+    color: var(--op-white);
+    text-decoration: none;
+  }
+}
+.button--light {
+  @include button;
+  color: #151515;
+  border: 1px solid transparent;
+  padding: 0;
+  i {
+      margin-left: 0.5rem;
+      transition: all 320ms ease-in-out;
+  }
+  &>a {
+    color: #151515;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border: 1px solid transparent;
+    &:hover {
+      border: 1px solid;
+    }
+  }
+  &:hover {
+      .fa.fa.fa-arrow-right {
+          transform: translateX(3px);
+      }
+  }
+}
