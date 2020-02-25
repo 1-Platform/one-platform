@@ -33,7 +33,7 @@ docker-compose up ssi-templates
 2. Mount your SPA build as a volume in the the docker-compose `ssi-templates` service
 ```yml
 ...
-service:
+services:
   ssi-templates:
     ...
     volumes:
@@ -44,3 +44,24 @@ service:
 ```bash
 docker-compose up ssi-templates
 ```
+
+
+### Testing
+To run unit tests, use any of the following commands:
+```bash
+npm run test
+npm test
+npm t
+```
+
+And to generate coverage report, use:
+```bash
+npm test -- --coverage
+```
+You can find the generated coverage reports inside `tests/coverage/`.
+
+
+### Contributors
+
+- Mayur Deshmukh ([@deshmukhmayur](https://github.com/deshmukhmayur))
+

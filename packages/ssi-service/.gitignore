@@ -1,3 +1,4 @@
-dist/
-node_modules/
-**secrets.json
+dist
+node_modules
+secrets.json
+coverage

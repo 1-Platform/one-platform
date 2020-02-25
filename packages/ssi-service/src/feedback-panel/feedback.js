@@ -7,7 +7,7 @@ window.customElements.define('op-feedback', class extends HTMLElement {
   constructor () {
     super();
 
-    this.graphqlClient = new GraphQLClient(secrets.apiUrl, {
+    this._graphqlClient = new GraphQLClient(secrets.apiUrl, {
       headers: {
         Authorization: secrets.accessToken
       }
@@ -59,9 +59,9 @@ window.customElements.define('op-feedback', class extends HTMLElement {
       }
     };
 
-    this.graphqlClient.request(query, variables)
+    this._graphqlClient.request(query, variables)
       .then(res => {
-        console.log(res);
+        console.info(res);
       })
       .catch(err => {
         console.error(err);
@@ -98,7 +98,7 @@ window.customElements.define('op-feedback', class extends HTMLElement {
       }
     };
 
-    this.graphqlClient.request(query, variables)
+    this._graphqlClient.request(query, variables)
       .then(res => {
         console.log(res);
       })
@@ -179,7 +179,6 @@ window.customElements.define('op-feedback', class extends HTMLElement {
 
   get _html () {
     return html`
-        <!-- <style>${styles}</style> -->
       <dialog id="op-feedback__panel" class="op-feedback__panel">
         <header class="op-feedback__header">
           <h3 class="op-feedback__title">Share your thoughts with us</h3>
@@ -221,7 +220,7 @@ window.customElements.define('op-feedback', class extends HTMLElement {
 
   get _bugPanel () {
     return html`
-      <form class="op-feedback__form">
+      <form id="op-feedback__bugReportForm" class="op-feedback__form">
         <div class="op-feedback__form-group">
           <label for="bugTitle" class="op-feedback__form-label">Bug Title <span class="red">*</span></label>
           <input id="bugTitle" type="text" name="bugTitle" autofocus="true" placeholder="Enter bug title" class="op-feedback__form-input" required>
@@ -246,7 +245,7 @@ window.customElements.define('op-feedback', class extends HTMLElement {
 
   get _feedbackPanel () {
     return html`
-      <form class="op-feedback__form">
+      <form id="op-feedback__feedbackForm" class="op-feedback__form">
         <div class="op-feedback__form-group">
           <label for="feedbackType" class="op-feedback__form-label">Feedback for <span class="red">*</span></label>
           <select id="feedbackType" name="feedbackType" autofocus="true" class="op-feedback__form-input" required>

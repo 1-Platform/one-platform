@@ -5,7 +5,7 @@ window.customElements.define('op-nav', class extends HTMLElement {
   connectedCallback () {
     if (!this.shadowRoot) {
       this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(this.__template.content.cloneNode(true));
+      this.shadowRoot.appendChild(this._template.content.cloneNode(true));
 
       const styleTag = document.createElement('style');
       styleTag.innerText = styles;
@@ -13,14 +13,14 @@ window.customElements.define('op-nav', class extends HTMLElement {
     }
   }
 
-  get __template () {
+  get _template () {
     const template = document.createElement('template');
-    template.innerHTML = this.__html;
+    template.innerHTML = this._html;
 
     return template;
   }
 
-  get __html () {
+  get _html () {
     return html`
       <header class="op-nav">
         <div class="op-nav-wrapper">
