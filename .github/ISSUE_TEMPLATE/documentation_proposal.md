@@ -4,6 +4,7 @@ about: Propose documentation improvements / additions
 title: ''
 labels: documentation
 assignees: ''
+projects: 1-Platform/1
 
 ---
 
