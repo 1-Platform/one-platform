@@ -1,7 +1,11 @@
----
-title: "feat/fix/docs(#issue_id): <PR Subject>"
-projects: 1-Platform/1
----
+<!--
+Follow the steps to create the PR:
+
+Subject: "feat/fix/docs(#issue_id): <PR Subject>"
+Assignees: "One Platform Developers"
+Projects: "One Platform Development"
+-->
+
 
 > ### Closes/Fixes/Resolves #issue_id
 
