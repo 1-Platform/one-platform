@@ -4,6 +4,7 @@ about: Report something that doesn't work
 title: ''
 labels: bug
 assignees: ''
+projects: 1-Platform/1
 
 ---
 
@@ -31,17 +32,11 @@ For the fastest support, provide a working demo or minimal reproduction using to
 ## Screenshots:
 <!-- If applicable, add screenshots to help explain your problem. -->
 
-Environment
-   - [ ] Operating System(s): 
-       - [ ] Linux [Variant and Version]
-       - [ ] macOS [Variant and Version]
-       - [ ] Windows [Variant and Version]
-   - [ ] Browser(s)
-       - [ ] Firefox [Version]
-       - [ ] Chrome [Version]
-       - [ ] Safari [Version]
-       - [ ] Other (please specify) 
-   - [ ] Other: please specify [Variant and Version]
+
+## Environment;
+
+- Operating System(s): Linux/macOS/Windows [Variant and Version]
+- Browser: Firefox/Chrome/Safari [Version] / Other (please specify)
 
 ## Tell us more about your product/project and timeline to help prioritize this issue:
 <!--
