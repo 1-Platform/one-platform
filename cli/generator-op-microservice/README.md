@@ -1,36 +1,30 @@
-# generator-op-microservice [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> This is a Yeoman Generator for One Platform Microservice Generator
+One Platform Microservices Generator
+========================================
 
-## Installation
+One platform's server-side microservice genrerator with GraphQL and REST support.
 
-First, install [Yeoman](http://yeoman.io) and generator-op-microservice using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+Installation Instructions:
+--------------------------
 
-```bash
-npm install -g yo
-npm install -g generator-op-microservice
+```
+npm run cli-microservice
 ```
 
-Then generate your new project:
+Usage:
+------
 
-```bash
-yo op-microservice
-```
+1.  Run this generator inside your /packages directory_
+2.  Enter the name of your microservice
+3.  Choose whether you're building a microservice using REST or GraphQL.
+4.  Choose if you need MongoDB support
+5.  Enter the name of the author
+6.  Enter the email of the author
+7.  If you selected GraphQL, a directory will be created with &lt;microservice-name&gt;-service and for REST it will be &lt;microservice-name&gt;-integration
 
-## Getting To Know Yeoman
+After Steps:
+------------
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
-
-## License
-
-MIT © [Diwanshi Pandey]()
-
-
-[npm-image]: https://badge.fury.io/js/generator-op-microservice.svg
-[npm-url]: https://npmjs.org/package/generator-op-microservice
-[travis-image]: https://travis-ci.com/diwanshi/generator-op-microservice.svg?branch=master
-[travis-url]: https://travis-ci.com/diwanshi/generator-op-microservice
-[daviddm-image]: https://david-dm.org/diwanshi/generator-op-microservice.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/diwanshi/generator-op-microservice
+1.  cd into your microservice directory
+2.  Run `npm test` to run default tests
+3.  Run `npm build:dev` to generate a build for dev env and `npm build` for production build
+4.  Run `npm start:dev` to run your microservice for dev env and `npm start` for production env 
