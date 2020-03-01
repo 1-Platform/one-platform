@@ -31,7 +31,8 @@
   },
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cli-microservice": "cd packages && yo --no-insight --no-update-notifier ../cli/generator-op-microservice/generators/microservice"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "2.22.0",
