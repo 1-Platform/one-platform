@@ -1,12 +1,12 @@
 {
   "name": "home-spa",
   "version": "1.0.0",
-  "description": "Home SPA for One Platform",
+  "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "build": "rm -rf ./dist && webpack --config webpack.prod.js",
-    "test": "npm run build && jest --detectOpenHandles"
+    "test": "jest"
   },
   "repository": {
     "type": "git",

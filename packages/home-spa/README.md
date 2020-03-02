@@ -28,12 +28,7 @@ npm run build
 
 ```sh
 npm run build
-npm t
-```
-
-## Color palette
-```
-https://codepen.io/hybridx18/full/rNabajv
+npm run test
 ```
 
 ## 🤝 Contributors
@@ -41,7 +36,5 @@ https://codepen.io/hybridx18/full/rNabajv
 👤 **Deepesh Nair** [@hybridx](https://github.com/hybridx)
 
 ## 📝 License
-
-Copyright © 2020 [One Platform](https://github.com/1-Platform/).
 
 This project is [MIT](https://github.com/1-Platform/one-platform/blob/master/LICENSE) licensed.
