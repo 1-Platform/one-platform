@@ -5,7 +5,7 @@
 
 > Home SPA for One Platform
 
-### 🏠 [Homepage](https://github.com/1-Platform/one-platform#readme)
+### 🏠 [Homepage](https://github.com/1-Platform/one-platform)
 
 ## Install
 
