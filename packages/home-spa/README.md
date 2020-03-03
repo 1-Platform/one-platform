@@ -35,6 +35,3 @@ npm run test
 
 👤 **Deepesh Nair** [@hybridx](https://github.com/hybridx)
 
-## 📝 License
-
-This project is [MIT](https://github.com/1-Platform/one-platform/blob/master/LICENSE) licensed.
