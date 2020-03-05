@@ -288,10 +288,10 @@ module.exports = class extends Generator {
       );
     }
 
-    if (fs.existsSync(this.templatePath('jest.config.json'))) {
+    if (fs.existsSync(this.templatePath('jest.config.js'))) {
       this.fs.copyTpl(
-        this.templatePath('jest.config.json'),
-        this.destinationPath(`${this.props.packageName}/jest.config.json`),
+        this.templatePath('jest.config.js'),
+        this.destinationPath(`${this.props.packageName}/jest.config.js`),
         this.props
       );
     }

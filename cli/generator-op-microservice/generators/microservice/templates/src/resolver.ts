@@ -1,6 +1,5 @@
 <% if (dbSupport) { %>import { <%= serviceClassName %> } from './schema';<% } -%>
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-export const pubsub = new RedisPubSub();
+import { pubsub } from './helpers';
 
 const <%= serviceClassName %>_UPDATE = "<%= serviceClassName %>_UPDATE";
 

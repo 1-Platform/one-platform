@@ -1,94 +1,27 @@
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import errorHandler from 'errorhandler';
 import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
 import fs from 'fs';
-import { GraphQLServer } from 'graphql-yoga';
-import logger from 'morgan';
-import methodOverride from 'method-override';
+import https from 'https';
+import http from 'http';
 import { mergeSchemas } from 'graphql-tools';
+const { ApolloLogExtension } = require('apollo-log');
 <% if (dbSupport) { -%>
 import mongoose from 'mongoose';
-<% } -%>  
+<% } -%>
 
 import gqlSchema from './src/typedef.graphql';
 import { <%= resolverName %> as resolver } from './src/resolver';
 
-const enablePlayground = process.env.NODE_ENV !== 'production';
-const graphqlOptions: any = {
-  port: process.env.PORT || 8080, // Please make sure to change the port if you are running multiple api servers at a time
-  endpoint: '/graphql',
-  subscriptions: '/subscriptions',
-  tracing: false,
-};
-if (enablePlayground) {
-  graphqlOptions.playground = '/playground';
-}
+/* Setting port for the server */
+const port = process.env.PORT || 8080;
+const environment = process.env.NODE_ENV;
 
-if (process.env.NODE_ENV !== 'test') {
-  graphqlOptions.https = {
-    cert: fs.readFileSync('/etc/pki/tls/certs/server.crt'),
-    key: fs.readFileSync('/etc/pki/tls/private/server.key')
-  };
-}
+const app = express();
+const extensions = [() => new ApolloLogExtension({
+  level: 'info',
+  timestamp: true,
+})];
 
-/**
- * The <%= serviceClassName %>
- *
- * @class <%= serviceClassName %>
- */
-export class <%= serviceClassName %> {
-
-  /**
-   * The express application.
-   * @type {Application}
-   */
-  public app: any;
-  /**
-   * Bootstrap the application.
-   *
-   * @class <%= serviceClassName %>
-   * @method bootstrap
-   * @static
-   */
-  public static bootstrap(): <%= serviceClassName %> {
-    return new <%= serviceClassName %>();
-  }
-
-  /**
-   * Constructor.
-   *
-   * @class <%= serviceClassName %>
-   * @constructor
-   */
-  constructor() {
-    // create expressjs application
-    this.app = new GraphQLServer({
-      schema: mergeSchemas({
-                schemas: [
-                  gqlSchema,
-                ],
-                resolvers: [
-                  resolver,
-                ]
-              })
-    });
-    // configure application
-    this.middleware();
-
-    // add routes
-    this.routes();
-
-  }
-
-  /**
-   * Configure application
-   *
-   * @class <%= serviceClassName %>
-   * @method config
-   */
-  public middleware() {
 <% if (dbSupport) { -%>
     /* Configuring Mongoose */
     mongoose.plugin((schema: any) => { schema.options.usePushEach = true; });
@@ -110,62 +43,46 @@ export class <%= serviceClassName %> {
     });
 <% } -%>
 
-    // morgan middleware to log HTTP requests
-    this.app.use(logger('":method :url :status :res[content-length] - :response-time ms :referrer :user-agent"'));
+/* Defining the Apollo Server */
+const apollo = new ApolloServer({
+  playground: environment !== 'production',
+  schema: mergeSchemas({
+    schemas: [
+      gqlSchema,
+    ],
+    resolvers: [
+      resolver,
+    ],
+  }),
+  subscriptions: {
+    path: '/subscriptions',
+  },
+  formatError: error => ({
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack ? error.stack.split('\n') : [],
+    path: error.path,
+  }),
+  extensions
+});
 
-    // use json form parser middleware
-    this.app.use(bodyParser.json({ limit: 1024 * 1024 * 20, type: 'application/json' }));
+/* Applying apollo middleware to express server */
+apollo.applyMiddleware({ app });
 
-    // use query string parser middleware
-    this.app.use(bodyParser.urlencoded({
-      extended: true
-    }));
+/*  Creating the server based on the environment */
+const server = environment !== 'test'
+  ? https.createServer(
+    {
+      key: fs.readFileSync(`/etc/pki/tls/private/server.key`),
+      cert: fs.readFileSync(`/etc/pki/tls/certs/server.crt`)
+    },
+    app
+  )
+  : http.createServer(app);
 
-    //  catch 404 and forward to error handler
-    this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-      err.status = 404;
-      next(err);
-    });
-
-    // Mount cookie parker
-    this.app.use(cookieParser(process.env.NODE_ENV));
-
-    // Mount override
-    this.app.use(methodOverride());
-
-    // Error handling
-    this.app.use(errorHandler());
-
-  }
-
-  /**
-   * Create Graphql API base route
-   *
-   * @class <%= serviceClassName %>
-   * @method routes
-   */
-  public routes() {
-
-    const router = express.Router();
-    // configure CORS
-    const corsOptions: cors.CorsOptions = {
-      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
-      credentials: true,
-      methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-      origin: '*',
-      preflightContinue: false
-    };
-    router.use(cors(corsOptions));
-
-    // root request
-    router.get('/', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      res.json({ message: 'One Platform <%= serviceClassName %> microservice APIs.' });
-      next();
-    });
-
-    // enable CORS pre-flight
-    router.options('*', cors(corsOptions));
-  }
-}
-
-export default <%= serviceClassName %>.bootstrap().app.start(graphqlOptions);
+// Installing the apollo ws subscription handlers
+apollo.installSubscriptionHandlers(server);
+// <%= serviceClassName %>
+export default server.listen({ port: port }, () => {
+  console.log(`🚀 Microservice running on ${environment} at ${port}${apollo.graphqlPath}`);
+});

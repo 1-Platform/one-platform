@@ -38,11 +38,11 @@ const query = `
   }
 `;
 
-beforeAll(done => {
-  <%= serviceClassName %>.then((server: any) => {
-    request = supertest(server);
-    done();
-  });
+beforeAll(() => {
+  request = supertest.agent(<%= serviceClassName %>);
+});
+afterAll(done => {
+  return <%= serviceClassName %>.close(done);
 });
 
 describe('<%= serviceClassName %> microservice API Test', () => {
