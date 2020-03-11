@@ -1,6 +1,6 @@
 {
   "name": "<%= serviceName %>",
-  "description": "<%= serviceClassName %> service for One Platform",
+  "description": "<%= serviceClassName %> micro-service for One Platform",
   "opservice": {
     "className": "<%= serviceClassName %>",
     "serviceName": "<%= serviceName %>"
@@ -21,7 +21,7 @@
   "private": true,
   "files": [ "dist" ],
   "scripts": {
-    "test": "jest --detectOpenHandles --forceExit",
+    "test": "jest --forceExit",
     "build:dev": "webpack --config webpack.dev.js",
     "start:dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",

@@ -82,3 +82,4 @@ describe('<%= serviceClassName %> microservice API Test', () => {
       .end(done);
   });
 });
+

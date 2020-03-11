@@ -2,16 +2,18 @@
   "name": "generator-op-microservice",
   "version": "0.0.0",
   "description": "This is a Yeoman Generator for One Platform Microservice Generator",
-  "homepage": "",
+  "homepage": "https://yeoman.io/",
   "author": {
     "name": "Diwanshi Pandey",
     "email": "diwanshipandey@gmail.com"
   },
-  "contributors": [{
-    "name": "Rigin Oommen",
-    "email": "riginoommen@gmail.com",
-    "url": "https://github.com/riginoommen"
-  }],
+  "contributors": [
+    {
+      "name": "Rigin Oommen",
+      "email": "riginoommen@gmail.com",
+      "url": "https://github.com/riginoommen"
+    }
+  ],
   "files": [
     "generators"
   ],

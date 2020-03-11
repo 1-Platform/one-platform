@@ -26,6 +26,8 @@ export const <%= resolverName %> = {
       return {message: 'POST API for <%= serviceClassName %> microservice'};
     },
     update(root: any, args: any, ctx: any) {
+    /* Optional: if you want to send graphql subscription updates when this query is called) */
+      // pubsub.publish(<%= serviceClassName %>_UPDATE, data);
       return {message: 'PUT API for <%= serviceClassName %> microservice'};
     },
     delete(root: any, args: any, ctx: any) {

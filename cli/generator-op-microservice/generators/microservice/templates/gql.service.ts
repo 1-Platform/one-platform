@@ -14,7 +14,6 @@ import { <%= resolverName %> as resolver } from './src/resolver';
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
-const environment = process.env.NODE_ENV;
 
 const app = express();
 const extensions = [() => new ApolloLogExtension({
@@ -45,7 +44,7 @@ const extensions = [() => new ApolloLogExtension({
 
 /* Defining the Apollo Server */
 const apollo = new ApolloServer({
-  playground: environment !== 'production',
+  playground: process.env.NODE_ENV !== 'production',
   schema: mergeSchemas({
     schemas: [
       gqlSchema,
@@ -70,11 +69,11 @@ const apollo = new ApolloServer({
 apollo.applyMiddleware({ app });
 
 /*  Creating the server based on the environment */
-const server = environment !== 'test'
+const server = process.env.NODE_ENV !== 'test'
   ? https.createServer(
     {
-      key: fs.readFileSync(`/etc/pki/tls/private/server.key`),
-      cert: fs.readFileSync(`/etc/pki/tls/certs/server.crt`)
+      key: fs.readFileSync(`./certs/server.key`),
+      cert: fs.readFileSync(`./certs/server.crt`)
     },
     app
   )
@@ -84,5 +83,6 @@ const server = environment !== 'test'
 apollo.installSubscriptionHandlers(server);
 // <%= serviceClassName %>
 export default server.listen({ port: port }, () => {
-  console.log(`🚀 Microservice running on ${environment} at ${port}${apollo.graphqlPath}`);
+  console.log(`🚀 Microservice running on ${process.env.NODE_ENV} at ${port}${apollo.graphqlPath}`);
 });
+

@@ -79,7 +79,6 @@ module.exports = class extends Generator {
       graphqlSupport = this.options.type === 'graphql' || answers.type === 'graphql';
       dbSupport = answers.dbSupport;
       const packageName = graphqlSupport ? `${hyphenatedName}-service` : `${hyphenatedName}-integration`;
-
       this.props = {
         authorName: answers.authorName,
         authorEmail: answers.authorEmail,
@@ -264,6 +263,12 @@ module.exports = class extends Generator {
       );
     }
 
+    // Copying the certificates folder to the project
+    this.fs.copy(
+      this.templatePath('certs/'),
+      this.destinationPath(`${this.props.packageName}/certs/`)
+    );
+
     // .env config with example script
     if (fs.existsSync(this.templatePath('.env.example'))) {
       this.fs.copyTpl(
@@ -311,7 +316,6 @@ module.exports = class extends Generator {
       this.templatePath(".gitignore"),
       this.destinationPath(`${this.props.packageName}/.gitignore`)
     );
-
   }
 
   install() {
@@ -324,3 +328,4 @@ module.exports = class extends Generator {
     });
   }
 };
+

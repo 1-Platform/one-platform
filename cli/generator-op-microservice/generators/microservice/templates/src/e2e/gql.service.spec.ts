@@ -148,3 +148,4 @@ describe('<%= serviceClassName %> microservice API Test', () => {
       });
   });
 });
+

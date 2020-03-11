@@ -14,8 +14,8 @@ import mongoose from 'mongoose';
 import <%= apiName %>Router from './src/api';
 
 const httpsOptions = {
-  key: fs.readFileSync('/etc/pki/tls/private/server.key'),
-  cert: fs.readFileSync('/etc/pki/tls/certs/server.crt')
+  key: fs.readFileSync('./certs/server.key'),
+  cert: fs.readFileSync('./certs/server.crt')
 };
 
 const { port = 8080 } = { port : process.env.PORT };
@@ -163,3 +163,4 @@ export class <%= serviceClassName %> {
 }
 
 export default <%= serviceClassName %>.bootstrap().app;
+

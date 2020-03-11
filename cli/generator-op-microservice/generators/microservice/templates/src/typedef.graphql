@@ -1,7 +1,7 @@
 type Query {
   # Query Definitions
   list: [<%= serviceClassName %>Type]
-  get(_id: String!): <%= serviceClassName %>Type
+  get(ID: ID!): <%= serviceClassName %>Type
 }
 
 type Mutation {
@@ -23,3 +23,4 @@ type <%= serviceClassName %>Type {
 input <%= serviceClassName %>Input {
   message: String
 }
+

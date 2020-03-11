@@ -15,3 +15,4 @@ describe('generator-op-microservice:app', () => {
     assert.file(['dummyfile.txt']);
   });
 });
+
