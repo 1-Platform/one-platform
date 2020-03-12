@@ -33,6 +33,7 @@ export const <%= resolverName %> = {
     delete(root: any, args: any, ctx: any) {
       return {message: 'DELETE API for <%= serviceClassName %> microservice'};
     },
+
   }
 }
 
