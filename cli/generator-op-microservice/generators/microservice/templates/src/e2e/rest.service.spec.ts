@@ -4,8 +4,6 @@ import mock from './mock.json';
 import path from 'path';
 import supertest from 'supertest';
 
-dotenv.config({ path: path.resolve(__dirname, '.test.env')});
-
 import server from '../../service';
 
 /* Supertest */
@@ -82,4 +80,5 @@ describe('<%= serviceClassName %> microservice API Test', () => {
       .end(done);
   });
 });
+
 

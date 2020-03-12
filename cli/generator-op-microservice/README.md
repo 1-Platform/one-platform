@@ -1,4 +1,4 @@
-One Platform Microservices Generator
+One Platform Microservice Generator
 ========================================
 
 One platform's server-side microservice genrerator with GraphQL and REST support.

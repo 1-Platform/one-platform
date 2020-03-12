@@ -79,6 +79,6 @@
     "pretest": "eslint .",
     "test": "jest"
   },
-  "repository": "diwanshi/generator-op-microservice",
+  "repository": "https://github.com/1-Platform/one-platform",
   "license": "MIT"
 }

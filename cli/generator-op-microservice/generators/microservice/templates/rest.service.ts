@@ -105,7 +105,7 @@ export class <%= serviceClassName %> {
       next(err);
     });
 
-    // Mount cookie parker
+    // Mount cookie parser
     this.app.use(cookieParser(process.env.COOKIE_PARSER));
 
     // Mount override
@@ -163,4 +163,5 @@ export class <%= serviceClassName %> {
 }
 
 export default <%= serviceClassName %>.bootstrap().app;
+
 
