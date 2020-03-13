@@ -263,12 +263,6 @@ module.exports = class extends Generator {
       );
     }
 
-    // Copying the certificates folder to the project
-    this.fs.copy(
-      this.templatePath('certs/'),
-      this.destinationPath(`${this.props.packageName}/certs/`)
-    );
-
     // .env config with example script
     if (fs.existsSync(this.templatePath('.env.example'))) {
       this.fs.copyTpl(

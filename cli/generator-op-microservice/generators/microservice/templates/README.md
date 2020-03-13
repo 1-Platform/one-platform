@@ -7,7 +7,7 @@ One platform's server-side <%= serviceClassName %> <% if (graphqlSupport) {%>Gra
 
   Copy Certificates
   ------------
-  1.  Copy the SSL certificates to the `certs/` directory of `<%= serviceName %>` microservice.
+  1.  Copy the SSL paths to the `.env` file of `<%= serviceName %>` microservice.
 
   Start Microservice:
   ------------

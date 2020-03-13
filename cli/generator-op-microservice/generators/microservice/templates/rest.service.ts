@@ -14,8 +14,8 @@ import mongoose from 'mongoose';
 import <%= apiName %>Router from './src/api';
 
 const httpsOptions = {
-  key: fs.readFileSync('./certs/server.key'),
-  cert: fs.readFileSync('./certs/server.crt')
+  key: fs.readFileSync(`${ process.env.SSL_KEY }`),
+  cert: fs.readFileSync(`${process.env.SSL_CERT }`)
 };
 
 const { port = 8080 } = { port : process.env.PORT };

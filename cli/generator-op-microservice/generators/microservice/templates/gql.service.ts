@@ -72,8 +72,8 @@ apollo.applyMiddleware({ app });
 const server = process.env.NODE_ENV !== 'test'
   ? https.createServer(
     {
-      key: fs.readFileSync(`./certs/server.key`),
-      cert: fs.readFileSync(`./certs/server.crt`)
+      key: fs.readFileSync(`${process.env.SSL_KEY}`),
+      cert: fs.readFileSync(`${process.env.SSL_CERT}`)
     },
     app
   )
