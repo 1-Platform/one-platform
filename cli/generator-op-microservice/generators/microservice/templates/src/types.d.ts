@@ -5,3 +5,4 @@ declare module '*.json';
 type <%= typeName %> = {
 
 }
+
