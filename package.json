@@ -23,6 +23,11 @@
       "name": "Diwanshi Pandey",
       "email": "diwanshipandey@gmail.com",
       "url": "https://github.com/diwanshi"
+    },
+    {
+      "name": "Rigin Oommen",
+      "email": "riginoommen@gmail.com",
+      "url": "https://github.com/riginoommen"
     }
   ],
   "license": "MIT",
@@ -31,7 +36,8 @@
   },
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cli-microservice": "sh cli-init.sh"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "2.23.0",
