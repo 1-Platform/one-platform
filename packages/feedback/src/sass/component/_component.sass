@@ -1,0 +1,537 @@
+@import "../colors/_colors.sass"
+@import "../mixin/_mixin.sass"
+
+@import "~bootstrap/scss/bootstrap.scss"
+
+.btn
+    @extend .btn
+    border-radius: 3px !important
+    margin-right: 0.3rem
+
+button
+    cursor: pointer !important
+
+input[type=checkbox]
+  margin: 0 0.4rem
+
+*[class*="op-btn"]:focus
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .4)
+
+.op-btn-flat
+    +btn-init(transparent, black)
+    box-shadow: none !important
+    &:hover
+        background-color: lighten($black, 80%) !important
+
+.op-btn-flat-mat
+    +btn-init(transparent, black)
+    box-shadow: 1px 2px 4px rgba(0,0,0,.4)
+    &:hover
+        background-color: lighten($black, 80%) !important
+
+.op-btn-fab
+    +op-btn-fab
+    +abs-center
+    +btn-init($primary, $white)
+
+.op-btn-sm-cta
+    +btn-init(lighten($primary, 25%) , $primary)
+    +op-btn-sm-cta
+    &:focus
+      box-shadow: none
+
+.op-btn-primary
+    +btn-init($primary, $white)
+    &:hover
+        background-color: darken($primary, 10%) !important
+
+.op-btn-red
+    +btn-init($red, $white)
+    &:hover
+        background-color: darken($red, 10%) !important
+
+.op-row
+    +op-row
+
+.op-search
+
+    input
+        font-size: 15px
+        &:focus
+            box-shadow: none !important
+    .input-group-append,
+    .input-group-addon
+        +input-search-icon
+        color: rgba(0,0,0,0.6)
+
+.op-search-flat
+    input
+        border-radius: 0px
+        border: none
+        font-size: 15px
+        border-bottom: 2px solid rgba(0,0,0,0.6)
+        &:focus
+            outline: none !important
+            // Removes box-shadow
+            box-shadow: none
+    .input-group-append
+        +input-search-icon
+        color: rgba(0,0,0,0.6)
+
+// OP Modal Header
+.modal-header
+    align-items: center
+
+    h5
+        margin: 0 !important
+        padding: 6px 20px
+    padding: 15px 25px
+
+.op-modal-header-primary
+    background: $primary
+
+.op-modal-header-red
+    background: $red
+
+.op-modal-header-primary,
+.op-modal-header-red
+    color: $white
+    h5
+        margin: 0 !important
+        color: $white
+    button,
+    span
+        color: $white
+        opacity: 1
+
+.modal-body
+    padding: 20px 40px 30px 40px
+
+// no Outline
+.no-outline:focus
+    outline: none !important
+    box-shadow: none !important
+
+button:focus,
+span:focus,
+.btn:focus,
+input:focus,
+select:focus,
+op-dropdown
+    outline: none !important
+
+// Ripple magic
+.ripple
+  position: relative
+  overflow: hidden
+
+
+.ripple:after
+  content: ''
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 5px
+  height: 5px
+  background: rgba(255, 255, 255, .5)
+  opacity: 0
+  border-radius: 100%
+  transform: scale(1, 1) translate(-50%)
+  transform-origin: 50% 50%
+
+@keyframes ripple
+  0%
+    transform: scale(0, 0)
+    opacity: 1
+
+  20%
+    transform: scale(25, 25)
+    opacity: 1
+
+  100%
+    opacity: 0
+    transform: scale(100, 100)
+
+.ripple:focus:not(:active)::after
+  animation: ripple 1s ease-out
+
+// Table Componet Styles
+.op-table
+    @extend .table
+    & thead
+        background-color: rgba(0,0,0,0.03)
+        border: 1px solid rgba(0,0,0,0.03)
+        & th
+            padding: 7px 20px
+    & tbody
+        & td
+            padding: 20px
+
+.op-table-flat
+    @extend .op-table
+
+.op-table-primary
+    @extend .op-table-flat
+    & thead
+        background: $primary
+        & tr th
+            color: $white
+
+.op-table-red
+    @extend .op-table-flat
+    & thead
+        background: $red
+        & tr th
+            color: $white
+
+// Mixin for customized Table
+=op-table-custom($headerBgColor, $headerTextcolor)
+    @extend .op-table-flat
+    & thead
+        background: $headerBgColor
+        & tr th
+            color: $headerTextcolor
+
+.op-table-custom
+    +op-table-custom(black, white)
+
+.op-table-striped
+    @extend .op-table
+    @extend .table-striped
+
+.op-table-hover
+    @extend .op-table
+    @extend .table-hover
+
+.op-table-border
+    @extend .op-table
+    @extend .table-bordered
+
+=op-table-static-header($bodyHeight)
+  width: 100%
+  border-collapse: collapse
+  border-spacing: 0
+
+  & tbody, thead
+    display: block
+
+  & tbody
+    max-height: $bodyHeight
+    overflow-y: auto
+    overflow-x: hidden
+
+
+.abs-center
+    +abs-center
+
+.avatar-logo
+    +avatar-logo($primary, 45px, 45px, $white, none, 5px)
+
+.m-lr-10
+    +margin-left(10px)
+    +margin-right(10px)
+
+.margin-top-5
+  +margin-top(5px)
+
+.margin-right-5
+  +margin-right(5px)
+
+.margin-bottom-5
+  +margin-bottom(5px)
+
+.margin-left-5
+  +margin-left(5px)
+
+// Padding Class
+.padding-top-5
+  +padding-top(5px)
+
+.padding-right-5
+  +padding-right(5px)
+
+.padding-bottom-5
+  +padding-bottom(5px)
+
+.padding-left-5
+  +padding-left(5px)
+
+// op-members-card Component Styles
+.op-members-card
+    +op-members-card(270px, 320px, 20px, 14px, 0)
+
+.avatar-logo-custom-30
+    +avatar-logo(transparent, 30px, 30px, $black, 2px solid, 0px, 13px)
+    font-weight: 700
+
+.card-stat
+    +card-stat()
+
+.activity-card
+    width: 220px
+    padding: 5px
+    & .header
+        border-bottom: 3px solid #d4d4d4
+        & p
+            font-size: 14px
+            font-weight: 700
+            color: gray
+            text-transform: uppercase
+    & .activity-body
+        overflow-y: auto
+        max-height: 350px
+        margin-top: 20px
+        ul
+            margin: 0 !important
+            li
+                list-style: none
+                border-bottom: 3px solid #d4d4d4
+                font-size: 13px
+                margin-bottom: 15px
+                p:first-child
+                    margin-bottom: 15px !important
+                    color: black
+                    font-weight: 600
+
+.op-user-profile
+    +op-user-profile(280px, 370px)
+    display: flex
+    flex-direction: column
+    .user-bg-img
+        flex: 0 0 175px
+    .user-profile-info-wrap
+        display: flex
+        flex-direction: column
+        flex: auto
+        align-items: center
+        > *
+            font-size: 14px
+        .user-avatar
+            transform: translateY(-50px)
+            +avatar-logo(white, 100px, 100px, $black, 2px solid $white, $padding-top: 0px, $fz: 32px)
+            img
+                border-radius: inherit
+                border: inherit
+        .user-name
+            transform: translateY(-45px)
+            font-weight: bold
+        .user-info
+            transform: translateY(-50px)
+            font-weight: 300
+            width: 85%
+            text-align: center
+
+// Outage List Component
+.op-list-horizontal-layout
+    border: 1px solid #eee
+    transition: 100ms ease-in-out
+    +flex()
+    padding: 20px
+    & > div:nth-child(1)
+        +flex-child(0,0, 200px)
+    & > div:nth-child(2)
+        +flex-child(1, 0, 650px)
+    & > div:nth-child(3)
+        +flex-child(0, 0, 150px)
+        margin-left: 1rem
+    & > div:nth-child(4)
+        flex-grow: 0
+        flex-shrink: 1
+        width: 100px
+        display: flex
+        align-items: flex-start
+        justify-content: flex-end
+        & > .icon
+            margin-left: 10px
+    &  p
+        margin: 0
+        font-size: 14px
+        font-weight: 300
+    & .outage-last-update
+        margin-top: 7px
+        .last-comment
+            font-style: oblique
+            font-weight: 600
+    & .red
+        color: $red
+    & .green
+        color: $green
+    &:hover
+        background-color: #f1f1f1
+.time-stamp
+    +time-stamp
+
+.bold
+    font-weight: bolder
+
+.op-list-link
+    color: $primary !important
+    cursor: pointer
+
+.blur-10
+    +blur(10px)
+
+.grid-strip-header
+  +flex(column)
+  p
+    color: $white
+    max-width: 760px
+    font-weight: 200
+    margin-top: 1rem
+    margin-bottom: 1.25rem
+
+// Form Pop Card Style
+.aside-pop-card
+    position: fixed
+    bottom: 500px
+    right: 10px
+    z-index: 9999
+    padding: 10px
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    align-items: center
+    background: #0282c8
+    color: #fff
+    padding: 10px
+    width: 50px
+    font-size: 25px
+
+// Material styled checkbox
+input[type=checkbox].op-checkbox
+  -webkit-appearance: none
+  appearance: none
+  background-color: transparent
+  border: 2px solid #000
+  padding: .3em
+  border-radius: 3px
+  display: inline-block
+  position: relative
+
+  &:checked
+    background-color: $blue
+    border: 2px solid $blue
+    color: #99a1a7
+
+    &:after
+      content: '\2714'
+      position: absolute
+      top: -3px
+      left: -1px
+      line-height: 1em
+      text-align: center
+      color: #fff
+
+    &:disabled
+      background-color: #99a1a7
+      border: 2px solid #99a1a7
+
+input[type=radio].op-radio
+  -webkit-appearance: none
+  appearance: none
+  background-color: transparent
+  border: 2px solid #000
+  padding: .3em
+  border-radius: 50%
+  display: inline-block
+  position: relative
+
+  &:checked
+    background-color: $white
+    border: 2px solid $blue
+    color: #99a1a7
+
+    &:after
+        content: ""
+        padding: 0.2rem
+        position: absolute
+        top: 2px
+        left: 2px
+        background-color: $blue
+        border-radius: 50%
+
+
+/* #region empty-state
+  Global style to be used for an empty state container.
+  For eg. in an empty list view with message "Nothing to show here"
+ */
+.empty-state-container
+  color: $grey
+  padding: 1em
+  text-align: center
+  line-height: 2em
+  font-size: 1rem
+  width: 100%
+
+  & strong
+      font-weight: 500
+/* #endregion empty-state */
+
+
+// Updating Bootstrap modal
+// to become scrollable
+.modal
+  overflow-x: hidden !important
+  overflow-y: auto !important
+
+.red
+  color: $red
+
+// Dot component
+$grey-color: #EEE
+$brand-active: #CC0000
+
+.dot
+  display: inline-block
+  border-radius: 50%
+  width: 50%
+  background-color: $grey-color
+  height: 15px
+  width: 15px
+  margin: 0 2px
+
+  &.dot-active
+    background-color: $brand-active
+    filter: drop-shadow(0px 1px 5px rgba(0,0,0,0.54))
+
+  &.dot-sm
+    height: 8px
+    width: 8px
+
+/**
+  op-event-notification component
+ **/
+=op-event-notification($color: red)
+  border-left: 3px solid $color
+
+.op-event-notification
+  border: 1px solid #ddd
+  padding: 1rem
+  font-weight: 300
+  +op-event-notification
+  i
+    margin-right: 8px
+
+/*
+ * op-chip
+ */
+.op-chip
+  border-radius: 25px
+  background: #f2f2f2
+  padding: 0px 8px
+  font-weight: 200
+  display: flex
+  justify-content: center
+  align-items: center
+  font-size: 14px
+  transition: all 320ms ease-in-out
+  cursor: pointer
+  margin: 5px 10px 5px 0px
+  color: black
+  &:hover
+    background: #ebebeb
+
+  .icon
+    font-size: 22px
+    margin-right: 7px
+    color: #818182

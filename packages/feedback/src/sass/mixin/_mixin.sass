@@ -1,0 +1,285 @@
+
+// @mixin module-header ()
+// Creates a full width background image on an element.
+
+// -Parameters:
+// --Required:
+// $color: The fallback color for the background image
+// $height: height of the Element
+// $img-uri: URI of image you want to use as the background
+// $bgX: The X position of the Background Image
+// $bgY: The Y position of the Background Image
+
+//
+
+=home-header($color, $height, $imgURL: '', $bgX: 0, $bgY:0)
+  background-color:       $color
+  min-height:              $height
+  background-attachment:  fixed
+  background-size:        cover
+  background-image:       url($imgURL)
+  background-position-x:  $bgX
+  background-position-y:  $bgY
+  background-repeat:      no-repeat
+
+=module-header($color, $height, $gradient-color1, $gradient-color2)
+  background-color:       $color
+  height:                 $height
+  background-image: linear-gradient( 123deg, $gradient-color1 60%, $gradient-color2 )
+
+=grid
+  max-width: 1170px
+  margin: 0 auto
+
+
+=linkHover($color, $underline)
+  text-decoration: $underline
+  color: $color
+
+// paragraph mixin
+=paragraph($font-size, $color, $margin, $line-h)
+  font-size: $font-size
+  color: $color
+  margin: $margin
+  line-height: $line-h
+
+=module-vision__name
+  text-transform: uppercase
+  font-weight: 900 !important
+
+=padding-left-right($left, $right)
+  padding-left: $left
+  padding-right: $right
+
+// Componets Mixin
+// Buttons
+=btn-init($bg-color, $text-color)
+  background: $bg-color !important
+  color: $text-color !important
+
+=btn-black
+  background: #212529
+  color: white
+  border-radius: 0px
+  padding-left: 1.5rem
+  padding-right: 1.5rem
+  cursor: pointer
+  margin: 0 0.4rem
+
+=btn-default-styles
+  padding-left: 1.5rem !important
+  padding-right: 1.5rem !important
+  cursor: pointer
+  color: white !important
+  margin: 0 0.4rem
+
+=btn-consolidate
+  background: $category-consolidate !important
+  +btn-default-styles
+
+=btn-connect
+  background: darken($red, 10%) !important
+  +btn-default-styles
+
+=btn-collaborate
+  background: $category-collaborate !important
+  +btn-default-styles
+
+=op-btn-sm-cta($fz:12px, $fw: bold, $padding: 0 10px, $border-radius: 15px)
+  font-family: 'Overpass'
+  font-size: $fz !important
+  font-weight: $fw !important
+  padding: $padding
+  border-radius: $border-radius !important
+
+=op-btn-fab($w: 56px, $h:56px, $fz: 30px)
+  width: $w
+  height: $h
+  border-radius: 50%
+  font-size: $fz
+
+
+=flex($direction: row)
+  display: flex
+  flex-direction: $direction
+  flex-wrap: wrap
+
+=flex-absulte-center
+  justify-content: center
+  align-items: center
+
+=op-row
+  +flex()
+  align-items: center
+  justify-content: space-between
+
+=op-colomn
+  +flex(column)
+
+=input-search-icon
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 5px
+  transform: translateX(-35px)
+  z-index: 1
+
+=abs-center
+  display: flex
+  justify-content: center
+  align-items: center
+
+=avatar-logo($bg, $w, $h, $c, $b, $padding-top: 5px, $fz: 16px, $op: 1)
+  +abs-center
+  background: $bg
+  font-size: $fz
+
+  color: $c
+  width: $w
+  height: $h
+
+  border: $b
+  border-radius: 50%
+  padding-top: $padding-top
+  opacity: $op
+
+=margin-top($space)
+  margin-top: $space  !important
+
+=margin-right($space)
+  margin-right: $space !important
+
+=margin-bottom($space)
+  margin-bottom: $space !important
+
+=margin-left($space)
+  margin-left: $space !important
+
+
+=padding-top($space)
+  padding-top: $space !important
+
+=padding-right($space)
+  padding-right: $space !important
+
+=padding-bottom($space)
+  padding-bottom: $space !important
+
+=padding-left($space)
+  padding-left: $space !important
+
+
+=transform-X($move)
+  transform: translateX($move)
+
+=transform-Y($move)
+  transform: translateY($move)
+
+=op-members-card($w, $h, $p, $font-size, $m)
+    width: $w
+    height: $h
+    margin: $m
+
+    padding: $p
+    border: 1px solid #ddd
+    font-size: $font-size
+
+    cursor: pointer
+    transition: all ease-in 300ms
+    &:hover
+        box-shadow: 0 3px 4px rgba(0,0,0,0.3)
+
+    & .top-bar
+        display: flex
+    & .logo-aside-info
+        & p:first-child
+            color: black
+            font-size: 14px
+            margin: 0
+            font-weight: 600
+        & p:last-child
+            color: gray
+            +transform-Y(-5px)
+            margin: 0
+            font-size: 13px
+    & .mid-bar
+        padding-left: 15px
+        padding-top: 15px
+        & .stat-wrap
+            display: flex
+            margin-top: 25px
+            margin-bottom: 20px
+            & .stat-wrap-item
+                & p
+                    margin: 0 !important
+                & p:last-child
+                    +transform-Y(-7px)
+            & .stat-wrap-item:first-child
+                margin-right: 30%
+
+// Card Stat Mixin
+=card-stat($w: 200px, $h: 190px)
+  width: $w
+  height: $h
+  border: 1px solid #ddd
+  +abs-center
+  border-radius: 5px
+  font-size: 18px
+  cursor: pointer
+  transition: all ease 300ms
+  &:hover
+    box-shadow: 0 3px 4px rgba(0,0,0,0.3)
+  & .inner-wrap
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      & p:first-child
+          font-size: 50px
+          font-weight: 300
+          text-align: center
+          color: $primary
+      & p:last-child
+          font-weight: 300
+          font-size: 14px
+          margin: 0px
+
+=op-user-profile($w:280px, $h:370px)
+  width: $w
+  height: $h
+  border: 1px solid #eee
+  & img
+    width: 100%
+
+=flex-child($grow: 0, $shrink:1, $basis: auto)
+  flex-grow: $grow
+  flex-shrink: $shrink
+  flex-basis: $basis
+  width: $basis
+
+=time-stamp
+  margin-left: 15px
+  font-size: 13px
+  color: $grey
+
+=blur($pixel)
+  filter: blur($pixel)
+
+=op-flat($bg, $color)
+  background-color: $bg
+  color: $color
+
+=header-bottom-bar
+  +grid
+  padding-left: 20px
+  padding-bottom: 2rem
+
+=module-header-name
+  font-size: 32px
+  color: $white
+  margin: 0
+
+=grid-alternate
+  margin: 0 auto
+  max-width: 1160px
+  margin-top: 2rem

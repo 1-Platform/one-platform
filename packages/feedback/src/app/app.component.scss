@@ -1,0 +1,97 @@
+@import "../sass/component/_component.sass";
+@import "../sass/mixin/_mixin.sass";
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-container {
+  min-height: 600px;
+}
+
+.error-container {
+  @include grid;
+  text-align: center;
+
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  position: sticky;
+  top: 5rem;
+  
+  & > h2 {
+    font-size: 2rem;
+    color: #cc0000;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+  & > p {
+    margin: 0;
+  }
+  
+  & > .error-options-container {
+    background: #fafafa;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 1rem;
+
+    & > p {
+      margin-bottom: 1.5rem;
+    }
+
+    & > .error-options {
+      display: flex;
+      flex-direction: row;
+
+      & > .col {
+        flex: 1 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & > h5 {
+          flex: 1;
+          margin-top: 0;
+          margin-bottom: 1.5rem;
+        }
+        & > p {
+          margin-bottom: 1rem;
+
+          &, & + .btn {
+            flex: 0 auto;
+          }
+        }
+      }
+      
+      & > .error-options-separator {
+        align-self: center;
+        color: #888;
+        font-weight: 500;
+        flex: 0;
+        margin: 0 2rem;
+      }
+
+      & .btn {
+        &:not(:hover):not(:active) {
+          background: #fff;
+        }
+
+        & > i.icon.ion-md-refresh {
+          margin-right: .25rem;
+        }
+        & > i.icon.ion-md-open {
+          margin-left: .25rem;
+        }
+      }
+    }
+  }
+}
+
+op-feedback-panel {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 99;
+}
