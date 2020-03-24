@@ -9,9 +9,6 @@ export const environment = {
   api: '',
   graphqlAPI: '',
   client: '',
-  authIssuer: '',
-  matomoSiteID: '', // Site ID from Piwik Analytics
-  serviceNowURL: '',
   subscription: '',
   authorization: '',
   gitlabURL: '',

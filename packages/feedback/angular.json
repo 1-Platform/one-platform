@@ -48,7 +48,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
+                  "with": "src/environments/dev.env"
                 }
               ]
             },
@@ -56,7 +56,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/prod.env"
                 }
               ],
               "optimization": true,
@@ -85,7 +85,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.qa.ts"
+                  "with": "src/environments/qa.env"
                 }
               ]
             },
@@ -131,25 +131,14 @@
             "browserTarget": "feedback:build"
           }
         },
+
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-builders/jest:run",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss",
-            ],
-            "scripts": [ 
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-            ]
+           
           }
         },
+        
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {

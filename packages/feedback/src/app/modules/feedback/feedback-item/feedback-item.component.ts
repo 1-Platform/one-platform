@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 @Component({
   selector: 'op-feedback-item',
   templateUrl: './feedback-item.component.html',
-  styleUrls: ['./feedback-item.component.sass']
+  styleUrls: ['./feedback-item.component.scss']
 })
 export class FeedbackItemComponent implements OnInit {
 
@@ -15,20 +15,7 @@ export class FeedbackItemComponent implements OnInit {
 
   ngOnInit() {
   }
-
   openModal() {
     this.clickAction.emit(this.feedback);
   }
-
-
 }
-
-
-
-  
-
-  
-
-  
-
-  

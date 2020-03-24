@@ -20,20 +20,20 @@
     "html-template-tag": "^3.2.0"
   },
   "devDependencies": {
-    "@babel/core": "7.8.7",
-    "@babel/preset-env": "7.8.7",
+    "@babel/core": "7.9.0",
+    "@babel/preset-env": "7.9.0",
     "babel-cli": "6.26.0",
-    "babel-loader": "8.0.6",
+    "babel-loader": "8.1.0",
     "babel-minify-webpack-plugin": "0.3.1",
     "babel-preset-es2015": "6.24.1",
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.4.2",
-    "eslint-plugin-jest": "23.8.1",
+    "eslint-plugin-jest": "23.8.2",
     "jest": "25.1.0",
-    "jest-environment-jsdom-sixteen": "1.0.2",
+    "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
-    "webpack": "4.42.0",
+    "webpack": "4.42.1",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
   }

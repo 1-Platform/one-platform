@@ -1,7 +1,4 @@
-
 <section class="feedback-section" *ngIf="allFeedback">
- 
-
   <div class="feedback-panel">
     <op-feedback-item
     *ngFor="let feedback of allFeedback
@@ -18,12 +15,10 @@
      [feedback]="feedback"
      [gitlabURL]="this.gitlabURL"
      (clickAction)="openModal($event);">
-     
     </op-feedback-item>
   </div>
   <button #fiModalTrigger hidden="true" aria-hidden="true" data-target="#feedback-details-modal" data-toggle="modal"
     aria-label="Show Details"></button>
-
   <div class="modal fade" id="feedback-details-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -48,11 +43,10 @@
           <div class="modal-container">
             <div>
               {{ feedbackDetails?.title
-                                ? (feedbackDetails?.title | ngXtruncate :80)
+                                ? (feedbackDetails?.title | slice:0:80)
                                 : 'Feedback title not found'
                               }}
             </div>
-
             <div class="modal-tag-group">
               <span class="modal-tag modal-tag-module-name" *ngIf="feedbackDetails?.module">
                 {{ feedbackDetails?.module?.name }}
@@ -64,7 +58,6 @@
                 closed
               </span>
             </div>
-
             <div class="feedback-header-information">
               <div class="feedback-created-by">
                 <div class="fi-modal-headings">
@@ -77,7 +70,6 @@
                   at {{ feedbackDetails?.timestamp?.createdAt | date: 'dd-MMM-yyyy' }}
                 </div>
               </div>
-
               <div class="feedback-assignees">
                 <div class="fi-modal-headings">Assignee(s)</div>
                 <span *ngFor="let assignee of feedbackDetails?.assignees">
@@ -87,7 +79,6 @@
                 </span>
                 <span *ngIf="!(feedbackDetails?.assignees?.length)" class="no-feedback-description">Not Assigned</span>
               </div>
-
               <div class="feedback-experience">
                 <div class="fi-modal-headings">Experience</div>
                 <div class="fi-modal-bold">
@@ -98,7 +89,6 @@
                 </div>
               </div>
             </div>
-
             <div class="feedback-modal-bold">
               <div class="fi-modal-headings">
                 Description
@@ -109,7 +99,6 @@
                   Description not found
                 </ng-template>
               </div>
-
               <div class="fi-modal-footer">
                 <a class="btn fb-issue-link" *ngIf="feedbackDetails?.iid"
                   href="{{this.gitlabURL}}/{{ feedbackDetails?.iid }}"
@@ -126,17 +115,12 @@
       </div>
     </div>
   </div>
-  
-
   <div class="empty-state-container" *ngIf="!allFeedback?.length">
     <p>No feedback found!</p>
   </div>
-
   <div  *ngIf="allFeedback?.length > 10">
     <pagination-controls id="allFeedback" (pageChange)="feedbackPage = $event"></pagination-controls>
   </div>
-
 </section>
 <section class="feedback-section" *ngIf="!allFeedback">
-  <op-loader></op-loader>
 </section>

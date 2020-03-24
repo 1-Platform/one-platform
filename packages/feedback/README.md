@@ -1,27 +1,25 @@
 # Feedback
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
+This module for listing all the exisint feedback created in past by user, user can create new feedback/bug as well.
+Feedback list can be filter based on Opened/closed feedback type of feedback filter by module.
+User can get Feedback detail while clicking any of the feedback from feedback list and can see its detail can open it in gitlab
 
-## Development server
+## How to use it
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Listing page redirct to baseurl/feedback it will take to feedback/bug list page
+Provide feedback 1 redirect to listing page 2 click on "provide feedback" button choose bug/feedback give description
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## How to maintain/update it
 
-## Build
+For any kind of update or maintain contact to anjnee.k.sharma@gmail.com.
+Technology used in this module is Angualr 8 and node js and Graphql
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npx jest` to execute the unit tests via [Jest] 
 
-## Running end-to-end tests
+# To test a specific file execute the command
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Run 'npx jest -- <file.spec>'

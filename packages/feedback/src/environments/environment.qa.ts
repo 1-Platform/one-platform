@@ -5,13 +5,11 @@
 
 export const environment = {
   production: false,
-  name: 'qa',
-  api: 'https://api.one-qa.cee.redhat.com',
-  graphqlAPI: 'https://api.one-qa.cee.redhat.com/graphql',
-  client: 'https://one-qa.cee.redhat.com',
-  authIssuer: 'https://auth.stage.redhat.com/auth',
-  matomoSiteID: 8, // Site ID from Piwik Analytics
-  serviceNowURL: 'https://redhatqa.service-now.com',
-  subscription: 'wss://api.one-qa.cee.redhat.com/subscriptions',
-  authorization: 'Basic b25lX3BvcnRhbF9hcGk6PUw5dm5CK2RxNVoqcVo5cA=='
+  name: '',
+  api: '',
+  graphqlAPI: '',
+  client: '',
+  subscription: '',
+  authorization: '',
+  gitlabURL: '',
 };

@@ -11,14 +11,14 @@
     <div class="feedback-title" >
       <div *ngIf="feedback?.feedbackType === 'Bug'">
         {{ feedback?.title
-          ? (feedback?.title | ngXtruncate: 80)
+          ? (feedback?.title | slice:0: 80)
           : 'Feedback title not found'
         }}
       </div>
       <div *ngIf="feedback?.feedbackType === 'Feedback'"
         [ngClass]="{ 'no-feedback-description': !(feedback?.description) }">
         {{ feedback?.description
-          ? (feedback?.description | ngXtruncate:80)
+          ? (feedback?.description | slice:0:80)
           : 'Feedback summary not found'
         }}
       </div>

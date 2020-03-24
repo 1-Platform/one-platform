@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/css?family=Red+Hat+Text&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+	<!-- polyfills -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.3/custom-elements-es5-adapter.js"
+		defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.3/webcomponents-bundle.js" defer></script>
+	<title>Home | One Platform</title>
+</head>
+
+<body>
+	<!-- Hero Start -->
+	<div class="hero">
+		<img src="img/illustration.svg" alt="illustration">
+		<div class="hero__description container">
+			<div class="hero__header">
+				<p class="hero__text-container">
+					One Platform to host your Internal Applications and Services
+				</p>
+			</div>
+			<div class="hero__information">
+				<p class="hero__text-container">
+					One platform provides a single place for all internal applications and services, supports consistent User	experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
+				</p>
+			</div>
+			<div class="hero__links">
+				<button class="button--primary">Explore Apps</button>
+				<button class="button--light"><a href="https://github.com/1-Platform/one-platform">Learn more <i class="fa fa-arrow-right"></i></a></button>
+			</div>
+		</div>
+	</div>
+	<!-- Hero End -->
+
+	<!-- Grid(main) Start -->
+	<div id="main" class="grid container">
+		<pfe-tabs>
+			<pfe-tab role="heading" slot="tab">Built-in Microservices</pfe-tab>
+			<pfe-tab-panel role="region" slot="panel">
+				<div class="grid__microservice-cards" id="microservice-cards">
+					<template>
+						<img src="img/bell.svg" alt="bell">
+						<img src="img/shield.svg" alt="shield">
+						<img src="img/talk-bubble.svg" alt="talk-bubble">
+						<img src="img/login.svg" alt="login">
+						<img src="img/magnifying-glass.svg" alt="magnifying-glass">
+					</template>
+				</div>
+			</pfe-tab-panel>
+			<pfe-tab role="heading" slot="tab">Apps in Spotlight</pfe-tab>
+			<pfe-tab-panel role="region" slot="panel">
+				<div class="grid__carousel-container">
+					<button class="gird__fab" id="fab-left" onclick="carouselScroll('left')">
+						<i class="fa fa-chevron-left"></i>
+					</button>
+					<div id="carousel-slide"></div>
+					<button class="gird__fab" id="fab-right" onclick="carouselScroll('right')">
+						<i class="fa fa-chevron-right"></i>
+					</button>
+				</div>
+			</pfe-tab-panel>
+		</pfe-tabs>
+	</div>
+	<!-- Grid(main) End -->
+
+	<!-- Band Start -->
+	<div class="band">
+		<div class="band__header">
+			Join the One Platform Digital Experience!
+		</div>
+		<button class="band__button--primary-border">Get Started</button>
+	</div>
+	<!-- Band End -->
+
+	<!-- Footer Start -->
+	<footer>
+		<div class="container footer">
+			<div class="footer__links-col">
+				<div class="footer__links-header">
+					Quick links
+				</div>
+				<div class="footer__links">
+					<a href="#">One Portal in Mojo</a>
+					<a href="#">Weekly Blog</a>
+					<a href="#">Contact Us</a>
+					<a href="#">Changelog</a>
+					<a href="#">Subscribe to One Portal List</a>
+				</div>
+			</div>
+			<div class="footer__links-col">
+				<div class="footer__links-header">
+					Related sites
+				</div>
+				<div class="footer__links">
+					<a href="#">PnT Help</a>
+					<a href="#">PnT DevOps (Mojo)</a>
+					<a href="#">PnT Stats</a>
+					<a href="#">Projects Engineering</a>
+				</div>
+			</div>
+			<div class="footer__links-col">
+				<div class="footer__links-header">
+					Help
+				</div>
+				<div class="footer__links">
+					<a href="#">One Portal FAQs</a>
+					<a href="#">File an Issue</a>
+					<a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>
+				</div>
+			</div>
+		</div>
+		<div class="footer__copyright">
+			Copyright &copy; 2020 Red Hat Inc. Internal Use Only
+		</div>
+	</footer>
+	<!-- Footer End -->
+
+</body>
+
+</html>

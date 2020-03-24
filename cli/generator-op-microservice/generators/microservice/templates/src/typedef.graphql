@@ -1,0 +1,26 @@
+type Query {
+  # Query Definitions
+  list: [<%= serviceClassName %>Type]
+  get(ID: ID!): <%= serviceClassName %>Type
+}
+
+type Mutation {
+  # Mutation Definitions
+  create(input: <%= serviceClassName %>Input): <%= serviceClassName %>Type
+  update(input: <%= serviceClassName %>Input): <%= serviceClassName %>Type
+  delete(_id: String!): <%= serviceClassName %>Type
+}
+
+type Subscription {
+  # Subscription Definitions
+  updated<%= serviceClassName %>Data: <%= serviceClassName %>Type
+}
+
+type <%= serviceClassName %>Type {
+  message: String
+}
+
+input <%= serviceClassName %>Input {
+  message: String
+}
+

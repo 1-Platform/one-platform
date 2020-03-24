@@ -7,8 +7,6 @@ import { environment } from '../environments/environment';
 import { onError } from 'apollo-link-error';
 import { ApolloLink, split } from 'apollo-link';
 import { RetryLink } from 'apollo-link-retry';
-import { BehaviorSubject } from 'rxjs';
-import { omitTypename } from './common/helpers/customFilter';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
@@ -54,6 +52,7 @@ export class GraphQLModule {
       }
     });
 
+    const omitTypename = (key, value) => (key === '__typename' ? undefined : value);
     const cleanTypeName = new ApolloLink((operation, forward) => {
       if (operation.variables) {
         operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
@@ -103,6 +102,5 @@ export class GraphQLModule {
         }
       }
     });
-  }
-  
+  }  
 }

@@ -5,7 +5,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'op-feedback-home',
   templateUrl: './feedback-home.component.html',
-  styleUrls: ['./feedback-home.component.sass']
+  styleUrls: ['./feedback-home.component.scss']
 })
 export class FeedbackHomeComponent implements OnInit {
 
@@ -51,10 +51,8 @@ export class FeedbackHomeComponent implements OnInit {
       });
     });
   }
-  async openModal(event) {
-  
+  openModal(event) {
     this.feedbackDetails = event;
     this.fiModalTrigger.nativeElement.click();
-  }
-  
+  } 
 }
