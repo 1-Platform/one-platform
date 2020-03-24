@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -29,7 +30,7 @@ module.exports = {
                   options: {
                     presets: ['@babel/preset-env'],
                     plugins: ['@babel/plugin-proposal-object-rest-spread']
-                  }
+                  },
                 }
             },
             {
@@ -63,6 +64,7 @@ module.exports = {
         extensions: ['.js', '.scss', '.css'],
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             chunks: ['app'],
