@@ -24,7 +24,7 @@ class LdapAPI {
     this.router.get('/user/:uid', this.getUser.bind(this));
     this.router.get('/group/:cn/members', this.getGroupMembers.bind(this));
   }
-
+  // API to fetch the user information from ldap
   public getUser(req: Request, res: Response, next: NextFunction) {
     UserGroupAPIHelper.getProfilesBy(`(uid=${req.params.uid})`).then((response: any) => {
       res.json(response);
@@ -33,6 +33,7 @@ class LdapAPI {
     });
   }
 
+  // API to fetch the member information who is the part of the rover group
   public getGroupMembers(req: Request, res: Response, next: NextFunction) {
     const groupMembers: any = [];
     UserGroupAPIHelper.getProfilesBy(`(cn=${req.params.cn})`)

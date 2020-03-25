@@ -7,7 +7,7 @@ One platform's server-side Ldap REST microservice.
 
   Copy Certificates
   ------------
-  1.  Copy the SSL certificates to the `certs/` directory of `ldap` microservice.
+  1.  Copy the SSL paths to the `.env` file of `ldap` microservice.
 
   Start Microservice:
   ------------
