@@ -1,20 +1,12 @@
 Ldap Microservice
 =================================================
 
-One platform's server-side Ldap REST microservice.
+One Platform's server-side LDAP REST Microservice.
 
-### Switch the working directory into `cd ldap-integration`.
+### Getting Started:
 
-  Copy Certificates
-  ------------
-  1.  Copy the SSL paths to the `.env` file of `ldap` microservice.
-
-  Start Microservice:
-  ------------
-  1.  Run `npm build:dev` to generate a build for dev env and `npm build` for production build.
-  2.  Run `npm start:dev` to run your microservice for dev env and `npm start` for production env.
-
-
-  Testing:
-  ------------
-  1.  Run `npm test` to run default tests.
+1. **Switch to the working directory:** `cd ldap-integration`.
+2. **Copy Certificates:** Copy the SSL paths to the `.env` file of `ldap` microservice.
+3. Start Microservice:
+  *  Run `npm build:dev` to generate a build for dev env and `npm build` for production build.
+  *  Run `npm start:dev` to run your microservice for dev env and `npm start` for production env.
