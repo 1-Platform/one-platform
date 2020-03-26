@@ -25,14 +25,12 @@ class UserGroupApiHelper {
       let profile: LdapType;
       ldapClient.search(this.ldapBase, search_options, (err, response) => {
         response.on(`searchEntry`, (entry) => {
-          console.log(`LDAP data found!!`);
           profile = entry.object;
         });
         response.on(`error`, (error: Error) => {
           console.error(`LDAP error: ` + error.message);
         });
         response.on(`end`, (result: any) => {
-          console.log(`LDAP status: ` + result.status);
           resolve(profile);
         });
       });

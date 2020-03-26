@@ -23,10 +23,20 @@ class LdapAPI {
     // Binding the functions on class instance for all APIs
     this.router.get('/user/:uid', this.getUser.bind(this));
     this.router.get('/group/:cn/members', this.getGroupMembers.bind(this));
+    this.router.get('/user/uuid/:rhatUUID', this.getUserbyUUID.bind(this));
   }
-  // API to fetch the user information from ldap
+  // API to fetch the user information from ldap by uid
   public getUser(req: Request, res: Response, next: NextFunction) {
     UserGroupAPIHelper.getProfilesBy(`(uid=${req.params.uid})`).then((response: any) => {
+      res.json(response);
+      next();
+      return;
+    });
+  }
+
+  // API to fetch the user information from ldap by rhatUUID
+  public getUserbyUUID(req: Request, res: Response, next: NextFunction) {
+    UserGroupAPIHelper.getProfilesBy(`(rhatUUID=${req.params.rhatUUID})`).then((response: any) => {
       res.json(response);
       next();
       return;

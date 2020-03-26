@@ -7,7 +7,6 @@ import errorHandler from 'errorhandler';
 import express from 'express';
 import logger from 'morgan';
 import methodOverride from 'method-override';
-import mongoose from 'mongoose';
 
 import LdapAPIRouter from './src/api';
 
@@ -16,7 +15,7 @@ const httpsOptions = {
   cert: fs.readFileSync((process.env.SSL_CERT) ? `${process.env.SSL_CERT}` : '')
 };
 
-const { port = 8081 } = { port : process.env.PORT };
+const { port = 8080 } = { port : process.env.PORT };
 
 /**
  * The Ldap

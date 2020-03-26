@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const Dotenv = require('dotenv-webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const NodemonPlugin = require('nodemon-webpack-plugin');
+const nodemon = require('nodemon-webpack-plugin');
 
 let envPath;
 
@@ -43,7 +43,7 @@ module.exports = {
     new Dotenv({
       path: envPath
     }),
-    new NodemonPlugin({
+    new nodemon({
       watch: path.resolve('./dist'),
       script: './dist/bundle.js',
       ext: 'js,ts,json',

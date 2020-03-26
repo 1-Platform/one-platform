@@ -1,6 +1,6 @@
 {
   "name": "ldap",
-  "description": "Ldap micro-service for One Platform",
+  "description": "LDAP micro-service for One Platform",
   "opservice": {
     "className": "Ldap",
     "serviceName": "ldap"
@@ -30,7 +30,7 @@
     "start": "webpack --watch --config webpack.prod.js"
   },
   "author": {
-    "name": "RIgin Oommen",
+    "name": "Rigin Oommen",
     "email": "riginoommen@gmail.com"
   },
   "contributors": [],
