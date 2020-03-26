@@ -1,7 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 const fs = require('fs');
-const Dotenv = require('dotenv-webpack');
+const dotenv = require('dotenv-webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const nodemon = require('nodemon-webpack-plugin');
 
@@ -40,7 +40,7 @@ module.exports = {
   externals: [nodeExternals()],
   plugins: [
     new CleanWebpackPlugin(),
-    new Dotenv({
+    new dotenv({
       path: envPath
     }),
     new nodemon({
