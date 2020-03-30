@@ -41,6 +41,12 @@ dist/
 *.key
 *.pem
 
+# ignore environment files
+.env
+.env.production
+.env.local
+.env.development 
+
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
