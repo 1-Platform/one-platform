@@ -1,8 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 const html = fs.readFileSync(path.resolve(__dirname, '../../dist/index.html'), 'utf8');
-const getData = require('../js/service');
-
 jest.dontMock('fs');
 
 describe('home page', () => {
