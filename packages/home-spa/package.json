@@ -4,8 +4,8 @@
   "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack-dev-server --open",
+    "build": "webpack --mode production",
     "test": "jest --verbose"
   },
   "repository": {
@@ -49,6 +49,7 @@
     "@patternfly/pfe-cta": "^1.0.0-prerelease.38",
     "@patternfly/pfe-tabs": "^1.0.0-prerelease.38",
     "clean-webpack-plugin": "^3.0.0",
+    "dotenv-webpack": "^1.7.0",
     "jest-cli": "^25.1.0",
     "path": "^0.12.7"
   }

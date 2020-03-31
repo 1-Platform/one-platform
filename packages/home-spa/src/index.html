@@ -40,18 +40,6 @@
 	<!-- Grid(main) Start -->
 	<div id="main" class="grid container">
 		<pfe-tabs>
-			<pfe-tab role="heading" slot="tab">Built-in Microservices</pfe-tab>
-			<pfe-tab-panel role="region" slot="panel">
-				<div class="grid__microservice-cards" id="microservice-cards">
-					<template>
-						<img src="img/bell.svg" alt="bell">
-						<img src="img/shield.svg" alt="shield">
-						<img src="img/talk-bubble.svg" alt="talk-bubble">
-						<img src="img/login.svg" alt="login">
-						<img src="img/magnifying-glass.svg" alt="magnifying-glass">
-					</template>
-				</div>
-			</pfe-tab-panel>
 			<pfe-tab role="heading" slot="tab">Apps in Spotlight</pfe-tab>
 			<pfe-tab-panel role="region" slot="panel">
 				<div class="grid__carousel-container">
@@ -62,6 +50,18 @@
 					<button class="gird__fab" id="fab-right" onclick="carouselScroll('right')">
 						<i class="fa fa-chevron-right"></i>
 					</button>
+				</div>
+			</pfe-tab-panel>
+			<pfe-tab role="heading" slot="tab">Built-in Microservices</pfe-tab>
+			<pfe-tab-panel role="region" slot="panel">
+				<div class="grid__microservice-cards" id="microservice-cards">
+					<template>
+						<img src="img/bell.svg" alt="bell">
+						<img src="img/shield.svg" alt="shield">
+						<img src="img/talk-bubble.svg" alt="talk-bubble">
+						<img src="img/login.svg" alt="login">
+						<img src="img/magnifying-glass.svg" alt="magnifying-glass">
+					</template>
 				</div>
 			</pfe-tab-panel>
 		</pfe-tabs>

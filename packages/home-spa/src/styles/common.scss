@@ -50,3 +50,43 @@ body {
       }
   }
 }
+
+// Loader which needs to be changed when a loader web componenet is available
+.loader {
+  margin: 10px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 2px solid mix(white,#177FC3,80%);
+  border-right: 2px solid mix(white,#177FC3,80%);
+  border-bottom: 2px solid mix(white,#177FC3,80%);
+  border-left: 2px solid #151515;
+  -webkit-animation: load8 .5s infinite linear;
+  animation: load8 .5s infinite linear;
+}
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width:30px;
+  height: 30px;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
