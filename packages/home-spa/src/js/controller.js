@@ -26,7 +26,6 @@ window.carouselScroll = (direction) => {
 };
 
 function buildDom(apiData) {
-  console.log(apiData);
   apiData = apiData.map(
     data => {
       data.description = data.description.length > 160 ? data.description.slice(0, 160) + '...' : data.description;

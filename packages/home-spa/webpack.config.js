@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: 'development',
@@ -19,7 +21,8 @@ module.exports = {
         port: 1234,
     },
     optimization : {
-        usedExports: true
+        minimizer: [new TerserPlugin()],
+        usedExports: true,
     },
     module: {
         rules: [
@@ -33,6 +36,10 @@ module.exports = {
                     plugins: ['@babel/plugin-proposal-object-rest-spread']
                   },
                 }
+            },
+            {
+                test: /\.css$/i,
+                use: [MiniCssExtractPlugin, 'css-loader']
             },
             {
                 test: /\.s[ac]ss$/i,
@@ -65,17 +72,26 @@ module.exports = {
         extensions: ['.js', '.scss', '.css'],
     },
     plugins: [
-        new CleanWebpackPlugin(),
         new Dotenv(),
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             chunks: ['app'],
             template: './src/index.html',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true,
+            },
         }),
         new HtmlWebpackPlugin({
             filename: '404.html',
             chunks: ['app'],
             template: './src/404.html',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true,
+            },
         }),
+        new MiniCssExtractPlugin(),
     ]
 };

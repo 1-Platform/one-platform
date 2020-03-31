@@ -4,8 +4,8 @@
   "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack-dev-server --open",
+    "build": "webpack --mode production",
     "test": "jest --verbose"
   },
   "repository": {
