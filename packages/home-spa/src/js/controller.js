@@ -1,11 +1,15 @@
 // Services
 import { getData }  from './service.js';
+import '../data.json';
 
 const microserviceCard = document.getElementById('microservice-cards');
 
 const spaList = document.getElementById('banner__links');
 
 const carouselSlide = document.getElementById('carousel-slide');
+
+microserviceCard.innerHTML = `<div class="loader"></div>`;
+carouselSlide.innerHTML = `<div class="loader"></div>`;
 
 getData().then(
   (data) => {
@@ -48,7 +52,8 @@ getData().then(
           return `<div class="grid__carousel-slide">
           <div class="grid__carousel-slide__left">
             <h1 class="grid__carousel-slide--title">
-              ${carouselItem.name}</h1>
+              <a href="${carouselItem.link}"><i class="fa ${carouselItem.icon}"></i> ${carouselItem.name}</a>
+            </h1>
             <p>
               ${carouselItem.description}
             </p>
