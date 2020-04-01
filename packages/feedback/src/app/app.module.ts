@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {NgPipesModule} from 'ngx-pipes';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NgXtruncateModule } from 'ngx-truncate';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,7 +27,6 @@ import {FeedbackItemComponent} from './modules/feedback/feedback-item/feedback-i
     FormsModule,
     NgPipesModule,
     NgxPaginationModule,
-    NgXtruncateModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule

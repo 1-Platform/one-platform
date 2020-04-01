@@ -1,6 +1,5 @@
 # Feedback
-
-This module for listing all the exisint feedback created in past by user, user can create new feedback/bug as well.
+This module lists all existing feedback created by various users across the platform. An user can submit both feedback as well as bug reports here.
 Feedback list can be filter based on Opened/closed feedback type of feedback filter by module.
 User can get Feedback detail while clicking any of the feedback from feedback list and can see its detail can open it in gitlab
 
