@@ -122,9 +122,6 @@ export class Ldap {
 
     // create API routes
     this.app.use('/', LdapAPIRouter);
-
-    // enable CORS pre-flight
-    this.app.options('*', cors(corsOptions));
   }
 }
 
