@@ -15,6 +15,25 @@ npm install
 
 ## Usage
 ### Development server
+- Change .env.example to .env
+- Add URL to API_URL in .env file
+```
+API_URL=https://example.com/api
+```
+- Schema
+```
+{
+    name: 'Name/Title'
+    description: 'Description of the entity,
+    link: 'Link to entity'
+    icon: 'Icon for the entity',
+    entityType: 'Spa/Microservice',
+    colorScheme: 'In case of microservice entity',
+    videoUrl: 'In caase of spa entity',
+
+}
+```
+- Run development server
 ```sh
 npm run dev
 ```
