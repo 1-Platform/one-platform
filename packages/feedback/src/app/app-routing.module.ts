@@ -3,13 +3,9 @@ import { Routes, RouterModule, NoPreloading } from '@angular/router';
 import { FeedbackHomeComponent } from './modules/feedback/home/feedback-home.component';
 import { AppComponent } from './app.component';
 
-const routes: Routes = [{
-    path: '',
-    redirectTo: 'feedback',
-    pathMatch: 'full'
-  },
+const routes: Routes = [
   {
-  path: 'feedback',
+  path: '',
   component: FeedbackHomeComponent,
 },
 ];
