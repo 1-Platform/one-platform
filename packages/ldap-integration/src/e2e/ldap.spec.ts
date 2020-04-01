@@ -15,7 +15,7 @@ beforeAll(done => {
 });
 
 describe('Ldap microservice API Test', () => {
-  it('Get should return user information', done => {
+  it('Get LDAP User Endpoint should return user information', done => {
     console.log(mock.uid);
     request
       .get('/ldap/user/' + mock.uid)
@@ -25,7 +25,7 @@ describe('Ldap microservice API Test', () => {
       .end(done);
   });
 
-  it('Get should return a users belong to the group', done => {
+  it('Get LDAP Group Endpoint should return which group a user belongs to', done => {
     request
       .get('/ldap/group/' + mock.cn + '/members')
       .expect(res => {
