@@ -6,7 +6,7 @@ class UserGroupApiHelper {
   ldapHost: string | any = process.env.LDAP_HOST;
   ldapBase: string | any = process.env.LDAP_BASE;
   constructor() { }
-  public static getAPIInstance() {
+  public static getApinstance() {
     if (!UserGroupApiHelper.UserGroupHelperInstance) {
       UserGroupApiHelper.UserGroupHelperInstance = new UserGroupApiHelper();
     }
@@ -38,4 +38,4 @@ class UserGroupApiHelper {
   }
 }
 
-export const UserGroupAPIHelper = UserGroupApiHelper.getAPIInstance();
+export const UserGroupAPIHelper = UserGroupApiHelper.getApinstance();
