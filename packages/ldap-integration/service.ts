@@ -109,9 +109,6 @@ export class Ldap {
    * @method routes
    */
   public routes() {
-
-    const router = express.Router();
-
     // configure CORS
     const corsOptions: cors.CorsOptions = {
       allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
@@ -121,13 +118,13 @@ export class Ldap {
       preflightContinue: false
     };
 
-    router.use(cors(corsOptions));
+    this.app.use(cors(corsOptions));
 
     // create API routes
     this.app.use('/', LdapAPIRouter);
 
     // enable CORS pre-flight
-    router.options('*', cors(corsOptions));
+    this.app.options('*', cors(corsOptions));
   }
 }
 
