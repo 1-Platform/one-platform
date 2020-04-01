@@ -11,8 +11,8 @@ import methodOverride from 'method-override';
 import LdapAPIRouter from './src/api';
 
 const httpsOptions = {
-  key: fs.readFileSync((process.env.SSL_KEY) ? `${process.env.SSL_KEY}` : ''),
-  cert: fs.readFileSync((process.env.SSL_CERT) ? `${process.env.SSL_CERT}` : '')
+  key: fs.readFileSync(process.env.SSL_KEY || ''),
+  cert: fs.readFileSync(process.env.SSL_CERT || '')
 };
 
 const { port = 8080 } = { port : process.env.PORT };
