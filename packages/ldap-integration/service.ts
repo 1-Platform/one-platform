@@ -123,15 +123,8 @@ export class Ldap {
 
     router.use(cors(corsOptions));
 
-    // root request
-    router.get('/', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      res.json({ message: `One Platform Ldap microservice APIs.` });
-      next();
-    });
-
     // create API routes
-    this.app.use('/', router);
-    this.app.use('/ldap', LdapAPIRouter);
+    this.app.use('/', LdapAPIRouter);
 
     // enable CORS pre-flight
     router.options('*', cors(corsOptions));
