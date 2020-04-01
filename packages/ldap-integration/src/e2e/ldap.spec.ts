@@ -14,7 +14,7 @@ beforeAll(done => {
   done();
 });
 
-describe('Ldap microservice API Test', () => {
+describe('LDAP microservice API Test', () => {
   it('Get LDAP User Endpoint should return user information', done => {
     console.log(mock.uid);
     request
