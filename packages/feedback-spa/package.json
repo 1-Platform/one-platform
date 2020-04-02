@@ -31,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "graphql": "^14.5.0",
     "graphql-tag": "^2.10.3",
+    "ng-pipes": "^0.1.5",
     "ngx-pagination": "^5.0.0",
     "ngx-pipes": "^2.7.3",
     "rxjs": "^6.5.4",
