@@ -1,0 +1,126 @@
+<section class="feedback-section" *ngIf="allFeedback">
+  <div class="feedback-panel">
+    <op-feedback-item
+    *ngFor="let feedback of allFeedback
+    | filterBy: ['feedbackType']: feedbackType
+    | filterBy: ['description']: searchText
+    | filterBy: ['state']: tagState
+    | filterBy: ['module.name']: moduleName
+    | orderBy: orderBy
+    | paginate: {
+        id: 'allFeedback',
+        itemsPerPage: 10,
+        currentPage: feedbackPage
+      }"
+     [feedback]="feedback"
+     [gitlabURL]="this.gitlabURL"
+     (clickAction)="openModal($event);">
+    </op-feedback-item>
+  </div>
+  <button #fiModalTrigger hidden="true" aria-hidden="true" data-target="#feedback-details-modal" data-toggle="modal"
+    aria-label="Show Details"></button>
+  <div class="modal fade" id="feedback-details-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <a class="h5 text-dark" *ngIf="feedbackDetails?.iid"
+            href="{{this.gitlabURL}}/{{feedback?.iid}}"
+            target="_blank">
+            <i class="icon ion-ios-link"></i> {{ '  ' + feedbackDetails?.iid }}
+          </a>
+          <a class="h5 text-dark" *ngIf="!feedbackDetails?.iid">
+            Issue ID unavailable
+          </a>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span class="feedback-type-icon">
+            <i class="icon ion-md-text" *ngIf="feedbackDetails?.feedbackType === 'Feedback'"></i>
+            <i class="icon ion-ios-bug" *ngIf="feedbackDetails?.feedbackType === 'Bug'"></i>
+          </span>
+          <div class="modal-container">
+            <div>
+              {{ feedbackDetails?.title
+                                ? (feedbackDetails?.title | slice:0:80)
+                                : 'Feedback title not found'
+                              }}
+            </div>
+            <div class="modal-tag-group">
+              <span class="modal-tag modal-tag-module-name" *ngIf="feedbackDetails?.module">
+                {{ feedbackDetails?.module?.name }}
+              </span>
+              <span class="modal-tag modal-tag-open" *ngIf="feedbackDetails?.state === 'opened'">
+                open
+              </span>
+              <span class="modal-tag modal-tag-closed" *ngIf="!(feedbackDetails?.state === 'opened')">
+                closed
+              </span>
+            </div>
+            <div class="feedback-header-information">
+              <div class="feedback-created-by">
+                <div class="fi-modal-headings">
+                  Created By
+                </div>
+                <div>
+                  <span class="fi-modal-bold">
+                    {{ feedbackDetails?.timestamp?.createdBy?.name }}
+                  </span>
+                  at {{ feedbackDetails?.timestamp?.createdAt | date: 'dd-MMM-yyyy' }}
+                </div>
+              </div>
+              <div class="feedback-assignees">
+                <div class="fi-modal-headings">Assignee(s)</div>
+                <span *ngFor="let assignee of feedbackDetails?.assignees">
+                  <a target="blank" *ngIf="assignee?.name" href="{{ assignee?.web_url }}">
+                    {{ assignee?.name }}
+                  </a>
+                </span>
+                <span *ngIf="!(feedbackDetails?.assignees?.length)" class="no-feedback-description">Not Assigned</span>
+              </div>
+              <div class="feedback-experience">
+                <div class="fi-modal-headings">Experience</div>
+                <div class="fi-modal-bold">
+                  {{ (feedbackDetails?.experience)
+                          ? feedbackDetails?.experience
+                          : 'N/A'
+                          }}
+                </div>
+              </div>
+            </div>
+            <div class="feedback-modal-bold">
+              <div class="fi-modal-headings">
+                Description
+              </div>
+              <div class="fi-modal-bold">
+                <p *ngIf="feedbackDetails?.description; else noFeedbackDescription">{{ feedbackDetails.description }}</p>
+                <ng-template #noFeedbackDescription class="no-feedback-description">
+                  Description not found
+                </ng-template>
+              </div>
+              <div class="fi-modal-footer">
+                <a class="btn fb-issue-link" *ngIf="feedbackDetails?.iid"
+                  href="{{this.gitlabURL}}/{{ feedbackDetails?.iid }}"
+                  target="_blank">View on GitLab
+                  <i class="icon ion-md-open"></i>
+                </a>
+                <a class="btn fb-issue-link" data-dismiss="modal">
+                  Close
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="empty-state-container" *ngIf="!allFeedback?.length">
+    <p>No feedback found!</p>
+  </div>
+  <div  *ngIf="allFeedback?.length > 10">
+    <pagination-controls id="allFeedback" (pageChange)="feedbackPage = $event"></pagination-controls>
+  </div>
+</section>
+<section class="feedback-section" *ngIf="!allFeedback">
+</section>
