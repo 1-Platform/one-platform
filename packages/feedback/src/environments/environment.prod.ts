@@ -6,4 +6,5 @@ export const environment = {
   client: '',
   subscription: '',
   authorization: '',
+  gitlabURL: '',
 };

@@ -10,5 +10,6 @@ export const environment = {
   graphqlAPI: '',
   client: '',
   subscription: '',
-  authorization: ''
+  authorization: '',
+  gitlabURL: '',
 };
