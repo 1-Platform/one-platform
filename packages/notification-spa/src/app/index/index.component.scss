@@ -1,0 +1,59 @@
+.index-component {
+    width: 1200px;
+    margin: 3rem auto;
+    &__toolbar {
+        display: flex;
+        justify-content: space-between;
+        &--utility {
+            input[type="search"] {
+                margin-right: 1rem;
+                padding: .3rem;
+            }
+            a {
+                margin-left: .5rem;
+            }
+        }
+        &--text {
+            color: #151515;
+            font-size: 1.5rem;
+        }
+    }
+    op-spa-notifications-list {
+        margin-top: 1rem 0;
+    }
+}
+.modal-form {
+    &__form-group {
+        margin: 1rem 0;
+        label {
+            margin-left: .5rem;
+        }
+        input[type=radio] {
+            margin-left: .4rem;
+        }
+        ul {
+            margin: 1rem 1rem;
+            li {
+                margin: .5rem;
+                input[type=text] {
+                    width: 359px;
+                    height: 37px;
+                    padding: .3rem;
+                }
+                textarea {
+                    width: 358px;
+                    height: 85px;
+                    padding: .3rem;
+                }
+                select {
+                    width: 359px;
+                    height: 37px;
+                    padding: .3rem;
+                }
+            }
+        }
+    }
+}
+.loader {
+    margin-top: 5rem;
+}
