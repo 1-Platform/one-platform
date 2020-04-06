@@ -10,36 +10,41 @@ import mongoose from 'mongoose';
 <% } -%>
 
 import gqlSchema from './src/typedef.graphql';
-import { <%= resolverName %> as resolver } from './src/resolver';
+import { resolver } from './src/resolver';
+import cookieParser = require('cookie-parser');
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
 const app = express();
+
+// Mount cookie parser
+app.use(cookieParser());
+
 const extensions = [() => new ApolloLogExtension({
   level: 'info',
   timestamp: true,
 })];
 
 <% if (dbSupport) { -%>
-    /* Configuring Mongoose */
-    mongoose.plugin((schema: any) => { schema.options.usePushEach = true; });
-    mongoose.set('useNewUrlParser', true);
-    mongoose.set('useFindAndModify', false);
-    mongoose.set('useCreateIndex', true);
-    mongoose.set('useUnifiedTopology', true);
+/* Configuring Mongoose */
+mongoose.plugin((schema: any) => { schema.options.usePushEach = true; });
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
-    /* Establishing mongodb connection */
-    const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
-      ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
-      : '';
-    const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
+/* Establishing mongodb connection */
+const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
+  ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
+  : '';
+const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
 
-    mongoose.connect(dbConnection, { useNewUrlParser: true, useCreateIndex: true }).catch(console.error);
+mongoose.connect(dbConnection, { useNewUrlParser: true, useCreateIndex: true }).catch(console.error);
 
-    mongoose.connection.on('error', error => {
-      console.error(error);
-    });
+mongoose.connection.on('error', error => {
+  console.error(error);
+});
 <% } -%>
 
 /* Defining the Apollo Server */
@@ -72,8 +77,8 @@ apollo.applyMiddleware({ app });
 const server = process.env.NODE_ENV !== 'test'
   ? https.createServer(
     {
-      key: fs.readFileSync((process.env.SSL_KEY) ? `${process.env.SSL_KEY}` : ''),
-      cert: fs.readFileSync((process.env.SSL_CERT) ? `${process.env.SSL_CERT}` : '')
+      key: fs.readFileSync(process.env.SSL_KEY || ''),
+      cert: fs.readFileSync(process.env.SSL_CERT || '')
     },
     app
   )
