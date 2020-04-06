@@ -6,6 +6,8 @@ module.exports = {
   ],
   "transform": {
     "^.+\\.(ts|tsx|js)$": "ts-jest"
+    ,
+    "\\.(gql|graphql)$": "jest-transform-graphql"
       },
   "globals": {
     "ts-jest": {
