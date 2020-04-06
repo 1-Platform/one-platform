@@ -51,18 +51,18 @@ afterAll(done => {
   return User.close(done);
 });
 
-describe('User microservice API Test', () => {
-  it('should create a new User', (done) => {
+describe('User-Group Microservice API Test', () => {
+  it('should create a new User', done => {
     request
       .post('/graphql')
       .send({
-        query,
+        query: query,
         operationName: 'AddingUser',
         variables: {
           input: mock
         }
       })
-      .expect((res: any) => {
+      .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('addUser');
@@ -71,35 +71,30 @@ describe('User microservice API Test', () => {
         expect(res.body.data.addUser).toHaveProperty('name', mock.name);
         expect(res.body.data.addUser).toHaveProperty('title', mock.title);
       })
-      .end(done);
+      .end((err, res) => {
+        done(err);
+      });
   });
 
   it('should list Users', (done) => {
     request
       .post('/graphql')
       .send({
-        query,
+        query: query,
         operationName: 'ListUsers',
         variables: {
           uid: mock.uid
         }
       })
-      .expect((res: any) => {
+      .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-
         expect(res.body.data).toHaveProperty('listUsers');
         expect(res.body.data.listUsers).not.toHaveLength(0);
         expect(res.body.data.listUsers[0]).toHaveProperty('_id');
         expect(res.body.data.listUsers[0]).toHaveProperty('uid');
         expect(res.body.data.listUsers[0]).toHaveProperty('name');
         expect(res.body.data.listUsers[0]).toHaveProperty('title');
-
-        expect(res.body.data).toHaveProperty('getUser');
-        expect(res.body.data.getUser).toHaveProperty('_id', mock._id);
-        expect(res.body.data.getUser).toHaveProperty('uid', mock.uid);
-        expect(res.body.data.getUser).toHaveProperty('name', mock.name);
-        expect(res.body.data.getUser).toHaveProperty('title', mock.title);
       })
       .end((err, res) => {
         done(err);
@@ -110,13 +105,13 @@ describe('User microservice API Test', () => {
     request
       .post('/graphql')
       .send({
-        query,
+        query: query,
         operationName: 'UpdatingUser',
         variables: {
           input: mock
         }
       })
-      .expect((res: any) => {
+      .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
 
@@ -135,13 +130,13 @@ describe('User microservice API Test', () => {
     request
       .post('/graphql')
       .send({
-        query,
+        query: query,
         operationName: 'DeletingUser',
         variables: {
           _id: mock._id
         }
       })
-      .expect((res: any) => {
+      .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
 

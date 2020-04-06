@@ -63,7 +63,6 @@ const apollo = new ApolloServer({
     path: error.path,
   }),
   extensions,
-  context: () => ({ roles: ['user'] }),
 });
 
 /* Applying apollo middleware to express server */
