@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CountBoxComponent } from './count-box.component';
 
@@ -6,12 +6,12 @@ describe('CountBoxComponent', () => {
   let component: CountBoxComponent;
   let fixture: ComponentFixture<CountBoxComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ CountBoxComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CountBoxComponent);

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FeedbackService } from '../feedback.service';
 import { environment } from '../../../../environments/environment';
+import { options } from "../../../../mocks/options";
 
 @Component({
   selector: 'op-feedback-home',
@@ -27,32 +28,7 @@ export class FeedbackHomeComponent implements OnInit {
   selectedIndex: Number = 0;
   selectedTab: Number = 0;
   feedbackTags = [];
-  options: any = [
-    {
-      id: 0,
-      name: 'Mod Handovers'
-    },
-    {
-      id: 1,
-      name: 'Outages'
-    },
-    {
-      id: 2,
-      name: 'DSAL'
-    },
-    {
-      id: 3,
-      name: 'Feedback'
-    },
-    {
-      id: 4,
-      name: 'Projects & Initiatives'
-    },
-    {
-      id: 5,
-      name: 'Service Status'
-    }
-  ];
+  options: any = options;
   feedbackOpenedCount: number;
   feedbackClosedCount: number;
   tagState: any;

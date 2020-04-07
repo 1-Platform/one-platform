@@ -1,13 +1,11 @@
 import {
   Component,
   OnInit,
-  AfterViewInit,
   EventEmitter,
   ElementRef,
   Input,
   Output,
   ViewChild,
-  OnChanges,
 } from '@angular/core';
 import { IDropDownOption } from './dropdown';
 
@@ -26,7 +24,7 @@ export class DropdownComponent implements OnInit {
   @Input() truncateLength?: number;
   @Input() disableAny: boolean;
   // tslint:disable-next-line:no-output-on-prefix
-  @Output() onSelected: EventEmitter<any> = new EventEmitter();
+  @Output() selected: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('dropDown', { read: ElementRef, static: true }) dropDown: ElementRef;
   @ViewChild('dropDownList', { read: ElementRef, static: true }) dropDownList: ElementRef;
@@ -105,7 +103,7 @@ export class DropdownComponent implements OnInit {
       this.activeDropDown.dropDownName = this._dropdownOptions[0].name ? this._dropdownOptions[0].name : this._dropdownOptions[0];
     }
     if (this.activeDropDown.dropDownName !== 'Any') {
-      this.onSelected.emit(this.getEmitOption(this.activeDropDown));
+      this.selected.emit(this.getEmitOption(this.activeDropDown));
     }
   }
 
@@ -133,7 +131,7 @@ export class DropdownComponent implements OnInit {
       this.changeTheme(this._DROP_DOWN_LIST_NODE.nativeElement.previousElementSibling, this._theme);
 
       if (this.activeDropDown.dropDownName !== 'Any') {
-        this.onSelected.emit(this.getEmitOption(this.activeDropDown));
+        this.selected.emit(this.getEmitOption(this.activeDropDown));
       }
     } else if (changes.options && !changes.options.firstChange) {
       this._options = this.disableAny ? changes.options.currentValue : [...['Any'], ...this.options] || ['provide options'];
@@ -142,7 +140,7 @@ export class DropdownComponent implements OnInit {
       this.changeTheme(this._DROP_DOWN_LIST_NODE.nativeElement.previousElementSibling, this._theme);
 
       if (this.activeDropDown.dropDownName !== 'Any') {
-        this.onSelected.emit(this.getEmitOption(this.activeDropDown));
+        this.selected.emit(this.getEmitOption(this.activeDropDown));
       }
     }
   }
@@ -189,7 +187,7 @@ export class DropdownComponent implements OnInit {
 
     this.activeDropDown.currentTarget.classList.toggle('op-active');
 
-    this.onSelected.emit(this.getEmitOption(this.activeDropDown));
+    this.selected.emit(this.getEmitOption(this.activeDropDown));
 
     this._DROP_DOWN_LIST_NODE.nativeElement.classList.toggle('show');
   }
