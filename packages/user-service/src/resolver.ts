@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import { UserGroupAPIHelper } from './helpers';
 
-export const UserResolver = {
+export const UserGroupResolver = {
   Query: {
     getUser(root: any, args: any, ctx: any) {
       return User.findOne({ uid: args.uid })
@@ -13,40 +13,6 @@ export const UserResolver = {
     listUsers(root: any, args: any, ctx: any) {
       return User.find()
         .then(data => data)
-        .catch(err => err);
-    },
-    userLogin(root: any, args: any, ctx: any) {
-      return User.findOne({ uid: args.uid })
-        .then((data: any) => {
-          if (!data) {
-            return UserGroupAPIHelper.getProfilesBy(`(uid=${args.uid})`).then((response: any) => {
-              if (!_.isEmpty(response)) {
-                const groups: any = [];
-                response.memberOf.map((group: any) => {
-                  groups.push(group.substring(group.indexOf(`cn=`) + 3, group.indexOf(`,`)));
-                });
-                const newUser = new User({
-                  uid: response.uid,
-                  name: response.cn,
-                  rhatUUID: response.rhatUUID,
-                  title: response.title,
-                  memberOf: groups,
-                  isActive: true,
-                  apiRole: (groups.includes('one-portal-devel')) ? `ADMIN` : 'USER',
-                  timestamp: {
-                    createdAt: moment.utc(new Date())
-                  }
-                });
-                newUser.save();
-                return newUser;
-              } else  {
-                return null;
-              }
-            });
-          } else if (data) {
-            return data;
-          }
-        })
         .catch(err => err);
     },
     getGroupMembers(root: any, args: any, ctx: any){
@@ -79,6 +45,40 @@ export const UserResolver = {
       data.isActive = true;
       return data.save()
         .then(response => response)
+        .catch(err => err);
+    },
+    addUserFromLDAP(root: any, args: any, ctx: any) {
+      return User.findOne({ uid: args.uid })
+        .then((data: any) => {
+          if (!data) {
+            return UserGroupAPIHelper.getProfilesBy(`(uid=${args.uid})`).then((response: any) => {
+              if (!_.isEmpty(response)) {
+                const groups: any = [];
+                response.memberOf.map((group: any) => {
+                  groups.push(group.substring(group.indexOf(`cn=`) + 3, group.indexOf(`,`)));
+                });
+                const newUser = new User({
+                  uid: response.uid,
+                  name: response.cn,
+                  rhatUUID: response.rhatUUID,
+                  title: response.title,
+                  memberOf: groups,
+                  isActive: true,
+                  apiRole: (groups.includes('one-portal-devel')) ? `ADMIN` : 'USER',
+                  timestamp: {
+                    createdAt: moment.utc(new Date())
+                  }
+                });
+                newUser.save();
+                return newUser;
+              } else {
+                return null;
+              }
+            });
+          } else if (data) {
+            return data;
+          }
+        })
         .catch(err => err);
     },
     deleteUser(root: any, args: any, ctx: any) {

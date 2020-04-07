@@ -122,6 +122,8 @@ type Mutation  {
   updateUser(input: UserInput): UserType
   # Delete a User by ID
   deleteUser(_id: String!): UserType
+  # add user from LDAP
+  addUserFromLDAP(uid: String!): UserType
 }
 
 type Query  {
@@ -129,8 +131,6 @@ type Query  {
   getUser(uid: String!): UserType
   # Fetches all Users
   listUsers: [UserType]
-  # Login user
-  userLogin(uid: String!): UserType
   # Fetch LDAP Group Members
   getGroupMembers(cn: String): [LdapType]
 }

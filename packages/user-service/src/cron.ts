@@ -1,46 +1,41 @@
 import * as _ from 'lodash';
 import * as async from 'async';
 import { User } from './schema';
-import * as request from 'request';
 import moment from 'moment';
+import { UserGroupAPIHelper } from './helpers';
 /**
  * @class UserSyncCron
  */
 export class UserSyncCron {
   public syncUsers() {
-    let dbUsers: any = [];
-    let rhatUUIDs: any = [];
     User.find().then((userInfo: any[]) => {
       if (userInfo.length) {
-        dbUsers = userInfo;
-        rhatUUIDs = userInfo.map(user => user.rhatUUID);
+        let rhatUUIDs: string[] = [];
+        rhatUUIDs = userInfo.map((user: UserType) => user.rhatUUID);
         if (rhatUUIDs.length) {
           async.map(rhatUUIDs, async rhatUUID => {
-            return request.get(`${process.env.LDAP_MICROSERVICE}ldap/user/uuid/${rhatUUID}`, {
-              rejectUnauthorized: false
-            }, (error, resp, body)  => {
-              if (body) {
-                const response = JSON.parse(body);
-                console.log(response.uid);
-                const oldProfile = dbUsers.filter((user: any) => user.rhatUUID === rhatUUID);
-                const newProfile = oldProfile;
-                if (_.isEmpty(response)) {
-                  newProfile[0].isActive = false;
-                  console.log('Account of ' + rhatUUID + ' de-activated successfully');
-                  return Object.assign(oldProfile[0], newProfile[0]).save().then((profile: any) => profile);
-                } else {
-                  const groups: any = [];
-                  response.memberOf.map((group: any) => {
-                    groups.push(group.substring(group.indexOf(`cn=`) + 3, group.indexOf(`,`)));
-                  });
-                  newProfile[0].name = response.cn;
-                  newProfile[0].title = response.title;
-                  newProfile[0].uid = response.uid;
-                  newProfile[0].memberOf = groups;
-                  newProfile[0].isActive = true;
-                  newProfile[0].timestamp.modifiedAt = moment.utc(new Date());
-                  return Object.assign(oldProfile[0], newProfile[0]).save();
-                }
+            UserGroupAPIHelper.getProfilesBy(`(rhatUUID=${rhatUUID})`)
+            .then((response: any) => {
+              const oldProfile = userInfo.filter(user => user.rhatUUID === rhatUUID);
+              const newProfile = oldProfile;
+              if (_.isEmpty(response)) {
+                newProfile[0].isActive = false;
+                console.log('Account of ' + oldProfile[0].uid + ' de-activated successfully');
+                return User.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
+                       .exec();
+              } else {
+                const groups: string[] = [];
+                response.memberOf.map((group: string) => {
+                  groups.push(group.substring(group.indexOf(`cn=`) + 3, group.indexOf(`,`)));
+                });
+                newProfile[0].name = response.cn;
+                newProfile[0].title = response.title;
+                newProfile[0].uid = response.uid;
+                newProfile[0].memberOf = groups;
+                newProfile[0].isActive = true;
+                newProfile[0].timestamp.modifiedAt = moment(new Date());
+                return User.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
+                       .exec();
               }
             });
           });

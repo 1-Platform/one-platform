@@ -1,6 +1,6 @@
 {
-  "name": "user",
-  "description": "User micro-service for One Platform",
+  "name": "usergroup",
+  "description": "User Group micro-service for One Platform",
   "opservice": {
     "className": "User",
     "serviceName": "user"

@@ -1,7 +1,7 @@
-User Microservice
+User Group Microservice
 =================================================
 
-One platform's server-side User GraphQL microservice.
+One platform's server-side User Group GraphQL microservice. This microservice enables us to talk to the user database and the third party user data sources like LDAP (Light Weight Directory Access Protocol). It also provides the endpoint to serve the api requests
 
 ### Switch the working directory into `cd user-service`.
 

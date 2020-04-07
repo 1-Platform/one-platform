@@ -1,4 +1,5 @@
-declare module '*.graphql';declare module '*.json';
+declare module '*.graphql';
+declare module '*.json';
 
 // define your types here
 
@@ -71,7 +72,7 @@ type IUser = {
 type ITimestamp = {
   createdAt: Date;
   createdBy: IUser;
-  modifiedAt?: string;
+  modifiedAt?: Date;
   modifiedBy?: IUser;
 }
 
@@ -81,9 +82,7 @@ type UserType = {
   uid: string;
   rhatUUID: string;
   isActive ?: boolean;
-  memberOf: [string];
+  memberOf: string[];
   apiRole: string,
   timestamp ?: ITimestamp;
 }
-
-

@@ -8,8 +8,9 @@ const { ApolloLogExtension } = require('apollo-log');
 import mongoose from 'mongoose';
 
 import gqlSchema from './src/typedef.graphql';
-import { UserResolver as resolver } from './src/resolver';
+import { UserGroupResolver as resolver } from './src/resolver';
 import * as schedule from 'node-schedule';
+import cookieParser = require('cookie-parser');
 
 // Crons for Data syncing
 import { UserSyncCron } from './src/cron';
@@ -18,6 +19,10 @@ import { UserSyncCron } from './src/cron';
 const port = process.env.PORT || 8080;
 
 const app = express();
+
+// Mount cookie parser
+app.use(cookieParser());
+
 const extensions = [() => new ApolloLogExtension({
   level: 'info',
   timestamp: true,
@@ -35,7 +40,7 @@ const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
   ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
   : '';
 const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
-
+console.log(dbConnection);
 mongoose.connect(dbConnection, { useNewUrlParser: true, useCreateIndex: true }).catch(console.error);
 
 mongoose.connection.on('error', error => {
