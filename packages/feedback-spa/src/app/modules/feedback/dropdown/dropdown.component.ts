@@ -23,7 +23,6 @@ export class DropdownComponent implements OnInit {
   @Input() theme: string;
   @Input() truncateLength?: number;
   @Input() disableAny: boolean;
-  // tslint:disable-next-line:no-output-on-prefix
   @Output() selected: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('dropDown', { read: ElementRef, static: true }) dropDown: ElementRef;
