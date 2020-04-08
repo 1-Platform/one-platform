@@ -13,7 +13,7 @@ export class UserSyncCron {
         let rhatUUIDs: string[] = [];
         rhatUUIDs = userInfo.map((user: UserType) => user.rhatUUID);
         if (rhatUUIDs.length) {
-          async.map(rhatUUIDs, async rhatUUID => {
+          async.map(rhatUUIDs, rhatUUID => {
             UserGroupAPIHelper.getProfilesBy(`(rhatUUID=${rhatUUID})`)
             .then((response: any) => {
               const oldProfile = userInfo.filter(user => user.rhatUUID === rhatUUID);

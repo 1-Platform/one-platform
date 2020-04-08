@@ -69,8 +69,7 @@ export const UserGroupResolver = {
                     createdAt: moment.utc(new Date())
                   }
                 });
-                newUser.save();
-                return newUser;
+                return newUser.save();
               } else {
                 return null;
               }
@@ -91,9 +90,7 @@ export const UserGroupResolver = {
         .then(response => {
           return Object.assign(response, args.input)
             .save()
-            .then((user: any) => {
-              return user;
-            });
+            .then((user: any) => user);
         })
         .catch((err: any) => err);
     }
