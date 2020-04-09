@@ -1,0 +1,26 @@
+type Query {
+  # Query Definitions
+  list: [FeedbackType]
+  get(ID: ID!): FeedbackType
+}
+
+type Mutation {
+  # Mutation Definitions
+  create(input: FeedbackInput): FeedbackType
+  update(input: FeedbackInput): FeedbackType
+  delete(_id: String!): FeedbackType
+}
+
+type Subscription {
+  # Subscription Definitions
+  updatedFeedbackData: FeedbackType
+}
+
+type FeedbackType {
+  message: String
+}
+
+input FeedbackInput {
+  message: String
+}
+
