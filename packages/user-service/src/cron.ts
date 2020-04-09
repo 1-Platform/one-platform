@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as async from 'async';
 import { User } from './schema';
 import moment from 'moment';
 import { UserGroupAPIHelper } from './helpers';
@@ -13,8 +12,8 @@ export class UserSyncCron {
         let rhatUUIDs: string[] = [];
         rhatUUIDs = userInfo.map((user: UserType) => user.rhatUUID);
         if (rhatUUIDs.length) {
-          async.map(rhatUUIDs, rhatUUID => {
-            UserGroupAPIHelper.getProfilesBy(`(rhatUUID=${rhatUUID})`)
+          rhatUUIDs.map(rhatUUID => {
+            return UserGroupAPIHelper.getProfilesBy(`(rhatUUID=${rhatUUID})`)
             .then((response: any) => {
               const oldProfile = userInfo.filter(user => user.rhatUUID === rhatUUID);
               const newProfile = oldProfile;
