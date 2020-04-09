@@ -1,6 +1,8 @@
+declare module '*.graphql';
 declare module '*.json';
 
 // define your types here
+
 type LdapType = {
   dn?: string;
   controls?: string[];
@@ -62,3 +64,25 @@ type LdapType = {
   objectClass?: string[];
 }
 
+type IUser = {
+  uid: string;
+  name: string;
+}
+
+type ITimestamp = {
+  createdAt: Date;
+  createdBy: IUser;
+  modifiedAt?: Date;
+  modifiedBy?: IUser;
+}
+
+type UserType = {
+  name: string;
+  title: string;
+  uid: string;
+  rhatUUID: string;
+  isActive ?: boolean;
+  memberOf: string[];
+  apiRole: string,
+  timestamp ?: ITimestamp;
+}
