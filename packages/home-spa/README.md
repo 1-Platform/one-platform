@@ -1,11 +1,10 @@
 # Welcome to home-spa 👋
+
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/1-Platform/one-platform#readme)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/1-Platform/one-platform/graphs/commit-activity)
 
-> Home SPA for One Platform
-
-### 🏠 [Homepage](https://github.com/1-Platform/one-platform)
+Home SPA for One Platform
 
 ## Install
 
@@ -14,14 +13,19 @@ npm install
 ```
 
 ## Usage
+
 ### Development server
+
 - Change .env.example to .env
 - Add URL to API_URL in .env file
-```
+
+```sh
 API_URL=https://example.com/api
 ```
+
 - Schema
-```
+
+```sh
 {
     name: 'Name/Title'
     description: 'Description of the entity,
@@ -33,12 +37,15 @@ API_URL=https://example.com/api
 
 }
 ```
+
 - Run development server
+
 ```sh
 npm run dev
 ```
 
 ### Build
+
 ```sh
 npm run build
 ```
@@ -53,4 +60,3 @@ npm run test
 ## 🤝 Contributors
 
 👤 **Deepesh Nair** [@hybridx](https://github.com/hybridx)
-
