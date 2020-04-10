@@ -6,23 +6,22 @@ Assignees: "One Platform Developers"
 Projects: "One Platform Development"
 -->
 
+# Closes/Fixes/Resolves
 
-> ### Closes/Fixes/Resolves #issue_id
+<!-- #issue_id -->
 
-## Explain the feature/fix:
+# Explain the feature/fix
 
 <!-- Provide a clear explaination of the feature/fix implemented -->
 
+## Does this PR introduce a breaking change
 
-
-## Does this PR introduce a breaking change?
-
-> Yes/No
+<!-- Yes/No -->
 
 <!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. -->
 
+## Screenshots
 
-## Screenshots:
 <!-- If applicable, add screenshots to help explain your problem. -->
 
 <details>
@@ -30,9 +29,7 @@ Projects: "One Platform Development"
 
 <!-- Add your screenshots below this line -->
 
-
 </details>
-
 
 ### Ready-for-merge Checklist
 
