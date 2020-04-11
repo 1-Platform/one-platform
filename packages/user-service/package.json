@@ -83,7 +83,7 @@
     "@types/request": "^2.48.4",
     "@types/supertest": "^2.0.7",
     "graphql-tag": "^2.10.3",
-    "husky": "^2.3.0",
+    "husky": "4.2.5",
     "jest": "^25.1.0",
     "jest-transform-graphql": "^2.1.0",
     "ts-loader": "^6.2.1",
