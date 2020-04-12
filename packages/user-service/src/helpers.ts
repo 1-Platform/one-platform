@@ -1,6 +1,5 @@
 import { createClient } from 'ldapjs';
 
-
 class UserGroupApiHelper {
   private static UserGroupHelperInstance: UserGroupApiHelper;
   ldapHost: string | any = process.env.LDAP_HOST;
