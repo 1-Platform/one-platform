@@ -71,7 +71,7 @@
     "@types/cors": "2.8.6",
     "@types/ejs": "3.0.0",
     "@types/errorhandler": "0.0.32",
-    "@types/jest": "25.1.4",
+    "@types/jest": "25.2.1",
     "@types/ldapjs": "1.0.6",
     "@types/lodash": "4.14.149",
     "@types/method-override": "0.0.31",
