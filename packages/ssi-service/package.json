@@ -30,7 +30,7 @@
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.5.2",
     "eslint-plugin-jest": "23.8.2",
-    "jest": "25.2.7",
+    "jest": "25.3.0",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
     "webpack": "4.42.1",
