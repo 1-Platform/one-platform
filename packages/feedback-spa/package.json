@@ -39,7 +39,7 @@
     "toastr": "2.1.4",
     "tslib": "1.11.1",
     "webpack-dev-server": "3.10.3",
-    "zone.js": "0.9.1"
+    "zone.js": "0.10.3"
   },
   "devDependencies": {
     "@angular-builders/jest": "9.0.1",
