@@ -10,7 +10,7 @@ npm run cli-microservice
 
 ## Usage
 
-1. Run this generator inside your /packages directory\_.
+1. Run this generator inside your `/packages` directory\_.
 2. Enter the name of your microservice.
 3. Choose whether you're building a microservice using REST or GraphQL.
 4. Choose if you need MongoDB support.
