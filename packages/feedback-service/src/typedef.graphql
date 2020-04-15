@@ -1,26 +1,52 @@
+type ProfileType {
+  kerberosID: String
+  name: String
+  email: String
+}
+
+type TimestampType {
+  createdAt: DateTime
+  createdBy: ProfileType
+  modifiedAt: DateTime
+  modifiedBy: ProfileType
+}
+
+type FeedbackType {
+  _id: String
+  description: String
+  iid: String
+  experience: String
+  spa: String
+  portalFeedback: Boolean
+  timestamp: TimestampType
+  title: String
+  feedbackType: String
+}
+
+input FeedbackInput {
+  _id: String
+  description: String
+  iid: String
+  experience: String
+  module: String
+  portalFeedback: Boolean
+  timestamp: TimestampInput
+  title: String
+  feedbackType: String
+}
+
 type Query {
   # Query Definitions
-  list: [FeedbackType]
-  get(ID: ID!): FeedbackType
+  listFeedback: [FeedbackType]
+  getFeedback(_id: String): FeedbackType
 }
 
 type Mutation {
   # Mutation Definitions
-  create(input: FeedbackInput): FeedbackType
-  update(input: FeedbackInput): FeedbackType
-  delete(_id: String!): FeedbackType
+  addFeedback(input: FeedbackInput): FeedbackType
+  updateFeedback(input: FeedbackInput): FeedbackType
+  deleteFeedback(_id: String!): FeedbackType
 }
 
-type Subscription {
-  # Subscription Definitions
-  updatedFeedbackData: FeedbackType
-}
-
-type FeedbackType {
-  message: String
-}
-
-input FeedbackInput {
-  message: String
-}
+export const gqlSchema: Schema = new Schema({})
 

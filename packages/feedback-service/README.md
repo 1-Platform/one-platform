@@ -1,7 +1,7 @@
 Feedback Microservice
 =================================================
 
-One platform's server-side Feedback GraphQL microservice.
+One platform's server-side Feedback GraphQL microservice. This microservice will send data to Feedback-SPA that is completely optional while initializing SPA owner can check/enable feedback option and can provide basic detail like wants to use Jira/Gitlab based on SPA owner this microservice will create issue when someone will give feedback and will fetch all feedback to send to Feedback-SPA listing page.  
 
 ### Switch the working directory into `cd feedback-service`.
 

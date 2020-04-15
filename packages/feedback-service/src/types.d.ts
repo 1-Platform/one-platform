@@ -1,9 +1,5 @@
 declare module '*.graphql';declare module '*.json';
 
-// define your types here
-type FeedbackType = {
-
-}
 export interface IUserTeam {
     name: string;
     access: number;
@@ -33,7 +29,7 @@ export interface IFeedback {
     experience?: string;
     feedbackType: string;
     iid?: string;
-    module: String;
+    spa: String;
     portalFeedback: Boolean;
     timestamp: ITimestamp;
     title?: string;
