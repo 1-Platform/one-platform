@@ -8,7 +8,7 @@ Projects: "One Platform Development"
 
 # Closes/Fixes/Resolves
 
-<!-- #issue_id -->
+### <!-- Any of the keywords: Closes/Fixes/Resolves followed by #issue_id (should be separated by a space only) -->
 
 # Explain the feature/fix
 
