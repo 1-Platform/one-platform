@@ -25,7 +25,7 @@ API_URL=https://example.com/api
 
 - Schema
 
-```sh
+```js
 {
     name: 'Name/Title'
     description: 'Description of the entity,
