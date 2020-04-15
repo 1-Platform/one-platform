@@ -1,11 +1,10 @@
 ---
 name: "Bug report \U0001F41E"
 about: Report something that doesn't work
-title: ''
+title: ""
 labels: bug
-assignees: ''
+assignees: ""
 projects: 1-Platform/1
-
 ---
 
 <!--
@@ -14,10 +13,12 @@ A Bug is a superset of regressions, but it doesn't have to have worked on One Pl
 Before opening a new issue, please search existing issues https://github.com/1-Platform/one-platform/issues
 -->
 
-## Describe the bug:
+## Describe the bug
+
 <!-- A clear and concise description of what the bug is. -->
 
-## Steps to reproduce:
+## Steps to reproduce
+
 <!--
 1. Do '...'
 2. Click on '....'
@@ -26,19 +27,21 @@ Before opening a new issue, please search existing issues https://github.com/1-P
 For the fastest support, provide a working demo or minimal reproduction using tools such as [codepen](https://codepen.io/) or [jsfiddle](https://jsfiddle.net/)
 -->
 
-## Expected behavior:
+## Expected behavior
+
 <!-- A clear and concise description of what you expected to happen. -->
 
-## Screenshots:
+## Screenshots
+
 <!-- If applicable, add screenshots to help explain your problem. -->
 
-
-## Environment;
+## Environment
 
 - Operating System(s): Linux/macOS/Windows [Variant and Version]
 - Browser: Firefox/Chrome/Safari [Version] / Other (please specify)
 
-## Tell us more about your product/project and timeline to help prioritize this issue:
+## Tell us more about your product/project and timeline to help prioritize this issue
+
 <!--
 * What product/project does this impact?
 * List product/project release(s) and timelines.

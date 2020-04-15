@@ -1,9 +1,9 @@
 {
-  "vsicons.associations.files": [{
+  "vsicons.associations.files": [ {
     "icon": "html",
-    "extensions": ["ssi"],
+    "extensions": [ "ssi" ],
     "format": "svg"
-  }],
+  } ],
   "files.associations": {
     "*.ssi": "html"
   },
@@ -94,5 +94,8 @@
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
   "typescript.format.semicolons": "insert",
   "typescript.preferences.quoteStyle": "single",
-  "typescript.updateImportsOnFileMove.enabled": "always"
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "markdownlint.config": {
+    "MD033": false
+  }
 }
