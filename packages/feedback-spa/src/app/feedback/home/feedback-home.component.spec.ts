@@ -15,7 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule }   from '@angular/forms';
 
 // import all the dependent mocks
-import { FeedbackMock } from '../../../../mocks/feedback.mock';
+import { FeedbackMock } from '../../../mocks/feedback.mock';
 import { NgPipesModule } from 'ng-pipes';
 
 describe('FeedbackHomeComponent', () => {

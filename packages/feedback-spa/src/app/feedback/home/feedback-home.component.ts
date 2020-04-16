@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FeedbackService } from '../feedback.service';
-import { environment } from '../../../../environments/environment';
-import { options } from "../../../../mocks/options";
+import { environment } from '../../../environments/environment';
+import { options } from "../../../mocks/options";
 
 @Component({
   selector: 'op-feedback-home',
