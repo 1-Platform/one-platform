@@ -1,7 +1,8 @@
+scalar DateTime
+
 type ProfileType {
   kerberosID: String
   name: String
-  email: String
 }
 
 type TimestampType {
@@ -11,13 +12,24 @@ type TimestampType {
   modifiedBy: ProfileType
 }
 
+input ProfileInput {
+  kerberosID: String
+  name: String
+}
+
+input TimestampInput {
+  createdAt: DateTime
+  createdBy: ProfileInput
+  modifiedAt: DateTime
+  modifiedBy: ProfileInput
+}
+
 type FeedbackType {
   _id: String
   description: String
-  iid: String
+  ticketID: String
   experience: String
   spa: String
-  portalFeedback: Boolean
   timestamp: TimestampType
   title: String
   feedbackType: String
@@ -26,27 +38,28 @@ type FeedbackType {
 input FeedbackInput {
   _id: String
   description: String
-  iid: String
+  ticketID: String
   experience: String
-  module: String
-  portalFeedback: Boolean
+  spa: String
   timestamp: TimestampInput
   title: String
   feedbackType: String
 }
 
 type Query {
-  # Query Definitions
+  # Fetches all Feedbacks
   listFeedback: [FeedbackType]
-  getFeedback(_id: String): FeedbackType
+  # Fetches specific Feedback by its id
+  getFeedback(id: String): FeedbackType
+  #Fetches Feedbacks by any property
+  getFeedbackBy(input: FeedbackInput):[FeedbackType]
 }
 
 type Mutation {
-  # Mutation Definitions
+  # Add a new Feedback
   addFeedback(input: FeedbackInput): FeedbackType
+  # Update Feedback based on input
   updateFeedback(input: FeedbackInput): FeedbackType
-  deleteFeedback(_id: String!): FeedbackType
+  # Delete specific Feedback by id
+  deleteFeedback(id: String!): FeedbackType
 }
-
-export const gqlSchema: Schema = new Schema({})
-
