@@ -16,17 +16,13 @@ export const FeedbackResolver = {
     },
     getFeedbackBy(root: any,  args : any, ctx: any){
       const searchBy = _.pick(args, ["input"]);
-      return Feedback.find(searchBy.input)
-          .then(response=>response)
-          .catch(err=>err);
+      return Feedback.find(searchBy.input).exec();
     }
   },
   Mutation: {
     addFeedback(root: any, args: any, ctx: any) {
       const data = new Feedback(args.input);
-      return data.save()
-      .then(response => response)
-      .catch(err => err);
+      return data.save();
     },
     updateFeedback(root: any, args: any, ctx: any) {
       return Feedback.findById(args.input._id).then(response => {

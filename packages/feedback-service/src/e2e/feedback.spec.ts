@@ -51,8 +51,6 @@ const query = `
 
 beforeAll(() => {
   request = supertest.agent(Feedback);
-  process.env.DB_PATH='localhost';
-  process.env.DB_NAME = 'feedback-db-test';
 });
 afterAll(done => {
   return Feedback.close(done);

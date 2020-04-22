@@ -50,9 +50,9 @@ type Query {
   # Fetches all Feedbacks
   listFeedback: [FeedbackType]
   # Fetches specific Feedback by its id
-  getFeedback(id: String): FeedbackType
+  getFeedback(id: String!): FeedbackType
   #Fetches Feedbacks by any property
-  getFeedbackBy(input: FeedbackInput):[FeedbackType]
+  getFeedbackBy(input: FeedbackInput!):[FeedbackType]
 }
 
 type Mutation {

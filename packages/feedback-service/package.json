@@ -31,7 +31,7 @@
   },
   "author": {
     "name": "Anjnee K Sharma",
-    "email": "anjnee.k.sharma@gmail.com"
+    "email": "anjsharm@redhat.com"
   },
   "contributors": [],
   "license": "MIT",
@@ -90,12 +90,6 @@
   },
   "bugs": {
     "url": "https://github.com/1-Platform/one-platform/issues?q=is%3Aissue+is%3Aopen+feedback-service"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
   },
   "generator-op-microservice-version": "0.0.0"
 }

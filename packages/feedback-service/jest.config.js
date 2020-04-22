@@ -18,6 +18,8 @@ module.exports = {
   "testMatch": [
     "**/src/e2e/*.spec.(ts|tsx|js)"
   ],
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "coveragePathIgnorePatterns": [
+    "/node_modules/"
+  ]
 }
-

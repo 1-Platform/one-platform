@@ -1,8 +1,6 @@
 declare module '*.graphql';
 declare module '*.json';
 
-declare const _;
-
 type IUser  = {
   kerberosID: string;
   name: string;

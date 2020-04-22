@@ -1,7 +1,7 @@
 Feedback Microservice
 =================================================
 
-One platform's server-side Feedback GraphQL microservice. This microservice will allow us to talk to feedback database and can perform operation like  addfeedback,updatefeedback,deletefeedback,listfeedback.
+One platform's server-side Feedback GraphQL microservice. This microservice will allow users to talk to the feedback database and can perform operations like addfeedback, updatefeedback, deletefeedback & listfeedback.
 
 ### Switch the working directory into `cd feedback-service`.
 
