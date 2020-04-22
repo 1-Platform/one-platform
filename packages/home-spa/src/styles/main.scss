@@ -29,13 +29,30 @@
 }
 
 .grid {
-    pfe-tabs {
-        pfe-tab:first-of-type {
-            margin-left: auto;
-        }
-        pfe-tab:last-of-type {
-            margin-right: auto;
-        }
+    h2 {
+        text-align: center;
+        margin-top: 3rem;
+        a {
+            font-size: 2rem;
+            margin: 1rem;
+            color: #151515;
+            text-decoration: none;
+            position: relative;
+            &:before {
+                content: '';
+                left: 25%;
+                position: absolute;
+                height: 3px;
+                width: 50%;
+                background-color: #A30000;
+                bottom: -6px;
+                transition: all 320ms ease-in-out;
+              }
+              &:hover:before {
+                width: 100%;
+                left: 0;
+              }
+          }
     }
     pfe-card {
         --pfe-card--Padding: 0rem;
