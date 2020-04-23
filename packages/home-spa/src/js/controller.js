@@ -12,7 +12,7 @@ const microserviceCard = document.getElementById('microservice-cards');
 const carouselSlide = document.getElementById('carousel-slide');
 const spaList = document.getElementById('banner__links');
 
-microserviceCard.innerHTML = `<div></div><div class="loader"></div>`;
+microserviceCard.innerHTML = `<div class="loader"></div>`;
 carouselSlide.innerHTML = `<div class="loader"></div>`;
 
 getData().then(
