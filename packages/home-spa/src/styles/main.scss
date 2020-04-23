@@ -29,9 +29,8 @@
 }
 
 .grid {
-    h2 {
+    &__head {
         text-align: center;
-        margin-top: 3rem;
         a {
             font-size: 2rem;
             margin: 1rem;
@@ -53,6 +52,9 @@
                 left: 0;
               }
           }
+    }
+    .m-t-10 {
+        margin-top: 10rem;
     }
     pfe-card {
         --pfe-card--Padding: 0rem;
