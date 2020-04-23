@@ -10,7 +10,7 @@ import mongoose from 'mongoose';
 <% } -%>
 
 import gqlSchema from './src/typedef.graphql';
-import { resolver } from './src/resolver';
+import { <%= resolverName %> as resolver } from './src/resolver';
 import cookieParser = require('cookie-parser');
 
 /* Setting port for the server */
@@ -90,4 +90,3 @@ apollo.installSubscriptionHandlers(server);
 export default server.listen({ port: port }, () => {
   console.log(`🚀 Microservice running on ${process.env.NODE_ENV} at ${port}${apollo.graphqlPath}`);
 });
-
