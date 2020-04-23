@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'op-header',
+  selector: 'op-notification-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

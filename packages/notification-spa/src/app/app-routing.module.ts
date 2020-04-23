@@ -17,15 +17,21 @@ const routes: Routes = [
   {
     path: 'manage',
     component: ManageNotificationComponent,
-  },
-  {
-    path: 'manage/new',
-    redirectTo: '/manage',
-    pathMatch: 'full',
-  },
-  {
-    path: 'manage/edit/:id',
-    component: ManageNotificationComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'new',
+        pathMatch: 'full',
+      },
+      {
+        path: 'new',
+        component: ManageNotificationComponent,
+      },
+      {
+        path: 'edit/:id',
+        component: ManageNotificationComponent,
+      }
+    ]
   },
   {
     path: '**',

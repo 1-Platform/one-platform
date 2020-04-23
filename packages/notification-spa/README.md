@@ -3,7 +3,7 @@
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/1-Platform/one-platform#readme)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/1-Platform/one-platform/graphs/commit-activity)
 
-This notification management dashboard which will enable SPA-owners to create multiple notification templates if required. They will also be able to create the notification templates for SPAs, a front-end for the notification microservice.
+The Notification Management Dashboard enables SPA-owners to create multiple notification templates for their Applications. It also allows the SPA owners manage different notification types, such as Email, pop-up, and Banner notifications.
 
 ### 🏠 [Homepage](https://github.com/1-Platform/one-platform)
 
