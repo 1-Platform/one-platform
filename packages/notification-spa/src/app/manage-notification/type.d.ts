@@ -16,7 +16,7 @@ type NotificationSchema = {
     type: string,
     typeOption: Event[] | Schedule | null,
     createdBy: string,
-    createdOn: Date,
+    createdOn: string,
     modifiedBy: string | null,
     modifiedOn: Date | null,
 }

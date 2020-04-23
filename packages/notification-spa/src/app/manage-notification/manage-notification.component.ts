@@ -73,7 +73,6 @@ export class ManageNotificationComponent implements OnInit {
   template: string;
   schedule: Schedule;
   createdBy: string;
-  createdOn: Date;
   notificationFormData: NotificationSchema;
   modalState: boolean;
   toast: boolean;
@@ -117,7 +116,7 @@ export class ManageNotificationComponent implements OnInit {
       type: value.trigger,
       typeOption: option,
       createdBy: this.createdBy,
-      createdOn: this.createdOn,
+      createdOn: new Date().toUTCString(),
       modifiedBy: null,
       modifiedOn: null
     };

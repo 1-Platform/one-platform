@@ -9,22 +9,6 @@ export class SpaNotificationsListComponent implements OnInit {
   @Input() notificationInformation: any;
   toggleBody = true;
   toggleViewMore = true;
-  dummyData = [
-    {
-      id: 'U9YSDVCQIZ',
-      channelType: 'Pop Up',
-      triggerType: 'Scheduled',
-      targetNames: ['npatil-all', 'singole'],
-      viewMore: true,
-    },
-    {
-      id: 'U9YSDVCQIZ',
-      channelType: 'Pop Up',
-      triggerType: 'Scheduled',
-      targetNames: ['npatil-all', 'singole'],
-      viewMore: true,
-    },
-  ];
 
   constructor() { }
 
