@@ -7,8 +7,8 @@
   },
   "version": "0.0.1",
   "keywords": [
-    "web-components",
-    "html"
+    "api-gateway",
+    "api"
   ],
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "dist"
   ],
   "scripts": {
+    "test": "jest --forceExit",
     "build:dev": "webpack --config webpack.dev.js",
     "start:dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",

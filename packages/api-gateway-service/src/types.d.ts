@@ -1,7 +1,7 @@
-declare module '*.graphql';declare module '*.json';
+declare module '*.graphql';
+declare module '*.json';
 
 // define your types here
 type ApiGatewayType = {
 
-}
-
+};
