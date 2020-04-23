@@ -52,14 +52,14 @@ type Query {
   # Fetches specific Feedback by its id
   getFeedback(id: String!): FeedbackType
   #Fetches Feedbacks by any property
-  getFeedbackBy(input: FeedbackInput!):[FeedbackType]
+  getFeedbackBy(input: FeedbackInput!): [FeedbackType]
 }
 
 type Mutation {
   # Add a new Feedback
-  addFeedback(input: FeedbackInput): FeedbackType
+  addFeedback(input: FeedbackInput!): FeedbackType
   # Update Feedback based on input
-  updateFeedback(input: FeedbackInput): FeedbackType
+  updateFeedback(input: FeedbackInput!): FeedbackType
   # Delete specific Feedback by id
   deleteFeedback(id: String!): FeedbackType
 }

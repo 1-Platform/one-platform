@@ -3,8 +3,8 @@ import { ApolloServer } from 'apollo-server-express';
 import fs from 'fs';
 import https from 'https';
 import http from 'http';
-import { mergeSchemas } from 'graphql-tools';
 const { ApolloLogExtension } = require('apollo-log');
+const { buildFederatedSchema } = require("@apollo/federation");
 import mongoose from 'mongoose';
 
 import gqlSchema from './src/typedef.graphql';
@@ -37,27 +37,13 @@ mongoose.connection.on('error', error => {
 });
 
 /* Defining the Apollo Server */
-const apollo = new ApolloServer({
+const apollo = new ApolloServer( {
   playground: process.env.NODE_ENV !== 'production',
-  schema: mergeSchemas({
-    schemas: [
-      gqlSchema,
-    ],
-    resolvers: [
-      resolver,
-    ],
-  }),
-  subscriptions: {
-    path: '/subscriptions',
-  },
-  formatError: error => ({
-    message: error.message,
-    locations: error.locations,
-    stack: error.stack ? error.stack.split('\n') : [],
-    path: error.path,
-  }),
-  extensions
-});
+  schema: buildFederatedSchema( [ {
+    typeDefs: gqlSchema,
+    resolvers: resolver
+  }])});
+
 
 /* Applying apollo middleware to express server */
 apollo.applyMiddleware({ app });
