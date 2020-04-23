@@ -23,7 +23,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "cross-env NODE_ENV=test DB_PATH=localhost DB_NAME=feedback-db-test jest --forceExit",
+    "test": "jest --forceExit",
     "build:dev": "webpack --config webpack.dev.js",
     "start:dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
@@ -43,7 +43,6 @@
     "clean-webpack-plugin": "^3.0.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
-    "create-jira-ticket-api": "^1.0.1",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",

@@ -31,12 +31,12 @@ const query = `
     }
   }
   
-  mutation AddingFeedback($input: FeedbackInput) {
+  mutation AddingFeedback($input: FeedbackInput!) {
     addFeedback(input: $input) {
       ...feedbackType
     }
   }
-  mutation UpdateFeedback($input: FeedbackInput) {
+  mutation UpdateFeedback($input: FeedbackInput!) {
     updateFeedback(input: $input) {
       ...feedbackType
     }
@@ -92,10 +92,10 @@ afterAll(done => {
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-        expect(res.body.data.listFeedback[0]).toHaveProperty('_id', mock._id);
-        expect(res.body.data.listFeedback[0]).toHaveProperty('description', mock.description);
-        expect(res.body.data.listFeedback[0]).toHaveProperty('ticketID', mock.ticketID);
-        expect(res.body.data.listFeedback[0]).toHaveProperty('experience', mock.experience);
+        expect(res.body.data.listFeedback[0]).toHaveProperty('_id');
+        expect(res.body.data.listFeedback[0]).toHaveProperty('description');
+        expect(res.body.data.listFeedback[0]).toHaveProperty('ticketID');
+        expect(res.body.data.listFeedback[0]).toHaveProperty('experience');
         
       })
       .end((err, res) => {
@@ -183,5 +183,3 @@ afterAll(done => {
       });
   });
 });
-
-

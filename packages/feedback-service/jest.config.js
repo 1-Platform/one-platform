@@ -1,4 +1,5 @@
 module.exports = {
+  setupFiles: ["dotenv/config"],
   "moduleFileExtensions": [
     "ts",
     "tsx",

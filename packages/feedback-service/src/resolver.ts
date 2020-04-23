@@ -15,8 +15,7 @@ export const FeedbackResolver = {
         .catch(err => err);
     },
     getFeedbackBy(root: any,  args : any, ctx: any){
-      const searchBy = _.pick(args, ["input"]);
-      return Feedback.find(searchBy.input).exec();
+      return Feedback.find(args.input).exec();
     }
   },
   Mutation: {
