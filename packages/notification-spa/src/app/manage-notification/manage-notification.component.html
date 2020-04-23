@@ -88,6 +88,7 @@
                                 [disabled]="notificationForm.value.trigger !== 'scheduled'">
                                 <option value="" selected>Please select an option</option>
                                 <option value="daily">Daily</option>
+                                <option value="weekDays">Week Days</option>
                                 <option value="customRecurrence">Custom recurrence</option>
                             </select>
                         </div>
@@ -98,7 +99,8 @@
                             <li>
                                 <input type="number" min="0">
                                 <select
-                                    name="template" 
+                                    name="repeatEvery" 
+                                    [(ngModel)]="repeatEvery"
                                     required>
                                     <option value="" selected>Please select an option</option>
                                     <option value="day">Day</option>
@@ -106,6 +108,20 @@
                                     <option value="month">Month</option>
                                     <option value="year">Year</option>
                                 </select>
+                                <div class="config-panel__list-horizontal" *ngIf="repeatEvery === 'week'">
+                                    <ul>
+                                        <li *ngFor="let day of days" [ngClass]="{'inactive' : notificationForm.value.trigger !== 'scheduled'}">
+                                            <input 
+                                                type="checkbox" 
+                                                [name]="day.day" 
+                                                [id]="day.day"
+                                                [(ngModel)]="day.status"
+                                                class="pf-c-check__input"
+                                                [disabled]="notificationForm.value.trigger !== 'scheduled'">
+                                            <label [for]="day.day">{{ day.day }}</label>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                             <li>
                                 <strong>Ends <span class="red">*</span></strong>
@@ -126,20 +142,6 @@
                                 <span class="occurrences">Occurrences</span>
                             </li>
                         </ul>
-                        <div class="config-panel__list-horizontal">
-                            <ul>
-                                <li *ngFor="let day of days" [ngClass]="{'inactive' : notificationForm.value.trigger !== 'scheduled'}">
-                                    <input 
-                                        type="checkbox" 
-                                        [name]="day.day" 
-                                        [id]="day.day"
-                                        [(ngModel)]="day.status"
-                                        class="pf-c-check__input"
-                                        [disabled]="notificationForm.value.trigger !== 'scheduled'">
-                                    <label [for]="day.day">{{ day.day }}</label>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </li>
                 <li>

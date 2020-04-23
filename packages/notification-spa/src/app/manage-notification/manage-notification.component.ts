@@ -79,6 +79,7 @@ export class ManageNotificationComponent implements OnInit {
   state: boolean;
   repeat: string;
   id: string;
+  repeatEvery: string;
 
   constructor(
     private appService: AppService,
