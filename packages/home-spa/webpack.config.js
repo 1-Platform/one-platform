@@ -80,7 +80,6 @@ module.exports = {
             template: './src/index.html',
             minify: {
                 collapseWhitespace: true,
-                removeComments: true,
             },
         }),
         new HtmlWebpackPlugin({
@@ -89,7 +88,14 @@ module.exports = {
             template: './src/404.html',
             minify: {
                 collapseWhitespace: true,
-                removeComments: true,
+            },
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'microservice-details.html',
+            chunks: ['app'],
+            template: './src/microservice-details.html',
+            minify: {
+                collapseWhitespace: true,
             },
         }),
         new MiniCssExtractPlugin(),
