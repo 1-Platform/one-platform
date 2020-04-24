@@ -1,10 +1,16 @@
 // Services
 import { getData }  from './service';
 import { stub } from '../mocks/stub';
+// importing images
+import '../img/bell.svg';
+import '../img/shield.svg';
+import '../img/talk-bubble.svg';
+import '../img/login.svg';
+import '../img/magnifying-glass.svg';
 
 const microserviceCard = document.getElementById('microservice-cards');
-const spaList = document.getElementById('banner__links');
 const carouselSlide = document.getElementById('carousel-slide');
+const spaList = document.getElementById('banner__links');
 
 microserviceCard.innerHTML = `<div class="loader"></div>`;
 carouselSlide.innerHTML = `<div class="loader"></div>`;
