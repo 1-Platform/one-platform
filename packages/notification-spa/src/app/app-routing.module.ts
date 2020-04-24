@@ -16,7 +16,6 @@ const routes: Routes = [
   },
   {
     path: 'manage',
-    component: ManageNotificationComponent,
     children: [
       {
         path: '',
