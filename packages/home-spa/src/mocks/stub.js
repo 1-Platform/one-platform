@@ -2,7 +2,7 @@ export const stub = [
    {
       name: "Authentication",
       description: "Adding authentication to your application is pice of cake. Just integrate with our API and focus on application development.",
-      link: "microservice-details.html#Authentication",
+      link: "microservice-details.html#authentication",
       icon: "img/shield.svg",
       entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #E2EAF6 0%, #E8E4F6 100%)",
@@ -11,7 +11,7 @@ export const stub = [
    {
       name: "Feedback",
       description: "Allows users to review and rate services and products provided by teams. Built into a power packed microservice so serve all.",
-      link: "microservice-details.html#Feedback",
+      link: "microservice-details.html#feedback",
       icon: "img/talk-bubble.svg",
       entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #E4F3F4 0%, #EDF6F0 100%)",
@@ -20,7 +20,7 @@ export const stub = [
    {
       name: "Notification",
       description: "Notification framework for One Platform and also all other SPAs",
-      link: "microservice-details.html#Notification",
+      link: "microservice-details.html#notification",
       icon: "img/bell.svg",
       entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #FFF7C4 0%, #F2F7E6 100%)",
@@ -29,7 +29,7 @@ export const stub = [
    {
       name: "User Profile",
       description: "A prebuilt integration with LDAP to authenticate, authorize and get user information.",
-      link: "microservice-details.html#User Profile",
+      link: "microservice-details.html#user-profile",
       icon: "img/login.svg",
       entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #E4F3F4 0%, #F3F3F3 100%)",
@@ -38,7 +38,7 @@ export const stub = [
    {
       name: "Search",
       description: "A unified search API gives you ability to search across all hosted applications on the platform.",
-      link: "microservice-details.html#Search",
+      link: "microservice-details.html#search",
       icon: "img/magnifying-glass.svg",
       entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #FDDBDB 0%, #FDDBC7 100%)",

@@ -155,7 +155,7 @@ function buildDom(apiData) {
   if (microserviceDetails !== null) {
     microserviceDetails.innerHTML = microserviceMock.map(microservice => {
     return `<div class="microservice__details">
-    <div class="microservice__details--header" id="${microservice.title}">${microservice.title}</div>
+    <div class="microservice__details--header" id="${microservice.title.replace(/\s+/g, '-').toLowerCase()}">${microservice.title}</div>
     <div class="microservice__information">
         <div class="microservice__section">
             <div class="microservice__section--paragraph">
