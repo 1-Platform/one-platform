@@ -15,8 +15,8 @@ const query = `
       message
     }
   }
-  query Get($_id: String!) {
-    get(_id: $_id) {
+  query Get($id: String!) {
+    get(id: $id) {
       message
     }
   }
@@ -30,8 +30,8 @@ const query = `
       message
     }
   }
-  mutation Delete($_id: String!) {
-    delete(_id: $_id) {
+  mutation Delete($id: String!) {
+    delete(id: $id) {
       message
     }
   }
@@ -69,7 +69,7 @@ describe('<%= serviceClassName %> microservice API Test', () => {
       .send({
         query: query,
         operationName: 'Get',
-        variables: { _id: 'mock_id' }
+        variables: { id: 'mock_id' }
 
       })
       .expect(res => {
@@ -133,7 +133,7 @@ describe('<%= serviceClassName %> microservice API Test', () => {
       .send({
         query: query,
         operationName: 'Delete',
-        variables: { _id: 'mock_id' }
+        variables: { id: 'mock_id' }
       })
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
@@ -147,5 +147,3 @@ describe('<%= serviceClassName %> microservice API Test', () => {
       });
   });
 });
-
-
