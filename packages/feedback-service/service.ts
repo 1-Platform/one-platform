@@ -42,7 +42,18 @@ const apollo = new ApolloServer( {
   schema: buildFederatedSchema( [ {
     typeDefs: gqlSchema,
     resolvers: resolver
-  }])});
+  }]),
+  subscriptions: {
+    path: '/subscriptions',
+    },
+  formatError: error => ({
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack ? error.stack.split('\n') : [],
+    path: error.path,
+    }),
+  extensions
+});
 
 
 /* Applying apollo middleware to express server */
