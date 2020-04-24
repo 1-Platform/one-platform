@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="261" height="177" viewBox="0 0 261 177">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2 {
+        fill: #fff;
+        stroke: #151515;
+      }
+
+      .cls-3 {
+        fill: #f0ab00;
+      }
+
+      .cls-4 {
+        stroke: none;
+      }
+
+      .cls-5 {
+        fill: none;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x2="0.989" y2="0.978" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff7c4"/>
+      <stop offset="1" stop-color="#f2f7e6"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_3382" data-name="Group 3382" transform="translate(-1168 -758)">
+    <rect id="Image_placeholder" data-name="Image placeholder" class="cls-1" width="251" height="167" rx="4" transform="translate(1178 768)"/>
+    <g id="Group_3337" data-name="Group 3337" transform="translate(-5170.5 -12310)">
+      <g id="Rectangle_1275" data-name="Rectangle 1275" class="cls-2" transform="translate(6338.5 13068)">
+        <rect class="cls-4" width="251" height="167" rx="4"/>
+        <rect class="cls-5" x="0.5" y="0.5" width="250" height="166" rx="3.5"/>
+      </g>
+      <g id="Rectangle_1276" data-name="Rectangle 1276" class="cls-2" transform="translate(6351.5 13080)">
+        <rect class="cls-4" width="60" height="8" rx="4"/>
+        <rect class="cls-5" x="0.5" y="0.5" width="59" height="7" rx="3.5"/>
+      </g>
+      <g id="Ellipse_113" data-name="Ellipse 113" class="cls-2" transform="translate(6570.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+      <g id="Ellipse_114" data-name="Ellipse 114" class="cls-2" transform="translate(6550.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+      <g id="Ellipse_115" data-name="Ellipse 115" class="cls-2" transform="translate(6560.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+    </g>
+    <path id="_ionicons_svg_md-notifications-outline" class="cls-3" d="M103.748,57.724a19.4,19.4,0,0,1,3.208.6,13.673,13.673,0,0,1,10.422,13.4V88.844L118.63,90.1l1.045,1.05H87.554L88.6,90.1l1.251-1.256V71.722a13.674,13.674,0,0,1,10.422-13.4,23.752,23.752,0,0,1,3.208-.6M103.614,48a4.1,4.1,0,0,0-4.167,4.186V54.14A18.088,18.088,0,0,0,85.556,71.722V87.071L80,92.653v2.791h47.229V92.653l-5.556-5.582V71.722A18.089,18.089,0,0,0,107.782,54.14V52.186A4.1,4.1,0,0,0,103.614,48Zm5.556,50.234H98.058a5.556,5.556,0,1,0,11.113,0Z" transform="translate(1190 766)"/>
+    <rect id="Image_placeholder-2" data-name="Image placeholder" class="cls-1" width="251" height="167" rx="4" transform="translate(1178 768)"/>
+    <g id="Group_3337-2" data-name="Group 3337" transform="translate(-5170.5 -12310)">
+      <g id="Rectangle_1275-2" data-name="Rectangle 1275" class="cls-2" transform="translate(6338.5 13068)">
+        <rect class="cls-4" width="251" height="167" rx="4"/>
+        <rect class="cls-5" x="0.5" y="0.5" width="250" height="166" rx="3.5"/>
+      </g>
+      <g id="Rectangle_1276-2" data-name="Rectangle 1276" class="cls-2" transform="translate(6351.5 13080)">
+        <rect class="cls-4" width="60" height="8" rx="4"/>
+        <rect class="cls-5" x="0.5" y="0.5" width="59" height="7" rx="3.5"/>
+      </g>
+      <g id="Ellipse_113-2" data-name="Ellipse 113" class="cls-2" transform="translate(6570.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+      <g id="Ellipse_114-2" data-name="Ellipse 114" class="cls-2" transform="translate(6550.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+      <g id="Ellipse_115-2" data-name="Ellipse 115" class="cls-2" transform="translate(6560.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+    </g>
+    <path id="_ionicons_svg_md-notifications-outline-2" data-name="_ionicons_svg_md-notifications-outline" class="cls-3" d="M103.748,57.724a19.4,19.4,0,0,1,3.208.6,13.673,13.673,0,0,1,10.422,13.4V88.844L118.63,90.1l1.045,1.05H87.554L88.6,90.1l1.251-1.256V71.722a13.674,13.674,0,0,1,10.422-13.4,23.752,23.752,0,0,1,3.208-.6M103.614,48a4.1,4.1,0,0,0-4.167,4.186V54.14A18.088,18.088,0,0,0,85.556,71.722V87.071L80,92.653v2.791h47.229V92.653l-5.556-5.582V71.722A18.089,18.089,0,0,0,107.782,54.14V52.186A4.1,4.1,0,0,0,103.614,48Zm5.556,50.234H98.058a5.556,5.556,0,1,0,11.113,0Z" transform="translate(1190 766)"/>
+  </g>
+</svg>

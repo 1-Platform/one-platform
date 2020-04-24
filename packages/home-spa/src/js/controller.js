@@ -1,18 +1,22 @@
 // Services
 import { getData }  from './service';
-import { stub } from '../mocks/stub';
+import { stub, microserviceMock } from '../mocks/stub';
 // importing images
 import '../img/bell.svg';
 import '../img/shield.svg';
 import '../img/talk-bubble.svg';
 import '../img/login.svg';
 import '../img/magnifying-glass.svg';
+import '../img/Auth-illustration.svg';
+import '../img/Notification-illustration.svg';
+import '../img/User-profile-illustration.svg';
 
 const microserviceCard = document.querySelector('#microservice-cards');
 const carouselSlide = document.querySelector('#carousel-slide');
 const spaList = document.querySelector('#banner-links');
 const footer = document.querySelector('footer');
 const band = document.querySelector('#band');
+const microserviceDetails = document.querySelector('#microservice-details');
 
 if (microserviceCard !== null && carouselSlide !== null) {
   microserviceCard.innerHTML = `<div class="loader"></div>`;
@@ -145,6 +149,32 @@ function buildDom(apiData) {
     <div class="band__header">
 			Join the One Platform Digital Experience!
 		</div>
-		<button class="band__button--primary-border">Get Started</button>`;
+    <button class="band__button--primary-border">Get Started</button>`;
+  }
+
+  if (microserviceDetails !== null) {
+    microserviceDetails.innerHTML = microserviceMock.map(microservice => {
+    return `<div class="microservice__details">
+    <div class="microservice__details--header" id="${microservice.title}">${microservice.title}</div>
+    <div class="microservice__information">
+        <div class="microservice__section">
+            <div class="microservice__section--paragraph">
+                ${microservice.info}
+            </div>
+            <div class="microservice__section--supported-feaures">Supported features:</div>
+            <ul>
+            ${microservice.features.map(feature => {
+                return `<li>
+                          <em class="fa fa-check-circle"></em>
+                          <span>${feature}</span>
+                      </li>`}).join('')}
+            </ul>
+        </div>
+      <div class="microservice__image">
+        <img src="${microservice.illustration}" 
+      </div>
+      </div>
+      </div>`
+    }).join('');
   }
 }

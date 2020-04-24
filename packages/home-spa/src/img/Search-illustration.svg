@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="261" height="177" viewBox="0 0 261 177">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2 {
+        fill: #fff;
+        stroke: #151515;
+      }
+
+      .cls-3 {
+        fill: #e00;
+      }
+
+      .cls-4 {
+        stroke: none;
+      }
+
+      .cls-5 {
+        fill: none;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x2="0.989" y2="0.978" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fddbdb"/>
+      <stop offset="1" stop-color="#fddbc7"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_3381" data-name="Group 3381" transform="translate(-464 -1780)">
+    <path id="Image_placeholder" data-name="Image placeholder" class="cls-1" d="M3,0H248a3,3,0,0,1,3,3V167a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V3A3,3,0,0,1,3,0Z" transform="translate(474 1790)"/>
+    <g id="Group_3346" data-name="Group 3346" transform="translate(-5874.5 -11288)">
+      <g id="Rectangle_1275" data-name="Rectangle 1275" class="cls-2" transform="translate(6338.5 13068)">
+        <rect class="cls-4" width="251" height="167" rx="4"/>
+        <rect class="cls-5" x="0.5" y="0.5" width="250" height="166" rx="3.5"/>
+      </g>
+      <g id="Rectangle_1276" data-name="Rectangle 1276" class="cls-2" transform="translate(6351.5 13080)">
+        <rect class="cls-4" width="60" height="8" rx="4"/>
+        <rect class="cls-5" x="0.5" y="0.5" width="59" height="7" rx="3.5"/>
+      </g>
+      <g id="Ellipse_113" data-name="Ellipse 113" class="cls-2" transform="translate(6570.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+      <g id="Ellipse_114" data-name="Ellipse 114" class="cls-2" transform="translate(6550.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+      <g id="Ellipse_115" data-name="Ellipse 115" class="cls-2" transform="translate(6560.5 13080)">
+        <circle class="cls-4" cx="4" cy="4" r="4"/>
+        <circle class="cls-5" cx="4" cy="4" r="3.5"/>
+      </g>
+    </g>
+    <g id="Icon-Red_Hat-Objects-Magnifying_Glass-A-Red-RGB" transform="translate(555.75 1829.68)">
+      <path id="Path_1433" data-name="Path 1433" class="cls-3" d="M27.245,6.32a21,21,0,1,0,21,21,21,21,0,0,0-21-21Zm0,38.391a17.4,17.4,0,1,1,17.4-17.4A17.4,17.4,0,0,1,27.245,44.711Z" transform="translate(0 0)"/>
+      <path id="Path_1434" data-name="Path 1434" class="cls-3" d="M37.982,35.495l-12-11.613a1.8,1.8,0,1,0-2.543,2.543l12,11.589a1.8,1.8,0,0,0,2.4-2.591Z" transform="translate(23.336 23.853)"/>
+      <path id="Path_1435" data-name="Path 1435" class="cls-3" d="M24.382,22.309a1.872,1.872,0,0,0-1.968-.408,1.68,1.68,0,0,0-.576.408,1.8,1.8,0,0,0-.528,1.272,1.7,1.7,0,0,0,.528,1.272,1.8,1.8,0,0,0,1.272.528,1.848,1.848,0,0,0,1.272-.528,1.8,1.8,0,0,0,.528-1.272,1.728,1.728,0,0,0-.144-.7A1.872,1.872,0,0,0,24.382,22.309Z" transform="translate(21.076 21.635)"/>
+      <path id="Path_1436" data-name="Path 1436" class="cls-3" d="M23.3,9.14A14.253,14.253,0,0,0,9.07,23.369a1.8,1.8,0,1,0,3.6,0A10.654,10.654,0,0,1,23.3,12.739a1.8,1.8,0,0,0,0-3.6Z" transform="translate(3.946 3.946)"/>
+    </g>
+  </g>
+</svg>
