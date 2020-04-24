@@ -10,7 +10,7 @@ import { options } from "../../../mocks/options";
 })
 export class FeedbackHomeComponent implements OnInit {
 
-  @ViewChild('fiModalTrigger', {static: false } ) fiModalTrigger: ElementRef;
+  @ViewChild('fiModalTrigger') fiModalTrigger: ElementRef;
   allFeedback: any;
   feedbackDetails: any;
   gitlabURL: string;
@@ -22,11 +22,11 @@ export class FeedbackHomeComponent implements OnInit {
   totalFeedbackCount;
   orderBy: string;
   searchText: string;
-  feedbackPage: Number;
+  feedbackPage: number;
   feedbackType: String = null;
   isAccordionOpen: boolean | any = false;
-  selectedIndex: Number = 0;
-  selectedTab: Number = 0;
+  selectedIndex: number = 0;
+  selectedTab: number = 0;
   feedbackTags = [];
   options: any = options;
   feedbackOpenedCount: number;
