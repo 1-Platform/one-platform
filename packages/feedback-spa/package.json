@@ -29,7 +29,7 @@
     "apollo-link-ws": "1.0.20",
     "bootstrap": "4.4.1",
     "font-awesome": "4.7.0",
-    "graphql": "15.0.0",
+    "graphql": "14.6.0",
     "graphql-tag": "2.10.3",
     "ng-pipes": "0.1.5",
     "ngx-pagination": "5.0.0",
