@@ -63,6 +63,7 @@ body {
   border-left: 2px solid #151515;
   -webkit-animation: load8 .5s infinite linear;
   animation: load8 .5s infinite linear;
+  grid-column: 2;
 }
 .loader,
 .loader:after {

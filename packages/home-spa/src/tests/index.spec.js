@@ -18,8 +18,12 @@ describe('home page', () => {
     expect(document.querySelector("body > div.hero > div > div.hero__links > button.button--light")).toBeTruthy();
   });
 
-  it('tabs exists', () => {
-    expect(document.querySelector("#main > pfe-tabs")).toBeTruthy();
+  it('microservice link exists', () => {
+    expect(document.querySelector("#microservices")).toBeTruthy();
+  });
+
+  it('apps in spotlight link exists', () => {
+    expect(document.querySelector("#apps-in-spotlight")).toBeTruthy();
   });
 
   it('carousel exists', () => {
