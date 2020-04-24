@@ -1,6 +1,7 @@
 .app-container {
     display: flex;
     &__content {
-        width: 100%;
+        flex: 1 auto;
+        margin-left: 280px;
     }
 }

@@ -1,7 +1,8 @@
 .side-panel {
+    position: fixed;
     background: #FFFFFF;
     width: 280px;
-    height: 100%;
+    height: 100vh;
     border: 1px solid #DDDDDD;
     &__accordian {
         display: flex;
