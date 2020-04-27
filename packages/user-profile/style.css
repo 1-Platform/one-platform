@@ -1,0 +1,210 @@
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+}
+
+.breadcrumb a {
+  color: var(--gray-500);
+  text-decoration: none;
+}
+
+.breadcrumb a.active {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+
+.breadcrumb i.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 4px;
+}
+
+/* Header */
+header {
+  border-bottom: 1px solid var(--gray-300);
+  padding: 1rem 1.5rem;
+}
+
+header h4.app-title,
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 100;
+  margin-bottom: 0;
+  margin-top: 1.5rem;
+}
+
+/* User Profile */
+.user-name + p {
+  color: #72767B;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+/* User Primary Information */
+.user-primary-information {
+  display: flex;
+  margin-top: .75rem;
+  margin-bottom: 1rem;
+}
+
+.user-auth-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.user-info-group {
+  flex: 0 1 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-auth-info .row {
+  display: flex;
+}
+
+.user-info-label,
+.user-auth-info label {
+  font-size: 14px;
+  color: #72767b;
+}
+
+.user-info-group p {
+  margin-top: 0;
+  font-weight: 500;
+}
+
+/* User Rover Groups */
+.user-rover-groups {
+  margin-bottom: 1rem;
+}
+
+.user-rover-groups-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+span.chip {
+  padding: .5rem 1rem;
+  background: var(--gray-200);
+  border-radius: 4px;
+  margin-right: .5rem;
+  margin-top: .5rem;
+  cursor: pointer;
+}
+
+/* User Hosted Applications */
+.user-hosted-applications {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.user-hosted-application-list {
+  margin-top: .5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-hosted-app {
+  width: 300px;
+  height: 56px;
+  border: 1px solid var(--gray-300);
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.app-icon {
+  position: relative;
+}
+
+.app-icon:after {
+  content: '';
+  top: 0;
+  right: -2rem;
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  background: var(--gray-300);
+  margin-right: 1rem;
+}
+
+.app-name {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-name span:first-child {
+  font-size: 14px;
+}
+
+.app-name span:last-child {
+  font-weight: 500;
+}
+
+/* Auth and API Permission */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+.toolbar p {
+  color: #72767B;
+}
+
+.toolbar button {
+  border: none;
+  font-size: 1rem;
+  padding: .5rem 1rem;
+  background: #E2EAF6;
+  color: var(--primary-blue);
+  border-radius: .5rem;
+  cursor: pointer;
+  font-family: 'Red Hat Text';
+  cursor: pointer;
+}
+
+.user-auth-item .row:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-auth-item .row:first-child p.user-app-name {
+  color: var(--primary-blue);
+  font-weight: 500;
+}
+
+.user-auth-item .row:first-child button.btn-edit {
+  padding: 6px 12px;
+  font-size: .8rem;
+  border: none;
+  background: #dddddd;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-family: 'Red Hat Text';
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.user-auth-item > .row:Last-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.user-auth-item > .row:Last-child > .user-auth-info {
+  flex: 0 0 300px;
+}
