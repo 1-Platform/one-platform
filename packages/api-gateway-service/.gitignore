@@ -1,0 +1,9 @@
+# Development files
+node_modules
+*.env
+
+# ignore dist
+dist
+
+# Logs
+npm-debug.log*
