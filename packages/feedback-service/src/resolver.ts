@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import { Feedback } from './schema';
+import { addFeedback } from './helpers';
 
 export const FeedbackResolver = {
   Query: {
@@ -21,7 +22,27 @@ export const FeedbackResolver = {
   Mutation: {
     addFeedback(root: any, args: any, ctx: any) {
       const data = new Feedback(args.input);
-      return data.save();
+      return data.save().then(response => {
+        Feedback.findById(response._id)
+        .then( fb =>{
+          if (fb){
+            const issue = {
+              "fields":{
+                "project":{
+                  "key": "ONEPLAT"
+                },
+                "summary": fb.title,
+                "description": fb.description,
+                "issuetype": {"name": "Task"},
+              }
+            }
+            const envpath = process.env.NODE_ENV;
+            if(envpath === "production"){
+              addFeedback(issue);
+            }
+          }
+        })
+      });
     },
     updateFeedback(root: any, args: any, ctx: any) {
       return Feedback.findById(args.input._id).then(response => {
