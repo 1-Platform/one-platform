@@ -1,0 +1,85 @@
+<div class="spa-notifications-list">
+  <div class="spa-notifications-list__accordion" [class.active]="!toggleBody">
+    <div class="spa-notifications-list__accordion--head" (click)="toggleBody = !toggleBody">
+      <div class="head-info">
+        <span class="headline">{{ notificationInformation.title }}</span>
+        <div class="info">
+          <span>Owner: </span>
+          <a href="https://rover.redhat.com/people/profile/denair" target="_blank" rel="noopener noreferrer">{{ notificationInformation.owner }}</a>
+          <span>
+            Notification Type: <strong>Banner, Email, Pop up</strong>
+          </span>
+        </div>
+      </div>
+      <div class="head-util">
+        <em class="fa" [ngClass]="{'fa-angle-down': toggleBody, 'fa-angle-up': !toggleBody}"></em>
+      </div>
+    </div>
+    <div class="spa-notifications-list__accordion--body" [hidden]="toggleBody">
+      <table class="pf-c-table pf-m-grid-md" role="grid" id="table-basic">
+        <caption><span>No of rows: </span><span class="pf-c-badge pf-m-read"> {{ notificationInformation.notificationInfo.length }}</span></caption>
+        <thead>
+          <tr role="row">
+            <th role="columnheader" scope="col">ID</th>
+            <th role="columnheader" scope="col">Channel Type</th>
+            <th role="columnheader" scope="col">Trigger Type</th>
+            <th role="columnheader" scope="col">Target Names</th>
+            <th role="columnheader" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup" *ngFor="let data of notificationInformation.notificationInfo">
+          <tr role="row">
+            <td role="cell" data-label="ID">{{ data.id }}</td>
+            <td role="cell" data-label="Channel Type">{{ data.channelType }}</td>
+            <td role="cell" data-label="Trigger Type">{{ data.triggerType }}</td>
+            <td role="cell" data-label="Target Names"><span class="target-name" *ngFor="let target of data.targetNames">{{ target }}</span></td>
+            <td role="cell" data-label="View More">
+              <span class="view-more pf-c-button pf-m-link" type="button" (click)="data.viewMore = !data.viewMore">
+                View {{ data.viewMore ? 'More' : 'Less' }}
+              </span>
+            </td>
+          </tr>
+          <tr [hidden]="data.viewMore">
+            <td colspan="5">
+              <div class="view-more-expanded">
+                <div class="view-more-expanded__head">
+                  <div class="view-more-expanded__head--info">
+                    <div>Triggered Event</div>
+                    <div>
+                      <span class="target-name">Create</span>
+                      <span class="target-name">Update</span>
+                      <span class="target-name">Read</span>
+                      <span class="target-name">Custom Event</span>
+                    </div>
+                  </div>
+                  <div class="view-more-expanded__head--btns">
+                    <button class="pf-c-button pf-m-tertiary" type="button">Delete</button>
+                    <button class="pf-c-button pf-m-secondary" [routerLink]="'/manage/edit/:id'" type="button">Edit</button>
+                  </div>
+                </div>
+                <div class="view-more-expanded__head--info">
+                  <div>Target Names</div>
+                  <div>
+                    <span class="target-name" *ngFor="let target of data.targetNames">{{ target }}</span>
+                  </div>
+                </div>
+                <div class="view-more-expanded__head--info">
+                  <div>Notification Scheduled Time</div>
+                  <span>
+                    <strong>9:30 UTC</strong> Every Weekday
+                  </span>
+                  <span>
+                    Repeats on: <strong>Mon, Tue, Wed, The, Fri</strong>
+                  </span>
+                  <span>
+                    Ends on: <strong>15 May 2021</strong>
+                  </span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

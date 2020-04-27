@@ -1,0 +1,56 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    scroll-behavior: smooth;
+    font-family: 'Red Hat Display', sans-serif;
+    background: #fafafa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.red {
+    color: #CE2615;
+}
+input[type=search] {
+    -webkit-appearance: inherit;
+    padding: 0.3rem 1rem;
+    border: 1px solid #dddddd;
+}
+.loader {
+    margin: 10px auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 2px solid mix(white,#177FC3,80%);
+    border-right: 2px solid mix(white,#177FC3,80%);
+    border-bottom: 2px solid mix(white,#177FC3,80%);
+    border-left: 2px solid #151515;
+    -webkit-animation: load8 .5s infinite linear;
+    animation: load8 .5s infinite linear;
+  }
+  .loader,
+  .loader:after {
+    border-radius: 50%;
+    width:30px;
+    height: 30px;
+  }
+  @-webkit-keyframes load8 {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes load8 {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }

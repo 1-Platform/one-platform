@@ -1,0 +1,34 @@
+.side-panel {
+    position: fixed;
+    background: #FFFFFF;
+    width: 280px;
+    height: 100vh;
+    border: 1px solid #DDDDDD;
+    &__accordian {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+    }
+    ul {
+        margin: 0;
+        padding-left: 1rem;
+        li {
+            list-style: none;
+            a {
+                display: flex;
+                margin-left: 0.8rem;
+                align-items: center;
+                color: #151515;
+                text-decoration: none;
+                min-height: 2.8rem;
+            }
+            &:hover {
+                background: #F3F3F3;
+            }
+        }
+        .active {
+            border-left: 3px solid #316DC1;
+            background: #F3F3F3;
+        }
+    }
+}
