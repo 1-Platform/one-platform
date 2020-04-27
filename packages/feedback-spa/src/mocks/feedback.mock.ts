@@ -21,7 +21,7 @@ export const FeedbackMock = {
 
 export const FeedbackMockResponse = [ {
   description: "Hello, I believe a reduction to ~30% of space would be more efficient.↵↵ friendly regards,↵Theo",
-  experience: "Needs Improvement",
+  experience: "Need Improvement",
   feedbackType: "Feedback",
   iid: "2967",
   module: null,
