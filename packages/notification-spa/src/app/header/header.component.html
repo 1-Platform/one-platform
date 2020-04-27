@@ -2,7 +2,7 @@
     <div class="header__links">
         <a [routerLink]="'/'" class="header__link pf-c-breadcrumb__link">Home</a> 
         <em class="fa fa-angle-right"></em> 
-        <a [routerLink]="'/form'" class="header__link active pf-c-breadcrumb__link">Notification</a>
+        <a [routerLink]="'/manage'" class="header__link active pf-c-breadcrumb__link" *ngIf="manageBreadcrumb">Setup Notification</a>
     </div>
     <div class="header__panel-name">
         My Notifications Dashboard
