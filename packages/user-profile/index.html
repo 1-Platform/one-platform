@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Profile</title>
+  <!-- font imports -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500&family=Red+Hat+Text:wght@400;500&display=swap"
+    rel="stylesheet">
+  <!-- Icons import -->
+  <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+  <style>
+    ::selection {
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Red Hat Text', Arial, Helvetica, sans-serif;
+    }
+
+    :root {
+      --primary-blue: #0066CC;
+      --gray-200: #F3F3F3;
+      --gray-300: #dddddd;
+      --gray-400: #72767B;
+      --gray-500: #151515;
+    }
+
+    main {
+      width: 1200px;
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Header component -->
+  <header>
+    <div class="breadcrumb">
+      <a href="#" class="active">Home</a>
+      <i class="icon ion-ios-arrow-forward"></i>
+      <a href="#">My Profile</a>
+    </div>
+    <h4 class="app-title">My Profile</h4>
+  </header>
+
+  <!-- main component -->
+  <main>
+
+    <!-- User Profile Details -->
+    <div class="user-profile">
+      <h2 class="user-name">Sumeet Ingole</h2>
+      <p>User Details</p>
+      <hr />
+      <div class="user-primary-information">
+        <div class="user-info-group">
+          <label for="user-email" class="user-info-label">Email</label>
+          <p class="user-info" id="user-email">singole@redhat.com</p>
+        </div>
+
+        <div class="user-info-group">
+          <label for="user-account-type" class="user-info-label">Account Type</label>
+          <p class="user-info" id="user-account-type">Service Account</p>
+        </div>
+
+        <div class="user-info-group">
+          <label for="user-title" class="user-info-label">Title</label>
+          <p class="user-info" id="user-title">Associate Software Engineer</p>
+        </div>
+      </div>
+
+      <!-- User Rover Groups -->
+      <div class="user-rover-groups">
+        <label class="user-info-label">Rover Groups</label>
+        <div class="user-rover-groups-list">
+          <span class="chip">cee-support-case-attachment-access</span>
+          <span class="chip">npatil-all</span>
+          <span class="chip">one-portal-devel</span>
+          <span class="chip">cp-and-devops-india</span>
+          <span class="chip">cp-and-devops-pune</span>
+          <span class="chip">cp-and-devops-india</span>
+          <span class="chip">one-portal-devel</span>
+          <span class="chip">npatil-all</span>
+        </div>
+      </div>
+
+      <!-- User Hosted Applications -->
+      <div class="user-hosted-applications">
+        <label class="user-info-label">Hosted Applications</label>
+        <div class="user-hosted-application-list">
+          <div class="user-hosted-app">
+            <div class="app-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="42.311" height="32" viewBox="0 0 42.311 32">
+                <defs>
+                  <style>
+                    .a {
+                      fill: #e00;
+                    }
+                  </style>
+                </defs>
+                <path class="a"
+                  d="M28.723,18.942c2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76L33.8,7.111c-.382-1.582-.718-2.3-3.5-3.689C28.149,2.32,23.453.5,22.063.5c-1.294,0-1.669,1.667-3.212,1.667-1.485,0-2.587-1.244-3.977-1.244-1.334,0-2.2.909-2.874,2.778,0,0-1.869,5.271-2.109,6.036a1.429,1.429,0,0,0-.049.431c0,2.049,8.069,8.767,18.88,8.767M35.954,16.4a11.055,11.055,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629C5.339,11.944.5,12.611.5,16.882c0,7,16.58,15.618,29.708,15.618,10.065,0,12.6-4.551,12.6-8.144,0-2.827-2.445-6.036-6.853-7.951"
+                  transform="translate(-0.5 -0.5)" />
+                <path
+                  d="M64.792,48.76a11.056,11.056,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629l.814-2.013a1.428,1.428,0,0,0-.049.422c0,2.049,8.069,8.767,18.88,8.767,2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76Z"
+                  transform="translate(-29.338 -32.856)" />
+              </svg>
+            </div>
+            <div class="app-name">
+              <span>Red Hat</span>
+              <span>Outage Management</span>
+            </div>
+          </div>
+          <div class="user-hosted-app">
+            <div class="app-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="42.311" height="32" viewBox="0 0 42.311 32">
+                <defs>
+                  <style>
+                    .a {
+                      fill: #e00;
+                    }
+                  </style>
+                </defs>
+                <path class="a"
+                  d="M28.723,18.942c2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76L33.8,7.111c-.382-1.582-.718-2.3-3.5-3.689C28.149,2.32,23.453.5,22.063.5c-1.294,0-1.669,1.667-3.212,1.667-1.485,0-2.587-1.244-3.977-1.244-1.334,0-2.2.909-2.874,2.778,0,0-1.869,5.271-2.109,6.036a1.429,1.429,0,0,0-.049.431c0,2.049,8.069,8.767,18.88,8.767M35.954,16.4a11.055,11.055,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629C5.339,11.944.5,12.611.5,16.882c0,7,16.58,15.618,29.708,15.618,10.065,0,12.6-4.551,12.6-8.144,0-2.827-2.445-6.036-6.853-7.951"
+                  transform="translate(-0.5 -0.5)" />
+                <path
+                  d="M64.792,48.76a11.056,11.056,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629l.814-2.013a1.428,1.428,0,0,0-.049.422c0,2.049,8.069,8.767,18.88,8.767,2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76Z"
+                  transform="translate(-29.338 -32.856)" />
+              </svg>
+            </div>
+            <div class="app-name">
+              <span>Red Hat</span>
+              <span>Outage Management</span>
+            </div>
+          </div>
+          <div class="user-hosted-app">
+            <div class="app-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="42.311" height="32" viewBox="0 0 42.311 32">
+                <defs>
+                  <style>
+                    .a {
+                      fill: #e00;
+                    }
+                  </style>
+                </defs>
+                <path class="a"
+                  d="M28.723,18.942c2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76L33.8,7.111c-.382-1.582-.718-2.3-3.5-3.689C28.149,2.32,23.453.5,22.063.5c-1.294,0-1.669,1.667-3.212,1.667-1.485,0-2.587-1.244-3.977-1.244-1.334,0-2.2.909-2.874,2.778,0,0-1.869,5.271-2.109,6.036a1.429,1.429,0,0,0-.049.431c0,2.049,8.069,8.767,18.88,8.767M35.954,16.4a11.055,11.055,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629C5.339,11.944.5,12.611.5,16.882c0,7,16.58,15.618,29.708,15.618,10.065,0,12.6-4.551,12.6-8.144,0-2.827-2.445-6.036-6.853-7.951"
+                  transform="translate(-0.5 -0.5)" />
+                <path
+                  d="M64.792,48.76a11.056,11.056,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629l.814-2.013a1.428,1.428,0,0,0-.049.422c0,2.049,8.069,8.767,18.88,8.767,2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76Z"
+                  transform="translate(-29.338 -32.856)" />
+              </svg>
+            </div>
+            <div class="app-name">
+              <span>Red Hat</span>
+              <span>Outage Management</span>
+            </div>
+          </div>
+          <div class="user-hosted-app">
+            <div class="app-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="42.311" height="32" viewBox="0 0 42.311 32">
+                <defs>
+                  <style>
+                    .a {
+                      fill: #e00;
+                    }
+                  </style>
+                </defs>
+                <path class="a"
+                  d="M28.723,18.942c2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76L33.8,7.111c-.382-1.582-.718-2.3-3.5-3.689C28.149,2.32,23.453.5,22.063.5c-1.294,0-1.669,1.667-3.212,1.667-1.485,0-2.587-1.244-3.977-1.244-1.334,0-2.2.909-2.874,2.778,0,0-1.869,5.271-2.109,6.036a1.429,1.429,0,0,0-.049.431c0,2.049,8.069,8.767,18.88,8.767M35.954,16.4a11.055,11.055,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629C5.339,11.944.5,12.611.5,16.882c0,7,16.58,15.618,29.708,15.618,10.065,0,12.6-4.551,12.6-8.144,0-2.827-2.445-6.036-6.853-7.951"
+                  transform="translate(-0.5 -0.5)" />
+                <path
+                  d="M64.792,48.76a11.056,11.056,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629l.814-2.013a1.428,1.428,0,0,0-.049.422c0,2.049,8.069,8.767,18.88,8.767,2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76Z"
+                  transform="translate(-29.338 -32.856)" />
+              </svg>
+            </div>
+            <div class="app-name">
+              <span>Red Hat</span>
+              <span>Outage Management</span>
+            </div>
+          </div>
+          <div class="user-hosted-app">
+            <div class="app-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="42.311" height="32" viewBox="0 0 42.311 32">
+                <defs>
+                  <style>
+                    .a {
+                      fill: #e00;
+                    }
+                  </style>
+                </defs>
+                <path class="a"
+                  d="M28.723,18.942c2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76L33.8,7.111c-.382-1.582-.718-2.3-3.5-3.689C28.149,2.32,23.453.5,22.063.5c-1.294,0-1.669,1.667-3.212,1.667-1.485,0-2.587-1.244-3.977-1.244-1.334,0-2.2.909-2.874,2.778,0,0-1.869,5.271-2.109,6.036a1.429,1.429,0,0,0-.049.431c0,2.049,8.069,8.767,18.88,8.767M35.954,16.4a11.055,11.055,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629C5.339,11.944.5,12.611.5,16.882c0,7,16.58,15.618,29.708,15.618,10.065,0,12.6-4.551,12.6-8.144,0-2.827-2.445-6.036-6.853-7.951"
+                  transform="translate(-0.5 -0.5)" />
+                <path
+                  d="M64.792,48.76a11.056,11.056,0,0,1,.385,2.251c0,3.111-3.5,4.838-8.1,4.838-10.394.007-19.5-6.082-19.5-10.107a4.1,4.1,0,0,1,.336-1.629l.814-2.013a1.428,1.428,0,0,0-.049.422c0,2.049,8.069,8.767,18.88,8.767,2.781,0,6.8-.573,6.8-3.88a3.11,3.11,0,0,0-.069-.76Z"
+                  transform="translate(-29.338 -32.856)" />
+              </svg>
+            </div>
+            <div class="app-name">
+              <span>Red Hat</span>
+              <span>Outage Management</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- User Authorization and API Permission -->
+    <div class="user-auth-and-api">
+      <div class="toolbar">
+        <p>Authorization and API Permission</p>
+        <button>Add New Permission</button>
+      </div>
+      <div class="user-auth-item">
+        <div class="row">
+          <p class="user-app-name">Outage Management</p>
+          <button class="btn-edit">Edit</button>
+        </div>
+        <div class="row">
+          <div class="user-auth-info">
+            <label>Authorization</label>
+            <div class="row">
+              <span class="chip">admin</span>
+            </div>
+          </div>
+          <div class="user-auth-info">
+            <label>API Permission</label>
+            <div class="row">
+              <span class="chip">admin</span>
+            </div>
+          </div>
+          <div class="user-auth-info">
+            <label>Owner</label>
+            <div class="row">
+              <span class="chip">Diwanshi Pandey</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="user-auth-item">
+        <div class="row">
+          <p class="user-app-name">Outage Management</p>
+          <button class="btn-edit">Edit</button>
+        </div>
+        <div class="row">
+          <div class="user-auth-info">
+            <label>Authorization</label>
+            <div class="row">
+              <span class="chip">admin</span>
+            </div>
+          </div>
+          <div class="user-auth-info">
+            <label>API Permission</label>
+            <div class="row">
+              <span class="chip">admin</span>
+            </div>
+          </div>
+          <div class="user-auth-info">
+            <label>Owner</label>
+            <div class="row">
+              <span class="chip">Diwanshi Pandey</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
