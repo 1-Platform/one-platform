@@ -1,0 +1,65 @@
+scalar DateTime
+
+type ProfileType {
+  kerberosID: String
+  name: String
+}
+
+type TimestampType {
+  createdAt: DateTime
+  createdBy: ProfileType
+  modifiedAt: DateTime
+  modifiedBy: ProfileType
+}
+
+input ProfileInput {
+  kerberosID: String
+  name: String
+}
+
+input TimestampInput {
+  createdAt: DateTime
+  createdBy: ProfileInput
+  modifiedAt: DateTime
+  modifiedBy: ProfileInput
+}
+
+type FeedbackType {
+  _id: String
+  description: String
+  ticketID: String
+  experience: String
+  spa: String
+  timestamp: TimestampType
+  title: String
+  feedbackType: String
+}
+
+input FeedbackInput {
+  _id: String
+  description: String
+  ticketID: String
+  experience: String
+  spa: String
+  timestamp: TimestampInput
+  title: String
+  feedbackType: String
+}
+
+type Query {
+  # Fetches all Feedbacks
+  listFeedback: [FeedbackType]
+  # Fetches specific Feedback by its id
+  getFeedback(id: String!): FeedbackType
+  #Fetches Feedbacks by any property
+  getFeedbackBy(input: FeedbackInput!): [FeedbackType]
+}
+
+type Mutation {
+  # Add a new Feedback
+  addFeedback(input: FeedbackInput!): FeedbackType
+  # Update Feedback based on input
+  updateFeedback(input: FeedbackInput!): FeedbackType
+  # Delete specific Feedback by id
+  deleteFeedback(id: String!): FeedbackType
+}

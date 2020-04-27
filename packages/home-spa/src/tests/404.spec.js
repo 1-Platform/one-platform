@@ -19,7 +19,7 @@ describe('404 page', () => {
   });
 
   it('links exists', () => {
-    expect(document.querySelector("#banner__links")).toBeTruthy();
+    expect(document.querySelector("#banner-links")).toBeTruthy();
   });
 
   it('brand band exists', () => {
