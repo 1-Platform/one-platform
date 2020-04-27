@@ -1,6 +1,7 @@
-import { Home } from './schema';import { pubsub } from './helpers';
+import { Home } from './schema';
+import { pubsub } from './helpers';
 
-const Home_UPDATE = "Home_UPDATE";
+const Home_UPDATE = 'Home_UPDATE';
 
 export const HomeResolver = {
   Subscription: {
@@ -34,4 +35,4 @@ export const HomeResolver = {
     },
 
   }
-}
+};

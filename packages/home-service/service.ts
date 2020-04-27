@@ -3,7 +3,7 @@ import { ApolloServer } from 'apollo-server-express';
 import fs from 'fs';
 import https from 'https';
 import http from 'http';
-import { mergeSchemas } from 'graphql-tools';
+const { buildFederatedSchema } = require('@apollo/federation');
 const { ApolloLogExtension } = require('apollo-log');
 import mongoose from 'mongoose';
 
@@ -41,7 +41,7 @@ const extensions = [() => new ApolloLogExtension({
 /* Defining the Apollo Server */
 const apollo = new ApolloServer({
   playground: process.env.NODE_ENV !== 'production',
-  schema: mergeSchemas({
+  schema: buildFederatedSchema({
     schemas: [
       gqlSchema,
     ],
