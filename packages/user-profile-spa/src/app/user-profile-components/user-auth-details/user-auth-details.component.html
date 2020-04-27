@@ -1,0 +1,157 @@
+<div class="user-auth-and-api">
+  <div class="toolbar">
+    <p>Authorization and API Permission</p>
+    <button (click)="toggleModal(true)">Add New Permission</button>
+  </div>
+  <div class="user-auth-list" *ngIf="userAppAuthDetails?.length !== 0">
+    <div
+      class="user-auth-item"
+      *ngFor="let userAppAuthItem of userAppAuthDetails"
+    >
+      <div class="row">
+        <p class="user-app-name">{{ userAppAuthItem?.appName }}</p>
+        <button class="btn-edit">Edit</button>
+      </div>
+      <div class="row">
+        <div class="user-auth-info">
+          <label>Authorization</label>
+          <div class="row">
+            <span class="chip">{{ userAppAuthItem?.authAccess }}</span>
+          </div>
+        </div>
+        <div class="user-auth-info">
+          <label>API Permission</label>
+          <div class="row">
+            <span
+              class="chip"
+              *ngFor="let appPermission of userAppAuthItem?.permissions"
+              >{{ appPermission }}</span
+            >
+          </div>
+        </div>
+        <div class="user-auth-info">
+          <label>Owner</label>
+          <div class="row">
+            <span class="chip">{{ userAppAuthItem?.owner?.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Empty state warning -->
+  <div
+    class="pf-c-alert pf-m-warning pf-m-inline"
+    aria-label="Inline warning alert"
+    *ngIf="userAppAuthDetails?.length === 0"
+  >
+    <div class="pf-c-alert__icon">
+      <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+    </div>
+    <h4 class="pf-c-alert__title">
+      <span class="pf-screen-reader">Warning alert:</span>
+      Can't find hosted applications with permission mapping to your account.
+      Please contact
+      <b>one-portal-devel@redhat.com</b> to get guidance.
+    </h4>
+  </div>
+</div>
+
+<!-- Manage API Permission modal -->
+<div
+  class="pf-c-backdrop"
+  *ngIf="showModal"
+  style="font-family: var(--pf-global--FontFamily--redhatfont--sans-serif);"
+>
+  <div class="pf-l-bullseye">
+    <div
+      class="pf-c-modal-box pf-m-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <button
+        class="pf-c-button pf-m-plain"
+        type="button"
+        aria-label="Close"
+        (click)="toggleModal(false)"
+      >
+        <i class="fas fa-times" aria-hidden="true"></i>
+      </button>
+      <h1
+        class="pf-c-title pf-m-2xl"
+        id="modal-title"
+        style="
+          font-family: var(--pf-global--FontFamily--redhatfont--sans-serif);
+        "
+      >
+        Manage Permissions
+      </h1>
+      <div class="pf-c-modal-box__body">
+        <form novalidate class="pf-c-form">
+          <div class="pf-c-form__group">
+            <label class="pf-c-form__label" for="help-text-simple-form-name">
+              <span class="pf-c-form__label-text">Select Application</span>
+              <span class="pf-c-form__label-required" aria-hidden="true"
+                >&#42;</span
+              >
+            </label>
+            <select
+              class="pf-c-form-control"
+              id="selectExample1"
+              name="selectExample1"
+              aria-label="select application"
+            >
+              <option selected>Please choose application name</option>
+              <option value="outage management">outage management</option>
+              <option value="DSAL">DSAL</option>
+              <option value="OKRs">OKRs</option>
+              <option value="TS Catalog">TS Catalog</option>
+            </select>
+          </div>
+
+          <div class="pf-c-form__group">
+            <label class="pf-c-form__label" for="help-text-simple-form-name">
+              <span class="pf-c-form__label-text">Select Permission Type</span>
+              <span class="pf-c-form__label-required" aria-hidden="true"
+                >&#42;</span
+              >
+            </label>
+            <div class="pf-c-check">
+              <input
+                class="pf-c-check__input"
+                type="checkbox"
+                id="read"
+                name="read"
+              />
+              <label class="pf-c-check__label" for="read">Read</label>
+            </div>
+            <div class="pf-c-check">
+              <input
+                class="pf-c-check__input"
+                type="checkbox"
+                id="write"
+                name="write"
+              />
+              <label class="pf-c-check__label" for="write">Write</label>
+            </div>
+          </div>
+
+          <div class="pf-c-form__group pf-m-action">
+            <div class="pf-c-form__actions">
+              <button class="pf-c-button pf-m-primary" type="submit">
+                Submit
+              </button>
+              <button
+                class="pf-c-button pf-m-secondary"
+                (click)="toggleModal(false)"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
