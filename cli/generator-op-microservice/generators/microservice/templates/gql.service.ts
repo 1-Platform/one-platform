@@ -85,5 +85,5 @@ const server = process.env.NODE_ENV !== 'test'
 apollo.installSubscriptionHandlers(server);
 // <%= serviceClassName %>
 export default server.listen({ port: port }, () => {
-  console.log(`🚀 Microservice running on ${process.env.NODE_ENV} at ${port}${apollo.graphqlPath}`);
+  console.log(`Microservice running on ${process.env.NODE_ENV} at ${port}${apollo.graphqlPath}`);
 });

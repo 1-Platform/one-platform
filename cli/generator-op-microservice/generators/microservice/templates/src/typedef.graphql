@@ -11,11 +11,6 @@ type Mutation {
   delete(id: String!): <%= serviceClassName %>Type
 }
 
-type Subscription {
-  # Subscription Definitions
-  updated<%= serviceClassName %>Data: <%= serviceClassName %>Type
-}
-
 type <%= serviceClassName %>Type {
   message: String
 }
