@@ -1,0 +1,26 @@
+type Query {
+  # Query Definitions
+  list: [HomeType]
+  get(ID: ID!): HomeType
+}
+
+type Mutation {
+  # Mutation Definitions
+  create(input: HomeInput): HomeType
+  update(input: HomeInput): HomeType
+  delete(_id: String!): HomeType
+}
+
+type Subscription {
+  # Subscription Definitions
+  updatedHomeData: HomeType
+}
+
+type HomeType {
+  message: String
+}
+
+input HomeInput {
+  message: String
+}
+

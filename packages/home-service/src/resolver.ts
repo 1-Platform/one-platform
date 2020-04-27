@@ -1,0 +1,37 @@
+import { Home } from './schema';import { pubsub } from './helpers';
+
+const Home_UPDATE = "Home_UPDATE";
+
+export const HomeResolver = {
+  Subscription: {
+    // subscriptions
+    updatedHomeData: {
+      subscribe: () => pubsub.asyncIterator(Home_UPDATE)
+    },
+  },
+  Query: {
+    // queries
+    list(root: any, args: any, ctx: any) {
+      return [{message: 'GET API for Home microservice'}];
+    },
+    get(root: any, args: any, ctx: any) {
+      // fetch the id from args.id
+      return {message: 'GET by ID API for Home microservice'};
+    }
+  },
+  Mutation: {
+    // mutations
+    create(root: any, args: any, ctx: any) {
+      return {message: 'POST API for Home microservice'};
+    },
+    update(root: any, args: any, ctx: any) {
+      /* Optional: if you want to send graphql subscription updates when this query is called) */
+      // pubsub.publish(Home_UPDATE, data);
+      return {message: 'PUT API for Home microservice'};
+    },
+    delete(root: any, args: any, ctx: any) {
+      return {message: 'DELETE API for Home microservice'};
+    },
+
+  }
+}
