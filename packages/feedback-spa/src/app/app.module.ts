@@ -11,7 +11,7 @@ import { Apollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular-link-http';
 import { AppService } from './app.service';
 import {FeedbackService} from './feedback/feedback.service';
-import { FeedbackHomeComponent } from './feedback//home/feedback-home.component';
+import { FeedbackHomeComponent } from './feedback/home/feedback-home.component';
 import {FeedbackItemComponent} from './feedback/feedback-item/feedback-item.component';
 import { CountBoxComponent } from './feedback/count-box/count-box.component';
 import { DropdownComponent } from './feedback/dropdown/dropdown.component';
