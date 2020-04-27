@@ -15,7 +15,7 @@ export class SidePanelComponent implements OnInit {
     },
     {
       link: 'manage',
-      title: 'Set up notifications',
+      title: 'Setup notifications',
       active: false,
     }
   ];

@@ -6,11 +6,11 @@
     }
     &__link {
         text-decoration: none;
-        color: blue;
         margin: 1rem;
+        color: #000000;
     }
     .active {
-        color: #000000;
+        color: blue;
     }
     &__panel-name {
         margin-left: 1.5rem;

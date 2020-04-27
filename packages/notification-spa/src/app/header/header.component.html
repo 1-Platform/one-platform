@@ -1,8 +1,11 @@
 <div class="header">
     <div class="header__links">
+        <!-- ToDo: Home router url will be replace by one-platform home url -->
         <a [routerLink]="'/'" class="header__link pf-c-breadcrumb__link">Home</a> 
         <em class="fa fa-angle-right"></em> 
-        <a [routerLink]="'/manage'" class="header__link active pf-c-breadcrumb__link" *ngIf="manageBreadcrumb">Setup Notification</a>
+        <a [routerLink]="'/'" class="header__link pf-c-breadcrumb__link" [class.active]="!manageBreadcrumb">Notification</a>
+        <em class="fa fa-angle-right"></em> 
+        <a [routerLink]="'/manage'" class="header__link pf-c-breadcrumb__link" [class.active]="manageBreadcrumb" *ngIf="manageBreadcrumb">Setup Notification</a>
     </div>
     <div class="header__panel-name">
         My Notifications Dashboard
