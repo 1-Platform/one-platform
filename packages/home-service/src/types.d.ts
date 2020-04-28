@@ -11,10 +11,3 @@ type HomeType = {
     colorScheme: string;
     videoUrl: string;
 }
-
-type MicroserviceDetailsType = {
-    title: string;
-    info: string;
-    features: string[];
-    illustration: string;
-}

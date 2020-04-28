@@ -1,38 +1,44 @@
-import dotenv from 'dotenv';
 /* Mock */
 import mock from './mock.json';
-import path from 'path';
-
 import Home from '../../service';
-
 /* Supertest */
 import supertest from 'supertest';
 
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
+  fragment home on HomeType {
+    _id
+    name
+    description
+    link
+    icon
+    entityType
+    colorScheme
+    videoUrl
+  }
   query List {
-    list {
-      message
+    listHomeType {
+      ...home
     }
   }
   query Get($_id: String!) {
-    get(_id: $_id) {
-      message
+    getHomeType(_id: $_id) {
+      ...home
     }
   }
   mutation Create($input: HomeInput) {
-    create(input: $input) {
-      message
+    createHomeType(input: $input) {
+      ...home
     }
   }
   mutation Update($input: HomeInput) {
-    update(input: $input) {
-      message
+    updateHomeType(input: $input) {
+      ...home
     }
   }
   mutation Delete($_id: String!) {
-    delete(_id: $_id) {
-      message
+    deleteHomeType(_id: $_id) {
+      ...home
     }
   }
 `;
@@ -45,44 +51,6 @@ afterAll(done => {
 });
 
 describe('Home microservice API Test', () => {
-  it('List should return all documents', done => {
-    request
-      .post('/graphql')
-      .send({
-        query: query,
-        operationName: 'List'
-      })
-      .expect(res => {
-        expect(res.body).not.toHaveProperty('errors');
-        expect(res.body).toHaveProperty('data');
-
-        expect(res.body.data.list[0].message).toEqual('GET API for Home microservice');
-      })
-      .end((err, res) => {
-        done(err);
-      });
-  });
-
-  it('Get should return a single matched document', done => {
-    request
-      .post('/graphql')
-      .send({
-        query: query,
-        operationName: 'Get',
-        variables: { _id: 'mock_id' }
-
-      })
-      .expect(res => {
-        expect(res.body).not.toHaveProperty('errors');
-        expect(res.body).toHaveProperty('data');
-
-        expect(res.body.data.get.message).toEqual('GET by ID API for Home microservice');
-      })
-      .end((err, res) => {
-        done(err);
-      });
-  });
-
   it('Create should create a document', done => {
     request
       .post('/graphql')
@@ -96,9 +64,55 @@ describe('Home microservice API Test', () => {
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('createHomeType');
+        expect(res.body.data.createHomeType).toHaveProperty('_id', mock._id);
+        expect(res.body.data.createHomeType).toHaveProperty('name', mock.name);
+        expect(res.body.data.createHomeType).toHaveProperty('description', mock.description);
+        expect(res.body.data.createHomeType).toHaveProperty('entityType', mock.entityType);
+      })
+      .end((err, res) => {
+        done(err);
+      });
+  });
 
-        expect(res.body.data).toHaveProperty('create');
-        expect(res.body.data.create).toMatchObject({'message': 'POST API for Home microservice'});
+  it('List should return all documents', done => {
+    request
+      .post('/graphql')
+      .send({
+        query: query,
+        operationName: 'List'
+      })
+      .expect(res => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('listHomeType');
+        expect(res.body.data.listHomeType).not.toHaveLength(0);
+        expect(res.body.data.listHomeType[0]).toHaveProperty('_id');
+        expect(res.body.data.listHomeType[0]).toHaveProperty('description');
+        expect(res.body.data.listHomeType[0]).toHaveProperty('name');
+        expect(res.body.data.listHomeType[0]).toHaveProperty('entityType');
+      })
+      .end((err, res) => {
+        done(err);
+      });
+  });
+
+  it('Get should return a single matched document', done => {
+    request
+      .post('/graphql')
+      .send({
+        query: query,
+        operationName: 'Get',
+        variables: { _id: mock._id }
+
+      })
+      .expect(res => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data.getHomeType).toHaveProperty('_id', mock._id);
+        expect(res.body.data.getHomeType).toHaveProperty('description', mock.description);
+        expect(res.body.data.getHomeType).toHaveProperty('name', mock.name);
+        expect(res.body.data.getHomeType).toHaveProperty('entityType', mock.entityType);
       })
       .end((err, res) => {
         done(err);
@@ -118,9 +132,10 @@ describe('Home microservice API Test', () => {
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-
-        expect(res.body.data).toHaveProperty('update');
-        expect(res.body.data.update).toMatchObject({message: 'PUT API for Home microservice'});
+        expect(res.body.data.updateHomeType).toHaveProperty('_id', mock._id);
+        expect(res.body.data.updateHomeType).toHaveProperty('description', mock.description);
+        expect(res.body.data.updateHomeType).toHaveProperty('entityType', mock.entityType);
+        expect(res.body.data.updateHomeType).toHaveProperty('name', mock.name);
       })
       .end((err, res) => {
         done(err);
@@ -133,14 +148,12 @@ describe('Home microservice API Test', () => {
       .send({
         query: query,
         operationName: 'Delete',
-        variables: { _id: 'mock_id' }
+        variables: { _id: mock._id }
       })
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-
-        expect(res.body.data).toHaveProperty('delete');
-        expect(res.body.data.delete).toMatchObject({message: 'DELETE API for Home microservice'});
+        expect(res.body.data).toHaveProperty('deleteHomeType');
       })
       .end((err, res) => {
         done(err);
