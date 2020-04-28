@@ -4,12 +4,6 @@ import { pubsub } from './helpers';
 const Home_UPDATE = 'Home_UPDATE';
 
 export const HomeResolver = {
-  Subscription: {
-    // subscriptions
-    updatedHomeData: {
-      subscribe: () => pubsub.asyncIterator(Home_UPDATE)
-    },
-  },
   Query: {
     // queries
     list(root: any, args: any, ctx: any) {
