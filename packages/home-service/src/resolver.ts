@@ -1,15 +1,16 @@
 import { Home } from './schema';
 
 export const HomeResolver = {
+  // queries
   Query: {
-    // queries
+    // fetch all homeType
     listHomeType(root: any, args: any, ctx: any) {
       return Home.find()
       .then(response => response)
       .catch(err => err);
     },
+    // fetch the id from args.id
     getHomeType(root: any, args: any, ctx: any) {
-      // fetch the id from args.id
       return Home.findById(args._id)
       .then(response => response)
       .catch(err => err);
@@ -18,8 +19,8 @@ export const HomeResolver = {
       return Home.find(args.input).exec();
     }
   },
+  // mutations
   Mutation: {
-    // mutations
     createHomeType(root: any, args: any, ctx: any) {
       const data = new Home(args.input);
       return data.save()
