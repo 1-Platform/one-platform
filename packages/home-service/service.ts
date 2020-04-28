@@ -41,14 +41,10 @@ const extensions = [() => new ApolloLogExtension({
 /* Defining the Apollo Server */
 const apollo = new ApolloServer({
   playground: process.env.NODE_ENV !== 'production',
-  schema: buildFederatedSchema({
-    schemas: [
-      gqlSchema,
-    ],
-    resolvers: [
-      resolver,
-    ],
-  }),
+  schema: buildFederatedSchema([{
+    typeDefs: gqlSchema,
+    resolvers: resolver
+  }]),
   subscriptions: {
     path: '/subscriptions',
   },
