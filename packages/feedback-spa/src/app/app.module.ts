@@ -10,16 +10,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { Apollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular-link-http';
 import { AppService } from './app.service';
-import {FeedbackService} from './modules/feedback/feedback.service';
-import { FeedbackHomeComponent } from './modules/feedback//home/feedback-home.component';
-import {FeedbackItemComponent} from './modules/feedback/feedback-item/feedback-item.component';
+import {FeedbackService} from './feedback/feedback.service';
+import { FeedbackHomeComponent } from './feedback/home/feedback-home.component';
+import {FeedbackItemComponent} from './feedback/feedback-item/feedback-item.component';
+import { CountBoxComponent } from './feedback/count-box/count-box.component';
+import { DropdownComponent } from './feedback/dropdown/dropdown.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FeedbackHomeComponent,
-    FeedbackItemComponent
+    FeedbackItemComponent,
+    CountBoxComponent,
+    DropdownComponent
   ],
   schemas: [NO_ERRORS_SCHEMA],
   imports: [
