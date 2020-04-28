@@ -1,7 +1,8 @@
 Home Microservice
 =================================================
 
-One platform's server-side Home GraphQL microservice.
+The Home SPA needs a backend API Service to fetch the microservice details and the Apps in spotlight list + videos. This microservice would solve that problem
+by storing all such information. 
 
 Switch to the working directory
 ------------
