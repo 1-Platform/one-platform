@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
@@ -46,10 +47,11 @@ module.exports = {
     extensions: ['.json', '.js', '.jsx', '.html', '.css']
   },
   plugins: [
+    new Dotenv(),
     new CleanWebpackPlugin(),
     new CopyPlugin([
       { from: './src/assets', to: './assets/' },
-      { from: './src/*.ssi', to: './[name].[ext]' }
+      { from: './src/default.html', to: './[name].[ext]' }
     ], { copyUnmodified: true }),
     new MinifyPlugin()
   ],

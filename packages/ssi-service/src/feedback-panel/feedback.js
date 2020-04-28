@@ -1,32 +1,31 @@
 import html from 'html-template-tag';
 import { GraphQLClient } from 'graphql-request';
 import styles from './feedback.css';
-import secrets from './secrets.json';
 
-window.customElements.define('op-feedback', class extends HTMLElement {
+window.customElements.define( 'op-feedback', class extends HTMLElement {
   constructor () {
     super();
 
-    this._graphqlClient = new GraphQLClient(secrets.apiUrl, {
+    this._graphqlClient = new GraphQLClient( process.env.API_URL, {
       headers: {
-        Authorization: secrets.accessToken
+        Authorization: process.env.ACCESS_TOKEN
       }
-    });
+    } );
   }
 
   connectedCallback () {
-    if (!this.shadowRoot) {
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(this._template.content.cloneNode(true));
+    if ( !this.shadowRoot ) {
+      this.attachShadow( { mode: 'open' } );
+      this.shadowRoot.appendChild( this._template.content.cloneNode( true ) );
 
-      const styleTag = document.createElement('style');
+      const styleTag = document.createElement( 'style' );
       styleTag.innerText = styles;
-      this.shadowRoot.prepend(styleTag);
+      this.shadowRoot.prepend( styleTag );
 
-      this.feedbackButton = this.shadowRoot.querySelector('#op-feedback__button');
-      this.feedbackButton.addEventListener('click', this.togglePanelVisibility.bind(this));
+      this.feedbackButton = this.shadowRoot.querySelector( '#op-feedback__button' );
+      this.feedbackButton.addEventListener( 'click', this.togglePanelVisibility.bind( this ) );
 
-      this.feedbackPanel = this.shadowRoot.querySelector('#op-feedback__panel');
+      this.feedbackPanel = this.shadowRoot.querySelector( '#op-feedback__panel' );
     }
   }
 
@@ -35,7 +34,7 @@ window.customElements.define('op-feedback', class extends HTMLElement {
    *
    * @param {HTMLFormControlsCollection} formData
    */
-  _submitBugReport (formData) {
+  _submitBugReport ( formData ) {
     const query = /* GraphQL */ `mutation AddBugReport($bug: FeedbackInput) {
       addFeedback(input: $bug) {
         _id
@@ -45,8 +44,8 @@ window.customElements.define('op-feedback', class extends HTMLElement {
     }`;
     const variables = {
       bug: {
-        title: formData.namedItem('bugTitle').value,
-        description: formData.namedItem('bugDescription').value,
+        title: formData.namedItem( 'bugTitle' ).value,
+        description: formData.namedItem( 'bugDescription' ).value,
         feedbackType: 'Bug',
         timestamp: {
           createdAt: new Date().toISOString(),
@@ -59,13 +58,13 @@ window.customElements.define('op-feedback', class extends HTMLElement {
       }
     };
 
-    this._graphqlClient.request(query, variables)
-      .then(res => {
-        console.info(res);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    this._graphqlClient.request( query, variables )
+      .then( res => {
+        console.info( res );
+      } )
+      .catch( err => {
+        console.error( err );
+      } );
   }
 
   /**
@@ -73,7 +72,7 @@ window.customElements.define('op-feedback', class extends HTMLElement {
    *
    * @param {HTMLFormControlsCollection} formData
    */
-  _submitFeedback (formData) {
+  _submitFeedback ( formData ) {
     const query = /* GraphQL */ `mutation AddFeedback($feedback: FeedbackInput) {
       addFeedback(input: $feedback) {
         _id
@@ -84,8 +83,8 @@ window.customElements.define('op-feedback', class extends HTMLElement {
     const variables = {
       feedback: {
         title: '',
-        description: formData.namedItem('feedbackDescription').value,
-        experience: formData.namedItem('feedbackExperience').value,
+        description: formData.namedItem( 'feedbackDescription' ).value,
+        experience: formData.namedItem( 'feedbackExperience' ).value,
         feedbackType: 'Feedback',
         timestamp: {
           createdAt: new Date().toISOString(),
@@ -98,80 +97,80 @@ window.customElements.define('op-feedback', class extends HTMLElement {
       }
     };
 
-    this._graphqlClient.request(query, variables)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    this._graphqlClient.request( query, variables )
+      .then( res => {
+        console.log( res );
+      } )
+      .catch( err => {
+        console.error( err );
+      } );
   }
 
   togglePanelVisibility () {
-    if (this.feedbackPanel.hasAttribute('open')) {
-      this.feedbackPanel.removeAttribute('open');
+    if ( this.feedbackPanel.hasAttribute( 'open' ) ) {
+      this.feedbackPanel.removeAttribute( 'open' );
     } else {
-      this.feedbackPanel.setAttribute('open', true);
-      this._loadSubPanel('options');
+      this.feedbackPanel.setAttribute( 'open', true );
+      this._loadSubPanel( 'options' );
     }
-    this.dispatchEvent(new Event('TEST'));
+    this.dispatchEvent( new Event( 'TEST' ) );
   }
 
-  _loadSubPanel (panelType) {
-    this.shadowRoot.querySelector('#op-feedback__panel-body').innerHTML = this._getSubPanel(panelType);
+  _loadSubPanel ( panelType ) {
+    this.shadowRoot.querySelector( '#op-feedback__panel-body' ).innerHTML = this._getSubPanel( panelType );
 
     /* Focus the first element with autofocus property */
-    if (this.feedbackPanel.querySelector('[autofocus]')) {
-      this.feedbackPanel.querySelector('[autofocus]').focus();
+    if ( this.feedbackPanel.querySelector( '[autofocus]' ) ) {
+      this.feedbackPanel.querySelector( '[autofocus]' ).focus();
     }
 
     /* Add the event listener for sub-panels */
-    if (panelType === 'options') {
-      this.feedbackPanel.querySelectorAll('.op-feedback__option-item')
-        .forEach((optionItem, key) => {
-          optionItem.addEventListener('click', () => {
-            if (optionItem.tagName === 'A') {
+    if ( panelType === 'options' ) {
+      this.feedbackPanel.querySelectorAll( '.op-feedback__option-item' )
+        .forEach( ( optionItem, key ) => {
+          optionItem.addEventListener( 'click', () => {
+            if ( optionItem.tagName === 'A' ) {
               return;
             }
-            this._loadSubPanel(optionItem.getAttribute('data-feedback-type'));
-          });
-        });
-    } else if (panelType === 'bug' || panelType === 'feedback') {
-      const formReference = this.feedbackPanel.querySelector('.op-feedback__form');
-      if (!formReference) {
+            this._loadSubPanel( optionItem.getAttribute( 'data-feedback-type' ) );
+          } );
+        } );
+    } else if ( panelType === 'bug' || panelType === 'feedback' ) {
+      const formReference = this.feedbackPanel.querySelector( '.op-feedback__form' );
+      if ( !formReference ) {
         return;
       }
 
       /* Event Listener for Form Submit */
-      formReference.addEventListener('submit', (event) => {
+      formReference.addEventListener( 'submit', ( event ) => {
         event.preventDefault();
 
-        if (panelType === 'bug') {
-          this._submitBugReport(event.target.elements);
-        } else if (panelType === 'feedback') {
-          this._submitFeedback(event.target.elements);
+        if ( panelType === 'bug' ) {
+          this._submitBugReport( event.target.elements );
+        } else if ( panelType === 'feedback' ) {
+          this._submitFeedback( event.target.elements );
         }
         this.togglePanelVisibility();
-      });
+      } );
       /* Event Listener for Form Reset/Close */
-      formReference.addEventListener('reset', (event) => {
+      formReference.addEventListener( 'reset', ( event ) => {
         event.preventDefault();
-        this._loadSubPanel('options');
-      });
+        this._loadSubPanel( 'options' );
+      } );
     }
   }
 
-  _getSubPanel (panelType) {
-    if (panelType === 'bug') {
+  _getSubPanel ( panelType ) {
+    if ( panelType === 'bug' ) {
       return this._bugPanel;
-    } else if (panelType === 'feedback') {
+    } else if ( panelType === 'feedback' ) {
       return this._feedbackPanel;
     }
     return this._feedbackOptionsPanel;
   }
 
   get _template () {
-    const template = document.createElement('template');
+    const template = document.createElement( 'template' );
     template.innerHTML = this._html;
 
     return template;
@@ -185,7 +184,7 @@ window.customElements.define('op-feedback', class extends HTMLElement {
         </header>
         <main id="op-feedback__panel-body"></main>
       </dialog>
-      
+
       <button id="op-feedback__button" type="button" class="op-feedback__button">
         <ion-icon name="chatbox-ellipses" class="op-feedback__icon"></ion-icon>
         Feedback
@@ -290,4 +289,4 @@ window.customElements.define('op-feedback', class extends HTMLElement {
       </form>
     `;
   }
-});
+} );
