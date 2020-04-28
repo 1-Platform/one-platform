@@ -1,52 +1,34 @@
-type Query {
-  # Query Definitions
-  list: [HomeType]
-  get(ID: ID!): HomeType
-}
-
-type Mutation {
-  # Mutation Definitions
-  create(input: HomeInput): HomeType
-  update(input: HomeInput): HomeType
-  delete(_id: String!): HomeType
-}
-
-type Subscription {
-  # Subscription Definitions
-  updatedHomeData: HomeType
-}
-
 type HomeType {
-    name: string,
-    description: string,
-    link: string,
-    icon: string,
-    entityType: string,
-    colorScheme: string,
-    videoUrl: string,
+    name: String
+    description: String
+    link: String
+    icon: String
+    entityType: String
+    colorScheme: String
+    videoUrl: String
 }
 
 
 input HomeInput {
-    name: string,
-    description: string,
-    link: string,
-    icon: string,
-    entityType: string,
-    colorScheme: string,
-    videoUrl: string,
+    name: String
+    description: String
+    link: String
+    icon: String
+    entityType: String
+    colorScheme: String
+    videoUrl: String
 }
 
 type MicroserviceDetailsType {
-    title: string;
-    info: string;
-    features: string[];
-    illustration: string;
+    title: String
+    info: String
+    features: [String]
+    illustration: String
 }
 
 input MicroserviceDetailsType {
-    title: string;
-    info: string;
-    features: string[];
-    illustration: string;
+    title: String
+    info: String
+    features: [String]
+    illustration: String
 }
