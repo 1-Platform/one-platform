@@ -24,3 +24,29 @@ margin-right: $space !important;
 @mixin margin-left($space){
   margin-left: $space !important;
 }
+
+@mixin op-flat($bg, $color){
+  background-color: $bg;
+  color: $color;
+}
+
+@mixin flex($direction: row){
+  display: flex;
+  flex-direction: $direction;
+  flex-wrap: wrap;
+}
+
+@mixin op-row{
+  @include flex();
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin input-search-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  transform: translateX(35px);
+  z-index: 1;
+}

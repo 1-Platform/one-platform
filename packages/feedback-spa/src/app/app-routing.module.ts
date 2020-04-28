@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, NoPreloading } from '@angular/router';
-import { FeedbackHomeComponent } from './modules/feedback/home/feedback-home.component';
+import { FeedbackHomeComponent } from './feedback/home/feedback-home.component';
 
 const routes: Routes = [
   {

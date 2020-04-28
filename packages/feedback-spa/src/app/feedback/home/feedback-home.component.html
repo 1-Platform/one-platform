@@ -1,4 +1,50 @@
 <section class="feedback-section" *ngIf="allFeedback">
+  <div class="stat">
+    <op-count-box *ngFor="let stat of stats;let i = index"
+      class="clickable"
+      (click)="setTypeFilter(stat.labelName, i)"
+      [ngClass]="{'active': selectedIndex === i}"
+      [statData]="stat">
+      <div countBox-part="icon" [ngSwitch]="stat.labelName">
+        <i *ngSwitchCase="'All'" class="icon ion-md-text"></i>
+        <i *ngSwitchCase="'Feedback'" class="icon ion-md-chatboxes"></i>
+        <i *ngSwitchCase="'Bugs'" class="icon ion-ios-bug"></i>
+      </div>
+    </op-count-box>
+  </div>
+  <div class="feedback-toolbar op-row">
+    <div class="left">
+    <div class="status-tabs">
+        <div class="status-box"
+        *ngFor="let tag of feedbackTags; let i = index"
+        (click)="setActive(tag.state, i);"
+        [ngClass]="{'active-tab': selectedTab === i}">
+          {{ tag.state }}
+          <span class="badge op-badge"
+          *ngIf="!(tag.state === 'All')"
+          [ngClass]="{
+            'op-open': tag.state === 'Open' && !(selectedTab === i),
+            'op-close' : tag.state === 'Close' && !(selectedTab === i)}">
+            {{ tag.state === 'Open' ? feedbackOpenedCount : feedbackClosedCount }}
+          </span>
+        </div>
+    </div>
+    <op-dropdown style="padding-top: 2px;"
+      [icon]="'star'"
+      [name]="'Filter By'"
+      [options]="options"
+      [optionsWithID]="options"
+      (selected)="filterFeedback($event.name)"
+      [theme]="'op-outline-black'">
+    </op-dropdown>
+  </div>
+    <div class="input-group op-search search-bar">
+       <div class="input-group-append">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </div>
+      <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search via Feedback name, Requester name">
+    </div>
+  </div>
   <div class="feedback-panel">
     <op-feedback-item
     *ngFor="let feedback of allFeedback
@@ -24,7 +70,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <a class="h5 text-dark" *ngIf="feedbackDetails?.iid"
-            href="{{this.gitlabURL}}/{{feedback?.iid}}"
+            href="{{this.gitlabURL}}/{{feedbackDetails?.iid}}"
             target="_blank">
             <i class="icon ion-ios-link"></i> {{ '  ' + feedbackDetails?.iid }}
           </a>
