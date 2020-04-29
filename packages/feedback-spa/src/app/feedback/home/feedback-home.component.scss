@@ -1,9 +1,9 @@
 
-@import "../../../../scss/component/_component.scss";
-@import "../../../../scss/colors/colors";
-@import "../../../../scss/mixin/_mixin.scss";
+@import "../../../scss/component/_component.scss";
+@import "../../../scss/colors/colors";
+@import "../../../scss/mixin/_mixin.scss";
 
-\:host {
+:host {
 	display: block;
 }
 // Styles
@@ -70,6 +70,12 @@
 .feedback-toolbar .left op-dropdown {
 	margin-left: 1rem;
 }
+
+
+.search-bar	{
+	  width: 34%;
+}
+
 
 .status-tabs{
   display: flex

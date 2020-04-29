@@ -1,0 +1,33 @@
+type HomeType {
+    name: String
+    description: String
+    link: String
+    icon: String
+    entityType: String
+    colorScheme: String
+    videoUrl: String
+}
+
+input HomeInput {
+    name: String
+    description: String
+    link: String
+    icon: String
+    entityType: String
+    colorScheme: String
+    videoUrl: String
+}
+
+type MicroserviceDetailsType {
+    title: String
+    info: String
+    features: [String]
+    illustration: String
+}
+
+input MicroserviceDetailsInputType {
+    title: String
+    info: String
+    features: [String]
+    illustration: String
+}

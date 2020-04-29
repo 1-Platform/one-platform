@@ -1,5 +1,6 @@
 @import "../colors/colors";
 @import "../mixin/_mixin.scss";
+@import "../typography/typography.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 
 .modal-header {
@@ -49,4 +50,23 @@
 .modal{
     overflow-x: hidden !important;
     overflow-y: auto !important;
+}
+
+.op-row{
+    @include op-row;
+}
+
+.op-search input {
+    font-size: 15px;
+    text-align: center;
+}
+
+.op-search input:focus {
+	box-shadow: none !important;
+}
+
+.op-search .input-group-append{
+    
+        @include input-search-icon;
+        color: rgba(0,0,0,0.6);
 }

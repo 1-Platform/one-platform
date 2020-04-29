@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 import { Feedback, FeedbacksResponse, FeedbackResponse } from './feedback';
 import { Apollo } from 'apollo-angular';
 import { listFeedback, getFeedback } from './feedback.gql';
 import { map } from 'rxjs/operators';
 
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
-import { GraphQLModule } from '../../apollo.config';
+import { GraphQLModule } from '../apollo.config';
 
 const httpOptions = {
   headers: new HttpHeaders({
