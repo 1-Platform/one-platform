@@ -14,8 +14,8 @@ import mongoose from 'mongoose';
 import <%= apiName %>Router from './src/api';
 
 const httpsOptions = {
-  key: fs.readFileSync((process.env.SSL_KEY) ? `${process.env.SSL_KEY}` : ''),
-  cert: fs.readFileSync((process.env.SSL_CERT) ? `${process.env.SSL_CERT}` : '')
+  key: fs.readFileSync(process.env.SSL_KEY || ''),
+  cert: fs.readFileSync(process.env.SSL_CERT || '')
 };
 
 const { port = 8080 } = { port : process.env.PORT };
@@ -134,8 +134,6 @@ export class <%= serviceClassName %> {
    */
   public routes() {
 
-    const router = express.Router();
-
     // configure CORS
     const corsOptions: cors.CorsOptions = {
       allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
@@ -145,21 +143,9 @@ export class <%= serviceClassName %> {
       preflightContinue: false
     };
 
-    router.use(cors(corsOptions));
-
-    // root request
-    router.get('/', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      res.json({ message: `One Platform <%= serviceClassName %> microservice APIs.` });
-      next();
-    });
-
+    this.app.use(cors(corsOptions));
     // create API routes
-    this.app.use('/', router);
-    this.app.use('/<%= apiPathName%>', <%= apiName %>Router);
-
-    // enable CORS pre-flight
-    router.options('*', cors(corsOptions));
-  }
+    this.app.use('/', <%= apiName %>Router);  }
 }
 
 export default <%= serviceClassName %>.bootstrap().app;
