@@ -8,17 +8,15 @@ const JiraObj = new JiraApi({
     protocol: 'https',
     host: process.env.JIRA_HOST,
     username: process.env.JIRA_USERNAME,
-    password: process.env.JIRA_PWD,
+    password: process.env.JIRA_PASSWORD,
     apiVersion: '2',
     strictSSL: false
 });
 
-export function addFeedback(issue){
-     JiraObj.addNewIssue(issue)
-     .then(function(response){
-        return response;
-     })
-     .catch(function(err){
+export function addFeedback(issue:any){
+     return JiraObj.addNewIssue(issue)
+     .then((response:any) => response)
+     .catch(function(err:any){
          return err;
      })     
  }

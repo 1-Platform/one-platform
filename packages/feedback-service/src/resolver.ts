@@ -29,7 +29,7 @@ export const FeedbackResolver = {
             const issue = {
               "fields":{
                 "project":{
-                  "key": "ONEPLAT"
+                  "key": process.env.PROJECT_KEY
                 },
                 "summary": fb.title,
                 "description": fb.description,
@@ -38,7 +38,13 @@ export const FeedbackResolver = {
             }
             const envpath = process.env.NODE_ENV;
             if(envpath === "production"){
-              addFeedback(issue);
+              addFeedback(issue).then((jira:any) => {
+                args.input.ticketID = jira.key
+                return Object.assign(fb, args.input).save().then((feedback: any) => { return feedback; });
+              })
+              .catch(function(err){
+                return err;
+              })
             }
           }
         })
