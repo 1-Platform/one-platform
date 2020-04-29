@@ -15,7 +15,7 @@ class UserGroupApiHelper {
   // Helper function to fetch user/group profile from LDAP
   public getProfilesBy(profile_param: string) {
     return new Promise((resolve, reject) => {
-      const ldapClient = createClient({ url: this.ldapHost });
+      const ldapClient = createClient({ url: this.ldapHost, reconnect: true });
       const search_options: Object = {
         scope: `sub`,
         filter: `${profile_param}`,
