@@ -98,6 +98,14 @@ module.exports = {
                 collapseWhitespace: true,
             },
         }),
+        new HtmlWebpackPlugin({
+            filename: 'contact-us.html',
+            chunks: ['app'],
+            template: './src/contact-us.html',
+            minify: {
+                collapseWhitespace: true,
+            },
+        }),
         new MiniCssExtractPlugin(),
     ]
 };
