@@ -1,7 +1,6 @@
 import { Home } from './schema';
 
 export const HomeResolver = {
-  // queries
   Query: {
     // fetch all homeType
     listHomeType(root: any, args: any, ctx: any) {
@@ -19,7 +18,6 @@ export const HomeResolver = {
       return Home.find(args.input).exec();
     }
   },
-  // mutations
   Mutation: {
     createHomeType(root: any, args: any, ctx: any) {
       const data = new Home(args.input);
