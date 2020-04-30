@@ -43,10 +43,5 @@ module.exports = {
     new Dotenv( {
       path: envPath
     } ),
-    new NodemonPlugin( {
-      watch: path.resolve( './dist' ),
-      script: './dist/bundle.js',
-      ext: 'js,ts,json',
-    } )
   ],
 };
