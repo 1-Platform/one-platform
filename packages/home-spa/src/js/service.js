@@ -1,3 +1,29 @@
+const listHomeType = `
+query {
+  listHomeType {
+      _id
+      name
+      description
+      link
+      icon
+      entityType
+      colorScheme
+      videoUrl
+      }
+  }`;
+
+const fetchOptions = {
+  method: "post",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    query: listHomeType
+  })
+};
+
+
 export const getData = () => {
-  return fetch(process.env.API_URL).then(response => response.json());
+  return fetch(process.env.API_URL, fetchOptions)
+  .then(res => res.json());
 };
