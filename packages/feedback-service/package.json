@@ -82,7 +82,7 @@
     "husky": "2.7.0",
     "jest": "25.4.0",
     "jest-transform-graphql": "2.1.0",
-    "ts-loader": "6.2.2",
+    "ts-loader": "7.0.2",
     "tslint": "5.20.1",
     "typescript": "3.8.3",
     "webpack": "4.43.0",
