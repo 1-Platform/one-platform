@@ -31,7 +31,7 @@
     "css-loader": "3.5.3",
     "dotenv-webpack": "^1.7.0",
     "eslint-plugin-jest": "23.8.2",
-    "jest": "25.4.0",
+    "jest": "25.5.4",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
     "webpack": "4.43.0",
