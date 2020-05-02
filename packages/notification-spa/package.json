@@ -20,7 +20,7 @@
     "@angular/platform-browser": "9.1.3",
     "@angular/platform-browser-dynamic": "9.1.3",
     "@angular/router": "9.1.3",
-    "@patternfly/pfe-accordion": "1.0.0-prerelease.40",
+    "@patternfly/pfe-accordion": "1.0.0-prerelease.45",
     "@patternfly/pfe-select": "1.0.0-prerelease.42",
     "@patternfly/pfe-toast": "1.0.0-prerelease.40",
     "@types/jest": "25.2.1",
