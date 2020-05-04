@@ -1,31 +1,43 @@
 import { Home } from './schema';
-import { pubsub } from './helpers';
-
-const Home_UPDATE = 'Home_UPDATE';
 
 export const HomeResolver = {
   Query: {
-    // queries
-    list(root: any, args: any, ctx: any) {
-      return [{message: 'GET API for Home microservice'}];
+    // fetch all homeType
+    listHomeType(root: any, args: any, ctx: any) {
+      return Home.find()
+      .then(response => response)
+      .catch(err => err);
     },
-    get(root: any, args: any, ctx: any) {
-      // fetch the id from args.id
-      return {message: 'GET by ID API for Home microservice'};
+    // fetch the id from args.id
+    getHomeType(root: any, args: any, ctx: any) {
+      return Home.findById(args._id)
+      .then(response => response)
+      .catch(err => err);
+    },
+    getHomeTypeBy(root: any, args: any, ctx: any) {
+      return Home.find(args.input).exec();
     }
   },
   Mutation: {
-    // mutations
-    create(root: any, args: any, ctx: any) {
-      return {message: 'POST API for Home microservice'};
+    createHomeType(root: any, args: any, ctx: any) {
+      const data = new Home(args.input);
+      return data.save()
+        .then(response => response)
+        .catch(err => err);
     },
-    update(root: any, args: any, ctx: any) {
-      /* Optional: if you want to send graphql subscription updates when this query is called) */
-      // pubsub.publish(Home_UPDATE, data);
-      return {message: 'PUT API for Home microservice'};
+    updateHomeType(root: any, args: any, ctx: any) {
+      return Home.findById(args.input._id)
+      .then(response => {
+        return Object.assign(response, args.input)
+          .save()
+          .then((user: any) => user);
+      })
+      .catch((err: any) => err);
     },
-    delete(root: any, args: any, ctx: any) {
-      return {message: 'DELETE API for Home microservice'};
+    deleteHomeType(root: any, args: any, ctx: any) {
+      return Home.findByIdAndRemove(args._id)
+      .then(response => response)
+      .catch(err => err);
     },
 
   }
