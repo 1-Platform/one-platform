@@ -16,7 +16,27 @@ export const FeedbackResolver = {
     },
     getFeedbackBy(root: any,  args : any, ctx: any){
       return Feedback.find(args.input).exec();
-    }
+    },
+    getAllJiraIssues(root: any,  args : any, ctx: any) {
+    const JiraApi = require('jira-client');
+    const jira = new JiraApi({
+    protocol: 'https',
+    host: process.env.JIRA_HOST,
+    username: process.env.JIRA_USERNAME,
+    password: process.env.JIRA_PASSWORD,
+    apiVersion: '2',
+    strictSSL: false
+   });
+   return  jira.getIssuesForBoard("3844")
+      .then(function(getIssuesForBoard: any){
+      return getIssuesForBoard['issues'].map( (issue: any) => {
+          issue['fields']['ticketID'] = issue['key'];
+          return issue['fields']
+          }) 
+      })
+      .catch((err:any) => err);          
+  },
+
   },
   Mutation: {
     addFeedback(root: any, args: any, ctx: any) {

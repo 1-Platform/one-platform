@@ -7,9 +7,11 @@ export const environment = {
   production: false,
   name: '',
   api: '',
+  jiraAPI: '',
   graphqlAPI: '',
   client: '',
   subscription: '',
   authorization: '',
-  gitlabURL: '',
+  jiraURL: '',
+  roverURL: '',
 };
