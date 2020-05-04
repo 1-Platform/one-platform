@@ -29,16 +29,28 @@ This package contains global webcomponents for SSI and Chroming.
    **Testing the ssi-template with other SPAs**
 
    1. Follow the above steps to create a `secrets.json` file
-   2. Mount your SPA build as a volume in the the docker-compose `ssi-templates` service
+   2. Add the following import in the `<head>` of all your html files (preferrably at the end of the haed tag)
 
-   ```yml
-   ...
-   services:
-     ssi-templates:
-       ...
-       volumes:
-         - ./packages/<spa-package>/build/:/usr/local/apache2/htdocs/<spa-name>/
-   ```
+      ```html
+      <head>
+        ...
+        <!--#include virtual="templates/default.html" -->
+      </head>
+      <body>
+        ...
+      </body>
+      ```
+
+   3. Mount your SPA build/dist as a volume in the the docker-compose `ssi-templates` service
+
+      ```yml
+      ...
+      services:
+        ssi-templates:
+          ...
+          volumes:
+            - ./packages/<spa-package>/dist/:/usr/share/httpd/noindex/<spa-name>/
+      ```
 
 3. Start the docker-compose
 
