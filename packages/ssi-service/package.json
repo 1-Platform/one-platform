@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --watch",
+    "start": "webpack --watch",
     "build": "webpack --mode production",
     "test": "jest --verbose"
   },
@@ -36,6 +36,7 @@
     "to-string-loader": "1.1.6",
     "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
-    "webpack-dev-server": "3.10.3"
+    "webpack-dev-server": "3.10.3",
+    "whatwg-fetch": "^3.0.0"
   }
 }

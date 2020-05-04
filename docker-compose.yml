@@ -5,8 +5,8 @@ services:
     build: ./packages/ssi-service/.
     env_file: ./packages/ssi-service/.env
     volumes:
-      - ./packages/ssi-service/dist:/usr/local/apache2/htdocs/templates
-      - ./packages/ssi-service/public/index.html:/usr/local/apache2/htdocs/index.html
+      - ./packages/ssi-service/dist:/var/www/html/templates
+      - ./packages/ssi-service/public/index.html:/usr/share/httpd/noindex/index.html
     ports:
       - 5000:8080
 
