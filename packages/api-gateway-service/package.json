@@ -36,7 +36,7 @@
   "contributors": [],
   "license": "MIT",
   "dependencies": {
-    "@apollo/gateway": "0.14.0",
+    "@apollo/gateway": "0.14.1",
     "@types/jsonwebtoken": "8.3.9",
     "apollo-log": "0.1.0",
     "apollo-server-express": "2.12.0",
@@ -51,7 +51,7 @@
     "express": "4.17.1",
     "graphql": "14.6.0",
     "graphql-redis-subscriptions": "2.2.1",
-    "graphql-tools": "4.0.7",
+    "graphql-tools": "4.0.8",
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.15",
     "method-override": "3.0.0",
