@@ -73,7 +73,7 @@
     "@types/mongoose": "5.7.14",
     "@types/morgan": "1.9.0",
     "@types/node": "12.12.37",
-    "@types/supertest": "2.0.8",
+    "@types/supertest": "2.0.9",
     "graphql-tag": "2.10.3",
     "husky": "2.7.0",
     "jest": "25.5.4",
