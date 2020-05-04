@@ -1,18 +1,95 @@
-describe('op-nav component', () => {
-  beforeAll(() => {
-    /* Defining the custom-component */
-    require('../dist/op-nav');
-    /* Appending the component to the DOM */
-    document.body.appendChild(document.createElement('op-nav'));
-    return customElements.whenDefined('op-nav')
-      .then(() => {
-        this.opNav = document.querySelector('op-nav');
-      });
-  });
+import mockApps from '../src/assets/mocks/apps.json';
 
-  it('creates', () => {
-    expect(this.opNav).toBeDefined();
-    expect(this.opNav.shadowRoot).toBeDefined();
-    expect(this.opNav.shadowRoot.childElementCount).toBeGreaterThan(0);
-  });
-});
+describe( 'op-nav component', () => {
+  const Utils = {
+    get opNav () {
+      return document.querySelector( 'op-nav' );
+    },
+    get opNavAppsButton () {
+      return Utils.opNav.shadowRoot.querySelector( '.op-menu__item-button[data-type=app]' );
+    },
+    get opNavNotificationButton () {
+      return Utils.opNav.shadowRoot.querySelector( '.op-menu__item-button[data-type=notification]' );
+    },
+    get opNavUserButton () {
+      return Utils.opNav.shadowRoot.querySelector( '.op-menu__item-button[data-type=user]' );
+    },
+    get opMenuDrawer () {
+      return Utils.opNav.shadowRoot.querySelector( '#op-menu-drawer' );
+    }
+  };
+
+  beforeAll( () => {
+    /* Defining the custom-component */
+    require( '../dist/op-nav' );
+    /* Appending the component to the DOM */
+    document.body.appendChild( document.createElement( 'op-nav' ) );
+
+    mockFetch( mockApps );
+  } );
+
+  it( 'creates', () => {
+    expect( Utils.opNav ).toBeDefined();
+    expect( Utils.opNav.shadowRoot ).toBeDefined();
+    expect( Utils.opNav.shadowRoot.childElementCount ).toBeGreaterThan( 0 );
+  } );
+
+  it( 'has 3 nav items', () => {
+    const menuItems = Utils.opNav.shadowRoot.querySelectorAll( '.op-menu__item' );
+    expect( menuItems ).toHaveLength( 3 );
+    expect( menuItems.item( 0 ).querySelector( '.op-menu__item-button' ).dataset.type ).toEqual( 'app' );
+    expect( menuItems.item( 1 ).querySelector( '.op-menu__item-button' ).dataset.type ).toEqual( 'notification' );
+    expect( menuItems.item( 2 ).querySelector( '.op-menu__item-button' ).dataset.type ).toEqual( 'user' );
+  } );
+
+  describe( 'App Drawer', () => {
+    it( 'opens app drawer', () => {
+      expect( Utils.opNav.shadowRoot.querySelector( '#op-menu-drawer' ) ).toBeFalsy();
+
+      /* Sumulate a click event */
+      Utils.opNavAppsButton.click();
+
+      expect( Utils.opMenuDrawer ).toBeTruthy();
+      expect( Utils.opMenuDrawer.dataset.type ).toEqual( Utils.opNavAppsButton.dataset.type );
+    } );
+
+    it( 'closes app drawer', () => {
+      Utils.opNavAppsButton.click();
+      expect( Utils.opMenuDrawer ).toBeFalsy();
+    } );
+  } );
+
+  describe( 'Notification Drawer', () => {
+    it( 'opens app drawer', () => {
+      expect( Utils.opNav.shadowRoot.querySelector( '#op-menu-drawer' ) ).toBeFalsy();
+
+      /* Sumulate a click event */
+      Utils.opNavNotificationButton.click();
+
+      expect( Utils.opMenuDrawer ).toBeTruthy();
+      expect( Utils.opMenuDrawer.dataset.type ).toEqual( Utils.opNavNotificationButton.dataset.type );
+    } );
+
+    it( 'closes app drawer', () => {
+      Utils.opNavNotificationButton.click();
+      expect( Utils.opMenuDrawer ).toBeFalsy();
+    } );
+  } );
+
+  describe( 'User Profile Drawer', () => {
+    it( 'opens app drawer', () => {
+      expect( Utils.opNav.shadowRoot.querySelector( '#op-menu-drawer' ) ).toBeFalsy();
+
+      /* Sumulate a click event */
+      Utils.opNavUserButton.click();
+
+      expect( Utils.opMenuDrawer ).toBeTruthy();
+      expect( Utils.opMenuDrawer.dataset.type ).toEqual( Utils.opNavUserButton.dataset.type );
+    } );
+
+    it( 'closes app drawer', () => {
+      Utils.opNavUserButton.click();
+      expect( Utils.opMenuDrawer ).toBeFalsy();
+    } );
+  } );
+} );

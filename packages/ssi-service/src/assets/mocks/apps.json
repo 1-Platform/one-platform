@@ -1,0 +1,26 @@
+[
+  {
+    "name": "DSAL",
+    "path": "/dsal",
+    "logo": "/templates/assets/rh-hat-logo.svg"
+  },
+  {
+    "name": "Outage Management",
+    "path": "/outages",
+    "logo": "/templates/assets/rh-hat-logo.svg"
+  },
+  {
+    "name": "OKRs",
+    "path": "/okrs",
+    "logo": "/templates/assets/rh-hat-logo.svg"
+  },
+  {
+    "name": "Video Library",
+    "path": "/video-library",
+    "logo": "/templates/assets/rh-hat-logo.svg"
+  },
+  {
+    "name": "Test",
+    "path": "/test"
+  }
+]
