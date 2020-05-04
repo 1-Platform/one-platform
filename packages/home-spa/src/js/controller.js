@@ -1,6 +1,6 @@
 // Services
 import { getData }  from './service';
-import { stub, microserviceMock } from '../mocks/stub';
+import { stub, microserviceMock, teamMembers } from '../mocks/stub';
 // importing images
 import '../img/bell.svg';
 import '../img/shield.svg';
@@ -10,13 +10,14 @@ import '../img/magnifying-glass.svg';
 import '../img/Auth-illustration.svg';
 import '../img/Notification-illustration.svg';
 import '../img/User-profile-illustration.svg';
+import '../img/user-female.svg';
+import '../img/user-male.svg';
 
 const microserviceCard = document.querySelector('#microservice-cards');
 const carouselSlide = document.querySelector('#carousel-slide');
 const spaList = document.querySelector('#banner-links');
-const footer = document.querySelector('footer');
-const band = document.querySelector('#band');
 const microserviceDetails = document.querySelector('#microservice-details');
+const teamBlock = document.querySelector('#team-block');
 
 if (microserviceCard !== null && carouselSlide !== null) {
   microserviceCard.innerHTML = `<div class="loader"></div>`;
@@ -102,56 +103,6 @@ function buildDom(apiData) {
     ).join('');
   }
 
-  if (footer !== null) {
-    footer.innerHTML = `
-    <div class="container footer">
-    <div class="footer__links-col">
-      <div class="footer__links-header">
-        Quick links
-      </div>
-      <div class="footer__links">
-        <a href="#">One Portal in Mojo</a>
-        <a href="#">Weekly Blog</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Changelog</a>
-        <a href="#">Subscribe to One Portal List</a>
-      </div>
-    </div>
-    <div class="footer__links-col">
-      <div class="footer__links-header">
-        Related sites
-      </div>
-      <div class="footer__links">
-        <a href="#">PnT Help</a>
-        <a href="#">PnT DevOps (Mojo)</a>
-        <a href="#">PnT Stats</a>
-        <a href="#">Projects Engineering</a>
-      </div>
-    </div>
-    <div class="footer__links-col">
-      <div class="footer__links-header">
-        Help
-      </div>
-      <div class="footer__links">
-        <a href="#">One Portal FAQs</a>
-        <a href="#">File an Issue</a>
-        <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>
-      </div>
-    </div>
-  </div>
-  <div class="footer__copyright">
-    Copyright &copy; 2020 Red Hat Inc. Internal Use Only
-  </div>`;
-  }
-
-  if (band !== null) {
-    band.innerHTML = `
-    <div class="band__header">
-			Join the One Platform Digital Experience!
-		</div>
-    <button class="band__button--primary-border">Get Started</button>`;
-  }
-
   if (microserviceDetails !== null) {
     microserviceDetails.innerHTML = microserviceMock.map(microservice => {
     return `<div class="microservice__details">
@@ -176,5 +127,17 @@ function buildDom(apiData) {
       </div>
       </div>`
     }).join('');
+  }
+
+  if (teamBlock !== null) {
+    teamBlock.innerHTML = teamMembers.map(member => {
+      return `
+      <div class="team-block__list--item">
+          <img src="img/${member.gender === 'male' ? 'user-male.svg': 'user-female.svg'}" alt="">
+          <span class="name">${member.name}</span>
+          <span class="title">${member.title}</span>
+      </div>`;
+    })
+    .join('');
   }
 }

@@ -3,8 +3,45 @@ version: "3"
 services:
   ssi-templates:
     build: ./packages/ssi-service/.
-    ports:
-      - 5500:80
+    env_file: ./packages/ssi-service/.env
     volumes:
       - ./packages/ssi-service/dist:/usr/local/apache2/htdocs/templates
       - ./packages/ssi-service/public/index.html:/usr/local/apache2/htdocs/index.html
+    ports:
+      - 5000:8080
+
+  home-spa:
+    build: ./packages/home-spa
+    env_file: ./packages/home-service/.env
+    ports:
+      - 5500:8080
+    depends_on:
+      - home-service
+  home-service:
+    build: ./packages/home-service
+    env_file: ./packages/home-service/.env
+    volumes:
+      - ./logs/server.key:/app/ssl/server.key
+      - ./logs/server.crt:/app/ssl/server.crt
+    ports:
+      - 5501:8080
+    depends_on:
+      - mongo
+
+  user-service:
+    build: ./packages/user-service
+    env_file: ./packages/user-service/.env
+    volumes:
+      - ./logs/server.key:/app/ssl/server.key
+      - ./logs/server.crt:/app/ssl/server.crt
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example

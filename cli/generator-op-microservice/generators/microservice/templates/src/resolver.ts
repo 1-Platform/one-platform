@@ -1,15 +1,6 @@
 <% if (dbSupport) { %>import { <%= serviceClassName %> } from './schema';<% } -%>
-import { pubsub } from './helpers';
-
-const <%= serviceClassName %>_UPDATE = "<%= serviceClassName %>_UPDATE";
 
 export const <%= resolverName %> = {
-  Subscription: {
-    // subscriptions
-    updated<%= serviceClassName %>Data: {
-      subscribe: () => pubsub.asyncIterator(<%= serviceClassName %>_UPDATE)
-    },
-  },
   Query: {
     // queries
     list(root: any, args: any, ctx: any) {

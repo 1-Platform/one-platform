@@ -110,3 +110,46 @@ export const microserviceMock = [
       illustration: 'img/User-profile-illustration.svg',
    },
 ];
+
+export const teamMembers = [
+   {
+     name: 'Nilesh Patil',
+     title: 'Manager, Software Engineering',
+     gender: 'male',
+   },
+   {
+     name: 'Sayak Sarkar',
+     title: 'Senior Software Engineer',
+     gender: 'male',
+   },
+   {
+     name: 'Diwanshi Pandey',
+     title: 'Senior Software Engineer',
+     gender: 'female',
+   },
+   {
+     name: 'Rigin Oommen',
+     title: 'Software Engineer',
+     gender: 'male',
+   },
+   {
+     name: 'Anjnee K. Sharma',
+     title: 'Software Engineer',
+     gender: 'male',
+   },
+   {
+     name: 'Mayur Deshmukh',
+     title: 'Associate Software Engineer',
+     gender: 'male'
+   },
+   {
+     name: 'Sumeet Ingole',
+     title: 'Associate Software Engineer',
+     gender: 'male'
+   },
+   {
+     name: 'Deepesh Nair',
+     title: 'Associate Software Engineer',
+     gender: 'male'
+   },
+ ];

@@ -1,8 +1,21 @@
-FROM httpd:2-alpine
-LABEL Name=one-platform-ssi Version=0.0.0
+FROM spaship/httpd
+LABEL Name=one-platform-ssi \
+      Version=0.0.1 \
+      maintainer="mdeshmuk@redhat.com"
 
-WORKDIR /usr/local/apache2/htdocs
+# Installing nodejs & npm
+USER root
+RUN microdnf install -y npm && microdnf clean all
 
-ADD httpd.conf /usr/local/apache2/conf/httpd.conf
+ADD . /ssi
 
-ADD . app
+WORKDIR /ssi
+
+RUN npm install --silent && \
+  npm run build
+RUN cp public/index.html /usr/share/httpd/noindex/ && \
+  chmod a+x /usr/share/httpd/noindex/index.html && \
+  mkdir /var/www/html/templates && \
+  cp -r dist/** /var/www/html/templates
+
+USER 1001

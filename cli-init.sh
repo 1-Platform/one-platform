@@ -2,4 +2,4 @@
 cd packages
 
 # Initate template QA
-yo --no-insight --no-update-notifier ../cli/generator-op-microservice/generators/microservice
+../cli/generator-op-microservice/node_modules/.bin/yo --no-insight --no-update-notifier ../cli/generator-op-microservice/generators/microservice
