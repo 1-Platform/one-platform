@@ -58,7 +58,6 @@ type TicketType {
   status:StatusType
   assignee:AssigneeType
   ticketID:String
-
 }
 
 type Query {

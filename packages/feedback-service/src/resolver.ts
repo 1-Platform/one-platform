@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import { Feedback } from './schema';
+const JiraApi = require('jira-client');
 
 export const FeedbackResolver = {
   Query: {
@@ -18,7 +19,6 @@ export const FeedbackResolver = {
       return Feedback.find(args.input).exec();
     },
     getAllJiraIssues(root: any,  args : any, ctx: any) {
-    const JiraApi = require('jira-client');
     const jira = new JiraApi({
     protocol: 'https',
     host: process.env.JIRA_HOST,
