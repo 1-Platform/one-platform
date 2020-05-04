@@ -1,4 +1,5 @@
 type HomeType {
+    _id: String
     name: String
     description: String
     link: String
@@ -9,6 +10,7 @@ type HomeType {
 }
 
 input HomeInput {
+    _id: String
     name: String
     description: String
     link: String
@@ -18,16 +20,20 @@ input HomeInput {
     videoUrl: String
 }
 
-type MicroserviceDetailsType {
-    title: String
-    info: String
-    features: [String]
-    illustration: String
+type Query {
+    # Fetches all HomeType
+    listHomeType: [HomeType]
+    # Fetches specific HomeType by id
+    getHomeType(_id: String!):HomeType
+    # Fetches HomeType by any property
+    getHomeTypeBy(input: HomeInput): [HomeType]
 }
 
-input MicroserviceDetailsInputType {
-    title: String
-    info: String
-    features: [String]
-    illustration: String
+type Mutation {
+    # Add HomeType
+    createHomeType(input: HomeInput): HomeType
+    # Update HomeType
+    updateHomeType(input: HomeInput): HomeType
+    # Delete HomeType by id
+    deleteHomeType(_id: String!): HomeType
 }

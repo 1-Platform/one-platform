@@ -1,4 +1,10 @@
 {
-   "message": "Define your test mocks in this file and remove this key value pair if not required"
+   "_id": "5ea80745dc06d7981aa4b32c",
+   "name": "Authentication",
+   "description": "Adding authentication to your application is pice of cake. Just integrate with our API and focus on application development.",
+   "link": "microservice-details.html#authentication",
+   "icon": "img/shield.svg",
+   "entityType": "microservice",
+   "colorScheme": "linear-gradient(119deg, #E2EAF6 0%, #E8E4F6 100%)",
+   "videoUrl": "#"
 }
-
