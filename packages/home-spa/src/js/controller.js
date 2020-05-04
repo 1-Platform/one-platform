@@ -25,8 +25,8 @@ if (microserviceCard !== null && carouselSlide !== null) {
 }
 
 getData().then(
-  (data) => {
-    buildDom(data.data.listHomeType);
+  (result) => {
+    buildDom(result.data.listHomeType);
   }
 ).catch(err => {
   console.error(err);
