@@ -26,6 +26,7 @@ export const FeedbackResolver = {
         Feedback.findById(response._id)
         .then(fb => {
           if (fb){
+
             const issue = {
               "fields":{
                 "project":{
@@ -36,11 +37,12 @@ export const FeedbackResolver = {
                 "issuetype": {"name": "Task"},
               }
             }
+            
             const envpath = process.env.NODE_ENV;
             if(envpath === "production"){
               addFeedback(issue).then((jira:any) => {
                 args.input.ticketID = jira.key
-                return Object.assign(fb, args.input).save().then((feedback: any) => { return feedback; });
+                return Feedback.update(fb, args.input).then((feedback: any) => { return feedback; });
               })
               .catch(function(err){
                 return err;

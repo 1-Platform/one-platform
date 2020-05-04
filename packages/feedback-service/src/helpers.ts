@@ -14,9 +14,5 @@ const JiraObj = new JiraApi({
 });
 
 export function addFeedback(issue:any){
-     return JiraObj.addNewIssue(issue)
-     .then((response:any) => response)
-     .catch(function(err:any){
-         return err;
-     })     
+     return JiraObj.addNewIssue(issue);     
  }
