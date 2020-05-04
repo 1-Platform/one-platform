@@ -28,14 +28,16 @@ export const FeedbackResolver = {
     apiVersion: '2',
     strictSSL: false
    });
-   return  jira.getIssuesForBoard("3844")
+   return  jira.getIssuesForBoard(process.env.JIRA_BOARD_ID)
       .then(function(getIssuesForBoard: any){
       return getIssuesForBoard['issues'].map( (issue: any) => {
           issue['fields']['ticketID'] = issue['key'];
           return issue['fields']
           }) 
       })
-      .catch((err:any) => err);          
+      .catch(err => {
+        throw err;
+      });          
   },
 
   },
