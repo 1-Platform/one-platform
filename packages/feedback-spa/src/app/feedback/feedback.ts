@@ -30,16 +30,14 @@ export class Team {
 
 export interface Timestamp {
     createdAt: Date;
-    createdBy?: {
+    createdBy: {
       kerberosID: string;
       name: string;
-      email: string;
     };
-    modifiedAt?: Date;
-    modifiedBy?: {
+    modifiedAt: Date;
+    modifiedBy: {
       kerberosID: string;
       name: string;
-      email: string;
     };
   }
   
@@ -92,17 +90,14 @@ export interface Timestamp {
   }
   
 export interface Feedback {
-  _id?: string;
+  _id: string;
   description: string;
-  experience?: string;
+  experience: string;
   feedbackType: string;
-  iid?: string;
-  module: String;
-  portalFeedback: Boolean;
-  state?: string;
-  assignees?: any;
+  ticketID: string;
+  spa: String;
   timestamp: Timestamp;
-  title?: string;
+  title: string;
 }
 
 export interface FeedbacksResponse {

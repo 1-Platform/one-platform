@@ -13,7 +13,8 @@ export class FeedbackHomeComponent implements OnInit {
   @ViewChild('fiModalTrigger') fiModalTrigger: ElementRef;
   allFeedback: any;
   feedbackDetails: any;
-  gitlabURL: string;
+  jiraURL: string;
+  roverURL: string;
   modules = [];
   activeTab = null;
   stats = [];
@@ -39,19 +40,20 @@ export class FeedbackHomeComponent implements OnInit {
    
   }
   ngOnInit() {
-    this.gitlabURL = environment.gitlabURL;
+    this.jiraURL = environment.jiraURL;
+    this.roverURL = environment.roverURL;
     this.feedbackService.getAllFeedback().then(allFeedback => {
-      this.feedbackService.getAllGitLabIssues().subscribe(glIssues => {
+      this.feedbackService.getAllJiraIssues().then( (jiraIssues: any) => {
         this.allFeedback = allFeedback.map(fb => {
           const fbObj = { ...fb };
-          const fbIssue = glIssues.filter(issue => {
-            if (Number(issue.iid) === Number(fb.iid)) {
+          const fbIssue = jiraIssues.filter(issue => {
+            if (issue.ticketID === fb.ticketID) {
               return issue;
             }
           })[0];
           if (fbIssue) {
-            fbObj.state = fbIssue.state;
-            fbObj.assignees = fbIssue.assignees;
+            fbObj['state'] = [fbIssue['status']['name']];
+            fbObj['assignees'] = [fbIssue['assignee']['name']];
           }
           return fbObj;
         });

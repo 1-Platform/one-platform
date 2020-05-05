@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import { Feedback } from './schema';
+const JiraApi = require('jira-client');
 import { addFeedback } from './helpers';
 
 export const FeedbackResolver = {
@@ -17,7 +18,28 @@ export const FeedbackResolver = {
     },
     getFeedbackBy(root: any,  args : any, ctx: any){
       return Feedback.find(args.input).exec();
-    }
+    },
+    getAllJiraIssues(root: any,  args : any, ctx: any) {
+    const jira = new JiraApi({
+    protocol: 'https',
+    host: process.env.JIRA_HOST,
+    username: process.env.JIRA_USERNAME,
+    password: process.env.JIRA_PASSWORD,
+    apiVersion: '2',
+    strictSSL: false
+   });
+   return  jira.getIssuesForBoard(process.env.JIRA_BOARD_ID)
+      .then(function(getIssuesForBoard: any){
+      return getIssuesForBoard['issues'].map( (issue: any) => {
+          issue['fields']['ticketID'] = issue['key'];
+          return issue['fields']
+          }) 
+      })
+      .catch(err => {
+        throw err;
+      });          
+  },
+
   },
   Mutation: {
     addFeedback(root: any, args: any, ctx: any) {

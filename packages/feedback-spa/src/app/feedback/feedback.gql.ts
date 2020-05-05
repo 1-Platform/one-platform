@@ -1,13 +1,31 @@
 import gql from 'graphql-tag';
-import { PopulatedFeedbackType, FeedbackType } from './feedback.fragment';
+import { FeedbackType } from './feedback.fragment';
 
 export const listFeedback = gql`
 query listFeedback {
   listFeedback {
-    ...populatedFeedbackType
+    _id,
+    description,
+    experience,
+    feedbackType,
+    ticketID,
+    spa, 
+    timestamp {
+      createdBy {
+        kerberosID,
+        name
+      },
+      modifiedAt,
+      createdAt,
+      createdBy {
+        kerberosID,
+        name
+      },
+    },
+    title
   }
 }
-${PopulatedFeedbackType}
+
 `;
 
 export const getFeedback = gql`
@@ -17,4 +35,18 @@ query getFeedback($_id: String!) {
   }
 }
 ${FeedbackType}
+`;
+
+export const getAllJiraIssues = gql`
+query getAllJiraIssues {
+  getAllJiraIssues {
+    status{
+      name
+    },
+    assignee{
+      name
+    },
+   ticketID
+  }
+}
 `;

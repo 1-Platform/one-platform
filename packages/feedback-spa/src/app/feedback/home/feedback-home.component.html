@@ -59,7 +59,8 @@
         currentPage: feedbackPage
       }"
      [feedback]="feedback"
-     [gitlabURL]="this.gitlabURL"
+     [jiraURL]="this.jiraURL"
+     [roverURL]="this.roverURL"
      (clickAction)="openModal($event);">
     </op-feedback-item>
   </div>
@@ -69,8 +70,8 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <a class="h5 text-dark" *ngIf="feedbackDetails?.iid"
-            href="{{this.gitlabURL}}/{{feedbackDetails?.iid}}"
+          <a class="h5 text-dark" *ngIf="feedbackDetails?.ticketID"
+            href="{{this.jiraURL}}/{{feedbackDetails?.ticketID}}"
             target="_blank">
             <i class="icon ion-ios-link"></i> {{ '  ' + feedbackDetails?.iid }}
           </a>
@@ -119,8 +120,8 @@
               <div class="feedback-assignees">
                 <div class="fi-modal-headings">Assignee(s)</div>
                 <span *ngFor="let assignee of feedbackDetails?.assignees">
-                  <a target="blank" *ngIf="assignee?.name" href="{{ assignee?.web_url }}">
-                    {{ assignee?.name }}
+                  <a target="blank" *ngIf="assignee" href="{{this.roverURL}}/{{assignee}}">
+                    {{ assignee }}
                   </a>
                 </span>
                 <span *ngIf="!(feedbackDetails?.assignees?.length)" class="no-feedback-description">Not Assigned</span>
@@ -147,7 +148,7 @@
               </div>
               <div class="fi-modal-footer">
                 <a class="btn fb-issue-link" *ngIf="feedbackDetails?.iid"
-                  href="{{this.gitlabURL}}/{{ feedbackDetails?.iid }}"
+                  href="{{this.jiraURL}}/{{ feedbackDetails?.iid }}"
                   target="_blank">View on GitLab
                   <i class="icon ion-md-open"></i>
                 </a>

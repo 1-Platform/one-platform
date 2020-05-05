@@ -46,6 +46,20 @@ input FeedbackInput {
   feedbackType: String
 }
 
+type StatusType{
+  name:String
+}
+
+type AssigneeType{
+  name:String
+}
+
+type TicketType {
+  status:StatusType
+  assignee:AssigneeType
+  ticketID:String
+}
+
 type Query {
   # Fetches all Feedbacks
   listFeedback: [FeedbackType]
@@ -53,6 +67,8 @@ type Query {
   getFeedback(id: String!): FeedbackType
   #Fetches Feedbacks by any property
   getFeedbackBy(input: FeedbackInput!): [FeedbackType]
+  #Fetches tickets from jiraboard
+  getAllJiraIssues: [TicketType]
 }
 
 type Mutation {

@@ -8,7 +8,8 @@ import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 export class FeedbackItemComponent implements OnInit {
 
   @Input() feedback: any;
-  @Input() gitlabURL: any;
+  @Input() jiraURL: any;
+  @Input() roverURL: any;
   @Output() clickAction: EventEmitter<any> = new EventEmitter<any>();
   isAccordionOpen: Boolean | any = false;
   constructor() { }

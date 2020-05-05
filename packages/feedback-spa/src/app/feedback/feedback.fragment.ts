@@ -2,32 +2,25 @@ import gql from 'graphql-tag';
 
 export const PopulatedFeedbackType = gql`
 fragment populatedFeedbackType on PopulatedFeedbackType {
-  _id
-  description
-  experience
-  iid
-  module {
-    _id
-    name
-    path
-  }
-  portalFeedback
-  title
-  feedbackType
+  _id,
+  description,
+  experience,
+  feedbackType,
+  ticketID,
+  spa, 
   timestamp {
     createdBy {
-      kerberosID
+      kerberosID,
       name
-      email
-    }
-    modifiedAt
-    createdAt
+    },
+    modifiedAt,
+    createdAt,
     createdBy {
-      kerberosID
+      kerberosID,
       name
-      email
-    }
-  }
+    },
+  },
+  title
 }
 `;
 
@@ -35,25 +28,22 @@ export const FeedbackType = gql`
 fragment feedbackType on FeedbackType {
   _id
   description
-  experience
-  iid
-  module
-  portalFeedback
-  title
   feedbackType
+  ticketID
+  experience
+  spa
   timestamp {
     createdBy {
       kerberosID
       name
-      email
     }
     modifiedAt
     createdAt
     createdBy {
       kerberosID
       name
-      email
     }
   }
+  title
 }
 `;

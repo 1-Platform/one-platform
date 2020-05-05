@@ -51,9 +51,9 @@
       <p>Assignee(s)</p>
       <span *ngFor="let assignee of feedback?.assignees">
         <a target="blank"
-          *ngIf="assignee?.name"
-          href="{{ assignee?.web_url }}">
-          {{ assignee?.name }}
+          *ngIf="assignee"
+          href="{{ roverURL }}/{{assignee}}">
+          {{ assignee }}
         </a>
       </span>
       <span *ngIf="!(feedback?.assignees?.length)"
@@ -80,10 +80,10 @@
       View Details
     </a>
     <a class="btn fb-issue-link"
-      *ngIf="feedback?.iid"
-      href="{{gitlabURL}}/{{ feedback?.iid }}"
+      *ngIf="feedback?.ticketID"
+      href="{{jiraURL}}/{{ feedback?.ticketID }}"
       target="_blank"
-      >Gitlab Link
+      >Jira Link
       <i class="icon ion-md-open"></i>
     </a>
   </div>
