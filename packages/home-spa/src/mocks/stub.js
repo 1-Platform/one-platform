@@ -51,7 +51,7 @@ export const stub = [
       icon: "fa-tools",
       entityType: "spa",
       colorScheme: "#",
-      videoUrl: "_MIaJKKxGO0"
+      videoUrl: "https://www.youtube.com/embed/_MIaJKKxGO0"
    },
    {
       name: "Notification Management",
@@ -60,7 +60,7 @@ export const stub = [
       icon: "fa-tools",
       entityType: "spa",
       colorScheme: "#",
-      videoUrl: "b1kXvDscGvU"
+      videoUrl: "https://www.youtube.com/embed/b1kXvDscGvU"
    },
    {
       name: "DSAL",
@@ -73,7 +73,7 @@ export const stub = [
    }
 ];
 
-export const microserviceMock = [
+export const microserviceDetailsMock = [
    {
       title: 'Authentication',
       info: 'Authentication microservices would verify and authenticate the legitimate user and grant necessary access.',

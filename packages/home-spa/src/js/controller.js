@@ -1,6 +1,6 @@
 // Services
 import { getData }  from './service';
-import { stub, microserviceMock, teamMembers } from '../mocks/stub';
+import { stub, microserviceDetailsMock, teamMembers } from '../mocks/stub';
 // importing images
 import '../img/bell.svg';
 import '../img/shield.svg';
@@ -25,10 +25,11 @@ if (microserviceCard !== null && carouselSlide !== null) {
 }
 
 getData().then(
-  (data) => {
-    buildDom(data);
+  (result) => {
+    buildDom(result.data.listHomeType);
   }
 ).catch(err => {
+  console.error(err);
   buildDom(stub);
 });
 
@@ -93,7 +94,7 @@ function buildDom(apiData) {
           </p>
         </div>
         <div class="grid__carousel-slide__right">
-          <iframe width="500" height="280" video" src="https://www.youtube.com/embed/${carouselItem.videoUrl}" frameborder="0"
+          <iframe width="500" height="280" video" src="${carouselItem.videoUrl}" frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen></iframe>
         </div>
@@ -104,7 +105,7 @@ function buildDom(apiData) {
   }
 
   if (microserviceDetails !== null) {
-    microserviceDetails.innerHTML = microserviceMock.map(microservice => {
+    microserviceDetails.innerHTML = microserviceDetailsMock.map(microservice => {
     return `<div class="microservice__details">
     <div class="microservice__details--header" id="${microservice.title.replace(/\s+/g, '-').toLowerCase()}">${microservice.title}</div>
     <div class="microservice__information">
