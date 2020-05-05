@@ -4,6 +4,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const htmlWebpackPluginMinify = {
+    collapseWhitespace: true,
+    removeComments: false,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    useShortDoctype: true
+  };
 
 module.exports = {
     mode: 'development',
@@ -78,33 +86,25 @@ module.exports = {
             filename: 'index.html',
             chunks: ['app'],
             template: './src/index.html',
-            minify: {
-                collapseWhitespace: true,
-            },
+            minify: htmlWebpackPluginMinify,
         }),
         new HtmlWebpackPlugin({
             filename: '404.html',
             chunks: ['app'],
             template: './src/404.html',
-            minify: {
-                collapseWhitespace: true,
-            },
+            minify: htmlWebpackPluginMinify,
         }),
         new HtmlWebpackPlugin({
             filename: 'microservice-details.html',
             chunks: ['app'],
             template: './src/microservice-details.html',
-            minify: {
-                collapseWhitespace: true,
-            },
+            minify: htmlWebpackPluginMinify,
         }),
         new HtmlWebpackPlugin({
             filename: 'contact-us.html',
             chunks: ['app'],
             template: './src/contact-us.html',
-            minify: {
-                collapseWhitespace: true,
-            },
+            minify: htmlWebpackPluginMinify,
         }),
         new MiniCssExtractPlugin(),
     ]
