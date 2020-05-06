@@ -1,0 +1,114 @@
+/* User Profile */
+.user-name + p {
+  color: #72767b;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+/* User Primary Information */
+.user-primary-information {
+  display: flex;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.user-auth-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.user-info-group {
+  flex: 0 1 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-auth-info .row {
+  display: flex;
+}
+
+.user-info-label {
+  font-size: 14px;
+  color: #72767b;
+}
+
+.user-info-group p {
+  margin-top: 0;
+  font-weight: 500;
+}
+
+/* User Rover Groups */
+.user-rover-groups {
+  margin-bottom: 1rem;
+}
+
+.user-rover-groups-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+span.chip {
+  padding: 0.5rem 1rem;
+  background: var(--gray-200);
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+/* User Hosted Applications */
+.user-hosted-applications {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.user-hosted-application-list {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-hosted-app {
+  width: 300px;
+  height: 56px;
+  border: 1px solid var(--gray-300);
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.app-icon {
+  position: relative;
+}
+
+.app-icon:after {
+  content: "";
+  top: 0;
+  right: -2rem;
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  background: var(--gray-300);
+  margin-right: 1rem;
+}
+
+.app-name {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-name span:first-child {
+  font-size: 14px;
+}
+
+.app-name span:last-child {
+  font-weight: 500;
+}
