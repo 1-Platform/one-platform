@@ -1,27 +1,40 @@
-# UserProfileSpa
+# Welcome to User Profile SPA 👋
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
+[![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/1-Platform/one-platform#readme)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/1-Platform/one-platform/graphs/commit-activity)
 
-## Development server
+User Profile SPA for One Platform
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Install
 
-## Code scaffolding
+```sh
+npm install
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+### Development server
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- Run development server
 
-## Running unit tests
+```sh
+ng [serve](https://angular.io/cli/serve)
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Build
 
-## Running end-to-end tests
+```sh
+ng [build](https://angular.io/cli/build)
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Run tests and lint
 
-## Further help
+```sh
+ng [lint](https://angular.io/cli/lint)
+ng [test](https://angular.io/cli/test)
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## 🤝 Contributors
+
+👤 **Sumeet Ingole** [@gisumit](https://github.com/gisumit)
