@@ -43,9 +43,7 @@ const apollo = new ApolloServer( {
     typeDefs: gqlSchema,
     resolvers: resolver
   }]),
-  subscriptions: {
-    path: '/subscriptions',
-    },
+  
   formatError: error => ({
     message: error.message,
     locations: error.locations,

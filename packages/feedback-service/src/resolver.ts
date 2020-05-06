@@ -35,7 +35,7 @@ export const FeedbackResolver = {
           return issue['fields']
           }) 
       })
-      .catch(err => {
+      .catch((err: any) => {
         throw err;
       });          
   },
@@ -66,7 +66,7 @@ export const FeedbackResolver = {
                 args.input.ticketID = jira.key
                 return Feedback.update(fb, args.input).then((feedback: any) => { return feedback; });
               })
-              .catch(function(err){
+              .catch(function(err: any){
                 return err;
               })
             }
