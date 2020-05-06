@@ -76,7 +76,7 @@ export const stub = [
 export const microserviceDetailsMock = [
    {
       title: 'Authentication',
-      info: 'Authentication microservices would verify and authenticate the legitimate user and grant necessary access.',
+      info: 'Authentication microservice will verify and authenticate the legitimate user and grant necessary access.',
       features: [
          'SSO integration.',
          'Authenticate SPA users using authentication microservice.',
@@ -92,7 +92,7 @@ export const microserviceDetailsMock = [
          'Manage & Support notifications between SPA’s hosted over One Platform.',
          'Manage SPA Subscriptions.',
          'Notification UI to view SPA specific notifications, configuration management dashboard.',
-         'Integration with User & Group microservice to notify targetted users.',
+         'Integration with User & Group microservice to notify targeted users.',
          'Integration with Hydra (near future).',
       ],
       illustration: 'img/Notification-illustration.svg',
@@ -109,6 +109,16 @@ export const microserviceDetailsMock = [
       ],
       illustration: 'img/User-profile-illustration.svg',
    },
+   {
+      title: 'Feedback',
+      info: `One platform's server-side Feedback GraphQL microservice. This microservice will allow users to talk to the feedback database and can perform operations like addFeedback, updateFeedback, deleteFeedback & listFeedback`,
+      features: [
+         'Provide feedback for the Platform or the hosted apps from anywhere',
+         'Allow users to share user experience feedback and feature requests',
+         'JIRA integration to automatically create JIRAs for every feedback',
+      ],
+      illustration: 'img/Notification-illustration.svg',
+   }
 ];
 
 export const teamMembers = [
