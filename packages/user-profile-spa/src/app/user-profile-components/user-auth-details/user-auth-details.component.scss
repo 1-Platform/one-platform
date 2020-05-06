@@ -1,0 +1,71 @@
+/* Auth and API Permission */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.toolbar p {
+  color: #72767b;
+}
+
+.toolbar button {
+  border: none;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background: #e2eaf6;
+  color: var(--primary-blue);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-family: "Red Hat Text";
+}
+
+.user-auth-item {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.user-auth-item .row:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-auth-info .row {
+  display: flex;
+}
+
+.user-auth-info label {
+  font-size: 14px;
+  color: #72767b;
+}
+
+.user-auth-item .row:first-child p.user-app-name {
+  color: var(--primary-blue);
+  font-weight: 500;
+}
+
+.user-auth-item .row:first-child button.btn-edit {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border: none;
+  background: #dddddd;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-family: "Red Hat Text";
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.user-auth-item > .row:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.user-auth-item > .row:last-child > .user-auth-info {
+  flex: 0 0 300px;
+}
