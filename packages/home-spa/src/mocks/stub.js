@@ -117,7 +117,7 @@ export const microserviceDetailsMock = [
          'Allow users to share user experience feedback and feature requests',
          'JIRA integration to automatically create JIRAs for every feedback',
       ],
-      illustration: 'img/Notification-illustration.svg',
+      illustration: 'img/Feedback-illustration.svg',
    }
 ];
 
