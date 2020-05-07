@@ -115,7 +115,7 @@ export const microserviceDetailsMock = [
       features: [
          'Provide feedback for the Platform or the hosted apps from anywhere',
          'Allow users to share user experience feedback and feature requests',
-         'JIRA integration to automatically create JIRAs for every feedback',
+         'JIRA integration to automatically create JIRA tasks for every feedback',
       ],
       illustration: 'img/Feedback-illustration.svg',
    }
