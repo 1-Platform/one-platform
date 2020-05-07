@@ -10,6 +10,7 @@ import '../img/magnifying-glass.svg';
 import '../img/Auth-illustration.svg';
 import '../img/Notification-illustration.svg';
 import '../img/User-profile-illustration.svg';
+import '../img/Feedback-illustration.svg';
 import '../img/user-female.svg';
 import '../img/user-male.svg';
 
