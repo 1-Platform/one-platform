@@ -111,7 +111,7 @@ export const microserviceDetailsMock = [
    },
    {
       title: 'Feedback',
-      info: `One platform's server-side Feedback GraphQL microservice. This microservice will allow users to talk to the feedback database and can perform operations like addFeedback, updateFeedback, deleteFeedback & listFeedback`,
+      info: `One Platform's GraphQL based Feedback microservice. This microservice will allow users to talk to the feedback database and can perform operations like addFeedback, updateFeedback, deleteFeedback & listFeedback`,
       features: [
          'Provide feedback for the Platform or the hosted apps from anywhere',
          'Allow users to share user experience feedback and feature requests',
