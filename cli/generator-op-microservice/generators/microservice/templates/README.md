@@ -17,7 +17,7 @@ Start Microservice
 ------------
 
   1. Run `npm build:dev` to generate a build for dev env and `npm build` for production build.
-  2. Run `npm start:dev` to run your microservice for dev env and `npm start` for production env.
+  2. Run `npm start` to run your microservice for dev env.
 
 Testing
 ------------
