@@ -2,6 +2,9 @@
 import { getData }  from './service';
 import { stub, microserviceDetailsMock, teamMembers } from '../mocks/stub';
 // importing images
+import '../img/illustration.svg';
+import '../img/404.svg';
+import '../img/co-working.svg';
 import '../img/bell.svg';
 import '../img/shield.svg';
 import '../img/talk-bubble.svg';
