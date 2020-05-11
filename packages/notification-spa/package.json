@@ -22,7 +22,7 @@
     "@angular/router": "9.1.4",
     "@patternfly/pfe-accordion": "1.0.0-prerelease.45",
     "@patternfly/pfe-select": "1.0.0-prerelease.45",
-    "@patternfly/pfe-toast": "1.0.0-prerelease.40",
+    "@patternfly/pfe-toast": "1.0.0-prerelease.45",
     "@types/jest": "25.2.1",
     "apollo-angular": "1.9.1",
     "apollo-angular-link-http": "1.10.0",
