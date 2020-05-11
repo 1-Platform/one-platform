@@ -7,7 +7,7 @@ import { GraphQLModule } from './apollo.config';
 export class AppService extends GraphQLModule {
   constructor(
     private apollo: Apollo,
-    private httpLink: HttpLink) 
+    private httpLink: HttpLink)
     {
     super(apollo, httpLink);
   }

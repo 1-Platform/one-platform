@@ -35,7 +35,6 @@
     "ngx-pagination": "5.0.0",
     "ngx-pipes": "2.7.3",
     "rxjs": "6.5.5",
-    "subscriptions-transport-ws": "0.9.16",
     "toastr": "2.1.4",
     "tslib": "1.11.1",
     "webpack-dev-server": "3.10.3",

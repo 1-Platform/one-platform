@@ -23,77 +23,9 @@ export class GraphQLModule {
   constructor(apollo: Apollo, httpLink: HttpLink) {
 
     const uri = environment.graphqlAPI;
-    const httpClient = httpLink.create({ uri: uri, headers: this.header });
-
-    const error = onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        graphQLErrors.map(({ message, locations, path }) =>
-          console.log(
-            `[GraphQL error]: Message: ${JSON.stringify(message)}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)}`,
-          ),
-        );
-      }
-      if (networkError) {
-        if (networkError['status'] === 0) {
-          console.log(`[Network error]: ${JSON.stringify(networkError)}`);
-        }
-      }
-    });
-
-    const retry = new RetryLink({
-      delay: {
-        initial: 500,
-        max: Infinity,
-        jitter: false
-      },
-      attempts: {
-        max: 5,
-        retryIf: (_error, _operation) => !!_error
-      }
-    });
-
-    const omitTypename = (key, value) => (key === '__typename' ? undefined : value);
-    const cleanTypeName = new ApolloLink((operation, forward) => {
-      if (operation.variables) {
-        operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
-      }
-      return forward(operation).map((data) => {
-        return data;
-      });
-    });
-
-
-    const wsClient = new WebSocketLink({
-      uri: environment.subscription,
-      options: {
-        reconnect: true,
-        inactivityTimeout: 0,
-        reconnectionAttempts: 10,
-        connectionParams: {
-          headers: {
-            'Authorization': this.authorization
-          }
-        }
-      },
-    });
-    const httpWslink = split(
-      ({ query }) => {
-        const { kind, operation }: any = getMainDefinition(query);
-        return kind === 'OperationDefinition' && operation === 'subscription';
-      },
-      wsClient,
-      httpClient,
-    );
-
-    const link = WebSocketLink.from([
-      cleanTypeName,
-      retry,
-      error,
-      httpWslink,
-    ]);
-
+    const httpClient = httpLink.create({ uri, headers: this.header });
     apollo.create({
-      link: link,
+      link: httpClient,
       cache: new InMemoryCache(),
       defaultOptions: {
         watchQuery: {
@@ -102,5 +34,5 @@ export class GraphQLModule {
         }
       }
     });
-  }  
+  }
 }
