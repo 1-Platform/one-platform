@@ -2,6 +2,9 @@
 import { getData }  from './service';
 import { stub, microserviceDetailsMock, teamMembers } from '../mocks/stub';
 // importing images
+import '../img/illustration.svg';
+import '../img/404.svg';
+import '../img/co-working.svg';
 import '../img/bell.svg';
 import '../img/shield.svg';
 import '../img/talk-bubble.svg';
@@ -10,6 +13,7 @@ import '../img/magnifying-glass.svg';
 import '../img/Auth-illustration.svg';
 import '../img/Notification-illustration.svg';
 import '../img/User-profile-illustration.svg';
+import '../img/Feedback-illustration.svg';
 import '../img/user-female.svg';
 import '../img/user-male.svg';
 
