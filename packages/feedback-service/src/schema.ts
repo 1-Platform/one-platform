@@ -4,12 +4,12 @@ const FeedbackSchema: Schema = new Schema({
   description: String,
   experience: String,
   ticketID: String,
-  spa: String,                
+  spa: String,
   timestamp: {
     createdAt: { type: Date, default: Date.now },
     createdBy: {
       kerberosID: String,
-      name: String,               
+      name: String,
     },
     modifiedAt: Date,
     modifiedBy: {

@@ -96,7 +96,6 @@ afterAll(done => {
         expect(res.body.data.listFeedback[0]).toHaveProperty('description');
         expect(res.body.data.listFeedback[0]).toHaveProperty('ticketID');
         expect(res.body.data.listFeedback[0]).toHaveProperty('experience');
-        
       })
       .end((err, res) => {
         done(err);

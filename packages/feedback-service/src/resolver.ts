@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 import { Feedback } from './schema';
 const JiraApi = require('jira-client');
 import { addFeedback } from './helpers';
@@ -7,7 +7,7 @@ export const FeedbackResolver = {
   Query: {
     listFeedback(root: any, args: any, ctx: any) {
       return Feedback.find()
-        .sort({ "timestamp": -1 })
+        .sort({ 'timestamp': -1 })
         .then(response => response)
         .catch(err => err);
     },
@@ -16,10 +16,10 @@ export const FeedbackResolver = {
         .then(response => response)
         .catch(err => err);
     },
-    getFeedbackBy(root: any,  args : any, ctx: any){
+    getFeedbackBy(root: any,  args: any, ctx: any){
       return Feedback.find(args.input).exec();
     },
-    getAllJiraIssues(root: any,  args : any, ctx: any) {
+    getAllJiraIssues(root: any,  args: any, ctx: any) {
     const jira = new JiraApi({
     protocol: 'https',
     host: process.env.JIRA_HOST,
@@ -29,15 +29,15 @@ export const FeedbackResolver = {
     strictSSL: false
    });
    return  jira.getIssuesForBoard(process.env.JIRA_BOARD_ID)
-      .then(function(getIssuesForBoard: any){
+      .then(function(getIssuesForBoard: any) {
       return getIssuesForBoard['issues'].map( (issue: any) => {
           issue['fields']['ticketID'] = issue['key'];
-          return issue['fields']
-          }) 
+          return issue['fields'];
+          });
       })
       .catch((err: any) => {
         throw err;
-      });          
+      });
   },
 
   },
@@ -47,31 +47,30 @@ export const FeedbackResolver = {
       return data.save().then(response => {
         Feedback.findById(response._id)
         .then(fb => {
-          if (fb){
+          if (fb) {
 
             const issue = {
-              "fields":{
-                "project":{
-                  "key": process.env.PROJECT_KEY
+              'fields':{
+                'project': {
+                  'key': process.env.PROJECT_KEY
                 },
-                "summary": fb.title,
-                "description": fb.description,
-                "issuetype": {"name": "Task"},
+                'summary': fb.title,
+                'description': fb.description,
+                'issuetype': {'name': 'Task'},
               }
-            }
-            
+            };
             const envpath = process.env.NODE_ENV;
-            if(envpath === "production"){
-              addFeedback(issue).then((jira:any) => {
-                args.input.ticketID = jira.key
-                return Feedback.update(fb, args.input).then((feedback: any) => { return feedback; });
+            if (envpath === 'production') {
+              addFeedback(issue).then((jira: any) => {
+                args.input.ticketID = jira.key;
+                return Feedback.update(fb, args.input).then((feedback: any) => feedback );
               })
-              .catch(function(err: any){
+              .catch(function(err: any) {
                 return err;
-              })
+              });
             }
           }
-        })
+        });
       });
     },
     updateFeedback(root: any, args: any, ctx: any) {
@@ -88,4 +87,4 @@ export const FeedbackResolver = {
     },
 
   }
-}
+};
