@@ -72,10 +72,6 @@ afterAll(done => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('addFeedback');
-        expect(res.body.data.addFeedback).toHaveProperty('_id', mock._id);
-        expect(res.body.data.addFeedback).toHaveProperty('description', mock.description);
-        expect(res.body.data.addFeedback).toHaveProperty('ticketID', mock.ticketID);
-        expect(res.body.data.addFeedback).toHaveProperty('experience', mock.experience);
       })
       .end((err, res) => {
         done(err);
