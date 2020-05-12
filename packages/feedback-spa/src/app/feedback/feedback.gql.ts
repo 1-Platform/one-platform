@@ -9,7 +9,7 @@ query listFeedback {
     experience,
     feedbackType,
     ticketID,
-    spa, 
+    spa,
     timestamp {
       createdBy {
         kerberosID,

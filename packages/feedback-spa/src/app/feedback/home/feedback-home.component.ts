@@ -51,7 +51,9 @@ export class FeedbackHomeComponent implements OnInit {
             }
           })[0];
           if (fbIssue) {
+            // tslint:disable-next-line: no-string-literal
             fbObj['state'] = [fbIssue['status']['name']];
+            // tslint:disable-next-line: no-string-literal
             fbObj['assignees'] = [fbIssue['assignee']['name']];
           }
           return fbObj;

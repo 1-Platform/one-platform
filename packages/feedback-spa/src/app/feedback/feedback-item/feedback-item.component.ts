@@ -11,7 +11,7 @@ export class FeedbackItemComponent implements OnInit {
   @Input() jiraURL: any;
   @Input() roverURL: any;
   @Output() clickAction: EventEmitter<any> = new EventEmitter<any>();
-  isAccordionOpen: boolean | any = false;
+  isAccordionOpen = false;
   constructor() { }
 
   ngOnInit() {

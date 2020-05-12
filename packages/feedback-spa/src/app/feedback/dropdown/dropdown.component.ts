@@ -106,19 +106,21 @@ export class DropdownComponent implements OnInit {
     }
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
+  // tslint:disable-next-line: use-lifecycle-interface
   ngAfterViewInit() {
     this._CURRENT_SELECTED = this._DROP_DOWN_LIST_NODE.nativeElement.firstElementChild;
     this._DROP_DOWN_LIST_NODE.nativeElement.firstElementChild.classList.add('op-active');
     this.activeDropDown.oldDropDown = this._DROP_DOWN_LIST_NODE.nativeElement.querySelector('.op-active');
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnChanges(changes: any) {
     /**
      * Applying the updated changes to the dropdownOptions
      */
     if (changes.optionsWithID && !changes.optionsWithID.firstChange) {
-      this._optionsWithID = this.disableAny ? changes.optionsWithID.currentValue : [{ id: -1, name: 'Any', selected: false }, ...changes.optionsWithID.currentValue];
+      this._optionsWithID = this.disableAny ? changes.optionsWithID.currentValue : [
+        { id: -1, name: 'Any', selected: false }, ...changes.optionsWithID.currentValue];
       this._dropdownOptions = this._optionsWithID;
 
       const selectedOption = this._optionsWithID.find(option => option.selected === true);

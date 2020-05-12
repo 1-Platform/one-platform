@@ -8,7 +8,7 @@ export class AppService extends GraphQLModule {
   constructor(
     private apollo: Apollo,
     private httpLink: HttpLink)
-    {
+  {
     super(apollo, httpLink);
   }
 }
