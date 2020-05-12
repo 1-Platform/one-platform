@@ -7,12 +7,14 @@ export const FeedbackResolver = {
   Query: {
     listFeedback(root: any, args: any, ctx: any) {
       return Feedback.find()
+        .populate('createdBy')
         .sort({ 'timestamp': -1 })
         .then(response => response)
         .catch(err => err);
     },
     getFeedback(root: any, args: any, ctx: any) {
       return Feedback.findById(args.id)
+        .populate('createdBy')
         .then(response => response)
         .catch(err => err);
     },

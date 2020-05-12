@@ -1,36 +1,15 @@
 scalar DateTime
 
-type ProfileType {
-  kerberosID: String
-  name: String
-}
-
-type TimestampType {
-  createdAt: DateTime
-  createdBy: ProfileType
-  modifiedAt: DateTime
-  modifiedBy: ProfileType
-}
-
-input ProfileInput {
-  kerberosID: String
-  name: String
-}
-
-input TimestampInput {
-  createdAt: DateTime
-  createdBy: ProfileInput
-  modifiedAt: DateTime
-  modifiedBy: ProfileInput
-}
-
 type FeedbackType {
   _id: String
   description: String
   ticketID: String
   experience: String
   spa: String
-  timestamp: TimestampType
+  createdAt: DateTime
+  createdBy: String
+  modifiedAt: DateTime
+  modifiedBy: String
   title: String
   feedbackType: String
 }
@@ -41,7 +20,10 @@ input FeedbackInput {
   ticketID: String
   experience: String
   spa: String
-  timestamp: TimestampInput
+  createdAt: DateTime
+  createdBy: String
+  modifiedAt: DateTime
+  modifiedBy: String
   title: String
   feedbackType: String
 }
