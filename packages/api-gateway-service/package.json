@@ -35,7 +35,7 @@
   "contributors": [],
   "license": "MIT",
   "dependencies": {
-    "@apollo/gateway": "0.14.1",
+    "@apollo/gateway": "0.16.0",
     "@types/jsonwebtoken": "8.3.9",
     "apollo-log": "0.1.0",
     "apollo-server-express": "2.13.1",
