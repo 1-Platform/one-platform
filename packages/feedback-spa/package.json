@@ -38,7 +38,7 @@
     "subscriptions-transport-ws": "0.9.16",
     "toastr": "2.1.4",
     "tslib": "1.11.1",
-    "webpack-dev-server": "3.10.3",
+    "webpack-dev-server": "3.11.0",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
