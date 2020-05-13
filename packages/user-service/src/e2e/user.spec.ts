@@ -20,15 +20,17 @@ const query = `
         ...userType
     }
   }
-  query GetUserBy($uid: String!) {
-    getUserBy(uid: $uid) {
-      ...userType
-    }
-  }
+
   mutation AddingUser($input: UserInput) {
       addUser(input: $input) {
           ...userType
       }
+  }
+
+  query getUsersBy($uid: String) {
+    getUsersBy(uid: $uid) {
+      ...userType
+    }
   }
 
   mutation UpdatingUser($input: UserInput) {
@@ -76,7 +78,32 @@ describe( 'User-Group Microservice API Test', () => {
       } );
   } );
 
-  it( 'should list Users', ( done ) => {
+  it( 'should get Users by uid', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'getUsersBy',
+        variables: {
+          uid: mock.uid
+        }
+      } )
+      .expect( res => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
+        expect( res.body.data ).toHaveProperty( 'getUsersBy' );
+        expect( res.body.data.getUsersBy ).not.toHaveLength( 0 );
+        expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( '_id' );
+        expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( 'uid' );
+        expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( 'name' );
+        expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( 'title' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
+
+  it( 'should get Users by uid', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
