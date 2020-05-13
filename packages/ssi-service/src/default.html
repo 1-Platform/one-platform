@@ -1,19 +1,32 @@
-<script async src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
+<script
+  async
+  src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"
+></script>
 
-<script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+<script
+  type="module"
+  src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+  nomodule=""
+  src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"
+></script>
 
-<script type="module" src="templates/op-nav.js"></script>
-<script type="module" src="templates/op-feedback-panel.js"></script>
+<script
+  type="module"
+  src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-nav.js"
+></script>
+<script
+  type="module"
+  src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-panel.js"
+></script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const opfNav = document.createElement('op-nav');
-    document.body.prepend(opfNav);
-  });
+  const opfNav = document.createElement("op-nav");
+  const opfFeedback = document.createElement("op-feedback");
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const opfFeedback = document.createElement('op-feedback');
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.prepend(opfNav);
     document.body.append(opfFeedback);
   });
 </script>

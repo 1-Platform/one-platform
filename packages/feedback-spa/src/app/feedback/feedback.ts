@@ -23,7 +23,7 @@ export class Team {
       kerberosID?: string;
       name?: string;
       email: string;
-      primary?: Boolean;
+      primary?: boolean;
     };
     timestamp: Timestamp;
   }
@@ -40,12 +40,10 @@ export interface Timestamp {
       name: string;
     };
   }
-  
   export interface UserTeam {
     name: string;
     access: number;
   }
-  
   export class User {
     _id?: string;
     kerberosID: string;
@@ -60,13 +58,11 @@ export interface Timestamp {
     services?: any;
     outages?: any;
   }
-  
   export interface PopulatedUserTeam {
     name: Team;
     access: number;
-    primary: Boolean;
+    primary: boolean;
   }
-  
   export interface PopulatedUser {
     _id?: string;
     kerberosID: string;
@@ -81,23 +77,23 @@ export interface Timestamp {
     services?: any;
     outages?: any;
   }
-  
   export interface UsersResponse {
     listUsers: User[];
   }
   export interface UserResponse {
     getUser: User;
   }
-  
 export interface Feedback {
   _id: string;
   description: string;
   experience: string;
   feedbackType: string;
   ticketID: string;
-  spa: String;
+  spa: string;
   timestamp: Timestamp;
   title: string;
+  state?: string;
+  assignees?: string;
 }
 
 export interface FeedbacksResponse {

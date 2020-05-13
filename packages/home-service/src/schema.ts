@@ -8,6 +8,21 @@ export const HomeServiceSchema: Schema = new Schema({
     entityType: String,
     colorScheme: String,
     videoUrl: String,
+    owners: [String],
+    createdBy: String,
+    createdOn: Date,
+    updatedBy: String,
+    updatedOn: Date,
+    permissions: [
+        {
+            roverGroup: String,
+            role: {
+                type: String,
+                enum: ['ADMIN', 'USER'],
+                required: true,
+            }
+        }
+    ],
 });
 
 interface HomeModel extends HomeType , Document { }

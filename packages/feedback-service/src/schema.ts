@@ -5,10 +5,10 @@ const FeedbackSchema: Schema = new Schema({
   experience: String,
   ticketID: String,
   spa: String,
-  createdAt: { type: Date, default: Date.now },
-  createdBy: { type: String, ref: 'User' },
-  modifiedAt: Date,
-  modifiedBy: { type: String, ref: 'User' },
+  createdOn: { type: Date, default: Date.now },
+  createdBy: String,
+  updatedOn: { type: Date, default: Date.now },
+  updatedBy: String,
   title: String,
   feedbackType: String
 });

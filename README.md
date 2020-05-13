@@ -17,8 +17,44 @@ An integrated application hosting platform which allows you to host your SPAs. I
 
 ```bash
 npm install
+# OR
 lerna bootstrap
 ```
+
+## Using docker-compose for local development
+
+To start the local environment setup using docker-compose, use the following cli command from the root of this project:
+
+```bash
+docker-compose up $service_name
+```
+
+This will start the service along with any dependent services/databases required for the service (for eg. mongo).
+
+_Note:_ The service name should match the service labels given the the [docker-compose.yml](./docker-compose.yml) in the root directory.
+
+### Personal MongoDB instance using Docker Compose
+
+You can also use docker-compose as a personal MongoDB instance. Just uncomment the ports in the [docker-compose.yml](./docker-compose.yml) file.
+
+```yml
+services:
+  ...
+  mongo:
+    ...
+    ports:
+      - <local_port>:27017
+```
+
+You can replace the local port with any available port on your machine. I would recommend to not use the same `27017` port for your local, as that might cause conflicts with your local installation of MongoDB.
+
+After that, just start the service:
+
+```bash
+docker-compose up mongo
+```
+
+This will start a MongoDB container instance, which can be access using localhost via the port mentioned in the docker-compose.
 
 ## Run tests
 

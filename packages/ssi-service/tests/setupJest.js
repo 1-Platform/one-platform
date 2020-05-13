@@ -11,3 +11,12 @@ global.mockFetch = function mockFetch ( data ) {
 
 /* Default mock jest implementation */
 global.mockFetch( [] );
+
+
+/* Mocking window.location for navigation testing */
+let assignMock = jest.fn();
+delete window.location;
+window.location = { assign: assignMock };
+afterEach( () => {
+  assignMock.mockClear();
+} );

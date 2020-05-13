@@ -7,9 +7,9 @@ type IFeedback  = {
   feedbackType: string;
   ticketID?: string;
   spa: String;
-  createdAt: Date;
+  createdOn: Date;
   createdBy: String;
-  modifiedAt: Date;
-  modifiedBy: String;
+  updatedOn: Date;
+  updatedBy: String;
   title?: string;
 }

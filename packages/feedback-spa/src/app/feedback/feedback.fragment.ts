@@ -7,7 +7,7 @@ fragment populatedFeedbackType on PopulatedFeedbackType {
   experience,
   feedbackType,
   ticketID,
-  spa, 
+  spa,
   timestamp {
     createdBy {
       kerberosID,

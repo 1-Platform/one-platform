@@ -15,6 +15,9 @@ const query = `
     entityType
     colorScheme
     videoUrl
+    owners {
+      _id
+    }
   }
   query List {
     listHomeType {
@@ -109,10 +112,10 @@ describe('Home microservice API Test', () => {
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-        expect(res.body.data.getHomeType).toHaveProperty('_id', mock._id);
-        expect(res.body.data.getHomeType).toHaveProperty('description', mock.description);
-        expect(res.body.data.getHomeType).toHaveProperty('name', mock.name);
-        expect(res.body.data.getHomeType).toHaveProperty('entityType', mock.entityType);
+        expect(res.body.data.getHomeType[0]).toHaveProperty('_id', mock._id);
+        expect(res.body.data.getHomeType[0]).toHaveProperty('description', mock.description);
+        expect(res.body.data.getHomeType[0]).toHaveProperty('name', mock.name);
+        expect(res.body.data.getHomeType[0]).toHaveProperty('entityType', mock.entityType);
       })
       .end((err, res) => {
         done(err);

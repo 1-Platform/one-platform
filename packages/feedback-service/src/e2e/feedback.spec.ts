@@ -14,23 +14,29 @@ const query = `
     ticketID
     experience
   }
+  fragment feedbackWithUserType on FeedbackWithUserType{
+    _id
+    description
+    ticketID
+    experience
+  }
   query ListFeedback {
     listFeedback {
-      ...feedbackType
+      ...feedbackWithUserType
     }
   }
   query GetFeedback($_id: String!) {
     getFeedback(id: $_id) {
-      ...feedbackType
+      ...feedbackWithUserType
     }
   }
 
   query GetFeedbackBy($input: FeedbackInput!) {
     getFeedbackBy(input: $input) {
-      ...feedbackType
+      ...feedbackWithUserType
     }
   }
-  
+
   mutation AddingFeedback($input: FeedbackInput!) {
     addFeedback(input: $input) {
       ...feedbackType
@@ -75,6 +81,7 @@ afterAll(done => {
         expect(res.body.data.addFeedback).toHaveProperty('_id', mock._id);
         expect(res.body.data.addFeedback).toHaveProperty('description', mock.description);
         expect(res.body.data.addFeedback).toHaveProperty('ticketID', mock.ticketID);
+        expect(res.body.data.addFeedback).toHaveProperty('experience', mock.experience);
         expect(res.body.data.addFeedback).toHaveProperty('experience', mock.experience);
       })
       .end((err, res) => {

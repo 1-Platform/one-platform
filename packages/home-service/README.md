@@ -3,12 +3,34 @@
 The Home SPA needs a backend API Service to fetch the microservice details and the Apps in spotlight list + videos. This microservice would solve that problem
 by storing all such information.
 
+## Example home-service query
+```
+fragment home on HomeType {
+  _id
+  name
+  entityType
+  videoUrl
+  owners {
+    _id
+    name
+    memberOf
+  }
+  createdOn
+}
+
+query {
+  listHomeType {
+    ...home
+  }
+}
+```
+
+
 ## Switch to the working directory
 
 `cd home-service`.
 
 ## Copy Certificates
-
 1. Copy the SSL paths to the `.env` file of `home` microservice.
 
 ## Start Microservice

@@ -8,19 +8,11 @@ export const UserSchema: Schema = new Schema({
   isActive: Boolean,
   memberOf: [String],
   apiRole: String,
-  timestamp: {
-    createdAt: { type: Date, default: Date.now },
-    createdBy: {
-      uid: String,
-      name: String,
-    },
-    modifiedAt: { type: Date },
-    modifiedBy: {
-      uid: String,
-      name: String,
-    }
-  }
-});
+  createdBy: String,
+  createdOn: Date,
+  updatedBy: String,
+  updatedOn: Date,
+} );
 
 interface UserModel extends UserType , Document { }
 

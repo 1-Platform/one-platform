@@ -10,7 +10,6 @@ export const environment = {
   jiraAPI: '',
   graphqlAPI: '',
   client: '',
-  subscription: '',
   authorization: '',
   jiraURL: '',
   roverURL: '',

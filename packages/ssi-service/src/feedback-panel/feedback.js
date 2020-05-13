@@ -6,9 +6,9 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
   constructor () {
     super();
 
-    this._graphqlClient = new GraphQLClient( process.env.API_URL, {
+    this._graphqlClient = new GraphQLClient( process.env.APPS_BASE_API, {
       headers: {
-        Authorization: process.env.ACCESS_TOKEN
+        Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`
       }
     } );
   }
@@ -35,7 +35,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
    * @param {HTMLFormControlsCollection} formData
    */
   _submitBugReport ( formData ) {
-    const query = /* GraphQL */ `mutation AddBugReport($bug: FeedbackInput) {
+    const query = /* GraphQL */ `mutation AddBugReport($bug: FeedbackInput!) {
       addFeedback(input: $bug) {
         _id
         title
