@@ -6,5 +6,8 @@
    "icon": "img/shield.svg",
    "entityType": "microservice",
    "colorScheme": "linear-gradient(119deg, #E2EAF6 0%, #E8E4F6 100%)",
-   "videoUrl": "#"
+   "videoUrl": "#",
+   "owners": [
+      "denair"
+   ]
 }

@@ -30,7 +30,7 @@ export const HomeResolver = {
       .then(response => {
         return Object.assign(response, args.input)
           .save()
-          .then((user: any) => user);
+          .then((data: any) => data);
       })
       .catch((err: any) => err);
     },
