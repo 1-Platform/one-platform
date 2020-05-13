@@ -1,3 +1,23 @@
+scalar DateTime
+
+enum APIROLE {
+  ADMIN
+  USER
+}
+type UserType {
+  _id: String
+  name: String
+  title: String
+  uid: String
+  rhatUUID: String
+  memberOf: [String]
+  isActive: Boolean
+  apiRole: APIROLE
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
+}
 type HomeType {
     _id: String
     name: String
@@ -7,9 +27,12 @@ type HomeType {
     entityType: String
     colorScheme: String
     videoUrl: String
-    owners: [String]
+    owners: [UserType]
+    createdBy: UserType
+    createdOn: DateTime
+    updatedBy: UserType
+    updatedOn: DateTime
 }
-
 input HomeInput {
     _id: String
     name: String
@@ -20,13 +43,17 @@ input HomeInput {
     colorScheme: String
     videoUrl: String
     owners: [String]
+    createdBy: String
+    createdOn: DateTime
+    updatedBy: String
+    updatedOn: DateTime
 }
 
 type Query {
     # Fetches all HomeType
     listHomeType: [HomeType]
     # Fetches specific HomeType by id
-    getHomeType(_id: String!):HomeType
+    getHomeType(_id: String!): [HomeType]
     # Fetches HomeType by any property
     getHomeTypeBy(input: HomeInput): [HomeType]
 }
