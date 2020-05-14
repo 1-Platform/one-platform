@@ -15,6 +15,7 @@ const query = `
     entityType
     colorScheme
     videoUrl
+    owners
   }
   query List {
     listHomeType {
