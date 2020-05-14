@@ -128,7 +128,7 @@ type Mutation  {
 
 type Query  {
   # Fetches specific User by uid, rhatUUID, apiRole, name
-  getUsersBy( _id:String, uid: String, rhatUUID: String, apiRole: String, name: String): [UserType]
+  getUsersBy( uid: String, rhatUUID: String, apiRole: String, name: String): [UserType]
   # Fetches all Users
   listUsers: [UserType]
   # Fetch LDAP Group Members
