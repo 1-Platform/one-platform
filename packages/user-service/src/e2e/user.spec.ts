@@ -103,7 +103,7 @@ describe( 'User-Group Microservice API Test', () => {
       } );
   } );
 
-  it( 'should get Users by uid', ( done ) => {
+  it( 'should list all Users', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
