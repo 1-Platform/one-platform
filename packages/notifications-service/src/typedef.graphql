@@ -1,0 +1,66 @@
+scalar DateTime
+
+type ScheduledType {
+  startDate: String
+  time: String
+}
+
+type TriggerBasedType {
+  action: String
+}
+
+input ScheduledInput {
+  startDate: String
+  time: String
+}
+
+input TriggerBasedInput {
+  action: String
+}
+
+union NotificationType = ScheduledType | TriggerBasedType
+
+type NotificationsConfigType {
+  template: String
+  source: String
+  channel: String
+  type: String
+  typeOptions: NotificationType
+  target: String
+  createdBy: String
+  createdOn: DateTime
+  modifiedBy: String
+  modifiedOn: DateTime
+}
+
+input NotificationsConfigInput {
+  template: String
+  source: String
+  channel: String
+  type: String
+  typeOptions: NotificationType
+  target: String
+  createdBy: String
+  createdOn: DateTime
+  modifiedBy: String
+  modifiedOn: DateTime
+}
+
+type Query {
+  # Query Definitions
+  listNotificationsConfigs: [NotificationsConfigType]
+  getNotificationsConfigById(id: String!): NotificationsConfigType
+}
+
+type Mutation {
+  # Mutation Definitions
+  createdNotificationsConfig(input: NotificationsConfigInput): NotificationsConfigType
+  updateNotificationsConfig(input: NotificationsConfigInput): NotificationsConfigType
+  deleteNotificationsConfig(id: String!): NotificationsConfigType
+}
+
+# type Subscription {
+#   # Subscriptions Definitions
+#   createdNotificationsConfig: NotificationsConfigType
+#   updatedNotificationsConfig: NotificationsConfigType
+# }
