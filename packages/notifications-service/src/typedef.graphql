@@ -1,31 +1,23 @@
 scalar DateTime
 
-type ScheduledType {
+type ScheduledandTriggerType {
   startDate: String
   time: String
-}
-
-type TriggerBasedType {
   action: String
 }
 
-input ScheduledInput {
+input ScheduledandTriggerInput {
   startDate: String
   time: String
-}
-
-input TriggerBasedInput {
   action: String
 }
-
-union NotificationType = ScheduledType | TriggerBasedType
 
 type NotificationsConfigType {
   template: String
   source: String
   channel: String
   type: String
-  typeOptions: NotificationType
+  typeOptions: ScheduledandTriggerType
   target: String
   createdBy: String
   createdOn: DateTime
@@ -38,7 +30,7 @@ input NotificationsConfigInput {
   source: String
   channel: String
   type: String
-  typeOptions: NotificationType
+  typeOptions: ScheduledandTriggerInput
   target: String
   createdBy: String
   createdOn: DateTime
@@ -46,14 +38,14 @@ input NotificationsConfigInput {
   modifiedOn: DateTime
 }
 
+# Query Definitions
 type Query {
-  # Query Definitions
   listNotificationsConfigs: [NotificationsConfigType]
   getNotificationsConfigById(id: String!): NotificationsConfigType
 }
 
+# Mutation Definitions
 type Mutation {
-  # Mutation Definitions
   createdNotificationsConfig(input: NotificationsConfigInput): NotificationsConfigType
   updateNotificationsConfig(input: NotificationsConfigInput): NotificationsConfigType
   deleteNotificationsConfig(id: String!): NotificationsConfigType
