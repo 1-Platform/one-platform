@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as https from 'https';
+import * as http from 'http';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -12,11 +12,6 @@ import mongoose from 'mongoose';
 <% } -%>
 
 import <%= apiName %>Router from './src/api';
-
-const httpsOptions = {
-  key: fs.readFileSync(process.env.SSL_KEY || ''),
-  cert: fs.readFileSync(process.env.SSL_CERT || '')
-};
 
 const { port = 8080 } = { port : process.env.PORT };
 
@@ -116,7 +111,7 @@ export class <%= serviceClassName %> {
 
     this.app.set('port', port);
 
-    this.server = https.createServer(httpsOptions, this.app);
+    this.server = http.createServer(this.app);
 
     /**
      * Listen on provided port, on all network interfaces.
@@ -149,5 +144,3 @@ export class <%= serviceClassName %> {
 }
 
 export default <%= serviceClassName %>.bootstrap().app;
-
-
