@@ -33,15 +33,7 @@ const apiGateway = new ApolloGateway( {
 } );
 
 /*  Creating the server based on the environment */
-const server = process.env.NODE_ENV !== 'test'
-  ? https.createServer(
-    {
-      key: fs.readFileSync( ( process.env.SSL_KEY ) ? `${ process.env.SSL_KEY }` : '' ),
-      cert: fs.readFileSync( ( process.env.SSL_CERT ) ? `${ process.env.SSL_CERT }` : '' )
-    },
-    app
-  )
-  : http.createServer( app );
+const server = http.createServer( app );
 
 /* Binding the gateway with the apollo server and extracting the schema */
 ( async () => {
