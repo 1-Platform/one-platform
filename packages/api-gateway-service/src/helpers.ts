@@ -2,7 +2,10 @@ const fetch = require( 'node-fetch' );
 
 /* This consists of the list of microservices which needs to be part of the gateway */
 export const serviceList = [
-  { name: 'User Group', url: process.env.USER_GROUP }
+  { name: 'User Service', url: `http://${ process.env.USER_SERVICE_SERVICE_HOST }/graphql` },
+  { name: 'Home Service', url: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }/graphql` },
+  { name: 'Feedback Service', url: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }/graphql` },
+  { name: 'Notification Service', url: `http://${ process.env.NOTIFICATION_SERVICE_SERVICE_HOST }/graphql` },
 ];
 
 /* Function to fetch the public key from internal IDP */
