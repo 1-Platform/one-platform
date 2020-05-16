@@ -38,7 +38,7 @@
     "subscriptions-transport-ws": "0.9.16",
     "toastr": "2.1.4",
     "tslib": "1.11.1",
-    "webpack-dev-server": "3.10.3",
+    "webpack-dev-server": "3.11.0",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@angular/compiler-cli": "9.1.7",
     "@angular/language-service": "9.1.7",
     "@types/jest": "25.1.4",
-    "@types/node": "12.12.38",
+    "@types/node": "12.12.39",
     "apollo-angular": "1.9.1",
     "codelyzer": "5.2.2",
     "jest": "25.5.4",
@@ -56,7 +56,7 @@
     "protractor": "5.4.4",
     "ts-node": "8.9.0",
     "tslint": "6.1.2",
-    "typescript": "3.8.3",
+    "typescript": "3.9.2",
     "webpack": "4.43.0"
   },
   "jest": {
