@@ -20,9 +20,6 @@ services:
   home-service:
     build: ./packages/home-service
     env_file: ./packages/home-service/.env
-    volumes:
-      - ./logs/server.key:/app/ssl/server.key
-      - ./logs/server.crt:/app/ssl/server.crt
     ports:
       - 5501:8080
     depends_on:
@@ -31,9 +28,6 @@ services:
   user-service:
     build: ./packages/user-service
     env_file: ./packages/user-service/.env
-    volumes:
-      - ./logs/server.key:/app/ssl/server.key
-      - ./logs/server.crt:/app/ssl/server.crt
     ports:
       - 8080:8080
     depends_on:
