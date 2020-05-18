@@ -8,7 +8,7 @@ services:
       - ./packages/ssi-service/dist:/var/www/html/templates
       - ./packages/ssi-service/public/index.html:/usr/share/httpd/noindex/index.html
     ports:
-      - 5000:8080
+      - 4200:8080
 
   home-spa:
     build: ./packages/home-spa
@@ -17,25 +17,66 @@ services:
       - 5500:8080
     depends_on:
       - home-service
+
   home-service:
     build: ./packages/home-service
+    command: npm start
     env_file: ./packages/home-service/.env
+    environment:
+      DB_PATH: mongo
+    volumes:
+      - ./packages/home-service:/app
     ports:
-      - 5501:8080
+      - 8081:8080
+    depends_on:
+      - mongo
+
+  feedback-service:
+    build: ./packages/feedback-service
+    command: npm start
+    env_file: ./packages/feedback-service/.env
+    environment:
+      DB_PATH: mongo
+    volumes:
+      - ./packages/feedback-service:/app
+    ports:
+      - 8082:8080
     depends_on:
       - mongo
 
   user-service:
     build: ./packages/user-service
+    command: npm start
     env_file: ./packages/user-service/.env
+    environment:
+      DB_PATH: mongo
+    volumes:
+      - ./packages/user-service:/app
     ports:
-      - 8080:8080
+      - 8083:8080
     depends_on:
       - mongo
+
+  # notifications-service:
+  #   build: ./packages/notifications-service
+  #   command: npm start
+  #   env_file: ./packages/notifications-service/.env
+  #   environment:
+  #     DB_PATH: mongo
+  #   volumes:
+  #     - ./packages/notifications-service:/app
+  #   ports:
+  #     - 8084:8080
+  #   depends_on:
+  #     - mongo
 
   mongo:
     image: mongo:4
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+    logging:
+      driver: none
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    # ports:
+    #   - 37017:27017

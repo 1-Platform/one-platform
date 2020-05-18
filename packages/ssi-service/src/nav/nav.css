@@ -2,6 +2,8 @@
   --op-nav__height: 3.5rem;
   --op-transition--default: 120ms ease-in-out;
   --op-highlight__color: #e00;
+  --op-menu-drawer__width: 25rem;
+  --op-user-proflie-icon__radius: 5rem;
 
   display: block;
   z-index: 9000;
@@ -149,6 +151,10 @@
   top: 0;
 }
 
+.op-menu__item-button > * {
+  pointer-events: none;
+}
+
 .op-nav__icon {
   display: block;
   font-size: 1.25rem;
@@ -162,15 +168,74 @@
 .op-menu-drawer {
   position: fixed;
   top: var(--op-nav__height);
-  left: 0;
-  width: 100vw;
+  left: auto;
+  right: 0;
+  width: var(--op-menu-drawer__width);
+  max-width: 100vw;
   margin-top: 1px;
   padding: 2rem 2.5rem;
   box-sizing: border-box;
   height: calc(100vh - var(--op-nav__height));
   background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.16);
   border: none;
   overflow-y: auto;
+}
+.op-menu-drawer[data-type="app"] {
+  right: 0;
+  left: 0;
+  width: 100vw;
+}
+.op-menu-drawer[data-type="user"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.op-menu-drawer[data-type="user"] > .op-user-profile-icon {
+  background: #eee;
+  box-sizing: border-box;
+  width: var(--op-user-proflie-icon__radius);
+  height: var(--op-user-proflie-icon__radius);
+  border-radius: calc(var(--op-user-proflie-icon__radius) / 2);
+  display: grid;
+  place-content: center;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  margin: 1.5rem 2rem;
+}
+
+.op-menu-drawer > h3,
+.op-menu-drawer__title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.op-menu-drawer > p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.op-user-signout-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem 2rem;
+  border-radius: 2rem;
+  border: 1px solid #ddd;
+  margin: 1rem;
+  cursor: pointer;
+  transition: all var(--op-transition--default);
+}
+.op-user-signout-btn:hover {
+  color: var(--op-highlight__color);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.16);
+}
+
+.op-menu-drawer__empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .op-menu-drawer__app-list {
