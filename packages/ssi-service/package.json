@@ -29,7 +29,7 @@
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.5.3",
-    "dotenv-webpack": "1.7.0",
+    "dotenv-webpack": "1.8.0",
     "eslint-plugin-jest": "23.11.0",
     "jest": "25.5.4",
     "jest-environment-jsdom-sixteen": "1.0.3",
