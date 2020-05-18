@@ -80,7 +80,7 @@
     "cross-env": "7.0.2",
     "graphql-tag": "2.10.3",
     "husky": "2.7.0",
-    "jest": "25.5.4",
+    "jest": "26.0.1",
     "jest-transform-graphql": "2.1.0",
     "ts-loader": "7.0.4",
     "tslint": "5.20.1",
