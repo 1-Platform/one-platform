@@ -30,9 +30,7 @@ class OpAuth {
     this._jwt.onInit( ( res ) => {
       window.oninitJwt = res;
       if ( !this._jwt.isAuthenticated() ) {
-        this._jwt.login().success( res => {
-          console.log( 'POST Login' );
-        } );
+        this._jwt.login();
       } else {
         this._postLoginCallbacks.map( fn => {
           fn( this.getUserInfo() );
@@ -42,7 +40,7 @@ class OpAuth {
       }
     } );
     this._jwt.onInitError( ( err ) => {
-      console.log( err );
+      console.error( err );
     } );
   }
 

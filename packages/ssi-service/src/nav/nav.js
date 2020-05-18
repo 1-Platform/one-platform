@@ -49,7 +49,6 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
 
         APIHelper.listApps()
           .then( res => {
-            console.log( res );
             this.appsList = res;
           } )
           .catch( err => {
@@ -192,7 +191,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
   _appDrawerItem ( item ) {
     return html`
       <li class="op-menu-drawer__app-list-item">
-        <a href="${ item.url }">
+        <a href="${ item.link }">
           <img src="${item.logo || '/templates/assets/rh-hat-logo.svg' }"/>
           <h5>
             ${ item.name }
