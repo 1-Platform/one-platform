@@ -69,25 +69,27 @@ const server = http.createServer( app );
 
 /* Auth Token Verification Check */
 app.post( '/graphql', ( req, res, next ) => {
-  try {
+  if ( !req.headers.authorization ) {
+    return res.status( 401 ).json( new AuthenticationError( 'Auth Token Missing' ) );
+  } else {
     publicKey().then( ( key: string ) => {
-      if ( !req.headers.authorization ) {
-        throw new AuthenticationError( 'Auth Token Missing' );
+      try {
+        const tokenArray: any = req.headers.authorization?.split( ` ` );
+        const accessToken = tokenArray[ tokenArray.length - 1 ] || req.cookies[ 'access-token' ];
+        verify( accessToken, key, { algorithms: [ 'RS256' ] }, ( err: any, payload: any ) => {
+          if ( err && err.name === 'TokenExpiredError' ) {
+            return res.status( 403 ).json( err );
+          } else if ( err && err.name === 'JsonWebTokenError' ) {
+            return res.status( 403 ).json( err );
+          } else if ( !err ) {
+            decodedPayload = JSON.stringify( payload );
+            next();
+          }
+        } );
+      } catch ( err ) {
+        return res.status( 403 ).json( err );
       }
-      const accessToken = req.headers.authorization?.split( ` ` )[ 1 ] || req.cookies[ 'access-token' ];
-      verify( accessToken, key, { algorithms: [ 'RS256' ] }, ( err: any, payload: any ) => {
-        if ( err && err.name === 'TokenExpiredError' ) {
-          return res.status( 403 ).json( err );
-        } else if ( err && err.name === 'JsonWebTokenError' ) {
-          return res.status( 403 ).json( err );
-        } else if ( !err ) {
-          decodedPayload = JSON.stringify( payload );
-          next();
-        }
-      } );
     } );
-  } catch ( err ) {
-    return res.status( 403 ).json( err );
   }
 } );
 
