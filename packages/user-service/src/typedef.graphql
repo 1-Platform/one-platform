@@ -68,30 +68,6 @@ type LdapType {
   objectClass: [String]
 }
 
-type ProfileType {
-  kerberosID: String
-  name: String
-}
-
-type TimestampType {
-  createdAt: DateTime
-  createdBy: ProfileType
-  modifiedAt: DateTime
-  modifiedBy: ProfileType
-}
-
-input ProfileInput {
-  kerberosID: String
-  name: String
-}
-
-input TimestampInput {
-  createdAt: DateTime
-  createdBy: ProfileInput
-  modifiedAt: DateTime
-  modifiedBy: ProfileInput
-}
-
 type UserType {
   _id: String
   name: String
@@ -100,8 +76,11 @@ type UserType {
   rhatUUID: String
   memberOf: [String]
   isActive: Boolean
-  apiRole: APIROLE,
-  timestamp: TimestampType
+  apiRole: APIROLE
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
 }
 input UserInput {
   _id: String
@@ -111,8 +90,11 @@ input UserInput {
   rhatUUID: String
   memberOf: [String]
   isActive: Boolean
-  apiRole: APIROLE,
-  timestamp: TimestampInput
+  apiRole: APIROLE
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
 }
 
 type Mutation  {
