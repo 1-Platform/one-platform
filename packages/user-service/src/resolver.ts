@@ -69,9 +69,8 @@ export const UserGroupResolver = {
                   memberOf: groups,
                   isActive: true,
                   apiRole: ( groups.includes( 'one-portal-devel' ) ) ? `ADMIN` : 'USER',
-                  timestamp: {
-                    createdAt: moment.utc( new Date() )
-                  }
+                  createdBy: response.rhatUUID,
+                  createdOn: moment.utc( new Date() )
                 } );
                 return newUser.save();
               } else {
