@@ -64,11 +64,6 @@ type LdapType = {
   objectClass?: string[];
 }
 
-type IUser = {
-  uid: string;
-  name: string;
-}
-
 type UserType = {
   name: string;
   title: string;
