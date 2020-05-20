@@ -5,7 +5,7 @@ export const serviceList = [
   { name: 'User Service', url: `http://${ process.env.USER_SERVICE_SERVICE_HOST }:8080/graphql` },
   { name: 'Home Service', url: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:8080/graphql` },
   { name: 'Feedback Service', url: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:8080/graphql` },
-  { name: 'Notification Service', url: `http://${ process.env.NOTIFICATION_SERVICE_SERVICE_HOST }:8080/graphql` },
+  { name: 'Notification Service', url: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:8080/graphql` },
 ];
 
 /* Function to fetch the public key from internal IDP */
