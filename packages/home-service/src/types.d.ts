@@ -9,4 +9,5 @@ type HomeType = {
     entityType: string;
     colorScheme: string;
     videoUrl: string;
+    owners: string[];
 }

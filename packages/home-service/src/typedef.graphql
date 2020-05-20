@@ -7,6 +7,7 @@ type HomeType {
     entityType: String
     colorScheme: String
     videoUrl: String
+    owners: [String]
 }
 
 input HomeInput {
@@ -18,6 +19,7 @@ input HomeInput {
     entityType: String
     colorScheme: String
     videoUrl: String
+    owners: [String]
 }
 
 type Query {

@@ -70,15 +70,7 @@ const apollo = new ApolloServer( {
 apollo.applyMiddleware( { app } );
 
 /*  Creating the server based on the environment */
-const server = process.env.NODE_ENV !== 'test'
-  ? https.createServer(
-    {
-      key: fs.readFileSync( process.env.SSL_KEY || '' ),
-      cert: fs.readFileSync( process.env.SSL_CERT || '' )
-    },
-    app
-  )
-  : http.createServer( app );
+const server = http.createServer( app );
 
 // Installing the apollo ws subscription handlers
 apollo.installSubscriptionHandlers( server );

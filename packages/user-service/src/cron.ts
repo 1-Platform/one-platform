@@ -32,7 +32,7 @@ export class UserSyncCron {
                 newProfile[0].uid = response.uid;
                 newProfile[0].memberOf = groups;
                 newProfile[0].isActive = true;
-                newProfile[0].timestamp.modifiedAt = moment(new Date());
+                newProfile[0].updatedOn = moment( new Date() );
                 return User.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
                        .exec();
               }

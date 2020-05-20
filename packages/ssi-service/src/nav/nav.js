@@ -1,10 +1,16 @@
 import html from 'html-template-tag';
 import styles from './nav.css';
-import { listApps } from './api';
+import APIHelper from './api';
+
+/* Initializing the Auth */
+import './auth';
+/* Initialize SSO Auth as soon as the component is created */
+window.OpAuthHelper.init();
 
 window.customElements.define( 'op-nav', class extends HTMLElement {
   constructor () {
     super();
+
 
     /* Initializing the drawer element */
     this.drawer = document.createElement( 'dialog' );
@@ -23,33 +29,56 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
 
       /* Adding click event listeners */
       this.shadowRoot.querySelectorAll( '.op-menu__item-button' ).forEach( button => {
-        button.addEventListener( 'click', event => this.toggleDrawer( event.target ) );
+        button.addEventListener( 'click', event => {
+          if ( event.target.dataset ) {
+            this.toggleDrawer( event.target.dataset.type );
+          }
+        } );
       } );
 
       const styleTag = document.createElement( 'style' );
       styleTag.innerText = styles;
       this.shadowRoot.prepend( styleTag );
 
-      listApps()
-        .then( res => {
-          this.appsList = res;
-        } )
-        .catch( err => {
-          this.appsList = [];
-          console.error( err );
-        } );
+      /* If logged in, set the user name */
+      window.OpAuthHelper.onLogin( ( user ) => {
+        this.shadowRoot.querySelector( '#user-profile > span' ).textContent = user?.kerberosID || 'Sign Out';
+        if ( this._isDrawerOpenOfType( 'user' ) ) {
+          this.toggleDrawer( 'user', true );
+        }
+
+        APIHelper.listApps()
+          .then( res => {
+            this.appsList = res;
+          } )
+          .catch( err => {
+            this.appsList = [];
+            console.error( err );
+          } );
+      } );
     }
   }
 
+  /**
+   * Checks if the drawer is open or not
+   */
   get isDrawerOpen () {
     return !!this.shadowRoot.getElementById( 'op-menu-drawer' );
   }
+  /**
+   * Returns true if the drawer of the given type is open.
+   *
+   * @param {'app' | 'notification' | 'user'} type
+   */
   _isDrawerOpenOfType ( type ) {
     const drawerInDOM = this.shadowRoot.getElementById( 'op-menu-drawer' );
     return !!drawerInDOM && drawerInDOM.dataset.type === type;
   }
 
-  _refreshActiveButton () {
+  /**
+   * Refreshes the active status of the nav menu items
+   */
+  _refreshActiveButtonStatus () {
     this.shadowRoot.querySelectorAll( '.op-menu__item-button' ).forEach( button => {
       button.classList.remove( 'active' );
       if ( this._isDrawerOpenOfType( button.dataset.type ) ) {
@@ -58,30 +87,38 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     } );
   }
 
-  toggleDrawer ( target ) {
-    if ( !target.dataset.type ) {
+  /**
+   * Toggles the open/close state of Drawer.
+   *
+   * And sets the inner content of the drawer according to the drawer type.
+   *
+   * @param {"app" | "notification" | "user"} drawerType
+   * @param {boolean} refreshInPlace
+   */
+  toggleDrawer ( drawerType, refreshInPlace = false ) {
+    if ( !drawerType ) {
       return;
     }
 
-    if ( this.isDrawerOpen && this.drawer.dataset.type === target.dataset.type ) {
+    if ( !refreshInPlace && this.isDrawerOpen && this.drawer.dataset.type === drawerType ) {
       this.drawer.open = false;
       this.shadowRoot.getElementById( 'op-menu-drawer' ).remove();
-      this._refreshActiveButton();
+      this._refreshActiveButtonStatus();
       return;
     }
 
-    this.drawer.dataset.type = target.dataset.type;
+    this.drawer.dataset.type = drawerType;
     this.drawer.open = true;
 
-    switch ( target.dataset.type ) {
+    switch ( drawerType ) {
       case 'app':
         this.drawer.innerHTML = this._appDrawer;
         break;
       case 'notification':
-        this.drawer.innerHTML = html`<p>notifications</p>`;
+        this.drawer.innerHTML = this._notificationDrawer;
         break;
       case 'user':
-        this.drawer.innerHTML = html`<p>user</p>`;
+        this.drawer.innerHTML = this._userDrawer;
         break;
       default:
         this.drawer.innerHTML = html`<p>There was some error. Try selecting an option again.</p>`;
@@ -95,10 +132,36 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     } else {
       this.shadowRoot.appendChild( template.content.cloneNode( true ) );
     }
-    this._refreshActiveButton();
+
+    this._setAppDrawerEventListeners( drawerType );
+    this._refreshActiveButtonStatus();
   }
 
-  /* HTML Templates */
+  /**
+   * Sets up the event listeners to the appropriate drawer elements when the drawer loads
+   *
+   * @param {"app" | "notification" | "user"} drawerType
+   */
+  _setAppDrawerEventListeners ( drawerType ) {
+    switch ( drawerType ) {
+      case 'user':
+        const signoutBtn = this.shadowRoot.getElementById( 'op-user-signout-btn' );
+        if ( signoutBtn ) {
+          signoutBtn.addEventListener( 'click', () => {
+            window.OpAuthHelper.logout();
+          } );
+        }
+        break;
+      case 'notification':
+        // TODO: add event listeners for the Notifications (for close/dismiss)
+        break;
+    }
+  }
+
+  //#region HTML Templates
+  /**
+   * Returns a <template> tag for the nav header
+   */
   get _template () {
     const template = document.createElement( 'template' );
     template.innerHTML = this._html;
@@ -106,15 +169,29 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     return template;
   }
 
+  /**
+   * Returns the html for the App Drawer
+   */
   get _appDrawer () {
+    if ( this.appsList.length === 0 ) {
+      return html`<div class="op-menu-drawer__empty-state">
+        <p>No Apps found. Please try reloading the page.</p>
+      </div>`;
+    }
+
     return html`<ul class="op-menu-drawer__app-list">`
       + this.appsList.map( app => this._appDrawerItem( app ) ).join( '' )
-      + `</ul>`;
+      + html`</ul>`;
   }
+  /**
+   * Returns the html for a cell in the App Drawer List
+   *
+   * @param {{ name: string, url: string, logo: string }} item
+   */
   _appDrawerItem ( item ) {
     return html`
       <li class="op-menu-drawer__app-list-item">
-        <a href="${ item.url }">
+        <a href="${ item.link }">
           <img src="${item.logo || '/templates/assets/rh-hat-logo.svg' }"/>
           <h5>
             ${ item.name }
@@ -124,6 +201,36 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     `;
   }
 
+  /**
+   * Returns the html for the Notifications Drawer
+   */
+  get _notificationDrawer () {
+    return html`<h3 class="op-menu-drawer__title">Notifications</h3>`;
+  }
+
+  /**
+   * Returns the html for the User Profile Drawer
+   */
+  get _userDrawer () {
+    const userDetails = window.OpAuthHelper.getUserInfo();
+    if ( !userDetails ) {
+      return html`
+        <p style="text-align: center;">There was some error fetching your details. Try reloading the page.</p>
+      `;
+    }
+    return html`
+      <figure class="op-user-profile-icon">
+        <ion-icon name="person" size="large"></ion-icon>
+      </figure>
+      <h3 class="op-menu-drawer__title">${ userDetails?.fullName }</h3>
+      <p>${ userDetails?.title }</p>
+      <button id="op-user-signout-btn" type="button" class="op-user-signout-btn">Sign Out</button>
+    `;
+  }
+
+  /**
+   * Returns the html for the nav/header
+   */
   get _html () {
     return html`
       <header class="op-nav">
@@ -134,7 +241,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
           </a>
 
           <form class="op-search">
-            <input type="search" name="q" autocomplete="off" aria-label="Search for Applications, Documents or any content" class="op-search-bar__input" placeholder="Search for Applications, Documents or any content" required>
+            <input type="search" name="q" autocomplete="off" aria-label="Search for Applications, Documents or any content" class="op-search-bar__input" placeholder="Search for Applications, Documents or any content" required disabled readonly>
             <button class="op-search__btn" type="submit">
               <ion-icon name="search-outline" class="op-nav__icon"></ion-icon>
             </button>
@@ -145,19 +252,19 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
               <li class="op-menu__item">
                 <button type="button" class="op-menu__item-button" data-type="app">
                   <ion-icon name="apps-outline" class="op-nav__icon"></ion-icon>
-                  Apps
+                  <span>Apps</span>
                 </button>
               </li>
               <li class="op-menu__item">
                 <button type="button" class="op-menu__item-button" data-type="notification">
                   <ion-icon name="notifications-outline" class="op-nav__icon"></ion-icon>
-                  Notifications
+                  <span>Notifications</span>
                 </button>
               </li>
               <li class="op-menu__item">
-                <button type="button" class="op-menu__item-button" data-type="user">
+                <button id="user-profile" type="button" class="op-menu__item-button" data-type="user">
                   <ion-icon name="person-outline" class="op-nav__icon"></ion-icon>
-                  Sign In
+                  <span>Sign In</span>
                 </button>
               </li>
             </ul>
