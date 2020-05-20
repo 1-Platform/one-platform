@@ -92,6 +92,8 @@ export interface Feedback {
   spa: string;
   timestamp: Timestamp;
   title: string;
+  state?: string;
+  assignees?: string;
 }
 
 export interface FeedbacksResponse {

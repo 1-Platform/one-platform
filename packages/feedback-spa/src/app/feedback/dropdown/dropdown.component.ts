@@ -6,6 +6,8 @@ import {
   Input,
   Output,
   ViewChild,
+  AfterViewInit,
+  OnChanges,
 } from '@angular/core';
 import { IDropDownOption } from './dropdown';
 
@@ -14,7 +16,7 @@ import { IDropDownOption } from './dropdown';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss']
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() icon: string;
   @Input() options: Array<string>;
@@ -106,14 +108,12 @@ export class DropdownComponent implements OnInit {
     }
   }
 
-  // tslint:disable-next-line: use-lifecycle-interface
   ngAfterViewInit() {
     this._CURRENT_SELECTED = this._DROP_DOWN_LIST_NODE.nativeElement.firstElementChild;
     this._DROP_DOWN_LIST_NODE.nativeElement.firstElementChild.classList.add('op-active');
     this.activeDropDown.oldDropDown = this._DROP_DOWN_LIST_NODE.nativeElement.querySelector('.op-active');
   }
 
-  // tslint:disable-next-line: use-lifecycle-interface
   ngOnChanges(changes: any) {
     /**
      * Applying the updated changes to the dropdownOptions
