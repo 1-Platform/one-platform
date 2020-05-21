@@ -15,32 +15,11 @@ fragment home on HomeType {
     name
     memberOf
   }
-  createdBy {
-    _id
-    name
-  }
   createdOn
-  updatedBy {
-    _id
-    name
-  }
-  updatedOn
 }
 
 query {
   listHomeType {
-    ...home
-  }
-}
-query {
-  getHomeType(_id: "5ec3c29382f844e2c2cd3fa9") {
-   ...home
-  }
-}
-query{
-  getHomeTypeBy(input: {
-    _id: "5ec3c29382f844e2c2cd3fa9"
-  }) {
     ...home
   }
 }

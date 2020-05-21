@@ -51,7 +51,7 @@ class HomeAPIHelper {
         .then((res: any) => res.json());
     }
     stitchHomeType(response: HomeType[] | any, userDetails: any) {
-        const r = response.map((resp: HomeType) => {
+        return response.map((resp: HomeType) => {
             Object.assign(resp.owners, ...Object.entries(userDetails)
             .reduce((accumulator: any, user) => {
                 if (user[0].startsWith(`${resp.name}_owner_`)) {
@@ -59,16 +59,8 @@ class HomeAPIHelper {
                 }
                 return accumulator;
             }, []));
-            if (userDetails[`${resp.name}_createdBy`]?.length) {
-                Object.assign(resp.createdBy, userDetails[`${resp.name}_createdBy`][0]);
-            }
-            if (userDetails[`${resp.name}_updatedBy`]?.length) {
-                Object.assign(resp.updatedBy, userDetails[`${resp.name}_updatedBy`][0]);
-            }
             return resp;
         });
-        // console.log(r);
-        return r;
     }
 }
 
