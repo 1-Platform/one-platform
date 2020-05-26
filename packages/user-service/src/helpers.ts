@@ -7,30 +7,31 @@ class UserGroupApiHelper {
   private static UserGroupHelperInstance: UserGroupApiHelper;
   ldapHost: string | any = process.env.LDAP_HOST;
   ldapBase: string | any = process.env.LDAP_BASE;
-  constructor() { }
-  public static getApiInstance() {
-    if (!UserGroupApiHelper.UserGroupHelperInstance) {
+  constructor () { }
+  public static getApiInstance () {
+    if ( !UserGroupApiHelper.UserGroupHelperInstance ) {
       UserGroupApiHelper.UserGroupHelperInstance = new UserGroupApiHelper();
     }
     return UserGroupApiHelper.UserGroupHelperInstance;
   }
 
   // Helper function to fetch user/group profile from LDAP
-  public getProfilesBy(profile_param: string) {
-    return new Promise((resolve, reject) => {
-      const ldapClient = createClient({ url: this.ldapHost, reconnect: true });
+  public getProfilesBy ( profile_param: string ) {
+    return new Promise( ( resolve, reject ) => {
+      const ldapClient = createClient( { url: this.ldapHost, reconnect: true } );
       const search_options: Object = {
         scope: `sub`,
-        filter: `${profile_param}`,
+        filter: `${ profile_param }`,
         attributes: `*`
       };
       let profile: LdapType;
-      ldapClient.search(this.ldapBase, search_options, (err, response) => {
-        response.on(`searchEntry`, (entry) => {
+      ldapClient.search( this.ldapBase, search_options, ( err, response ) => {
+        response.on( `searchEntry`, ( entry ) => {
           profile = entry.object;
         } );
         response.on( `error`, ( error: Error ) => {
           console.error( `LDAP error: ` + error.message );
+          reject( new Error( 'LDAP ERROR' ) );
         } );
         response.on( `end`, ( result: any ) => {
           resolve( profile );
@@ -61,7 +62,7 @@ class UserGroupApiHelper {
           } );
           resolve( newUser.save() );
         } else {
-          reject();
+          reject( new Error( 'User Not Found' ) );
         }
       } );
     } );
