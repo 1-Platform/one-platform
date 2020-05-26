@@ -11,13 +11,11 @@ class HomeAPIHelper {
                     rhatUUID
                     memberOf
                     isActive
-                    timestamp {
-                        createdAt
-                        createdBy {
-                                kerberosID
-                                name
-                        }
-                    }
+                    apiRole
+                    createdBy
+                    createdOn
+                    updatedBy
+                    updatedOn
                 }`;
 
 
