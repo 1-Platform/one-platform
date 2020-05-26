@@ -28,15 +28,15 @@ class UserGroupApiHelper {
       ldapClient.search(this.ldapBase, search_options, (err, response) => {
         response.on(`searchEntry`, (entry) => {
           profile = entry.object;
-        });
-        response.on(`error`, (error: Error) => {
-          console.error(`LDAP error: ` + error.message);
-        });
-        response.on(`end`, (result: any) => {
-          resolve(profile);
-        });
-      });
-    });
+        } );
+        response.on( `error`, ( error: Error ) => {
+          console.error( `LDAP error: ` + error.message );
+        } );
+        response.on( `end`, ( result: any ) => {
+          resolve( profile );
+        } );
+      } );
+    } );
   }
 
   // Helper function for the database interaction with ldap
@@ -61,7 +61,7 @@ class UserGroupApiHelper {
           } );
           resolve( newUser.save() );
         } else {
-          resolve( {} );
+          reject();
         }
       } );
     } );

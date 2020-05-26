@@ -12,8 +12,8 @@ export const UserGroupResolver = {
       query[ keyParam ] = valueParam;
       return User.find( query )
         .then( data => {
-          if ( (keyParam === `uid` || keyParam === `rhatUUID`) && _.isEmpty( data ) ) {
-            return UserGroupAPIHelper.addUserLDAP( `${ keyParam } = ${ valueParam }` ).then( ( user: any ) => [ user ] );
+          if ( ( keyParam === `uid` || keyParam === `rhatUUID` ) && _.isEmpty( data ) ) {
+            return UserGroupAPIHelper.addUserLDAP( `${ keyParam }=${ valueParam }` ).then( ( user: any ) => [ user ] );
           } else if ( data ) {
             return data;
           }
