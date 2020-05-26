@@ -5,9 +5,9 @@ export const HomeResolver = {
   Query: {
     listHomeType(root: any, args: any, ctx: any) {
       return Home.find()
-      .then( async (response) => {
+      .then( (response) => {
         const query = `${HomeHelper.buildGqlQuery(response)}`;
-        return await HomeHelper.getUserDetails(query).then((userDetails: any) => {
+        return HomeHelper.getUserDetails(query).then((userDetails: any) => {
           return HomeHelper.stitchHomeType(response, userDetails.data);
         });
       })
@@ -15,10 +15,10 @@ export const HomeResolver = {
     },
     getHomeType(root: any, args: any, ctx: any) {
       return Home.findById(args._id)
-      .then( async (response: HomeType | null) => {
+      .then( (response: HomeType | null) => {
         if (response !== null) {
           const query = `${HomeHelper.buildGqlQuery([response])}`;
-          return await HomeHelper.getUserDetails(query).then((userDetails: any) => {
+          return HomeHelper.getUserDetails(query).then((userDetails: any) => {
             return HomeHelper.stitchHomeType([response], userDetails.data);
           });
         }
@@ -27,9 +27,9 @@ export const HomeResolver = {
     },
     getHomeTypeBy(root: any, args: any, ctx: any) {
       return Home.find(args.input)
-      .then( async (response) => {
+      .then( (response) => {
         const builtQuery = `${HomeHelper.buildGqlQuery(response)}`;
-        return await HomeHelper.getUserDetails(builtQuery).then((userDetails: any) => {
+        return HomeHelper.getUserDetails(builtQuery).then((userDetails: any) => {
           return HomeHelper.stitchHomeType(response, userDetails.data);
         });
       })
