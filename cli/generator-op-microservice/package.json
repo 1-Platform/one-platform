@@ -24,7 +24,7 @@
   "devDependencies": {
     "yeoman-test": "2.6.0",
     "yeoman-assert": "3.1.1",
-    "eslint": "7.0.0",
+    "eslint": "7.1.0",
     "prettier": "2.0.5",
     "husky": "4.2.5",
     "lint-staged": "10.2.6",
