@@ -11,7 +11,13 @@ export const UserGroupResolver = {
       const query: any = {};
       query[ keyParam ] = valueParam;
       return User.find( query )
-        .then( data => data )
+        .then( data => {
+          if ( ( keyParam === `uid` || keyParam === `rhatUUID` ) && _.isEmpty( data ) ) {
+            return UserGroupAPIHelper.addUserLDAP( `${ keyParam }=${ valueParam }` ).then( ( user: any ) => [ user ] );
+          } else if ( data ) {
+            return data;
+          }
+        } )
         .catch( err => err );
     },
     listUsers ( root: any, args: any, ctx: any ) {
