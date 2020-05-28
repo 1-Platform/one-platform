@@ -28,9 +28,9 @@ type HomeType {
     colorScheme: String
     videoUrl: String
     owners: [UserType]
-    createdBy: UserType
+    createdBy: String
     createdOn: DateTime
-    updatedBy: UserType
+    updatedBy: String
     updatedOn: DateTime
 }
 input HomeInput {
