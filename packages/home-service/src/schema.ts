@@ -9,6 +9,10 @@ export const HomeServiceSchema: Schema = new Schema({
     colorScheme: String,
     videoUrl: String,
     owners: [String],
+    createdBy: String,
+    createdOn: Date,
+    updatedBy: String,
+    updatedOn: Date,
 });
 
 interface HomeModel extends HomeType , Document { }
