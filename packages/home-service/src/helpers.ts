@@ -59,19 +59,26 @@ class HomeAPIHelper {
      * @param userDetails UserDetails which are fetched from user-service
      */
     stitchHomeType(response: HomeType[] | any, userDetails: any) {
-        return response.map((resp: any) => {
-            if (resp.owners.length) {
-                Object.assign(
-                    resp.owners,
-                    Object.entries(userDetails).reduce((accumulator: any, user: any) => {
-                        if (user[0].startsWith(`owner_${resp._id}`)) {
-                            accumulator.push(...user[1]);
-                        }
-                        return accumulator;
-                    }, [])
-                );
+        return response.map((data: any) => {
+            if (userDetails[`createdBy_${data._id}`]) {
+                const resp = { ...{ ...data }._doc, createdBy: userDetails[`createdBy_${data._id}`][0] };
+                if (resp.owners.length) {
+                    Object.assign(
+                        resp.owners,
+                        Object.entries(userDetails).reduce((accumulator: any, user: any) => {
+                            if (user[0].startsWith(`owner_${resp._id}`)) {
+                                accumulator.push(...user[1]);
+                            }
+                            return accumulator;
+                        }, [])
+                    );
+                }
+                if (userDetails[`updatedBy_${data._id}`]) {
+                    return { ...resp, updatedBy: userDetails[`updatedBy_${data._id}`][0] };
+                }
+                return resp;
             }
-            return resp;
+            return data;
         });
     }
 }
