@@ -16,7 +16,7 @@
   "author": "Mayur Deshmukh",
   "license": "MIT",
   "dependencies": {
-    "graphql-request": "^1.8.2",
+    "graphql-request": "^2.0.0",
     "html-template-tag": "^3.2.0",
     "jwt-redhat": "^0.2.13"
   },
