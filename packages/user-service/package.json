@@ -35,7 +35,7 @@
   "contributors": [],
   "license": "MIT",
   "dependencies": {
-    "@apollo/federation": "0.16.0",
+    "@apollo/federation": "0.16.2",
     "apollo-log": "0.2.0",
     "apollo-server-express": "2.13.1",
     "async": "3.2.0",
