@@ -4,6 +4,10 @@ enum APIROLE {
   ADMIN
   USER
 }
+type PermissionsType {
+  roverGroup: String
+  role: APIROLE
+}
 type UserType {
   _id: String
   name: String
@@ -32,6 +36,11 @@ type HomeType {
     createdOn: DateTime
     updatedBy: UserType
     updatedOn: DateTime
+    permissions: [PermissionsType]
+}
+input PermissionsInput {
+  roverGroup: String
+  role: APIROLE
 }
 input HomeInput {
     _id: String
@@ -47,6 +56,7 @@ input HomeInput {
     createdOn: DateTime
     updatedBy: String
     updatedOn: DateTime
+    permissions: [PermissionsInput]
 }
 
 type Query {
