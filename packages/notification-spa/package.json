@@ -34,7 +34,7 @@
     "jest": "26.0.1",
     "jest-preset-angular": "8.2.0",
     "rxjs": "6.5.5",
-    "ts-jest": "26.0.0",
+    "ts-jest": "26.1.0",
     "tslib": "2.0.0",
     "zone.js": "0.10.3"
   },
