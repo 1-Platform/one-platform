@@ -1,5 +1,6 @@
 const path = require( 'path' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
+const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 const CopyPlugin = require( 'copy-webpack-plugin' );
 const MinifyPlugin = require( 'babel-minify-webpack-plugin' );
 const Dotenv = require( 'dotenv-webpack' );
@@ -41,10 +42,15 @@ module.exports = ( _, { mode } ) => {
     plugins: [
       new Dotenv(),
       new CleanWebpackPlugin(),
+      new HtmlWebPackPlugin( {
+        template: './src/default.html',
+        filename: 'default.html',
+        inject: false,
+        ssiHostname: process.env.SSI_HOSTNAME || '.'
+      } ),
       new CopyPlugin( {
         patterns: [
           { from: './src/assets', to: './assets/' },
-          { from: './src/default.html', to: './[name].[ext]' }
         ],
       } ),
     ],
