@@ -13,6 +13,12 @@ export const HomeServiceSchema: Schema = new Schema({
     createdOn: Date,
     updatedBy: String,
     updatedOn: Date,
+    permissions: [
+        {
+            roverGroup: String,
+            role: String,
+        }
+    ],
 });
 
 interface HomeModel extends HomeType , Document { }

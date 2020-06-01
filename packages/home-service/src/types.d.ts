@@ -1,6 +1,10 @@
 declare module '*.graphql';
 declare module '*.json';
 
+type PermissionsType = {
+  roverGroup: string;
+  role: string;
+}
 type UserType = {
     name: string;
     title: string;
@@ -27,4 +31,5 @@ type HomeType = {
     createdOn: Date;
     updatedBy: string | UserType;
     updatedOn: Date;
+    permissions: PermissionsType[];
 }
