@@ -4,7 +4,7 @@ import { HomeHelper } from './helpers';
 export const HomeResolver = {
   Query: {
     listHomeType(root: any, args: any, ctx: any) {
-      return Home.find()
+      return Home.find().lean()
       .then( (response) => {
         const query = `${HomeHelper.buildGqlQuery(response)}`;
         return HomeHelper.getUserDetails(query).then((userDetails: any) => {
@@ -14,7 +14,7 @@ export const HomeResolver = {
       .catch(err => err);
     },
     getHomeType(root: any, args: any, ctx: any) {
-      return Home.findById(args._id)
+      return Home.findById(args._id).lean()
       .then( (response: HomeType | null) => {
         if (response !== null) {
           const query = `${HomeHelper.buildGqlQuery([response])}`;
@@ -26,7 +26,7 @@ export const HomeResolver = {
       .catch(err => err);
     },
     getHomeTypeBy(root: any, args: any, ctx: any) {
-      return Home.find(args.input)
+      return Home.find(args.input).lean()
       .then( (response) => {
         const builtQuery = `${HomeHelper.buildGqlQuery(response)}`;
         return HomeHelper.getUserDetails(builtQuery).then((userDetails: any) => {
