@@ -16,7 +16,11 @@ export const HomeServiceSchema: Schema = new Schema({
     permissions: [
         {
             roverGroup: String,
-            role: String,
+            role: {
+                type: String,
+                enum: ['ADMIN', 'USER'],
+                required: true,
+            }
         }
     ],
 });
