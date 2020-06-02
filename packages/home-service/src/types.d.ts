@@ -2,8 +2,8 @@ declare module '*.graphql';
 declare module '*.json';
 
 declare enum Role {
-  admin = "ADMIN",
-  user = "USER"
+  ADMIN = "ADMIN",
+  USER = "USER"
 }
 type PermissionsType = {
   roverGroup: string;
