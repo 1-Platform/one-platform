@@ -46,7 +46,7 @@ class HomeAPIHelper {
             query {
                 ${query}
         }`;
-        return fetch(`${process.env.USER_SERVICE_SERVICE_HOST}:${process.env.USER_SERVICE_SERVICE_PORT}/graphql`, {
+        return fetch(`http://${process.env.USER_SERVICE_SERVICE_HOST}:${process.env.USER_SERVICE_SERVICE_PORT}/graphql`, {
             method: 'post',
             body: JSON.stringify({query: body}),
             headers: { 'Content-Type': 'application/json' },
