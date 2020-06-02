@@ -21,7 +21,6 @@ if (footer !== null) {
         <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/" rel="noreferrer" target="_blank">One Platform in Mojo</a>
         <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/blog/" rel="noreferrer" target="_blank">Weekly Blog</a>
         <a href="contact-us.html">Contact Us</a>
-        <a href="https://beta.one.redhat.com/contact-us.html">One Portal List</a>
       </div>
     </div>
     <div class="footer__links-col">
