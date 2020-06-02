@@ -134,8 +134,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // WKRD: Using jsdom-sixteen as it has support for customElements()
-  testEnvironment: "jest-environment-jsdom-sixteen",
+  // testEnvironment: "jest-environment-jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},

@@ -16,7 +16,6 @@ describe('CountBoxComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CountBoxComponent);
     component = fixture.componentInstance;
-    
   });
 
   it('should create', () => {

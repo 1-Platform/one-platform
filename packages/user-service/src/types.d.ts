@@ -64,18 +64,6 @@ type LdapType = {
   objectClass?: string[];
 }
 
-type IUser = {
-  uid: string;
-  name: string;
-}
-
-type ITimestamp = {
-  createdAt: Date;
-  createdBy: IUser;
-  modifiedAt?: Date;
-  modifiedBy?: IUser;
-}
-
 type UserType = {
   name: string;
   title: string;
@@ -84,5 +72,8 @@ type UserType = {
   isActive ?: boolean;
   memberOf: string[];
   apiRole: string,
-  timestamp ?: ITimestamp;
+  createdBy: string;
+  createdOn: Date;
+  updatedBy: string;
+  updatedOn: Date;
 }

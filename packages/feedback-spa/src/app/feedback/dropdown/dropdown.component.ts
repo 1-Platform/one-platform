@@ -6,6 +6,8 @@ import {
   Input,
   Output,
   ViewChild,
+  AfterViewInit,
+  OnChanges,
 } from '@angular/core';
 import { IDropDownOption } from './dropdown';
 
@@ -14,7 +16,7 @@ import { IDropDownOption } from './dropdown';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss']
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() icon: string;
   @Input() options: Array<string>;
@@ -106,7 +108,6 @@ export class DropdownComponent implements OnInit {
     }
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this._CURRENT_SELECTED = this._DROP_DOWN_LIST_NODE.nativeElement.firstElementChild;
     this._DROP_DOWN_LIST_NODE.nativeElement.firstElementChild.classList.add('op-active');
@@ -118,7 +119,8 @@ export class DropdownComponent implements OnInit {
      * Applying the updated changes to the dropdownOptions
      */
     if (changes.optionsWithID && !changes.optionsWithID.firstChange) {
-      this._optionsWithID = this.disableAny ? changes.optionsWithID.currentValue : [{ id: -1, name: 'Any', selected: false }, ...changes.optionsWithID.currentValue];
+      this._optionsWithID = this.disableAny ? changes.optionsWithID.currentValue : [
+        { id: -1, name: 'Any', selected: false }, ...changes.optionsWithID.currentValue];
       this._dropdownOptions = this._optionsWithID;
 
       const selectedOption = this._optionsWithID.find(option => option.selected === true);

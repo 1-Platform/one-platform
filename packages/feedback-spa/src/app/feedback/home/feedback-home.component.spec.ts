@@ -38,10 +38,8 @@ describe('FeedbackHomeComponent', () => {
         NgxPaginationModule,
         NgPipesModule,
         FormsModule
-        
       ],
       providers: [
-        
         { provide: FeedbackService, useValue: feedbackService },
       ]
     })

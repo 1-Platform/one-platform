@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FeedbackService } from '../feedback.service';
 import { environment } from '../../../environments/environment';
-import { options } from "../../../mocks/options";
+import { options } from '../../../mocks/options';
 
 @Component({
   selector: 'op-feedback-home',
@@ -24,10 +24,10 @@ export class FeedbackHomeComponent implements OnInit {
   orderBy: string;
   searchText: string;
   feedbackPage: number;
-  feedbackType: String = null;
+  feedbackType: string = null;
   isAccordionOpen: boolean | any = false;
-  selectedIndex: number = 0;
-  selectedTab: number = 0;
+  selectedIndex = 0;
+  selectedTab = 0;
   feedbackTags = [];
   options: any = options;
   feedbackOpenedCount: number;
@@ -37,7 +37,6 @@ export class FeedbackHomeComponent implements OnInit {
   constructor(
     private feedbackService: FeedbackService,
   ) {
-   
   }
   ngOnInit() {
     this.jiraURL = environment.jiraURL;
@@ -52,8 +51,8 @@ export class FeedbackHomeComponent implements OnInit {
             }
           })[0];
           if (fbIssue) {
-            fbObj['state'] = [fbIssue['status']['name']];
-            fbObj['assignees'] = [fbIssue['assignee']['name']];
+            fbObj.state = fbIssue.status.name;
+            fbObj.assignees = fbIssue.assignee.name;
           }
           return fbObj;
         });
@@ -101,7 +100,6 @@ export class FeedbackHomeComponent implements OnInit {
           totalCountNumber: this.totalFeedbackCount.toString()
         });
         this.stats.sort((a, b) => a._id - b._id);
-        
       }, (error) => {
         if (error) { }
       });
@@ -143,8 +141,10 @@ export class FeedbackHomeComponent implements OnInit {
   setFeedbackCount() {
     if (this.feedbackType) {
       if (this.moduleName) {
-        this.feedbackOpenedCount = this.allFeedback.filter(fb => fb.state === 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName).length;
-        this.feedbackClosedCount = this.allFeedback.filter(fb => fb.state !== 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName).length;
+        this.feedbackOpenedCount = this.allFeedback.filter(
+          fb => fb.state === 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName).length;
+        this.feedbackClosedCount = this.allFeedback.filter(
+          fb => fb.state !== 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName).length;
       } else {
         this.feedbackOpenedCount = this.allFeedback.filter(fb => fb.state === 'opened' && fb.feedbackType === this.feedbackType).length;
         this.feedbackClosedCount = this.allFeedback.filter(fb => fb.state !== 'opened' && fb.feedbackType === this.feedbackType).length;
@@ -170,5 +170,5 @@ export class FeedbackHomeComponent implements OnInit {
   openModal(event) {
     this.feedbackDetails = event;
     this.fiModalTrigger.nativeElement.click();
-  } 
+  }
 }

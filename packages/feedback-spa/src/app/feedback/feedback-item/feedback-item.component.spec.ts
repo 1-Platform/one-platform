@@ -16,7 +16,6 @@ describe('FeedbackItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FeedbackItemComponent);
     component = fixture.componentInstance;
-    
   });
 
   it('should create', () => {

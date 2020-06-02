@@ -33,15 +33,7 @@ const apiGateway = new ApolloGateway( {
 } );
 
 /*  Creating the server based on the environment */
-const server = process.env.NODE_ENV !== 'test'
-  ? https.createServer(
-    {
-      key: fs.readFileSync( ( process.env.SSL_KEY ) ? `${ process.env.SSL_KEY }` : '' ),
-      cert: fs.readFileSync( ( process.env.SSL_CERT ) ? `${ process.env.SSL_CERT }` : '' )
-    },
-    app
-  )
-  : http.createServer( app );
+const server = http.createServer( app );
 
 /* Binding the gateway with the apollo server and extracting the schema */
 ( async () => {
@@ -77,25 +69,27 @@ const server = process.env.NODE_ENV !== 'test'
 
 /* Auth Token Verification Check */
 app.post( '/graphql', ( req, res, next ) => {
-  try {
+  if ( !req.headers.authorization ) {
+    return res.status( 401 ).json( new AuthenticationError( 'Auth Token Missing' ) );
+  } else {
     publicKey().then( ( key: string ) => {
-      if ( !req.headers.authorization ) {
-        throw new AuthenticationError( 'Auth Token Missing' );
+      try {
+        const tokenArray: any = req.headers.authorization?.split( ` ` );
+        const accessToken = tokenArray[ tokenArray.length - 1 ] || req.cookies[ 'access-token' ];
+        verify( accessToken, key, { algorithms: [ 'RS256' ] }, ( err: any, payload: any ) => {
+          if ( err && err.name === 'TokenExpiredError' ) {
+            return res.status( 403 ).json( err );
+          } else if ( err && err.name === 'JsonWebTokenError' ) {
+            return res.status( 403 ).json( err );
+          } else if ( !err ) {
+            decodedPayload = JSON.stringify( payload );
+            next();
+          }
+        } );
+      } catch ( err ) {
+        return res.status( 403 ).json( err );
       }
-      const accessToken = req.headers.authorization?.split( ` ` )[ 1 ] || req.cookies[ 'access-token' ];
-      verify( accessToken, key, { algorithms: [ 'RS256' ] }, ( err: any, payload: any ) => {
-        if ( err && err.name === 'TokenExpiredError' ) {
-          return res.status( 403 ).json( err );
-        } else if ( err && err.name === 'JsonWebTokenError' ) {
-          return res.status( 403 ).json( err );
-        } else if ( !err ) {
-          decodedPayload = JSON.stringify( payload );
-          next();
-        }
-      } );
     } );
-  } catch ( err ) {
-    return res.status( 403 ).json( err );
   }
 } );
 
