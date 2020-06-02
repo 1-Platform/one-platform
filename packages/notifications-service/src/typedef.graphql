@@ -12,9 +12,24 @@ input ScheduledandTriggerInput {
   action: String
 }
 
+type UserType {
+  _id: String
+  name: String
+  title: String
+  uid: String
+  rhatUUID: String
+  memberOf: [String]
+  isActive: Boolean
+  apiRole: APIROLE
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
+}
+
 type NotificationsConfigType {
   template: String
-  source: String
+  source: [UserType]
   channel: String
   type: String
   typeOptions: ScheduledandTriggerType
@@ -46,8 +61,12 @@ type Query {
 
 # Mutation Definitions
 type Mutation {
-  createdNotificationsConfig(input: NotificationsConfigInput): NotificationsConfigType
-  updateNotificationsConfig(input: NotificationsConfigInput): NotificationsConfigType
+  createdNotificationsConfig(
+    input: NotificationsConfigInput
+  ): NotificationsConfigType
+  updateNotificationsConfig(
+    input: NotificationsConfigInput
+  ): NotificationsConfigType
   deleteNotificationsConfig(id: String!): NotificationsConfigType
 }
 
