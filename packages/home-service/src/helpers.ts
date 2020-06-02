@@ -1,4 +1,3 @@
-// write your helper functions here
 const fetch = require('node-fetch');
 
 class HomeAPIHelper {
@@ -61,7 +60,7 @@ class HomeAPIHelper {
     stitchHomeType(response: HomeType[] | any, userDetails: any) {
         return response.map((data: any) => {
             if (userDetails[`createdBy_${data._id}`]) {
-                const resp = { ...{ ...data }._doc, createdBy: userDetails[`createdBy_${data._id}`][0] };
+                const resp = { ...data, createdBy: userDetails[`createdBy_${data._id}`][0] };
                 if (resp.owners.length) {
                     Object.assign(
                         resp.owners,
