@@ -23,56 +23,56 @@ type UserType {
   updatedOn: DateTime
 }
 type HomeType {
-    _id: String
-    name: String
-    description: String
-    link: String
-    icon: String
-    entityType: String
-    colorScheme: String
-    videoUrl: String
-    owners: [UserType]
-    createdBy: UserType
-    createdOn: DateTime
-    updatedBy: UserType
-    updatedOn: DateTime
-    permissions: [PermissionsType]
+  _id: String
+  name: String
+  description: String
+  link: String
+  icon: String
+  entityType: String
+  colorScheme: String
+  videoUrl: String
+  owners: [UserType]
+  createdBy: UserType
+  createdOn: DateTime
+  updatedBy: UserType
+  updatedOn: DateTime
+  permissions: [PermissionsType]
 }
 input PermissionsInput {
   roverGroup: String
-  role: APIROLE
+  role: APIROLE!
 }
 input HomeInput {
-    _id: String
-    name: String
-    description: String
-    link: String
-    icon: String
-    entityType: String
-    colorScheme: String
-    videoUrl: String
-    owners: [String]
-    createdBy: String
-    createdOn: DateTime
-    updatedBy: String
-    updatedOn: DateTime
-    permissions: [PermissionsInput]
+  _id: String
+  name: String
+  description: String
+  link: String
+  icon: String
+  entityType: String
+  colorScheme: String
+  videoUrl: String
+  owners: [String]
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
+  permissions: [PermissionsInput]
 }
 
 type Query {
-    # Fetches all HomeType
-    listHomeType: [HomeType]
-    # Fetches specific HomeType by id
-    getHomeType(_id: String!): [HomeType]
-    # Fetches HomeType by any property
-    getHomeTypeBy(input: HomeInput): [HomeType]
+  # Fetches all HomeType
+  listHomeType: [HomeType]
+  # Fetches specific HomeType by id
+  getHomeType(_id: String!): [HomeType]
+  # Fetches HomeType by any property
+  getHomeTypeBy(input: HomeInput): [HomeType]
 }
 
 type Mutation {
-    # Add HomeType
-    createHomeType(input: HomeInput): HomeType
-    # Update HomeType
-    updateHomeType(input: HomeInput): HomeType
-    # Delete HomeType by id
-    deleteHomeType(_id: String!): HomeType
+  # Add HomeType
+  createHomeType(input: HomeInput): HomeType
+  # Update HomeType
+  updateHomeType(input: HomeInput): HomeType
+  # Delete HomeType by id
+  deleteHomeType(_id: String!): HomeType
 }
