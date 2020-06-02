@@ -124,6 +124,11 @@ export const teamMembers = [
      gender: 'male',
    },
    {
+      name: 'Ghanshyam Lohar',
+      title: 'Senior Software Engineer',
+      gender: 'male',
+   },
+   {
      name: 'Diwanshi Pandey',
      title: 'Senior Software Engineer',
      gender: 'female',
