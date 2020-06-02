@@ -4,11 +4,13 @@ services:
   ssi-templates:
     build: ./packages/ssi-service/.
     env_file: ./packages/ssi-service/.env
+    environment:
+      SSI_HOSTNAME: /.include/nav
     volumes:
-      - ./packages/ssi-service/dist:/var/www/html/templates
+      - ./packages/ssi-service/dist:/var/www/html/.includes/nav
       - ./packages/ssi-service/public/index.html:/usr/share/httpd/noindex/index.html
     ports:
-      - 4200:8080
+      - 5500:8080
 
   home-spa:
     build: ./packages/home-spa
