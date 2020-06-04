@@ -1,8 +1,7 @@
 {
-  "name": "ssi-service",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@one-platform/ssi-templates",
+  "version": "0.0.1-prerelease.01",
+  "description": "This package contains global webcomponents for SSI and Chroming.",
   "scripts": {
     "start": "webpack --watch",
     "build": "webpack --mode production",
@@ -13,7 +12,12 @@
     "common-templates",
     "web-components"
   ],
-  "author": "Mayur Deshmukh",
+  "author": {
+    "name": "Mayur Deshmukh",
+    "email": "deshmukhmayur@outlook.com",
+    "url": "https://deshmukhmayur.com"
+  },
+  "contributors": [],
   "license": "MIT",
   "dependencies": {
     "graphql-request": "^1.8.2",
@@ -40,5 +44,19 @@
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.11.0",
     "whatwg-fetch": "3.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1-Platform/one-platform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1-Platform/one-platform/issues"
+  },
+  "homepage": "https://github.com/1-Platform/one-platform#readme",
+  "publishConfig": {
+    "access": "public"
   }
 }
