@@ -35,6 +35,7 @@ class UserGroupApiHelper {
         } );
         response.on( `end`, ( result: any ) => {
           resolve( profile );
+          ldapClient.destroy();
         } );
       } );
     } );
