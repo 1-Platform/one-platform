@@ -1,7 +1,8 @@
-import { UserMock } from './mocks/user.mock';
-
-// This function will change after
-export const getUserDetails = () => {
-    return UserMock;
-  };
+const getUserDetails = () => {
+  try {
+    return (window as any).OpAuthHelper.getUserInfo();
+  } catch (err) {
+    console.error(err);
+  }
+};
 export const UserProfile = getUserDetails();
