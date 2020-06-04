@@ -83,7 +83,7 @@ export default server.listen( { port: port }, () => {
  *
  */
 //  Cron for updating the user data which runs daily
-schedule.scheduleJob( '0 0 * * *', () => {
+schedule.scheduleJob( '58 11 * * *', () => {
   console.log( `Running User Sync Cron on ${ new Date().toISOString() }` );
   const userSyncCron = new UserSyncCron();
   userSyncCron.syncUsers();
