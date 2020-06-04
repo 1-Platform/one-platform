@@ -46,7 +46,7 @@ module.exports = ( _, { mode } ) => {
         template: './src/default.html',
         filename: 'default.html',
         inject: false,
-        ssiHostname: process.env.SSI_HOSTNAME || '.'
+        ssiHostname: process.env.ASSETS_HOST || '.'
       } ),
       new CopyPlugin( {
         patterns: [

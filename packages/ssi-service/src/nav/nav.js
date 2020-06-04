@@ -7,10 +7,11 @@ import './auth';
 /* Initialize SSO Auth as soon as the component is created */
 window.OpAuthHelper.init();
 
+const ASSETS_URL = process.env.ASSETS_HOST + '/assets';
+
 window.customElements.define( 'op-nav', class extends HTMLElement {
   constructor () {
     super();
-
 
     /* Initializing the drawer element */
     this.drawer = document.createElement( 'dialog' );
@@ -192,7 +193,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     return html`
       <li class="op-menu-drawer__app-list-item">
         <a href="${ item.link }">
-          <img src="${item.logo || '/templates/assets/rh-hat-logo.svg' }"/>
+          <img src="${item.logo || '${ASSETS_URL}/rh-hat-logo.svg' }"/>
           <h5>
             ${ item.name }
           </h5>
@@ -237,7 +238,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
         <div class="op-nav-wrapper">
           <!-- QSTN: Customizable menu here?? -->
           <a class="op-logo" href="/">
-            <img class="op-logo__img" src="/templates/assets/rh-op-logo.svg" alt="Red Hat One Portal">
+            <img class="op-logo__img" src="${ASSETS_URL }/rh-op-logo.svg" alt="Red Hat One Portal">
           </a>
 
           <form class="op-search">
