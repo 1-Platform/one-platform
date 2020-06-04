@@ -32,6 +32,7 @@ class UserGroupApiHelper {
         response.on( `error`, ( error: Error ) => {
           console.error( `LDAP error: ` + error.message );
           reject( new Error( 'LDAP ERROR' ) );
+          ldapClient.destroy();
         } );
         response.on( `end`, ( result: any ) => {
           resolve( profile );
