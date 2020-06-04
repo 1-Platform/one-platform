@@ -8,14 +8,26 @@ import { serviceList, publicKey } from './src/helpers';
 import cookieParser = require( 'cookie-parser' );
 import { verify } from 'jsonwebtoken';
 import { print } from 'graphql';
+import cors from 'cors';
 
 /* Setting port for the server */
 const port = process.env.PORT || 4000;
 const app = express();
 let decodedPayload: any = '';
 
+// configure CORS
+const corsOptions: cors.CorsOptions = {
+  allowedHeaders: [ 'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token' ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: '*',
+  preflightContinue: false
+};
+
 /* Mount cookie parser */
 app.use( cookieParser() );
+/* include cors middleware */
+app.use( cors( corsOptions ) );
 
 /* Option to set the custom headers with the request */
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
