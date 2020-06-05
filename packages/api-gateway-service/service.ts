@@ -19,21 +19,20 @@ const server = http.createServer( app );
 /* Binding the gateway with the apollo server and extracting the schema */
 ( async () => {
   const userService = await getRemoteSchema( {
-    uri: `http://${ process.env.USER_SERVICE_SERVICE_HOST }/graphql`,
-    subscriptionsUri: `ws://${ process.env.USER_SERVICE_SERVICE_HOST }/subscriptions`
+    uri: `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/subscriptions`
   } );
   const feedbackService = await getRemoteSchema( {
-    uri: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }/graphql`,
-    subscriptionsUri: `ws://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }/subscriptions`
+    uri: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/subscriptions`
   } );
   const homeService = await getRemoteSchema( {
-    uri: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }/graphql`,
-    subscriptionsUri: `ws://${ process.env.HOME_SERVICE_SERVICE_HOST }/subscriptions`
+    uri: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/subscriptions`
   } );
-
   const notificationService = await getRemoteSchema( {
-    uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }/graphql`,
-    subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }/subscriptions`
+    uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/subscriptions`
   } );
   const schema = mergeSchemas( {
     schemas: [ userService, feedbackService, homeService, notificationService ]
