@@ -29,7 +29,7 @@
     "apollo-cache-inmemory": "1.6.6",
     "apollo-client": "2.6.10",
     "apollo-link": "1.2.14",
-    "graphql": "14.6.0",
+    "graphql": "15.1.0",
     "graphql-tag": "2.10.3",
     "jest": "26.0.1",
     "jest-preset-angular": "8.2.0",
