@@ -51,25 +51,16 @@ export const stub = [
       icon: "fa-tools",
       entityType: "spa",
       colorScheme: "#",
-      videoUrl: "https://www.youtube.com/embed/_MIaJKKxGO0"
-   },
-   {
-      name: "Notification Management",
-      description: "Manage your notification SPA",
-      link: "#",
-      icon: "fa-tools",
-      entityType: "spa",
-      colorScheme: "#",
-      videoUrl: "https://www.youtube.com/embed/b1kXvDscGvU"
+      videoUrl: "https://www.youtube.com/embed/Pj_tLugpz8g"
    },
    {
       name: "DSAL",
-      description: "Dev Ops savings and loan",
+      description: "DSAL (pronounced like Diesel) is a shared lab program and its main goal is to better utilize the hardware for different projects/programs inside Red Hat. Here you can loan from DSAL high-end physical servers connected and top of the line switch in order to have your own lab for 4+2 months",
       link: "#",
       icon: "fa-tools",
       entityType: "spa",
       colorScheme: "",
-      videoUrl: ""
+      videoUrl: "https://www.youtube.com/embed/Pj_tLugpz8g"
    }
 ];
 
@@ -131,6 +122,11 @@ export const teamMembers = [
      name: 'Sayak Sarkar',
      title: 'Senior Software Engineer',
      gender: 'male',
+   },
+   {
+      name: 'Ghanshyam Lohar',
+      title: 'Senior Software Engineer',
+      gender: 'male',
    },
    {
      name: 'Diwanshi Pandey',

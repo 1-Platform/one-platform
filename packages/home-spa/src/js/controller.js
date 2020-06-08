@@ -48,7 +48,11 @@ window.carouselScroll = (direction) => {
 function buildDom(apiData) {
   apiData = apiData.map(
     data => {
-      data.description = data.description.length > 160 ? data.description.slice(0, 160) + '...' : data.description;
+      if (data.entityType === 'spa') {
+        data.description = data.description.length > 300 ? data.description.slice(0, 300) + '. . .' : data.description;
+      } else {
+        data.description = data.description.length > 160 ? data.description.slice(0, 160) + '. . .' : data.description;
+      }
       return data;
     }
   );
@@ -79,7 +83,7 @@ function buildDom(apiData) {
     spaList.innerHTML = apiData.map(spa => 
       {
         if (spa.entityType === 'spa') {
-          return `<a href="${spa.link}"><i class="fa ${spa.icon}"></i>${spa.name}</a>`;
+          return `<a href="${spa.link}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
         }
       }
     ).join('');
@@ -91,7 +95,7 @@ function buildDom(apiData) {
         return `<div class="grid__carousel-slide">
         <div class="grid__carousel-slide__left">
           <h1 class="grid__carousel-slide--title">
-            <a href="${carouselItem.link}"><i class="fa ${carouselItem.icon}"></i> ${carouselItem.name}</a>
+            <a href="${carouselItem.link}"><em class="fa ${carouselItem.icon}"></em> ${carouselItem.name}</a>
           </h1>
           <p>
             ${carouselItem.description}
@@ -117,7 +121,7 @@ function buildDom(apiData) {
             <div class="microservice__section--paragraph">
                 ${microservice.info}
             </div>
-            <div class="microservice__section--supported-feaures">Supported features:</div>
+            <div class="microservice__section--supported-features">Supported features:</div>
             <ul>
             ${microservice.features.map(feature => {
                 return `<li>

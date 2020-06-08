@@ -18,11 +18,9 @@ if (footer !== null) {
         Quick links
       </div>
       <div class="footer__links">
-        <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/">One Platform in Mojo</a>
-        <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/blog/">Weekly Blog</a>
+        <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/" rel="noreferrer" target="_blank">One Platform in Mojo</a>
+        <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/blog/" rel="noreferrer" target="_blank">Weekly Blog</a>
         <a href="contact-us.html">Contact Us</a>
-        <a href="#">Changelog</a>
-        <a href="#">Subscribe to One Portal List</a>
       </div>
     </div>
     <div class="footer__links-col">
@@ -30,10 +28,9 @@ if (footer !== null) {
         Related sites
       </div>
       <div class="footer__links">
-        <a href="#">PnT Help</a>
-        <a href="#">PnT DevOps (Mojo)</a>
-        <a href="#">PnT Stats</a>
-        <a href="#">Projects Engineering</a>
+        <a href="https://access.redhat.com/" rel="noreferrer" target="_blank">access.redhat.com</a>
+        <a href="https://catalog.redhat.com/" rel="noreferrer" target="_blank">catalog.redhat.com</a>
+        <a href="https://connect.redhat.com/" rel="noreferrer" target="_blank">connect.redhat.com</a>
       </div>
     </div>
     <div class="footer__links-col">
@@ -42,8 +39,9 @@ if (footer !== null) {
       </div>
       <div class="footer__links">
         <a href="#">One Portal FAQs</a>
-        <a href="#">File an Issue</a>
-        <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>
+        <a href="https://projects.engineering.redhat.com/secure/CreateIssue!default.jspa" rel="noreferrer" target="_blank">File an Issue</a>
+        <a href="mailto:one-portal@redhat.com">one-portal@redhat.com</a>
+        <a href="https://github.com/1-platform/one-platform" rel="noreferrer" target="_blank">GitHub</a>
       </div>
     </div>
   </div>
@@ -57,5 +55,5 @@ if (footer !== null) {
     <div class="band__header">
 			Join the One Platform Digital Experience!
 		</div>
-    <button class="band__button--primary-border">Get Started</button>`;
+    <button class="band__button--primary-border">Onboarding Guide</button>`;
   }
