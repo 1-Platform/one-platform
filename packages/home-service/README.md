@@ -5,19 +5,23 @@ by storing all such information.
 
 ## Example home-service query
 ```
-fragment home on HomeType {
-  _id
-  name
-  entityType
-  videoUrl
-  owners {
+  fragment home on HomeType {
     _id
     name
-    memberOf
+    description
+    link
+    icon
+    entityType
+    colorScheme
+    videoUrl
+    active
+    owners {
+      _id
+    }
+    permissions {
+      role
+    }
   }
-  createdOn
-}
-
 query {
   listHomeType {
     ...home
