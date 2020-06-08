@@ -15,6 +15,7 @@ const query = `
     entityType
     colorScheme
     videoUrl
+    active
     owners {
       _id
     }
@@ -72,6 +73,7 @@ describe('Home microservice API Test', () => {
         expect(res.body.data.createHomeType).toHaveProperty('name', mock.name);
         expect(res.body.data.createHomeType).toHaveProperty('description', mock.description);
         expect(res.body.data.createHomeType).toHaveProperty('entityType', mock.entityType);
+        expect(res.body.data.createHomeType).toHaveProperty('active', mock.active);
       })
       .end((err, res) => {
         done(err);
@@ -94,6 +96,7 @@ describe('Home microservice API Test', () => {
         expect(res.body.data.listHomeType[0]).toHaveProperty('description');
         expect(res.body.data.listHomeType[0]).toHaveProperty('name');
         expect(res.body.data.listHomeType[0]).toHaveProperty('entityType');
+        expect(res.body.data.listHomeType[0]).toHaveProperty('active', mock.active);
       })
       .end((err, res) => {
         done(err);
@@ -116,6 +119,8 @@ describe('Home microservice API Test', () => {
         expect(res.body.data.getHomeType[0]).toHaveProperty('description', mock.description);
         expect(res.body.data.getHomeType[0]).toHaveProperty('name', mock.name);
         expect(res.body.data.getHomeType[0]).toHaveProperty('entityType', mock.entityType);
+        expect(res.body.data.getHomeType[0]).toHaveProperty('active', mock.active);
+
       })
       .end((err, res) => {
         done(err);
@@ -139,6 +144,7 @@ describe('Home microservice API Test', () => {
         expect(res.body.data.updateHomeType).toHaveProperty('description', mock.description);
         expect(res.body.data.updateHomeType).toHaveProperty('entityType', mock.entityType);
         expect(res.body.data.updateHomeType).toHaveProperty('name', mock.name);
+        expect(res.body.data.updateHomeType).toHaveProperty('active', mock.active);
       })
       .end((err, res) => {
         done(err);

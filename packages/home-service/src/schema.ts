@@ -13,6 +13,7 @@ export const HomeServiceSchema: Schema = new Schema({
     createdOn: Date,
     updatedBy: String,
     updatedOn: Date,
+    active: { type: Boolean, default: false },
     permissions: [
         {
             roverGroup: String,
