@@ -1,43 +1,55 @@
-import { ApolloGateway, RemoteGraphQLDataSource } from '@apollo/gateway';
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import express from 'express';
-import fs from 'fs';
+import { mergeSchemas } from 'graphql-tools';
 import http from 'http';
-import https from 'https';
-import { serviceList, publicKey } from './src/helpers';
-import cookieParser = require( 'cookie-parser' );
 import { verify } from 'jsonwebtoken';
-import { print } from 'graphql';
+import { publicKey, getRemoteSchema } from './src/helpers';
+import cors from 'cors';
+import cookieParser = require( 'cookie-parser' );
 
 /* Setting port for the server */
 const port = process.env.PORT || 4000;
 const app = express();
-let decodedPayload: any = '';
+
+// Configure CORS
+const corsOptions: cors.CorsOptions = {
+  allowedHeaders: [ 'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token' ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: '*',
+  preflightContinue: false
+};
 
 /* Mount cookie parser */
 app.use( cookieParser() );
 
-/* Option to set the custom headers with the request */
-class AuthenticatedDataSource extends RemoteGraphQLDataSource {
-  willSendRequest ( { request, context }: any ) {
-    request.http.headers.set( 'tokenPayload', decodedPayload );
-  }
-}
-
-/* Defining the Apollo Gateway */
-const apiGateway = new ApolloGateway( {
-  serviceList: serviceList,
-  buildService ( { name, url } ) {
-    return new AuthenticatedDataSource( { url } );
-  },
-} );
+/* include cors middleware */
+app.use( cors( corsOptions ) );
 
 /*  Creating the server based on the environment */
 const server = http.createServer( app );
 
 /* Binding the gateway with the apollo server and extracting the schema */
 ( async () => {
-  const { schema, executor } = await apiGateway.load();
+  const userService = await getRemoteSchema( {
+    uri: `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/subscriptions`
+  } );
+  const feedbackService = await getRemoteSchema( {
+    uri: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/subscriptions`
+  } );
+  const homeService = await getRemoteSchema( {
+    uri: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/subscriptions`
+  } );
+  const notificationService = await getRemoteSchema( {
+    uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/graphql`,
+    subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/subscriptions`
+  } );
+  const schema = mergeSchemas( {
+    schemas: [ userService, feedbackService, homeService, notificationService ]
+  } );
   /* Defining the Apollo Server */
   let playgroundOptions: boolean | Object = {
     title: 'API Gateway',
@@ -50,7 +62,6 @@ const server = http.createServer( app );
   }
   const apollo = new ApolloServer( {
     schema: schema,
-    executor: executor,
     introspection: true,
     context: ( { req, res }: any ) => ( { req, res } ),
     formatError: error => ( {
@@ -65,6 +76,7 @@ const server = http.createServer( app );
 
   /* Applying apollo middleware to express server */
   apollo.applyMiddleware( { app } );
+  apollo.installSubscriptionHandlers( server );
 } )();
 
 /* Auth Token Verification Check */
@@ -82,7 +94,7 @@ app.post( '/graphql', ( req, res, next ) => {
           } else if ( err && err.name === 'JsonWebTokenError' ) {
             return res.status( 403 ).json( err );
           } else if ( !err ) {
-            decodedPayload = JSON.stringify( payload );
+            req.headers = { ...req.headers, tokenPaylod: JSON.stringify( payload ) };
             next();
           }
         } );

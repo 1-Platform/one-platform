@@ -1,20 +1,16 @@
-import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import fs from 'fs';
-import https from 'https';
+import express from 'express';
 import http from 'http';
-import { mergeSchemas } from 'graphql-tools';
-const { ApolloLogExtension } = require( 'apollo-log' );
 import mongoose from 'mongoose';
-
-import gqlSchema from './src/typedef.graphql';
-import { UserGroupResolver as resolver } from './src/resolver';
 import * as schedule from 'node-schedule';
+import { UserGroupResolver as resolver } from './src/resolver';
+import gqlSchema from './src/typedef.graphql';
+const { ApolloLogExtension } = require( 'apollo-log' );
 import cookieParser = require( 'cookie-parser' );
-import { buildFederatedSchema } from '@apollo/federation';
 
 // Crons for Data syncing
 import { UserSyncCron } from './src/cron';
+
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
@@ -50,10 +46,8 @@ mongoose.connection.on( 'error', error => {
 /* Defining the Apollo Server */
 const apollo = new ApolloServer( {
   playground: process.env.NODE_ENV !== 'production',
-  schema: buildFederatedSchema( [ {
-    typeDefs: gqlSchema,
-    resolvers: resolver
-  } ] ),
+  typeDefs: gqlSchema,
+  resolvers: resolver,
   subscriptions: {
     path: '/subscriptions',
   },

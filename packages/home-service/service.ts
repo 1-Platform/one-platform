@@ -1,9 +1,6 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import fs from 'fs';
-import https from 'https';
 import http from 'http';
-const { buildFederatedSchema } = require( '@apollo/federation' );
 const { ApolloLogExtension } = require( 'apollo-log' );
 import mongoose from 'mongoose';
 
@@ -41,10 +38,8 @@ mongoose.connection.on( 'error', error => {
 /* Defining the Apollo Server */
 const apollo = new ApolloServer( {
   playground: process.env.NODE_ENV !== 'production',
-  schema: buildFederatedSchema( [ {
-    typeDefs: gqlSchema,
-    resolvers: resolver
-  } ] ),
+  typeDefs: gqlSchema,
+  resolvers: resolver,
   subscriptions: {
     path: '/subscriptions',
   },

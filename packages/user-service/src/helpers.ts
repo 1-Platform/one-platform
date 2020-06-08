@@ -2,6 +2,8 @@ import { createClient } from 'ldapjs';
 import { User } from './schema';
 import * as _ from 'lodash';
 import moment from 'moment';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+export const pubsub = new RedisPubSub();
 
 class UserGroupApiHelper {
   private static UserGroupHelperInstance: UserGroupApiHelper;

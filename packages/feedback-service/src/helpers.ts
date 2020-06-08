@@ -1,3 +1,5 @@
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+export const pubsub = new RedisPubSub();
 import { resolve } from 'dns';
 import { rejects } from 'assert';
 const JiraApi = require('jira-client');
