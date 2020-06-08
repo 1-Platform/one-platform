@@ -51,7 +51,7 @@ export const stub = [
       icon: "fa-tools",
       entityType: "spa",
       colorScheme: "#",
-      videoUrl: "https://drive.google.com/file/d/1u8gQfyhbMZHJAdXvi-70jWVIqSj_qIS1/preview"
+      videoUrl: "https://www.youtube.com/embed/Pj_tLugpz8g"
    },
    {
       name: "DSAL",
@@ -60,7 +60,7 @@ export const stub = [
       icon: "fa-tools",
       entityType: "spa",
       colorScheme: "",
-      videoUrl: "https://drive.google.com/file/d/16W4lO7jhPz5jzY_GJ_kb78EVsiS2MVIh/preview"
+      videoUrl: "https://www.youtube.com/embed/Pj_tLugpz8g"
    }
 ];
 
