@@ -11,7 +11,6 @@ const modSfdcConnectionString = `postgres://${ process.env.DB_USER }:${ process.
 export const ModHandoverResolver = {
   Query: {
     listAllHandOvers ( root: any, args: any, ctx: any ) {
-      console.log( modConnectionString );
       const Client = new pg.Client( modConnectionString );
       Client.connect();
       return Client.query( `select * from handovers; ` )

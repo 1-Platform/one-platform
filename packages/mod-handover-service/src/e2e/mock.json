@@ -1,4 +1,23 @@
 {
-   "message": "Define your test mocks in this file and remove this key value pair if not required"
+  "handover_id": 20181119110311,
+  "handover_region": "APAC-EMEA",
+  "date": "",
+  "handover_notes": "Test Handover notes",
+  "fts_count": 187,
+  "unassigned_count": 14,
+  "worh_count": 34,
+  "woc_count": 153,
+  "ace_count": 0,
+  "irt_count": 12,
+  "rme_count": 2,
+  "unassigned_ncq_sev_1_2_count": 8,
+  "urgent_severity_1_breaches_count": 35,
+  "manager_id": "roommen",
+  "manager_first_name": "Rigin",
+  "manager_last_name": "Oommen",
+  "manager_email": "roommen@redhat.com",
+  "handover_type": "Platform",
+  "watchlist": null,
+  "proactive_cases": null,
+  "sensitive_accounts": null
 }
-
