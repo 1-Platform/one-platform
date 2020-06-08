@@ -109,7 +109,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     }
 
     this.drawer.dataset.type = drawerType;
-    this.drawer.open = true;
+    this.drawer.setAttribute( 'open', true );
 
     switch ( drawerType ) {
       case 'app':
@@ -193,7 +193,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     return html`
       <li class="op-menu-drawer__app-list-item">
         <a href="${ item.link }">
-          <img src="${item.logo || '${ASSETS_URL}/rh-hat-logo.svg' }"/>
+          <img src="${item.logo || ASSETS_URL + '/rh-hat-logo.svg' }"/>
           <h5>
             ${ item.name }
           </h5>

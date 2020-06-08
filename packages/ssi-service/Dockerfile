@@ -13,11 +13,9 @@ WORKDIR /ssi
 
 RUN npm install --silent && \
   npm run build
-RUN cp public/index.html /usr/share/httpd/noindex/ && \
-  chmod a+x /usr/share/httpd/noindex/index.html && \
-  mkdir /var/www/html/templates && \
-  cp -r dist/** /var/www/html/templates && \
-  mkdir -p /var/www/html/.include && \
-  cp -r dist/** /var/www/html/.include
+RUN cp public/index.html /var/www/html/ && \
+  chmod a+x /var/www/html/index.html && \
+  mkdir -p /var/www/html/.include/nav && \
+  cp -r dist/** /var/www/html/.include/nav/
 
 USER 1001

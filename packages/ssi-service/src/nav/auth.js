@@ -61,6 +61,13 @@ class OpAuth {
   }
 
   /**
+   * Checks if the user is already Authenticated
+   */
+  get isAuthenticated () {
+    return this._jwt.isAuthenticated();
+  }
+
+  /**
    * Returns the details of the logged in user
    */
   getUserInfo () {
