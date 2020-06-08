@@ -1,0 +1,185 @@
+scalar DateTime
+
+type HandOverType {
+  handover_id: Float
+  handover_region: String
+  date: DateTime
+  handover_notes: String
+  fts_count: Int
+  unassigned_count: Int
+  worh_count: Int
+  woc_count: Int
+  ace_count: Int
+  irt_count: Int
+  rme_count: Int
+  unassigned_ncq_sev_1_2_count: Int
+  urgent_severity_1_breaches_count: Int
+  manager_id: String
+  manager_first_name: String
+  manager_last_name: String
+  manager_email: String
+  handover_type: String
+  watchlist: String
+  proactive_cases: String
+  sensitive_accounts: String
+}
+
+type CaseType {
+  case_id: Int
+  handover_id: Float
+  case_no: String
+  case_type: String
+  date: DateTime
+  case_notes: String
+  account_name: String
+  sbr_names: String
+  emt_case_type: String
+  emt_case_expectation: String
+  emt_case_ue_ticket_no: String
+  emt_case_ice_ticket_no: String
+  emt_case_trello: String
+  emt_case_notes: String
+}
+
+type CaseShiftTrackerType {
+  id: Int
+  time: String
+  casenumber: String
+  subject: String
+  severity__c: Int
+  sbr_group__c: String
+  internal_status__c: String
+  status: String
+  normalized_service_level__c: String
+  sbr__c: Int
+  escalate_to_geo__c: String
+  customer_escalation__c: Boolean
+  fts__c: Boolean
+  accountid: String
+  accountname: String
+  accountnumber: Int
+  tactical__c: Boolean
+}
+
+type CountType {
+  count: Int
+}
+
+type StatsCountType {
+  fts_count: Int
+  rme_count: Int
+  unassigned_count: Int
+  worh_count: Int
+  irt_count: Int
+  woc_count: Int
+  unassigned_ncq_count: Int
+  urgent_sev_1_breaches_count: Int
+  time: String
+}
+
+
+type EmailType {
+  handover: HandOverType
+  cases: [CaseType]
+  emailRecipient: [String]
+}
+
+type SFDCType {
+  account_name: String
+}
+
+input HandOverInput {
+  handover_id: Float
+  handover_region: String
+  date: DateTime
+  handover_notes: String
+  fts_count: Int
+  unassigned_count: Int
+  worh_count: Int
+  woc_count: Int
+  ace_count: Int
+  irt_count: Int
+  rme_count: Int
+  unassigned_ncq_sev_1_2_count: Int
+  urgent_severity_1_breaches_count: Int
+  manager_id: String
+  manager_first_name: String
+  manager_last_name: String
+  manager_email: String
+  handover_type: String
+  watchlist: String
+  proactive_cases: String
+  sensitive_accounts: String
+}
+
+input CaseInput {
+  case_id: Int
+  handover_id: Float
+  case_no: String
+  case_type: String
+  date: DateTime
+  case_notes: String
+  account_name: String
+  sbr_names: String
+  emt_case_type: String
+  emt_case_expectation: String
+  emt_case_ue_ticket_no: String
+  emt_case_ice_ticket_no: String
+  emt_case_trello: String
+  emt_case_notes: String
+}
+
+input RecepientInput {
+  to: String
+  cc: String
+}
+
+input EmailInput {
+  handover: HandOverInput
+  cases: [CaseInput]
+  emailRecipient: RecepientInput
+}
+
+type Query {
+  # Fetch all MoD HandOvers
+  listAllHandOvers: [HandOverType]
+  # Fetch Specific Handover by ID
+  listHandOver(handover_id: Float): HandOverType
+  # Fetch Handovers By Date
+  listHandOverByDate(date: String): [HandOverType]
+  # Fetch Cases Associated with the handover
+  listCasesByHandOver(handover_id: Float): [CaseType]
+  # Fetch Unassigned Count
+  listUnassignedCount: CountType
+  # Fetch the Platform Count
+  listAllPlatformCount: StatsCountType
+  # Fetch the ET Count
+  listAllETCount: StatsCountType
+  # Fetch the APS Count
+  listAllAPSCount: StatsCountType
+  # Fetch the MPS Count
+  listAllMPSCount: StatsCountType
+  # Fetch SBRs associated with the case no
+  listCaseSBRs(casenumber: String): [CaseShiftTrackerType]
+  # Fetch the total Handover Count
+  listTotalHandOverCount: CountType
+  # Fetch the Case details from SFDC
+  listSFDCCase(casenumber: String): SFDCType
+}
+
+type Mutation {
+  # Create a Handover in MoD Database
+  createHandOver(input: HandOverInput): HandOverType
+  # update a Handover in MoD Database
+  updateHandOver(input: HandOverInput): HandOverType
+  # Remove a Handover in MoD Database
+  removeHandOver(handover_id: Float!): HandOverType
+  # Create a Case in MoD Database
+  createCase(input: CaseInput): CaseType
+  # update a Case in MoD Database
+  updateCase(input: CaseInput): CaseType
+  # Remove a Case in MoD Database
+  removeCase(case_id: Int!): CaseType
+  # Send Handover Email
+  sendHandOverEmail(input: EmailInput): EmailType
+}
