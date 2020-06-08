@@ -44,13 +44,13 @@
     "@angular/compiler-cli": "9.1.9",
     "@angular/language-service": "9.1.9",
     "@types/jasminewd2": "2.0.8",
-    "@types/node": "12.12.42",
+    "@types/node": "12.12.44",
     "codelyzer": "5.2.2",
     "jasmine-core": "3.5.0",
     "jasmine-spec-reporter": "5.0.2",
     "protractor": "7.0.0",
     "ts-node": "8.10.2",
     "tslint": "5.20.1",
-    "typescript": "3.8.3"
+    "typescript": "3.9.5"
   }
 }

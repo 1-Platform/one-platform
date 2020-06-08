@@ -10,5 +10,13 @@
    "owners": [
       "81d46410-a234-11e9-97cb-001a4a0a0044"
    ],
-   "createdBy": "81d46410-a234-11e9-97cb-001a4a0a0044"
+   "createdBy": "81d46410-a234-11e9-97cb-001a4a0a0044",
+   "active": true,
+   "permissions": 
+   [
+      {
+         "role": "ADMIN",
+         "roverGroup": "one-portal-devel"
+      }
+   ]
 }
