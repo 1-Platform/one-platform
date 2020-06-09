@@ -141,7 +141,7 @@ input EmailInput {
 }
 
 type Query {
-  # Fetch all MoD HandOvers
+  # Fetch all MoD Handovers
   listAllHandovers: [HandoverType]
   # Fetch Specific Handover by ID
   listHandover(handover_id: Float): HandoverType
