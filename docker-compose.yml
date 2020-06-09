@@ -20,12 +20,40 @@ services:
     depends_on:
       - home-service
 
+  api-gateway:
+    build: ./packages/api-gateway-service
+    command: npm start
+    env_file: ./packages/api-gateway-service/.env
+    environment:
+      HOME_SERVICE_SERVICE_HOST: home-service
+      FEEDBACK_SERVICE_SERVICE_HOST: feedback-service
+      USER_SERVICE_SERVICE_HOST: user-service
+      NOTIFICATIONS_SERVICE_SERVICE_HOST: notifications-service
+      REDIS_SERVICE_HOST: redis
+      HOME_SERVICE_SERVICE_PORT: 8080
+      FEEDBACK_SERVICE_SERVICE_PORT: 8080
+      USER_SERVICE_SERVICE_PORT: 8080
+      NOTIFICATIONS_SERVICE_SERVICE_PORT: 8080
+      REDIS_SERVICE_PORT: 6379
+    volumes:
+      - ./packages/api-gateway-service:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - home-service
+      - feedback-service
+      - user-service
+      - notifications-service
+      - redis
+
   home-service:
     build: ./packages/home-service
     command: npm start
     env_file: ./packages/home-service/.env
     environment:
       DB_PATH: mongo
+      USER_SERVICE_SERVICE_HOST: user-service
+      USER_SERVICE_SERVICE_HOST: 8080
     volumes:
       - ./packages/home-service:/app
     ports:
@@ -79,8 +107,13 @@ services:
       driver: none
     volumes:
       - ./tmp/db:/data/db
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: example
     # ports:
     #   - 37017:27017
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    restart: on-failure
+    logging:
+      driver: none
