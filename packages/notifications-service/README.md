@@ -1,25 +1,42 @@
-Notifications Microservice
-=================================================
+# Notifications Microservice
 
-One platform's server-side Notifications GraphQL microservice.
+Notifications Microservice provides the essential GraphQL APIs required for the Notifications Framework. It provides graphql queries for configuring notifications, triggering notifications, listening for notifications, etc.
 
-Switch to the working directory
-------------
+## Local Development
 
- `cd notifications-service`.
+### 1. Switch to the working directory
 
-Copy Certificates
-------------
+1. Switch to the working directory `cd home-service`.
+2. Copy the `.env.example` to the `.env`
+3. Change the values as needed, keeping the unneeded values as undefine
 
-  1. Copy the SSL paths to the `.env` file of `notifications` microservice.
+### 2. Start Microservice
 
-Start Microservice
-------------
+1. Run `npm build:dev` to generate a build for dev env and `npm build` for production build
+2. Run `npm start` to run your microservice for dev env
 
-  1. Run `npm build:dev` to generate a build for dev env and `npm build` for production build.
-  2. Run `npm start:dev` to run your microservice for dev env and `npm start` for production env.
+## Using docker-compose
 
-Testing
-------------
+1. Follow the first 2 steps from above
+2. Then execute the following command to start a standalone instance of `notifications-service`
 
-  1. Run `npm test` to run default tests.
+   ```bash
+   docker-compose up notifications-service
+   ```
+
+3. To start the entire cluster of microservices, use the following command
+
+   ```bash
+   docker-compose up api-gateway
+   ```
+
+## Runnninng Tests
+
+```bash
+npm test
+```
+
+## Contributors:
+
+👤 **Diwanshi Pandey** [@diwanshi](https://github.com/diwanshi)
+👤 **Mayur Deshmukh** [@deshmukhmayur](https://github.com/deshmukhmayur)
