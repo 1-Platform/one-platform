@@ -93,8 +93,8 @@ afterAll( done => {
   return MoDHandover.close( done );
 } );
 
-describe( 'MoD Handovers Microservice API Test', () => {
-  it( 'Returns All HandOvers List', ( done ) => {
+describe( 'MoD Handover Microservice API Test', () => {
+  it( 'Returns All Handovers List', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
@@ -210,7 +210,7 @@ describe( 'MoD Handovers Microservice API Test', () => {
       } );
   } );
 
-  it( 'Creates New HandOver', ( done ) => {
+  it( 'Creates New Handover', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
@@ -231,7 +231,7 @@ describe( 'MoD Handovers Microservice API Test', () => {
       } );
   } );
 
-  it( 'Updates HandOver', ( done ) => {
+  it( 'Updates Handover', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
@@ -252,7 +252,7 @@ describe( 'MoD Handovers Microservice API Test', () => {
       } );
   } );
 
-  it( 'Remove HandOver', ( done ) => {
+  it( 'Remove Handover', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
