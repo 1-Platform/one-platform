@@ -1,27 +1,26 @@
 scalar DateTime
 
-type ProfileType {
-  kerberosID: String
+type UserType {
+  _id: String
   name: String
+  title: String
+  uid: String
+  rhatUUID: String
+  isActive: Boolean
 }
 
-type TimestampType {
-  createdAt: DateTime
-  createdBy: ProfileType
-  modifiedAt: DateTime
-  modifiedBy: ProfileType
-}
-
-input ProfileInput {
-  kerberosID: String
-  name: String
-}
-
-input TimestampInput {
-  createdAt: DateTime
-  createdBy: ProfileInput
-  modifiedAt: DateTime
-  modifiedBy: ProfileInput
+type FeedbackWithUserType {
+  _id: String
+  description: String
+  ticketID: String
+  experience: String
+  spa: String
+  createdOn: DateTime
+  createdBy: UserType
+  updatedOn: DateTime
+  updatedBy: UserType
+  title: String
+  feedbackType: String
 }
 
 type FeedbackType {
@@ -30,7 +29,10 @@ type FeedbackType {
   ticketID: String
   experience: String
   spa: String
-  timestamp: TimestampType
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
   title: String
   feedbackType: String
 }
@@ -41,32 +43,35 @@ input FeedbackInput {
   ticketID: String
   experience: String
   spa: String
-  timestamp: TimestampInput
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
   title: String
   feedbackType: String
 }
 
-type StatusType{
-  name:String
+type StatusType {
+  name: String
 }
 
-type AssigneeType{
-  name:String
+type AssigneeType {
+  name: String
 }
 
 type TicketType {
-  status:StatusType
-  assignee:AssigneeType
-  ticketID:String
+  status: StatusType
+  assignee: AssigneeType
+  ticketID: String
 }
 
 type Query {
   # Fetches all Feedbacks
-  listFeedback: [FeedbackType]
+  listFeedback: [FeedbackWithUserType]
   # Fetches specific Feedback by its id
-  getFeedback(id: String!): FeedbackType
+  getFeedback(id: String!): FeedbackWithUserType
   #Fetches Feedbacks by any property
-  getFeedbackBy(input: FeedbackInput!): [FeedbackType]
+  getFeedbackBy(input: FeedbackInput!): [FeedbackWithUserType]
   #Fetches tickets from jiraboard
   getAllJiraIssues: [TicketType]
 }

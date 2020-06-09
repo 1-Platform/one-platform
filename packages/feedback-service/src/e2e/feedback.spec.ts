@@ -14,20 +14,26 @@ const query = `
     ticketID
     experience
   }
+  fragment feedbackWithUserType on FeedbackWithUserType{
+    _id
+    description
+    ticketID
+    experience
+  }
   query ListFeedback {
     listFeedback {
-      ...feedbackType
+      ...feedbackWithUserType
     }
   }
   query GetFeedback($_id: String!) {
     getFeedback(id: $_id) {
-      ...feedbackType
+      ...feedbackWithUserType
     }
   }
 
   query GetFeedbackBy($input: FeedbackInput!) {
     getFeedbackBy(input: $input) {
-      ...feedbackType
+      ...feedbackWithUserType
     }
   }
 
