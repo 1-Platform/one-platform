@@ -87,18 +87,20 @@ services:
     depends_on:
       - mongo
 
-  # notifications-service:
-  #   build: ./packages/notifications-service
-  #   command: npm start
-  #   env_file: ./packages/notifications-service/.env
-  #   environment:
-  #     DB_PATH: mongo
-  #   volumes:
-  #     - ./packages/notifications-service:/app
-  #   ports:
-  #     - 8084:8080
-  #   depends_on:
-  #     - mongo
+  notifications-service:
+    build: ./packages/notifications-service
+    command: npm start
+    env_file: ./packages/notifications-service/.env
+    environment:
+      DB_PATH: mongo
+      HOME_SERVICE_SERVICE_HOST: home-service
+      HOME_SERVICE_SERVICE_PORT: 8080
+    volumes:
+      - ./packages/notifications-service:/app
+    ports:
+      - 8084:8080
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo:4

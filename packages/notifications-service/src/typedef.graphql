@@ -1,3 +1,29 @@
+# Query Definitions
+type Query {
+  listNotificationsConfigs: [NotificationsConfigType]
+  getNotificationsConfigBy(
+    notificationsConfig: NotificationsConfigInput!
+  ): [NotificationsConfigType]
+  getNotificationsConfigByID(id: ID!): NotificationsConfigType
+}
+
+# Mutation Definitions
+type Mutation {
+  createNotificationsConfig(
+    notificationsConfig: NotificationsConfigInput
+  ): NotificationsConfigType
+  updateNotificationsConfig(
+    notificationsConfig: NotificationsConfigInput
+  ): NotificationsConfigType
+  deleteNotificationsConfig(id: String!): NotificationsConfigType
+}
+
+# type Subscription {
+#   # Subscriptions Definitions
+#   createdNotificationsConfig: NotificationsConfigType
+#   updatedNotificationsConfig: NotificationsConfigType
+# }
+
 scalar DateTime
 
 type ScheduledandTriggerType {
@@ -14,33 +40,34 @@ input ScheduledandTriggerInput {
 
 type UserType {
   _id: String
-  name: String
-  title: String
   uid: String
-  rhatUUID: String
-  memberOf: [String]
-  isActive: Boolean
-  apiRole: APIROLE
-  createdBy: String
-  createdOn: DateTime
-  updatedBy: String
-  updatedOn: DateTime
+  name: String
+}
+
+type HomeType {
+  _id: String
+  name: String
+  link: String
+  entityType: String
+  owners: [UserType]
 }
 
 type NotificationsConfigType {
+  id: ID
   template: String
-  source: [UserType]
+  source: HomeType
   channel: String
   type: String
   typeOptions: ScheduledandTriggerType
   target: String
   createdBy: String
   createdOn: DateTime
-  modifiedBy: String
-  modifiedOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
 }
 
 input NotificationsConfigInput {
+  id: ID
   template: String
   source: String
   channel: String
@@ -49,29 +76,6 @@ input NotificationsConfigInput {
   target: String
   createdBy: String
   createdOn: DateTime
-  modifiedBy: String
-  modifiedOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
 }
-
-# Query Definitions
-type Query {
-  listNotificationsConfigs: [NotificationsConfigType]
-  getNotificationsConfigById(id: String!): NotificationsConfigType
-}
-
-# Mutation Definitions
-type Mutation {
-  createdNotificationsConfig(
-    input: NotificationsConfigInput
-  ): NotificationsConfigType
-  updateNotificationsConfig(
-    input: NotificationsConfigInput
-  ): NotificationsConfigType
-  deleteNotificationsConfig(id: String!): NotificationsConfigType
-}
-
-# type Subscription {
-#   # Subscriptions Definitions
-#   createdNotificationsConfig: NotificationsConfigType
-#   updatedNotificationsConfig: NotificationsConfigType
-# }

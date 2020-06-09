@@ -1,28 +1,21 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import fs from 'fs';
-import https from 'https';
 import http from 'http';
-import { mergeSchemas } from 'graphql-tools';
-import { buildFederatedSchema } from '@apollo/federation';
-const { ApolloLogExtension } = require( 'apollo-log' );
+import { ApolloLogExtension } from 'apollo-log';
 import mongoose from 'mongoose';
 
 import gqlSchema from './src/typedef.graphql';
 import { NotificationsResolver as resolver } from './src/resolver';
-import cookieParser = require( 'cookie-parser' );
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
 const app = express();
 
-// Mount cookie parser
-app.use( cookieParser() );
-
 const extensions = [ () => new ApolloLogExtension( {
   level: 'info',
   timestamp: true,
+  prefix: 'apollo:'
 } ) ];
 
 /* Configuring Mongoose */
@@ -40,26 +33,25 @@ const dbConnection = `mongodb://${ dbCredentials }${ process.env.DB_PATH }/${ pr
 
 mongoose.connect( dbConnection, { useNewUrlParser: true, useCreateIndex: true } ).catch( console.error );
 
-mongoose.connection.on( 'error', error => {
-  console.error( error );
-} );
+mongoose.connection.on( 'error', console.error );
 
 /* Defining the Apollo Server */
 const apollo = new ApolloServer( {
   playground: process.env.NODE_ENV !== 'production',
-  schema: buildFederatedSchema( [ {
-    typeDefs: gqlSchema,
-    resolvers: resolver,
-  } ] ),
+  typeDefs: gqlSchema,
+  resolvers: resolver,
   subscriptions: {
     path: '/subscriptions',
   },
-  formatError: error => ( {
-    message: error.message,
-    locations: error.locations,
-    stack: error.stack ? error.stack.split( '\n' ) : [],
-    path: error.path,
-  } ),
+  formatError: error => {
+    console.error( '[NotificationsServiceError]:', error );
+    return ( {
+      message: error.message,
+      locations: error.locations,
+      stack: error.stack ? error.stack.split( '\n' ) : [],
+      path: error.path,
+    } );
+  },
   extensions
 } );
 

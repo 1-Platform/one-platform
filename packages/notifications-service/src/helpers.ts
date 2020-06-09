@@ -1,29 +1,32 @@
-// write your helper functions here
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
-class NotificationAPIHelper {
-  buildGqlQuery(response: NotificationsConfigType[]) {
-    return response
-      .map(
-        (
-          notificationsConfig
-        ) => `source_${notificationsConfig.source}: getHomeType( _id: "${notificationsConfig.source}" ){
-              owners
-            }`
-      )
-      .join();
-  }
-
-  getSourceDetails(query: string) {
+export const GqlHelper = {
+  fragments: {
+    homeType: `on HomeType {
+      _id name link entityType owners { uid name }
+    }`,
+  },
+  execSimpleQuery ( { queries, fragments }: GraphQLQueryInput ) {
+    const body = {
+      query: /* GraphQL */`
+        ${ fragments?.join( '\n' ) }
+        query GetNotificationSources {
+          ${queries.join( '\n' ) }
+        }`,
+    };
     return fetch(
-      `http://home-service.one-platform.int.open.paas.redhat.com/graphql`,
+      `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`,
       {
-        method: "post",
-        body: JSON.stringify({ query: query }),
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify( body )
       }
-    ).then((res: any) => res.json());
+    )
+      .then( res => res.json() )
+      .catch( err => {
+        throw new Error( '[UserServiceApiError]: ' + err );
+      } );
   }
-}
-
-export const NotificationHelper = new NotificationAPIHelper();
+};

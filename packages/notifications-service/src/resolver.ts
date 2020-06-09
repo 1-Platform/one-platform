@@ -1,45 +1,86 @@
-import { NotificationsConfig } from "./schema";
-import { NotificationHelper } from "./helpers";
+import { NotificationsConfig } from './schema';
+import { GqlHelper } from './helpers';
 
-const NOTIFICATIONS_CONFIG_UPDATE = "NOTIFICATIONS_CONFIG_UPDATE";
-const NOTIFICATIONS_CONFIG_CREATE = "NOTIFICATIONS_CONFIG_CREATE";
+const NOTIFICATIONS_CONFIG_UPDATE = 'NOTIFICATIONS_CONFIG_UPDATE';
+const NOTIFICATIONS_CONFIG_CREATE = 'NOTIFICATIONS_CONFIG_CREATE';
 
-export const NotificationsResolver = {
+export const NotificationsResolver: any = {
   Query: {
-    // queries
-    listNotificationsConfigs: (root: any, args: any, ctx: any) => {
-      let res: NotificationsConfigType[] = [];
-      return NotificationsConfig.find()
-        .then(async (response: NotificationsConfigType[]) => {
-          res = response;
-          const query = `query { ${NotificationHelper.buildGqlQuery(
-            response
-          )} }`;
-          const allSources: any = await NotificationHelper.getSourceDetails(
-            query
-          );
-          res = response.map((item: any) => {
-            let source =
-              (allSources.data["source_" + item.source] &&
-                allSources.data["source_" + item.source].owners) ||
-              null;
-            console.log(item);
-            return { ...{ ...item }._doc, source: [{ name: "ghan" }] };
-          });
-          console.log(res);
-          return res;
-        })
-        .catch((err) => err);
+    listNotificationsConfigs ( root: any, args: GraphQLArgs, ctx: any ) {
+      return NotificationsConfig
+        .find()
+        .exec()
+        .then( async notificationConfigs => {
+          /* Constructing getHomeTypeBy queries */
+          const queries = notificationConfigs
+            .reduce<string[]>( ( acc, notificationConfig ) => {
+              if ( acc.includes( notificationConfig.source ) ) {
+                return acc;
+              }
+              return [
+                ...acc,
+                notificationConfig.source,
+              ];
+            }, [] )
+            .map( ( source, index ) => {
+              return `source_${ index }: getHomeTypeBy(input: { _id: "${ source }" }) { _id name link entityType owners { uid name } }`;
+            } );
+
+          /* Executing the queries */
+          const resolvedSources = await GqlHelper.execSimpleQuery( { queries, fragments: [ GqlHelper.fragments.homeType ] } )
+            .then( res => res.data );
+
+          /* Merging the query output with the NotificationsConfig output */
+          return notificationConfigs
+            .map( ( notificationConfig, index ) => {
+              notificationConfig.source = resolvedSources[ `source_${ index }` ][ 0 ];
+              return notificationConfig;
+            } );
+        } ).catch( err => {
+          throw err;
+        } );
     },
-    listNotificationsConfigs1(root: any, args: any, ctx: any) {
-      return NotificationsConfig.find();
+    getNotificationsConfigBy ( root: any, { selectors }: GraphQLArgs, ctx: any ) {
+      return NotificationsConfig
+        .find( selectors )
+        .lean<NotificationsConfigType>()
+        .exec()
+        .then( async notificationConfigs => {
+          /* Constructing getHomeTypeBy queries */
+          const queries = notificationConfigs
+            .reduce<string[]>( ( acc, notificationConfig ) => {
+              if ( acc.includes( notificationConfig.source ) ) {
+                return acc;
+              }
+              return [
+                ...acc,
+                notificationConfig.source,
+              ];
+            }, [] )
+            .map( ( source, index ) => {
+              return `source_${ index }: getHomeTypeBy(input: { _id: "${ source }" }) { _id name link entityType owners { uid name } }`;
+            } );
+
+          /* Executing the queries */
+          const resolvedSources = await GqlHelper.execSimpleQuery( { queries, fragments: [ GqlHelper.fragments.homeType ] } )
+            .then( res => res.data );
+
+          /* Merging the query output with the NotificationsConfig output */
+          return notificationConfigs
+            .map( ( notificationConfig, index ) => {
+              notificationConfig.source = resolvedSources[ `source_${ index }` ][ 0 ];
+              return notificationConfig;
+            } );
+        } ).catch( err => {
+          throw err;
+        } );
     },
-    getNotificationsConfigById(root: any, args: any, ctx: any) {
-      // fetch the id from args.id
-      return NotificationsConfig.findById(args._id)
-        .then((response) => response)
-        .catch((err) => err);
-    },
+    getNotificationsConfigByID ( root: any, { id }: GraphQLArgs, ctx: any ) {
+      return NotificationsConfig
+        .findById( id )
+        .lean<NotificationsConfigType>()
+        .exec();
+    }
   },
   /*NotificationsConfigType: {
     source: (root: any, args: any, ctx: any) => {
@@ -47,29 +88,19 @@ export const NotificationsResolver = {
     },
   },*/
   Mutation: {
-    // mutations
-    createdNotificationsConfig(root: any, args: any, ctx: any) {
-      const data = new NotificationsConfig(args.input);
-      return data
-        .save()
-        .then((response) => response)
-        .catch((err) => err);
+    createNotificationsConfig ( root: any, { notificationsConfig }: GraphQLArgs, ctx: any ) {
+      const data = new NotificationsConfig( notificationsConfig );
+      return data.save();
     },
-    updatedNotificationsConfig(root: any, args: any, ctx: any) {
+    updateNotificationsConfig ( root: any, { notificationsConfig }: GraphQLArgs, ctx: any ) {
       /* Optional: if you want to send graphql subscription updates when this query is called) */
       // pubsub.publish(Notifications_UPDATE, data);
-      return NotificationsConfig.findById(args.input._id)
-        .then((response) => {
-          return Object.assign(response, args.input)
-            .save()
-            .then((data: any) => data);
-        })
-        .catch((err: any) => err);
+      return NotificationsConfig
+        .findByIdAndUpdate( notificationsConfig.id, notificationsConfig, { new: true } )
+        .exec();
     },
-    deleteNotificationsConfig(root: any, args: any, ctx: any) {
-      return NotificationsConfig.findByIdAndRemove(args.id)
-        .then((response) => response)
-        .catch((err) => err);
+    deleteNotificationsConfig ( root: any, args: GraphQLArgs, ctx: any ) {
+      return NotificationsConfig.findByIdAndRemove( args.id ).exec();
     },
   },
   // Subscription: {

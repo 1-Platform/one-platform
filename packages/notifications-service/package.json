@@ -7,8 +7,10 @@
   },
   "version": "",
   "keywords": [
-    "web-components",
-    "html"
+    "microservice",
+    "graphql",
+    "backend",
+    "api"
   ],
   "repository": {
     "type": "git",
@@ -16,7 +18,7 @@
     "directory": "packages/notifications-service"
   },
   "publishConfig": {
-    "access": "private"
+    "access": "restricted"
   },
   "private": true,
   "files": [
@@ -25,19 +27,24 @@
   "scripts": {
     "test": "jest --forceExit",
     "build:dev": "webpack --config webpack.dev.js",
-    "start:dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack --watch --config webpack.prod.js"
+    "start": "webpack --watch --config webpack.dev.js"
   },
   "author": {
     "name": "Diwanshi Pandey",
     "email": "diwanshipandey@gmail.com"
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Mayur Deshmukh",
+      "email": "deshmukhmayur@outlook.com",
+      "url": "https://deshmukhmayur.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "@apollo/federation": "^0.14.1",
-    "apollo-log": "^0.1.0",
+    "apollo-log": "^0.2.0",
     "apollo-server-express": "^2.10.1",
     "body-parser": "^1.19.0",
     "clean-webpack-plugin": "^3.0.0",
