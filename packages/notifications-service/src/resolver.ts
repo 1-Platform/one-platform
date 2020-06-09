@@ -82,19 +82,12 @@ export const NotificationsResolver: any = {
         .exec();
     }
   },
-  /*NotificationsConfigType: {
-    source: (root: any, args: any, ctx: any) => {
-      return ["New" + root.source];
-    },
-  },*/
   Mutation: {
     createNotificationsConfig ( root: any, { notificationsConfig }: GraphQLArgs, ctx: any ) {
       const data = new NotificationsConfig( notificationsConfig );
       return data.save();
     },
     updateNotificationsConfig ( root: any, { notificationsConfig }: GraphQLArgs, ctx: any ) {
-      /* Optional: if you want to send graphql subscription updates when this query is called) */
-      // pubsub.publish(Notifications_UPDATE, data);
       return NotificationsConfig
         .findByIdAndUpdate( notificationsConfig.id, notificationsConfig, { new: true } )
         .exec();
@@ -103,12 +96,4 @@ export const NotificationsResolver: any = {
       return NotificationsConfig.findByIdAndRemove( args.id ).exec();
     },
   },
-  // Subscription: {
-  //   createdNotificationsConfig: {
-  //     subscribe: () => pubsub.asyncIterator( NOTIFICATIONS_CONFIG_CREATE )
-  //   },
-  //   updatedNotificationsConfig: {
-  //     subscribe: () => pubsub.asyncIterator( NOTIFICATIONS_CONFIG_UPDATE )
-  //   },
-  // },
 };

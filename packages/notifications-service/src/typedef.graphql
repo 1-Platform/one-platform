@@ -18,12 +18,6 @@ type Mutation {
   deleteNotificationsConfig(id: String!): NotificationsConfigType
 }
 
-# type Subscription {
-#   # Subscriptions Definitions
-#   createdNotificationsConfig: NotificationsConfigType
-#   updatedNotificationsConfig: NotificationsConfigType
-# }
-
 scalar DateTime
 
 type ScheduledandTriggerType {
