@@ -8,7 +8,7 @@ const modConnectionString = `postgres://${ process.env.DB_USER }:${ process.env.
 
 const modSfdcConnectionString = `postgres://${ process.env.DB_USER }:${ process.env.DB_PASSWORD }@${ process.env.DB_HOST }/${ process.env.SFDC_DB_NAME }`;
 
-export const ModHandoverResolver = {
+export const MoDHandoverResolver = {
   Query: {
     listAllHandovers ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );

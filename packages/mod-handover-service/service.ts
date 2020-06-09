@@ -3,7 +3,7 @@ import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
 const { ApolloLogExtension } = require( 'apollo-log' );
 import gqlSchema from './src/typedef.graphql';
-import { ModHandoverResolver as resolver } from './src/resolver';
+import { MoDHandoverResolver as resolver } from './src/resolver';
 import cookieParser = require( 'cookie-parser' );
 
 /* Setting port for the server */

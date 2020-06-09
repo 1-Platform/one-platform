@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 /* Mock */
 import mock from './mock.json';
-import ModHandover from '../../service';
+import MoDHandover from '../../service';
 
 /* Supertest */
 import supertest from 'supertest';
@@ -87,10 +87,10 @@ const query = `
   `;
 
 beforeAll( () => {
-  request = supertest.agent( ModHandover );
+  request = supertest.agent( MoDHandover );
 } );
 afterAll( done => {
-  return ModHandover.close( done );
+  return MoDHandover.close( done );
 } );
 
 describe( 'MoD Handovers Microservice API Test', () => {

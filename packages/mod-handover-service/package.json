@@ -2,7 +2,7 @@
   "name": "mod-handover",
   "description": "MoD Handover microservice for One Platform",
   "opservice": {
-    "className": "ModHandover",
+    "className": "MoDHandover",
     "serviceName": "mod-handover"
   },
   "version": "",
