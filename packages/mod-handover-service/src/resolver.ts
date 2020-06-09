@@ -553,11 +553,11 @@ export const MoDHandoverResolver = {
       let subject: String;
       let content: String;
       if ( args.input.handover.handover_type === 'Application Platform Support' ) {
-        subject = 'APS HandOver: ' + args.input.handover.handover_region + ' ' + new Date( args.input.handover.date ).toDateString();
+        subject = 'APS Handover: ' + args.input.handover.handover_region + ' ' + new Date( args.input.handover.date ).toDateString();
       } else if ( args.input.handover.handover_type === 'Enterprise Cloud Support' ) {
-        subject = 'ECS HandOver: ' + args.input.handover.handover_region + ' ' + new Date( args.input.handover.date ).toDateString();
+        subject = 'ECS Handover: ' + args.input.handover.handover_region + ' ' + new Date( args.input.handover.date ).toDateString();
       } else {
-        subject = 'MoD HandOver: ' + args.input.handover.handover_region + ' ' + new Date( args.input.handover.date ).toDateString();
+        subject = 'MoD Handover: ' + args.input.handover.handover_region + ' ' + new Date( args.input.handover.date ).toDateString();
       }
       if ( args.input.handover.handover_type === 'Application Platform Support' ) {
         content =
