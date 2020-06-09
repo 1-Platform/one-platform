@@ -8,7 +8,7 @@ import supertest from 'supertest';
 
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
-  fragment handOverType on HandOverType {
+  fragment handoverType on HandoverType {
     handover_id
     handover_region
     date
@@ -43,9 +43,9 @@ const query = `
     time
   }
 
-  query ListAllHandOvers {
-    listAllHandOvers {
-      ...handOverType
+  query ListAllHandovers {
+    listAllHandovers {
+      ...handoverType
     }
   }
 
@@ -67,27 +67,21 @@ const query = `
     }
   }
 
-  query ListAllMPSCount {
-    listAllMPSCount {
-      ...statsCountType
+  mutation CreateHandover($input: HandoverInput) {
+    createHandover(input: $input) {
+      ...handoverType
     }
   }
 
-  mutation CreateHandOver($input: HandOverInput) {
-    createHandOver(input: $input) {
-      ...handOverType
+  mutation UpdateHandover($input: HandoverInput) {
+    updateHandover(input: $input) {
+      ...handoverType
     }
   }
 
-  mutation UpdateHandOver($input: HandOverInput) {
-    updateHandOver(input: $input) {
-      ...handOverType
-    }
-  }
-
-  mutation RemoveHandOver($handover_id: Float!) {
-    removeHandOver(handover_id: $handover_id) {
-      ...handOverType
+  mutation RemoveHandover($handover_id: Float!) {
+    removeHandover(handover_id: $handover_id) {
+      ...handoverType
     }
   }
   `;
@@ -99,40 +93,40 @@ afterAll( done => {
   return ModHandover.close( done );
 } );
 
-describe( 'ModHandover Microservice API Test', () => {
+describe( 'MoD Handovers Microservice API Test', () => {
   it( 'Returns All HandOvers List', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
         query: query,
-        operationName: 'ListAllHandOvers'
+        operationName: 'ListAllHandovers'
       } )
       .expect( ( res: any ) => {
         expect( res.body ).not.toHaveProperty( 'errors' );
         expect( res.body ).toHaveProperty( 'data' );
 
-        expect( res.body.data ).toHaveProperty( 'listAllHandOvers' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'handover_id' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'handover_region' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'date' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'handover_notes' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'fts_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'unassigned_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'worh_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'woc_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'ace_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'irt_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'rme_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'unassigned_ncq_sev_1_2_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'urgent_severity_1_breaches_count' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'manager_id' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'manager_first_name' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'manager_last_name' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'manager_email' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'handover_type' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'watchlist' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'proactive_cases' );
-        expect( res.body.data.listAllHandOvers[ 0 ] ).toHaveProperty( 'sensitive_accounts' );
+        expect( res.body.data ).toHaveProperty( 'listAllHandovers' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'handover_id' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'handover_region' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'date' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'handover_notes' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'fts_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'unassigned_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'worh_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'woc_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'ace_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'irt_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'rme_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'unassigned_ncq_sev_1_2_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'urgent_severity_1_breaches_count' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'manager_id' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'manager_first_name' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'manager_last_name' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'manager_email' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'handover_type' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'watchlist' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'proactive_cases' );
+        expect( res.body.data.listAllHandovers[ 0 ] ).toHaveProperty( 'sensitive_accounts' );
       } )
       .end( ( err, res ) => {
         done( err );
@@ -216,37 +210,12 @@ describe( 'ModHandover Microservice API Test', () => {
       } );
   } );
 
-  it( 'Returns MPS Count', ( done ) => {
-    request
-      .post( '/graphql' )
-      .send( {
-        query: query,
-        operationName: 'ListAllMPSCount'
-      } )
-      .expect( ( res: any ) => {
-        expect( res.body ).not.toHaveProperty( 'errors' );
-        expect( res.body ).toHaveProperty( 'data' );
-        expect( res.body.data ).toHaveProperty( 'listAllMPSCount' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'fts_count' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'rme_count' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'unassigned_count' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'worh_count' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'irt_count' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'woc_count' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'unassigned_ncq_count' );
-        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'time' );
-      } )
-      .end( ( err, res ) => {
-        done( err );
-      } );
-  } );
-
   it( 'Creates New HandOver', ( done ) => {
     request
       .post( '/graphql' )
       .send( {
         query: query,
-        operationName: 'CreateHandOver',
+        operationName: 'CreateHandover',
         variables: {
           input: mock
         }
@@ -255,7 +224,7 @@ describe( 'ModHandover Microservice API Test', () => {
         expect( res.body ).not.toHaveProperty( 'errors' );
         expect( res.body ).toHaveProperty( 'data' );
 
-        expect( res.body.data ).toHaveProperty( 'createHandOver' );
+        expect( res.body.data ).toHaveProperty( 'createHandover' );
       } )
       .end( ( err, res ) => {
         done( err );
@@ -267,7 +236,7 @@ describe( 'ModHandover Microservice API Test', () => {
       .post( '/graphql' )
       .send( {
         query: query,
-        operationName: 'UpdateHandOver',
+        operationName: 'UpdateHandover',
         variables: {
           input: mock
         }
@@ -276,7 +245,7 @@ describe( 'ModHandover Microservice API Test', () => {
         expect( res.body ).not.toHaveProperty( 'errors' );
         expect( res.body ).toHaveProperty( 'data' );
 
-        expect( res.body.data ).toHaveProperty( 'updateHandOver' );
+        expect( res.body.data ).toHaveProperty( 'updateHandover' );
       } )
       .end( ( err, res ) => {
         done( err );
@@ -288,7 +257,7 @@ describe( 'ModHandover Microservice API Test', () => {
       .post( '/graphql' )
       .send( {
         query: query,
-        operationName: 'RemoveHandOver',
+        operationName: 'RemoveHandover',
         variables: {
           handover_id: mock.handover_id
         }
@@ -296,7 +265,7 @@ describe( 'ModHandover Microservice API Test', () => {
       .expect( ( res: any ) => {
         expect( res.body ).not.toHaveProperty( 'errors' );
         expect( res.body ).toHaveProperty( 'data' );
-        expect( res.body.data ).toHaveProperty( 'removeHandOver' );
+        expect( res.body.data ).toHaveProperty( 'removeHandover' );
       } )
       .end( ( err, res ) => {
         done( err );

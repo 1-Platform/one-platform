@@ -3,7 +3,7 @@ LABEL Name=one-platform-mod-handover-service \
   Version=0.0.1 \
   maintainer="mdeshmuk@redhat.com"
 
-# Building the user-group microservice
+# Building the mod-handover microservice
 ADD  . /app
 WORKDIR /app
 RUN npm install --silent && \

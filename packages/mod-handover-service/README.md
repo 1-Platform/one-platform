@@ -1,7 +1,7 @@
-ModHandover Microservice
+MoD Handover Microservice
 =================================================
 
-One platform's server-side ModHandover GraphQL microservice.
+One platform's server-side MoD Handover GraphQL microservice.
 
 Switch to the working directory
 ------------

@@ -1,6 +1,6 @@
 scalar DateTime
 
-type HandOverType {
+type HandoverType {
   handover_id: Float
   handover_region: String
   date: DateTime
@@ -79,7 +79,7 @@ type StatsCountType {
 
 
 type EmailType {
-  handover: HandOverType
+  handover: HandoverType
   cases: [CaseType]
   emailRecipient: [String]
 }
@@ -88,7 +88,7 @@ type SFDCType {
   account_name: String
 }
 
-input HandOverInput {
+input HandoverInput {
   handover_id: Float
   handover_region: String
   date: DateTime
@@ -135,20 +135,20 @@ input RecepientInput {
 }
 
 input EmailInput {
-  handover: HandOverInput
+  handover: HandoverInput
   cases: [CaseInput]
   emailRecipient: RecepientInput
 }
 
 type Query {
   # Fetch all MoD HandOvers
-  listAllHandOvers: [HandOverType]
+  listAllHandovers: [HandoverType]
   # Fetch Specific Handover by ID
-  listHandOver(handover_id: Float): HandOverType
+  listHandover(handover_id: Float): HandoverType
   # Fetch Handovers By Date
-  listHandOverByDate(date: String): [HandOverType]
+  listHandoverByDate(date: String): [HandoverType]
   # Fetch Cases Associated with the handover
-  listCasesByHandOver(handover_id: Float): [CaseType]
+  listCasesByHandover(handover_id: Float): [CaseType]
   # Fetch Unassigned Count
   listUnassignedCount: CountType
   # Fetch the Platform Count
@@ -157,23 +157,21 @@ type Query {
   listAllETCount: StatsCountType
   # Fetch the APS Count
   listAllAPSCount: StatsCountType
-  # Fetch the MPS Count
-  listAllMPSCount: StatsCountType
   # Fetch SBRs associated with the case no
   listCaseSBRs(casenumber: String): [CaseShiftTrackerType]
   # Fetch the total Handover Count
-  listTotalHandOverCount: CountType
+  listTotalHandoverCount: CountType
   # Fetch the Case details from SFDC
   listSFDCCase(casenumber: String): SFDCType
 }
 
 type Mutation {
   # Create a Handover in MoD Database
-  createHandOver(input: HandOverInput): HandOverType
+  createHandover(input: HandoverInput): HandoverType
   # update a Handover in MoD Database
-  updateHandOver(input: HandOverInput): HandOverType
+  updateHandover(input: HandoverInput): HandoverType
   # Remove a Handover in MoD Database
-  removeHandOver(handover_id: Float!): HandOverType
+  removeHandover(handover_id: Float!): HandoverType
   # Create a Case in MoD Database
   createCase(input: CaseInput): CaseType
   # update a Case in MoD Database
@@ -181,5 +179,5 @@ type Mutation {
   # Remove a Case in MoD Database
   removeCase(case_id: Int!): CaseType
   # Send Handover Email
-  sendHandOverEmail(input: EmailInput): EmailType
+  sendHandoverEmail(input: EmailInput): EmailType
 }

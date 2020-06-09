@@ -33,7 +33,7 @@ const apollo = new ApolloServer( {
     stack: error.stack ? error.stack.split( '\n' ) : [],
     path: error.path,
   } ),
-  extensions
+  // extensions
 } );
 
 /* Applying apollo middleware to express server */

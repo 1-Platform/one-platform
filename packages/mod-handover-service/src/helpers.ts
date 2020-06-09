@@ -28,10 +28,10 @@ class SFDCApiHelper {
                     if ( res.done ) {
                         const records = res.records;
                         if ( records.length ) {
-                            const result = { account_name: records[ 0 ].Account.Name };
+                            const result: SFDCType = { account_name: records[ 0 ].Account.Name };
                             resolve( result );
                         } else {
-                            const result = { account_name: '' };
+                            const result: SFDCType = { account_name: '' };
                             resolve( result );
                         }
                     }

@@ -1,6 +1,6 @@
 {
   "name": "mod-handover",
-  "description": "ModHandover micro-service for One Platform",
+  "description": "MoD Handover microservice for One Platform",
   "opservice": {
     "className": "ModHandover",
     "serviceName": "mod-handover"

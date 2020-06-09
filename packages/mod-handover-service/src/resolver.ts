@@ -10,7 +10,7 @@ const modSfdcConnectionString = `postgres://${ process.env.DB_USER }:${ process.
 
 export const ModHandoverResolver = {
   Query: {
-    listAllHandOvers ( root: any, args: any, ctx: any ) {
+    listAllHandovers ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
       return Client.query( `select * from handovers;` )
@@ -23,7 +23,7 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    listHandOver ( root: any, args: any, ctx: any ) {
+    listHandover ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
       return Client.query( `select * from handovers where handover_id=${ args.handover_id };` )
@@ -36,7 +36,7 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    listHandOverByDate ( root: any, args: any, ctx: any ) {
+    listHandoverByDate ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
       return Client.query( `SELECT * FROM handovers where date >= '" ${ args.date } " 00:00:00' and date <= '" ${ args.date } " 23:59:59';` )
@@ -49,7 +49,7 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    listCasesByHandOver ( root: any, args: any, ctx: any ) {
+    listCasesByHandover ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
       return Client.query( `select * from cases where handover_id=${ args.handover_id } order by case_type;` )
@@ -278,74 +278,6 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    listAllMPSCount ( root: any, args: any, ctx: any ) {
-      const Client = new pg.Client( modSfdcConnectionString );
-      Client.connect();
-      return Client.query( `SELECT (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  fts__c = true
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker))     AS fts_count,
-                          (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  customer_escalation__c = true
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker))     AS rme_count,
-                          (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  internal_status__c = 'Unassigned'
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker))     AS
-                          unassigned_count,
-                          (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  fts__c = true
-                                  AND status = 'Waiting on Red Hat'
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker))     AS worh_count,
-                          (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  internal_status__c = 'Unassigned'
-                                  AND status = 'Waiting on Red Hat'
-                                  AND tactical__c = true
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker) - 1) AS irt_count,
-                          (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  fts__c = true
-                                  AND status = 'Waiting on Customer'
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker))     AS woc_count,
-                          (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  internal_status__c = 'Unassigned'
-                                  AND severity__c < 3
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker))     AS
-                          unassigned_ncq_count,
-                          (SELECT Count(casenumber)
-                            FROM   mps_cases_shift_tracker
-                            WHERE  sbt__c < 0
-                                  AND severity__c < 2
-                                  AND id = (SELECT Max(id)
-                                            FROM   mps_cases_shift_tracker))     AS
-                          urgent_sev_1_breaches_count,
-                          (SELECT time
-                            FROM   mps_cases_shift_tracker
-                            WHERE  id = (SELECT Max(id)
-                                        FROM   mps_cases_shift_tracker)
-                            LIMIT  1)                                             AS time
-                    FROM   mps_cases_shift_tracker
-                    LIMIT  1; `)
-        .then( res => {
-          Client.end();
-          return res.rows[ 0 ];
-        } )
-        .catch( err => {
-          console.log( err );
-          return err;
-        } );
-    },
     listCaseSBRs ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modSfdcConnectionString );
       Client.connect();
@@ -363,7 +295,7 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    listTotalHandOverCount ( root: any, args: any, ctx: any ) {
+    listTotalHandoverCount ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
       return Client.query( `select count(*) from handovers where handover_id::text LIKE '${ moment().year() }%';` )
@@ -381,7 +313,7 @@ export const ModHandoverResolver = {
     },
   },
   Mutation: {
-    createHandOver ( root: any, args: any, ctx: any ) {
+    createHandover ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
 
       function createNewHandover ( cols: any ) {
@@ -439,7 +371,7 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    updateHandOver ( root: any, args: any, ctx: any ) {
+    updateHandover ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       function updateHandoverByID ( handover_id: any, cols: any ) {
         // Setup static beginning of query
@@ -452,7 +384,6 @@ export const ModHandoverResolver = {
           set.push( `"${ key }"=$${ i + 1 }` );
           colsArr.push( cols[ key ] );
         } );
-        console.log( set );
         query.push( set.join( ', ' ) );
 
         // Add the WHERE statement to look up by id
@@ -477,6 +408,7 @@ export const ModHandoverResolver = {
       return Client.query( queryText, queryCols )
         .then( res => {
           Client.end();
+          console.log( 'w', res );
           return args.input;
         } )
         .catch( err => {
@@ -484,7 +416,7 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    removeHandOver ( root: any, args: any, ctx: any ) {
+    removeHandover ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
       return Client.query( `DELETE FROM handovers where handover_id=${ args.handover_id };DELETE FROM cases where handover_id=${ args.handover_id };` )
@@ -617,7 +549,7 @@ export const ModHandoverResolver = {
           return err;
         } );
     },
-    sendHandOverEmail ( root: any, args: any, ctx: any ) {
+    sendHandoverEmail ( root: any, args: any, ctx: any ) {
       let subject: String;
       let content: String;
       if ( args.input.handover.handover_type === 'Application Platform Support' ) {
@@ -672,7 +604,7 @@ Handover Notes: ${args.input.handover.handover_notes }
 `;
       }
 
-      args.input.cases.map( ( data: any, index: any ) => {
+      args.input.cases.map( ( data: CaseType, index: number ) => {
         if ( index > 0 ) {
           if ( data.case_type === args.input.cases[ index - 1 ].case_type ) {
             content = content + `
