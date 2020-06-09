@@ -139,167 +139,167 @@ describe( 'ModHandover Microservice API Test', () => {
       } );
   } );
 
-  // it( 'Returns Platform Count', ( done ) => {
-  //   request
-  //     .post( '/graphql' )
-  //     .send( {
-  //       query: query,
-  //       operationName: 'ListAllPlatformCount'
-  //     } )
-  //     .expect( ( res: any ) => {
-  //       expect( res.body ).not.toHaveProperty( 'errors' );
-  //       expect( res.body ).toHaveProperty( 'data' );
+  it( 'Returns Platform Count', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'ListAllPlatformCount'
+      } )
+      .expect( ( res: any ) => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
 
-  //       expect( res.body.data ).toHaveProperty( 'listAllPlatformCount' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'fts_count' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'rme_count' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'unassigned_count' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'worh_count' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'irt_count' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'woc_count' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'unassigned_ncq_count' );
-  //       expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'time' );
-  //     } )
-  //     .end( ( err, res ) => {
-  //       done( err );
-  //     } );
-  // } );
+        expect( res.body.data ).toHaveProperty( 'listAllPlatformCount' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'fts_count' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'rme_count' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'unassigned_count' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'worh_count' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'irt_count' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'woc_count' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'unassigned_ncq_count' );
+        expect( res.body.data.listAllPlatformCount ).toHaveProperty( 'time' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
 
-  // it( 'Returns ET Count', ( done ) => {
-  //   request
-  //     .post( '/graphql' )
-  //     .send( {
-  //       query: query,
-  //       operationName: 'ListAllETCount'
-  //     } )
-  //     .expect( ( res: any ) => {
-  //       expect( res.body ).not.toHaveProperty( 'errors' );
-  //       expect( res.body ).toHaveProperty( 'data' );
+  it( 'Returns ET Count', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'ListAllETCount'
+      } )
+      .expect( ( res: any ) => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
 
-  //       expect( res.body.data ).toHaveProperty( 'listAllETCount' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'fts_count' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'rme_count' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'unassigned_count' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'worh_count' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'irt_count' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'woc_count' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'unassigned_ncq_count' );
-  //       expect( res.body.data.listAllETCount ).toHaveProperty( 'time' );
-  //     } )
-  //     .end( ( err, res ) => {
-  //       done( err );
-  //     } );
-  // } );
+        expect( res.body.data ).toHaveProperty( 'listAllETCount' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'fts_count' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'rme_count' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'unassigned_count' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'worh_count' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'irt_count' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'woc_count' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'unassigned_ncq_count' );
+        expect( res.body.data.listAllETCount ).toHaveProperty( 'time' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
 
-  // it( 'Returns APS Count', ( done ) => {
-  //   request
-  //     .post( '/graphql' )
-  //     .send( {
-  //       query: query,
-  //       operationName: 'ListAllAPSCount'
-  //     } )
-  //     .expect( ( res: any ) => {
-  //       expect( res.body ).not.toHaveProperty( 'errors' );
-  //       expect( res.body ).toHaveProperty( 'data' );
-  //       expect( res.body.data ).toHaveProperty( 'listAllAPSCount' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'fts_count' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'rme_count' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'unassigned_count' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'worh_count' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'irt_count' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'woc_count' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'unassigned_ncq_count' );
-  //       expect( res.body.data.listAllAPSCount ).toHaveProperty( 'time' );
-  //     } )
-  //     .end( ( err, res ) => {
-  //       done( err );
-  //     } );
-  // } );
+  it( 'Returns APS Count', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'ListAllAPSCount'
+      } )
+      .expect( ( res: any ) => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
+        expect( res.body.data ).toHaveProperty( 'listAllAPSCount' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'fts_count' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'rme_count' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'unassigned_count' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'worh_count' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'irt_count' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'woc_count' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'unassigned_ncq_count' );
+        expect( res.body.data.listAllAPSCount ).toHaveProperty( 'time' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
 
-  // it( 'Returns MPS Count', ( done ) => {
-  //   request
-  //     .post( '/graphql' )
-  //     .send( {
-  //       query: query,
-  //       operationName: 'ListAllMPSCount'
-  //     } )
-  //     .expect( ( res: any ) => {
-  //       expect( res.body ).not.toHaveProperty( 'errors' );
-  //       expect( res.body ).toHaveProperty( 'data' );
-  //       expect( res.body.data ).toHaveProperty( 'listAllMPSCount' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'fts_count' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'rme_count' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'unassigned_count' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'worh_count' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'irt_count' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'woc_count' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'unassigned_ncq_count' );
-  //       expect( res.body.data.listAllMPSCount ).toHaveProperty( 'time' );
-  //     } )
-  //     .end( ( err, res ) => {
-  //       done( err );
-  //     } );
-  // } );
+  it( 'Returns MPS Count', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'ListAllMPSCount'
+      } )
+      .expect( ( res: any ) => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
+        expect( res.body.data ).toHaveProperty( 'listAllMPSCount' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'fts_count' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'rme_count' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'unassigned_count' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'worh_count' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'irt_count' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'woc_count' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'unassigned_ncq_count' );
+        expect( res.body.data.listAllMPSCount ).toHaveProperty( 'time' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
 
-  // it( 'Creates New HandOver', ( done ) => {
-  //   request
-  //     .post( '/graphql' )
-  //     .send( {
-  //       query: query,
-  //       operationName: 'CreateHandOver',
-  //       variables: {
-  //         input: mock
-  //       }
-  //     } )
-  //     .expect( ( res: any ) => {
-  //       expect( res.body ).not.toHaveProperty( 'errors' );
-  //       expect( res.body ).toHaveProperty( 'data' );
+  it( 'Creates New HandOver', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'CreateHandOver',
+        variables: {
+          input: mock
+        }
+      } )
+      .expect( ( res: any ) => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
 
-  //       expect( res.body.data ).toHaveProperty( 'createHandOver' );
-  //     } )
-  //     .end( ( err, res ) => {
-  //       done( err );
-  //     } );
-  // } );
+        expect( res.body.data ).toHaveProperty( 'createHandOver' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
 
-  // it( 'Updates HandOver', ( done ) => {
-  //   request
-  //     .post( '/graphql' )
-  //     .send( {
-  //       query: query,
-  //       operationName: 'UpdateHandOver',
-  //       variables: {
-  //         input: mock
-  //       }
-  //     } )
-  //     .expect( ( res: any ) => {
-  //       expect( res.body ).not.toHaveProperty( 'errors' );
-  //       expect( res.body ).toHaveProperty( 'data' );
+  it( 'Updates HandOver', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'UpdateHandOver',
+        variables: {
+          input: mock
+        }
+      } )
+      .expect( ( res: any ) => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
 
-  //       expect( res.body.data ).toHaveProperty( 'updateHandOver' );
-  //     } )
-  //     .end( ( err, res ) => {
-  //       done( err );
-  //     } );
-  // } );
+        expect( res.body.data ).toHaveProperty( 'updateHandOver' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
 
-  // it( 'Remove HandOver', ( done ) => {
-  //   request
-  //     .post( '/graphql' )
-  //     .send( {
-  //       query: query,
-  //       operationName: 'RemoveHandOver',
-  //       variables: {
-  //         handover_id: mock.handover_id
-  //       }
-  //     } )
-  //     .expect( ( res: any ) => {
-  //       expect( res.body ).not.toHaveProperty( 'errors' );
-  //       expect( res.body ).toHaveProperty( 'data' );
-  //       expect( res.body.data ).toHaveProperty( 'removeHandOver' );
-  //     } )
-  //     .end( ( err, res ) => {
-  //       done( err );
-  //     } );
-  // } );
+  it( 'Remove HandOver', ( done ) => {
+    request
+      .post( '/graphql' )
+      .send( {
+        query: query,
+        operationName: 'RemoveHandOver',
+        variables: {
+          handover_id: mock.handover_id
+        }
+      } )
+      .expect( ( res: any ) => {
+        expect( res.body ).not.toHaveProperty( 'errors' );
+        expect( res.body ).toHaveProperty( 'data' );
+        expect( res.body.data ).toHaveProperty( 'removeHandOver' );
+      } )
+      .end( ( err, res ) => {
+        done( err );
+      } );
+  } );
 } );

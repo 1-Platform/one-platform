@@ -13,7 +13,7 @@ export const ModHandoverResolver = {
     listAllHandOvers ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
-      return Client.query( `select * from handovers; ` )
+      return Client.query( `select * from handovers;` )
         .then( res => {
           Client.end();
           return res.rows;
@@ -26,7 +26,7 @@ export const ModHandoverResolver = {
     listHandOver ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
-      return Client.query( `select * from handovers where handover_id = ${ args.handover_id }; ` )
+      return Client.query( `select * from handovers where handover_id=${ args.handover_id };` )
         .then( res => {
           Client.end();
           return res.rows[ 0 ];
@@ -39,7 +39,7 @@ export const ModHandoverResolver = {
     listHandOverByDate ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
-      return Client.query( `SELECT * FROM handovers where date >= '' ${ args.date } ' 00:00:00' and date <= '' ${ args.date } ' 23:59:59'; ` )
+      return Client.query( `SELECT * FROM handovers where date >= '" ${ args.date } " 00:00:00' and date <= '" ${ args.date } " 23:59:59';` )
         .then( res => {
           Client.end();
           return res.rows;
@@ -52,7 +52,7 @@ export const ModHandoverResolver = {
     listCasesByHandOver ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
-      return Client.query( `select * from cases where handover_id = ${ args.handover_id } order by case_type; ` )
+      return Client.query( `select * from cases where handover_id=${ args.handover_id } order by case_type;` )
         .then( res => {
           Client.end();
           return res.rows;
@@ -65,7 +65,7 @@ export const ModHandoverResolver = {
     listUnassignedCount ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modSfdcConnectionString );
       Client.connect();
-      return Client.query( `select count ( casenumber ) from cases_shift_tracker where internal_status__c = 'Unassigned' and id = ( select max ( id ) from cases_shift_tracker); ` )
+      return Client.query( `select count(casenumber) from cases_shift_tracker where internal_status__c='Unassigned' and id = (select max(id) from cases_shift_tracker);` )
         .then( res => {
           Client.end();
           return res.rows[ 0 ];
@@ -78,61 +78,61 @@ export const ModHandoverResolver = {
     listAllPlatformCount ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modSfdcConnectionString );
       Client.connect();
-      return Client.query( `SELECT( SELECT Count( casenumber )
+      return Client.query( `SELECT (SELECT Count(casenumber)
                           FROM   cases_shift_tracker
                           WHERE  fts__c = true
-                                AND id = ( SELECT Max( id )
-                                          FROM   cases_shift_tracker )) AS fts_count,
-                            ( SELECT Count( casenumber );
-                          FROM   cases_shift_tracker;
-                          WHERE  customer_escalation__c = true;
-                          AND id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker)) AS rme_count,
-                            ( SELECT Count( casenumber );
-                          FROM   cases_shift_tracker;
-                          WHERE  internal_status__c = 'Unassigned';
-                          AND id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker)) AS unassigned_count,
-                            ( SELECT Count( casenumber );
-                          FROM   cases_shift_tracker;
-                          WHERE  fts__c = true;
-                          AND status = 'Waiting on Red Hat';
-                          AND id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker)) AS worh_count,
-                            ( SELECT Count( casenumber );
-                          FROM   cases_shift_tracker;
-                          WHERE  internal_status__c = 'Unassigned';
-                          AND status = 'Waiting on Red Hat';
-                          AND tactical__c = true;
-                          AND id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker) - 1) AS irt_count,
-                            ( SELECT Count( casenumber );
-                          FROM   cases_shift_tracker;
-                          WHERE  fts__c = true;
-                          AND status = 'Waiting on Customer';
-                          AND id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker)) AS woc_count,
-                            ( SELECT Count( casenumber );
-                          FROM   cases_shift_tracker;
-                          WHERE  internal_status__c = 'Unassigned';
-                          AND severity__c < 3;
-                          AND id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker)) AS;
-                          unassigned_ncq_count,
-                            ( SELECT Count( casenumber );
-                          FROM   cases_shift_tracker;
-                          WHERE  sbt__c < 0;
-                          AND severity__c < 2;
-                          AND id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker)) AS;
-                          urgent_sev_1_breaches_count,
-                            ( SELECT time;
-                          FROM   cases_shift_tracker;
-                          WHERE  id = ( SELECT Max( id );
-                          FROM   cases_shift_tracker)
-                          LIMIT  1) AS time;
-                          FROM   cases_shift_tracker;
-                          LIMIT  1; `)
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker))     AS fts_count,
+                        (SELECT Count(casenumber)
+                          FROM   cases_shift_tracker
+                          WHERE  customer_escalation__c = true
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker))     AS rme_count,
+                        (SELECT Count(casenumber)
+                          FROM   cases_shift_tracker
+                          WHERE  internal_status__c = 'Unassigned'
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker))     AS unassigned_count,
+                        (SELECT Count(casenumber)
+                          FROM   cases_shift_tracker
+                          WHERE  fts__c = true
+                                AND status = 'Waiting on Red Hat'
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker))     AS worh_count,
+                        (SELECT Count(casenumber)
+                          FROM   cases_shift_tracker
+                          WHERE  internal_status__c = 'Unassigned'
+                                AND status = 'Waiting on Red Hat'
+                                AND tactical__c = true
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker) - 1) AS irt_count,
+                        (SELECT Count(casenumber)
+                          FROM   cases_shift_tracker
+                          WHERE  fts__c = true
+                                AND status = 'Waiting on Customer'
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker))     AS woc_count,
+                        (SELECT Count(casenumber)
+                          FROM   cases_shift_tracker
+                          WHERE  internal_status__c = 'Unassigned'
+                                AND severity__c < 3
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker))     AS
+                        unassigned_ncq_count,
+                        (SELECT Count(casenumber)
+                          FROM   cases_shift_tracker
+                          WHERE  sbt__c < 0
+                                AND severity__c < 2
+                                AND id = (SELECT Max(id)
+                                          FROM   cases_shift_tracker))     AS
+                        urgent_sev_1_breaches_count,
+                        (SELECT time
+                          FROM   cases_shift_tracker
+                          WHERE  id = (SELECT Max(id)
+                                      FROM   cases_shift_tracker)
+                          LIMIT  1)                                         AS time
+                  FROM   cases_shift_tracker
+                  LIMIT  1;`)
         .then( res => {
           Client.end();
           return res.rows[ 0 ];
@@ -145,62 +145,62 @@ export const ModHandoverResolver = {
     listAllETCount ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modSfdcConnectionString );
       Client.connect();
-      return Client.query( `SELECT( SELECT Count( casenumber )
+      return Client.query( `SELECT (SELECT Count(casenumber)
                           FROM   et_cases_shift_tracker
                           WHERE  fts__c = true
-                                AND id = ( SELECT Max( id )
-                                          FROM   et_cases_shift_tracker )) AS fts_count,
-                                          ( SELECT Count( casenumber );
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  customer_escalation__c = true;
-                                        AND id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker)) AS rme_count,
-                                          ( SELECT Count( casenumber );
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  internal_status__c = 'Unassigned';
-                                        AND id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker)) AS unassigned_count
-                                          ,
-                                          ( SELECT Count( casenumber );
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  fts__c = true;
-                                        AND status = 'Waiting on Red Hat';
-                                        AND id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker)) AS worh_count,
-                                          ( SELECT Count( casenumber );
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  internal_status__c = 'Unassigned';
-                                        AND status = 'Waiting on Red Hat';
-                                        AND tactical__c = true;
-                                        AND id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker) - 1) AS irt_count,
-                                          ( SELECT Count( casenumber );
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  fts__c = true;
-                                        AND status = 'Waiting on Customer';
-                                        AND id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker)) AS woc_count,
-                                          ( SELECT Count( casenumber );
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  internal_status__c = 'Unassigned';
-                                        AND severity__c < 3;
-                                        AND id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker)) AS;
-                                        unassigned_ncq_count,
-                                          ( SELECT Count( casenumber );
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  sbt__c < 0;
-                                        AND severity__c < 2;
-                                        AND id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker)) AS;
-                                        urgent_sev_1_breaches_count,
-                                          ( SELECT time;
-                                        FROM   et_cases_shift_tracker;
-                                        WHERE  id = ( SELECT Max( id );
-                                        FROM   et_cases_shift_tracker)
-                                        LIMIT  1) AS time;
-                                        FROM   et_cases_shift_tracker;
-                                        LIMIT  1; `)
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker))     AS fts_count,
+                        (SELECT Count(casenumber)
+                          FROM   et_cases_shift_tracker
+                          WHERE  customer_escalation__c = true
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker))     AS rme_count,
+                        (SELECT Count(casenumber)
+                          FROM   et_cases_shift_tracker
+                          WHERE  internal_status__c = 'Unassigned'
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker))     AS unassigned_count
+                        ,
+                        (SELECT Count(casenumber)
+                          FROM   et_cases_shift_tracker
+                          WHERE  fts__c = true
+                                AND status = 'Waiting on Red Hat'
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker))     AS worh_count,
+                        (SELECT Count(casenumber)
+                          FROM   et_cases_shift_tracker
+                          WHERE  internal_status__c = 'Unassigned'
+                                AND status = 'Waiting on Red Hat'
+                                AND tactical__c = true
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker) - 1) AS irt_count,
+                        (SELECT Count(casenumber)
+                          FROM   et_cases_shift_tracker
+                          WHERE  fts__c = true
+                                AND status = 'Waiting on Customer'
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker))     AS woc_count,
+                        (SELECT Count(casenumber)
+                          FROM   et_cases_shift_tracker
+                          WHERE  internal_status__c = 'Unassigned'
+                                AND severity__c < 3
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker))     AS
+                        unassigned_ncq_count,
+                        (SELECT Count(casenumber)
+                          FROM   et_cases_shift_tracker
+                          WHERE  sbt__c < 0
+                                AND severity__c < 2
+                                AND id = (SELECT Max(id)
+                                          FROM   et_cases_shift_tracker))     AS
+                        urgent_sev_1_breaches_count,
+                        (SELECT time
+                          FROM   et_cases_shift_tracker
+                          WHERE  id = (SELECT Max(id)
+                                      FROM   et_cases_shift_tracker)
+                          LIMIT  1)                                            AS time
+                  FROM   et_cases_shift_tracker
+                  LIMIT  1; `)
         .then( res => {
           Client.end();
           return res.rows[ 0 ];
@@ -213,62 +213,62 @@ export const ModHandoverResolver = {
     listAllAPSCount ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modSfdcConnectionString );
       Client.connect();
-      return Client.query( `SELECT( SELECT Count( casenumber )
+      return Client.query( `SELECT (SELECT Count(casenumber)
                             FROM   aps_cases_shift_tracker
                             WHERE  fts__c = true
-                                  AND id = ( SELECT Max( id )
-                                            FROM   aps_cases_shift_tracker )) AS fts_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  customer_escalation__c = true;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker)) AS rme_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  internal_status__c = 'Unassigned';
-                                          AND id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker)) AS;
-                                          unassigned_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  fts__c = true;
-                                          AND status = 'Waiting on Red Hat';
-                                          AND id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker)) AS worh_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  internal_status__c = 'Unassigned';
-                                          AND status = 'Waiting on Red Hat';
-                                          AND tactical__c = true;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker) - 1) AS irt_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  fts__c = true;
-                                          AND status = 'Waiting on Customer';
-                                          AND id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker)) AS woc_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  internal_status__c = 'Unassigned';
-                                          AND severity__c < 3;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker)) AS;
-                                          unassigned_ncq_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  sbt__c < 0;
-                                          AND severity__c < 2;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker)) AS;
-                                          urgent_sev_1_breaches_count,
-                                            ( SELECT time;
-                                          FROM   aps_cases_shift_tracker;
-                                          WHERE  id = ( SELECT Max( id );
-                                          FROM   aps_cases_shift_tracker)
-                                          LIMIT  1) AS time;
-                                          FROM   aps_cases_shift_tracker;
-                                          LIMIT  1; `)
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker))     AS fts_count,
+                          (SELECT Count(casenumber)
+                            FROM   aps_cases_shift_tracker
+                            WHERE  customer_escalation__c = true
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker))     AS rme_count,
+                          (SELECT Count(casenumber)
+                            FROM   aps_cases_shift_tracker
+                            WHERE  internal_status__c = 'Unassigned'
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker))     AS
+                          unassigned_count,
+                          (SELECT Count(casenumber)
+                            FROM   aps_cases_shift_tracker
+                            WHERE  fts__c = true
+                                  AND status = 'Waiting on Red Hat'
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker))     AS worh_count,
+                          (SELECT Count(casenumber)
+                            FROM   aps_cases_shift_tracker
+                            WHERE  internal_status__c = 'Unassigned'
+                                  AND status = 'Waiting on Red Hat'
+                                  AND tactical__c = true
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker) - 1) AS irt_count,
+                          (SELECT Count(casenumber)
+                            FROM   aps_cases_shift_tracker
+                            WHERE  fts__c = true
+                                  AND status = 'Waiting on Customer'
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker))     AS woc_count,
+                          (SELECT Count(casenumber)
+                            FROM   aps_cases_shift_tracker
+                            WHERE  internal_status__c = 'Unassigned'
+                                  AND severity__c < 3
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker))     AS
+                          unassigned_ncq_count,
+                          (SELECT Count(casenumber)
+                            FROM   aps_cases_shift_tracker
+                            WHERE  sbt__c < 0
+                                  AND severity__c < 2
+                                  AND id = (SELECT Max(id)
+                                            FROM   aps_cases_shift_tracker))     AS
+                          urgent_sev_1_breaches_count,
+                          (SELECT time
+                            FROM   aps_cases_shift_tracker
+                            WHERE  id = (SELECT Max(id)
+                                        FROM   aps_cases_shift_tracker)
+                            LIMIT  1)                                             AS time
+                    FROM   aps_cases_shift_tracker
+                    LIMIT  1; `)
         .then( res => {
           Client.end();
           return res.rows[ 0 ];
@@ -281,62 +281,62 @@ export const ModHandoverResolver = {
     listAllMPSCount ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modSfdcConnectionString );
       Client.connect();
-      return Client.query( `SELECT( SELECT Count( casenumber )
+      return Client.query( `SELECT (SELECT Count(casenumber)
                             FROM   mps_cases_shift_tracker
                             WHERE  fts__c = true
-                                  AND id = ( SELECT Max( id )
-                                            FROM   mps_cases_shift_tracker )) AS fts_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  customer_escalation__c = true;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker)) AS rme_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  internal_status__c = 'Unassigned';
-                                          AND id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker)) AS;
-                                          unassigned_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  fts__c = true;
-                                          AND status = 'Waiting on Red Hat';
-                                          AND id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker)) AS worh_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  internal_status__c = 'Unassigned';
-                                          AND status = 'Waiting on Red Hat';
-                                          AND tactical__c = true;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker) - 1) AS irt_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  fts__c = true;
-                                          AND status = 'Waiting on Customer';
-                                          AND id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker)) AS woc_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  internal_status__c = 'Unassigned';
-                                          AND severity__c < 3;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker)) AS;
-                                          unassigned_ncq_count,
-                                            ( SELECT Count( casenumber );
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  sbt__c < 0;
-                                          AND severity__c < 2;
-                                          AND id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker)) AS;
-                                          urgent_sev_1_breaches_count,
-                                            ( SELECT time;
-                                          FROM   mps_cases_shift_tracker;
-                                          WHERE  id = ( SELECT Max( id );
-                                          FROM   mps_cases_shift_tracker)
-                                          LIMIT  1) AS time;
-                                          FROM   mps_cases_shift_tracker;
-                                          LIMIT  1; `)
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker))     AS fts_count,
+                          (SELECT Count(casenumber)
+                            FROM   mps_cases_shift_tracker
+                            WHERE  customer_escalation__c = true
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker))     AS rme_count,
+                          (SELECT Count(casenumber)
+                            FROM   mps_cases_shift_tracker
+                            WHERE  internal_status__c = 'Unassigned'
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker))     AS
+                          unassigned_count,
+                          (SELECT Count(casenumber)
+                            FROM   mps_cases_shift_tracker
+                            WHERE  fts__c = true
+                                  AND status = 'Waiting on Red Hat'
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker))     AS worh_count,
+                          (SELECT Count(casenumber)
+                            FROM   mps_cases_shift_tracker
+                            WHERE  internal_status__c = 'Unassigned'
+                                  AND status = 'Waiting on Red Hat'
+                                  AND tactical__c = true
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker) - 1) AS irt_count,
+                          (SELECT Count(casenumber)
+                            FROM   mps_cases_shift_tracker
+                            WHERE  fts__c = true
+                                  AND status = 'Waiting on Customer'
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker))     AS woc_count,
+                          (SELECT Count(casenumber)
+                            FROM   mps_cases_shift_tracker
+                            WHERE  internal_status__c = 'Unassigned'
+                                  AND severity__c < 3
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker))     AS
+                          unassigned_ncq_count,
+                          (SELECT Count(casenumber)
+                            FROM   mps_cases_shift_tracker
+                            WHERE  sbt__c < 0
+                                  AND severity__c < 2
+                                  AND id = (SELECT Max(id)
+                                            FROM   mps_cases_shift_tracker))     AS
+                          urgent_sev_1_breaches_count,
+                          (SELECT time
+                            FROM   mps_cases_shift_tracker
+                            WHERE  id = (SELECT Max(id)
+                                        FROM   mps_cases_shift_tracker)
+                            LIMIT  1)                                             AS time
+                    FROM   mps_cases_shift_tracker
+                    LIMIT  1; `)
         .then( res => {
           Client.end();
           return res.rows[ 0 ];
@@ -349,7 +349,7 @@ export const ModHandoverResolver = {
     listCaseSBRs ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modSfdcConnectionString );
       Client.connect();
-      return Client.query( `SELECT distinct sbr_group__c FROM cases_shift_tracker WHERE casenumber = '${ args.casenumber }'; ` )
+      return Client.query( `SELECT distinct sbr_group__c FROM cases_shift_tracker WHERE casenumber = '${ args.casenumber }';` )
         .then( res => {
           Client.end();
           if ( res.rows.length ) {
@@ -366,7 +366,7 @@ export const ModHandoverResolver = {
     listTotalHandOverCount ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
       Client.connect();
-      return Client.query( `select count(*) from handovers where handover_id:: text LIKE '${ moment().year() }%'; ` )
+      return Client.query( `select count(*) from handovers where handover_id::text LIKE '${ moment().year() }%';` )
         .then( res => {
           Client.end();
           return res.rows[ 0 ];
@@ -441,20 +441,18 @@ export const ModHandoverResolver = {
     },
     updateHandOver ( root: any, args: any, ctx: any ) {
       const Client = new pg.Client( modConnectionString );
-
       function updateHandoverByID ( handover_id: any, cols: any ) {
         // Setup static beginning of query
         const query = [ 'UPDATE handovers ' ];
         query.push( 'SET' );
-
-        // Create another array storing each set command
-        // and assigning a number value for parameterized query
+        // Create another array storing each set command and assigning a number value for parameterized query
         const set: any = [];
         const colsArr: any = [];
         Object.keys( cols ).forEach( function ( key, i ) {
-          set.push( '\'' + key + '\'' + ' = $' + ( i + 1 ) );
+          set.push( `"${ key }"=$${ i + 1 }` );
           colsArr.push( cols[ key ] );
         } );
+        console.log( set );
         query.push( set.join( ', ' ) );
 
         // Add the WHERE statement to look up by id
@@ -473,7 +471,6 @@ export const ModHandoverResolver = {
       }
       // Setup the query
       const queryObj = updateHandoverByID( args.input.handover_id, args.input );
-
       const queryText = queryObj.query;
       const queryCols = queryObj.columns;
       Client.connect();
@@ -571,7 +568,7 @@ export const ModHandoverResolver = {
         const set: any = [];
         const colsArr: any = [];
         Object.keys( cols ).forEach( function ( key, i ) {
-          set.push( '\'' + key + '\'' + ' = $' + ( i + 1 ) );
+          set.push( `"${ key }"=$${ i + 1 }` );
           colsArr.push( cols[ key ] );
         } );
         query.push( set.join( ', ' ) );
