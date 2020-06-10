@@ -295,3 +295,7 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
+/* To be changed */
+.deactive {
+  filter: grayscale(1);
+}
