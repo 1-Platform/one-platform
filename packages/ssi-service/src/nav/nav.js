@@ -191,12 +191,14 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
    */
   _appDrawerItem ( item ) {
     return html`
-      <li class="op-menu-drawer__app-list-item">
+      <li class="op-menu-drawer__app-list-item ${ item.active ? '' : 'inactive'}">
         <a href="${ item.link }">
-          <img src="${ item.logo || ASSETS_URL + '/rh-hat-logo.svg' }"/>
-          <h5>
+          <div>
+            <img src="${ item.logo || ASSETS_URL + '/default.svg' }"/>
+          </div>
+          <span>
             ${ item.name }
-          </h5>
+          </span>
         </a>
       </li>
     `;

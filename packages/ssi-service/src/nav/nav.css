@@ -176,7 +176,6 @@
   padding: 2rem 2.5rem;
   box-sizing: border-box;
   height: calc(100vh - var(--op-nav__height));
-  background: rgba(255, 255, 255, 0.93);
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.16);
   border: none;
   overflow-y: auto;
@@ -241,9 +240,9 @@
 .op-menu-drawer__app-list {
   max-width: 80vw;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: 1fr;
-  gap: 1.5rem;
+  gap: 2.5rem;
   padding: 0;
   margin: 0 auto;
   grid-auto-flow: row;
@@ -251,51 +250,45 @@
 }
 
 .op-menu-drawer__app-list-item a {
-  padding: 1rem 1.5rem;
-  border: 1px solid #eee;
-  background: rgba(255, 255, 255, 0.75);
   border-radius: 0.25rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   color: inherit;
-  text-decoration: inherit;
   cursor: pointer;
+  text-decoration: inherit;
   transition: all 120ms ease-in-out;
+}
+.op-menu-drawer__app-list-item a div {
+  background: #CC0000;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.op-menu-drawer__app-list-item a span {
+  margin-top: 0.6rem;
+}
+.op-menu-drawer__app-list-item a div img {
+  height: 56px;
+  width: 56px;
 }
 .op-menu-drawer__app-list-item a:hover {
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
 }
-.op-menu-drawer__app-list-item a:hover,
-.op-menu-drawer__app-list-item a:focus {
-  background: white;
-}
 
-.op-menu-drawer__app-list-item img {
-  margin: 0;
-  width: 4rem;
-  box-sizing: border-box;
-  padding-right: 1rem;
-  border-right: 1px solid #eee;
-  display: inline-block;
-  max-width: 4rem;
-  height: 4rem;
-  flex: 1 0 auto;
-  user-select: none;
+.inactive {
+  color: #A0A0A0;
+  cursor: not-allowed;
 }
-.op-menu-drawer__app-list-item h5 {
-  flex: 1 1 auto;
-  margin: 0;
-  margin-left: 1rem;
-  font-weight: 400;
-  font-size: 1rem;
-  text-overflow: ellipsis;
-  overflow-wrap: break-word;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+.inactive a {
+  pointer-events: none;
 }
-/* To be changed */
-.deactive {
-  filter: grayscale(1);
+.inactive a div {
+  background: #F3F3F3;
+}
+.inactive a div img {
+  filter: brightness(0.3);
 }
