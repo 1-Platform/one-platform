@@ -1,11 +1,11 @@
 {
   "name": "notifications",
-  "description": "Notifications micro-service for One Platform",
+  "description": "Notifications Microservice for One Platform",
   "opservice": {
     "className": "Notifications",
     "serviceName": "notifications"
   },
-  "version": "",
+  "version": "0.0.2",
   "keywords": [
     "microservice",
     "graphql",
