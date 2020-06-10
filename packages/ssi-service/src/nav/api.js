@@ -56,6 +56,7 @@ export class APIService {
           name
           link
           icon
+          active
         }
       }
     `;
