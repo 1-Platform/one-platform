@@ -1,12 +1,12 @@
 import { Document, Model, model, Schema } from 'mongoose';
 
-const NotificationsTypeSchema = new Schema(
+const NotificationTypeSchema = new Schema(
   { type: String },
   { discriminatorKey: 'typeOptions' }
 );
-const NotificationsType = model( 'NotificationsType', NotificationsTypeSchema );
+const NotificationType = model( 'NotificationsType', NotificationTypeSchema );
 
-const TriggeredBasedType = NotificationsType.discriminator(
+const TriggeredBasedType = NotificationType.discriminator(
   'trigger-based',
   new Schema( {
     action: {
@@ -17,7 +17,7 @@ const TriggeredBasedType = NotificationsType.discriminator(
   } )
 );
 
-const ScheduledType = NotificationsType.discriminator(
+const ScheduledType = NotificationType.discriminator(
   'scheduled',
   new Schema( {
     startDate: String,
@@ -25,7 +25,7 @@ const ScheduledType = NotificationsType.discriminator(
   } )
 );
 
-export const NotificationsConfigSchema: Schema = new Schema( {
+export const NotificationConfigSchema: Schema = new Schema( {
   template: String,
   source: String,
   channel: {
@@ -45,12 +45,12 @@ export const NotificationsConfigSchema: Schema = new Schema( {
   updatedOn: Date,
 } );
 
-interface NotificationsConfigModel extends NotificationsConfigType, Document { }
+interface NotificationConfigModel extends NotificationConfigType, Document { }
 
-interface NotificationsConfigModelStatic
-  extends Model<NotificationsConfigModel> { }
+interface NotificationConfigModelStatic
+  extends Model<NotificationConfigModel> { }
 
-export const NotificationsConfig: Model<NotificationsConfigModel> = model<
-  NotificationsConfigModel,
-  NotificationsConfigModelStatic
->( 'NotificationsConfig', NotificationsConfigSchema );
+export const NotificationConfig: Model<NotificationConfigModel> = model<
+  NotificationConfigModel,
+  NotificationConfigModelStatic
+>( 'NotificationConfig', NotificationConfigSchema );

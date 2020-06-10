@@ -10,7 +10,7 @@ type TriggerBasedType = {
   action: string;
 };
 
-type NotificationsConfigType = {
+type NotificationConfigType = {
   id?: any,
   template: string,
   source: string,
@@ -25,7 +25,7 @@ type NotificationsConfigType = {
 };
 
 type GraphQLArgs = {
-  notificationsConfig: NotificationsConfigType,
+  notificationConfig: NotificationConfigType,
   id: string,
   [ x: string ]: any,
 };

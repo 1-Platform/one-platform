@@ -3,17 +3,23 @@ import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
 import { ApolloLogExtension } from 'apollo-log';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 import gqlSchema from './src/typedef.graphql';
-import { NotificationsResolver as resolver } from './src/resolver';
+import { NotificationConfigResolver as resolver } from './src/resolver';
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
+/* If environment is test, set-up the environment variables */
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: './src/__tests__/.test.env' } );
+}
+
 const app = express();
 
 const extensions = [ () => new ApolloLogExtension( {
-  level: 'info',
+  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
   timestamp: true,
   prefix: 'apollo:'
 } ) ];
@@ -64,6 +70,6 @@ const server = http.createServer( app );
 // Installing the apollo ws subscription handlers
 apollo.installSubscriptionHandlers( server );
 // Notifications
-export default server.listen( { port: port }, () => {
+export default server.listen( { port }, () => {
   console.log( `Microservice running on ${ process.env.NODE_ENV } at ${ port }${ apollo.graphqlPath }` );
 } );

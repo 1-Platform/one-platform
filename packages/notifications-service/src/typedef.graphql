@@ -1,21 +1,43 @@
 # Query Definitions
 type Query {
-  listNotificationsConfigs: [NotificationsConfigType]
-  getNotificationsConfigBy(
-    notificationsConfig: NotificationsConfigInput!
-  ): [NotificationsConfigType]
-  getNotificationsConfigByID(id: ID!): NotificationsConfigType
+  """
+  Returns a list of all the NotificationConfigs
+  """
+  listNotificationConfigs: [NotificationConfigType]
+
+  """
+  Returns all the NotificationConfigs matching the given object
+  """
+  getNotificationConfigsBy(
+    notificationConfig: NotificationConfigInput!
+  ): [NotificationConfigType]
+
+  """
+  Finds a NotificationConfig by ID
+  """
+  getNotificationConfigByID(id: ID!): NotificationConfigType
 }
 
 # Mutation Definitions
 type Mutation {
-  createNotificationsConfig(
-    notificationsConfig: NotificationsConfigInput
-  ): NotificationsConfigType
-  updateNotificationsConfig(
-    notificationsConfig: NotificationsConfigInput
-  ): NotificationsConfigType
-  deleteNotificationsConfig(id: String!): NotificationsConfigType
+  """
+  Creates a NotificationConfig from the given input object
+  """
+  createNotificationConfig(
+    notificationConfig: NotificationConfigInput!
+  ): NotificationConfigType
+
+  """
+  Patches the given NotificationConfig Object
+  """
+  updateNotificationConfig(
+    notificationConfig: NotificationConfigInput!
+  ): NotificationConfigType
+
+  """
+  Removes the NotificationConfig matching the given ID
+  """
+  deleteNotificationConfig(id: String!): NotificationConfigType
 }
 
 scalar DateTime
@@ -46,7 +68,7 @@ type HomeType {
   owners: [UserType]
 }
 
-type NotificationsConfigType {
+type NotificationConfigType {
   id: ID
   template: String
   source: HomeType
@@ -60,7 +82,7 @@ type NotificationsConfigType {
   updatedOn: DateTime
 }
 
-input NotificationsConfigInput {
+input NotificationConfigInput {
   id: ID
   template: String
   source: String

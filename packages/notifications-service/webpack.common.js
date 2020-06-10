@@ -4,14 +4,6 @@ const Dotenv = require( 'dotenv-webpack' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const NodemonPlugin = require( 'nodemon-webpack-plugin' );
 
-let envPath;
-
-if ( !process.env.NODE_ENV || process.env.NODE_ENV === 'local' ) {
-  envPath = '.env';
-} else if ( process.env.NODE_ENV === 'test' ) {
-  envPath = 'e2e/.test.env';
-}
-
 module.exports = {
   entry: './service.ts',
   module: {
@@ -39,9 +31,7 @@ module.exports = {
   externals: [ nodeExternals() ],
   plugins: [
     new CleanWebpackPlugin(),
-    new Dotenv( {
-      path: envPath
-    } ),
+    new Dotenv(),
     new NodemonPlugin( {
       watch: path.resolve( './dist' ),
       script: './dist/bundle.js',
