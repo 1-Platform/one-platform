@@ -3,7 +3,19 @@ import { User } from './schema';
 import * as _ from 'lodash';
 import moment from 'moment';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
-export const pubsub = new RedisPubSub();
+import Redis from 'ioredis';
+const redisOptions: Redis.RedisOptions = {
+  host: process.env.REDIS_SERVICE_HOST,
+  port: Number.parseInt( process.env.REDIS_SERVICE_PORT || '6379', 10 ),
+  retryStrategy: ( times: any ) => {
+    return Math.min( times * 50, 2000 );
+  }
+};
+
+export const pubsub = new RedisPubSub( {
+  publisher: new Redis( redisOptions ),
+  subscriber: new Redis( redisOptions ),
+} );
 
 class UserGroupApiHelper {
   private static UserGroupHelperInstance: UserGroupApiHelper;

@@ -46,6 +46,10 @@ export class FeedbackHomeComponent implements OnInit {
         this.allFeedback = allFeedback.map(fb => {
           const fbObj = { ...fb };
           const fbIssue = jiraIssues.filter(issue => {
+            console.log('111111111111111111111111111111');
+            console.log(issue.ticketID);
+            console.log(fb.ticketID);
+            console.log('111111111111111111111111111111');
             if (issue.ticketID === fb.ticketID) {
               return issue;
             }
