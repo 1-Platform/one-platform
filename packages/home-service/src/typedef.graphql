@@ -57,8 +57,8 @@ input HomeInput {
   createdOn: DateTime
   updatedBy: String
   updatedOn: DateTime
-  active: Boolean!
-  permissions: [PermissionsInput]!
+  active: Boolean
+  permissions: [PermissionsInput]
 }
 
 type Query {
