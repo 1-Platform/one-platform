@@ -73,7 +73,7 @@
     "@types/ejs": "3.0.4",
     "@types/errorhandler": "0.0.32",
     "@types/ioredis": "^4.16.4",
-    "@types/jest": "25.2.3",
+    "@types/jest": "26.0.0",
     "@types/lodash": "4.14.155",
     "@types/method-override": "0.0.31",
     "@types/mocha": "5.2.7",
