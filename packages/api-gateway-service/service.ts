@@ -11,17 +11,11 @@ import cookieParser = require( 'cookie-parser' );
 const port = process.env.PORT || 4000;
 const app = express();
 
-// Configure CORS
-const corsOptions: cors.CorsOptions = {
-  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  origin: '*'
-};
-
 /* Mount cookie parser */
 app.use( cookieParser() );
 
 /* include cors middleware */
-app.use( cors( corsOptions ) );
+app.use( cors() );
 
 /*  Creating the server based on the environment */
 const server = http.createServer( app );
