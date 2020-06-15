@@ -1,97 +1,100 @@
-# Query Definitions
 type Query {
   """
-  Returns a list of all the NotificationConfigs
+  Returns a list of all Active Notifications
   """
-  listNotificationConfigs: [NotificationConfigType]
+  listActiveNotifications(limit: Int): [Notification]
 
   """
-  Returns all the NotificationConfigs matching the given object
-  """
-  getNotificationConfigsBy(
-    notificationConfig: NotificationConfigInput!
-  ): [NotificationConfigType]
 
   """
-  Finds a NotificationConfig by ID
+  listArchivedNotifications(limit: Int): [Notification]
+
   """
-  getNotificationConfigByID(id: ID!): NotificationConfigType
+  Returns notifications matching the given selection criteria
+  """
+  getNotificationsBy(selector: NotificationPayloadInput!): [Notification]
 }
 
-# Mutation Definitions
 type Mutation {
   """
-  Creates a NotificationConfig from the given input object
+  Creates a new notification and add it to the queue
   """
-  createNotificationConfig(
-    notificationConfig: NotificationConfigInput!
-  ): NotificationConfigType
+  newNotification(payload: NotificationPayloadInput!): Notification
+}
 
-  """
-  Patches the given NotificationConfig Object
-  """
-  updateNotificationConfig(
-    notificationConfig: NotificationConfigInput!
-  ): NotificationConfigType
-
-  """
-  Removes the NotificationConfig matching the given ID
-  """
-  deleteNotificationConfig(id: String!): NotificationConfigType
+type Subscription {
+  newNotifications(target: [String!]!): PushNotification
 }
 
 scalar DateTime
+scalar Data
 
-type ScheduledandTriggerType {
-  startDate: String
-  time: String
-  action: String
-}
-
-input ScheduledandTriggerInput {
-  startDate: String
-  time: String
-  action: String
-}
-
-type UserType {
-  _id: String
-  uid: String
-  name: String
+enum NotificationStatusEnum {
+  SUCCESS
+  FAILED
 }
 
 type HomeType {
   _id: String
-  name: String
+}
+
+type PushNotification {
+  id: ID
+  title: String
+  body: String
   link: String
-  entityType: String
-  owners: [UserType]
+  data: Data
+  type: NotificationChannelEnum
+  sentOn: DateTime
 }
 
-type NotificationConfigType {
+type Notification {
   id: ID
-  template: String
-  source: HomeType
-  channel: String
-  type: String
-  typeOptions: ScheduledandTriggerType
-  target: String
-  createdBy: String
+  subject: String
+  body: String
+  data: Data
+  link: String
+  secondaryTargets: [String]
+  config: NotificationConfig
+  startDate: DateTime
+  endDate: DateTime
+  recurring: Boolean
   createdOn: DateTime
-  updatedBy: String
+  createdBy: String
   updatedOn: DateTime
+  updatedBy: String
+
+  """
+  Only available for Archived Notifications
+  """
+  status: NotificationStatusEnum
+  """
+  Only available for Archived Notifications
+  """
+  receipt: String
+  """
+  Only available for Archived Notifications
+  """
+  sentOn: DateTime
+  """
+  Only available for Archived Notifications
+  """
+  messageId: String
 }
 
-input NotificationConfigInput {
+input NotificationPayloadInput {
   id: ID
-  template: String
-  source: String
-  channel: String
-  type: String
-  typeOptions: ScheduledandTriggerInput
-  target: String
-  createdBy: String
+  configID: ID
+  subject: String
+  body: String
+  data: Data
+  link: String
+  secondaryTargets: [String]
+  startDate: DateTime
+  endDate: DateTime
+  recurring: Boolean
   createdOn: DateTime
-  updatedBy: String
+  createdBy: String
   updatedOn: DateTime
+  updatedBy: String
 }

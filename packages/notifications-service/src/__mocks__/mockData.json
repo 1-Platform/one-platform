@@ -1,6 +1,9 @@
 {
    "template": "This is some random template string",
-   "channel": "email",
-   "type": "trigger-based",
-   "target": "one-portal-devel"
+   "channel": "EMAIL",
+   "type": "TRIGGERED",
+   "targets": [
+      "one-portal-devel"
+   ],
+   "createdBy": "mdeshmuk"
 }

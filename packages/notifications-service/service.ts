@@ -1,12 +1,15 @@
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import http from 'http';
 import { ApolloLogExtension } from 'apollo-log';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-import gqlSchema from './src/typedef.graphql';
-import { NotificationConfigResolver as resolver } from './src/resolver';
+import NotificationConfigSchema from './src/notificationConfig/typedef.graphql';
+import NotificationsSchema from './src/typedef.graphql';
+import { NotificationConfigResolver } from './src/notificationConfig/resolver';
+import { NotificationsResolver } from './src/resolver';
+import { NotificationsBroadcaster } from './src/broadcaster';
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
@@ -19,7 +22,7 @@ if ( process.env.NODE_ENV === 'test' ) {
 const app = express();
 
 const extensions = [ () => new ApolloLogExtension( {
-  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
+  level: process.env.NODE_ENV === 'test' ? 'silent' : 'warn',
   timestamp: true,
   prefix: 'apollo:'
 } ) ];
@@ -44,18 +47,25 @@ mongoose.connection.on( 'error', console.error );
 /* Defining the Apollo Server */
 const apollo = new ApolloServer( {
   playground: process.env.NODE_ENV !== 'production',
-  typeDefs: gqlSchema,
-  resolvers: resolver,
+  schema: mergeSchemas( {
+    schemas: [
+      NotificationConfigSchema,
+      NotificationsSchema
+    ],
+    resolvers: [
+      NotificationConfigResolver,
+      NotificationsResolver
+    ]
+  } ),
   subscriptions: {
     path: '/subscriptions',
   },
   formatError: error => {
-    console.error( '[NotificationsServiceError]:', error );
     return ( {
       message: error.message,
       locations: error.locations,
-      stack: error.stack ? error.stack.split( '\n' ) : [],
       path: error.path,
+      ...error.extensions,
     } );
   },
   extensions
@@ -72,4 +82,7 @@ apollo.installSubscriptionHandlers( server );
 // Notifications
 export default server.listen( { port }, () => {
   console.log( `Microservice running on ${ process.env.NODE_ENV } at ${ port }${ apollo.graphqlPath }` );
+
+  /* Start the broadcasting service once the server starts */
+  new NotificationsBroadcaster( dbConnection ).start();
 } );
