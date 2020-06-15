@@ -1,87 +1,11 @@
 
-export class Team {
-    _id?: string;
-    url: string;
-    ticketUrl: string;
+  export interface User {
+    _id: string;
     name: string;
-    vision?: string;
-    description?: string;
-    feedback?: Feedback[];
-    modules: string[];
-    mission?: string;
-    parentTeam: string | any;
-    mailingList?: string;
-    manager?: {
-      kerberosID: string;
-      name: string;
-      email: string;
-      roverGroup: string;
-    };
-    ircChannel: string;
-    externalUrl: string;
-    ownership: {
-      kerberosID?: string;
-      name?: string;
-      email: string;
-      primary?: boolean;
-    };
-    timestamp: Timestamp;
-  }
-
-export interface Timestamp {
-    createdAt: Date;
-    createdBy: {
-      kerberosID: string;
-      name: string;
-    };
-    modifiedAt: Date;
-    modifiedBy: {
-      kerberosID: string;
-      name: string;
-    };
-  }
-  export interface UserTeam {
-    name: string;
-    access: number;
-  }
-  export class User {
-    _id?: string;
-    kerberosID: string;
-    name: string;
-    email: string;
-    location?: string;
-    title?: string;
-    teams?: UserTeam[];
-    timestamp?: Timestamp;
-    profile?: any;
-    preferences?: any;
-    services?: any;
-    outages?: any;
-  }
-  export interface PopulatedUserTeam {
-    name: Team;
-    access: number;
-    primary: boolean;
-  }
-  export interface PopulatedUser {
-    _id?: string;
-    kerberosID: string;
-    name: string;
-    email: string;
-    location?: string;
-    title?: string;
-    teams?: PopulatedUserTeam[];
-    timestamp?: Timestamp;
-    profile?: any;
-    preferences?: any;
-    services?: any;
-    outages?: any;
-  }
-  export interface UsersResponse {
-    listUsers: User[];
-  }
-  export interface UserResponse {
-    getUser: User;
+    title: string;
+    uid: string;
+    rhatUUID: string;
+    isActive: boolean;
   }
 export interface Feedback {
   _id: string;
@@ -90,11 +14,15 @@ export interface Feedback {
   feedbackType: string;
   ticketID: string;
   spa: string;
-  timestamp: Timestamp;
   title: string;
+  createdOn: Date;
+  createdBy: User;
+  updatedOn: Date;
+  updatedBy: User;
   state?: string;
   assignees?: string;
 }
+
 
 export interface FeedbacksResponse {
   listFeedback: Feedback[];

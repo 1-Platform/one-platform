@@ -73,8 +73,8 @@
   <div class="accordion-open" *ngIf="isAccordionOpen">
     <p class="fi-created-by">
       Created By <br>
-      <b>{{ feedback?.timestamp?.createdBy?.name }}</b>
-      at {{ feedback?.timestamp?.createdAt | date: 'dd-MMM-yyyy' }}
+      <b>{{ feedback?.createdBy?.name }}</b>
+      at {{ feedback?.createdOn | date: 'dd-MMM-yyyy' }}
     </p>
     <a class="btn fb-issue-modal" (click)="openModal();">
       View Details

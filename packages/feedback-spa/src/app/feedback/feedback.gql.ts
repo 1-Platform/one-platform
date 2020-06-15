@@ -10,18 +10,24 @@ query listFeedback {
     feedbackType,
     ticketID,
     spa,
-    timestamp {
-      createdBy {
-        kerberosID,
-        name
-      },
-      modifiedAt,
-      createdAt,
-      createdBy {
-        kerberosID,
-        name
-      },
+    createdOn,
+    createdBy{
+      _id,
+      name,
+      title,
+      uid,
+      rhatUUID,
+      isActive
     },
+    updatedOn,
+    updatedBy{
+      _id,
+      name,
+      title,
+      uid,
+      rhatUUID,
+      isActive
+    }
     title
   }
 }
