@@ -1,15 +1,22 @@
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import express from 'express';
-import { mergeSchemas } from 'graphql-tools';
+import { stitchSchemas } from 'graphql-tools';
 import http from 'http';
 import { verify } from 'jsonwebtoken';
 import { publicKey, getRemoteSchema } from './src/helpers';
 import cors from 'cors';
 import cookieParser = require( 'cookie-parser' );
+const { ApolloLogExtension } = require( 'apollo-log' );
 
 /* Setting port for the server */
 const port = process.env.PORT || 4000;
 const app = express();
+
+const extensions = [ () => new ApolloLogExtension( {
+  level: 'info',
+  timestamp: true,
+  prefix: 'API Gateway'
+} ) ];
 
 /* Mount cookie parser */
 app.use( cookieParser() );
@@ -38,7 +45,7 @@ const server = http.createServer( app );
     uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/graphql`,
     subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/subscriptions`
   } ).catch( err => err );
-  const schema = mergeSchemas( {
+  const schema = stitchSchemas( {
     schemas: [ userService, feedbackService, homeService, notificationService ]
   } );
   /* Defining the Apollo Server */
@@ -61,6 +68,7 @@ const server = http.createServer( app );
       stack: error.stack ? error.stack.split( '\n' ) : [],
       path: error.path,
     } ),
+    extensions: extensions,
     playground: playgroundOptions,
     tracing: process.env.NODE_ENV !== 'production',
   } );
