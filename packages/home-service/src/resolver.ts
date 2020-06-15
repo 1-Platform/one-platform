@@ -34,6 +34,16 @@ export const HomeResolver = {
         });
       })
       .catch(err => err);
+    },
+    getHomeTypeByUser(root: any, args: any, ctx: any) {
+      return Home.find({'owners': {'$in': [ args.rhuuid ]}}).lean()
+      .then( (response) => {
+        const builtQuery = `${HomeHelper.buildGqlQuery(response)}`;
+        return HomeHelper.getUserDetails(builtQuery).then((userDetails: any) => {
+          return HomeHelper.stitchHomeType(response, userDetails.data);
+        });
+      })
+      .catch(err => err);
     }
   },
   Mutation: {

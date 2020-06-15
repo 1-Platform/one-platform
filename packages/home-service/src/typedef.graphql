@@ -68,6 +68,8 @@ type Query {
   getHomeType(_id: String!): [HomeType]
   # Fetches HomeType by any property
   getHomeTypeBy(input: HomeInput): [HomeType]
+  # Fetches all HomeType for a user with rhuuid
+  getHomeTypeByUser(rhuuid: String!): [HomeType]
 }
 
 type Mutation {
