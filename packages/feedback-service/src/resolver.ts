@@ -112,7 +112,8 @@ export const FeedbackResolver = {
         apiVersion: '2',
         strictSSL: false
       } );
-      return jira.getIssuesForBoard( process.env.JIRA_BOARD_ID )
+      const jql = `project = ONEPLAT AND labels = 'Reported-via-One-Platform'`;
+      return jira.searchJira( jql )
         .then( function ( getIssuesForBoard: any ) {
           return getIssuesForBoard[ 'issues' ].map( ( issue: any ) => {
             issue[ 'fields' ][ 'ticketID' ] = issue[ 'key' ];
@@ -140,6 +141,7 @@ export const FeedbackResolver = {
                   },
                   'summary': fb.title,
                   'description': fb.description,
+                  'labels': [ 'Reported-via-One-Platform' ],
                   'issuetype': { 'name': 'Task' },
                 }
               };
