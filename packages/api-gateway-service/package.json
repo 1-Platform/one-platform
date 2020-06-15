@@ -59,7 +59,7 @@
     "lodash": "4.17.15",
     "method-override": "3.0.0",
     "morgan": "1.10.0",
-    "nodemon-webpack-plugin": "4.3.1",
+    "nodemon-webpack-plugin": "4.3.2",
     "subscriptions-transport-ws": "0.9.16",
     "supertest": "4.0.2",
     "ts-jest": "26.1.0",
