@@ -34,7 +34,6 @@ services:
       FEEDBACK_SERVICE_SERVICE_PORT: 8080
       USER_SERVICE_SERVICE_PORT: 8080
       NOTIFICATIONS_SERVICE_SERVICE_PORT: 8080
-      REDIS_SERVICE_PORT: 6379
     volumes:
       - ./packages/api-gateway-service:/app
     ports:
@@ -54,12 +53,14 @@ services:
       DB_PATH: mongo
       USER_SERVICE_SERVICE_HOST: user-service
       USER_SERVICE_SERVICE_HOST: 8080
+      REDIS_SERVICE_HOST: redis
     volumes:
       - ./packages/home-service:/app
     ports:
       - 8081:8080
     depends_on:
       - mongo
+      - redis
 
   feedback-service:
     build: ./packages/feedback-service
@@ -67,12 +68,14 @@ services:
     env_file: ./packages/feedback-service/.env
     environment:
       DB_PATH: mongo
+      REDIS_SERVICE_HOST: redis
     volumes:
       - ./packages/feedback-service:/app
     ports:
       - 8082:8080
     depends_on:
       - mongo
+      - redis
 
   user-service:
     build: ./packages/user-service
@@ -80,12 +83,14 @@ services:
     env_file: ./packages/user-service/.env
     environment:
       DB_PATH: mongo
+      REDIS_SERVICE_HOST: redis
     volumes:
       - ./packages/user-service:/app
     ports:
       - 8083:8080
     depends_on:
       - mongo
+      - redis
 
   notifications-service:
     build: ./packages/notifications-service
@@ -95,12 +100,14 @@ services:
       DB_PATH: mongo
       HOME_SERVICE_SERVICE_HOST: home-service
       HOME_SERVICE_SERVICE_PORT: 8080
+      REDIS_SERVICE_HOST: redis
     volumes:
       - ./packages/notifications-service:/app
     ports:
       - 8084:8080
     depends_on:
       - mongo
+      - redis
 
   mongo:
     image: mongo:4

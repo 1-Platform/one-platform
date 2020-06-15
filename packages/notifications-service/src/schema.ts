@@ -1,56 +1,48 @@
-import { Document, Model, model, Schema } from 'mongoose';
+import { Schema, Model, Document, model } from 'mongoose';
 
-const NotificationTypeSchema = new Schema(
-  { type: String },
-  { discriminatorKey: 'typeOptions' }
-);
-const NotificationType = model( 'NotificationsType', NotificationTypeSchema );
+/**
+ * Notifications Queue
+ */
+const NotificationQueueSchema: Schema = new Schema<OpNotification>( {
+  subject: { type: String, required: true, },
+  body: { type: String, },
+  link: { type: String, },
+  data: { type: Schema.Types.Mixed, },
+  config: { type: Schema.Types.ObjectId, ref: 'NotificationConfig', required: true },
+  secondaryTargets: { type: [ String ], },
+  startDate: { type: Date, required: true, },
+  endDate: { type: Date, },
+  recurring: { type: Boolean, default: false, },
+  action: { type: String, },
+  createdOn: { type: Date, default: Date.now, },
+  createdBy: { type: String, required: true },
+  updatedOn: { type: Date, default: Date.now, },
+  updatedBy: { type: String, },
+}, { typePojoToMixed: false } );
 
-const TriggeredBasedType = NotificationType.discriminator(
-  'trigger-based',
-  new Schema( {
-    action: {
-      type: String,
-      enum: [ 'create', 'update', 'delete', 'custom' ],
-      default: 'create',
-    },
-  } )
-);
+export interface NotificationModel extends OpNotification, Document { }
+interface NotificationModelStatic extends Model<NotificationModel> { }
 
-const ScheduledType = NotificationType.discriminator(
-  'scheduled',
-  new Schema( {
-    startDate: String,
-    time: String,
-  } )
-);
+export const NotificationQueue: Model<NotificationModel> =
+  model<NotificationModel, NotificationModelStatic>( 'NotificationQueue', NotificationQueueSchema, 'notificationqueue' );
 
-export const NotificationConfigSchema: Schema = new Schema( {
-  template: String,
-  source: String,
-  channel: {
-    type: String,
-    enum: [ 'email', 'popup', 'banner', 'webhook' ],
-    default: 'email',
-  },
-  type: {
-    type: String,
-    enum: [ 'trigger-based', 'scheduled' ],
-    default: 'trigger-based',
-  },
-  target: String,
-  createdBy: String,
-  createdOn: Date,
-  updatedBy: String,
-  updatedOn: Date,
+/**
+ * Notifications Archive
+*/
+const NotificationArchiveSchema: Schema = new Schema<NotificationArchive>( {
+  /* Inheriting the NotificationQueue Schema */
+  ...NotificationQueueSchema.obj,
+  /* Archive specific fields */
+  status: { type: String, enum: [ 'SUCCESS', 'FAILED', ], default: false, },
+  reciept: { type: String, },
+  sentOn: { type: Date, default: Date.now, },
+  messageId: { type: String, },
 } );
 
-interface NotificationConfigModel extends NotificationConfigType, Document { }
+interface NotificationsArchiveModel extends NotificationArchive, Document { }
+interface NotificationsArchiveModelStatic extends Model<NotificationsArchiveModel> { }
 
-interface NotificationConfigModelStatic
-  extends Model<NotificationConfigModel> { }
-
-export const NotificationConfig: Model<NotificationConfigModel> = model<
-  NotificationConfigModel,
-  NotificationConfigModelStatic
->( 'NotificationConfig', NotificationConfigSchema );
+export const NotificationsArchive: Model<NotificationsArchiveModel> =
+  model<NotificationsArchiveModel, NotificationsArchiveModelStatic>(
+    'NotificationsArchive', NotificationArchiveSchema
+  );

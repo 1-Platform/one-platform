@@ -1,0 +1,110 @@
+# Query Definitions
+type Query {
+  """
+  Returns a list of all the NotificationConfigs
+  """
+  listNotificationConfigs: [NotificationConfigType]
+
+  """
+  Returns all the NotificationConfigs matching the given object
+  """
+  getNotificationConfigsBy(
+    notificationConfig: NotificationConfigInput!
+  ): [NotificationConfigType]
+
+  """
+  Finds a NotificationConfig by ID
+  """
+  getNotificationConfigByID(id: ID!): NotificationConfigType
+}
+
+# Mutation Definitions
+type Mutation {
+  """
+  Creates a NotificationConfig from the given input object
+  """
+  createNotificationConfig(
+    notificationConfig: NotificationConfigInput!
+  ): NotificationConfigType
+
+  """
+  Patches the given NotificationConfig Object
+  """
+  updateNotificationConfig(
+    notificationConfig: NotificationConfigInput!
+  ): NotificationConfigType
+
+  """
+  Removes the NotificationConfig matching the given ID
+  """
+  deleteNotificationConfig(id: String!): NotificationConfigType
+}
+
+scalar DateTime
+
+enum NotificationTypeEnum {
+  TRIGGERED
+  SCHEDULED
+}
+enum NotificationChannelEnum {
+  EMAIL
+  PUSH
+  BANNER
+}
+
+type ScheduledandTriggerType {
+  startDate: String
+  time: String
+  action: String
+}
+
+input ScheduledandTriggerInput {
+  startDate: String
+  time: String
+  action: String
+}
+
+type UserType {
+  _id: String
+  uid: String
+  name: String
+}
+
+type HomeType {
+  _id: String
+  name: String
+  link: String
+  entityType: String
+  owners: [UserType]
+}
+
+type NotificationConfigType {
+  id: ID
+  configID: ID
+  template: String
+  defaultLink: String
+  source: HomeType
+  targets: [String]
+  channel: NotificationChannelEnum
+  type: NotificationTypeEnum
+  action: String
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
+}
+
+input NotificationConfigInput {
+  id: ID
+  template: String
+  defaultLink: String
+  source: String
+  channel: NotificationChannelEnum
+  type: NotificationTypeEnum
+  typeOptions: ScheduledandTriggerInput
+  targets: [String]
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
+}

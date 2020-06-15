@@ -1,23 +1,82 @@
 declare module "*.graphql";
 declare module "*.json";
 
-type ScheduledType = {
-  startDate: string,
-  time: string;
+type UserType = {
+  name: string;
+  uid: string;
+  rhUUID: string;
 };
 
-type TriggerBasedType = {
-  action: string;
+declare enum NotificationChannel {
+  EMAIL = 'EMAIL',
+  PUSH = 'PUSH',
+  BANNER = 'BANNER',
+}
+
+declare enum NotificationType {
+  TRIGGERED = 'TRIGGERED',
+  SCHEDULED = 'SCHEDULED',
+}
+
+declare enum NotificationStatus {
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+}
+
+/**
+ * Notification API Interface used to send One Platform Notifications
+ */
+interface OpNotification {
+  id?: any;
+  subject: string,
+  body: string,
+  link: string,
+  data: any,
+  config: string | any,
+  secondaryTargets?: string[],
+  // QSTN: Put the following fields in options?
+  startDate: Date,
+  endDate: Date,
+  recurring: boolean,
+
+  createdOn: Date,
+  createdBy: string,
+  updatedOn: Date,
+  updatedBy: Date,
+}
+
+interface NotificationArchive extends OpNotification {
+  status: NotificationStatus;
+  receipt: string;
+  sentOn: Date;
+  messageId: string;
+}
+
+type EmailNotificationOptions = {
+  subject: string;
+  to: string[];
+  cc?: string[];
+  body: string;
+};
+type PushNotificationOptions = {
+  title: string;
+  body: string;
+  targets: string[];
+  link?: string,
+  data?: any;
+  type: NotificationChannel.PUSH | NotificationChannel.BANNER;
+  sentOn: Date;
 };
 
-type NotificationConfigType = {
+type NotificationConfig = {
   id?: any,
   template: string,
+  defaultLink: string,
   source: string,
-  channel: string,
+  targets: string[],
+  channel: NotificationChannel,
   type: string,
-  typeOptions: ScheduledType | TriggerBasedType;
-  target: string,
+  action: string;
   createdBy: string,
   createdOn: Date,
   updatedBy: string,
@@ -25,7 +84,7 @@ type NotificationConfigType = {
 };
 
 type GraphQLArgs = {
-  notificationConfig: NotificationConfigType,
+  notificationConfig: NotificationConfig,
   id: string,
   [ x: string ]: any,
 };
