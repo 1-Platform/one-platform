@@ -14,8 +14,7 @@ const app = express();
 // Configure CORS
 const corsOptions: cors.CorsOptions = {
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  origin: '*',
-  preflightContinue: false
+  origin: '*'
 };
 
 /* Mount cookie parser */
