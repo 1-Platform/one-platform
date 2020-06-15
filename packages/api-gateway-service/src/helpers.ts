@@ -1,13 +1,13 @@
 const fetch = require( 'node-fetch' );
-import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
+import { RetryLink } from 'apollo-link-retry';
 import { WebSocketLink } from 'apollo-link-ws';
 import { introspectSchema, makeRemoteExecutableSchema } from 'apollo-server-express';
 import { getMainDefinition } from 'apollo-utilities';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
+import Redis from 'ioredis';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import ws from 'ws';
-import Redis from 'ioredis';
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
   port: Number.parseInt( process.env.REDIS_SERVICE_PORT || '6379', 10 ),
@@ -26,8 +26,17 @@ export async function getRemoteSchema ( { uri, subscriptionsUri }: any ) {
   /* Create WebSocket link with custom client */
   const client = new SubscriptionClient( subscriptionsUri, { reconnect: true }, ws );
   const wsLink = new WebSocketLink( client );
-  /* Using the ability to split links, we can send data to each link depending on what kind of operation is being sent */
-  const link = split(
+  const link = new RetryLink( {
+    delay: {
+      initial: 300,
+      max: Infinity,
+      jitter: true
+    },
+    attempts: {
+      max: 5,
+      retryIf: ( error, _operation ) => !!error
+    }
+  } ).split(
     ( operation: any ) => {
       const definition = getMainDefinition( operation.query );
       return (
