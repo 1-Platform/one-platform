@@ -72,7 +72,7 @@
     "@types/lodash": "4.14.149",
     "@types/method-override": "0.0.31",
     "@types/mongoose": "5.7.24",
-    "@types/node": "12.12.26",
+    "@types/node": "12.12.47",
     "@types/supertest": "2.0.8",
     "jest": "25.1.0",
     "jest-transform-graphql": "2.1.0",
