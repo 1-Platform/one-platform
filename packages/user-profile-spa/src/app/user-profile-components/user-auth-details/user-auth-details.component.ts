@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  UserAppAuthDetailsMock,
-  IUserAppAuthDetails,
-} from '../../mocks/user-profile-mock';
+import { AppService } from 'src/app/app.service';
+import { UserDetailsMock } from '../../helper';
 
 @Component({
   selector: 'app-user-auth-details',
@@ -10,12 +8,18 @@ import {
   styleUrls: ['./user-auth-details.component.scss'],
 })
 export class UserAuthDetailsComponent implements OnInit {
-  userAppAuthDetails: IUserAppAuthDetails[];
+  homeType: any[];
   showModal = false;
-  constructor() {}
+  constructor(
+    private appService: AppService
+  ) {}
 
-  ngOnInit(): void {
-    this.userAppAuthDetails = UserAppAuthDetailsMock;
+  async ngOnInit() {
+    this.homeType = await this.appService.getHomeTypeByUser(UserDetailsMock.rhatUUID)
+    .then((data: HomeType[]) => {
+      return data.filter(entity => entity.entityType === 'spa');
+    });
+    return;
   }
 
   toggleModal(state) {

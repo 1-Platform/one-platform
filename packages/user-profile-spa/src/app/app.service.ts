@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { addUserFromLDAP, listUsers } from './user.gql';
+import { addUserFromLDAP, getHomeTypeByUser } from './user.gql';
 import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
 
@@ -11,15 +11,18 @@ import * as _ from 'lodash';
 export class AppService {
   constructor(private apollo: Apollo) {}
 
-  getAllUsers(): Promise<any> {
+  getHomeTypeByUser(rhuuid: string): Promise<any> {
     return this.apollo
-      .watchQuery({ query: listUsers })
+      .watchQuery({ variables: {
+        rhuuid
+      }, query: getHomeTypeByUser })
       .result()
-      .then((res) => _.cloneDeep(res.data));
+      .then( (res: any) => res.data.getHomeTypeByUser )
+      .catch( err => err );
   }
 
   /**
-   * Created or Get Details of User from LDAP using KerbaroseID
+   * Created or Get Details of User from LDAP using kerberosID
    */
   addUserFromLDAP(kerbaroseID): Observable<any> {
     return this.apollo

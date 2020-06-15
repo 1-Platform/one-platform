@@ -22,3 +22,35 @@ export const listUsers = gql`
     }
   }
 `;
+
+const homeFragment = gql`
+fragment home on HomeType {
+  _id
+  name
+  entityType
+  owners {
+    _id
+    name
+    rhatUUID
+  }
+  createdBy {
+    name
+  }
+  updatedBy {
+    name
+  }
+  permissions {
+    role
+    roverGroup
+  }
+  active
+}
+`;
+export const getHomeTypeByUser = gql`
+${homeFragment}
+query GetHomeTypeByUser ($rhuuid: String!) {
+  getHomeTypeByUser(rhuuid: $rhuuid) {
+    ...home
+  }
+}
+`;

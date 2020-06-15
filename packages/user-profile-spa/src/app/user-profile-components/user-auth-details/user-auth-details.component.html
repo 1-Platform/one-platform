@@ -3,36 +3,26 @@
     <p>Authorization and API Permission</p>
     <button (click)="toggleModal(true)">Add New Permission</button>
   </div>
-  <div class="user-auth-list" *ngIf="userAppAuthDetails?.length !== 0">
+  <div class="user-auth-list" *ngIf="homeType?.length !== 0">
     <div
       class="user-auth-item"
-      *ngFor="let userAppAuthItem of userAppAuthDetails"
+      *ngFor="let entity of homeType"
     >
       <div class="row">
-        <p class="user-app-name">{{ userAppAuthItem?.appName }}</p>
+        <p class="user-app-name">{{ entity?.name }}</p>
         <button class="btn-edit">Edit</button>
       </div>
-      <div class="row">
+      <div class="row" *ngFor="let permission of entity?.permissions">
         <div class="user-auth-info">
-          <label>Authorization</label>
+          <label>Rover Group</label>
           <div class="row">
-            <span class="chip">{{ userAppAuthItem?.authAccess }}</span>
+            <span class="chip">{{ permission?.roverGroup }}</span>
           </div>
         </div>
         <div class="user-auth-info">
-          <label>API Permission</label>
+          <label>Role</label>
           <div class="row">
-            <span
-              class="chip"
-              *ngFor="let appPermission of userAppAuthItem?.permissions"
-              >{{ appPermission }}</span
-            >
-          </div>
-        </div>
-        <div class="user-auth-info">
-          <label>Owner</label>
-          <div class="row">
-            <span class="chip">{{ userAppAuthItem?.owner?.name }}</span>
+            <span class="chip">{{ permission?.role }}</span>
           </div>
         </div>
       </div>
@@ -42,17 +32,8 @@
   <div
     class="pf-c-alert pf-m-warning pf-m-inline"
     aria-label="Inline warning alert"
-    *ngIf="userAppAuthDetails?.length === 0"
+    *ngIf="homeType?.length === 0"
   >
-    <div class="pf-c-alert__icon">
-      <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
-    </div>
-    <h4 class="pf-c-alert__title">
-      <span class="pf-screen-reader">Warning alert:</span>
-      Can't find hosted applications with permission mapping to your account.
-      Please contact
-      <b>one-portal-devel@redhat.com</b> to get guidance.
-    </h4>
   </div>
 </div>
 
@@ -64,7 +45,7 @@
 >
   <div class="pf-l-bullseye">
     <div
-      class="pf-c-modal-box pf-m-sm"
+      class="pf-c-modal-box pf-m-sm pf-c-modal-box__body "
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -103,10 +84,7 @@
               aria-label="select application"
             >
               <option selected>Please choose application name</option>
-              <option value="outage management">outage management</option>
-              <option value="DSAL">DSAL</option>
-              <option value="OKRs">OKRs</option>
-              <option value="TS Catalog">TS Catalog</option>
+              <option *ngFor="let entity of homeType" value="{{ entity.name }}">{{ entity?.name }}</option>
             </select>
           </div>
 

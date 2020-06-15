@@ -3,6 +3,7 @@ export const UserDetailsMock = {
   email: 'singole@redhat.com',
   title: 'associate software engineer',
   accountType: 'Service Account',
+  rhuuid: '81d46410-a234-11e9-97cb-001a4a0a0044',
   roverGroups: [
     { name: 'cee-support-case-attachment-access' },
     { name: 'npatil-all' },
@@ -21,37 +22,3 @@ export const UserDetailsMock = {
     { name: 'Feedback', link: '#' },
   ],
 };
-
-export interface IUserAppAuthDetails {
-  appName: string;
-  authAccess: string;
-  permissions: string[];
-  owner: { name: string };
-}
-
-export const UserAppAuthDetailsMock: IUserAppAuthDetails[] = [
-  {
-    appName: 'One Platform Home',
-    authAccess: 'admin',
-    permissions: ['read', 'write'],
-    owner: {
-      name: 'Deepesh Nair',
-    },
-  },
-  {
-    appName: 'Outage Management',
-    authAccess: 'admin',
-    permissions: ['read', 'write'],
-    owner: {
-      name: 'Diwahshi Pandey',
-    },
-  },
-  {
-    appName: 'TS Catalog',
-    authAccess: 'admin',
-    permissions: ['read', 'write'],
-    owner: {
-      name: 'Rigin Oommen',
-    },
-  },
-];

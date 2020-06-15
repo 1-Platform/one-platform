@@ -9,10 +9,11 @@ import { AppService } from 'src/app/app.service';
 export class UserDetailsComponent implements OnInit
 {
   userDetails: any;
+  showDetails = true;
 
-  constructor ( private appService: AppService ) { }
+  constructor( private appService: AppService ) { }
 
-  ngOnInit (): void
+  ngOnInit(): void
   {
     this.userDetails = UserDetailsMock;
   }

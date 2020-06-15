@@ -1,4 +1,7 @@
 /* Auth and API Permission */
+.user-auth-and-api {
+  margin-top: 4rem;
+}
 .toolbar {
   display: flex;
   justify-content: space-between;
@@ -34,6 +37,10 @@
   align-items: center;
 }
 
+.user-auth-info {
+  margin-top: 1rem;
+}
+
 .user-auth-info .row {
   display: flex;
 }
@@ -60,12 +67,12 @@
   cursor: pointer;
 }
 
-.user-auth-item > .row:last-child {
+.user-auth-item > .row {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
 }
 
-.user-auth-item > .row:last-child > .user-auth-info {
+.user-auth-item > .row > .user-auth-info {
   flex: 0 0 300px;
 }
