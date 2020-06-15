@@ -15,7 +15,8 @@ query {
 const fetchOptions = {
   method: "post",
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Authorization": window.OpAuthHelper?.jwtToken ? 'Bearer ' + window.OpAuthHelper.jwtToken : '',
   },
   body: JSON.stringify({
     query: listHomeType

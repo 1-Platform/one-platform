@@ -3,14 +3,14 @@ import { FeedbackService } from '../feedback.service';
 import { environment } from '../../../environments/environment';
 import { options } from '../../../mocks/options';
 
-@Component({
+@Component( {
   selector: 'op-feedback-home',
   templateUrl: './feedback-home.component.html',
-  styleUrls: ['./feedback-home.component.scss']
-})
+  styleUrls: [ './feedback-home.component.scss' ]
+} )
 export class FeedbackHomeComponent implements OnInit {
 
-  @ViewChild('fiModalTrigger') fiModalTrigger: ElementRef;
+  @ViewChild( 'fiModalTrigger' ) fiModalTrigger: ElementRef;
   allFeedback: any;
   feedbackDetails: any;
   jiraURL: string;
@@ -34,49 +34,45 @@ export class FeedbackHomeComponent implements OnInit {
   feedbackClosedCount: number;
   tagState: any;
   moduleName: any = null;
-  constructor(
+  constructor (
     private feedbackService: FeedbackService,
   ) {
   }
-  ngOnInit() {
+  ngOnInit () {
     this.jiraURL = environment.jiraURL;
     this.roverURL = environment.roverURL;
-    this.feedbackService.getAllFeedback().then(allFeedback => {
-      this.feedbackService.getAllJiraIssues().then( (jiraIssues: any) => {
-        this.allFeedback = allFeedback.map(fb => {
+    this.feedbackService.getAllFeedback().then( allFeedback => {
+      this.feedbackService.getAllJiraIssues().then( ( jiraIssues: any ) => {
+        this.allFeedback = allFeedback.map( fb => {
           const fbObj = { ...fb };
-          const fbIssue = jiraIssues.filter(issue => {
-            console.log('111111111111111111111111111111');
-            console.log(issue.ticketID);
-            console.log(fb.ticketID);
-            console.log('111111111111111111111111111111');
-            if (issue.ticketID === fb.ticketID) {
+          const fbIssue = jiraIssues.filter( issue => {
+            if ( issue.ticketID === fb.ticketID ) {
               return issue;
             }
-          })[0];
-          if (fbIssue) {
+          } )[ 0 ];
+          if ( fbIssue ) {
             fbObj.state = fbIssue.status.name;
             fbObj.assignees = fbIssue.assignee.name;
           }
           return fbObj;
-        });
-        this.allFeedback = this.allFeedback.filter(fb => {
-          if (!fb.state) {
+        } );
+        this.allFeedback = this.allFeedback.filter( fb => {
+          if ( !fb.state ) {
             fb.state = 'closed';
           }
-          if (!fb.module) {
+          if ( !fb.module ) {
             fb.module = {
               name: 'general',
             };
           }
           return fb;
-        });
+        } );
 
         this.setFeedbackCount();
         this.totalFeedbackCount = this.allFeedback.length;
-        this.bugsCount = (this.allFeedback.filter(feedback => feedback.feedbackType === 'Bug')).length;
-        this.feedbackCount = (this.allFeedback.filter(feedback => feedback.feedbackType === 'Feedback')).length;
-        this.stats.push({
+        this.bugsCount = ( this.allFeedback.filter( feedback => feedback.feedbackType === 'Bug' ) ).length;
+        this.feedbackCount = ( this.allFeedback.filter( feedback => feedback.feedbackType === 'Feedback' ) ).length;
+        this.stats.push( {
           _id: 3,
           labelName: 'Bugs',
           labelSize: '24',
@@ -84,8 +80,8 @@ export class FeedbackHomeComponent implements OnInit {
           countSize: '42',
           themeColor: '#219be0',
           totalCountNumber: this.bugsCount.toString()
-        });
-        this.stats.push({
+        } );
+        this.stats.push( {
           _id: 2,
           labelName: 'Feedback',
           labelSize: '24',
@@ -93,8 +89,8 @@ export class FeedbackHomeComponent implements OnInit {
           countSize: '42',
           themeColor: '#219be0',
           totalCountNumber: this.feedbackCount.toString()
-        });
-        this.stats.push({
+        } );
+        this.stats.push( {
           _id: 1,
           labelName: 'All',
           labelSize: '24',
@@ -102,76 +98,76 @@ export class FeedbackHomeComponent implements OnInit {
           countSize: '42',
           themeColor: '#219be0',
           totalCountNumber: this.totalFeedbackCount.toString()
-        });
-        this.stats.sort((a, b) => a._id - b._id);
-      }, (error) => {
-        if (error) { }
-      });
-    });
-    this.feedbackTags.push({
+        } );
+        this.stats.sort( ( a, b ) => a._id - b._id );
+      }, ( error ) => {
+        if ( error ) { }
+      } );
+    } );
+    this.feedbackTags.push( {
       _id: 1,
       state: 'All'
-    });
-    this.feedbackTags.push({
+    } );
+    this.feedbackTags.push( {
       _id: 2,
       state: 'Open',
-    });
-    this.feedbackTags.push({
+    } );
+    this.feedbackTags.push( {
       _id: 3,
       state: 'Close'
-    });
+    } );
   }
-  setTypeFilter(type, index) {
+  setTypeFilter ( type, index ) {
     this.selectedIndex = index;
-    if (type === 'Feedback') {
+    if ( type === 'Feedback' ) {
       this.feedbackType = 'Feedback';
-    } else if (type === 'Bugs') {
+    } else if ( type === 'Bugs' ) {
       this.feedbackType = 'Bug';
     } else {
       this.feedbackType = null;
     }
     this.setFeedbackCount();
   }
-  setActive(state, index) {
+  setActive ( state, index ) {
     this.selectedTab = index;
-    if (state === 'Open') {
+    if ( state === 'Open' ) {
       this.tagState = 'opened';
-    } else if (state === 'Close') {
+    } else if ( state === 'Close' ) {
       this.tagState = 'closed';
     } else {
       this.tagState = null;
     }
   }
-  setFeedbackCount() {
-    if (this.feedbackType) {
-      if (this.moduleName) {
+  setFeedbackCount () {
+    if ( this.feedbackType ) {
+      if ( this.moduleName ) {
         this.feedbackOpenedCount = this.allFeedback.filter(
-          fb => fb.state === 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName).length;
+          fb => fb.state === 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName ).length;
         this.feedbackClosedCount = this.allFeedback.filter(
-          fb => fb.state !== 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName).length;
+          fb => fb.state !== 'opened' && fb.feedbackType === this.feedbackType && fb.module.name === this.moduleName ).length;
       } else {
-        this.feedbackOpenedCount = this.allFeedback.filter(fb => fb.state === 'opened' && fb.feedbackType === this.feedbackType).length;
-        this.feedbackClosedCount = this.allFeedback.filter(fb => fb.state !== 'opened' && fb.feedbackType === this.feedbackType).length;
+        this.feedbackOpenedCount = this.allFeedback.filter( fb => fb.state === 'opened' && fb.feedbackType === this.feedbackType ).length;
+        this.feedbackClosedCount = this.allFeedback.filter( fb => fb.state !== 'opened' && fb.feedbackType === this.feedbackType ).length;
       }
     } else {
-      if (this.moduleName) {
-        this.feedbackOpenedCount = this.allFeedback.filter(fb => fb.state === 'opened' && fb.module.name === this.moduleName).length;
-        this.feedbackClosedCount = this.allFeedback.filter(fb => fb.state !== 'opened' && fb.module.name === this.moduleName).length;
+      if ( this.moduleName ) {
+        this.feedbackOpenedCount = this.allFeedback.filter( fb => fb.state === 'opened' && fb.module.name === this.moduleName ).length;
+        this.feedbackClosedCount = this.allFeedback.filter( fb => fb.state !== 'opened' && fb.module.name === this.moduleName ).length;
       } else {
-        this.feedbackOpenedCount = this.allFeedback.filter(fb => fb.state === 'opened').length;
-        this.feedbackClosedCount = this.allFeedback.filter(fb => fb.state !== 'opened').length;
+        this.feedbackOpenedCount = this.allFeedback.filter( fb => fb.state === 'opened' ).length;
+        this.feedbackClosedCount = this.allFeedback.filter( fb => fb.state !== 'opened' ).length;
       }
     }
   }
-  filterFeedback(feedbackModule) {
-    if (feedbackModule === 'Any') {
+  filterFeedback ( feedbackModule ) {
+    if ( feedbackModule === 'Any' ) {
       this.moduleName = null;
     } else {
       this.moduleName = feedbackModule;
     }
     this.setFeedbackCount();
   }
-  openModal(event) {
+  openModal ( event ) {
     this.feedbackDetails = event;
     this.fiModalTrigger.nativeElement.click();
   }
