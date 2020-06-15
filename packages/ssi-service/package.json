@@ -33,7 +33,7 @@
     "babel-preset-es2015": "6.24.1",
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "6.0.2",
-    "css-loader": "3.5.3",
+    "css-loader": "3.6.0",
     "dotenv-webpack": "1.8.0",
     "eslint-plugin-jest": "23.13.2",
     "html-webpack-plugin": "4.3.0",
