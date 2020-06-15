@@ -47,7 +47,7 @@
     "@angular/compiler-cli": "9.1.9",
     "@angular/language-service": "9.1.9",
     "@types/jest": "26.0.0",
-    "@types/node": "12.12.44",
+    "@types/node": "12.12.47",
     "apollo-angular": "1.9.1",
     "codelyzer": "5.2.2",
     "jest": "26.0.1",
