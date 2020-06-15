@@ -112,7 +112,7 @@ export const FeedbackResolver = {
         apiVersion: '2',
         strictSSL: false
       } );
-      const jql = `project = ONEPLAT AND labels = 'Created-as-feedback/bug'`;
+      const jql = `project = ONEPLAT AND labels = 'Reported-via-One-Platform'`;
       return jira.searchJira( jql )
         .then( function ( getIssuesForBoard: any ) {
           return getIssuesForBoard[ 'issues' ].map( ( issue: any ) => {
@@ -141,7 +141,7 @@ export const FeedbackResolver = {
                   },
                   'summary': fb.title,
                   'description': fb.description,
-                  'labels': [ 'Created-as-feedback/bug' ],
+                  'labels': [ 'Reported-via-One-Platform' ],
                   'issuetype': { 'name': 'Task' },
                 }
               };
