@@ -55,7 +55,7 @@ type Notification {
   data: Data
   link: String
   secondaryTargets: [String]
-  config: NotificationConfigType
+  config: NotificationConfig
   startDate: DateTime
   endDate: DateTime
   recurring: Boolean

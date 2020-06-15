@@ -3,19 +3,19 @@ type Query {
   """
   Returns a list of all the NotificationConfigs
   """
-  listNotificationConfigs: [NotificationConfigType]
+  listNotificationConfigs: [NotificationConfig]
 
   """
   Returns all the NotificationConfigs matching the given object
   """
   getNotificationConfigsBy(
     notificationConfig: NotificationConfigInput!
-  ): [NotificationConfigType]
+  ): [NotificationConfig]
 
   """
   Finds a NotificationConfig by ID
   """
-  getNotificationConfigByID(id: ID!): NotificationConfigType
+  getNotificationConfigByID(id: ID!): NotificationConfig
 }
 
 # Mutation Definitions
@@ -25,19 +25,19 @@ type Mutation {
   """
   createNotificationConfig(
     notificationConfig: NotificationConfigInput!
-  ): NotificationConfigType
+  ): NotificationConfig
 
   """
   Patches the given NotificationConfig Object
   """
   updateNotificationConfig(
     notificationConfig: NotificationConfigInput!
-  ): NotificationConfigType
+  ): NotificationConfig
 
   """
   Removes the NotificationConfig matching the given ID
   """
-  deleteNotificationConfig(id: String!): NotificationConfigType
+  deleteNotificationConfig(id: String!): NotificationConfig
 }
 
 scalar DateTime
@@ -78,7 +78,7 @@ type HomeType {
   owners: [UserType]
 }
 
-type NotificationConfigType {
+type NotificationConfig {
   id: ID
   configID: ID
   template: String

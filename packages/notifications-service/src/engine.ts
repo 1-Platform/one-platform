@@ -114,8 +114,19 @@ class NotificationEngine {
   }
 
   private sendEmailNotification ( { to, cc, subject, body }: EmailNotificationOptions ) {
+    /* If email notifications is not enabled, mock an email response */
+    if ( !process.env.ENABLE_EMAIL_NOTIFICATIONS ) {
+      const messageId = Math.floor( Math.random() + 100 );
+      return Promise.resolve( { messageId: `test-email-id-${ messageId }` } );
+    }
+
     const validEmails = to.filter( email => RegExp( /\S+@\S+/ ).test( email ) );
     const validCCEmails = cc?.filter( email => RegExp( /\S+@\S+/ ).test( email ) );
+
+    if ( validEmails.length === 0 && validCCEmails?.length === 0 ) {
+      throw new Error( 'No Valid emails found in to or cc' );
+    }
+
     return nodemailer
       .sendMail( {
         from: '"One Platform Notifications" <one-platform-notifications@redhat.com>',

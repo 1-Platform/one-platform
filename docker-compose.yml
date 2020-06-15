@@ -116,8 +116,8 @@ services:
       driver: none
     volumes:
       - ./tmp/db:/data/db
-    # ports:
-    #   - 37017:27017
+    ports:
+      - 37017:27017
 
   redis:
     image: redis:alpine

@@ -5,7 +5,7 @@ const NotificationConfigSchema: Schema<NotificationConfig> = new Schema( {
   configID: { type: String, },
   template: { type: String, },
   defaultLink: { type: String, },
-  source: { type: String, required: true, },
+  source: { type: String, },
   targets: { type: [ String ], required: true, },
   channel: {
     type: String,

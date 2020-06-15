@@ -10,37 +10,38 @@ import supertest from 'supertest';
 let mockID = '';
 let request: supertest.SuperTest<supertest.Test>;
 const query = /* GraphQL */`
-  fragment notificationConfigType on NotificationConfigType {
+  fragment notificationConfig on NotificationConfig {
     id
     template
     channel
     type
-    target
+    targets
+    createdBy
   }
 
   query List {
     listNotificationConfigs {
-      ...notificationConfigType
+      ...notificationConfig
     }
   }
   query Get($input: NotificationConfigInput!) {
     getNotificationConfigsBy(notificationConfig: $input) {
-      ...notificationConfigType
+      ...notificationConfig
     }
   }
   mutation Create($input: NotificationConfigInput!) {
     createNotificationConfig(notificationConfig: $input) {
-      ...notificationConfigType
+      ...notificationConfig
     }
   }
   mutation Update($input: NotificationConfigInput!) {
     updateNotificationConfig(notificationConfig: $input) {
-      ...notificationConfigType
+      ...notificationConfig
     }
   }
   mutation Delete($id: String!) {
     deleteNotificationConfig(id: $id) {
-      ...notificationConfigType
+      ...notificationConfig
     }
   }
 `;
@@ -67,7 +68,11 @@ describe( 'NotificationConfig', () => {
         expect( res.body ).not.toHaveProperty( 'errors' );
         expect( res.body ).toHaveProperty( 'data' );
         expect( res.body.data ).toHaveProperty( 'createNotificationConfig' );
-        expect( res.body.data.createNotificationConfig ).toMatchObject( mock );
+        expect( res.body.data.createNotificationConfig ).toMatchObject( {
+          channel: mock.channel,
+          type: mock.type,
+          targets: mock.targets,
+        } );
         mockID = res.body.data.createNotificationConfig.id;
       } )
       .end( done );
@@ -95,7 +100,7 @@ describe( 'NotificationConfig', () => {
       .send( {
         query: query,
         operationName: 'Get',
-        variables: { input: { type: 'trigger-based' } }
+        variables: { input: { type: mock.type } }
       } )
       .expect( res => {
         expect( res.body ).not.toHaveProperty( 'errors' );
@@ -103,7 +108,11 @@ describe( 'NotificationConfig', () => {
         expect( res.body.data ).toHaveProperty( 'getNotificationConfigsBy' );
         expect( Array.isArray( res.body.data.getNotificationConfigsBy ) ).toBe( true );
         expect( res.body.data.getNotificationConfigsBy.length ).toBeGreaterThan( 0 );
-        expect( res.body.data.getNotificationConfigsBy[ 0 ] ).toMatchObject( mock );
+        expect( res.body.data.getNotificationConfigsBy[ 0 ] ).toMatchObject( {
+          channel: mock.channel,
+          type: mock.type,
+          targets: mock.targets,
+        } );
       } )
       .end( done );
   } );
@@ -118,7 +127,7 @@ describe( 'NotificationConfig', () => {
           input: {
             id: mockID,
             ...mock,
-            target: 'one-portal-devel2'
+            targets: [ 'one-portal-devel2' ]
           }
         }
       } )
@@ -127,8 +136,10 @@ describe( 'NotificationConfig', () => {
         expect( res.body ).toHaveProperty( 'data' );
         expect( res.body.data ).toHaveProperty( 'updateNotificationConfig' );
         expect( res.body.data.updateNotificationConfig ).toMatchObject( {
-          ...mock,
-          target: 'one-portal-devel2'
+          id: mockID,
+          channel: mock.channel,
+          type: mock.type,
+          targets: [ 'one-portal-devel2' ]
         } );
       } )
       .end( ( err, res ) => {
@@ -150,7 +161,7 @@ describe( 'NotificationConfig', () => {
         expect( res.body.data ).toHaveProperty( 'deleteNotificationConfig' );
         expect( res.body.data.deleteNotificationConfig ).toMatchObject( {
           ...mock,
-          target: 'one-portal-devel2'
+          targets: [ 'one-portal-devel2' ]
         } );
       } )
       .end( done );
