@@ -14,10 +14,11 @@ export class UserAuthDetailsComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.homeType = await this.appService.getHomeTypeByUser(UserDetails.rhatUUID)
+    this.homeType = await this.appService
+    .getHomeTypeByUser(UserDetails.rhatUUID)
     .then((res: HomeType[]) => {
       return res.filter(entity => entity.entityType === 'spa');
-    });
-    return;
+    })
+    .catch(err => err);
   }
 }

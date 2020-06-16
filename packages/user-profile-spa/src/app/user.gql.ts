@@ -1,15 +1,5 @@
 import gql from 'graphql-tag';
 
-export const addUserFromLDAP = gql`
-  mutation addUserFromLDAP($uid: String!) {
-    addUserFromLDAP(uid: $uid) {
-      _id
-      name
-      title
-      apiRole
-    }
-  }
-`;
 const homeFragment = gql`
 fragment home on HomeType {
   _id
@@ -21,6 +11,14 @@ fragment home on HomeType {
   }
 }
 `;
+export const updateHomeType = gql`
+${homeFragment}
+mutation UpdateHomeType ($input: HomeInput) {
+  updateHomeType(input: $input) {
+    ...home
+  }
+}
+`;
 export const getHomeTypeByUser = gql`
 ${homeFragment}
 query GetHomeTypeByUser ($rhuuid: String!) {
@@ -29,3 +27,15 @@ query GetHomeTypeByUser ($rhuuid: String!) {
   }
 }
 `;
+export const getUsersBy = gql`
+query GetUsersBy ($rhuuid: String!) {
+  getUsersBy(rhatUUID: $rhuuid) {
+    _id
+    name
+    rhatUUID
+    memberOf
+    uid
+    apiRole
+    title
+  }
+}`;

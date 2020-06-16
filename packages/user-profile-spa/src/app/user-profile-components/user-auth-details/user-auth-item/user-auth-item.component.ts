@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-user-auth-item',
@@ -10,14 +12,14 @@ export class UserAuthItemComponent implements OnInit {
   homeEntity: HomeType;
   edit = false;
 
-  constructor() {
+  constructor(
+    private appService: AppService,
+  ) {
 
   }
 
   ngOnInit(): void {
-    this.homeEntity = {
-      ...this.homeInput
-    };
+    this.homeEntity = _.cloneDeep(this.homeInput);
   }
 
   removePermission(data: HomeType, roverGroup) {
@@ -28,16 +30,29 @@ export class UserAuthItemComponent implements OnInit {
   }
 
   cancelEdit() {
+    this.homeEntity = _.cloneDeep(this.homeInput);
+  }
+
+  addPermission(data: HomeType) {
+    const permission: any = data.permissions;
+    permission.push({
+      role: 'USER',
+      roverGroup: '',
+    });
     this.homeEntity = {
-      ...this.homeInput
-    }
+      ...data,
+      permissions: permission,
+    };
   }
 
-  addPermission(data) {
-    console.log(data);
-  }
-
-  saveEdit(data) {
-    console.log(data);
+  saveEdit(data: any) {
+    const cleanedInput = {
+      _id: data._id,
+      permissions: data.permissions.map(permission => {
+        delete permission.__typename;
+        return permission;
+      }),
+    };
+    this.appService.updateHomeType(cleanedInput).subscribe(response => response);
   }
 }

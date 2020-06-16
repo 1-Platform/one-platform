@@ -13,8 +13,10 @@ export class UserDetailsComponent implements OnInit
 
   constructor( private appService: AppService ) { }
 
-  ngOnInit(): void
+  async ngOnInit()
   {
-    this.userDetails = UserDetails;
+    this.userDetails = await this.appService
+    .getUsersBy(UserDetails.rhatUUID).then(data => data)
+    .catch(err => err);
   }
 }

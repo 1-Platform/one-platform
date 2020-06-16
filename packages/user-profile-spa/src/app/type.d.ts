@@ -21,6 +21,7 @@ type UserType = {
   updatedOn: Date;
 }
 type HomeType = {
+  _id: string;
   name: string;
   description: string;
   link: string;
