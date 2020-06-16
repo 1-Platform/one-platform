@@ -13,9 +13,9 @@ const port = process.env.PORT || 4000;
 const app = express();
 
 const extensions = [ () => new ApolloLogExtension( {
-  level: 'info',
+  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
   timestamp: true,
-  prefix: 'API Gateway'
+  prefix: 'API Gateway:'
 } ) ];
 
 /* Mount cookie parser */
@@ -65,8 +65,8 @@ const server = http.createServer( app );
     formatError: error => ( {
       message: error.message,
       locations: error.locations,
-      stack: error.stack ? error.stack.split( '\n' ) : [],
       path: error.path,
+      ...error.extensions,
     } ),
     extensions: extensions,
     playground: playgroundOptions,

@@ -22,7 +22,7 @@ if ( process.env.NODE_ENV === 'test' ) {
 const app = express();
 
 const extensions = [ () => new ApolloLogExtension( {
-  level: process.env.NODE_ENV === 'test' ? 'silent' : 'warn',
+  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
   timestamp: true,
   prefix: 'apollo:'
 } ) ];

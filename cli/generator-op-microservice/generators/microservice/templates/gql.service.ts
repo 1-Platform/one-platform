@@ -18,10 +18,11 @@ const app = express();
 // Mount cookie parser
 app.use(cookieParser());
 
-const extensions = [() => new ApolloLogExtension({
-  level: 'info',
+const extensions = [ () => new ApolloLogExtension( {
+  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
   timestamp: true,
-})];
+  prefix: 'apollo:'
+} ) ];
 
 <% if (dbSupport) { -%>
 /* Configuring Mongoose */
@@ -55,8 +56,8 @@ const apollo = new ApolloServer({
   formatError: error => ({
     message: error.message,
     locations: error.locations,
-    stack: error.stack ? error.stack.split('\n') : [],
     path: error.path,
+    ...error.extensions,
   }),
   extensions
 });
