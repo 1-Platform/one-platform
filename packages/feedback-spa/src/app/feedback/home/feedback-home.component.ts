@@ -52,7 +52,7 @@ export class FeedbackHomeComponent implements OnInit {
           } )[ 0 ];
           if ( fbIssue ) {
             fbObj.state = fbIssue.status.name;
-            fbObj.assignees = fbIssue.assignee.name;
+            fbObj.assignees = fbIssue.assignee.name.split( ',' );
           }
           return fbObj;
         } );

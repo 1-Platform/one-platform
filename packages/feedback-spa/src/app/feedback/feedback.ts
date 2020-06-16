@@ -1,12 +1,12 @@
 
-  export interface User {
-    _id: string;
-    name: string;
-    title: string;
-    uid: string;
-    rhatUUID: string;
-    isActive: boolean;
-  }
+export interface User {
+  _id: string;
+  name: string;
+  title: string;
+  uid: string;
+  rhatUUID: string;
+  isActive: boolean;
+}
 export interface Feedback {
   _id: string;
   description: string;
@@ -20,7 +20,7 @@ export interface Feedback {
   updatedOn: Date;
   updatedBy: User;
   state?: string;
-  assignees?: string;
+  assignees?: [ string ];
 }
 
 
