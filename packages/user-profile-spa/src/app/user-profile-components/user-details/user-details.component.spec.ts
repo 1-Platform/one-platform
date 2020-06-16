@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserDetailsComponent } from './user-details.component';
+import { FormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -8,7 +10,13 @@ describe('UserDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserDetailsComponent ]
+      declarations: [ UserDetailsComponent ],
+      imports: [
+        FormsModule,
+      ],
+      providers: [
+        Apollo,
+      ]
     })
     .compileComponents();
   }));

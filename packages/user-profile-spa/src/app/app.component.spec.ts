@@ -1,6 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { UserDetailsComponent } from './user-profile-components/user-details/user-details.component';
+import { UserAuthDetailsComponent } from './user-profile-components/user-auth-details/user-auth-details.component';
+import { HeaderComponent } from './user-profile-components/header/header.component';
+import { UserAuthItemComponent } from './user-profile-components/user-auth-details/user-auth-item/user-auth-item.component';
+import { FormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 
 describe( 'AppComponent', () =>
 {
@@ -8,11 +14,19 @@ describe( 'AppComponent', () =>
   {
     TestBed.configureTestingModule( {
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        FormsModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        UserDetailsComponent,
+        UserAuthDetailsComponent,
+        UserAuthItemComponent,
+        HeaderComponent
       ],
+      providers: [
+        Apollo
+      ]
     } ).compileComponents();
   } ) );
 
@@ -21,20 +35,5 @@ describe( 'AppComponent', () =>
     const fixture = TestBed.createComponent( AppComponent );
     const app = fixture.componentInstance;
     expect( app ).toBeTruthy();
-  } );
-
-  it( `should have as title 'user-profile-spa'`, () =>
-  {
-    const fixture = TestBed.createComponent( AppComponent );
-    const app = fixture.componentInstance;
-    // expect( app.title ).toEqual( 'user-profile-spa' );
-  } );
-
-  it( 'should render title', () =>
-  {
-    const fixture = TestBed.createComponent( AppComponent );
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect( compiled.querySelector( '.content span' ).textContent ).toContain( 'user-profile-spa app is running!' );
   } );
 } );

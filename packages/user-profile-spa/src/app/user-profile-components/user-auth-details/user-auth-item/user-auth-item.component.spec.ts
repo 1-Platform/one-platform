@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserAuthItemComponent } from './user-auth-item.component';
+import { FormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 
 describe('UserAuthItemComponent', () => {
   let component: UserAuthItemComponent;
@@ -8,7 +10,15 @@ describe('UserAuthItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserAuthItemComponent ]
+      declarations: [
+        UserAuthItemComponent,
+      ],
+      imports: [
+        FormsModule
+      ],
+      providers: [
+        Apollo
+      ]
     })
     .compileComponents();
   }));
