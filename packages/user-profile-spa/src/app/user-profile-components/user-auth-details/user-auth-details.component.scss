@@ -2,6 +2,7 @@
 .user-auth-and-api {
   margin-top: 4rem;
 }
+
 .toolbar {
   display: flex;
   justify-content: space-between;
@@ -15,15 +16,12 @@
   color: #72767b;
 }
 
-.toolbar button {
-  border: none;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  background: #e2eaf6;
-  color: var(--primary-blue);
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-family: "Red Hat Text";
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mr-05 {
+  margin-right: .5rem;
 }
 
 .user-auth-item {
@@ -31,7 +29,11 @@
   border-bottom: 1px solid var(--gray-300);
 }
 
-.user-auth-item .row:first-child {
+.row {
+  display: flex;
+}
+
+.user-auth-item .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,12 +52,12 @@
   color: #72767b;
 }
 
-.user-auth-item .row:first-child p.user-app-name {
+.user-auth-item .title p.user-app-name {
   color: var(--primary-blue);
   font-weight: 500;
 }
 
-.user-auth-item .row:first-child button.btn-edit {
+.user-auth-item .title button.btn-edit {
   padding: 6px 12px;
   font-size: 0.8rem;
   border: none;
@@ -67,12 +69,21 @@
   cursor: pointer;
 }
 
-.user-auth-item > .row {
+.user-auth-item .row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
 }
 
-.user-auth-item > .row > .user-auth-info {
+.user-auth-item .row .user-auth-info {
   flex: 0 0 300px;
 }
+
+// .toolbar button {
+//   border: none;
+//   font-size: 1rem;
+//   padding: 0.5rem 1rem;
+//   background: #e2eaf6;
+//   color: var(--primary-blue);
+//   border-radius: 0.5rem;
+//   cursor: pointer;
+//   font-family: "Red Hat Text";
+// }

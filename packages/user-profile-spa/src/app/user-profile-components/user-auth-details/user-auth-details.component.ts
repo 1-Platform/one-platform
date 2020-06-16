@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { UserDetailsMock } from '../../helper';
+import { UserDetails } from '../../helper';
 
 @Component({
   selector: 'app-user-auth-details',
@@ -9,20 +9,35 @@ import { UserDetailsMock } from '../../helper';
 })
 export class UserAuthDetailsComponent implements OnInit {
   homeType: any[];
-  showModal = false;
   constructor(
     private appService: AppService
   ) {}
 
   async ngOnInit() {
-    this.homeType = await this.appService.getHomeTypeByUser(UserDetailsMock.rhatUUID)
-    .then((data: HomeType[]) => {
-      return data.filter(entity => entity.entityType === 'spa');
+    this.homeType = await this.appService.getHomeTypeByUser(UserDetails.rhatUUID)
+    .then((res: HomeType[]) => {
+      return res.map((entity: any) => {
+        entity.edit = false;
+        return entity;
+      })
+      .filter(entity => entity.entityType === 'spa');
     });
     return;
   }
 
-  toggleModal(state) {
-    this.showModal = state;
+  removePermission(data, roverGroup) {
+    console.log(data, roverGroup);
+    this.homeType = this.homeType.map(entity => {
+      
+      return entity;
+    });
+  }
+
+  addPermission(data) {
+    console.log(data);
+  }
+
+  editPermission(data) {
+    console.log(data);
   }
 }

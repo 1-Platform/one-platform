@@ -1,44 +1,109 @@
 <div class="user-auth-and-api">
   <div class="toolbar">
     <p>Authorization and API Permission</p>
-    <button (click)="toggleModal(true)">Add New Permission</button>
+    <!-- <button (click)="toggleModal(true)">Add New Permission</button> -->
   </div>
   <div class="user-auth-list" *ngIf="homeType?.length !== 0">
-    <div
-      class="user-auth-item"
-      *ngFor="let entity of homeType"
-    >
-      <div class="row">
+    <div class="user-auth-item" *ngFor="let entity of homeType">
+      <div class="title mt-1">
+        <!-- Edit/Save button -->
         <p class="user-app-name">{{ entity?.name }}</p>
-        <button class="btn-edit">Edit</button>
+        <button 
+          class="btn-edit" 
+          *ngIf="!entity?.edit" 
+          (click)="entity.edit = true">
+          <i class="fas fa-pencil-alt mr-05" aria-hidden="true"></i> 
+          Edit
+        </button>
+
+        <div *ngIf="entity?.edit" >
+          <button 
+            class="pf-c-button pf-m-secondary mr-05" 
+            (click)="editPermission(entity);entity.edit = false" 
+            aria-label="Save edits"
+            type="button">
+              <i class="fas fa-check mr-05" aria-hidden="true"></i>
+              Save
+          </button>
+          <button 
+            class="pf-c-button pf-m-tertiary" 
+            (click)="entity.edit = false" 
+            aria-label="Save edits"
+            type="reset">
+              <i class="fas fa-times mr-05" aria-hidden="true"></i>
+              Cancel
+          </button>
+        </div>
       </div>
-      <div class="row" *ngFor="let permission of entity?.permissions">
-        <div class="user-auth-info">
-          <label>Rover Group</label>
-          <div class="row">
-            <span class="chip">{{ permission?.roverGroup }}</span>
+      <!-- Chip Edit details -->
+      <div *ngIf="entity?.edit">
+        <div class="row" *ngFor="let permission of entity?.permissions">
+          <div class="user-auth-info">
+            <label>Rover Group</label>
+            <div class="row">
+              <input 
+                class="pf-c-form-control" 
+                type="text"
+                name="roverGroup"
+                [value]="permission?.roverGroup"
+                (input)="permission.roverGroup = $event.target.value;"
+                aria-label="Rover Group input field" 
+                aria-describedby="roverGroup" />
+            </div>
+          </div>
+          <div class="user-auth-info">
+            <label>Role</label>
+            <div class="row">
+              <input 
+                class="pf-c-form-control" 
+                type="text"
+                name="roverGroup"
+                [value]="permission?.role"
+                (input)="permission.role = $event.target.value;"
+                aria-label="Rover Group input field" 
+                aria-describedby="roverGroup" />
+            </div>
+          </div>
+          <div class="user-auth-info">
+            <div class="pf-c-inline-edit pf-m-inline-editable" style="margin-top: 1.5rem;" id="inline-edit-action-group-icon-buttons-example">
+              <button class="pf-c-button pf-m-plain" type="button" (click)="removePermission(entity, permission?.roverGroup)" aria-label="Remove permission">
+                <i class="fas fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
-        <div class="user-auth-info">
-          <label>Role</label>
-          <div class="row">
-            <span class="chip">{{ permission?.role }}</span>
+      </div>
+      <!--Chip details -->
+        <div *ngIf="!entity?.edit">
+          <div class="row" *ngFor="let permission of entity?.permissions">
+            <div class="user-auth-info">
+              <label>Rover Group</label>
+              <div class="row">
+                <span class="chip">{{ permission?.roverGroup }}</span>
+              </div>
+            </div>
+            <div class="user-auth-info">
+              <label>Role</label>
+              <div class="row">
+                <span class="chip">{{ permission?.role }}</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
   </div>
   <!-- Empty state warning -->
   <div
-    class="pf-c-alert pf-m-warning pf-m-inline"
+    class="pf-c-alert pf-m-warning pf-m-inline pf-c-alert__title"
     aria-label="Inline warning alert"
-    *ngIf="homeType?.length === 0"
+    *ngIf="!!!homeType?.length"
   >
+  We could not find any applications owned by the logged in User.
   </div>
 </div>
 
 <!-- Manage API Permission modal -->
-<div
+<!-- <div
   class="pf-c-backdrop"
   *ngIf="showModal"
   style="font-family: var(--pf-global--FontFamily--redhatfont--sans-serif);"
@@ -69,7 +134,7 @@
         Manage Permissions
       </h1>
       <div class="pf-c-modal-box__body">
-        <form novalidate class="pf-c-form">
+        <form ngNativeValidate class="pf-c-form">
           <div class="pf-c-form__group">
             <label class="pf-c-form__label" for="help-text-simple-form-name">
               <span class="pf-c-form__label-text">Select Application</span>
@@ -82,8 +147,9 @@
               id="selectExample1"
               name="selectExample1"
               aria-label="select application"
+              required
             >
-              <option selected>Please choose application name</option>
+              <option selected value="">Please choose application name</option>
               <option *ngFor="let entity of homeType" value="{{ entity.name }}">{{ entity?.name }}</option>
             </select>
           </div>
@@ -98,21 +164,34 @@
             <div class="pf-c-check">
               <input
                 class="pf-c-check__input"
-                type="checkbox"
+                type="radio"
                 id="read"
-                name="read"
+                name="role"
+                required
               />
-              <label class="pf-c-check__label" for="read">Read</label>
+              <label class="pf-c-check__label" for="read">Admin</label>
             </div>
             <div class="pf-c-check">
               <input
                 class="pf-c-check__input"
-                type="checkbox"
+                type="radio"
                 id="write"
-                name="write"
+                name="role"
+                required
               />
-              <label class="pf-c-check__label" for="write">Write</label>
+              <label class="pf-c-check__label" for="write">User</label>
             </div>
+          </div>
+
+          <div class="pf-c-input-group">
+            <label class="pf-c-input-group__text">Enter Rover Group</label>
+            <input 
+              class="pf-c-form-control" 
+              type="text"
+              name="roverGroup" 
+              aria-label="Rover Group input field" 
+              aria-describedby="roverGroup"
+              required />
           </div>
 
           <div class="pf-c-form__group pf-m-action">
@@ -132,4 +211,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

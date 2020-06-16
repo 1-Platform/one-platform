@@ -8,15 +8,15 @@
   <div class="user-primary-information" *ngIf="showDetails">
     <div class="user-info-group">
       <label for="user-email" class="user-info-label">Email</label>
-      <p class="user-info" id="user-email">{{ userDetails?.email }}</p>
+      <p class="user-info" id="user-email">{{ userDetails?.uid }}@redhat.com</p>
     </div>
 
     <div class="user-info-group">
       <label for="user-account-type" class="user-info-label"
-        >Account Type</label
+        >API Role</label
       >
       <p class="user-info" id="user-account-type">
-        {{ userDetails?.accountType }}
+        {{ userDetails?.apiRole }}
       </p>
     </div>
 
@@ -29,8 +29,8 @@
   <div class="user-rover-groups" *ngIf="showDetails">
     <label class="user-info-label">Rover Groups</label>
     <div class="user-rover-groups-list">
-      <span class="chip" *ngFor="let chip of userDetails?.roverGroups">
-        {{ chip?.name }}
+      <span class="chip" *ngFor="let groupName of userDetails?.memberOf">
+        {{ groupName}}
       </span>
     </div>
   </div>

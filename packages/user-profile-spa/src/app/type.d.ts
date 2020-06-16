@@ -19,7 +19,7 @@ type UserType = {
   createdOn: Date;
   updatedBy: string;
   updatedOn: Date;
-  }
+}
 type HomeType = {
   name: string;
   description: string;

@@ -10,19 +10,6 @@ export const addUserFromLDAP = gql`
     }
   }
 `;
-
-export const listUsers = gql`
-  query {
-    listUsers {
-      _id
-      name
-      title
-      apiRole
-      memberOf
-    }
-  }
-`;
-
 const homeFragment = gql`
 fragment home on HomeType {
   _id
@@ -32,12 +19,6 @@ fragment home on HomeType {
     _id
     name
     rhatUUID
-  }
-  createdBy {
-    name
-  }
-  updatedBy {
-    name
   }
   permissions {
     role

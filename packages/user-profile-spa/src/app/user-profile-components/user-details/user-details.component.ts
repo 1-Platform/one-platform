@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDetailsMock } from '../../mocks/user-profile-mock';
+import { UserDetails } from '../../helper';
 import { AppService } from 'src/app/app.service';
 @Component( {
   selector: 'app-user-details',
@@ -15,6 +15,6 @@ export class UserDetailsComponent implements OnInit
 
   ngOnInit(): void
   {
-    this.userDetails = UserDetailsMock;
+    this.userDetails = UserDetails;
   }
 }

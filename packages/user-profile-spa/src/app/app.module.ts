@@ -8,10 +8,11 @@ import { UserDetailsComponent } from './user-profile-components/user-details/use
 import { UserAuthDetailsComponent } from './user-profile-components/user-auth-details/user-auth-details.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule( {
   declarations: [ AppComponent, HeaderComponent, UserDetailsComponent, UserAuthDetailsComponent ],
-  imports: [ BrowserModule, AppRoutingModule, GraphQLModule, HttpClientModule ],
+  imports: [ BrowserModule, AppRoutingModule, GraphQLModule, HttpClientModule, FormsModule ],
   providers: [],
   bootstrap: [ AppComponent ],
 } )
