@@ -20,7 +20,7 @@ export const NotificationConfigResolver: any = {
               ];
             }, [] )
             .map( ( source, index ) => {
-              return `source_${ index }: getHomeTypeBy(input: { _id: "${ source }" }) { _id name link entityType owners { uid name } }`;
+              return `source_${ index }: getHomeTypeBy(input: { _id: "${ source }" }) { ...homeType }`;
             } );
 
           /* Executing the queries */

@@ -1,12 +1,6 @@
 declare module "*.graphql";
 declare module "*.json";
 
-type UserType = {
-  name: string;
-  uid: string;
-  rhUUID: string;
-};
-
 declare enum NotificationChannel {
   EMAIL = 'EMAIL',
   PUSH = 'PUSH',

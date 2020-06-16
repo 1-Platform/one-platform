@@ -33,8 +33,8 @@ export const nodemailer = createTransport( {
 
 export const GqlHelper = {
   fragments: {
-    homeType: `on HomeType {
-      _id name link entityType owners { uid name }
+    homeType: /* GraphQL */`fragment homeType on HomeType {
+      _id name link icon entityType active owners { uid name }
     }`,
   },
   execSimpleQuery ( { queries, fragments }: GraphQLQueryInput ) {

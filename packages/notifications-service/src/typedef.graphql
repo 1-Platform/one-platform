@@ -34,10 +34,6 @@ enum NotificationStatusEnum {
   FAILED
 }
 
-type HomeType {
-  _id: String
-}
-
 type PushNotification {
   id: ID
   title: String
