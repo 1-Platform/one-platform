@@ -64,18 +64,20 @@ input ScheduledandTriggerInput {
   action: String
 }
 
-type UserType {
+type NotificationOwner {
   _id: String
   uid: String
   name: String
 }
 
-type HomeType {
+type NotificationSource {
   _id: String
   name: String
   link: String
+  icon: String
+  active: String
   entityType: String
-  owners: [UserType]
+  owners: [NotificationOwner]
 }
 
 type NotificationConfig {
@@ -83,7 +85,7 @@ type NotificationConfig {
   configID: ID
   template: String
   defaultLink: String
-  source: HomeType
+  source: NotificationSource
   targets: [String]
   channel: NotificationChannelEnum
   type: NotificationTypeEnum

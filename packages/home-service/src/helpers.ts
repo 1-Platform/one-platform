@@ -16,7 +16,7 @@ export const pubsub = new RedisPubSub( {
 
 class HomeAPIHelper {
   userFragment = `
-        fragment user on UserType {
+        fragment user on HomeUserType {
             _id
             name
             title
@@ -67,7 +67,7 @@ class HomeAPIHelper {
       .then( ( res: any ) => res.json() );
   }
   /**
-   * Replaces the owners array(owners: string[]) with populated userType (owners: userType[])
+   * Replaces the owners array(owners: string[]) with populated HmoeUserType (owners: HomeUserType[])
    * @param response Database response
    * @param userDetails UserDetails which are fetched from user-service
    */

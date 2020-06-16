@@ -8,20 +8,20 @@ declare enum Role {
 type PermissionsType = {
   roverGroup: string;
   role: Role;
-}
-type UserType = {
+};
+type HomeUserType = {
   name: string;
   title: string;
   uid: string;
   rhatUUID: string;
-  isActive ?: boolean;
+  isActive?: boolean;
   memberOf: string[];
   apiRole: string,
   createdBy: string;
   createdOn: Date;
   updatedBy: string;
   updatedOn: Date;
-  }
+};
 type HomeType = {
   name: string;
   description: string;
@@ -30,11 +30,11 @@ type HomeType = {
   entityType: string;
   colorScheme: string;
   videoUrl: string;
-  owners: string[] | UserType[];
-  createdBy: string  | UserType;
+  owners: string[] | HomeUserType[];
+  createdBy: string | HomeUserType;
   createdOn: Date;
-  updatedBy: string | UserType;
+  updatedBy: string | HomeUserType;
   updatedOn: Date;
   active: boolean;
   permissions: PermissionsType[];
-}
+};

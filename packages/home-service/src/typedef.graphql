@@ -8,7 +8,7 @@ type PermissionsType {
   roverGroup: String
   role: APIROLE
 }
-type UserType {
+type HomeUserType {
   _id: String
   name: String
   title: String
@@ -31,10 +31,10 @@ type HomeType {
   entityType: String
   colorScheme: String
   videoUrl: String
-  owners: [UserType]
-  createdBy: UserType
+  owners: [HomeUserType]
+  createdBy: HomeUserType
   createdOn: DateTime
-  updatedBy: UserType
+  updatedBy: HomeUserType
   updatedOn: DateTime
   active: Boolean
   permissions: [PermissionsType]

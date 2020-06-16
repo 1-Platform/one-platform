@@ -1,6 +1,6 @@
 scalar DateTime
 
-type UserType {
+type FeedbackUserType {
   _id: String
   name: String
   title: String
@@ -16,9 +16,9 @@ type FeedbackWithUserType {
   experience: String
   spa: String
   createdOn: DateTime
-  createdBy: UserType
+  createdBy: FeedbackUserType
   updatedOn: DateTime
-  updatedBy: UserType
+  updatedBy: FeedbackUserType
   title: String
   feedbackType: String
 }
