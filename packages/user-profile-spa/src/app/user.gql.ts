@@ -15,16 +15,10 @@ fragment home on HomeType {
   _id
   name
   entityType
-  owners {
-    _id
-    name
-    rhatUUID
-  }
   permissions {
     role
     roverGroup
   }
-  active
 }
 `;
 export const getHomeTypeByUser = gql`

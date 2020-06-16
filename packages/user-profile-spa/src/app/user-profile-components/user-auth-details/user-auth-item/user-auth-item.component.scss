@@ -1,0 +1,60 @@
+.mt-1 {
+    margin-top: 1rem;
+  }
+  
+  .mr-05 {
+    margin-right: .5rem;
+  }
+  
+  .user-auth-item {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--gray-300);
+  }
+  
+  .row {
+    display: flex;
+  }
+  
+  .user-auth-item .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .user-auth-info {
+    margin-top: 1rem;
+  }
+  
+  .user-auth-info .row {
+    display: flex;
+  }
+  
+  .user-auth-info label {
+    font-size: 14px;
+    color: #72767b;
+  }
+  
+  .user-auth-item .title p.user-app-name {
+    color: var(--primary-blue);
+    font-weight: 500;
+  }
+  
+  .user-auth-item .title button.btn-edit {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border: none;
+    background: #dddddd;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-family: "Red Hat Text";
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .user-auth-item .row {
+    display: flex;
+  }
+  
+  .user-auth-item .row .user-auth-info {
+    flex: 0 0 300px;
+  }

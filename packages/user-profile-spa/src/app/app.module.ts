@@ -9,9 +9,10 @@ import { UserAuthDetailsComponent } from './user-profile-components/user-auth-de
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { UserAuthItemComponent } from './user-profile-components/user-auth-details/user-auth-item/user-auth-item.component';
 
 @NgModule( {
-  declarations: [ AppComponent, HeaderComponent, UserDetailsComponent, UserAuthDetailsComponent ],
+  declarations: [ AppComponent, HeaderComponent, UserDetailsComponent, UserAuthDetailsComponent, UserAuthItemComponent ],
   imports: [ BrowserModule, AppRoutingModule, GraphQLModule, HttpClientModule, FormsModule ],
   providers: [],
   bootstrap: [ AppComponent ],
