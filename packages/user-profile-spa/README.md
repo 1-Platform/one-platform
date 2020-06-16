@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/1-Platform/one-platform#readme)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/1-Platform/one-platform/graphs/commit-activity)
 
-User Profile SPA for One Platform
+User-Profile-SPA is a frontend application for One Platform to manage permission for different Rover Group to user owned SPAs.
 
 ## Install
 
@@ -37,6 +37,6 @@ ng [test](https://angular.io/cli/test)
 
 ## 🤝 Contributors
 
-?? **Sumeet Ingole** [@gisumit](https://github.com/gisumit)
+👤 **Sumeet Ingole** [@gisumit](https://github.com/gisumit)
 
-?? **Deepesh Nair** [@hybridx](https://github.com/hybridx)
+👤 **Deepesh Nair** [@hybridx](https://github.com/hybridx)
