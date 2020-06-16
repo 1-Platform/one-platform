@@ -22,4 +22,14 @@ export const UserDetailsMock = {
   uid: 'denair',
   apiRole: 'ADMIN',
   title: 'Associate Software Engineer',
+  fullName: 'Deepesh Nair',
+  email: 'denair@redhat.com',
+  employeeType: 'Intern',
+  firstName: 'Deepesh',
+  lastName: 'Nair',
+  kerberosID: 'denair',
+  preferredTimeZone: 'Asia/Calcutta',
+  rhatGeo: 'APAC',
+  rhatCostCenter: 654,
+  rhatCostCenterDesc: 'R&D DevOps'
 };
