@@ -69,11 +69,11 @@ describe('Home microservice API Test', () => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('createHomeType');
-        expect(res.body.data.createHomeType[0]).toHaveProperty('_id', mock._id);
-        expect(res.body.data.createHomeType[0]).toHaveProperty('name', mock.name);
-        expect(res.body.data.createHomeType[0]).toHaveProperty('description', mock.description);
-        expect(res.body.data.createHomeType[0]).toHaveProperty('entityType', mock.entityType);
-        expect(res.body.data.createHomeType[0]).toHaveProperty('active', mock.active);
+        expect(res.body.data.createHomeType).toHaveProperty('_id', mock._id);
+        expect(res.body.data.createHomeType).toHaveProperty('name', mock.name);
+        expect(res.body.data.createHomeType).toHaveProperty('description', mock.description);
+        expect(res.body.data.createHomeType).toHaveProperty('entityType', mock.entityType);
+        expect(res.body.data.createHomeType).toHaveProperty('active', mock.active);
       })
       .end((err, res) => {
         done(err);
@@ -115,11 +115,11 @@ describe('Home microservice API Test', () => {
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-        expect(res.body.data.getHomeType[0]).toHaveProperty('_id', mock._id);
-        expect(res.body.data.getHomeType[0]).toHaveProperty('description', mock.description);
-        expect(res.body.data.getHomeType[0]).toHaveProperty('name', mock.name);
-        expect(res.body.data.getHomeType[0]).toHaveProperty('entityType', mock.entityType);
-        expect(res.body.data.getHomeType[0]).toHaveProperty('active', mock.active);
+        expect(res.body.data.getHomeType).toHaveProperty('_id', mock._id);
+        expect(res.body.data.getHomeType).toHaveProperty('description', mock.description);
+        expect(res.body.data.getHomeType).toHaveProperty('name', mock.name);
+        expect(res.body.data.getHomeType).toHaveProperty('entityType', mock.entityType);
+        expect(res.body.data.getHomeType).toHaveProperty('active', mock.active);
 
       })
       .end((err, res) => {
@@ -140,11 +140,11 @@ describe('Home microservice API Test', () => {
       .expect(res => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-        expect(res.body.data.updateHomeType[0]).toHaveProperty('_id', mock._id);
-        expect(res.body.data.updateHomeType[0]).toHaveProperty('description', mock.description);
-        expect(res.body.data.updateHomeType[0]).toHaveProperty('entityType', mock.entityType);
-        expect(res.body.data.updateHomeType[0]).toHaveProperty('name', mock.name);
-        expect(res.body.data.updateHomeType[0]).toHaveProperty('active', mock.active);
+        expect(res.body.data.updateHomeType).toHaveProperty('_id', mock._id);
+        expect(res.body.data.updateHomeType).toHaveProperty('description', mock.description);
+        expect(res.body.data.updateHomeType).toHaveProperty('entityType', mock.entityType);
+        expect(res.body.data.updateHomeType).toHaveProperty('name', mock.name);
+        expect(res.body.data.updateHomeType).toHaveProperty('active', mock.active);
       })
       .end((err, res) => {
         done(err);

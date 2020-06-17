@@ -19,7 +19,7 @@ export const HomeResolver = {
         if (response !== null) {
           const query = `${HomeHelper.buildGqlQuery([response])}`;
           return HomeHelper.getUserDetails(query).then((userDetails: any) => {
-            return HomeHelper.stitchHomeType([response], userDetails.data);
+            return HomeHelper.stitchHomeType([response], userDetails.data)[0];
           });
         }
       })
@@ -55,7 +55,7 @@ export const HomeResolver = {
             const resp =  { ...{ ...response }._doc };
             const query = `${HomeHelper.buildGqlQuery([resp])}`;
             return HomeHelper.getUserDetails(query).then((userDetails: any) => {
-              return HomeHelper.stitchHomeType([resp], userDetails.data);
+              return HomeHelper.stitchHomeType([resp], userDetails.data)[0];
             });
           }
         })
@@ -71,7 +71,7 @@ export const HomeResolver = {
             if (resp !== null) {
               const query = `${HomeHelper.buildGqlQuery([resp])}`;
               return HomeHelper.getUserDetails(query).then((userDetails: any) => {
-                return HomeHelper.stitchHomeType([resp], userDetails.data);
+                return HomeHelper.stitchHomeType([resp], userDetails.data)[0];
               });
             }
           });
@@ -85,7 +85,7 @@ export const HomeResolver = {
           const resp =  { ...{ ...response }._doc };
           const query = `${HomeHelper.buildGqlQuery([resp])}`;
           return HomeHelper.getUserDetails(query).then((userDetails: any) => {
-            return HomeHelper.stitchHomeType([resp], userDetails.data);
+            return HomeHelper.stitchHomeType([resp], userDetails.data)[0];
           });
         }
       })
