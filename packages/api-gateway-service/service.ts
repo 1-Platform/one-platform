@@ -102,5 +102,5 @@ app.post( '/graphql', ( req, res, next ) => {
 } );
 
 export default server.listen( { port: port }, () => {
-  console.log( `Gateway Running on port ${ port }` );
+  console.log( `Gateway Running on ${ process.env.NODE_ENV } environment at port ${ port }` );
 } );
