@@ -74,9 +74,9 @@ type Query {
 
 type Mutation {
   # Add HomeType
-  createHomeType(input: HomeInput): HomeType
+  createHomeType(input: HomeInput): [HomeType]
   # Update HomeType
-  updateHomeType(input: HomeInput): HomeType
+  updateHomeType(input: HomeInput): [HomeType]
   # Delete HomeType by id
-  deleteHomeType(_id: String!): HomeType
+  deleteHomeType(_id: String!): [HomeType]
 }

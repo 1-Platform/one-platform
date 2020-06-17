@@ -50,7 +50,15 @@ export const HomeResolver = {
     createHomeType(root: any, args: any, ctx: any) {
       const data = new Home(args.input);
       return data.save()
-        .then((response: HomeType | null) => response)
+        .then((response: HomeType | null | any) => {
+          if (response !== null) {
+            const resp =  { ...{ ...response }._doc };
+            const query = `${HomeHelper.buildGqlQuery([resp])}`;
+            return HomeHelper.getUserDetails(query).then((userDetails: any) => {
+              return HomeHelper.stitchHomeType([resp], userDetails.data);
+            });
+          }
+        })
         .catch(err => err);
     },
     updateHomeType(root: any, args: any, ctx: any) {
@@ -58,13 +66,29 @@ export const HomeResolver = {
       .then((response: HomeType | null) => {
         return Object.assign(response, args.input)
           .save()
-          .then((data: any) => data);
+          .then((data: any) => {
+            const resp = { ...{ ...data }._doc };
+            if (resp !== null) {
+              const query = `${HomeHelper.buildGqlQuery([resp])}`;
+              return HomeHelper.getUserDetails(query).then((userDetails: any) => {
+                return HomeHelper.stitchHomeType([resp], userDetails.data);
+              });
+            }
+          });
       })
       .catch((err: any) => err);
     },
     deleteHomeType(root: any, args: any, ctx: any) {
       return Home.findByIdAndRemove(args._id)
-      .then((response: HomeType | null) => response)
+      .then((response: HomeType | null | any) => {
+        if (response !== null) {
+          const resp =  { ...{ ...response }._doc };
+          const query = `${HomeHelper.buildGqlQuery([resp])}`;
+          return HomeHelper.getUserDetails(query).then((userDetails: any) => {
+            return HomeHelper.stitchHomeType([resp], userDetails.data);
+          });
+        }
+      })
       .catch(err => err);
     },
   }
