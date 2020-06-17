@@ -12,19 +12,18 @@ query {
       }
   }`;
 
-const fetchOptions = {
-  method: "post",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": window.OpAuthHelper?.jwtToken ? 'Bearer ' + window.OpAuthHelper.jwtToken : '',
-  },
-  body: JSON.stringify({
-    query: listHomeType
-  })
-};
-
-
-export const getData = () => {
+export const getData = (token) => {
+  const fetchOptions = {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      // @ts-ignore
+      "Authorization": token,
+    },
+    body: JSON.stringify({
+      query: listHomeType
+    })
+  };
   return fetch(process.env.API_URL, fetchOptions)
   .then(res => res.json());
 };
