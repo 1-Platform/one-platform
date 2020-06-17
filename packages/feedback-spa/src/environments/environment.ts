@@ -5,12 +5,8 @@
 
 export const environment = {
   production: false,
-  name: '',
-  api: '',
-  jiraAPI: '',
-  graphqlAPI: '',
-  client: '',
-  authorization: '',
-  jiraURL: '',
-  roverURL: '',
+  name: "local",
+  graphqlAPI: "",
+  jiraURL: "",
+  userProfileURL: "",
 };

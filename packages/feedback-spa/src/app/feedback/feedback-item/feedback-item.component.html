@@ -1,10 +1,7 @@
 <div class="feedback-item" [ngClass]="{ open: isAccordionOpen }">
   <span class="fb-accordion-head" (click)="isAccordionOpen = !isAccordionOpen">
     <span class="feedback-type-icon">
-      <i
-        class="icon ion-md-text"
-        *ngIf="feedback.feedbackType === 'Feedback'"
-      ></i>
+      <i class="icon ion-md-text" *ngIf="feedback.feedbackType === 'Feedback'"></i>
       <i class="icon ion-ios-bug" *ngIf="feedback.feedbackType === 'Bug'"></i>
     </span>
 
@@ -16,10 +13,8 @@
             : "Feedback title not found"
         }}
       </div>
-      <div
-        *ngIf="feedback?.feedbackType === 'Feedback'"
-        [ngClass]="{ 'no-feedback-description': !feedback?.description }"
-      >
+      <div *ngIf="feedback?.feedbackType === 'Feedback'"
+        [ngClass]="{ 'no-feedback-description': !feedback?.description }">
         {{
           feedback?.description
             ? (feedback?.description | slice: 0:80)
@@ -48,23 +43,17 @@
     <div class="feedback-assignees">
       <p>Assignee(s)</p>
       <span *ngFor="let assignee of feedback?.assignees">
-        <a target="blank" *ngIf="assignee" href="{{ roverURL }}/{{ assignee }}">
+        <a target="blank" *ngIf="assignee" href="{{ userProfileURL }}/{{ assignee }}">
           {{ assignee }}
         </a>
       </span>
-      <span *ngIf="!feedback?.assignees?.length" class="no-feedback-description"
-        >Not Assigned</span
-      >
+      <span *ngIf="!feedback?.assignees?.length" class="no-feedback-description">Not Assigned</span>
     </div>
 
-    <div
-      class="fb-accordion"
-      [ngClass]="{
+    <div class="fb-accordion" [ngClass]="{
         close: !isAccordionOpen,
         open: isAccordionOpen
-      }"
-      (click)="isAccordionOpen = !isAccordionOpen; $event.stopPropagation()"
-    >
+      }" (click)="isAccordionOpen = !isAccordionOpen; $event.stopPropagation()">
       <i class="icon ion-md-arrow-dropup"></i>
     </div>
   </span>
@@ -78,12 +67,8 @@
     <a class="btn fb-issue-modal" (click)="openModal()">
       View Details
     </a>
-    <a
-      class="btn fb-issue-link"
-      *ngIf="feedback?.ticketID"
-      href="{{ jiraURL }}/{{ feedback?.ticketID }}"
-      target="_blank"
-      >Jira Link
+    <a class="btn fb-issue-link" *ngIf="feedback?.ticketID" href="{{ jiraURL }}/{{ feedback?.ticketID }}"
+      target="_blank">Jira Link
       <i class="icon ion-md-open"></i>
     </a>
   </div>
