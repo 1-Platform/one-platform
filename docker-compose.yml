@@ -7,6 +7,7 @@ services:
     environment:
       SSI_HOSTNAME: /.include/nav
     volumes:
+      # - ./packages/home-spa/dist:/var/www/html/home
       - ./packages/ssi-service/dist:/var/www/html/.include/nav
       - ./packages/ssi-service/public/index.html:/var/www/html/index.html
     ports:

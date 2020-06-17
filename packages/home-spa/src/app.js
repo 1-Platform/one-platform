@@ -1,3 +1,4 @@
+// @ts-nocheck
 // SCSS imports
 import './styles/main.scss';
 // NPM lib imports
@@ -38,8 +39,8 @@ if (footer !== null) {
         Help
       </div>
       <div class="footer__links">
+        <a id="fileFeedback" rel="noreferrer" target="_blank">Report an Issue</a>
         <a href="#">One Portal FAQs</a>
-        <a href="https://projects.engineering.redhat.com/secure/CreateIssue!default.jspa" rel="noreferrer" target="_blank">File an Issue</a>
         <a href="mailto:one-portal@redhat.com">one-portal@redhat.com</a>
         <a href="https://github.com/1-platform/one-platform" rel="noreferrer" target="_blank">GitHub</a>
       </div>
@@ -48,14 +49,20 @@ if (footer !== null) {
   <div class="footer__copyright">
     Copyright &copy; 2020 Red Hat Inc. Internal Use Only
   </div>`;
-  }
+}
 
-  if (band !== null) {
-    band.innerHTML = `
-    <div class="band__header">
-			Join the One Platform Digital Experience!
-		</div>
-    <a class="band__button--primary-border" target="_blank" href="https://docs.google.com/document/d/1T7aDUNIWd7vgD3F3lSQg06iYs964G6PvvgUtIbk9RmQ/" rel="noopener noreferrer">
-      Onboarding Guide
-    </a>`;
-  }
+if (band !== null) {
+  band.innerHTML = `
+  <div class="band__header">
+    Join the One Platform Digital Experience!
+  </div>
+  <a class="band__button--primary-border" target="_blank" href="https://docs.google.com/document/d/1T7aDUNIWd7vgD3F3lSQg06iYs964G6PvvgUtIbk9RmQ/" rel="noopener noreferrer">
+    Onboarding Guide
+  </a>`;
+}
+
+const feedbackToggle = document.querySelector('#fileFeedback');
+
+feedbackToggle.addEventListener('click', () => {
+  document.querySelector("op-feedback").togglePanelVisibility();
+}, false);

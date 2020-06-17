@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Services
 import { getData }  from './service';
 import { stub, microserviceDetailsMock, teamMembers } from '../mocks/stub';
@@ -28,16 +29,19 @@ if (microserviceCard !== null && carouselSlide !== null) {
   carouselSlide.innerHTML = `<div class="loader"></div>`;
 }
 
-getData().then(
-  (result) => {
-    buildDom(result.data.listHomeType);
-  }
-).catch(err => {
-  console.error(err);
-  buildDom(stub);
+document.addEventListener('DOMContentLoaded', () => {
+  window.OpAuthHelper.onLogin( () => {
+    getData(window.OpAuthHelper.jwtToken).then(
+      (result) => {
+        buildDom(result.data.listHomeType);
+      }
+    ).catch(err => {
+      console.error(err);
+      buildDom(stub);
+    });
+  }); 
 });
 
-// @ts-ignore
 window.carouselScroll = (direction) => {
   if (direction === 'left') {
     carouselSlide.scrollBy(Math.round(-carouselSlide.getBoundingClientRect().width), 0);
@@ -46,10 +50,8 @@ window.carouselScroll = (direction) => {
   }
 };
 
-// @ts-ignore
 window.openAppDrawer = () => {
   try {
-    // @ts-ignore
     document.querySelector("body > op-nav").toggleDrawer('app');
   } catch(err) {
     return err;
