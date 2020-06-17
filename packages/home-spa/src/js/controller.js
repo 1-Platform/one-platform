@@ -37,11 +37,22 @@ getData().then(
   buildDom(stub);
 });
 
+// @ts-ignore
 window.carouselScroll = (direction) => {
   if (direction === 'left') {
     carouselSlide.scrollBy(Math.round(-carouselSlide.getBoundingClientRect().width), 0);
   } else {
     carouselSlide.scrollBy(Math.round(carouselSlide.getBoundingClientRect().width), 0);
+  }
+};
+
+// @ts-ignore
+window.openAppDrawer = () => {
+  try {
+    // @ts-ignore
+    document.querySelector("body > op-nav").toggleDrawer('app');
+  } catch(err) {
+    return err;
   }
 };
 

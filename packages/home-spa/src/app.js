@@ -55,5 +55,7 @@ if (footer !== null) {
     <div class="band__header">
 			Join the One Platform Digital Experience!
 		</div>
-    <button class="band__button--primary-border">Onboarding Guide</button>`;
+    <a class="band__button--primary-border" target="_blank" href="https://docs.google.com/document/d/1T7aDUNIWd7vgD3F3lSQg06iYs964G6PvvgUtIbk9RmQ/" rel="noopener noreferrer">
+      Onboarding Guide
+    </a>`;
   }
