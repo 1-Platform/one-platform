@@ -49,15 +49,12 @@ const server = http.createServer( app );
     schemas: [ userService, feedbackService, homeService, notificationService ]
   } );
   /* Defining the Apollo Server */
-  let playgroundOptions: boolean | Object = {
+  const playgroundOptions: boolean | Object = {
     title: 'API Gateway',
     settings: {
       'request.credentials': 'include'
     }
   };
-  if ( process.env.NODE_ENV === 'production' ) {
-    playgroundOptions = false;
-  }
   const apollo = new ApolloServer( {
     schema: schema,
     introspection: true,
@@ -105,5 +102,5 @@ app.post( '/graphql', ( req, res, next ) => {
 } );
 
 export default server.listen( { port: port }, () => {
-  console.log( `Gateway Running on port ${ port }` );
+  console.log( `Gateway Running on ${ process.env.NODE_ENV } environment at port ${ port }` );
 } );
