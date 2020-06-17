@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0;
+}
+
+span.chip {
+  padding: 0.5rem 1rem;
+  background: var(--gray-200);
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}

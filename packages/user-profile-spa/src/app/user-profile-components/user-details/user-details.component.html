@@ -1,0 +1,37 @@
+<div class="user-profile">
+  <h2 class="user-name">{{ userDetails?.name }}</h2>
+  <div class="user-details">
+    <p>User Details</p>
+    <button class="pf-c-button pf-m-secondary" (click)="showDetails = !showDetails" type="button">{{ showDetails ? 'Hide': 'Show' }} Details</button>
+  </div>
+  <hr />
+  <div class="user-primary-information" *ngIf="showDetails">
+    <div class="user-info-group">
+      <label for="user-email" class="user-info-label">Email</label>
+      <p class="user-info" id="user-email">{{ userDetails?.uid }}@redhat.com</p>
+    </div>
+
+    <div class="user-info-group">
+      <label for="user-account-type" class="user-info-label"
+        >API Role</label
+      >
+      <p class="user-info" id="user-account-type">
+        {{ userDetails?.apiRole }}
+      </p>
+    </div>
+
+    <div class="user-info-group">
+      <label for="user-title" class="user-info-label">Title</label>
+      <p class="user-info" id="user-title">{{ userDetails?.title }}</p>
+    </div>
+  </div>
+
+  <div class="user-rover-groups" *ngIf="showDetails">
+    <label class="user-info-label">Rover Groups</label>
+    <div class="user-rover-groups-list">
+      <span class="chip" *ngFor="let groupName of userDetails?.memberOf">
+        {{ groupName}}
+      </span>
+    </div>
+  </div>
+</div>

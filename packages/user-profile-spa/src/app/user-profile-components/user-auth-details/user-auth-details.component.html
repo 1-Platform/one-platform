@@ -1,0 +1,16 @@
+<div class="user-auth-and-api">
+  <div class="toolbar">
+    <p>Authorization and API Permission</p>
+  </div>
+  <div class="user-auth-list" *ngIf="homeType?.length !== 0">
+    <app-user-auth-item *ngFor="let entity of homeType" [homeInput]="entity"></app-user-auth-item>
+  </div>
+  <!-- Empty state warning -->
+  <div class="pf-c-empty-state pf-m-xl" *ngIf="!!!homeType?.length">
+    <div class="pf-c-empty-state__content">
+      <i class="fas fa-cubes pf-c-empty-state__icon" aria-hidden="true"></i>
+      <h1 class="pf-c-title pf-m-lg">Oh Snap!</h1>
+      <div class="pf-c-empty-state__body">We could not find any applications owned by the logged in User.</div>
+    </div>
+  </div>
+</div>

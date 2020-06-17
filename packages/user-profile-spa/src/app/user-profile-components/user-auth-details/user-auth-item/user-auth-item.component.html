@@ -1,0 +1,93 @@
+<div class="user-auth-item">
+    <div class="title mt-1">
+        <!-- Edit/Save button -->
+        <p class="user-app-name">{{ homeEntity?.name }}</p>
+        <button 
+            class="btn-edit" 
+            *ngIf="!edit"
+            (click)="edit = true">
+            <i class="fas fa-pencil-alt mr-05" aria-hidden="true"></i> 
+            Edit
+        </button>
+
+        <div *ngIf="edit" >
+            <button 
+            class="pf-c-button pf-m-primary mr-05" 
+            (click)="saveEdit(homeEntity);edit = false" 
+            aria-label="Save edits"
+            type="button">
+                <i class="fas fa-check mr-05" aria-hidden="true"></i>
+                Save
+            </button>
+            <button 
+            class="pf-c-button pf-m-tertiary" 
+            (click)="cancelEdit(); edit = false" 
+            aria-label="Save edits"
+            type="reset">
+                <i class="fas fa-times mr-05" aria-hidden="true"></i>
+                Cancel
+            </button>
+        </div>
+    </div>
+    <!-- Chip Edit details -->
+    <div *ngIf="edit">
+        <div class="row" *ngFor="let permission of homeEntity?.permissions">
+            <div class="user-auth-info">
+            <label>Rover Group</label>
+            <div class="row">
+                <input 
+                class="pf-c-form-control" 
+                type="text"
+                name="roverGroup"
+                [value]="permission?.roverGroup"
+                (input)="permission.roverGroup = $event.target.value;"
+                aria-label="Rover Group input field" 
+                aria-describedby="roverGroup" />
+            </div>
+            </div>
+            <div class="user-auth-info">
+            <label>Role</label>
+            <div class="row">
+                <select class="pf-c-form-control" [(ngModel)]="permission.role">
+                    <option [ngValue]="'ADMIN'" [selected]="permission.role === 'ADMIN'">ADMIN</option>
+                    <option [ngValue]="'USER'" [selected]="permission.role === 'USER'">USER</option>
+                </select>
+            </div>
+            </div>
+            <div class="user-auth-info">
+            <div class="pf-c-inline-edit pf-m-inline-editable" style="margin-top: 1.5rem;" id="inline-edit-action-group-icon-buttons-example">
+                <button class="pf-c-button pf-m-plain" type="button" (click)="removePermission(homeEntity, permission?.roverGroup)" aria-label="Remove permission">
+                <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <button 
+            class="pf-c-button pf-m-secondary mt-1" 
+            (click)="addPermission(homeEntity);" 
+            aria-label="Save edits"
+            type="button">
+                <i class="fas fa-plus mr-05" aria-hidden="true"></i>
+                Add field
+            </button>
+        </div>
+    </div>
+    <!--Chip details -->
+    <div *ngIf="!edit">
+        <div class="row" *ngFor="let permission of homeEntity?.permissions">
+        <div class="user-auth-info">
+            <label>Rover Group</label>
+            <div class="row">
+            <span class="chip">{{ permission?.roverGroup }}</span>
+            </div>
+        </div>
+        <div class="user-auth-info">
+            <label>Role</label>
+            <div class="row">
+            <span class="chip">{{ permission?.role }}</span>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
