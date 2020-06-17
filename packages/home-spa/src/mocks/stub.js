@@ -36,15 +36,6 @@ export const stub = [
       videoUrl: "#"
    },
    {
-      name: "Search",
-      description: "A unified search API gives you ability to search across all hosted applications on the platform.",
-      link: "microservice-details.html#search",
-      icon: "img/magnifying-glass.svg",
-      entityType: "microservice",
-      colorScheme: "linear-gradient(119deg, #FDDBDB 0%, #FDDBC7 100%)",
-      videoUrl: "#"
-   },
-   {
       name: "Outage Management",
       description: "Outage Module is a combined tool which helps for planning and operation solutions to manage, control, visualize the process in outage management",
       link: "#",
