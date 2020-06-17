@@ -1,0 +1,70 @@
+/* User Profile */
+.user-name {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.user-details {
+  p {
+    color: #72767b;
+  }
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+/* User Primary Information */
+.user-primary-information {
+  display: flex;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.user-auth-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.user-info-group {
+  flex: 0 1 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-auth-info .row {
+  display: flex;
+}
+
+.user-info-label {
+  font-size: 14px;
+  color: #72767b;
+}
+
+.user-info-group p {
+  margin-top: 0;
+  font-weight: 500;
+}
+
+/* User Rover Groups */
+.user-rover-groups {
+  margin-bottom: 1rem;
+}
+
+.user-rover-groups-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+span.chip {
+  padding: 0.5rem 1rem;
+  background: var(--gray-200);
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
