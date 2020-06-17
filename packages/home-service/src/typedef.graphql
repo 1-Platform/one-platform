@@ -65,7 +65,7 @@ type Query {
   # Fetches all HomeType
   listHomeType: [HomeType]
   # Fetches specific HomeType by id
-  getHomeType(_id: String!): [HomeType]
+  getHomeType(_id: String!): HomeType
   # Fetches HomeType by any property
   getHomeTypeBy(input: HomeInput): [HomeType]
   # Fetches all HomeType for a user with rhuuid
