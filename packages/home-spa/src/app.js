@@ -40,7 +40,7 @@ if (footer !== null) {
       </div>
       <div class="footer__links">
         <a id="fileFeedback" rel="noreferrer" target="_blank">Report an Issue</a>
-        <a href="#">One Portal FAQs</a>
+        <a href="https://mojo.redhat.com/docs/DOC-1225598" rel="noreferrer" target="_blank">One Portal FAQs</a>
         <a href="mailto:one-portal@redhat.com">one-portal@redhat.com</a>
         <a href="https://github.com/1-platform/one-platform" rel="noreferrer" target="_blank">GitHub</a>
       </div>
