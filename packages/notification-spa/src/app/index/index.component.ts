@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { FormsModule } from '@angular/forms';
 import { UserProfile } from '../helper';
-import { notificationItemsMock } from '../mocks/notificationItems.mock';
 @Component({
   selector: 'op-index',
   templateUrl: './index.component.html',
@@ -18,13 +17,9 @@ export class IndexComponent implements OnInit {
     private appService: AppService,
   ) { }
 
-  ngOnInit(): void {
-    this.appService.getNotificationItems(this.user.rhatUUID).then(data => {
-      this.notificationItems = notificationItemsMock;
-    });
-  }
-
-  sendManualNotification(values) {
-    this.appService.sendManualNotification(values).subscribe(result => result);
+  async ngOnInit() {
+    this.notificationItems = await this.appService.getHomeTypeByUser(this.user.rhatUUID)
+    .then(result => result)
+    .catch(err => err);
   }
 }

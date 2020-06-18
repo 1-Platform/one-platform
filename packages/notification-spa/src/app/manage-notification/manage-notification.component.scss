@@ -146,3 +146,16 @@ pfe-toast {
     position: fixed;
     z-index: 99;
 }
+
+.rover-groups {
+    display: flex;
+    margin: 1rem 0;
+    li {
+        padding: 0.5rem 1rem !important;
+        background: #f3f3f3;
+        border-radius: 4px;
+        margin-right: 0.5rem;
+        margin-top: 0.5rem;
+        cursor: pointer;
+    }
+}

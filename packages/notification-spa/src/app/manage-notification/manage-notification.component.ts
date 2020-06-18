@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../app.service';
 import { UserProfile } from '../helper';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'op-manage-notification',
@@ -11,125 +11,94 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ManageNotificationComponent implements OnInit {
   user = UserProfile;
-  days: Day[] = [
-    {
-      day: 'mon',
-      status: false,
-    },
-    {
-      day: 'tue',
-      status: false,
-    },
-    {
-      day: 'wed',
-      status: false,
-    },
-    {
-      day: 'thurs',
-      status: false,
-    },
-    {
-      day: 'fri',
-      status: false,
-    },
-    {
-      day: 'sat',
-      status: false,
-    },
-    {
-      day: 'sun',
-      status: false,
-    },
-  ];
-
-  events: EventType[] = [
-    {
-      name: 'create',
-      status: false,
-    },
-    {
-      name: 'update',
-      status: false,
-    },
-    {
-      name: 'delete',
-      status: false,
-    },
-  ];
-
-  applications = [
-    {
-      name: 'Outage Management',
-    },
-    {
-      name: 'TS Catalog',
-    },
-    {
-      name: 'Outage Management',
-    },
-  ];
+  applications: any;
+  applicationName: string;
   channel: string;
   type: string;
-  template: string;
-  schedule: Schedule;
-  createdBy: string;
-  notificationFormData: NotificationSchema;
-  modalState: boolean;
+  schedule: any;
+  createdBy = this.user.rhatUUID;
+  notificationFormData: any;
   toast: boolean;
-  state: boolean;
   repeat: string;
-  id: string;
-  repeatEvery: string;
+  notificationID: string;
+  targets: string[] = [];
+  editID: string;
 
   constructor(
     private appService: AppService,
     private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.route.params.subscribe(res => {
-      if (res.id) {
-        this.id = res.id;
+      if (res?.id) {
+        this.editConfig(res.id);
+        this.editID = res.id;
       }
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.appService.getHomeTypeByUser(this.user.rhatUUID)
+    .then(result => {
+      this.applications = result;
+    })
+    .catch(err => err);
+  }
 
   onSubmit(value) {
-    let option;
-    switch (value.trigger) {
-      case 'scheduled':
-        this.schedule = {
-          startDate: value.time,
-          repeats: this.days,
-        };
-        option = this.schedule;
-        break;
-      case 'triggered':
-        option = this.events;
-        break;
-      default:
-        option = null;
-    }
-    console.log(this.template);
     this.notificationFormData = {
-      template: this.template,
+      source: this.applicationName,
       channel: value.channel,
       type: value.trigger,
-      typeOption: option,
       createdBy: this.createdBy,
       createdOn: new Date().toUTCString(),
-      modifiedBy: null,
-      modifiedOn: null
+      typeOptions: {
+        action: this.repeat,
+        startDate: value.time,
+      },
+      targets: this.targets,
     };
-    this.appService.sendNotificationFormData(this.notificationFormData).subscribe(result => {
-      if (result) {
-        const pfeToast = window.document.querySelector('pfe-toast');
-        (pfeToast as any).open();
-      }
-    });
-
+    if (!this.editID) {
+      this.appService.createNotificationConfig(this.notificationFormData).subscribe(result => {
+        if (result) {
+          const pfeToast = window.document.querySelector('pfe-toast');
+          (pfeToast as any).open();
+        }
+      });
+    } else {
+      this.notificationFormData = {
+        ...this.notificationFormData,
+        updatedBy: UserProfile.rhatUUID,
+        updatedOn: new Date().toUTCString(),
+      };
+      this.appService.updateNotificationConfig(this.notificationFormData).subscribe(result => {
+        if (result) {
+          const pfeToast = window.document.querySelector('pfe-toast');
+          (pfeToast as any).open();
+        }
+      });
+    }
   }
-  toggleModal() {
-    this.modalState = !this.modalState;
+
+  addRoverGroup(roverGroup) {
+    if (roverGroup !== '') {
+      this.targets.push(roverGroup.trim().replace(/ /g, '-'));
+    }
+  }
+
+  removeTarget(roverGroup) {
+    this.targets = this.targets.filter(group => group !== roverGroup);
+  }
+
+  editConfig(id) {
+    this.appService.getNotificationConfigBy({ id }).then((data: NotificationConfig[]) => {
+      this.notificationID = data[0].id;
+      this.channel = data[0].channel;
+      this.type = data[0].type;
+      this.targets = data[0].targets;
+      this.createdBy = data[0].createdBy;
+      this.applicationName = (data[0].source as any).name;
+      return data;
+    });
   }
 }
