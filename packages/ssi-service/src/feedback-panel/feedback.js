@@ -25,6 +25,11 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
    * @param {HTMLFormControlsCollection} formData
    */
   _submitBugReport ( formData ) {
+    const user = window.OpAuthHelper.getUserInfo();
+    if ( !user ) {
+      throw new Error( 'Could not find details of the logged in user.' );
+    }
+
     const query = /* GraphQL */ `mutation AddBugReport($bug: FeedbackInput!) {
       addFeedback(input: $bug) {
         _id
@@ -37,19 +42,16 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
         title: formData.namedItem( 'bugTitle' ).value,
         description: formData.namedItem( 'bugDescription' ).value,
         feedbackType: 'Bug',
-        timestamp: {
-          createdAt: new Date().toISOString(),
-          createdBy: {
-            kerberosID: 'test-user',
-            name: 'Test User',
-            email: 'test-user@redhat.com'
-          }
-        }
+        createdOn: new Date().toISOString(),
+        createdBy: user.rhatUUID,
       }
     };
 
     APIHelper.request( query, variables )
       .then( res => {
+        if ( res.errors ) {
+          throw res.errors;
+        }
         console.info( res );
       } )
       .catch( err => {
@@ -63,6 +65,11 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
    * @param {HTMLFormControlsCollection} formData
    */
   _submitFeedback ( formData ) {
+    const user = window.OpAuthHelper.getUserInfo();
+    if ( !user ) {
+      throw new Error( 'Could not find details of the logged in user.' );
+    }
+
     const query = /* GraphQL */ `mutation AddFeedback($feedback: FeedbackInput) {
       addFeedback(input: $feedback) {
         _id
@@ -76,19 +83,16 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
         description: formData.namedItem( 'feedbackDescription' ).value,
         experience: formData.namedItem( 'feedbackExperience' ).value,
         feedbackType: 'Feedback',
-        timestamp: {
-          createdAt: new Date().toISOString(),
-          createdBy: {
-            kerberosID: 'test-user',
-            name: 'Test User',
-            email: 'test-user@redhat.com'
-          }
-        }
+        createdOn: new Date().toISOString(),
+        createdBy: user.rhatUUID,
       }
     };
 
     APIHelper.request( query, variables )
       .then( res => {
+        if ( res.errors ) {
+          throw res.errors;
+        }
         console.log( res );
       } )
       .catch( err => {
