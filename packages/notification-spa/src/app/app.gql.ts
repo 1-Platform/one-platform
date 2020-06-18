@@ -1,11 +1,22 @@
 import gql from 'graphql-tag';
 
-export const listNotificationItems = gql`
-query listNotificationItems {
-    notificationItems {
-        name,
-        title
+export const getNotificationConfigBy = gql`
+query GetNotificationConfigsBy ($input: NotificationConfigInput!) {
+  getNotificationConfigsBy(notificationConfig: $input) {
+    channel
+    configID
+    createdBy
+    createdOn
+    targets
+    type
+    source {
+      _id
+      icon
+      link
+      active
+      entityType
     }
+  }
 }
 `;
 

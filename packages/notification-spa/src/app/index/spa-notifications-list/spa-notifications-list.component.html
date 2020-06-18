@@ -5,7 +5,7 @@
         <span class="headline">{{ notificationInformation.title }}</span>
         <div class="info">
           <span>Owner: </span>
-          <a href="https://rover.redhat.com/people/profile/denair" target="_blank" rel="noopener noreferrer">{{ notificationInformation.owner }}</a>
+          <a href="https://rover.redhat.com/people/profile/denair" target="_blank" rel="noopener noreferrer">Deepesh Nair</a>
           <span>
             Notification Type: <strong>Banner, Email, Pop up</strong>
           </span>
@@ -20,7 +20,7 @@
         <caption><span>No of rows: </span><span class="pf-c-badge pf-m-read"> {{ notificationInformation.notificationInfo.length }}</span></caption>
         <thead>
           <tr role="row">
-            <th role="columnheader" scope="col">ID</th>
+            <th role="columnheader" scope="col">Config ID</th>
             <th role="columnheader" scope="col">Channel Type</th>
             <th role="columnheader" scope="col">Trigger Type</th>
             <th role="columnheader" scope="col">Target Names</th>
@@ -29,10 +29,10 @@
         </thead>
         <tbody role="rowgroup" *ngFor="let data of notificationInformation.notificationInfo">
           <tr role="row">
-            <td role="cell" data-label="ID">{{ data.id }}</td>
-            <td role="cell" data-label="Channel Type">{{ data.channelType }}</td>
-            <td role="cell" data-label="Trigger Type">{{ data.triggerType }}</td>
-            <td role="cell" data-label="Target Names"><span class="target-name" *ngFor="let target of data.targetNames">{{ target }}</span></td>
+            <td role="cell" data-label="ID">{{ data?.configID }}</td>
+            <td role="cell" data-label="Channel Type">{{ data?.channel }}</td>
+            <td role="cell" data-label="Trigger Type">{{ data?.type }}</td>
+            <td role="cell" data-label="Target Names"><span class="target-name" *ngFor="let target of data.targets">{{ target }}</span></td>
             <td role="cell" data-label="View More">
               <span class="view-more pf-c-button pf-m-link" type="button" (click)="data.viewMore = !data.viewMore">
                 View {{ data.viewMore ? 'More' : 'Less' }}

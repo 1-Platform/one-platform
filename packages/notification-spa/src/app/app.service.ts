@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Apollo} from 'apollo-angular';
-import { listNotificationItems, manualNotification, notificationFormData } from './app.gql';
+import { getNotificationConfigBy, manualNotification, notificationFormData } from './app.gql';
 import { GraphQLModule } from './graphql.module';
-import { notificationItemsMock } from './mocks/notificationItems.mock';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -16,18 +15,19 @@ export class AppService extends GraphQLModule {
     super();
   }
 
-  getNotificationItems() {
+  getNotificationItems(createdBy) {
     return this.apollo
       .watchQuery({
-        query: listNotificationItems,
+        variables: {
+          input: {
+            createdBy
+          }
+        },
+        query: getNotificationConfigBy,
       })
       .result()
       .then(result => result.data)
-      .catch(err => {
-        if (err) {
-          return notificationItemsMock;
-        }
-      });
+      .catch(err => err);
   }
 
   sendManualNotification(modalFormData) {
