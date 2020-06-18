@@ -12,7 +12,9 @@ export const FeedbackResolver = {
         .sort( { 'timestamp': -1 } )
         .then( response => {
           const createdBy = response.map( res => `rhatUUID_${ res.createdBy }:getUsersBy(rhatUUID:"${ res.createdBy }") { _id name title uid rhatUUID isActive}` );
-          const updatedBy = response.map( res => `rhatUUID_${ res.updatedBy }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}` );
+          const updatedBy = response.filter( res => res.updatedBy ).map( res => {
+            return `rhatUUID_${ res.updatedBy }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
+          } );
           const users = createdBy.concat( updatedBy );
           const formattedquery = 'query' + `{${ users }}`;
           const graphql = JSON.stringify( {
@@ -31,7 +33,10 @@ export const FeedbackResolver = {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
                 const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
-                const updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ];
+                let updatedby;
+                if ( usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ] ) {
+                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
+                }
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
               } );
             } )
@@ -45,8 +50,13 @@ export const FeedbackResolver = {
         .then( ( response: any ) => {
           if ( response ) {
             const createdBy = [ `rhatUUID_${ response.createdBy }:getUsersBy(rhatUUID:"${ response.createdBy }") { _id name title uid rhatUUID isActive}` ];
-            const updatedBy = [ `rhatUUID_${ response.updatedBy }:getUsersBy(rhatUUID:"${ response.updatedBy }") { _id name title uid rhatUUID isActive}` ];
-            const users = createdBy.concat( updatedBy );
+            let users;
+            if ( response.updatedBy ) {
+              const updatedBy = [ `rhatUUID_${ response.updatedBy }:getUsersBy(rhatUUID:"${ response.updatedBy }") { _id name title uid rhatUUID isActive}` ];
+              users = createdBy.concat( updatedBy );
+            } else {
+              users = createdBy;
+            }
             const formattedquery = 'query' + `{${ users }}`;
             const graphql = JSON.stringify( {
               query: formattedquery,
@@ -63,7 +73,10 @@ export const FeedbackResolver = {
               .then( ( output: any ) => {
                 const usersdata = output.data;
                 const createdby = usersdata[ 'rhatUUID_' + response[ 'createdBy' ] ][ 0 ];
-                const updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ];
+                let updatedby;
+                if ( usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ] ) {
+                  updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ][ 0 ];
+                }
                 return { ...{ ...response }._doc, createdBy: createdby, updatedBy: updatedby };
               } )
               .catch( ( error: any ) => { throw error; } );
@@ -76,7 +89,9 @@ export const FeedbackResolver = {
         .sort( { 'timestamp': -1 } )
         .then( response => {
           const createdBy = response.map( res => `rhatUUID_${ res.createdBy }:getUsersBy(rhatUUID:"${ res.createdBy }") { _id name title uid rhatUUID isActive}` );
-          const updatedBy = response.map( res => `rhatUUID_${ res.updatedBy }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}` );
+          const updatedBy = response.filter( res => res.updatedBy ).map( res => {
+            return `rhatUUID_${ res.updatedBy }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
+          } );
           const users = createdBy.concat( updatedBy );
           const formattedquery = 'query' + `{${ users }}`;
           const graphql = JSON.stringify( {
@@ -95,7 +110,10 @@ export const FeedbackResolver = {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
                 const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
-                const updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ];
+                let updatedby;
+                if ( usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ] ) {
+                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
+                }
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
               } );
             } )
