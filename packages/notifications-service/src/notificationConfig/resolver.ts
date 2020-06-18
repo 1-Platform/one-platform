@@ -1,5 +1,6 @@
 import { NotificationConfig } from './schema';
 import { GqlHelper } from '../helpers';
+import { isValidObjectId } from 'mongoose';
 
 export const NotificationConfigResolver: any = {
   Query: {
@@ -20,7 +21,7 @@ export const NotificationConfigResolver: any = {
               ];
             }, [] )
             .map( ( source, index ) => {
-              return `source_${ index }: getHomeTypeBy(input: { _id: "${ source }" }) { ...homeType }`;
+              return `source_${ index }: getHomeType(_id: "${ source }") { ...homeType }`;
             } );
 
           /* Executing the queries */
@@ -33,7 +34,7 @@ export const NotificationConfigResolver: any = {
           return notificationConfigs
             .map( ( notificationConfig, index ) => {
               notificationConfig.source = resolvedSources
-                ? resolvedSources[ `source_${ index }` ][ 0 ]
+                ? resolvedSources[ `source_${ index }` ]
                 : { _id: notificationConfig.source };
 
               return notificationConfig;
@@ -61,7 +62,7 @@ export const NotificationConfigResolver: any = {
               ];
             }, [] )
             .map( ( source, index ) => {
-              return `source_${ index }: getHomeTypeBy(input: { _id: "${ source }" }) { _id name link entityType owners { uid name } }`;
+              return `source_${ index }: getHomeType(_id: "${ source }") { ...homeType }`;
             } );
 
           /* Executing the queries */
@@ -74,7 +75,7 @@ export const NotificationConfigResolver: any = {
           return notificationConfigs
             .map( ( notificationConfig, index ) => {
               notificationConfig.source = resolvedSources
-                ? resolvedSources[ `source_${ index }` ][ 0 ]
+                ? resolvedSources[ `source_${ index }` ]
                 : { _id: notificationConfig.source };
 
               return notificationConfig;
@@ -92,10 +93,18 @@ export const NotificationConfigResolver: any = {
   },
   Mutation: {
     createNotificationConfig ( root: any, { notificationConfig }: GraphQLArgs, ctx: any ) {
-      const data = new NotificationConfig( notificationConfig );
-      return data.save();
+      if ( !isValidObjectId( notificationConfig.source ) ) {
+        throw new Error( 'Source is invalid' );
+      }
+
+      return new NotificationConfig( notificationConfig )
+        .save();
     },
     updateNotificationConfig ( root: any, { notificationConfig }: GraphQLArgs, ctx: any ) {
+      if ( !isValidObjectId( notificationConfig.source ) ) {
+        throw new Error( 'Source is invalid' );
+      }
+
       return NotificationConfig
         .findByIdAndUpdate( notificationConfig.id, notificationConfig, { new: true } )
         .exec();
