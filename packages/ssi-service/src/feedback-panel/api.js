@@ -1,5 +1,5 @@
 /**
- * Helper Class for making API Calls to the One Platform API Gateway
+ * Helper class for making API calls to the One Platform API Gateway
  */
 export class APIService {
   constructor () {
@@ -19,11 +19,9 @@ export class APIService {
   }
 
   /**
-   * Sends graphql query requests
-   * @param {string} query
-   * @param {any} variables
+   * Sends a graphql request
    */
-  query ( query, variables = undefined ) {
+  request ( query, variables = undefined ) {
     return fetch( this._apiBasePath, {
       method: 'POST',
       headers: this._headers,
@@ -34,7 +32,7 @@ export class APIService {
     } )
       .then( res => {
         if ( !res ) {
-          throw new Error( 'The Server returned an empty response.' );
+          throw new Error( 'The Server returned an empty response' );
         }
         return res.json();
       } )
@@ -45,35 +43,7 @@ export class APIService {
         return res.data;
       } );
   }
-
-  /**
-   * Fetch the list of all the Apps for the App Drawer
-   */
-  navDrawerData () {
-    const query = `
-      query NavMenu {
-        appsList: getHomeTypeBy( input: {entityType: "spa"} ) {
-          name
-          link
-          icon
-          active
-        }
-        notificationsList: listArchivedNotifications(limit: 25) {
-          id
-          subject
-          body
-          data
-          link
-          sentOn
-        }
-      }
-    `;
-    return this.query( query );
-  }
 }
 
-/**
- * GraphQL API helper
- */
 const APIServiceInstance = new APIService();
 export default APIServiceInstance;
