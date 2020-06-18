@@ -47,7 +47,6 @@ export const NotificationConfigResolver: any = {
     getNotificationConfigsBy ( root: any, { selectors }: GraphQLArgs, ctx: any ) {
       return NotificationConfig
         .find( selectors )
-        .lean<NotificationConfig>()
         .exec()
         .then( async notificationConfigs => {
           /* Constructing getHomeTypeBy queries */
