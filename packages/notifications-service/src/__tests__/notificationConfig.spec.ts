@@ -25,7 +25,7 @@ const query = /* GraphQL */`
     }
   }
   query Get($input: NotificationConfigInput!) {
-    getNotificationConfigsBy(notificationConfig: $input) {
+    getNotificationConfigsBy(selectors: $input) {
       ...notificationConfig
     }
   }
