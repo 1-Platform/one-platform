@@ -33,10 +33,7 @@ export const FeedbackResolver = {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
                 const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
-                let updatedby;
-                if ( usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ] ) {
-                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
-                }
+                const updatedby = [ usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ] ][ 0 ];
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
               } );
             } )
@@ -73,10 +70,7 @@ export const FeedbackResolver = {
               .then( ( output: any ) => {
                 const usersdata = output.data;
                 const createdby = usersdata[ 'rhatUUID_' + response[ 'createdBy' ] ][ 0 ];
-                let updatedby;
-                if ( usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ] ) {
-                  updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ][ 0 ];
-                }
+                const updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ][ 0 ];
                 return { ...{ ...response }._doc, createdBy: createdby, updatedBy: updatedby };
               } )
               .catch( ( error: any ) => { throw error; } );
@@ -110,10 +104,7 @@ export const FeedbackResolver = {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
                 const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
-                let updatedby;
-                if ( usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ] ) {
-                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
-                }
+                const updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
               } );
             } )
