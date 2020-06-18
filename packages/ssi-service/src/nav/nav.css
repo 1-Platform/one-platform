@@ -4,6 +4,7 @@
   --op-highlight__color: #e00;
   --op-menu-drawer__width: 25rem;
   --op-user-proflie-icon__radius: 5rem;
+  --op-highlight__color-blue: #0070e0;
 
   display: block;
   z-index: 9000;
@@ -173,7 +174,7 @@
   width: var(--op-menu-drawer__width);
   max-width: 100vw;
   margin-top: 1px;
-  padding: 2rem 2.5rem;
+  padding: 2rem;
   box-sizing: border-box;
   height: calc(100vh - var(--op-nav__height));
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.16);
@@ -215,6 +216,59 @@
   margin-bottom: 1rem;
 }
 
+.op-menu-drawer__notifications-count {
+  display: inline-grid;
+  place-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.64);
+  border-radius: 1rem;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+.op-menu-drawer__notifications-list {
+  margin: 0 -1rem;
+  padding: 0;
+  list-style: none;
+}
+.op-menu-drawer__notification-item {
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 0.25rem;
+}
+.op-menu-drawer__notification-item a {
+  color: inherit;
+  text-decoration: inherit;
+}
+.op-menu-drawer__notification-time {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #888;
+  font-size: 0.75rem;
+}
+.op-menu-drawer__notification-subject {
+  margin: 0;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+.op-menu-drawer__notification-body {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.op-menu-drawer__notification-item:hover {
+  background: white;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.16);
+}
+.op-menu-drawer__notification-item:hover .op-menu-drawer__notification-subject {
+  color: var(--op-highlight__color-blue);
+}
+
 .op-user-signout-btn {
   appearance: none;
   -webkit-appearance: none;
@@ -234,7 +288,10 @@
 
 .op-menu-drawer__empty-state {
   text-align: center;
-  color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.64);
+  min-height: 6rem;
+  display: grid;
+  place-content: center;
 }
 
 .op-menu-drawer__app-list {
@@ -242,7 +299,7 @@
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: 1fr;
-  gap: 2.5rem;
+  gap: 1.5rem;
   padding: 0;
   margin: 0 auto;
   grid-auto-flow: row;
@@ -250,17 +307,19 @@
 }
 
 .op-menu-drawer__app-list-item a {
+  border: 1px solid transparent;
   border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1rem;
   color: inherit;
   cursor: pointer;
   text-decoration: inherit;
   transition: all 120ms ease-in-out;
 }
 .op-menu-drawer__app-list-item a div {
-  background: #CC0000;
+  background: #cc0000;
   width: 96px;
   height: 96px;
   border-radius: 50%;
@@ -276,18 +335,22 @@
   width: 56px;
 }
 .op-menu-drawer__app-list-item a:hover {
-  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
+  border-color: #eee;
+  background: white;
+}
+.op-menu-drawer__app-list-item a:hover > div {
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.16);
 }
 
 .inactive {
-  color: #A0A0A0;
+  color: #a0a0a0;
   cursor: not-allowed;
 }
 .inactive a {
   pointer-events: none;
 }
 .inactive a div {
-  background: #F3F3F3;
+  background: #f3f3f3;
 }
 .inactive a div img {
   filter: brightness(0.3);

@@ -1,11 +1,14 @@
 import html from 'html-template-tag';
+import moment from 'moment';
 import styles from './nav.css';
 import APIHelper from './api';
 
 /* Initializing the Auth */
 import './auth';
 /* Initialize SSO Auth as soon as the component is created */
-window.OpAuthHelper.init();
+( async () => {
+  await window.OpAuthHelper.init();
+} )();
 
 const ASSETS_URL = process.env.ASSETS_HOST + '/assets';
 
@@ -21,6 +24,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     this.drawer.setAttribute( 'aria-modal', true );
 
     this.appsList = [];
+    this.notificationsList = [];
   }
 
   connectedCallback () {
@@ -48,12 +52,14 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
           this.toggleDrawer( 'user', true );
         }
 
-        APIHelper.listApps()
+        APIHelper.navDrawerData()
           .then( res => {
-            this.appsList = res;
+            this.appsList = res.appsList;
+            this.notificationsList = res.notificationsList;
           } )
           .catch( err => {
             this.appsList = [];
+            this.notificationsList = [];
             console.error( err );
           } );
       } );
@@ -191,10 +197,10 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
    */
   _appDrawerItem ( item ) {
     return html`
-      <li class="op-menu-drawer__app-list-item ${ item.active ? '' : 'inactive'}">
+      <li class="op-menu-drawer__app-list-item ${ item.active ? '' : 'inactive' }">
         <a href="${ item.link }">
           <div>
-            <img src="${ item.logo || ASSETS_URL + '/default.svg' }"/>
+            <img src="${ item.logo || ASSETS_URL + '/rh-hat-logo.svg' }"/> <!-- https://pnt.redhat.com/pnt/d-11634445/LogoRedHatHatWhiteRGB.svg?t=n&lastModified=1556409780 -->
           </div>
           <span>
             ${ item.name }
@@ -208,7 +214,35 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
    * Returns the html for the Notifications Drawer
    */
   get _notificationDrawer () {
-    return html`<h3 class="op-menu-drawer__title">Notifications</h3>`;
+    return html`
+      <h3 class="op-menu-drawer__title">All Notifications <span class="op-menu-drawer__notifications-count" style="visibility: ${this.notificationsList.length === 0 ? 'hidden' : 'visible' }">${ this.notificationsList.length }</span></h3>`
+
+      + ( this.notificationsList.length === 0
+
+        ? html`<div class="op-menu-drawer__empty-state">
+          <p>No Notifications available at the moment.</p>
+          </div>`
+
+        : ( `<ul class="op-menu-drawer__notifications-list">`
+          + this.notificationsList.map( notification => this._notificationItem( notification ) ).join( '' )
+          + html`</ul>` ) );
+  }
+
+  /**
+   * Returns the html for a notification item
+   *
+   * @param {{ name: string, subject: string, link: string, sentOn: string }} item
+   */
+  _notificationItem ( item ) {
+    return html`
+      <li class="op-menu-drawer__notification-item">
+        <span class="op-menu-drawer__notification-time" title="${moment( item.sentOn ).format( 'LLL' ) }">${ moment( item.sentOn ).fromNow() }</span>
+        <h5 class="op-menu-drawer__notification-subject">
+          <a href="${ item.link }">${ item.subject }</a>
+        </h5>
+        <p class="op-menu-drawer__notification-body">${item.body }</p>
+      </li>
+    `;
   }
 
   /**
@@ -243,7 +277,7 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
             <img class="op-logo__img" src="${ ASSETS_URL }/rh-op-logo.svg" alt="Red Hat One Portal">
           </a>
 
-          <form class="op-search">
+          <form class="op-search" onsubmit="return false" disabled>
             <input type="search" name="q" autocomplete="off" aria-label="Search for Applications, Documents or any content" class="op-search-bar__input" placeholder="Search for Applications, Documents or any content" required disabled readonly>
             <button class="op-search__btn" type="submit">
               <ion-icon name="search-outline" class="op-nav__icon"></ion-icon>

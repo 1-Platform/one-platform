@@ -1,15 +1,14 @@
 version: "3"
-
 services:
-  ssi-templates:
-    build: ./packages/ssi-service/.
-    env_file: ./packages/ssi-service/.env
-    environment:
-      SSI_HOSTNAME: /.include/nav
+  httpd:
+    image: spaship/httpd:latest
+    restart: always
+    logging:
+      driver: none
     volumes:
       # - ./packages/home-spa/dist:/var/www/html/home
+      - ./packages/ssi-service/public/index.html/:/var/www/html/index.html
       - ./packages/ssi-service/dist:/var/www/html/.include/nav
-      - ./packages/ssi-service/public/index.html:/var/www/html/index.html
     ports:
       - 5500:8080
 
