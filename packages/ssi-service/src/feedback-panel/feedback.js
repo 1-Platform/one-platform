@@ -1,18 +1,8 @@
 import html from 'html-template-tag';
-import { GraphQLClient } from 'graphql-request';
 import styles from './feedback.css';
+import APIHelper from './api';
 
 window.customElements.define( 'op-feedback', class extends HTMLElement {
-  constructor () {
-    super();
-
-    this._graphqlClient = new GraphQLClient( process.env.APPS_BASE_API, {
-      headers: {
-        Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`
-      }
-    } );
-  }
-
   connectedCallback () {
     if ( !this.shadowRoot ) {
       this.attachShadow( { mode: 'open' } );
@@ -58,7 +48,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
       }
     };
 
-    this._graphqlClient.request( query, variables )
+    APIHelper.request( query, variables )
       .then( res => {
         console.info( res );
       } )
@@ -97,7 +87,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
       }
     };
 
-    this._graphqlClient.request( query, variables )
+    APIHelper.request( query, variables )
       .then( res => {
         console.log( res );
       } )
