@@ -25,8 +25,10 @@ const NotificationConfigSchema: Schema<NotificationConfig> = new Schema( {
 }, { toObject: { getters: true, virtuals: true } } );
 
 NotificationConfigSchema.post( 'save', ( doc: NotificationConfigModel ) => {
-  doc.configID = createHash( 'md5' ).update( doc.id ).digest( 'hex' );
-  doc.save();
+  if ( !doc.configID ) {
+    doc.configID = createHash( 'md5' ).update( doc.id ).digest( 'hex' );
+    doc.save();
+  }
 } );
 
 export interface NotificationConfigModel extends NotificationConfig, Document {

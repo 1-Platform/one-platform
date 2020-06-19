@@ -114,6 +114,7 @@ type NotificationConfigRaw {
 
 input NotificationConfigInput {
   id: ID
+  configID: ID
   template: String
   defaultLink: String
   source: String
