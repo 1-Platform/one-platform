@@ -18,7 +18,7 @@ export class IndexComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.notificationItems = await this.appService.getHomeTypeByUser(this.user.rhatUUID)
+    this.notificationItems = await this.appService.getHomeTypeByUser(this.user?.rhatUUID)
     .then(result => result)
     .catch(err => err);
   }

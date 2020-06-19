@@ -38,7 +38,7 @@ export class ManageNotificationComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.applications = await this.appService.getHomeTypeByUser(this.user.rhatUUID)
+    this.applications = await this.appService.getHomeTypeByUser(this.user?.rhatUUID)
     .then(result => result)
     .catch(err => err);
   }
@@ -57,7 +57,7 @@ export class ManageNotificationComponent implements OnInit {
     if (!this.editID) {
       this.notificationFormData = {
         ...this.notificationFormData,
-        createdBy: this.user.rhatUUID,
+        createdBy: this.user?.rhatUUID,
         createdOn: new Date().toUTCString(),
       };
       this.appService.createNotificationConfig(this.notificationFormData).subscribe(result => {

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const notificationConfigFragment = gql`
-fragment notification on NotificationConfig {
+fragment notification on NotificationConfigRaw {
   id
   configID
   template
@@ -28,10 +28,24 @@ fragment notification on NotificationConfig {
 `;
 
 export const getNotificationConfigBy = gql`
-${notificationConfigFragment}
 query GetNotificationConfigsBy ($input: NotificationConfigInput!) {
-  getNotificationConfigsBy(notificationConfig: $input) {
-    ...notification
+  getNotificationConfigsBy(selectors: $input) {
+    id
+    configID
+    template
+    defaultLink
+    channel
+    type
+    action
+    targets
+    source {
+      _id
+      name
+    }
+    createdBy
+    createdOn
+    updatedBy
+    updatedOn
   }
 }
 `;
