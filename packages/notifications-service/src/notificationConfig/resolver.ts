@@ -49,8 +49,12 @@ export const NotificationConfigResolver: any = {
         } );
     },
     getNotificationConfigsBy ( root: any, { selectors }: GraphQLArgs, ctx: any ) {
+      const cleanedSelectors = _.cloneDeep( selectors );
+      if ( selectors.id ) {
+        cleanedSelectors._id = selectors.id;
+      }
       return NotificationConfig
-        .find( selectors )
+        .find( cleanedSelectors )
         .exec()
         .then( async notificationConfigs => {
           /* Constructing getHomeTypeBy queries */
@@ -93,7 +97,6 @@ export const NotificationConfigResolver: any = {
     getNotificationConfigByID ( root: any, { id }: GraphQLArgs, ctx: any ) {
       return NotificationConfig
         .findById( id )
-        .lean<NotificationConfig>()
         .exec();
     }
   },
