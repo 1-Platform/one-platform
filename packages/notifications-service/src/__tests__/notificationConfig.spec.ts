@@ -18,6 +18,14 @@ const query = /* GraphQL */`
     targets
     createdBy
   }
+  fragment notificationConfigRaw on NotificationConfigRaw {
+    id
+    template
+    channel
+    type
+    targets
+    createdBy
+  }
 
   query List {
     listNotificationConfigs {
@@ -31,17 +39,17 @@ const query = /* GraphQL */`
   }
   mutation Create($input: NotificationConfigInput!) {
     createNotificationConfig(notificationConfig: $input) {
-      ...notificationConfig
+      ...notificationConfigRaw
     }
   }
   mutation Update($input: NotificationConfigInput!) {
     updateNotificationConfig(notificationConfig: $input) {
-      ...notificationConfig
+      ...notificationConfigRaw
     }
   }
   mutation Delete($id: String!) {
     deleteNotificationConfig(id: $id) {
-      ...notificationConfig
+      ...notificationConfigRaw
     }
   }
 `;
