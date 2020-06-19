@@ -17,13 +17,9 @@ export class IndexComponent implements OnInit {
     private appService: AppService,
   ) { }
 
-  ngOnInit(): void {
-    this.appService.getNotificationItems().then(data => {
-      this.notificationItems = data;
-    });
-  }
-
-  sendManualNotification(values) {
-    this.appService.sendManualNotification(values).subscribe(result => result);
+  async ngOnInit() {
+    this.notificationItems = await this.appService.getHomeTypeByUser(this.user?.rhatUUID)
+    .then(result => result)
+    .catch(err => err);
   }
 }

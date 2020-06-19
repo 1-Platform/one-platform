@@ -1,49 +1,10 @@
 export const notificationItemsMock = [
-    {
-      title: 'Outage Management',
-      owner: 'Deepesh Nair',
-      notificationInfo:  [
-        {
-          id: 'U9YSDVCQIZ',
-          channelType: 'Pop Up',
-          triggerType: 'Scheduled',
-          targetNames: ['npatil-all', 'singole'],
-          viewMore: true,
-        },
-        {
-          id: 'U9YSDVCQIZ',
-          channelType: 'Pop Up',
-          triggerType: 'Scheduled',
-          targetNames: ['npatil-all', 'singole'],
-          viewMore: true,
-        },
-      ],
-    },
-    {
-      title: 'DSAL',
-      owner: 'Diwanshi Pandey',
-      notificationInfo:  [
-        {
-          id: 'U9YSDVCQIZ',
-          channelType: 'Pop Up',
-          triggerType: 'Scheduled',
-          targetNames: ['npatil-all', 'singole'],
-          viewMore: true,
-        },
-        {
-          id: 'U9YSDVCQIZ',
-          channelType: 'Pop Up',
-          triggerType: 'Scheduled',
-          targetNames: ['npatil-all', 'singole'],
-          viewMore: true,
-        },
-        {
-          id: 'U9YSDVCQIZ',
-          channelType: 'Pop Up',
-          triggerType: 'Scheduled',
-          targetNames: ['npatil-all', 'singole'],
-          viewMore: true,
-        },
-      ],
-    }
-  ];
+  {
+    _id: '5eeb323fc76ea0709f148e98',
+    name: 'Outage Management',
+  },
+  {
+    _id: '5ee0e9c5651eedff678de8b9',
+    name: 'DSAL',
+  }
+];

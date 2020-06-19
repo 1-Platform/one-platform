@@ -5,14 +5,14 @@
         </span>
         <div class="index-component__toolbar--utility">
             <input type="search" name="search" id="search" placeholder="Search"> 
-            <button class="pf-c-button pf-m-tertiary" type="button" (click)="toggleModal = true" [disabled]="!user">Send Manual Notification</button>
+            <button class="pf-c-button pf-m-tertiary" type="button" (click)="toggleModal = true" [disabled]="true">Send Manual Notification</button>
             <a class="pf-c-button pf-m-primary" [routerLink]="'/manage'">Setup Notification</a>
         </div>
     </div>
     <div *ngIf="notificationItems && user">
       <op-spa-notifications-list  *ngFor="let item of notificationItems" [notificationInformation]="item"></op-spa-notifications-list>
     </div>
-    <div *ngIf="!user" class="pf-c-alert pf-m-warning pf-m-inline" style="width: 1200px; margin: 4rem auto;" aria-label="Inline warning alert">
+    <div *ngIf="!user" class="pf-c-alert pf-m-warning pf-m-inline" style="width: 80%; margin: 4rem auto;" aria-label="Inline warning alert">
       <div class="pf-c-alert__icon">
         <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
       </div>
@@ -20,68 +20,4 @@
       <button style="height: 35px; margin: .6rem 2rem;" class="pf-c-button pf-m-secondary" type="button">Log In</button>
   </div>
     <div class="loader" *ngIf="!notificationItems"></div>
-</div>
-
-
-<div class="pf-c-backdrop" *ngIf="toggleModal">
-  <div class="pf-l-bullseye">
-    <div class="pf-c-modal-box pf-m-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
-      <button class="pf-c-button pf-m-plain" type="button" aria-label="Close dialog" (click)="toggleModal = false">
-        <i class="fas fa-times" aria-hidden="true"></i>
-      </button>
-      <h3 class="pf-c-title pf-m-2xl" id="modal-title">Send Manual Notification</h3>
-      <form method="POST" class="modal-form" #modalForm="ngForm" (submit)="sendManualNotification(modalForm.value)" ngNativeValidate>
-        <div class="pf-c-modal-box__body" id="modal-description">
-            <div class="modal-form__form-group">
-              <label for="selectApplication">Select Application <span class="red">*</span></label>
-              <pfe-select>
-                <select required id="selectApplication" name="modalSelect" [(ngModel)]="modalSelect">
-                  <option value="">Please select an option</option>
-                  <option value="OutageManagement">Outage Management</option>
-                  <option value="DSAL">DSAL</option>
-                  <option value="Feedback">Feedback</option>
-                </select>
-              </pfe-select>
-            </div>
-            <div class="modal-form__form-group">
-              <input type="radio" name="channel" value="email" id="email" ngModel required>
-              <label for="email">Email</label>
-              <ul *ngIf="modalForm.value.channel === 'email'">
-                <li>
-                  <input type="text" name="emailSubject" ngModel placeholder="Email Subject" required/>
-                </li>
-                <li>
-                  <textarea name="emailBody" id="emailBody" ngModel placeholder="Email Body" required></textarea>
-                </li>
-              </ul>
-            </div>
-            <div class="modal-form__form-group">
-              <input type="radio" name="channel" value="popup" id="popup" ngModel required>
-              <label for="popup">Pop Up Notification</label>
-              <ul *ngIf="modalForm.value.channel === 'popup'">
-                <li>
-                  <input type="text" name="popupTitle" ngModel placeholder="Title" required/>
-                </li>
-                <li>
-                  <textarea name="popupContent" id="emailBody" ngModel placeholder="Content" required></textarea>
-                </li>
-              </ul>
-            </div>
-            <div class="modal-form__form-group">
-              <input type="radio" name="channel" value="banner" id="banner" ngModel required>
-              <label for="banner">Banner</label>
-              <ul *ngIf="modalForm.value.channel === 'banner'">
-                <li>
-                  <textarea name="popupContent" id="emailBody" placeholder="Type announcement" required></textarea>
-                </li>
-              </ul>
-            </div>
-        </div>
-        <footer class="pf-c-modal-box__footer pf-m-align-left">
-          <input type="submit" class="pf-c-button pf-m-primary" value="Send Notification"/>
-          <button class="pf-c-button pf-m-tertiary" type="button" (click)="toggleModal = false">Close</button>
-        </footer>
-      </form>
-    </div>
-  </div>
 </div>

@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SidePanelComponent } from './side-panel/side-panel.component';
+import { Apollo } from 'apollo-angular';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -15,6 +16,9 @@ describe('AppComponent', () => {
         HeaderComponent,
         SidePanelComponent,
       ],
+      providers: [
+        Apollo
+      ]
     }).compileComponents();
   }));
 

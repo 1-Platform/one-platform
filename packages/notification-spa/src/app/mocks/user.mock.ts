@@ -1,13 +1,8 @@
-export const UserMock = {
-    c: 'IN',
-    cn: 'Deepesh Nair',
-    co: 'IND',
-    mail: 'denair@redhat.com',
+export const UserProfile = {
+    fullName: 'Deepesh Nair',
+    email: 'denair@redhat.com',
     firstName: 'Deepesh',
-    givenName: 'Deepesh Nair',
     lastName: 'Nair',
-    manager: 'uid = npatil, ou=users, dc=redhat, dc=com',
-    rhatLocation: 'RH - Pune',
-    title: 'Associate Software Engineer',
-    uid: 'denair'
+    rhatUUID: 'a12b34c56d78e90f',
+    kerberosID: 'denair',
 };
