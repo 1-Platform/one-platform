@@ -16,7 +16,7 @@ export class ManageNotificationComponent implements OnInit {
   channel: string;
   type: string;
   schedule: any;
-  createdBy = this.user.rhatUUID;
+  createdBy: string;
   notificationFormData: any;
   toast: boolean;
   repeat: string;
@@ -37,11 +37,9 @@ export class ManageNotificationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.appService.getHomeTypeByUser(this.user.rhatUUID)
-    .then(result => {
-      this.applications = result;
-    })
+  async ngOnInit() {
+    this.applications = await this.appService.getHomeTypeByUser(this.user.rhatUUID)
+    .then(result => result)
     .catch(err => err);
   }
 
@@ -50,8 +48,6 @@ export class ManageNotificationComponent implements OnInit {
       source: this.applicationName,
       channel: value.channel,
       type: value.trigger,
-      createdBy: this.createdBy,
-      createdOn: new Date().toUTCString(),
       typeOptions: {
         action: this.repeat,
         startDate: value.time,
@@ -59,6 +55,11 @@ export class ManageNotificationComponent implements OnInit {
       targets: this.targets,
     };
     if (!this.editID) {
+      this.notificationFormData = {
+        ...this.notificationFormData,
+        createdBy: this.user.rhatUUID,
+        createdOn: new Date().toUTCString(),
+      };
       this.appService.createNotificationConfig(this.notificationFormData).subscribe(result => {
         if (result) {
           const pfeToast = window.document.querySelector('pfe-toast');
