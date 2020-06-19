@@ -15,7 +15,7 @@ type Query {
   """
   Finds a NotificationConfig by ID
   """
-  getNotificationConfigByID(id: ID!): NotificationConfig
+  getNotificationConfigByID(id: ID!): NotificationConfigRaw
 }
 
 # Mutation Definitions
@@ -25,19 +25,19 @@ type Mutation {
   """
   createNotificationConfig(
     notificationConfig: NotificationConfigInput!
-  ): NotificationConfig
+  ): NotificationConfigRaw
 
   """
   Patches the given NotificationConfig Object
   """
   updateNotificationConfig(
     notificationConfig: NotificationConfigInput!
-  ): NotificationConfig
+  ): NotificationConfigRaw
 
   """
   Removes the NotificationConfig matching the given ID
   """
-  deleteNotificationConfig(id: String!): NotificationConfig
+  deleteNotificationConfig(id: String!): NotificationConfigRaw
 }
 
 scalar DateTime
@@ -96,15 +96,31 @@ type NotificationConfig {
   updatedOn: DateTime
 }
 
+type NotificationConfigRaw {
+  id: ID
+  configID: ID
+  template: String
+  defaultLink: String
+  source: String
+  targets: [String]
+  channel: NotificationChannelEnum
+  type: NotificationTypeEnum
+  action: String
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
+}
+
 input NotificationConfigInput {
   id: ID
   template: String
   defaultLink: String
   source: String
+  targets: [String]
   channel: NotificationChannelEnum
   type: NotificationTypeEnum
   typeOptions: ScheduledandTriggerInput
-  targets: [String]
   createdBy: String
   createdOn: DateTime
   updatedBy: String

@@ -22,7 +22,7 @@ const NotificationConfigSchema: Schema<NotificationConfig> = new Schema( {
   createdBy: { type: String, required: true },
   updatedOn: { type: Date, default: Date.now, },
   updatedBy: { type: String, },
-} );
+}, { toObject: { getters: true, virtuals: true } } );
 
 NotificationConfigSchema.post( 'save', ( doc: NotificationConfigModel ) => {
   doc.configID = createHash( 'md5' ).update( doc.id ).digest( 'hex' );

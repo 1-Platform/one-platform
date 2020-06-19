@@ -1,6 +1,7 @@
 import { NotificationConfig } from './schema';
 import { GqlHelper } from '../helpers';
 import { isValidObjectId } from 'mongoose';
+import * as _ from 'lodash';
 
 export const NotificationConfigResolver: any = {
   Query: {
@@ -33,11 +34,14 @@ export const NotificationConfigResolver: any = {
           /* Merging the query output with the NotificationConfig output */
           return notificationConfigs
             .map( ( notificationConfig, index ) => {
-              notificationConfig.source = resolvedSources
+              const source = resolvedSources && resolvedSources[ `source_${ index }` ]
                 ? resolvedSources[ `source_${ index }` ]
                 : { _id: notificationConfig.source };
 
-              return notificationConfig;
+              return {
+                ...notificationConfig.toObject(),
+                source,
+              };
             } );
         } )
         .catch( err => {
@@ -73,11 +77,14 @@ export const NotificationConfigResolver: any = {
           /* Merging the query output with the NotificationConfig output */
           return notificationConfigs
             .map( ( notificationConfig, index ) => {
-              notificationConfig.source = resolvedSources
+              const source = resolvedSources && resolvedSources[ `source_${ index }` ]
                 ? resolvedSources[ `source_${ index }` ]
                 : { _id: notificationConfig.source };
 
-              return notificationConfig;
+              return {
+                ...notificationConfig.toObject(),
+                source,
+              };
             } );
         } ).catch( err => {
           throw err;
