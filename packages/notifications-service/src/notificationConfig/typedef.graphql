@@ -9,7 +9,7 @@ type Query {
   Returns all the NotificationConfigs matching the given object
   """
   getNotificationConfigsBy(
-    notificationConfig: NotificationConfigInput!
+    selectors: NotificationConfigInput!
   ): [NotificationConfig]
 
   """
