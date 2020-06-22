@@ -29,15 +29,23 @@ if (microserviceCard !== null && carouselSlide !== null) {
   carouselSlide.innerHTML = `<div class="loader"></div>`;
 }
 
+const errorFetchingInformation = `
+<div style="grid-column: 2; margin: auto;">
+  <em class="fa fa-info" style="margin-right: .5rem;"></em>
+  There was an error while fetching information.
+</div>
+`;
+
 document.addEventListener('DOMContentLoaded', () => {
   window.OpAuthHelper.onLogin( () => {
-    getData(window.OpAuthHelper.jwtToken).then(
+    getData(window?.OpAuthHelper?.jwtToken).then(
       (result) => {
         buildDom(result.data.listHomeType);
       }
     ).catch(err => {
       console.error(err);
-      buildDom(stub);
+      microserviceCard.innerHTML = errorFetchingInformation;
+      carouselSlide.innerHTML = errorFetchingInformation;
     });
   }); 
 });
@@ -108,7 +116,10 @@ function buildDom(apiData) {
         return `<div class="grid__carousel-slide">
         <div class="grid__carousel-slide__left">
           <h1 class="grid__carousel-slide--title">
-            <a href="${carouselItem.link}"><em class="fa ${carouselItem.icon}"></em> ${carouselItem.name}</a>
+            <a target="_blank" rel="noopener noreferrer" href="${carouselItem.link}">
+              <em class="fa fa-external-link-alt" style="font-size: 1.5rem;"></em>
+              ${carouselItem.name}
+            </a>
           </h1>
           <p>
             ${carouselItem.description}
