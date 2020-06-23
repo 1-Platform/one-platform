@@ -37,7 +37,7 @@
   "dependencies": {
     "@apollo/gateway": "0.16.6",
     "@types/jsonwebtoken": "8.5.0",
-    "@types/ws": "7.2.4",
+    "@types/ws": "7.2.5",
     "apollo-link-http": "1.5.17",
     "apollo-link-retry": "2.2.16",
     "apollo-link-ws": "1.0.20",
