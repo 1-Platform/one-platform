@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/feedback",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -38,40 +38,30 @@
           },
           "configurations": {
             "local": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/local.env"
-                }
-              ]
+              "budgets": [ {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb"
+              } ],
+              "fileReplacements": [ {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/local.env"
+              } ]
             },
             "dev": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/dev.env"
-                }
-              ]
+              "budgets": [ {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb"
+              } ],
+              "fileReplacements": [ {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/dev.env"
+              } ]
             },
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/prod.env"
-                }
-              ],
+              "fileReplacements": [ {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/prod.env"
+              } ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -80,8 +70,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [
-                {
+              "budgets": [ {
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
@@ -94,32 +83,24 @@
               ]
             },
             "qa": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/qa.env"
-                }
-              ]
+              "budgets": [ {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb"
+              } ],
+              "fileReplacements": [ {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/qa.env"
+              } ]
             },
             "stage": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/stage.env"
-                }
-              ]
+              "budgets": [ {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb"
+              } ],
+              "fileReplacements": [ {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/stage.env"
+              } ]
             }
           }
         },
