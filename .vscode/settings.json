@@ -17,7 +17,6 @@
   "editor.autoClosingQuotes": "always",
   "editor.smoothScrolling": true,
   "editor.tabCompletion": "on",
-  "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "files.autoGuessEncoding": true,
