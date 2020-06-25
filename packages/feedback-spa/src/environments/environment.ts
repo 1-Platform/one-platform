@@ -12,5 +12,5 @@ export const environment = {
   client: '',
   authorization: '',
   jiraURL: '',
-  roverURL: '',
+  userProfileURL: '',
 };
