@@ -165,9 +165,13 @@ export const FeedbackResolver = {
               };
               const envpath = process.env.NODE_ENV;
               if ( envpath === 'production' ) {
-                addFeedback( issue ).then( ( jira: any ) => {
+                return addFeedback( issue ).then( ( jira: any ) => {
                   args.input.ticketID = jira.key;
-                  return Feedback.update( fb, args.input ).then( ( feedback: any ) => feedback );
+                  return Feedback.update( fb, args.input ).then( ( feedback: any ) => {
+                    if ( feedback ) {
+                      return Feedback.findById( response._id );
+                    }
+                  } );
                 } )
                   .catch( function ( err: any ) {
                     return err;
