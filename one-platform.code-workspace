@@ -1,7 +1,7 @@
 {
-  "folders": [{
+  "folders": [ {
     "path": "."
-  }],
+  } ],
   "settings": {
     "editor.cursorSmoothCaretAnimation": true,
     "editor.wordWrap": "on",
@@ -9,7 +9,7 @@
     "editor.autoClosingQuotes": "always",
     "editor.smoothScrolling": true,
     "editor.tabCompletion": "on",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.formatOnPaste": true,
     "editor.formatOnType": true,
     "files.autoGuessEncoding": true,
