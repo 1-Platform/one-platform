@@ -25,6 +25,6 @@ const JiraObj = new JiraApi( {
   strictSSL: false
 } );
 
-export function addFeedback ( issue: any ) {
+export function createJira ( issue: any ) {
   return JiraObj.addNewIssue( issue );
 }
