@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { Feedback } from './schema';
 const JiraApi = require( 'jira-client' );
 const fetch = require( 'node-fetch' );
-import { addFeedback } from './helpers';
+import { createJira } from './helpers';
 
 
 export const FeedbackResolver = {
@@ -165,7 +165,7 @@ export const FeedbackResolver = {
               };
               const envpath = process.env.NODE_ENV;
               if ( envpath === 'production' ) {
-                return addFeedback( issue ).then( ( jira: any ) => {
+                return createJira( issue ).then( ( jira: any ) => {
                   args.input.ticketID = jira.key;
                   return Feedback.update( fb, args.input ).then( ( feedback: any ) => {
                     if ( feedback ) {
