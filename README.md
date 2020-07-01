@@ -15,7 +15,7 @@ An integrated application hosting platform which allows you to host your SPAs. I
 
 ## Install
 
-```bash
+```sh
 npm install
 # OR
 lerna bootstrap
@@ -25,7 +25,7 @@ lerna bootstrap
 
 To start the local environment setup using docker-compose, use the following cli command from the root of this project:
 
-```bash
+```sh
 docker-compose up $service_name
 ```
 
@@ -50,7 +50,7 @@ You can replace the local port with any available port on your machine. I would 
 
 After that, just start the service:
 
-```bash
+```sh
 docker-compose up mongo
 ```
 
@@ -58,9 +58,33 @@ This will start a MongoDB container instance, which can be access using localhos
 
 ## Run tests
 
-```bash
+```sh
 npm run test
 ```
+
+## Deployments
+
+***Note:*** `spashiprc` needs to be pre-configured on your system prior to using this script. Please check [SPAship documentation](https://spaship.io) to learn how to set this up correctly.
+
+### Usage
+
+You can use the deployment scipt for deploying any SPA to One Platform:
+
+```sh
+npm run deploy <PackageType> <PackageName> <PackagePath> <DeploymentEnv> <RefValue>
+```
+
+Deployment parameters:
+
+1. `PackageType`: Based on the type of package, the value can either be `spa` or `service`.
+
+2. `PackageName`: Name of the package directory. The expected directory naming convention is `package name` - `spa/service`. Examples: `foo-spa`, `bar-spa`.
+
+3. `PackagePath`: Route to which the package needs to be deployed. Examples:  `/`, `/foo`, `/bar`, `/foo/bar`.
+
+4. `DeploymentEnv`: The environment to which the package needs to be deployed. The value of this parameter needs to correspond with the name of an environment entry in your `.spashiprc` file. Examples: `qa`, `stage`, `opqa`, `opstage`.
+
+5. `RefValue`: The reference version for this package. Usually this corresponds to a version number, however, it can also correspond to a string value for a valid ref. Example: `0.1.0`
 
 ## 🤝 Contributing
 
