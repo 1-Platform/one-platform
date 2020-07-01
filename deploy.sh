@@ -1,32 +1,33 @@
 #!/bin/sh
-## Usage: ./deploy.sh <PackageType[spa/service]> <PackagePath> <DeploymentEnv[qa/stage]>
+## Usage: npm run deploy <PackageType[spa/service]> <PackageName> <PackagePath> <DeploymentEnv[qa/stage]> <RefValue>
 ## Author: Sayak Sarkar <sayak.bugsmith@gmail.com>
 ## Version: 0.1.0
 ##
 
-EXP_SYNTAX="Expected Syntax: ./deploy.sh <PackageType[spa/service]> <PackageName> <PackagePath> <DeploymentEnv[qa/stage]>"
+EXP_SYNTAX="Expected Syntax: npm run deploy <PackageType[spa/service]> <PackageName> <PackagePath> <DeploymentEnv[qa/stage]> <RefValue>"
 SEPARATOR1="=================================================================================="
 SEPARATOR2="----------------------------------------------------------------------------------"
 
 if [ ! -e ~/.spashiprc.yml ]; then
     printf "\n%s\nError: spashiprc missing from $HOME\n" "$SEPARATOR2"
     printf "\nCheck https://tinyurl.com/ybh248uo for details on how to configure spashiprc.\n%s\n" "$SEPARATOR2"
-    exit 1
+    exit 2
 fi
 
 # Validate syntax parameters length and execute accordingly.
-if [ $# -lt 4 ]
+if [ $# -lt 5 ]
 then
     # Throw syntax error and exit
     printf "Error: Arguments Missing!\n"
     printf "%s\n" "$EXP_SYNTAX"
-    exit 1
+    exit 2
 else
     # Map parameters to variables
     PKG_TYPE=$1
     PKG_NAME=$2
     PKG_PATH=$3
     ENV_NAME=$4
+    REF_VAL=$5
 
     # Check package type
     if [ $1 = 'spa' ]
@@ -88,7 +89,7 @@ else
         # Deploy to SPAship
         printf "\nDeploying package to SPAship...\n%s\n" "$SEPARATOR2"
         printf "\n"
-        spaship deploy --env=$ENV_NAME --ref=0.1.0 $SPA_NAME.zip
+        spaship deploy --env=$ENV_NAME --ref=$REF_VAL $SPA_NAME.zip
         printf "\n%s\n" "$SEPARATOR1"
         exit 1
 
@@ -99,6 +100,7 @@ else
             exit 1
         else
             printf "\n%s\nParameter Input Error: Incorrect package type. Package type can only be 'spa' or 'service'.\n" "$SEPARATOR2"
+            exit 2
         fi
     fi
 fi
