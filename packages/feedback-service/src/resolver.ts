@@ -34,7 +34,7 @@ export const FeedbackResolver = {
               return response.map( function ( data: any ) {
                 const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
                 let updatedby;
-                if ( !!data[ 'updatedBy' ] ) {
+                if ( data[ 'updatedBy' ] ) {
                   updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
                 }
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
