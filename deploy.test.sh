@@ -3,8 +3,8 @@
 @test "1. Syntax parameters length should not be less than 5" {
     run ./deploy.sh
     [ "$status" -eq 2 ]
-    [ "${lines[0]}" = "Error: Arguments Missing!" ]
-    [ "${lines[1]}" = "Expected Syntax: npm run deploy <PackageType[spa/service]> <PackageName> <PackagePath> <DeploymentEnv[qa/stage]> <RefValue>" ]
+    [ "${lines[1]}" = "Error: Arguments Missing!" ]
+    [ "${lines[2]}" = "Expected Syntax: npm run deploy <PackageType[spa/service]> <PackageName> <PackagePath> <DeploymentEnv[qa/stage]> <RefValue>" ]
 }
 
 @test "2. Package Type parameter can only be 'spa' or 'service" {
