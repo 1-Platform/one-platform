@@ -74,7 +74,7 @@
     "@types/ioredis": "4.16.4",
     "@types/jest": "26.0.0",
     "@types/ldapjs": "1.0.8",
-    "@types/lodash": "4.14.155",
+    "@types/lodash": "4.14.157",
     "@types/method-override": "0.0.31",
     "@types/mocha": "7.0.2",
     "@types/mongoose": "5.7.24",
