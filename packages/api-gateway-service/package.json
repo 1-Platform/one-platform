@@ -89,7 +89,7 @@
     "tslint": "5.20.1",
     "typescript": "3.9.5",
     "webpack": "4.42.1",
-    "webpack-cli": "3.3.11",
+    "webpack-cli": "3.3.12",
     "webpack-merge": "4.2.2",
     "webpack-node-externals": "1.7.2"
   },
