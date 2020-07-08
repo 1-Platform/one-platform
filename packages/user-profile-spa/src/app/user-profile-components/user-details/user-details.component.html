@@ -1,5 +1,5 @@
 <div class="user-profile">
-  <h2 class="user-name">{{ userDetails?.name }}</h2>
+  <h2 class="user-name"><a target="_blank" href="https://rover.redhat.com/people/profile/{{userDetails?.uid}}">{{ userDetails?.name }}</a></h2>
   <div class="user-details">
     <p>User Details</p>
     <button class="pf-c-button pf-m-secondary" (click)="showDetails = !showDetails" type="button">{{ showDetails ? 'Hide': 'Show' }} Details</button>
@@ -12,9 +12,7 @@
     </div>
 
     <div class="user-info-group">
-      <label for="user-account-type" class="user-info-label"
-        >API Role</label
-      >
+      <label for="user-account-type" class="user-info-label">API Role</label>
       <p class="user-info" id="user-account-type">
         {{ userDetails?.apiRole }}
       </p>
