@@ -136,7 +136,7 @@ deploy_to_spaship() {
     printf "\n"
     spaship deploy --env=$ENV_NAME --ref=$REF_VAL $SPA_NAME.zip
     printf "\n%s\n" "$SEPARATOR1"
-    exit 1
+    exit 0
 }
 
 # Main script to initiate execution.
