@@ -252,17 +252,14 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
               <input id="experienceExcellent" type="radio" name="feedbackExperience" value="excellent" class="op-feedback__form-radio" required>
               <label for="experienceExcellent" class="op-feedback__form-radio-label">
                 <ion-icon name="heart-sharp" class="op-feedback__form-radio-icon"></ion-icon>
-                Excellent
               </label>
               <input id="experienceGood" type="radio" name="feedbackExperience" value="good" class="op-feedback__form-radio" required>
               <label for="experienceGood" class="op-feedback__form-radio-label">
                 <ion-icon name="thumbs-up-sharp" class="op-feedback__form-radio-icon"></ion-icon>
-                Good
               </label>
               <input id="experiencePoor" type="radio" name="feedbackExperience" value="poor" class="op-feedback__form-radio" required>
               <label for="experiencePoor" class="op-feedback__form-radio-label">
-                <ion-icon name="thumbs-down-sharp" class="op-feedback__form-radio-icon"></ion-icon>
-                Improvement
+                <ion-icon name="warning-sharp" class="op-feedback__form-radio-icon"></ion-icon>
               </label>
           </div>
         </div>
