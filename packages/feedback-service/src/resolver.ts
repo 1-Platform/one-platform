@@ -32,9 +32,12 @@ export const FeedbackResolver = {
             .then( ( output: any ) => {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
-                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
+                let createdby;
+                if ( usersdata['rhatUUID_' + data[ 'createdBy' ]]) {
+                  createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
+                }
                 let updatedby;
-                if ( data[ 'updatedBy' ] ) {
+                if ( usersdata['rhatUUID_' + data[ 'updatedBy' ]]) {
                   updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
                 }
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
@@ -72,9 +75,12 @@ export const FeedbackResolver = {
               .then( ( result: any ) => result.json() )
               .then( ( output: any ) => {
                 const usersdata = output.data;
-                const createdby = usersdata[ 'rhatUUID_' + response[ 'createdBy' ] ][ 0 ];
+                let createdby;
+                if ( usersdata['rhatUUID_' + response[ 'createdBy' ]]) {
+                  createdby = usersdata[ 'rhatUUID_' + response[ 'createdBy' ] ][ 0 ];
+                }
                 let updatedby;
-                if ( response[ 'updatedBy' ] !== null ) {
+                if ( response[ 'updatedBy' ] !== null && usersdata['rhatUUID_' + response[ 'updatedBy' ]]) {
                   updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ][ 0 ];
                 }
                 return { ...{ ...response }._doc, createdBy: createdby, updatedBy: updatedby };
@@ -109,9 +115,12 @@ export const FeedbackResolver = {
             .then( ( output: any ) => {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
-                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
+                let createdby;
+                if ( usersdata['rhatUUID_' + data[ 'createdBy' ]]) {
+                  createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
+                }
                 let updatedby;
-                if ( data[ 'updatedBy' ] !== null ) {
+                if ( data[ 'updatedBy' ] !== null && usersdata['rhatUUID_' + data[ 'updatedBy' ]]) {
                   updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
                 }
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };

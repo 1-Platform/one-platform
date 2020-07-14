@@ -6,7 +6,7 @@ const FeedbackSchema: Schema = new Schema({
   ticketID: String,
   spa: String,
   createdOn: { type: Date, default: Date.now },
-  createdBy: String,
+  createdBy: {type: String, required: true},
   updatedOn: { type: Date, default: Date.now },
   updatedBy: String,
   title: String,
