@@ -31,13 +31,12 @@ class OpAuth {
       window.oninitJwt = res;
       if ( !this._jwt.isAuthenticated() ) {
         this._jwt.login();
-      } else {
-        this._postLoginCallbacks.map( fn => {
-          fn( this.getUserInfo() );
-        } );
-
-        this._removeHashes();
       }
+
+      this._postLoginCallbacks.map( fn => {
+        fn( this.getUserInfo() );
+      } );
+      this._removeHashes();
     } );
     this._jwt.onInitError( ( err ) => {
       console.error( err );

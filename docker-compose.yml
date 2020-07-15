@@ -7,18 +7,10 @@ services:
       driver: none
     volumes:
       # - ./packages/home-spa/dist:/var/www/html/home
-      - ./packages/ssi-service/public/index.html/:/var/www/html/index.html
+      - ./packages/ssi-service/public/index.html:/var/www/html/index.html
       - ./packages/ssi-service/dist:/var/www/html/.include/nav
     ports:
       - 5500:8080
-
-  home-spa:
-    build: ./packages/home-spa
-    env_file: ./packages/home-service/.env
-    ports:
-      - 5500:8080
-    depends_on:
-      - home-service
 
   api-gateway:
     build: ./packages/api-gateway-service

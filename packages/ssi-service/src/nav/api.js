@@ -1,9 +1,38 @@
+import { ApolloClient } from 'apollo-client';
+import { WebSocketLink } from 'apollo-link-ws';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { split } from 'apollo-link';
+
 /**
  * Helper Class for making API Calls to the One Platform API Gateway
  */
 export class APIService {
   constructor () {
     this._apiBasePath = process.env.APPS_BASE_API;
+    this._apiBaseURL = new URL( this._apiBasePath );
+
+    this._wsLink = new WebSocketLink( {
+      uri: `wss://${ this._apiBaseURL.host }${ this._apiBaseURL.pathname }`,
+      options: {
+        reconnect: true
+      }
+    } );
+  }
+
+  get apollo () {
+    const link = split(
+      () => true,
+      this._wsLink,
+      new HttpLink( {
+        uri: this._apiBasePath,
+        headers: this._headers
+      } ),
+    );
+    return new ApolloClient( {
+      link,
+      cache: new InMemoryCache(),
+    } );
   }
 
   /**
