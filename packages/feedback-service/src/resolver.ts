@@ -11,9 +11,10 @@ export const FeedbackResolver = {
       return Feedback.find()
         .sort( { 'timestamp': -1 } )
         .then( response => {
-          const createdBy = response.map( res => `rhatUUID_${ res.createdBy }:getUsersBy(rhatUUID:"${ res.createdBy }") { _id name title uid rhatUUID isActive}` );
+          const createdBy = response.map( res => `rhatUUID_${ res.createdBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.createdBy }")
+          { _id name title uid rhatUUID isActive}` );
           const updatedBy = response.filter( res => res.updatedBy ).map( res => {
-            return `rhatUUID_${ res.updatedBy }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
+            return `rhatUUID_${ res.updatedBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
           } );
           const users = createdBy.concat( updatedBy );
           const formattedquery = 'query' + `{${ users }}`;
@@ -32,10 +33,10 @@ export const FeedbackResolver = {
             .then( ( output: any ) => {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
-                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
+                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ].replace( /-/g, '' ) ][0];
                 let updatedby;
                 if ( data[ 'updatedBy' ] ) {
-                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
+                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ].replace( /-/g, '' ) ][0];
                 }
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
               } );
@@ -49,10 +50,10 @@ export const FeedbackResolver = {
       return Feedback.findById( args.id )
         .then( ( response: any ) => {
           if ( response ) {
-            const createdBy = [ `rhatUUID_${ response.createdBy }:getUsersBy(rhatUUID:"${ response.createdBy }") { _id name title uid rhatUUID isActive}` ];
+            const createdBy = [ `rhatUUID_${ response.createdBy.replace( /-/g, '' )}:getUsersBy(rhatUUID:"${ response.createdBy }") { _id name title uid rhatUUID isActive}` ];
             let users;
             if ( response.updatedBy ) {
-              const updatedBy = [ `rhatUUID_${ response.updatedBy }:getUsersBy(rhatUUID:"${ response.updatedBy }") { _id name title uid rhatUUID isActive}` ];
+              const updatedBy = [ `rhatUUID_${ response.updatedBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ response.updatedBy }") { _id name title uid rhatUUID isActive}` ];
               users = createdBy.concat( updatedBy );
             } else {
               users = createdBy;
@@ -72,10 +73,10 @@ export const FeedbackResolver = {
               .then( ( result: any ) => result.json() )
               .then( ( output: any ) => {
                 const usersdata = output.data;
-                const createdby = usersdata[ 'rhatUUID_' + response[ 'createdBy' ] ][ 0 ];
+                const createdby = usersdata[ 'rhatUUID_' + response[ 'createdBy' ].replace( /-/g, '' ) ][ 0 ];
                 let updatedby;
-                if ( response[ 'updatedBy' ] !== null ) {
-                  updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ] ][ 0 ];
+                if ( response[ 'updatedBy' ] ) {
+                  updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ].replace( /-/g, '' )][ 0 ];
                 }
                 return { ...{ ...response }._doc, createdBy: createdby, updatedBy: updatedby };
               } )
@@ -88,9 +89,10 @@ export const FeedbackResolver = {
       return Feedback.find( args.input )
         .sort( { 'timestamp': -1 } )
         .then( response => {
-          const createdBy = response.map( res => `rhatUUID_${ res.createdBy }:getUsersBy(rhatUUID:"${ res.createdBy }") { _id name title uid rhatUUID isActive}` );
+          const createdBy = response.map( res => `rhatUUID_${ res.createdBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.createdBy }")
+          { _id name title uid rhatUUID isActive}` );
           const updatedBy = response.filter( res => res.updatedBy ).map( res => {
-            return `rhatUUID_${ res.updatedBy }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
+            return `rhatUUID_${ res.updatedBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
           } );
           const users = createdBy.concat( updatedBy );
           const formattedquery = 'query' + `{${ users }}`;
@@ -109,10 +111,10 @@ export const FeedbackResolver = {
             .then( ( output: any ) => {
               const usersdata = output.data;
               return response.map( function ( data: any ) {
-                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ] ][ 0 ];
+                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ].replace( /-/g, '' ) ][ 0 ];
                 let updatedby;
-                if ( data[ 'updatedBy' ] !== null ) {
-                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ] ][ 0 ];
+                if ( data[ 'updatedBy' ] ) {
+                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ].replace( /-/g, '' ) ][ 0 ];
                 }
                 return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
               } );
