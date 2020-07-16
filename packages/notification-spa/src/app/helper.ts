@@ -1,6 +1,6 @@
 const getUserDetails = () => {
   try {
-    return (window as any).OpAuthHelper?.getUserInfo();
+    return window.OpAuthHelper?.getUserInfo();
   } catch (err) {
     console.error(err);
   }

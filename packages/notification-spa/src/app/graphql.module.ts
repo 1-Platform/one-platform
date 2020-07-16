@@ -18,8 +18,8 @@ export function provideApollo(httpLink: HttpLink) {
 
   const auth = setContext((operation, context) => ({
     headers: {
-      Authorization: ( window as any ).OpAuthHelper?.jwtToken
-      ? 'Bearer ' + ( window as any ).OpAuthHelper.jwtToken
+      Authorization: window.OpAuthHelper?.jwtToken
+      ? 'Bearer ' + window.OpAuthHelper.jwtToken
       : '',
     },
   }));
