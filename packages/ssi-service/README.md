@@ -72,7 +72,7 @@ A Javascript object that provides methods to invoke pop-up notifications within 
 </body>
 ```
 
-3. Mount your SPA build/dist as a volume in the the docker-compose `ssi-templates` service
+1. Mount your SPA build/dist as a volume in the the docker-compose `ssi-templates` service. (Make sure these is a build/dist directory present).
 
    ```yml
    ...
@@ -84,11 +84,13 @@ A Javascript object that provides methods to invoke pop-up notifications within 
        - ./packages/<spa-package>/dist/:/var/www/html/<spa-name>/
    ```
 
-4. Start the docker-compose
+2. Start the docker-compose
 
    ```bash
    docker-compose up -d httpd
    ```
+
+**Note:** For running your app live with the SSI header, the  `serve`/`start` script of your app should keep update the dist directory updated, or else the changes won't be reflected the docker. (It may not work with Angular's `ng serve` as that serves the app without creating a dist directory, so a workaround for that is to build the app every time a change is too be tested)
 
 ## Testing
 

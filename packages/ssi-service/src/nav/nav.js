@@ -84,6 +84,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
             targets: [
               user.kerberosID,
               user.email,
+              ...( user.realm_access?.roles ? user.realm_access.roles: []),
             ],
           }
         } )
