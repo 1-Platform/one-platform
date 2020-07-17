@@ -259,12 +259,12 @@
 }
 .op-menu-drawer__notification-subject {
   margin: 0;
-  margin-bottom: 0.5rem;
   font-weight: 500;
   font-size: 1.25rem;
 }
 .op-menu-drawer__notification-body {
   margin: 0;
+  margin-top: 0.5rem;
   font-size: 0.875rem;
   color: rgba(0, 0, 0, 0.75);
 }
@@ -298,6 +298,7 @@
   --pfe-toast--Top: 0;
   --pfe-toast--Right: 0.5rem;
   --pfe-toast--MinWidth: 23rem;
+  --pfe-toast--MaxWidth: 26rem;
   --pfe-toast__container--BoxShadow: none;
 }
 .op-menu-drawer__notification-toast:hover {

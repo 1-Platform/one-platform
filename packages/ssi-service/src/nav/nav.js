@@ -157,7 +157,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
       <h5 class="op-menu-drawer__notification-subject">
         ${ notification.link ? `<a href="${ notification.link }">${ notification.subject }</a>` : notification.subject }
       </h5>
-      <p class="op-menu-drawer__notification-body">${ notification.body }</p>
+      <p style="display: ${ !!notification.body ? 'block': 'none' };" class="op-menu-drawer__notification-body">${ notification.body }</p>
     `;
 
     toast.appendChild( toastContent.content.cloneNode( true ) );
