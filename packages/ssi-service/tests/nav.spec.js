@@ -44,52 +44,53 @@ describe( 'op-nav component', () => {
 
   describe( 'App Drawer', () => {
     it( 'opens app drawer', () => {
-      expect( Utils.opNav.shadowRoot.querySelector( '#op-menu-drawer' ) ).toBeFalsy();
+      expect( Utils.opNav.drawerOpen ).toBeFalsy();
 
-      /* Sumulate a click event */
+      /* Simulate a click event on the App drawer button */
       Utils.opNavAppsButton.click();
 
-      expect( Utils.opMenuDrawer ).toBeTruthy();
-      expect( Utils.opMenuDrawer.dataset.type ).toEqual( Utils.opNavAppsButton.dataset.type );
+      expect( Utils.opNav.drawerOpen ).toBeTruthy()
+      expect( Utils.opNav.activeDrawerType ).toEqual( Utils.opNavAppsButton.dataset.type );
     } );
 
     it( 'closes app drawer', () => {
+      /* Simulate a click event on the App Drawer button */
       Utils.opNavAppsButton.click();
-      expect( Utils.opMenuDrawer ).toBeFalsy();
+      expect( Utils.opNav.drawerOpen ).toBeFalsy();
     } );
   } );
 
   describe( 'Notification Drawer', () => {
     it( 'opens app drawer', () => {
-      expect( Utils.opNav.shadowRoot.querySelector( '#op-menu-drawer' ) ).toBeFalsy();
+      expect( Utils.opNav.drawerOpen ).toBeFalsy();
 
       /* Sumulate a click event */
       Utils.opNavNotificationButton.click();
 
-      expect( Utils.opMenuDrawer ).toBeTruthy();
-      expect( Utils.opMenuDrawer.dataset.type ).toEqual( Utils.opNavNotificationButton.dataset.type );
+      expect( Utils.opNav.drawerOpen ).toBeTruthy();
+      expect( Utils.opNav.activeDrawerType ).toEqual( Utils.opNavNotificationButton.dataset.type );
     } );
 
     it( 'closes app drawer', () => {
       Utils.opNavNotificationButton.click();
-      expect( Utils.opMenuDrawer ).toBeFalsy();
+      expect( Utils.opNav.drawerOpen ).toBeFalsy();
     } );
   } );
 
   describe( 'User Profile Drawer', () => {
     it( 'opens app drawer', () => {
-      expect( Utils.opNav.shadowRoot.querySelector( '#op-menu-drawer' ) ).toBeFalsy();
+      expect( Utils.opNav.drawerOpen ).toBeFalsy();
 
       /* Sumulate a click event */
       Utils.opNavUserButton.click();
 
-      expect( Utils.opMenuDrawer ).toBeTruthy();
-      expect( Utils.opMenuDrawer.dataset.type ).toEqual( Utils.opNavUserButton.dataset.type );
+      expect( Utils.opNav.drawerOpen ).toBeTruthy();
+      expect( Utils.opNav.activeDrawerType ).toEqual( Utils.opNavUserButton.dataset.type );
     } );
 
     it( 'closes app drawer', () => {
       Utils.opNavUserButton.click();
-      expect( Utils.opMenuDrawer ).toBeFalsy();
+      expect( Utils.opNav.drawerOpen ).toBeFalsy();
     } );
   } );
 } );

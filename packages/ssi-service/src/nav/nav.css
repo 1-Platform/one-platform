@@ -5,6 +5,8 @@
   --op-menu-drawer__width: 25rem;
   --op-user-proflie-icon__radius: 5rem;
   --op-highlight__color-blue: #0070e0;
+  --op-transition--default: 120ms ease-in-out;
+  --op-menu--icon-size: 4rem;
 
   display: block;
   z-index: 9000;
@@ -20,6 +22,7 @@
 
 .op-nav {
   height: var(--op-body__paddingTop, var(--op-nav__height));
+  z-index: 3;
 }
 .op-nav-wrapper {
   position: fixed;
@@ -175,11 +178,13 @@
   max-width: 100vw;
   margin-top: 1px;
   padding: 2rem;
+  padding-top: 1rem;
   box-sizing: border-box;
   height: calc(100vh - var(--op-nav__height));
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.16);
   border: none;
   overflow-y: auto;
+  z-index: 0;
 }
 .op-menu-drawer[data-type="app"] {
   right: 0;
@@ -206,10 +211,13 @@
 
 .op-menu-drawer > h3,
 .op-menu-drawer__title {
+  position: sticky;
+  top: -1rem;
+  padding: 0.5rem 1rem;
+  margin: 0 -1rem 0.5rem;
+  background: white;
   font-size: 1.25rem;
   font-weight: 500;
-  margin-top: 0;
-  margin-bottom: 1rem;
 }
 .op-menu-drawer > p {
   margin-top: 0;
@@ -239,7 +247,7 @@
   border: 1px solid #eee;
   border-radius: 0.25rem;
 }
-.op-menu-drawer__notification-item a {
+.op-menu-drawer__notification-subject a {
   color: inherit;
   text-decoration: inherit;
 }
@@ -251,12 +259,12 @@
 }
 .op-menu-drawer__notification-subject {
   margin: 0;
-  margin-bottom: 1rem;
   font-weight: 500;
   font-size: 1.25rem;
 }
 .op-menu-drawer__notification-body {
   margin: 0;
+  margin-top: 0.5rem;
   font-size: 0.875rem;
   color: rgba(0, 0, 0, 0.75);
 }
@@ -265,7 +273,39 @@
   background: white;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.16);
 }
-.op-menu-drawer__notification-item:hover .op-menu-drawer__notification-subject {
+.op-menu-drawer__notification-item:hover .op-menu-drawer__notification-subject,
+.op-menu-drawer__notification-toast:hover
+  .op-menu-drawer__notification-subject {
+  color: var(--op-highlight__color-blue);
+}
+
+.op-menu__toast-container {
+  position: fixed;
+  right: 0;
+  top: var(--op-nav-height);
+  height: auto;
+  max-height: 100vh;
+  z-index: 1;
+}
+
+.op-menu-drawer__notification-toast {
+  position: relative;
+  margin: 0.5rem 0;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.24);
+  border-radius: 0.25rem;
+  overflow: hidden;
+  transition: var(--op-transition--default);
+  --pfe-toast--Top: 0;
+  --pfe-toast--Right: 0.5rem;
+  --pfe-toast--MinWidth: 23rem;
+  --pfe-toast--MaxWidth: 26rem;
+  --pfe-toast__container--BoxShadow: none;
+}
+.op-menu-drawer__notification-toast:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.32);
+}
+
+.op-user-profile-btn {
   color: var(--op-highlight__color-blue);
 }
 
@@ -297,9 +337,9 @@
 .op-menu-drawer__app-list {
   max-width: 80vw;
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   grid-template-rows: 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 0;
   margin: 0 auto;
   grid-auto-flow: row;
@@ -320,19 +360,20 @@
 }
 .op-menu-drawer__app-list-item a div {
   background: #cc0000;
-  width: 96px;
-  height: 96px;
+  width: var(--op-menu--icon-size);
+  height: var(--op-menu--icon-size);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .op-menu-drawer__app-list-item a span {
-  margin-top: 0.6rem;
+  margin-top: 0.75rem;
+  text-align: center;
 }
 .op-menu-drawer__app-list-item a div img {
-  height: 56px;
-  width: 56px;
+  height: calc(var(--op-menu--icon-size) / 2);
+  width: calc(var(--op-menu--icon-size) / 2);
 }
 .op-menu-drawer__app-list-item a:hover {
   border-color: #eee;

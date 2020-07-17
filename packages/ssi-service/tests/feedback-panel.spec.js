@@ -26,7 +26,16 @@ describe('op-feedback-panel component', () => {
     },
   };
 
-  beforeAll(() => {
+  beforeAll( () => {
+    /* Mocking up One Platform helpers */
+    window.OpAuthHelper = {
+      onLogin: jest.fn(),
+      getUserInfo: jest.fn(),
+    };
+    window.OpNotification = {
+      showToast: jest.fn(),
+    };
+
     /* Defining the custom-component */
     require('../dist/op-feedback-panel');
     /* Appending the component to the DOM */
@@ -51,14 +60,14 @@ describe('op-feedback-panel component', () => {
 
     /* Check if default panel/view has loaded */
     expect(Utils.defaultPanel).toBeTruthy();
-    
+
     /* Check if the first option has focus */
     expect(Utils.opFeedback.shadowRoot.activeElement).toEqual(Utils.bugReportOption);
   });
 
   describe('bug report form', () => {
     it('opens bug report form', () => {
-      Utils.bugReportOption.click();  
+      Utils.bugReportOption.click();
       expect(Utils.bugReportForm).toBeTruthy();
     });
 

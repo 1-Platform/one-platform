@@ -1,18 +1,31 @@
-import html from 'html-template-tag';
+import { LitElement, html, css, unsafeCSS } from 'lit-element';
 import moment from 'moment';
+import gql from 'graphql-tag';
+import PfeToast from '@patternfly/pfe-toast';
 import styles from './nav.css';
+import './auth';
+import { OpAuthHelper } from './auth';
 import APIHelper from './api';
 
-/* Initializing the Auth */
-import './auth';
-/* Initialize SSO Auth as soon as the component is created */
-( async () => {
-  await window.OpAuthHelper.init();
-} )();
+/* TODO: Check if user is already authenticated before re-initializing */
+OpAuthHelper.init();
 
 const ASSETS_URL = process.env.ASSETS_HOST + '/assets';
 
-window.customElements.define( 'op-nav', class extends HTMLElement {
+window.customElements.define( 'op-nav', class extends LitElement {
+  static get properties () {
+    return {
+      drawerOpen: { type: Boolean },
+      _appsList: { type: Array, attribute: false },
+      _notificationsList: { type: Array, attribute: false },
+      _userDetails: { type: Object, attribute: false },
+      activeDrawerType: { type: String, attribute: false },
+    };
+  }
+  static get styles () {
+    return css`${ unsafeCSS( styles ) }`;
+  }
+
   constructor () {
     super();
 
@@ -23,258 +36,240 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
     this.drawer.setAttribute( 'role', 'dialog' );
     this.drawer.setAttribute( 'aria-modal', true );
 
-    this.appsList = [];
-    this.notificationsList = [];
+    this._appsList = [];
+    this._notificationsList = [];
+    this._userDetails = null;
+    this._toastNotificationsList = [];
+
+    this.activeDrawerType = '';
+    this.drawerOpen = false;
+
+    this._notificationsSubscription = null;
+
+    OpAuthHelper.onLogin( user => {
+      this._userDetails = user;
+
+      APIHelper.navDrawerData()
+        .then( res => {
+          this._appsList = res.appsList.sort( ( prev, next ) => {
+            if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
+              return -1;
+            } else {
+              return 1;
+            }
+          } );
+          this._notificationsList = res.notificationsList;
+        } )
+        .catch( err => {
+          console.error( err );
+        } );
+
+      if ( this._notificationsSubscription ) {
+        this._notificationsSubscription.unsubscribe();
+      }
+      this._notificationsSubscription = APIHelper.apollo
+        .subscribe( {
+          query: gql`subscription Notifications($targets: [String!]!) {
+            notification: newNotifications(target: $targets) {
+              id
+              title
+              body
+              link
+              data
+              type
+              sentOn
+            }
+          }`,
+          variables: {
+            targets: [
+              user.kerberosID,
+              user.email,
+              ...( user.realm_access?.roles ? user.realm_access.roles: []),
+            ],
+          }
+        } )
+        .subscribe( res => {
+          if ( res.errors ) {
+            throw res.errors;
+          }
+          this.showToast( res.data.notification, { addToDrawer: true } );
+        } );
+    } );
+
+    /* Exporting the OpNotification as a helper function */
+    window.OpNotification = {
+      showToast: ( notification, options ) => {
+        this.showToast( notification, options );
+      }
+    };
   }
 
-  connectedCallback () {
-    if ( !this.shadowRoot ) {
-      this.attachShadow( { mode: 'open' } );
-      this.shadowRoot.appendChild( this._template.content.cloneNode( true ) );
-
-      /* Adding click event listeners */
-      this.shadowRoot.querySelectorAll( '.op-menu__item-button' ).forEach( button => {
-        button.addEventListener( 'click', event => {
-          if ( event.target.dataset ) {
-            this.toggleDrawer( event.target.dataset.type );
-          }
-        } );
-      } );
-
-      const styleTag = document.createElement( 'style' );
-      styleTag.innerText = styles;
-      this.shadowRoot.prepend( styleTag );
-
-      /* If logged in, set the user name */
-      window.OpAuthHelper.onLogin( ( user ) => {
-        this.shadowRoot.querySelector( '#user-profile > span' ).textContent = user?.kerberosID || 'Sign Out';
-        if ( this._isDrawerOpenOfType( 'user' ) ) {
-          this.toggleDrawer( 'user', true );
-        }
-
-        APIHelper.navDrawerData()
-          .then( res => {
-            this.appsList = res.appsList;
-            this.notificationsList = res.notificationsList;
-          } )
-          .catch( err => {
-            this.appsList = [];
-            this.notificationsList = [];
-            console.error( err );
-          } );
-      } );
+  disconnectedCallback () {
+    if ( this._notificationsSubscription && !this._notificationsSubscription.closed ) {
+      this._notificationsSubscription.unsubscribe();
     }
   }
 
   /**
-   * Checks if the drawer is open or not
-   */
-  get isDrawerOpen () {
-    return !!this.shadowRoot.getElementById( 'op-menu-drawer' );
-  }
-  /**
-   * Returns true if the drawer of the given type is open.
+   * Opens or closes the drawer
    *
-   * @param {'app' | 'notification' | 'user'} type
+   * @param {'app' | 'notification' | 'user'} drawerType
    */
-  _isDrawerOpenOfType ( type ) {
-    const drawerInDOM = this.shadowRoot.getElementById( 'op-menu-drawer' );
-    return !!drawerInDOM && drawerInDOM.dataset.type === type;
-  }
-
-  /**
-   * Refreshes the active status of the nav menu items
-   */
-  _refreshActiveButtonStatus () {
-    this.shadowRoot.querySelectorAll( '.op-menu__item-button' ).forEach( button => {
-      button.classList.remove( 'active' );
-      if ( this._isDrawerOpenOfType( button.dataset.type ) ) {
-        button.classList.add( 'active' );
-      }
-    } );
-  }
-
-  /**
-   * Toggles the open/close state of Drawer.
-   *
-   * And sets the inner content of the drawer according to the drawer type.
-   *
-   * @param {"app" | "notification" | "user"} drawerType
-   * @param {boolean} refreshInPlace
-   */
-  toggleDrawer ( drawerType, refreshInPlace = false ) {
+  toggleDrawer ( drawerType ) {
     if ( !drawerType ) {
       return;
     }
 
-    if ( !refreshInPlace && this.isDrawerOpen && this.drawer.dataset.type === drawerType ) {
-      this.drawer.open = false;
-      this.shadowRoot.getElementById( 'op-menu-drawer' ).remove();
-      this._refreshActiveButtonStatus();
+    if ( this.drawerOpen && drawerType === this.activeDrawerType ) {
+      this.drawerOpen = false;
+      this.activeDrawerType = null;
       return;
     }
 
-    this.drawer.dataset.type = drawerType;
-    this.drawer.setAttribute( 'open', true );
-
-    switch ( drawerType ) {
-      case 'app':
-        this.drawer.innerHTML = this._appDrawer;
-        break;
-      case 'notification':
-        this.drawer.innerHTML = this._notificationDrawer;
-        break;
-      case 'user':
-        this.drawer.innerHTML = this._userDrawer;
-        break;
-      default:
-        this.drawer.innerHTML = html`<p>There was some error. Try selecting an option again.</p>`;
+    this.drawerOpen = true;
+    this.activeDrawerType = drawerType;
+  }
+  _handleDrawerToggle ( event ) {
+    if ( event.target?.dataset?.type ) {
+      this.toggleDrawer( event.target.dataset.type );
     }
-
-    const template = document.createElement( 'template' );
-    template.innerHTML = this.drawer.outerHTML;
-
-    if ( this.isDrawerOpen ) {
-      this.shadowRoot.getElementById( 'op-menu-drawer' ).replaceWith( template.content.cloneNode( true ) );
-    } else {
-      this.shadowRoot.appendChild( template.content.cloneNode( true ) );
-    }
-
-    this._setAppDrawerEventListeners( drawerType );
-    this._refreshActiveButtonStatus();
   }
 
   /**
-   * Sets up the event listeners to the appropriate drawer elements when the drawer loads
+   * Shows a toast/pop-up notification
    *
-   * @param {"app" | "notification" | "user"} drawerType
+   * @param {{ subject, body, sentOn, link }} notification Toast Contents
+   * @param {{addToDrawer: boolean, duration: string}} options Toast Options
    */
-  _setAppDrawerEventListeners ( drawerType ) {
-    switch ( drawerType ) {
-      case 'user':
-        const signoutBtn = this.shadowRoot.getElementById( 'op-user-signout-btn' );
-        if ( signoutBtn ) {
-          signoutBtn.addEventListener( 'click', () => {
-            window.OpAuthHelper.logout();
-          } );
-        }
-        break;
-      case 'notification':
-        // TODO: add event listeners for the Notifications (for close/dismiss)
-        break;
+  showToast ( notification, options ) {
+    if ( !notification.sentOn ) {
+      notification.sentOn = moment().toISOString();
+    }
+    options = Object.assign( { addToDrawer: false, duration: '5s' }, options );
+
+    const toast = new PfeToast();
+    toast.setAttribute( 'auto-dismiss', options.duration );
+    toast.classList.add( 'op-menu-drawer__notification-toast' );
+
+    const toastContent = document.createElement( 'template' );
+    toastContent.innerHTML = `
+      <span class="op-menu-drawer__notification-time" title="${moment( notification.sentOn ).format( 'LLL' ) }">just now</span>
+      <h5 class="op-menu-drawer__notification-subject">
+        ${ notification.link ? `<a href="${ notification.link }">${ notification.subject }</a>` : notification.subject }
+      </h5>
+      <p style="display: ${ !!notification.body ? 'block': 'none' };" class="op-menu-drawer__notification-body">${ notification.body }</p>
+    `;
+
+    toast.appendChild( toastContent.content.cloneNode( true ) );
+    this.shadowRoot.getElementById( 'op-menu__toast-container' ).appendChild( toast );
+    toast.open();
+    this._addToastToList( toast );
+
+    toast.addEventListener( 'pfe-toast:close', event => {
+      this._toastNotificationsList = this._toastNotificationsList.filter( t => !t.hasAttribute( 'open' ) );
+      event.target.remove();
+    } );
+
+    if ( options.addToDrawer ) {
+      this._notificationsList.push( notification );
+    }
+  }
+  _addToastToList ( newToast ) {
+    this._toastNotificationsList.unshift( newToast );
+
+    /* Dismiss excess notifications */
+    if ( this._toastNotificationsList.length > 4 ) {
+      this._toastNotificationsList.slice( 5 ).map( toast => {
+        toast.close();
+      } );
     }
   }
 
-  //#region HTML Templates
-  /**
-   * Returns a <template> tag for the nav header
-   */
-  get _template () {
-    const template = document.createElement( 'template' );
-    template.innerHTML = this._html;
-
-    return template;
+  get _drawerContents () {
+    if ( !this.drawerOpen ) {
+      return '';
+    }
+    switch ( this.activeDrawerType ) {
+      case 'app':
+        return this._appDrawer;
+      case 'notification':
+        return this._notificationDrawer;
+      case 'user':
+        return this._userDrawer;
+      default:
+        return html`<p>There was some error. Try selecting an option again.`;
+    }
   }
 
-  /**
-   * Returns the html for the App Drawer
-   */
   get _appDrawer () {
-    if ( this.appsList.length === 0 ) {
+    if ( this._appsList.length === 0 ) {
       return html`<div class="op-menu-drawer__empty-state">
         <p>No Apps found. Please try reloading the page.</p>
       </div>`;
     }
 
-    return html`<ul class="op-menu-drawer__app-list">`
-      + this.appsList.map( app => this._appDrawerItem( app ) ).join( '' )
-      + html`</ul>`;
-  }
-  /**
-   * Returns the html for a cell in the App Drawer List
-   *
-   * @param {{ name: string, url: string, logo: string }} item
-   */
-  _appDrawerItem ( item ) {
-    return html`
-      <li class="op-menu-drawer__app-list-item ${ item.active ? '' : 'inactive' }">
-        <a href="${ item.link }">
-          <div>
-            <img src="${ item.logo || ASSETS_URL + '/rh-hat-logo.svg' }"/> <!-- https://pnt.redhat.com/pnt/d-11634445/LogoRedHatHatWhiteRGB.svg?t=n&lastModified=1556409780 -->
-          </div>
-          <span>
-            ${ item.name }
-          </span>
-        </a>
-      </li>
-    `;
+    return html`<ul class="op-menu-drawer__app-list">
+      ${this._appsList.map( app => ( html`
+        <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
+          <a .href="${ app.link }">
+            <div>
+              <img .src="${ app.logo || ASSETS_URL + '/rh-hat-logo.svg' }"/>
+            </div>
+            <span>
+              ${ app.name }
+            </span>
+          </a>
+        </li>
+      `) ) }
+      `;
   }
 
-  /**
-   * Returns the html for the Notifications Drawer
-   */
   get _notificationDrawer () {
     return html`
-      <h3 class="op-menu-drawer__title">All Notifications <span class="op-menu-drawer__notifications-count" style="visibility: ${this.notificationsList.length === 0 ? 'hidden' : 'visible' }">${ this.notificationsList.length }</span></h3>`
+      <h3 class="op-menu-drawer__title">All Notifications <span class="op-menu-drawer__notifications-count" style="visibility: ${this._notificationsList.length === 0 ? 'hidden' : 'visible' }">${ this._notificationsList.length }</span></h3>
 
-      + ( this.notificationsList.length === 0
-
+      ${ this._notificationsList.length === 0
         ? html`<div class="op-menu-drawer__empty-state">
-          <p>No Notifications available at the moment.</p>
-          </div>`
+            <p>No Notifications available at the moment.</p>
+            </div>`
 
-        : ( `<ul class="op-menu-drawer__notifications-list">`
-          + this.notificationsList.map( notification => this._notificationItem( notification ) ).join( '' )
-          + html`</ul>` ) );
-  }
-
-  /**
-   * Returns the html for a notification item
-   *
-   * @param {{ name: string, subject: string, link: string, sentOn: string }} item
-   */
-  _notificationItem ( item ) {
-    return html`
-      <li class="op-menu-drawer__notification-item">
-        <span class="op-menu-drawer__notification-time" title="${moment( item.sentOn ).format( 'LLL' ) }">${ moment( item.sentOn ).fromNow() }</span>
-        <h5 class="op-menu-drawer__notification-subject">
-          <a href="${ item.link }">${ item.subject }</a>
-        </h5>
-        <p class="op-menu-drawer__notification-body">${item.body }</p>
-      </li>
+        : html`<ul class="op-menu-drawer__notifications-list">
+            ${this._notificationsList.map( notification => ( html`
+              <li class="op-menu-drawer__notification-item">
+                <span class="op-menu-drawer__notification-time" title="${moment( notification.sentOn ).format( 'LLL' ) }">${ moment( notification.sentOn ).fromNow() }</span>
+                <h5 class="op-menu-drawer__notification-subject">
+                  <a href="${ notification.link }">${ notification.subject }</a>
+                </h5>
+                <p class="op-menu-drawer__notification-body">${notification.body }</p>
+              </li>`) ) }
+          </ul>`
+      }
     `;
   }
 
-  /**
-   * Returns the html for the User Profile Drawer
-   */
   get _userDrawer () {
-    const userDetails = window.OpAuthHelper.getUserInfo();
-    if ( !userDetails ) {
-      return html`
-        <p style="text-align: center;">There was some error fetching your details. Try reloading the page.</p>
-      `;
+    if ( !this._userDetails ) {
+      return html`<p style="text-align: center;">There was some error fetching your details. Try reloading the page.</p>`;
     }
+
     return html`
       <figure class="op-user-profile-icon">
         <ion-icon name="person" size="large"></ion-icon>
       </figure>
-      <h3 class="op-menu-drawer__title">${ userDetails?.fullName }</h3>
-      <p>${ userDetails?.title }</p>
-      <button id="op-user-signout-btn" type="button" class="op-user-signout-btn">Sign Out</button>
+      <h3 class="op-menu-drawer__title">${ this._userDetails?.fullName }</h3>
+      <p>${ this._userDetails?.title }</p>
+      <a href="/user" class="op-user-profile-btn">View Profile</a>
+      <button type="button" class="op-user-signout-btn">Sign Out</button>
     `;
   }
 
-  /**
-   * Returns the html for the nav/header
-   */
-  get _html () {
+  render () {
     return html`
       <header class="op-nav">
         <div class="op-nav-wrapper">
           <!-- QSTN: Customizable menu here?? -->
           <a class="op-logo" href="/">
-            <img class="op-logo__img" src="${ ASSETS_URL }/rh-op-logo.svg" alt="Red Hat One Portal">
+            <img class="op-logo__img" .src="${ ASSETS_URL }/rh-op-logo.svg" alt="Red Hat One Portal">
           </a>
 
           <form class="op-search" onsubmit="return false" disabled>
@@ -287,27 +282,38 @@ window.customElements.define( 'op-nav', class extends HTMLElement {
           <nav class="op-menu">
             <ul class="op-menu-wrapper">
               <li class="op-menu__item">
-                <button type="button" class="op-menu__item-button" data-type="app">
+                <button type="button" class="op-menu__item-button" data-type="app" @click="${ this._handleDrawerToggle }">
                   <ion-icon name="apps-outline" class="op-nav__icon"></ion-icon>
                   <span>Apps</span>
                 </button>
               </li>
               <li class="op-menu__item">
-                <button type="button" class="op-menu__item-button" data-type="notification">
+                <button type="button" class="op-menu__item-button" data-type="notification" @click="${ this._handleDrawerToggle }">
                   <ion-icon name="notifications-outline" class="op-nav__icon"></ion-icon>
                   <span>Notifications</span>
                 </button>
               </li>
               <li class="op-menu__item">
-                <button id="user-profile" type="button" class="op-menu__item-button" data-type="user">
+                <button type="button" class="op-menu__item-button" data-type="user" @click="${ this._handleDrawerToggle }">
                   <ion-icon name="person-outline" class="op-nav__icon"></ion-icon>
-                  <span>Sign In</span>
+                  <span>${this._userDetails?.kerberosID || 'Sign In' }</span>
                 </button>
               </li>
             </ul>
           </nav>
         </div>
       </header>
+
+      <dialog id="op-menu-drawer"
+        class="op-menu-drawer"
+        role="dialog"
+        aria-modal="true"
+        ?open="${ this.drawerOpen }"
+        data-type="${ this.activeDrawerType }">
+          ${ this._drawerContents }
+      </dialog>
+
+      <div id="op-menu__toast-container" class="op-menu__toast-container"></div>
     `;
   }
 } );

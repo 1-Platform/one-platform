@@ -4,6 +4,7 @@ const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 const CopyPlugin = require( 'copy-webpack-plugin' );
 const MinifyPlugin = require( 'babel-minify-webpack-plugin' );
 const Dotenv = require( 'dotenv-webpack' );
+require( 'dotenv' ).config();
 
 module.exports = ( _, { mode } ) => {
   const config = {
@@ -41,7 +42,9 @@ module.exports = ( _, { mode } ) => {
     },
     plugins: [
       new Dotenv(),
-      new CleanWebpackPlugin(),
+      new CleanWebpackPlugin( {
+        cleanOnceBeforeBuildPatterns: [ '*/' ]
+      } ),
       new HtmlWebPackPlugin( {
         template: './src/default.html',
         filename: 'default.html',

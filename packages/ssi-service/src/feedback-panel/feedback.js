@@ -3,6 +3,11 @@ import styles from './feedback.css';
 import APIHelper from './api';
 
 window.customElements.define( 'op-feedback', class extends HTMLElement {
+  constructor () {
+    super();
+    this._appsList = [];
+  }
+
   connectedCallback () {
     if ( !this.shadowRoot ) {
       this.attachShadow( { mode: 'open' } );
@@ -16,6 +21,30 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
       this.feedbackButton.addEventListener( 'click', this.togglePanelVisibility.bind( this ) );
 
       this.feedbackPanel = this.shadowRoot.querySelector( '#op-feedback__panel' );
+
+      window.OpAuthHelper.onLogin( () => {
+        APIHelper.request( /* GraphQL */`query AppOptions {
+          appsList: getHomeTypeBy( input: {entityType: "spa"} ) {
+            _id
+            name
+            link
+            icon
+            active
+          }
+        }`)
+          .then( res => {
+            this._appsList = res.appsList.sort( ( prev, next ) => {
+              if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
+                return -1;
+              } else {
+                return 1;
+              }
+            });
+          } )
+          .catch( err => {
+            console.error( err );
+          } );
+      } );
     }
   }
 
@@ -49,13 +78,12 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
 
     APIHelper.request( query, variables )
       .then( res => {
-        if ( res.errors ) {
-          throw res.errors;
-        }
-        console.info( res );
-      } )
+        window.OpNotification.showToast( { subject: 'Bug Report Submitted Successfully!', body: 'Click the title to see the bug report.', link: '/feedback' } );
+        this.togglePanelVisibility();
+    } )
       .catch( err => {
         console.error( err );
+        window.OpNotification.showToast( { subject: 'An Error occured!', body: 'Please try again or contact <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>' } );
       } );
   }
 
@@ -70,7 +98,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
       throw new Error( 'Could not find details of the logged in user.' );
     }
 
-    const query = /* GraphQL */ `mutation AddFeedback($feedback: FeedbackInput) {
+    const query = /* GraphQL */ `mutation AddFeedback($feedback: FeedbackInput!) {
       addFeedback(input: $feedback) {
         _id
         title
@@ -82,6 +110,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
         title: '',
         description: formData.namedItem( 'feedbackDescription' ).value,
         experience: formData.namedItem( 'feedbackExperience' ).value,
+        spa: formData.namedItem( 'feedbackType' ).value || undefined,
         feedbackType: 'Feedback',
         createdOn: new Date().toISOString(),
         createdBy: user.rhatUUID,
@@ -90,13 +119,15 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
 
     APIHelper.request( query, variables )
       .then( res => {
-        if ( res.errors ) {
-          throw res.errors;
-        }
-        console.log( res );
+        window.OpNotification.showToast( { subject: 'Feedback Submitted Successfully!', body: 'Click the title to see the feedback.', link: '/feedback' } );
+        this.togglePanelVisibility();
       } )
       .catch( err => {
         console.error( err );
+        window.OpNotification.showToast( {
+          subject: 'An Error occured!',
+          body: 'Please try again or contact <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>'
+        } );
       } );
   }
 
@@ -144,7 +175,6 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
         } else if ( panelType === 'feedback' ) {
           this._submitFeedback( event.target.elements );
         }
-        this.togglePanelVisibility();
       } );
       /* Event Listener for Form Reset/Close */
       formReference.addEventListener( 'reset', ( event ) => {
@@ -161,6 +191,10 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
       return this._feedbackPanel;
     }
     return this._feedbackOptionsPanel;
+  }
+
+  _isActiveApp ( app ) {
+    return window.location.pathname !== '/' && window.location.pathname.startsWith( app.link );
   }
 
   get _template () {
@@ -202,9 +236,10 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
           </button>
         </li>
         <li>
-          <a disabled data-feedback-type="feedback-list" class="op-feedback__option-item">
+          <a href="/feedback" data-feedback-type="feedback-list" class="op-feedback__option-item">
             <ion-icon name="chatbubbles-outline" class="op-feedback__option-icon"></ion-icon>
             View Existing Feedback
+            <ion-icon name="open-outline" class="op-feedback__icon-secondary"></ion-icon>
           </a>
         </li>
       </ul>
@@ -220,7 +255,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
         </div>
         <div class="op-feedback__form-group">
           <label for="bugDescription" class="op-feedback__form-label">Bug Description <span class="red">*</span></label>
-          <textarea id="bugDescription" type="text" name="bugDescription" rows="5" placeholder="Enter bug description" class="op-feedback__form-input" required></textarea>
+          <textarea id="bugDescription" type="text" name="bugDescription" rows="5" placeholder="Describe the issue..." class="op-feedback__form-input" required></textarea>
         </div>
         <div class="op-feedback__form-actions">
           <button type="reset" class="op-feedback__form-button">
@@ -240,10 +275,10 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
     return html`
       <form id="op-feedback__feedbackForm" class="op-feedback__form">
         <div class="op-feedback__form-group">
-          <label for="feedbackType" class="op-feedback__form-label">Feedback for <span class="red">*</span></label>
-          <select id="feedbackType" name="feedbackType" autofocus="true" class="op-feedback__form-input" required>
-            <option value="one-platform">One Platform</option>
-            <option value="home">Home</option>
+          <label for="feedbackType" class="op-feedback__form-label">Select App <span class="red">*</span></label>
+          <select id="feedbackType" name="feedbackType" autofocus="true" class="op-feedback__form-input">
+            <option value="">One Platform</option>
+            ${ this._appsList.map(app => html`<option value="${ app._id }" ${ this._isActiveApp(app) ? 'selected' : ''}>${ app.name }</option>`) }
           </select>
         </div>
         <div class="op-feedback__form-group">
@@ -251,24 +286,21 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
           <div class="op-feedback__form-radio-group">
               <input id="experienceExcellent" type="radio" name="feedbackExperience" value="excellent" class="op-feedback__form-radio" required>
               <label for="experienceExcellent" class="op-feedback__form-radio-label">
-                <ion-icon name="heart-sharp" class="op-feedback__form-radio-icon"></ion-icon>
                 Excellent
               </label>
               <input id="experienceGood" type="radio" name="feedbackExperience" value="good" class="op-feedback__form-radio" required>
               <label for="experienceGood" class="op-feedback__form-radio-label">
-                <ion-icon name="thumbs-up-sharp" class="op-feedback__form-radio-icon"></ion-icon>
                 Good
               </label>
-              <input id="experiencePoor" type="radio" name="feedbackExperience" value="poor" class="op-feedback__form-radio" required>
-              <label for="experiencePoor" class="op-feedback__form-radio-label">
-                <ion-icon name="thumbs-down-sharp" class="op-feedback__form-radio-icon"></ion-icon>
-                Poor
+              <input id="experienceNeedsImprovement" type="radio" name="feedbackExperience" value="needs-improvement" class="op-feedback__form-radio" required>
+              <label for="experienceNeedsImprovement" class="op-feedback__form-radio-label">
+                Needs Improvement
               </label>
           </div>
         </div>
         <div class="op-feedback__form-group">
-          <label for="feedbackDescription" class="op-feedback__form-label">Feedback Description <span class="red">*</span></label>
-          <textarea id="feedbackDescription" type="text" name="feedbackDescription" rows="5" placeholder="Enter bug description" class="op-feedback__form-input" required></textarea>
+          <label for="feedbackDescription" class="op-feedback__form-label">Description <span class="red">*</span></label>
+          <textarea id="feedbackDescription" type="text" name="feedbackDescription" rows="5" placeholder="Describe your experience..." class="op-feedback__form-input" required></textarea>
         </div>
         <div class="op-feedback__form-actions">
           <button type="reset" class="op-feedback__form-button">
