@@ -213,7 +213,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
         <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
           <a .href="${ app.link }">
             <div>
-              <img .src="${ app.logo || ASSETS_URL + '/rh-hat-logo.svg' }"/>
+              <img .src="${ app.icon || ASSETS_URL + '/rh-hat-logo.svg' }"/>
             </div>
             <span>
               ${ app.name }

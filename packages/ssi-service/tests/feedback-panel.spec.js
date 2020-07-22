@@ -1,4 +1,6 @@
-describe('op-feedback-panel component', () => {
+import mockApps from '../src/assets/mocks/apps.json';
+
+describe( 'op-feedback-panel component', () => {
   const Utils = {
     get opFeedback() {
       return document.querySelector('op-feedback');
@@ -30,11 +32,13 @@ describe('op-feedback-panel component', () => {
     /* Mocking up One Platform helpers */
     window.OpAuthHelper = {
       onLogin: jest.fn(),
-      getUserInfo: jest.fn(),
+      getUserInfo: jest.fn(() => ({})),
     };
     window.OpNotification = {
       showToast: jest.fn(),
     };
+    /* Mocking the fetch requests */
+    mockFetch( mockApps );
 
     /* Defining the custom-component */
     require('../dist/op-feedback-panel');

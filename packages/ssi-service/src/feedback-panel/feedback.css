@@ -179,11 +179,11 @@ input[type=radio].op-feedback__form-radio {
   opacity: 0;
 }
 .op-feedback__form-radio-label {
-  padding: .5rem .75rem;
+  padding: .5rem;
   background: white;
   border: 1px solid #eee;
   border-radius: 1rem;
-  font-size: .625rem;
+  font-size: .75rem;
   color: rgba(0,0,0,.75);
   cursor: pointer;
 
@@ -198,7 +198,6 @@ input[type=radio].op-feedback__form-radio {
   font-size: 1rem;
 }
 .op-feedback__form-radio:checked + .op-feedback__form-radio-label {
-  /* border-color: #4285F4; */
   background: var(--op-feedback__bg-primary);
   color: var(--op-feedback__btn-primary);
   font-weight: 500;
