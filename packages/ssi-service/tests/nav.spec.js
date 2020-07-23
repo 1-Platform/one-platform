@@ -20,12 +20,13 @@ describe( 'op-nav component', () => {
   };
 
   beforeAll( () => {
+    mockFetch( mockApps );
+
     /* Defining the custom-component */
     require( '../dist/op-nav' );
     /* Appending the component to the DOM */
     document.body.appendChild( document.createElement( 'op-nav' ) );
-
-    mockFetch( mockApps );
+    return customElements.whenDefined( 'op-nav' );
   } );
 
   it( 'creates', () => {
