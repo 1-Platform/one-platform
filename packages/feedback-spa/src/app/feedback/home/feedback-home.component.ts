@@ -49,13 +49,18 @@ export class FeedbackHomeComponent implements OnInit {
             })[0];
             if (fbIssue) {
               fbObj.state = fbIssue.status.name;
-              fbObj.assignees = fbIssue.assignee.name.split(',');
+              if(fbIssue.assignee){
+                fbObj.assignees = fbIssue.assignee.name.split(',');
+              }
             }
             return fbObj;
           });
           this.allFeedback = this.allFeedback.filter((fb) => {
-            if (!fb.state) {
+            if (!fb.state || fb.state === 'Closed') {
               fb.state = 'closed';
+            }
+            else{
+              fb.state = 'opened';
             }
             if (!fb.module) {
               fb.module = {
