@@ -30,7 +30,7 @@
     "bootstrap": "4.5.0",
     "font-awesome": "4.7.0",
     "graphql": "15.1.0",
-    "graphql-tag": "2.10.3",
+    "graphql-tag": "2.10.4",
     "ng-pipes": "0.1.5",
     "ngx-pagination": "5.0.0",
     "ngx-pipes": "2.7.3",
