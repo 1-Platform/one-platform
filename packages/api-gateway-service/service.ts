@@ -27,6 +27,16 @@ app.use( cors() );
 /*  Creating the server based on the environment */
 const server = http.createServer( app );
 
+let playgroundOptions: any = {
+  title: 'API Gateway',
+  settings: {
+    'request.credentials': 'include'
+  },
+  headers: {
+    'Authorization':`Bearer`
+  }
+};
+
 /* Binding the gateway with the apollo server and extracting the schema */
 ( async () => {
   const userService = await getRemoteSchema( {
@@ -48,17 +58,36 @@ const server = http.createServer( app );
   const schema = stitchSchemas( {
     schemas: [ userService, feedbackService, homeService, notificationService ]
   } );
-  /* Defining the Apollo Server */
-  const playgroundOptions: boolean | Object = {
-    title: 'API Gateway',
-    settings: {
-      'request.credentials': 'include'
-    }
-  };
+
+  const context = ( { req, res }: any ) => {
+    if ( req.headers.authorization || req.cookies[ 'access-token' ] ) {
+      const tokenArray: any = req.headers.authorization?.split( ` ` );
+      const accessToken = tokenArray[ tokenArray.length - 1 ] || req.cookies[ 'access-token' ];
+      try {
+        return publicKey().then( ( key: string ) => {
+          verify( accessToken, key, { algorithms: [ 'RS256' ] }, ( err: any, payload: any ) => {
+            if ( err && err.name === 'TokenExpiredError' ) {
+              return res.status( 403 ).json( err );
+            } else if ( err && err.name === 'JsonWebTokenError' ) {
+              return res.status( 403 ).json( err );
+            } else if ( !err ) {
+              req.headers = { ...req.headers, tokenPayload: JSON.stringify( payload ) };
+            }
+          } );
+        })
+      } catch (err) {
+        throw new AuthenticationError('Auth token is invalid')
+      }
+  } else {
+    return res.status( 401 ).json( new AuthenticationError( 'Auth Token Missing' ) );
+  }
+};
+
+  /* Defining the Apollo Server */  
   const apollo = new ApolloServer( {
     schema: schema,
     introspection: true,
-    context: ( { req, res }: any ) => ( { req, res } ),
+    context: context,
     formatError: error => ( {
       message: error.message,
       locations: error.locations,
@@ -74,32 +103,6 @@ const server = http.createServer( app );
   apollo.applyMiddleware( { app } );
   apollo.installSubscriptionHandlers( server );
 } )();
-
-/* Auth Token Verification Check */
-app.post( '/graphql', ( req, res, next ) => {
-  if ( !req.headers.authorization ) {
-    return res.status( 401 ).json( new AuthenticationError( 'Auth Token Missing' ) );
-  } else {
-    publicKey().then( ( key: string ) => {
-      try {
-        const tokenArray: any = req.headers.authorization?.split( ` ` );
-        const accessToken = tokenArray[ tokenArray.length - 1 ] || req.cookies[ 'access-token' ];
-        verify( accessToken, key, { algorithms: [ 'RS256' ] }, ( err: any, payload: any ) => {
-          if ( err && err.name === 'TokenExpiredError' ) {
-            return res.status( 403 ).json( err );
-          } else if ( err && err.name === 'JsonWebTokenError' ) {
-            return res.status( 403 ).json( err );
-          } else if ( !err ) {
-            req.headers = { ...req.headers, tokenPaylod: JSON.stringify( payload ) };
-            next();
-          }
-        } );
-      } catch ( err ) {
-        return res.status( 403 ).json( err );
-      }
-    } );
-  }
-} );
 
 export default server.listen( { port: port }, () => {
   console.log( `Gateway Running on ${ process.env.NODE_ENV } environment at port ${ port }` );
