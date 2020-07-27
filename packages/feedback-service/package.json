@@ -53,7 +53,7 @@
     "graphql-tools": "6.0.12",
     "ioredis": "4.17.3",
     "jira-client": "6.17.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "method-override": "3.0.0",
     "mongoose": "5.9.22",
     "morgan": "1.10.0",
