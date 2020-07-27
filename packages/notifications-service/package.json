@@ -48,7 +48,7 @@
     "apollo-server-express": "2.15.1",
     "body-parser": "1.19.0",
     "clean-webpack-plugin": "3.0.0",
-    "cookie-parser": "1.4.4",
+    "cookie-parser": "1.4.5",
     "dotenv": "8.2.0",
     "dotenv-webpack": "1.7.0",
     "errorhandler": "1.5.1",
