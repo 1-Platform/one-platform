@@ -20,7 +20,7 @@
   "contributors": [],
   "license": "MIT",
   "dependencies": {
-    "@patternfly/pfe-toast": "^1.0.0-prerelease.50",
+    "@patternfly/pfe-toast": "1.0.0-prerelease.53",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
