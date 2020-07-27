@@ -33,7 +33,7 @@
     "apollo-link-retry": "2.2.16",
     "dotenv": "8.2.0",
     "graphql": "15.0.0",
-    "graphql-tag": "2.10.3",
+    "graphql-tag": "2.10.4",
     "jest": "26.0.1",
     "jest-preset-angular": "8.2.1",
     "rxjs": "6.5.5",

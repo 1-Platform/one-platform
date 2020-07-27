@@ -45,7 +45,7 @@
   "dependencies": {
     "agenda": "3.1.0",
     "apollo-log": "0.2.0",
-    "apollo-server-express": "2.15.1",
+    "apollo-server-express": "2.16.0",
     "body-parser": "1.19.0",
     "clean-webpack-plugin": "3.0.0",
     "cookie-parser": "1.4.4",
