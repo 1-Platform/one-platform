@@ -48,7 +48,7 @@
     "@angular/language-service": "9.1.11",
     "@types/jest": "26.0.7",
     "@types/node": "12.12.47",
-    "apollo-angular": "1.9.1",
+    "apollo-angular": "1.10.0",
     "codelyzer": "5.2.2",
     "jest": "26.0.1",
     "jest-preset-angular": "8.2.1",
