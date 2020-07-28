@@ -45,6 +45,10 @@ const server = http.createServer( app );
     uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/graphql`,
     subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/subscriptions`
   } ).catch( err => err );
+  const modService = await getRemoteSchema( {
+    uri: `http://${ process.env.MOD_SERVICE_SERVICE_HOST }:${ process.env.MOD_SERVICE_SERVICE_HOST }/graphql`,
+    subscriptionsUri: `ws://${ process.env.MOD_SERVICE_SERVICE_HOST }:${ process.env.MOD_SERVICE_SERVICE_HOST }/subscriptions`
+  } ).catch( err => err );
   const schema = stitchSchemas( {
     schemas: [ userService, feedbackService, homeService, notificationService ]
   } );
