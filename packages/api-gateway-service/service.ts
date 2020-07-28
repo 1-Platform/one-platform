@@ -50,7 +50,7 @@ const server = http.createServer( app );
     subscriptionsUri: `ws://${ process.env.MOD_SERVICE_SERVICE_HOST }:${ process.env.MOD_SERVICE_SERVICE_HOST }/subscriptions`
   } ).catch( err => err );
   const schema = stitchSchemas( {
-    schemas: [ userService, feedbackService, homeService, notificationService ]
+    schemas: [ userService, feedbackService, homeService, notificationService, modService ]
   } );
   /* Defining the Apollo Server */
   const playgroundOptions: boolean | Object = {
