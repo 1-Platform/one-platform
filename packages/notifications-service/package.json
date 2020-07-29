@@ -81,7 +81,7 @@
     "@types/node": "12.12.47",
     "@types/nodemailer": "6.4.0",
     "@types/supertest": "2.0.10",
-    "jest": "25.1.0",
+    "jest": "25.5.4",
     "jest-transform-graphql": "2.1.0",
     "ts-loader": "6.2.2",
     "tslint": "5.20.1",
