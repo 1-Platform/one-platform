@@ -1,18 +1,18 @@
 import { Document, Model, model, Schema } from 'mongoose';
 
 export const HomeServiceSchema: Schema = new Schema({
-    name: String,
-    description: String,
-    link: String,
-    icon: String,
-    entityType: String,
-    colorScheme: String,
-    videoUrl: String,
-    owners: [String],
-    createdBy: String,
-    createdOn: Date,
-    updatedBy: String,
-    updatedOn: Date,
+    name: { type: String, index: { unique: true } },
+    description: { type: String },
+    link: { type: String },
+    icon: { type: String },
+    entityType: { type: String },
+    colorScheme: { type: String },
+    videoUrl: { type: String },
+    owners: { type: [String] },
+    createdBy: { type: String, required: true },
+    createdOn: { type: Date, default: Date.now, },
+    updatedBy: { type: String },
+    updatedOn: { type: Date, default: Date.now, },
     active: { type: Boolean, default: false },
     permissions: [
         {
