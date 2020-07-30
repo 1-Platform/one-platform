@@ -8,6 +8,17 @@ module.exports = {
   organizationName: '1-platform', // Usually your GitHub org/user name.
   projectName: '1-platform.github.io', // Usually your repo name.
   themeConfig: {
+    // announcementBar: {
+    //   id: 'support_us', // Any value that will identify this message.
+    //   content: 'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
+    //   backgroundColor: '#fafbfc', // Defaults to `#fff`.
+    //   textColor: '#091E42', // Defaults to `#000`.
+    // },
+    prism: {
+      defaultLanguage: 'javascript',
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+    },
     navbar: {
       title: ' ',
       logo: {
@@ -22,6 +33,16 @@ module.exports = {
           label: 'Docs',
           position: 'left',
         },
+        // {
+        //   type: 'docsVersion',
+        //   position: 'left',
+        //   // to: "/path // by default, link to active/latest version
+        //   // label: "label" // by default, show active/latest version label
+        // },
+        // {
+        //   type: 'docsVersionDropdown',
+        //   position: 'left',
+        // },
         {to: 'blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/1-platform/one-platform',
@@ -31,7 +52,7 @@ module.exports = {
       ],
     },
     footer: {
-      style: 'dark',
+      // style: 'dark',
       links: [
         {
           title: 'Quick Links',
