@@ -1,18 +1,19 @@
 module.exports = {
-  title: 'My Site',
-  tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'One Portal',
+  tagline: 'One Portal is an integrated applications hosting platform which allows you to host your SPAs while taking advantage of in-built Components, Microservices and Assets. ',
+  url: 'https://beta.one.redhat.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: '1-platform', // Usually your GitHub org/user name.
+  projectName: '1-platform.github.io', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: ' ',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Red Hat One Portal Logo',
         src: 'img/logo.svg',
+        srcDark: 'img/logo_dark.svg',
       },
       items: [
         {
@@ -23,7 +24,7 @@ module.exports = {
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/1-platform/one-platform',
           label: 'GitHub',
           position: 'right',
         },
@@ -33,50 +34,54 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Quick Links',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
+              label: 'One Platform in Mojo',
+              href: 'https://mojo.redhat.com/groups/pnt-devops/projects/one-portal',
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
+              label: 'Weekly Blog',
               to: 'blog',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'Contact Us',
+              href: 'https://beta.one.redhat.com/contact-us.html',
+            },
+          ],
+        },
+        {
+          title: 'Related Sites',
+          items: [
+            {
+              label: 'Red Hat Access',
+              href: 'https://access.redhat.com',
+            },
+            {
+              label: 'Catalog',
+              href: 'https://catalog.redhat.com',
+            },
+            {
+              label: 'Connect',
+              href: 'https://connect.redhat.com',
+            },
+          ],
+        },
+        {
+          title: 'Help',
+          items: [
+            {
+              label: 'Report an Issue',
+              href: 'https://beta.one.redhat.com/feedback',
+            },
+            {
+              label: 'FAQs',
+              to: 'docs/faqs',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Red Hat, Inc.`,
     },
   },
   presets: [
@@ -89,13 +94,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
