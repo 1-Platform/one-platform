@@ -8,32 +8,35 @@ import styles from './styles.module.css';
 
 const features = [
   {
-    title: <>Easy to Use</>,
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    title: <>Microservices</>,
+    imageUrl: 'img/op_document_illustration_micoservice.svg',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        One Platform Microservices were designed from the ground up to be
+        modular, independent, easy to use and greatly extensible to get your
+        SPA up and running quickly.
       </>
     ),
   },
   {
-    title: <>Focus on What Matters</>,
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    title: <>Single Page Applications</>,
+    imageUrl: 'img/op_document_illustration_application.svg',
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        One Platform lets you focus on your application's core logic, and while it
+        takes care of the rest. One Platform offerings can be used in a number
+        of ways, including SSI and reusable components.
       </>
     ),
   },
   {
-    title: <>Powered by React</>,
-    imageUrl: 'img/undraw_docusaurus_react.svg',
+    title: <>Component Library</>,
+    imageUrl: 'img/op_document_illustration_component_lib.svg',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        The OP Component Library provides a set of reusable brand compliant
+        components that can be extended and used by any hosted Application
+        to extend or customize it's visual appearance.
       </>
     ),
   },
