@@ -64,7 +64,7 @@ function Home() {
     <Layout
       title={`Develop fast · Deliver faster`}
       description = "{siteConfig.tagline}" >
-      <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      <header className={clsx('hero hero--secondary', styles.heroBanner)}>
         <div className="container">
           <h1 className="hero__title">Develop fast · Deliver faster </h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
