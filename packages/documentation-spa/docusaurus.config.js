@@ -52,10 +52,10 @@ module.exports = {
       ],
     },
     footer: {
-      // style: 'dark',
+      style: 'dark',
       links: [
         {
-          title: 'Quick Links',
+          title: 'QUICK LINKS',
           items: [
             {
               label: 'One Platform in Mojo',
@@ -72,7 +72,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Related Sites',
+          title: 'RELATED SITES',
           items: [
             {
               label: 'Red Hat Access',
@@ -89,7 +89,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Help',
+          title: 'HELP',
           items: [
             {
               label: 'Report an Issue',
