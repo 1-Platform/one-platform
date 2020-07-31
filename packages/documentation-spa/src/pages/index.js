@@ -66,12 +66,12 @@ function Home() {
       description = "{siteConfig.tagline}" >
       <header className={clsx('hero hero--secondary', styles.heroBanner)}>
         <div className="container">
-          <h1 className="hero__title">Develop fast · Deliver faster </h1>
+          <p className="hero__title">Develop fast · <span>Deliver faster</span></p>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
             <Link
               className={clsx(
-                'button button--outline button--secondary button--lg',
+                'button button--red button--lg',
                 styles.getStarted,
               )}
               to={useBaseUrl('docs/')}>
