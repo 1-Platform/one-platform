@@ -86,7 +86,7 @@
     "ts-loader": "7.0.5",
     "tslint": "5.20.1",
     "typescript": "3.9.5",
-    "webpack": "4.43.0",
+    "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-merge": "4.2.2",
     "webpack-node-externals": "1.7.2"

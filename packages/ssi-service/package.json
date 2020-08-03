@@ -52,7 +52,7 @@
     "jest": "26.1.0",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
-    "webpack": "4.43.0",
+    "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0",
     "whatwg-fetch": "3.2.0"
