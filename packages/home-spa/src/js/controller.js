@@ -1,7 +1,7 @@
 // @ts-nocheck
 // Services
 import { getData }  from './service';
-import { stub, microserviceDetailsMock, teamMembers } from '../mocks/stub';
+import { microserviceDetailsMock, teamMembers } from '../mocks/stub';
 // importing images
 import '../img/illustration.svg';
 import '../img/404.svg';
