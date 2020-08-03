@@ -36,8 +36,8 @@
     "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {
-    "@babel/core": "7.10.4",
-    "@babel/preset-env": "7.10.4",
+    "@babel/core": "7.11.0",
+    "@babel/preset-env": "7.11.0",
     "babel-cli": "6.26.0",
     "babel-loader": "8.1.0",
     "babel-minify-webpack-plugin": "0.3.1",
