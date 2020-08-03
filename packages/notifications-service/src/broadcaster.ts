@@ -47,7 +47,7 @@ export class NotificationsBroadcaster {
 
     return Promise.all( notifications.map( notification => {
       return RuleEngine
-        .sendNow( notification.toJSON(), notification.config )
+        .sendNow( notification.toJSON(), <NotificationConfig>notification.config )
         .then( () => {
           console.log( '[NotificationBraodcaster]: Notification sent.' );
           /* Remove the notification from the queue */

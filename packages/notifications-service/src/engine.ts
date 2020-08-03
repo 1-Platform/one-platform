@@ -40,7 +40,7 @@ class NotificationEngine {
    * - Sends an email notification if channel = email
    * - Sends a push notification if channel = push/banner
    */
-  sendNow ( payload: OpNotification, config: NotificationConfigModel ) {
+  sendNow ( payload: OpNotification, config: NotificationConfig ) {
     /* Creating an copy in the archive */
     const notification = new NotificationsArchive( {
       ...payload,
@@ -73,7 +73,7 @@ class NotificationEngine {
         /* Sending the push notification */
         return this.sendPushNotification( {
           targets: config.targets.concat( ...payload.secondaryTargets || [] ),
-          title: payload.subject,
+          subject: payload.subject,
           body: payload.body,
           link: payload.link || config.defaultLink,
           data: payload.data,

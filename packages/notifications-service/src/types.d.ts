@@ -26,7 +26,7 @@ interface OpNotification {
   body: string,
   link: string,
   data: any,
-  config: string | any,
+  config: string | NotificationConfig,
   secondaryTargets?: string[],
   // QSTN: Put the following fields in options?
   startDate: Date,
@@ -53,7 +53,7 @@ type EmailNotificationOptions = {
   body: string;
 };
 type PushNotificationOptions = {
-  title: string;
+  subject: string;
   body: string;
   targets: string[];
   link?: string,
