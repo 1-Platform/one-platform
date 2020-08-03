@@ -78,16 +78,16 @@ export class APIService {
   /**
    * Fetch the list of all the Apps for the App Drawer
    */
-  navDrawerData () {
+  navDrawerData (targets) {
     const query = `
-      query NavMenu {
+      query NavMenu ($targets: [String]!) {
         appsList: getHomeTypeBy( input: {entityType: "spa"} ) {
           name
           link
           icon
           active
         }
-        notificationsList: listArchivedNotifications(limit: 25) {
+        notificationsList: listArchivedNotifications(targets: $targets , limit: 25) {
           id
           subject
           body
@@ -97,7 +97,7 @@ export class APIService {
         }
       }
     `;
-    return this.query( query );
+    return this.query( query, { targets } );
   }
 }
 

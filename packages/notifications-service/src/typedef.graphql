@@ -5,9 +5,9 @@ type Query {
   listActiveNotifications(limit: Int): [Notification]
 
   """
-
+  Returns all past notifications for the specified targets
   """
-  listArchivedNotifications(limit: Int): [Notification]
+  listArchivedNotifications(targets: [String]!, limit: Int): [Notification]
 
   """
   Returns notifications matching the given selection criteria
@@ -36,7 +36,7 @@ enum NotificationStatusEnum {
 
 type PushNotification {
   id: ID
-  title: String
+  subject: String
   body: String
   link: String
   data: Data

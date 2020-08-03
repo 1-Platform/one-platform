@@ -49,7 +49,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
     OpAuthHelper.onLogin( user => {
       this._userDetails = user;
 
-      APIHelper.navDrawerData()
+      APIHelper.navDrawerData([])
         .then( res => {
           this._appsList = res.appsList.sort( ( prev, next ) => {
             if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
