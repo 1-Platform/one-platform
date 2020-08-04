@@ -70,7 +70,7 @@
   "devDependencies": {
     "@types/body-parser": "1.19.0",
     "@types/cookie-parser": "1.4.2",
-    "@types/cors": "2.8.6",
+    "@types/cors": "2.8.7",
     "@types/ejs": "3.0.4",
     "@types/errorhandler": "0.0.32",
     "@types/ioredis": "4.17.2",
