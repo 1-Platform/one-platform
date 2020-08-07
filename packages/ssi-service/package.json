@@ -30,7 +30,7 @@
     "graphql-request": "1.8.2",
     "graphql-tag": "2.10.4",
     "html-template-tag": "3.2.0",
-    "jwt-redhat": "0.2.13",
+    "keycloak-js": "^11.0.0",
     "lit-element": "2.3.1",
     "moment": "2.27.0",
     "subscriptions-transport-ws": "0.9.16"

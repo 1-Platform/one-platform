@@ -3,12 +3,8 @@ import moment from 'moment';
 import gql from 'graphql-tag';
 import PfeToast from '@patternfly/pfe-toast';
 import styles from './nav.css';
-import './auth';
-import { OpAuthHelper } from './auth';
 import APIHelper from './api';
 
-/* TODO: Check if user is already authenticated before re-initializing */
-OpAuthHelper.init();
 
 const ASSETS_URL = process.env.ASSETS_HOST + '/assets';
 
@@ -46,10 +42,15 @@ window.customElements.define( 'op-nav', class extends LitElement {
 
     this._notificationsSubscription = null;
 
-    OpAuthHelper.onLogin( user => {
+    window.OpAuthHelper.onLogin( user => {
       this._userDetails = user;
+      this._userTargets = [
+        user.kerberosID,
+        user.email,
+        ...user.roles,
+      ];
 
-      APIHelper.navDrawerData([])
+      APIHelper.navDrawerData( this._userTargets )
         .then( res => {
           this._appsList = res.appsList.sort( ( prev, next ) => {
             if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
@@ -81,11 +82,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
             }
           }`,
           variables: {
-            targets: [
-              user.kerberosID,
-              user.email,
-              ...( user.realm_access?.roles ? user.realm_access.roles: []),
-            ],
+            targets: this._userTargets,
           }
         } )
         .subscribe( res => {

@@ -60,15 +60,15 @@ A Javascript object that provides methods to invoke pop-up notifications within 
    nano ./ssi-service/.env
    ```
 
-2. Add the following import in the `<head>` of all your html files (preferrably at the end of the haed tag)
+2. Add the following import in the your html files (preferrably in the `<body>` tag before any other application javascript code/script tags)
 
 ```html
-<head>
-  ...
-  <!--#include virtual="/.include/nav/default.html" -->
-</head>
 <body>
   ...
+  <!-- SSI Include Snippet -->
+  <!--#include virtual="/.include/nav/default.html" -->
+
+  <!-- Other javascript files/scripts -->
 </body>
 ```
 
