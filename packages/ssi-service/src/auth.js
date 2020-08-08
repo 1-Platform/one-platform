@@ -6,9 +6,9 @@ import Keycloak from 'keycloak-js';
 class OpAuth {
   constructor () {
     this.keycloakOptions = {
-      clientId: 'one-portal',
-      realm: 'EmployeeIDP',
-      url: process.env.NODE_ENV === 'production' ? 'https://auth.redhat.com/auth' : 'https://auth.stage.redhat.com/auth',
+      clientId: process.env.KEYCLOAK_CLIENT_ID,
+      realm: process.env.KEYCLOAK_REALM,
+      url: process.env.KEYCLOAK_IDP_URL,
     };
     this.keycloakInitOptions = {
       flow: 'implicit',
