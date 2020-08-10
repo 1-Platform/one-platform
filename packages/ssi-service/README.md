@@ -37,16 +37,54 @@ A Javascript object that provides methods to invoke pop-up notifications within 
   ```ts
   notification: {
     subject: string,            // The title for the notification
-    body?: string,               // The description for the notification (optional)
-    sentOn?: Date | string,      // string should be in ISO format
+    body?: string,              // The description for the notification (optional)
+    sentOn?: Date | string,     // string should be in ISO format
     link?: string,
   }
 
   options: {
     addToDrawer: boolean,       // Whether or not the notification should be added to the drawer (default: false)
     duration: string,           // The duration for the pop-up/toast (default: '5s')
+    variant: string,            // The type of toast. eg. 'success' | 'warning' | 'danger' | 'info' (default: null)
   }
   ```
+
+- `info(notification, options?): void`\
+  An alias of `showToast` that shows a _info_ toast.\
+  (`options.variant = info`)
+
+- `success(notification, options?): void`\
+  An alias of `showToast` that shows a _success_ toast.\
+  (`options.variant = success`)
+
+- `warning(notification, options?): void`\
+  An alias of `showToast` that shows a _warning_ toast.\
+  (`options.variant = warning`)
+
+- `danger(notification, options?): void`\
+  An alias of `showToast` that shows a _danger_ toast.\
+  (`options.variant = danger`)
+
+#### For Example:
+
+<details>
+<summary>View examples</summary>
+
+- Plain Toast
+  ![simple-toast](screenshots/simple-toast.png)
+
+- Info Toast
+  ![info-toast](screenshots/info-toast.png)
+
+- Success Toast
+  ![success-toast](screenshots/success-toast.png)
+
+- Warning Toast
+  ![warning-toast](screenshots/warning-toast.png)
+
+- Danger Toast
+  ![danger-toast](screenshots/danger-toast.png)
+</details>
 
 ## Using ssi-templates for local development with other apps
 
