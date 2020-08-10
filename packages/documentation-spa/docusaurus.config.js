@@ -19,8 +19,15 @@ module.exports = {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
+    colorMode: {
+      // "light" | "dark"
+      defaultMode: 'light',
+
+      // Hides the switch in the navbar
+      // Useful if you want to support a single color mode
+      disableSwitch: true,
+    },
     navbar: {
-      title: ' ',
       logo: {
         alt: 'Red Hat One Portal Logo',
         src: 'img/logo.svg',
