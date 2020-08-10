@@ -1,3 +1,5 @@
+import {Apollo} from 'apollo-angular';
+import {HttpLink } from 'apollo-angular-link-http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,14 +9,15 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { Apollo } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular-link-http';
+
+
 import { AppService } from './app.service';
 import {FeedbackService} from './feedback/feedback.service';
 import { FeedbackHomeComponent } from './feedback/home/feedback-home.component';
 import {FeedbackItemComponent} from './feedback/feedback-item/feedback-item.component';
 import { CountBoxComponent } from './feedback/count-box/count-box.component';
 import { DropdownComponent } from './feedback/dropdown/dropdown.component';
+import { GraphQLModule } from './graphql.module';
 
 
 @NgModule({
@@ -33,7 +36,8 @@ import { DropdownComponent } from './feedback/dropdown/dropdown.component';
     NgxPaginationModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    GraphQLModule
   ],
   providers: [
     AppService,
