@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "devDependencies": {
-    "@babel/core": "7.11.0",
+    "@babel/core": "7.11.1",
     "@babel/preset-env": "7.11.0",
     "babel-loader": "8.1.0",
     "css-loader": "3.6.0",
