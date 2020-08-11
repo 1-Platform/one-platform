@@ -20,3 +20,12 @@ window.location = { assign: assignMock };
 afterEach( () => {
   assignMock.mockClear();
 } );
+
+/* Mocking up One Platform helpers */
+window.OpAuthHelper = {
+  onLogin: jest.fn(),
+  getUserInfo: jest.fn( () => ( {} ) ),
+};
+window.OpNotification = {
+  showToast: jest.fn(),
+};

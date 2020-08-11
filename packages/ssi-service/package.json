@@ -20,7 +20,7 @@
   "contributors": [],
   "license": "MIT",
   "dependencies": {
-    "@patternfly/pfe-toast": "1.0.0-prerelease.53",
+    "@patternfly/pfe-toast": "1.0.0-prerelease.54",
     "apollo-cache-inmemory": "1.6.6",
     "apollo-client": "2.6.10",
     "apollo-link": "1.2.14",
@@ -28,15 +28,15 @@
     "apollo-link-ws": "1.0.20",
     "graphql": "15.3.0",
     "graphql-request": "1.8.2",
-    "graphql-tag": "2.10.4",
+    "graphql-tag": "2.11.0",
     "html-template-tag": "3.2.0",
-    "jwt-redhat": "0.2.13",
+    "keycloak-js": "^11.0.0",
     "lit-element": "2.3.1",
     "moment": "2.27.0",
     "subscriptions-transport-ws": "0.9.16"
   },
   "devDependencies": {
-    "@babel/core": "7.11.0",
+    "@babel/core": "7.11.1",
     "@babel/preset-env": "7.11.0",
     "babel-cli": "6.26.0",
     "babel-loader": "8.1.0",
@@ -55,7 +55,7 @@
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0",
-    "whatwg-fetch": "3.2.0"
+    "whatwg-fetch": "3.4.0"
   },
   "files": [
     "dist"
