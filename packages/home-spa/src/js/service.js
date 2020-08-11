@@ -8,7 +8,7 @@ query {
       icon
       entityType
       colorScheme
-      videoUrl
+      active
       }
   }`;
 

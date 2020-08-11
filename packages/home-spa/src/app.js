@@ -21,7 +21,7 @@ if (footer !== null) {
       <div class="footer__links">
         <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/" rel="noreferrer" target="_blank">One Platform in Mojo</a>
         <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/blog/" rel="noreferrer" target="_blank">Weekly Blog</a>
-        <a href="contact-us.html">Contact Us</a>
+        <a href="contact-us">Contact Us</a>
       </div>
     </div>
     <div class="footer__links-col">
@@ -53,12 +53,15 @@ if (footer !== null) {
 
 if (band !== null) {
   band.innerHTML = `
-  <div class="band__header">
-    Join the One Platform Digital Experience!
-  </div>
-  <a class="band__button--primary-border" target="_blank" href="https://docs.google.com/document/d/1T7aDUNIWd7vgD3F3lSQg06iYs964G6PvvgUtIbk9RmQ/" rel="noopener noreferrer">
-    Onboarding Guide
-  </a>`;
+  <div class="band__items">
+			<div class="band__text">
+      <h1> Join the One Platform Digital Experience! </h1>
+      <p>One Portal provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient </p>
+    </div>
+    <a class="pf-c-button pf-m-danger" target="_blank" href="https://docs.google.com/document/d/1T7aDUNIWd7vgD3F3lSQg06iYs964G6PvvgUtIbk9RmQ/" rel="noopener noreferrer">
+      Onboarding Guide
+    </a>
+    </div>`;
 }
 
 const feedbackToggle = document.querySelector('#fileFeedback');
