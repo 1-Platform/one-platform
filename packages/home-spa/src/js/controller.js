@@ -17,6 +17,8 @@ import '../img/User-profile-illustration.svg';
 import '../img/Feedback-illustration.svg';
 import '../img/user-female.svg';
 import '../img/user-male.svg';
+import '../img/begin-quote.svg';
+import '../img/end-quote.svg';
 
 const microserviceCard = document.querySelector('#microservice-cards');
 const apps = document.querySelector("#apps > ul")
