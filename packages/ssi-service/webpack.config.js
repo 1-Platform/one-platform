@@ -10,6 +10,7 @@ module.exports = ( _, { mode } ) => {
   const config = {
     mode: mode || 'development',
     entry: {
+      'op-auth': path.join( __dirname, 'src', 'auth' ),
       'op-nav': path.join( __dirname, 'src', 'nav', 'nav' ),
       'op-feedback-panel': path.join( __dirname, 'src', 'feedback-panel', 'feedback' )
     },
