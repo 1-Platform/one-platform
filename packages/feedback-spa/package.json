@@ -27,7 +27,7 @@
     "apollo-link-error": "1.1.13",
     "apollo-link-retry": "2.2.16",
     "apollo-link-ws": "1.0.20",
-    "bootstrap": "4.5.0",
+    "bootstrap": "4.5.2",
     "font-awesome": "4.7.0",
     "graphql": "15.1.0",
     "graphql-tag": "2.10.4",
