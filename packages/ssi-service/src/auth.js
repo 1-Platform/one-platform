@@ -1,46 +1,43 @@
-import Jwt, { SsoEnv } from 'jwt-redhat';
+import Keycloak from 'keycloak-js';
 
 /**
  * Helper class for Red Hat's Internal SSO Authentication
  */
 class OpAuth {
   constructor () {
-    this._jwt = Jwt;
-
-    this._jwtOptions = {
-      keycloakOptions: {
-        realm: 'EmployeeIDP',
-        clientId: 'one-portal',
-        internalAuth: true,
-      },
-      keycloakInitOptions: {
-        responseMode: 'fragment',
-        flow: 'implicit',
-      },
-      ssoEnv: process.env.NODE_ENV === 'production' ? SsoEnv.PROD : SsoEnv.STAGE,
+    this.keycloakOptions = {
+      clientId: process.env.KEYCLOAK_CLIENT_ID,
+      realm: process.env.KEYCLOAK_REALM,
+      url: process.env.KEYCLOAK_IDP_URL,
     };
+    this.keycloakInitOptions = {
+      flow: 'implicit',
+      responseMode: 'fragment',
+      onLoad: 'login-required',
+      checkLoginIframe: false,
+    };
+
+    this._keycloak = new Keycloak(this.keycloakOptions);
+
     this._postLoginCallbacks = [];
   }
 
   /**
    * Initializes keycloak and redirects to the SSO for Sign In
    */
-  init () {
-    this._jwt.init( this._jwtOptions );
-    this._jwt.onInit( ( res ) => {
-      window.oninitJwt = res;
-      if ( !this._jwt.isAuthenticated() ) {
-        this._jwt.login();
+  async init () {
+    try {
+      const authenticated = await this._keycloak.init( this.keycloakInitOptions );
+      if ( !authenticated ) {
+        await this._keycloak.login();
       }
-
       this._postLoginCallbacks.map( fn => {
         fn( this.getUserInfo() );
       } );
       this._removeHashes();
-    } );
-    this._jwt.onInitError( ( err ) => {
+    } catch ( err ) {
       console.error( err );
-    } );
+    };
   }
 
   /**
@@ -50,27 +47,32 @@ class OpAuth {
    */
   onLogin ( callback ) {
     this._postLoginCallbacks.push( callback );
+
+    /* If the user is already authenticated, then call the callback immediately */
+    if ( this.isAuthenticated ) {
+      callback( this.getUserInfo() );
+    }
   }
 
   /**
    * Logs the user out, and removes all user and token data from the localStorage and cookies
    */
   logout () {
-    this._jwt.logout();
+    this._keycloak.logout();
   }
 
   /**
    * Checks if the user is already Authenticated
    */
   get isAuthenticated () {
-    return this._jwt.isAuthenticated();
+    return this._keycloak.authenticated;
   }
 
   /**
    * Returns the details of the logged in user
    */
   getUserInfo () {
-    const token = this._jwt.getToken();
+    const token = this._keycloak.tokenParsed;
     if ( !token ) {
       return null;
     }
@@ -84,14 +86,15 @@ class OpAuth {
       rhatUUID: token.rhatUUID,
       kerberosID: token.uid,
       memberOf: token.memberOf,
-      region: token.region,
-      location: token.location,
+      rhatLocation: token.rhatLocation,
       preferredTimeZone: token.preferredTimeZone,
-      rhatNickname: token.rhatNickname,
+      rhatNickname: token.rhatNickName,
       rhatGeo: token.rhatGeo,
       rhatCostCenter: token.rhatCostCenter,
       rhatCostCenterDesc: token.rhatCostCenterDesc,
       mobile: token.mobile,
+      country: token.c,
+      roles: this._keycloak.realmAccess?.roles || [],
     };
   }
 
@@ -101,14 +104,14 @@ class OpAuth {
    * Can be used as a Bearer token in any fetch queries for auth.
    */
   get jwtToken () {
-    return this._jwt.getEncodedToken();
+    return this._keycloak.token;
   }
 
   /**
    * Removes any garbage hashes from the page URL
    */
   _removeHashes () {
-    if ( window.location.hash.startsWith( '#token_type' ) ) {
+    if ( window.location.hash.startsWith( '#not-before-policy=0' ) ) {
       history.pushState( "", document.title, window.location.pathname + window.location.search );
     }
   }

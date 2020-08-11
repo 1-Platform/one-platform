@@ -3,12 +3,8 @@ import moment from 'moment';
 import gql from 'graphql-tag';
 import PfeToast from '@patternfly/pfe-toast';
 import styles from './nav.css';
-import './auth';
-import { OpAuthHelper } from './auth';
 import APIHelper from './api';
 
-/* TODO: Check if user is already authenticated before re-initializing */
-OpAuthHelper.init();
 
 const ASSETS_URL = process.env.ASSETS_HOST + '/assets';
 
@@ -46,10 +42,15 @@ window.customElements.define( 'op-nav', class extends LitElement {
 
     this._notificationsSubscription = null;
 
-    OpAuthHelper.onLogin( user => {
+    window.OpAuthHelper.onLogin( user => {
       this._userDetails = user;
+      this._userTargets = [
+        user.kerberosID,
+        user.email,
+        ...user.roles,
+      ];
 
-      APIHelper.navDrawerData([])
+      APIHelper.navDrawerData( this._userTargets )
         .then( res => {
           this._appsList = res.appsList.sort( ( prev, next ) => {
             if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
@@ -81,11 +82,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
             }
           }`,
           variables: {
-            targets: [
-              user.kerberosID,
-              user.email,
-              ...( user.realm_access?.roles ? user.realm_access.roles: []),
-            ],
+            targets: this._userTargets,
           }
         } )
         .subscribe( res => {
@@ -98,10 +95,19 @@ window.customElements.define( 'op-nav', class extends LitElement {
 
     /* Exporting the OpNotification as a helper function */
     window.OpNotification = {
-      showToast: ( notification, options ) => {
-        this.showToast( notification, options );
-      }
+      showToast: this.showToast.bind(this),
     };
+    /* MAGIC: Aliases for different toast variants */
+    [ 'success', 'warning', 'danger', 'info' ].forEach( variant => {
+      window.OpNotification[ variant ] = ( ...args ) => {
+        if ( args.length > 1 ) {
+          args[ 1 ][ 'variant' ] = variant;
+        } else {
+          args.push( { variant } );
+        }
+        this.showToast( ...args );
+      }
+    });
   }
 
   disconnectedCallback () {
@@ -139,7 +145,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
    * Shows a toast/pop-up notification
    *
    * @param {{ subject, body, sentOn, link }} notification Toast Contents
-   * @param {{addToDrawer: boolean, duration: string}} options Toast Options
+   * @param {{ addToDrawer: boolean, duration: string, variant: 'success' | 'warning' | 'danger' | 'info' }} options Toast Options
    */
   showToast ( notification, options ) {
     if ( !notification.sentOn ) {
@@ -150,6 +156,9 @@ window.customElements.define( 'op-nav', class extends LitElement {
     const toast = new PfeToast();
     toast.setAttribute( 'auto-dismiss', options.duration );
     toast.classList.add( 'op-menu-drawer__notification-toast' );
+    if ( options.variant && options.variant ) {
+      toast.classList.add( `op-toast__${options.variant}` );
+    }
 
     const toastContent = document.createElement( 'template' );
     toastContent.innerHTML = `
@@ -166,7 +175,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
     this._addToastToList( toast );
 
     toast.addEventListener( 'pfe-toast:close', event => {
-      this._toastNotificationsList = this._toastNotificationsList.filter( t => !t.hasAttribute( 'open' ) );
+      this._toastNotificationsList = this._toastNotificationsList.filter( t => t.classList.contains( 'open' ) );
       event.target.remove();
     } );
 
@@ -282,19 +291,32 @@ window.customElements.define( 'op-nav', class extends LitElement {
           <nav class="op-menu">
             <ul class="op-menu-wrapper">
               <li class="op-menu__item">
-                <button type="button" class="op-menu__item-button" data-type="app" @click="${ this._handleDrawerToggle }">
+                <button type="button"
+                  class="op-menu__item-button"
+                  data-type="app"
+                  ?data-active="${this.activeDrawerType === 'app' }"
+                  @click="${ this._handleDrawerToggle }">
                   <ion-icon name="apps-outline" class="op-nav__icon"></ion-icon>
                   <span>Apps</span>
                 </button>
               </li>
               <li class="op-menu__item">
-                <button type="button" class="op-menu__item-button" data-type="notification" @click="${ this._handleDrawerToggle }">
+                <button type="button"
+                  class="op-menu__item-button"
+                  data-type="notification"
+                  ?data-active="${this.activeDrawerType === 'notification' }"
+                  @click="${ this._handleDrawerToggle }">
                   <ion-icon name="notifications-outline" class="op-nav__icon"></ion-icon>
+                  <span class="op-nav__item-dot" ?disabled="${this._notificationsList.length === 0}"></span>
                   <span>Notifications</span>
                 </button>
               </li>
               <li class="op-menu__item">
-                <button type="button" class="op-menu__item-button" data-type="user" @click="${ this._handleDrawerToggle }">
+                <button type="button"
+                  class="op-menu__item-button"
+                  data-type="user"
+                  ?data-active="${this.activeDrawerType === 'user' }"
+                  @click="${ this._handleDrawerToggle }">
                   <ion-icon name="person-outline" class="op-nav__icon"></ion-icon>
                   <span>${this._userDetails?.kerberosID || 'Sign In' }</span>
                 </button>
