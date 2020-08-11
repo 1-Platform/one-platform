@@ -1,3 +1,4 @@
+// @ts-nocheck
 const path = require('path');
 const fs = require('fs');
 const html = fs.readFileSync(path.resolve(__dirname, '../../dist/index.html'), 'utf8');
@@ -10,13 +11,11 @@ describe('home page', () => {
   });
 
   it('text exists', () => {
-    expect(document.querySelector("body > div.hero > div > div.hero__header > p")).toBeTruthy();
-    expect(document.querySelector("body > div.hero > div > div.hero__information > p")).toBeTruthy();
+    expect(document.querySelector("body > div.hero > div.hero__quote > h1")).toBeTruthy();
   });
 
   it('button exists', () => {
-    expect(document.querySelector("body > div.hero > div > div.hero__links > button.button--primary")).toBeTruthy();
-    expect(document.querySelector("body > div.hero > div > div.hero__links > button.button--light")).toBeTruthy();
+    expect(document.querySelector("body > div.hero > div.hero__links > button.button--danger")).toBeTruthy();
   });
 
   it('microservice link exists', () => {
@@ -24,11 +23,7 @@ describe('home page', () => {
   });
 
   it('apps in spotlight link exists', () => {
-    expect(document.querySelector("#apps-in-spotlight")).toBeTruthy();
-  });
-
-  it('carousel exists', () => {
-    expect(document.querySelector("#carousel-slide")).toBeTruthy();
+    expect(document.querySelector("#apps")).toBeTruthy();
   });
 
   it('brand band exists', () => {

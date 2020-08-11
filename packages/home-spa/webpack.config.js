@@ -91,15 +91,9 @@ module.exports = {
             minify: htmlWebpackPluginMinify,
         }),
         new HtmlWebpackPlugin({
-            filename: 'microservice-details.html',
+            filename: 'contact-us/index.html',
             chunks: ['app'],
-            template: './src/microservice-details.html',
-            minify: htmlWebpackPluginMinify,
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'contact-us.html',
-            chunks: ['app'],
-            template: './src/contact-us.html',
+            template: './src/contact-us/index.html',
             minify: htmlWebpackPluginMinify,
         }),
         new MiniCssExtractPlugin(),

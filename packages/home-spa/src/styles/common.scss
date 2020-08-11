@@ -2,6 +2,11 @@
 @import './_mixin.scss';
 @import url('https://fonts.googleapis.com/css?family=Red+Hat+Text&display=swap');
 
+:root {
+  --op-app-height: 64px;
+  --op-app-width: 64px;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -12,15 +17,15 @@ body {
 }
 .container {
   max-width: 1190px;
-  margin: -2rem auto;
+  margin: auto;
 }
 
-.button--primary {
+.button--danger {
   @include button;
-  background: #0070E0;
+  background: var(--op-red);
   color: var(--op-white);
   &:hover {
-      background: #0281ff;
+      background: var(--op-red-400);
   }
   &>a {
     color: var(--op-white);
@@ -30,7 +35,6 @@ body {
 .button--light {
   @include button;
   color: #151515;
-  border: 1px solid transparent;
   padding: 0;
   i {
       margin-left: 0.5rem;
@@ -39,16 +43,8 @@ body {
   &>a {
     color: #151515;
     text-decoration: none;
-    padding: 1rem 2rem;
-    border: 1px solid transparent;
-    &:hover {
-      border: 1px solid;
-    }
-  }
-  &:hover {
-      .fa.fa.fa-arrow-right {
-          transform: translateX(3px);
-      }
+    padding: .8rem 2rem;
+    border: 1px solid #A0A0A0;
   }
 }
 
@@ -93,35 +89,31 @@ body {
   }
 }
 .band {
-  margin-top: 4.5rem;
-  background: transparent linear-gradient(104deg, #E8E4F6 0%, #E2EAF5 100%);
-  height: 31rem;
-  width: 100%;
-  clip-path: polygon(0% 0%, 100% 20%, 100% 100%, 0% 80%);
+  background-color: var(--op-black);
+  background-image: url(../img/left-footer-cubes.svg), url(../img/right-footer-cubes.svg);
+  background-repeat: no-repeat;
+  background-position: -38px center,calc(100% + 38px)  center;
+  height: 238px;
+  color: white;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  .band__header {
-      font-size: 2.2rem;
-      letter-spacing: 0.96px;
-      color: var(--op-black);
-      max-width: 700px;
-      text-align: center;
+  &__items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+    margin: auto;
+    a.pf-c-button.pf-m-danger {
+      padding: 1rem 2rem;
+    }
   }
-  .band__button--primary-border {
-      @include button;
-      color: #0066CC;
-      letter-spacing: 0;
-      border: 1px solid #0066CC;
-      border-radius: 3px;
-      font-weight: 600;
-      padding: 1rem 1.8rem;
-      margin-top: 2rem;
-      transition: all 320ms ease-in-out;
-      &:hover {
-          box-shadow: 0px 1px 2px #0066CC;
-      }
+  &__text {
+    h1 {
+      font-size: 2rem;
+    }
+    p {
+      max-width: 750px;
+      margin-top: 1rem;
+    }
   }
 }
 
@@ -131,13 +123,15 @@ body {
   grid-template-columns: auto auto auto;
   justify-content: space-around;
   max-width: 778px;
+  color: #ffffff;
+  padding: 1.5rem 0;
   .footer__links-col {
       .footer__links {
           margin-top: 2rem;
           display: flex;
           flex-direction: column;
           &>a {
-              color: #333333;
+              color: #ffffff;
               text-decoration: none;
               margin: 0 0 .5rem 0;
               font-size: 14px;
@@ -152,11 +146,18 @@ body {
 }
 .footer__copyright {
   text-align: center;
-  margin: 3rem 0;
   font-size: 14px;
-  color: #72767B;
+  color: #ffffff;
+  padding-bottom: 1.5rem;
 }
 
 #fileFeedback {
   cursor: pointer;
+}
+
+footer {
+  background-color: var(--op-black);
+  background-image: url(../img/left-footer-cubes.svg), url(../img/right-footer-cubes.svg);
+  background-repeat: no-repeat;
+  background-position: -38px center,calc(100% + 38px)  center
 }

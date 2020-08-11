@@ -4,65 +4,61 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    <!-- polyfills -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.4/custom-elements-es5-adapter.js" defer>
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.4/webcomponents-bundle.js" defer></script>
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://unpkg.com/@patternfly/patternfly@4.31.3/patternfly.min.css" rel="stylesheet" />
     <title>Home | One Platform</title>
   </head>
 
 <body>
 	<!-- Hero Start -->
 	<div class="hero">
-		<img src="img/illustration.svg" alt="illustration">
-		<div class="hero__description container">
-			<div class="hero__header">
-				<p class="hero__text-container">
-					One Platform to host your Internal Applications and Services
-				</p>
-			</div>
-			<div class="hero__information">
-				<p class="hero__text-container">
-					One platform provides a single place for all internal applications and services, supports consistent User	experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
-				</p>
-			</div>
-			<div class="hero__links">
-				<button class="button--primary" onclick="openAppDrawer()">View Applications</button>
-				<button class="button--light">
-					<a href="https://github.com/1-Platform/one-platform" rel="noopener noreferrer" target="_blank">
-						Learn more
-						<em class="fa fa-arrow-right"></em>
-					</a>
-				</button>
-			</div>
+		<div class="hero__mantra">
+			<h1>Develop Fast</h1>
+			<h1>&middot;</h1>
+			<h1>Deliver Faster</h1>
+		</div>
+		<div class="hero__quote">
+			<h1>
+				One Platform to host your Internal Applications and Services
+			</h1>
+		</div>
+		<div class="hero__description">
+			<p>
+				One Portal provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
+			</p>
+		</div>
+		<div class="hero__links">
+			<button class="button--danger" onclick="openAppDrawer()">View Applications</button>
+			<button class="button--light">
+				<a href="#microservices">
+					Built-in Microservice
+				</a>
+			</button>
 		</div>
 	</div>
 	<!-- Hero End -->
 
+	<!-- Apps In Spotlight Start -->
+	<div class="apps">
+		<h2 class="grid__head"><a href="#apps-in-spotlight" id="apps-in-spotlight">Apps in Spotlight</a></h2>
+		<div class="apps__list" id="apps">
+			<ul>
+			</ul>
+		</div>
+	</div>
+	<!-- Apps In Spotlight End -->
+
+	<!-- Band Start -->
+	<div class="band" id="band">
+	</div>
+	<!-- Band End -->
+
 	<!-- Grid(main) Start -->
 	<div id="main" class="grid container">
 		<h2 class="grid__head"><a href="#microservices" id="microservices">Built-in Microservices</a></h2>
-		<div class="grid__microservice-cards" id="microservice-cards">
-		</div>
-		<h2 class="grid__head m-t-10"><a href="#apps-in-spotlight" id="apps-in-spotlight">Apps in Spotlight</a></h2>
-		<div class="grid__carousel-container">
-			<button class="gird__fab" id="fab-left" onclick="carouselScroll('left')">
-				<em class="fa fa-chevron-left"></em>
-			</button>
-			<div id="carousel-slide"></div>
-			<button class="gird__fab" id="fab-right" onclick="carouselScroll('right')">
-				<em class="fa fa-chevron-right"></em>
-			</button>
-		</div>
+		<div class="grid__microservice-cards" id="microservice-cards"></div>
 	</div>
 	<!-- Grid(main) End -->
-
-    <!-- Band Start -->
-    <div class="band" id="band">
-    </div>
-    <!-- Band End -->
 
     <!-- Footer Start -->
     <footer>
