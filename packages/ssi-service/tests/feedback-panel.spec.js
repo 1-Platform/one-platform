@@ -29,14 +29,6 @@ describe( 'op-feedback-panel component', () => {
   };
 
   beforeAll( () => {
-    /* Mocking up One Platform helpers */
-    window.OpAuthHelper = {
-      onLogin: jest.fn(),
-      getUserInfo: jest.fn(() => ({})),
-    };
-    window.OpNotification = {
-      showToast: jest.fn(),
-    };
     /* Mocking the fetch requests */
     mockFetch( mockApps );
 
