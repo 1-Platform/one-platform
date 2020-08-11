@@ -46,10 +46,10 @@ export class FeedbackService extends GraphQLModule {
    * Get feedback by id
    */
 
-  getFeedback(_id: string) {
+  getFeedback(id: string) {
     return this.apollo.watchQuery<FeedbackResponse>({
       variables: {
-        _id
+        _id: id
       },
       query: getFeedback
     }).result().then(result => result.data.getFeedback);

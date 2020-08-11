@@ -25,8 +25,8 @@ const query = `
       ...feedbackWithUserType
     }
   }
-  query GetFeedback($_id: String!) {
-    getFeedback(id: $_id) {
+  query GetFeedback($id: String!) {
+    getFeedback(id: $id) {
       ...feedbackWithUserType
     }
   }

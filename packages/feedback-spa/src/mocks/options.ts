@@ -23,5 +23,4 @@ export const options = [
     id: 5,
     name: 'Service Status'
   }
-  
 ];

@@ -12,7 +12,7 @@ import { FeedbackService } from '../feedback.service';
 // import all the dependent modules
 import { of } from 'rxjs';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 // import all the dependent mocks
 import { FeedbackMock } from '../../../mocks/feedback.mock';
