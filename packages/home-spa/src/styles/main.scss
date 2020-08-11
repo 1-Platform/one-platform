@@ -26,6 +26,21 @@
         font-size: 1.75rem;
         margin: 2rem auto 0 auto;
         max-width: 462px;
+        q {
+            position: relative;
+            &::before {
+                content: url('../img/begin-quote.svg');
+                position: relative;
+                top: -18px;
+                left: -8px;
+            }
+            &::after {
+                content: url('../img/end-quote.svg');
+                position: absolute;
+                top: 30px;
+                right: -24px;
+            }
+        }
     }
     &__description {
         max-width: 756px;
