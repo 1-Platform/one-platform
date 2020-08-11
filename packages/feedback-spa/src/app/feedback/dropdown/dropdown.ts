@@ -2,6 +2,5 @@
 export interface IDropDownOption {
     id: number;
     name: string;
-    selected: Boolean;
+    selected: boolean;
   }
-  

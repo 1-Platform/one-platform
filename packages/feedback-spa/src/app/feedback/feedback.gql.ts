@@ -35,8 +35,8 @@ query listFeedback {
 `;
 
 export const getFeedback = gql`
-query getFeedback($_id: String!) {
-  getFeedback(_id: $_id) {
+query getFeedback($id: String!) {
+  getFeedback(id: $id) {
     ...feedbackType
   }
 }

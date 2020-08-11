@@ -18,4 +18,4 @@ Object.defineProperty(document.body.style, 'transform', {
     };
   }
 });
-test.skip('skip', () => {})
+test.skip('skip', () => {});

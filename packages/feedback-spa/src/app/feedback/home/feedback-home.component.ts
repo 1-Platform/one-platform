@@ -49,7 +49,7 @@ export class FeedbackHomeComponent implements OnInit {
             })[0];
             if (fbIssue) {
               fbObj.state = fbIssue.status.name;
-              if(fbIssue.assignee){
+              if (fbIssue.assignee){
                 fbObj.assignees = fbIssue.assignee.name.split(',');
               }
             }
