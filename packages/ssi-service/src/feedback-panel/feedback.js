@@ -39,7 +39,15 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
               } else {
                 return 1;
               }
-            });
+            } );
+            /* MAGIC: Refreshes the appsList dropdown if the feedback subPanel is already open */
+            if ( this.feedbackPanel.hasAttribute( 'open' )
+              && this.feedbackPanel.querySelector('#op-feedback__feedbackForm') ) {
+              this.feedbackPanel.querySelector( '#op-feedback__feedbackForm #feedbackType' ).innerHTML = `
+                <option value="">One Platform</option>
+                ${ this._appsList.map( app => html`<option value="${ app._id }" ${ this._isActiveApp( app ) ? 'selected' : '' }>${ app.name }</option>` ) }
+              `;
+            }
           } )
           .catch( err => {
             console.error( err );
@@ -134,8 +142,10 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
   togglePanelVisibility () {
     if ( this.feedbackPanel.hasAttribute( 'open' ) ) {
       this.feedbackPanel.removeAttribute( 'open' );
+      this.feedbackButton.querySelector( 'ion-icon' ).setAttribute( 'name', 'chatbox-ellipses' );
     } else {
       this.feedbackPanel.setAttribute( 'open', true );
+      this.feedbackButton.querySelector( 'ion-icon' ).setAttribute( 'name', 'close-outline' );
       this._loadSubPanel( 'options' );
     }
     this.dispatchEvent( new Event( 'TEST' ) );
