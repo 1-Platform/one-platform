@@ -3,8 +3,11 @@ module.exports = {
     CLI: [ 'cli/op-cli' ],
     Components: [ 'components/component-library' ],
     Documentation: [ 'documentation/styleguide' ],
-    'Hosted Applications': [ 'apps/hosted/analyst-papers/analyst-papers-spa' ],
-    Miscelleaneous: ['miscellaneous/assets'],
-    Faqs: ['faqs/index'],
+    Applications: [
+      {Hosted : [ 'apps/hosted/analyst-papers/analyst-papers-spa' ]},
+      { Internal: [ 'apps/internal/feedback/feedback-spa' ] },
+      'apps/assets',
+    ],
+    FAQs: ['faqs/index'],
   },
 };
