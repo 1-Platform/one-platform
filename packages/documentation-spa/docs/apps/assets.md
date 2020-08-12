@@ -1,7 +1,7 @@
 ---
 id: assets
 title: One Platform Assets
-sidebar_label: One Platform Assets
+sidebar_label: Assets
 ---
 * * *
 

@@ -14,7 +14,6 @@ Analyst Papers is a simple application that allows users to search through all t
 ### Supported Features
 
 1. Full Text Search across PNT Portal and Google Drive
-
 2. Citations as per Red Hat’s citation formats
 
 ### Get Started
@@ -38,15 +37,12 @@ When a user enters a search query in the search bar and submits, the app perform
 ### FAQs
 
 * Where is data/documents in the Analyst Papers coming from?
-
     The Analyst Papers app has custom integrations with PNT Portal, and Google Drive which allows it to fetch and search for Analyst Papers documents. For PNT Portal, it searches the documents from the ‘Analyst Materials’ table. And for Google Drive, it performs the search in the "Researches in One Platform" shared folder.
 
 * How frequently is the data on the Homepage updated?
-
     The Homepage shows the documents from a cache stored in the Analyst Papers backend. The cache is updated every day to check for new document additions/removals. But unlike the homepage, newly added documents are searchable almost immediately. So they show up in search even though it doesn’t show up on the homepage.
 
 * Analyst Papers Architecture
-
     [<img src="analyst-papers-architecture.svg" />](/docs)
 
 ## For Developers
@@ -54,9 +50,7 @@ When a user enters a search query in the search bar and submits, the app perform
 ### Component Contributors
 
 1. Ghanshyam Lohar - [glohar@redhat.com](mailto:glohar@redhat.com)
-
 2. Mayur Deshmukh - [mdeshmuk@redhat.com](mailto:mdeshmuk@redhat.com)
-
 3. Sumeet Ingole - [singole@redhat.com](mailto:singole@redhat.com)
 
 ### Getting Started
@@ -68,7 +62,6 @@ To be added.
 #### Supported Features
 
 1. Full Text Search across PNT Portal and Google Drive
-
 2. Citation (as per Red Hat’s citation format)
 
 #### API Reference
