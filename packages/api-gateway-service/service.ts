@@ -3,7 +3,7 @@ import express from 'express';
 import { stitchSchemas } from 'graphql-tools';
 import http from 'http';
 import { verify } from 'jsonwebtoken';
-import { publicKey, getRemoteSchema } from './src/helpers';
+import { getPublicKey, getRemoteSchema } from './src/helpers';
 import cors from 'cors';
 import cookieParser = require( 'cookie-parser' );
 const { ApolloLogExtension } = require( 'apollo-log' );
@@ -27,82 +27,77 @@ app.use( cors() );
 /*  Creating the server based on the environment */
 const server = http.createServer( app );
 
-let playgroundOptions: any = {
-  title: 'API Gateway',
-  settings: {
-    'request.credentials': 'include'
-  },
-  headers: {
-    'Authorization':`Bearer`
-  }
-};
-
 /* Binding the gateway with the apollo server and extracting the schema */
-( async () => {
-  const userService = await getRemoteSchema( {
-    uri: `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`,
-    subscriptionsUri: `ws://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/subscriptions`
-  } ).catch( err => err );
-  const feedbackService = await getRemoteSchema( {
-    uri: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/graphql`,
-    subscriptionsUri: `ws://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/subscriptions`
-  } ).catch( err => err );
-  const homeService = await getRemoteSchema( {
-    uri: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`,
-    subscriptionsUri: `ws://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/subscriptions`
-  } ).catch( err => err );
-  const notificationService = await getRemoteSchema( {
-    uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/graphql`,
-    subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/subscriptions`
-  } ).catch( err => err );
-  const schema = stitchSchemas( {
-    schemas: [ userService, feedbackService, homeService, notificationService ]
-  } );
+const userService = getRemoteSchema( {
+  uri: `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`,
+  subscriptionsUri: `ws://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/subscriptions`
+} );
+const feedbackService = getRemoteSchema( {
+  uri: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/graphql`,
+  subscriptionsUri: `ws://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/subscriptions`
+} );
+const homeService = getRemoteSchema( {
+  uri: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`,
+  subscriptionsUri: `ws://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/subscriptions`
+} );
+const notificationService = getRemoteSchema( {
+  uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/graphql`,
+  subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/subscriptions`
+} );
 
-  const context = ( { req, res }: any ) => {
-    if ( req.headers.authorization || req.cookies[ 'access-token' ] ) {
-      const tokenArray: any = req.headers.authorization?.split( ` ` );
-      const accessToken = tokenArray[ tokenArray.length - 1 ] || req.cookies[ 'access-token' ];
-      try {
-        return publicKey().then( ( key: string ) => {
-          verify( accessToken, key, { algorithms: [ 'RS256' ] }, ( err: any, payload: any ) => {
-            if ( err && err.name === 'TokenExpiredError' ) {
-              return res.status( 403 ).json( err );
-            } else if ( err && err.name === 'JsonWebTokenError' ) {
-              return res.status( 403 ).json( err );
-            } else if ( !err ) {
-              req.headers = { ...req.headers, tokenPayload: JSON.stringify( payload ) };
-            }
-          } );
-        })
-      } catch (err) {
-        throw new AuthenticationError('Auth token is invalid')
-      }
-  } else {
-    return res.status( 401 ).json( new AuthenticationError( 'Auth Token Missing' ) );
+const context = ({ req, connection }: any) => {
+  const authorizationHeader = req?.headers?.authorization || connection?.context?.Authorization;
+
+  if ( !authorizationHeader ) {
+    throw new AuthenticationError( 'Auth Token Missing' );
   }
+
+  const token = authorizationHeader.split( ' ' )[ 1 ];
+
+  return verify( token, getPublicKey(), ( err: any, payload: any ) => {
+    if ( err ) {
+      throw new AuthenticationError( err );
+    }
+    return { userData: payload };
+  } );
 };
 
-  /* Defining the Apollo Server */  
-  const apollo = new ApolloServer( {
-    schema: schema,
-    introspection: true,
-    context: context,
-    formatError: error => ( {
-      message: error.message,
-      locations: error.locations,
-      path: error.path,
-      ...error.extensions,
-    } ),
-    extensions: extensions,
-    playground: playgroundOptions,
-    tracing: process.env.NODE_ENV !== 'production',
-  } );
+Promise.all( [ userService, feedbackService, homeService, notificationService ] )
+  .then( schemas => {
+    const schema = stitchSchemas( { schemas } );
 
-  /* Applying apollo middleware to express server */
-  apollo.applyMiddleware( { app } );
-  apollo.installSubscriptionHandlers( server );
-} )();
+    /* Defining the Apollo Server */
+    const apollo = new ApolloServer( {
+      schema,
+      context,
+      extensions,
+      introspection: true,
+      formatError: error => ( {
+        message: error.message,
+        locations: error.locations,
+        path: error.path,
+        ...error.extensions,
+      } ),
+      playground: <any>{
+        title: 'API Gateway',
+        settings: {
+          'request.credentials': 'include'
+        },
+        headers: {
+          Authorization: `Bearer <ENTER_API_KEY_HERE>`,
+        },
+      },
+      tracing: process.env.NODE_ENV !== 'production',
+    } );
+
+    /* Applying apollo middleware to express server */
+    apollo.applyMiddleware( { app } );
+    apollo.installSubscriptionHandlers( server );
+  } )
+  .catch( err => {
+    console.error( err );
+    throw err;
+  } );
 
 export default server.listen( { port: port }, () => {
   console.log( `Gateway Running on ${ process.env.NODE_ENV } environment at port ${ port }` );
