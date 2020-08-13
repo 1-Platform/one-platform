@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require( 'copy-webpack-plugin' );
 const Dotenv = require('dotenv-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -57,19 +58,6 @@ module.exports = {
                     'sass-loader',
                   ],
             },
-            {
-                test: /\.(svg|png|jpe?g|gif)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            outputPath: 'img',
-                            name: '[name].[ext]',
-                            esModule: false,
-                        },
-                    }
-                ]
-            },
         ],
     },
     resolve: {
@@ -78,6 +66,12 @@ module.exports = {
     plugins: [
         new Dotenv(),
         new CleanWebpackPlugin(),
+        new CopyPlugin( {
+            patterns: [
+                { from: 'img/**', context: 'src' },
+                'favicon.ico',
+            ],
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             chunks: ['app'],

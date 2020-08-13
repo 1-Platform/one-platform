@@ -8,7 +8,7 @@ import '@patternfly/pfe-tabs/dist/pfe-tabs.min.js';
 // Local javascript imports
 import './js/controller.js';
 
-// Common HTML -> footer and band 
+// Common HTML -> footer and band
 const footer = document.querySelector('footer');
 const band = document.querySelector('#band');
 if (footer !== null) {
@@ -21,7 +21,7 @@ if (footer !== null) {
       <div class="footer__links">
         <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/" rel="noreferrer" target="_blank">One Platform in Mojo</a>
         <a href="https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/blog/" rel="noreferrer" target="_blank">Weekly Blog</a>
-        <a href="contact-us">Contact Us</a>
+        <a href="/contact-us">Contact Us</a>
       </div>
     </div>
     <div class="footer__links-col">
