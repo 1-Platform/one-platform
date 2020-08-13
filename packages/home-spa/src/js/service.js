@@ -12,18 +12,17 @@ query {
       }
   }`;
 
-export const getData = (token) => {
+export function getData() {
   const fetchOptions = {
     method: "post",
     headers: {
+      Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`,
       "Content-Type": "application/json",
-      // @ts-ignore
-      "Authorization": token,
     },
     body: JSON.stringify({
       query: listHomeType
     })
   };
   return fetch(process.env.API_URL, fetchOptions)
-  .then(res => res.json());
+    .then(res => res.json());
 };

@@ -40,19 +40,17 @@ const errorFetchingInformation = `
 </div>
 `;
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.OpAuthHelper.onLogin( () => {
-    getData(window?.OpAuthHelper?.jwtToken).then(
-      (result) => {
-        buildDom(result.data.listHomeType);
-      }
-    ).catch(err => {
+window.OpAuthHelper.onLogin( () => {
+  getData()
+    .then((result) => {
+      buildDom(result.data.listHomeType);
+    })
+    .catch( err => {
       console.error(err);
       microserviceCard.innerHTML = errorFetchingInformation;
       apps.innerHTML = errorFetchingInformation;
     });
-  }); 
-});
+})
 
 window.carouselScroll = (direction) => {
   if (direction === 'left') {
@@ -103,9 +101,9 @@ function buildDom(apiData) {
       }
     }).join('');
   }
-  
+
   if (spaList !== null) {
-    spaList.innerHTML = apiData.map(spa => 
+    spaList.innerHTML = apiData.map(spa =>
       {
         if (spa.entityType === 'spa') {
           return `<a href="${spa.link}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
@@ -113,23 +111,23 @@ function buildDom(apiData) {
       }
     ).join('');
   }
-  
+
   if (apps !== null) {
     apps.innerHTML = apiData.map( app => {
-    return `
-    <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
-      <a href="${ app.link }">
-        <div>
-          <img src="${ ASSETS_URL + app.icon || '/rh-hat-logo.svg' }"/>
-        </div>
-        <span>
-          ${ app.name }
-        </span>
-      </a>
-    </li>
-    `}
-  ).join('');
-}
+      return `
+      <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
+        <a href="${ app.link }">
+          <div>
+            <img src="${ ASSETS_URL + app.icon || '/rh-hat-logo.svg' }"/>
+          </div>
+          <span>
+            ${ app.name }
+          </span>
+        </a>
+      </li>
+      `}
+    ).join('');
+  }
 
   if (microserviceDetails !== null) {
     microserviceDetails.innerHTML = microserviceDetailsMock.map(microservice => {
@@ -150,7 +148,7 @@ function buildDom(apiData) {
             </ul>
         </div>
       <div class="microservice__image">
-        <img src="${microservice.illustration}" 
+        <img src="${microservice.illustration}"
       </div>
       </div>
       </div>`
