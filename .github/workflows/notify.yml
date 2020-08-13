@@ -1,0 +1,12 @@
+name: Notify the Gchat Group
+on:
+  pull_request:
+    types: [opened]
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Google Chat Notification
+      uses: CommonMarvel/google-chat-notification@v1.1.1
+      with:
+        url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
