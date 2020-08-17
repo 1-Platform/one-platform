@@ -34,7 +34,7 @@
     "dotenv": "8.2.0",
     "graphql": "15.1.0",
     "graphql-tag": "2.11.0",
-    "jest": "26.2.2",
+    "jest": "26.4.0",
     "jest-preset-angular": "8.2.1",
     "rxjs": "6.5.5",
     "ts-jest": "26.1.0",
