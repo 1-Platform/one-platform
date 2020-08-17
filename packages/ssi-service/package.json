@@ -49,7 +49,7 @@
     "dotenv-webpack": "1.8.0",
     "eslint-plugin-jest": "23.20.0",
     "html-webpack-plugin": "4.3.0",
-    "jest": "26.2.2",
+    "jest": "26.4.0",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
     "webpack": "4.44.1",

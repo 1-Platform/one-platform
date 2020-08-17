@@ -52,7 +52,7 @@
     "@types/node": "12.12.53",
     "apollo-angular": "1.10.0",
     "codelyzer": "6.0.0",
-    "jest": "26.2.2",
+    "jest": "26.4.0",
     "jest-preset-angular": "8.2.1",
     "protractor": "7.0.0",
     "ts-node": "8.10.2",
