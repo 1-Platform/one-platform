@@ -1,10 +1,10 @@
 @import './common.scss';
 
 .hero {
-    height: 90%;
+    height: 90vh;
     text-align: center;
     background-image: url('/img/illustration.svg');
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
     overflow: auto;
     &__mantra {
