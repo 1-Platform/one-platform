@@ -73,7 +73,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
           query: gql`subscription Notifications($targets: [String!]!) {
             notification: newNotifications(target: $targets) {
               id
-              title
+              subject
               body
               link
               data
