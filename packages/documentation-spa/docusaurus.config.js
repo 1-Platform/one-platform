@@ -3,7 +3,7 @@ module.exports = {
   tagline: 'One Portal is an integrated applications hosting platform which allows you to host your SPAs while taking advantage of in-built Components, Microservices and Assets. ',
   url: 'https://beta.one.redhat.com',
   baseUrl: '/',
-  onBrokenLinks: 'log',
+  onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: '1-platform', // Usually your GitHub org/user name.
   projectName: '1-platform.github.io', // Usually your repo name.
@@ -104,7 +104,7 @@ module.exports = {
             },
             {
               label: 'FAQs',
-              to: 'docs/faqs',
+              to: 'docs/faqs/index',
             },
           ],
         },
