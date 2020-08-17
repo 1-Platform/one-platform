@@ -50,7 +50,7 @@
     "graphql": "15.1.0",
     "graphql-iso-date": "3.6.1",
     "graphql-redis-subscriptions": "2.2.1",
-    "graphql-tools": "6.0.12",
+    "graphql-tools": "6.0.18",
     "ioredis": "4.17.3",
     "jira-client": "6.17.0",
     "lodash": "4.17.19",
