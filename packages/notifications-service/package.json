@@ -75,7 +75,7 @@
     "@types/errorhandler": "0.0.32",
     "@types/ioredis": "4.17.3",
     "@types/ioredis": "4.17.2",
-    "@types/jest": "26.0.9",
+    "@types/jest": "26.0.10",
     "@types/lodash": "4.14.159",
     "@types/method-override": "0.0.31",
     "@types/mongoose": "5.7.30",

@@ -24,7 +24,7 @@
     "@patternfly/pfe-accordion": "1.0.0-prerelease.54",
     "@patternfly/pfe-select": "1.0.0-prerelease.54",
     "@patternfly/pfe-toast": "1.0.0-prerelease.54",
-    "@types/jest": "26.0.9",
+    "@types/jest": "26.0.10",
     "apollo-angular": "1.10.0",
     "apollo-angular-link-http": "1.11.0",
     "apollo-cache-inmemory": "1.6.6",
