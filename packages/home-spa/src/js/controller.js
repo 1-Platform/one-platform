@@ -5,7 +5,7 @@ import { microserviceDetailsMock, teamMembers } from '../mocks/stub';
 
 const microserviceCard = document.querySelector('#microservice-cards');
 const apps = document.querySelector("#apps > ul")
-const spaList = document.querySelector('#banner-links');
+const spaListForFourZeroFour = document.querySelector('#banner-links');
 const microserviceDetails = document.querySelector('#microservice-details');
 const teamBlock = document.querySelector('#team-block');
 
@@ -33,7 +33,7 @@ window.OpAuthHelper.onLogin( () => {
       microserviceCard.innerHTML = errorFetchingInformation;
       apps.innerHTML = errorFetchingInformation;
     });
-})
+});
 
 window.carouselScroll = (direction) => {
   if (direction === 'left') {
@@ -85,8 +85,8 @@ function buildDom(apiData) {
     }).join('');
   }
 
-  if (spaList !== null) {
-    spaList.innerHTML = apiData.map(spa =>
+  if (spaListForFourZeroFour !== null) {
+    spaListForFourZeroFour.innerHTML = apiData.map(spa =>
       {
         if (spa.entityType === 'spa') {
           return `<a href="${spa.link}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
@@ -97,7 +97,8 @@ function buildDom(apiData) {
 
   if (apps !== null) {
     apps.innerHTML = apiData.map( app => {
-      return `
+      if (app?.entityType === 'spa') {
+        return `
       <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
         <a href="${ app.link }">
           <div>
@@ -108,7 +109,9 @@ function buildDom(apiData) {
           </span>
         </a>
       </li>
-      `}
+      `
+      }
+    }
     ).join('');
   }
 
