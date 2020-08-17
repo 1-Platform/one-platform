@@ -15,8 +15,9 @@ export class APIService {
     this._wsLink = new WebSocketLink( {
       uri: `wss://${ this._apiBaseURL.host }${ this._apiBaseURL.pathname }`,
       options: {
-        reconnect: true
-      }
+        reconnect: true,
+        connectionParams: () => ({ ...this._headers })
+        },
     } );
   }
 
