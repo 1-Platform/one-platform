@@ -23,7 +23,7 @@ const errorFetchingInformation = `
 </div>
 `;
 
-// window.OpAuthHelper.onLogin( () => {
+window.OpAuthHelper.onLogin( () => {
   getData()
     .then((result) => {
       buildDom(result.data.listHomeType);
@@ -33,7 +33,7 @@ const errorFetchingInformation = `
       microserviceCard.innerHTML = errorFetchingInformation;
       apps.innerHTML = errorFetchingInformation;
     });
-// });
+});
 
 window.carouselScroll = (direction) => {
   if (direction === 'left') {
