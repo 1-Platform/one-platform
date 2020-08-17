@@ -56,7 +56,7 @@
 
 .apps {
 	&__list {
-        margin-top: 2.5rem;
+        margin: 2.5rem;
 		ul {
 			max-width: 80vw;
 			display: grid;
@@ -179,7 +179,7 @@
     }
     &__microservice-cards {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
         grid-gap: 2rem;
         max-width: 1150px;
         margin: 3rem auto;
@@ -260,7 +260,7 @@
 .microservice {
     &__details {
         width: 946px;
-        margin: 4.5rem auto;
+        margin: 2.5rem auto;
         &--header {
             font-size: 28px;
             color: #000000;
@@ -322,7 +322,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 2rem;
-        margin-top: 4.5rem;
+        margin: 2.5rem;
         &--block {
             display: flex;
             flex-direction: column;
@@ -346,10 +346,10 @@
     }
     &__list {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(5, 1fr);
         grid-gap: 4.25rem;
         justify-content: center;
-        margin-top: 4.5rem;
+        margin-top: 2.5rem;
         &--item {
             display: flex;
             flex-direction: column;
