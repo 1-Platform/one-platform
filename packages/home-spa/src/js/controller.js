@@ -2,23 +2,6 @@
 // Services
 import { getData }  from './service';
 import { microserviceDetailsMock, teamMembers } from '../mocks/stub';
-// importing images
-import '../img/illustration.svg';
-import '../img/404.svg';
-import '../img/co-working.svg';
-import '../img/bell.svg';
-import '../img/shield.svg';
-import '../img/talk-bubble.svg';
-import '../img/login.svg';
-import '../img/magnifying-glass.svg';
-import '../img/Auth-illustration.svg';
-import '../img/Notification-illustration.svg';
-import '../img/User-profile-illustration.svg';
-import '../img/Feedback-illustration.svg';
-import '../img/user-female.svg';
-import '../img/user-male.svg';
-import '../img/begin-quote.svg';
-import '../img/end-quote.svg';
 
 const microserviceCard = document.querySelector('#microservice-cards');
 const apps = document.querySelector("#apps > ul")
@@ -118,7 +101,7 @@ function buildDom(apiData) {
       <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
         <a href="${ app.link }">
           <div>
-            <img src="${ ASSETS_URL + app.icon || '/rh-hat-logo.svg' }"/>
+            <img src="${ app.icon || ASSETS_URL + 'assets/rh-hat-logo.svg' }"/>
           </div>
           <span>
             ${ app.name }
@@ -159,7 +142,7 @@ function buildDom(apiData) {
     teamBlock.innerHTML = teamMembers.map(member => {
       return `
       <div class="team-block__list--item">
-          <img src="img/${member.gender === 'male' ? 'user-male.svg': 'user-female.svg'}" alt="">
+          <img src="/img/${member.gender === 'male' ? 'user-male.svg': 'user-female.svg'}" alt="">
           <span class="name">${member.name}</span>
           <span class="title">${member.title}</span>
       </div>`;

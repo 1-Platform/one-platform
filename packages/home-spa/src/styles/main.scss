@@ -3,7 +3,7 @@
 .hero {
     height: 90%;
     text-align: center;
-    background-image: url(../img/illustration.svg);
+    background-image: url('/img/illustration.svg');
     background-position: center;
     background-repeat: no-repeat;
     overflow: auto;
@@ -29,13 +29,13 @@
         q {
             position: relative;
             &::before {
-                content: url('../img/begin-quote.svg');
+                content: url('/img/begin-quote.svg');
                 position: relative;
                 top: -18px;
                 left: -8px;
             }
             &::after {
-                content: url('../img/end-quote.svg');
+                content: url('/img/end-quote.svg');
                 position: absolute;
                 top: 30px;
                 right: -24px;

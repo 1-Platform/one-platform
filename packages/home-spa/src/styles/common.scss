@@ -90,7 +90,7 @@ body {
 }
 .band {
   background-color: var(--op-black);
-  background-image: url(../img/left-footer-cubes.svg), url(../img/right-footer-cubes.svg);
+  background-image: url('/img/left-footer-cubes.svg'), url('/img/right-footer-cubes.svg');
   background-repeat: no-repeat;
   background-position: -38px center,calc(100% + 38px)  center;
   height: 238px;
@@ -157,7 +157,7 @@ body {
 
 footer {
   background-color: var(--op-black);
-  background-image: url(../img/left-footer-cubes.svg), url(../img/right-footer-cubes.svg);
+  background-image: url('/img/left-footer-cubes.svg'), url('/img/right-footer-cubes.svg');
   background-repeat: no-repeat;
   background-position: -38px center,calc(100% + 38px)  center
 }
