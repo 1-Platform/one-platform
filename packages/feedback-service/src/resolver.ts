@@ -171,11 +171,10 @@ export const FeedbackResolver = {
                 headers: { 'Content-Type': 'application/json' },
                 body: graphql
               };
-            const graphql_api = `http://localhost:8081/graphql`;
+            const graphql_api = `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`;;
             const userPromise = fetch( graphql_api, requestOptions )
               .then( ( result: any ) => result.json() );
             if ( fb?.spa ) {
-              // const homePromise = new Promise( ( resolve, reject ) => {
                 const formattedQuery = `
                   query GetHomeType {
                     getHomeType(_id: "${ fb?.spa }") {
@@ -192,10 +191,9 @@ export const FeedbackResolver = {
                   headers: { 'Content-Type': 'application/json' },
                   body: graphql
                 };
-                const graphql_api = `http://localhost:8082/graphql`;
+              const graphql_api = `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`;
               const homePromise = fetch( graphql_api, requestOptions )
                 .then( ( result: any ) => result.json() );
-              // } );
               promises.push( userPromise, homePromise );
             } else {
               promises.push( userPromise );
