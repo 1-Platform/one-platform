@@ -45,6 +45,6 @@ TBA
 
 ## FAQs
 
-* Why should I use Assets-SPA?
+* **Why should I use Assets-SPA?**
 
   All the static files can be stored in a single manageable storage

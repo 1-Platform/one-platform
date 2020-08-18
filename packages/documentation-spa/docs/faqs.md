@@ -18,6 +18,7 @@ sidebar_label: One Platform FAQs
 ### Internal Apps
 
 1. [Feedback](/docs/apps/internal/feedback/feedback-spa#faqs)
+1. [Home](/docs/apps/internal/home/home-spa#faqs)
 
 ### Assets
 
