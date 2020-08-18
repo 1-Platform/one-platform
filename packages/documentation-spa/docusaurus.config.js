@@ -27,37 +27,37 @@ module.exports = {
       // Useful if you want to support a single color mode
       disableSwitch: true,
     },
-    navbar: {
-      logo: {
-        alt: 'Red Hat One Portal Logo',
-        src: 'img/logo.svg',
-        srcDark: 'img/logo_dark.svg',
-      },
-      items: [
-        {
-          to: 'docs/',
-          activeBasePath: 'docs',
-          label: 'Docs',
-          position: 'left',
-        },
-        // {
-        //   type: 'docsVersion',
-        //   position: 'left',
-        //   // to: "/path // by default, link to active/latest version
-        //   // label: "label" // by default, show active/latest version label
-        // },
-        // {
-        //   type: 'docsVersionDropdown',
-        //   position: 'left',
-        // },
-        {to: 'blog', label: 'Blog', position: 'left'},
-        {
-          href: 'https://github.com/1-platform/one-platform',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
-    },
+    // navbar: {
+    //   logo: {
+    //     alt: 'Red Hat One Portal Logo',
+    //     src: 'img/logo.svg',
+    //     srcDark: 'img/logo_dark.svg',
+    //   },
+    //   items: [
+    //     {
+    //       to: 'docs/',
+    //       activeBasePath: 'docs',
+    //       label: 'Docs',
+    //       position: 'left',
+    //     },
+    //     // {
+    //     //   type: 'docsVersion',
+    //     //   position: 'left',
+    //     //   // to: "/path // by default, link to active/latest version
+    //     //   // label: "label" // by default, show active/latest version label
+    //     // },
+    //     // {
+    //     //   type: 'docsVersionDropdown',
+    //     //   position: 'left',
+    //     // },
+    //     {to: 'blog', label: 'Blog', position: 'left'},
+    //     {
+    //       href: 'https://github.com/1-platform/one-platform',
+    //       label: 'GitHub',
+    //       position: 'right',
+    //     },
+    //   ],
+    // },
     footer: {
       style: 'dark',
       links: [
