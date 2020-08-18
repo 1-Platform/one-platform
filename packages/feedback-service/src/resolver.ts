@@ -205,7 +205,7 @@ export const FeedbackResolver = {
                     'project': {
                       'key': process.env.PROJECT_KEY
                     },
-                    'summary': ( fb.feedbackType === 'Bug' ? `${ fb.title }` : `Feedback from ${ results[ 0 ]?.data?.getUsersBy[ 0 ]?.uid } on ${ results[ 1 ]?.data?.getHomeType?.name || 'One Platform' }` ),
+                    'summary': ( fb.title || `${fb.feedbackType} from ${ results[ 0 ]?.data?.getUsersBy[ 0 ]?.uid } on ${ results[ 1 ]?.data?.getHomeType?.name || 'One Platform' }` ),
                     'description': fb.description,
                     'labels': [ 'Reported-via-One-Platform' ],
                     'issuetype': { 'name': 'Task' },
