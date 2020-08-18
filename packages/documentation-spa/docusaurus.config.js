@@ -2,7 +2,7 @@ module.exports = {
   title: 'One Portal',
   tagline: 'One Portal is an integrated applications hosting platform which allows you to host your SPAs while taking advantage of in-built Components, Microservices and Assets. ',
   url: 'https://beta.one.redhat.com',
-  baseUrl: '/',
+  baseUrl: '/get-started/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: '1-platform', // Usually your GitHub org/user name.
@@ -104,7 +104,7 @@ module.exports = {
             },
             {
               label: 'FAQs',
-              to: 'docs/faqs/index',
+              to: 'docs/faqs',
             },
           ],
         },
@@ -118,7 +118,7 @@ module.exports = {
       {
         docs: {
           // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: 'documentation/styleguide',
+          homePageId: 'components/component-library',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:

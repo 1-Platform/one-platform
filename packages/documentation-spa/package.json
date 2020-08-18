@@ -8,7 +8,7 @@
     "build": "docusaurus build --out-dir=dist",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "serve": "docusaurus serve"
+    "serve": "docusaurus serve --dir=dist"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.60",
