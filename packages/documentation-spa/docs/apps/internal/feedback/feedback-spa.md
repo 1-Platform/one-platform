@@ -47,7 +47,13 @@ Follow these steps to setup feedback-spa in your local environment:
 
 5. Access <https://localhost:4200/feedback/> from your preferred browser.
 
-### FAQs
+### API Reference
+
+For api reference access feedback-service document, feedback-service is backend for feedback-spa
+
+<!-- The API reference details can be found at the [Feedback Microservice Documentation](/microservices/feedback/feedback-microservice). -->
+
+## FAQs
 
 * How can I access feedback-spa ?
     [https://localhost:4200/feedback/](https://localhost:4200/feedback/)
@@ -57,14 +63,8 @@ Follow these steps to setup feedback-spa in your local environment:
 
 * How can I create new feedback ?
     From any One Platform page's bottom right  corner, you can use the feedback button.
-    <img src="./feedback-popout.svg" width="400"/>
+    ![Feedback Popout](./feedback-popout.svg)
 
 * How can I access existing feedback ?
     From any One Platform page's bottom right  corner, click the feedback button and then the ***View Existing feedback*** option.
-    <img src="./feedback-popout.svg" width="400"/>
-
-### API Reference
-
-For api reference access feedback-service document, feedback-service is backend for feedback-spa
-
-The API reference details can be found at the [Feedback Microservice Documentation](/microservices/feedback/feedback-microservice).
+    ![Feedback Popout](./feedback-popout.svg)

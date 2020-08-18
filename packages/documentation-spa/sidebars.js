@@ -8,6 +8,6 @@ module.exports = {
       { Internal: [ 'apps/internal/feedback/feedback-spa' ] },
       'apps/assets',
     ],
-    FAQs: ['faqs/index'],
+    FAQs: ['faqs'],
   },
 };

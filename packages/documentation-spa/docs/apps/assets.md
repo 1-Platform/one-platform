@@ -43,7 +43,7 @@ TBA
 
 * SPA Users for One Platform
 
-### FAQs
+## FAQs
 
 * Why should I use Assets-SPA?
 

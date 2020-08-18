@@ -63,7 +63,8 @@ function Home() {
   return (
     <Layout
       title={`Develop fast · Deliver faster`}
-      description = "{siteConfig.tagline}" >
+      description="{siteConfig.tagline}" >
+      <div dangerouslySetInnerHTML={{__html: '<!--#include virtual="/.include/nav/default.html" -->'}} />
       <header className={clsx('hero hero--secondary', styles.heroBanner)}>
         <div className="container">
           <p className="hero__title">Develop fast · <span>Deliver faster</span></p>
