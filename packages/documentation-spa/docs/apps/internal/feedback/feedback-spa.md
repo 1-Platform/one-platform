@@ -55,16 +55,20 @@ For api reference access feedback-service document, feedback-service is backend 
 
 ## FAQs
 
-* How can I access feedback-spa ?
+* **How can I access feedback-spa ?**
+
     [https://localhost:4200/feedback/](https://localhost:4200/feedback/)
 
-* Does the feedback-spa have any dependency to access it ?
+* **Does the feedback-spa have any dependency to access it ?**
+
     Yes you would need to start the feedback-microservice.
 
-* How can I create new feedback ?
+* **How can I create new feedback ?**
+
     From any One Platform page's bottom right  corner, you can use the feedback button.
     ![Feedback Popout](./feedback-popout.svg)
 
-* How can I access existing feedback ?
+* **How can I access existing feedback ?**
+
     From any One Platform page's bottom right  corner, click the feedback button and then the ***View Existing feedback*** option.
     ![Feedback Popout](./feedback-popout.svg)

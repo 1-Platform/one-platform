@@ -114,6 +114,6 @@ One Platform CLI Generator will bootstrap a microservice which is compatible wit
 
 ## FAQs
 
-* Does this generator support other languages?
+* **Does this generator support other languages?**
 
     No this generator provides support only Javascript.
