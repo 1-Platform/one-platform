@@ -112,7 +112,7 @@ One Platform CLI Generator will bootstrap a microservice which is compatible wit
     npm run test
     ```
 
-### FAQs
+## FAQs
 
 * Does this generator support other languages?
 

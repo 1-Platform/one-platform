@@ -32,7 +32,7 @@ The Homepage for Analyst Papers App.
 
 It shows the recently added documents in a grid view, with a search bar and some filters to sort and filter through the documents.
 
- ![img](./analyst-papers-landing-page.svg)
+ ![Analyst Papers Home](./analyst-papers-landing-page.svg)
 
 #### Search
 
@@ -47,23 +47,6 @@ When a user enters a search query in the search bar and submits, the app perform
 
 * **PnT Papers**
    ![img](./analyst-papers-pnt-papers.svg)
-
-### FAQs
-
-* **Where is data/documents in the Analyst Papers coming from?**
-
-    The Analyst Papers app has custom integrations with PNT Portal, and Google Drive which allows it to fetch and search for Analyst Papers documents.
-
-    For PNT Portal, it searches the documents from the ‘Analyst Materials’ table. And for Google Drive, it performs the search in the "Researches in One Platform" shared folder.
-
-* **How frequently is the data on the Homepage updated?**
-
-    The Homepage shows the documents from a cache stored in the Analyst Papers backend. The cache is updated every day to check for new document additions/removals.
-
-    But unlike the homepage, newly added documents are searchable almost immediately. So they show up in search even though it doesn’t show up on the homepage.
-
-* **Analyst Papers Architecture**
-    ![img](./analyst-papers-architecture.svg)
 
 ## For Developers
 
@@ -105,3 +88,20 @@ Analyst Papers Microservice provides a set of GraphQL Queries and Mutation APIs 
 | Mutation | Description |
 | -------- | --------- |
 | `startAnalystPapersSync` | Starts the on demand sync of papers in cached MongoDB collection.  |
+
+## FAQs
+
+* **Where is data/documents in the Analyst Papers coming from?**
+
+    The Analyst Papers app has custom integrations with PNT Portal, and Google Drive which allows it to fetch and search for Analyst Papers documents.
+
+    For PNT Portal, it searches the documents from the ‘Analyst Materials’ table. And for Google Drive, it performs the search in the "Researches in One Platform" shared folder.
+
+* **How frequently is the data on the Homepage updated?**
+
+    The Homepage shows the documents from a cache stored in the Analyst Papers backend. The cache is updated every day to check for new document additions/removals.
+
+    But unlike the homepage, newly added documents are searchable almost immediately. So they show up in search even though it doesn’t show up on the homepage.
+
+* **Analyst Papers Architecture**
+    ![img](./analyst-papers-architecture.svg)
