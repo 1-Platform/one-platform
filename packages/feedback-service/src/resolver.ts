@@ -171,7 +171,7 @@ export const FeedbackResolver = {
                 headers: { 'Content-Type': 'application/json' },
                 body: graphql
               };
-            const graphql_api = `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`;;
+            const graphql_api = `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`;
             const userPromise = fetch( graphql_api, requestOptions )
               .then( ( result: any ) => result.json() );
             if ( fb?.spa ) {
