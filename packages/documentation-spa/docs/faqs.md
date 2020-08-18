@@ -20,6 +20,7 @@ sidebar_label: One Platform FAQs
 1. [Feedback](/docs/apps/internal/feedback/feedback-spa#faqs)
 1. [Home](/docs/apps/internal/home/home-spa#faqs)
 1. [Notifications](/docs/apps/internal/notifications/notifications-spa#faqs)
+1. [SSI Service](/docs/apps/internal/ssi-service/ssi-service#faqs)
 
 ### Assets
 
