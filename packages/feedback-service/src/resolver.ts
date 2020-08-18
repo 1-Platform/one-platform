@@ -153,13 +153,12 @@ export const FeedbackResolver = {
         return Feedback.findById( response._id )
           .then( fb => {
             if ( fb ) {
-
               const issue = {
                 'fields': {
                   'project': {
                     'key': process.env.PROJECT_KEY
                   },
-                  'summary': fb.title,
+                  'summary': ( fb.feedbackType === 'Bug' ? `${ fb.title }` : `Feedback`),
                   'description': fb.description,
                   'labels': [ 'Reported-via-One-Platform' ],
                   'issuetype': { 'name': 'Task' },
