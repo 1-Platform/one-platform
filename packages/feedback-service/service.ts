@@ -48,7 +48,7 @@ const apollo = new ApolloServer( {
     path: error.path,
     ...error.extensions,
   } ),
-  // extensions
+  extensions
 } );
 
 
