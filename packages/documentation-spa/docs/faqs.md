@@ -18,9 +18,9 @@ sidebar_label: One Platform FAQs
 ### Internal Apps
 
 1. [Feedback](/docs/apps/internal/feedback/feedback-spa#faqs)
-1. [Home](/docs/apps/internal/home/home-spa#faqs)
-1. [Notifications](/docs/apps/internal/notifications/notifications-spa#faqs)
-1. [SSI Service](/docs/apps/internal/ssi-service/ssi-service#faqs)
+2. [Home](/docs/apps/internal/home/home-spa#faqs)
+3. [Notifications](/docs/apps/internal/notifications/notifications-spa#faqs)
+4. [SSI Service](/docs/apps/internal/ssi-service/ssi-service#faqs)
 
 ### Assets
 
@@ -29,3 +29,9 @@ sidebar_label: One Platform FAQs
 ## CLI FAQs
 
 1. [OP CLI](/docs/cli/op-cli#faqs)
+
+## Microservice FAQs
+
+1. [Feedback](/docs/microservices/feedback/feedback-service#faqs)
+2. [Home](/docs/microservices/home/home-service#faqs)
+3. [Notifications Service](/docs/microservices/notifications/notifications-service#faqs)
