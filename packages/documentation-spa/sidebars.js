@@ -5,7 +5,13 @@ module.exports = {
     Documentation: [ 'documentation/styleguide' ],
     Applications: [
       {Hosted : [ 'apps/hosted/analyst-papers/analyst-papers-spa' ]},
-      { Internal: [ 'apps/internal/feedback/feedback-spa', 'apps/internal/home/home-spa' ] },
+      {
+        Internal: [
+          'apps/internal/feedback/feedback-spa',
+          'apps/internal/home/home-spa',
+          'apps/internal/notifications/notifications-spa'
+        ]
+      },
       'apps/assets',
     ],
     FAQs: ['faqs'],
