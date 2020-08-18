@@ -152,20 +152,67 @@ export const FeedbackResolver = {
       return data.save().then( response => {
         return Feedback.findById( response._id )
           .then( fb => {
-            if ( fb ) {
-              const issue = {
-                'fields': {
-                  'project': {
-                    'key': process.env.PROJECT_KEY
-                  },
-                  'summary': ( fb.feedbackType === 'Bug' ? `${ fb.title }` : `Feedback`),
-                  'description': fb.description,
-                  'labels': [ 'Reported-via-One-Platform' ],
-                  'issuetype': { 'name': 'Task' },
+            const promises = [];
+              const formattedQuery = `
+                query GetUserBy {
+                  getUsersBy(rhatUUID: "${ fb?.createdBy }") {
+                    _id
+                    name
+                    uid
+                  }
                 }
+                `;
+              const graphql = JSON.stringify( {
+                query: formattedQuery,
+                variables: {}
+              } );
+              const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: graphql
               };
-              const envpath = process.env.NODE_ENV;
-              if ( envpath === 'production' ) {
+            const graphql_api = `http://localhost:8081/graphql`;
+            const userPromise = fetch( graphql_api, requestOptions )
+              .then( ( result: any ) => result.json() );
+            if ( fb?.spa ) {
+              // const homePromise = new Promise( ( resolve, reject ) => {
+                const formattedQuery = `
+                  query GetHomeType {
+                    getHomeType(_id: "${ fb?.spa }") {
+                      name
+                    }
+                  }
+                  `;
+                const graphql = JSON.stringify( {
+                  query: formattedQuery,
+                  variables: {}
+                } );
+                const requestOptions = {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: graphql
+                };
+                const graphql_api = `http://localhost:8082/graphql`;
+              const homePromise = fetch( graphql_api, requestOptions )
+                .then( ( result: any ) => result.json() );
+              // } );
+              promises.push( userPromise, homePromise );
+            } else {
+              promises.push( userPromise );
+            }
+            return Promise.all( promises ).then( ( results: any ) => {
+              if ( fb ) {
+                const issue = {
+                  'fields': {
+                    'project': {
+                      'key': process.env.PROJECT_KEY
+                    },
+                    'summary': ( fb.feedbackType === 'Bug' ? `${ fb.title }` : `Feedback from ${ results[ 0 ]?.data?.getUsersBy[ 0 ]?.uid } on ${ results[ 1 ]?.data?.getHomeType?.name || 'One Platform' }` ),
+                    'description': fb.description,
+                    'labels': [ 'Reported-via-One-Platform' ],
+                    'issuetype': { 'name': 'Task' },
+                  }
+                };
                 return createJira( issue ).then( ( jira: any ) => {
                   args.input.ticketID = jira.key;
                   return Feedback.update( fb, args.input ).then( ( feedback: any ) => {
@@ -177,10 +224,10 @@ export const FeedbackResolver = {
                   .catch( function ( err: any ) {
                     return err;
                   } );
-              } else {
-                return fb;
               }
-            }
+
+            } );
+
           } );
       } );
     },
