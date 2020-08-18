@@ -1,19 +1,29 @@
 module.exports = {
   someSidebar: {
-    CLI: [ 'cli/op-cli' ],
-    Components: [ 'components/component-library' ],
-    Documentation: [ 'documentation/styleguide' ],
     Applications: [
-      {Hosted : [ 'apps/hosted/analyst-papers/analyst-papers-spa' ]},
+      'apps/assets',
+      {
+        Hosted: [ 'apps/hosted/analyst-papers/analyst-papers-spa']
+      },
       {
         Internal: [
           'apps/internal/feedback/feedback-spa',
           'apps/internal/home/home-spa',
           'apps/internal/notifications/notifications-spa',
+          'apps/internal/user-groups/user-groups-spa',
           'apps/internal/ssi-service/ssi-service'
         ]
       },
-      'apps/assets',
+    ],
+    CLI: [ 'cli/op-cli' ],
+    Components: [ 'components/component-library' ],
+    Documentation: [ 'documentation/styleguide' ],
+    Microservices: [
+        'microservices/authorization/authorization-service',
+        'microservices/feedback/feedback-service',
+        'microservices/home/home-service',
+        'microservices/notifications/notifications-service',
+        'microservices/user-groups/user-groups-service',
     ],
     FAQs: ['faqs'],
   },
