@@ -3,17 +3,23 @@ import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
 import * as schedule from 'node-schedule';
-import { UserGroupResolver as resolver } from './src/resolver';
-import gqlSchema from './src/typedef.graphql';
+import { UserResolver as resolver } from './src/users/resolver';
+import gqlSchema from './src/users/typedef.graphql';
 const { ApolloLogExtension } = require( 'apollo-log' );
 import cookieParser = require( 'cookie-parser' );
+import dotenv from 'dotenv';
 
 // Crons for Data syncing
-import { UserSyncCron } from './src/cron';
+import { UserSyncCron } from './src/users/cron';
 
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
+
+/* If environment is test, set-up the environment variables */
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: './src/e2e/.test.env' } );
+}
 
 const app = express();
 

@@ -1,13 +1,13 @@
 import * as _ from 'lodash';
-import { User } from './schema';
+import { Users } from './schema';
 import moment from 'moment';
-import { UserGroupAPIHelper } from './helpers';
+import { UserGroupAPIHelper } from '../helpers';
 /**
  * @class UserSyncCron
  */
 export class UserSyncCron {
   public syncUsers() {
-    User.find().then((userInfo: any[]) => {
+    Users.find().then((userInfo: any[]) => {
       if (userInfo.length) {
         let rhatUUIDs: string[] = [];
         rhatUUIDs = userInfo.map((user: UserType) => user.rhatUUID);
@@ -20,7 +20,7 @@ export class UserSyncCron {
               if (_.isEmpty(response)) {
                 newProfile[0].isActive = false;
                 console.log('Account of ' + oldProfile[0].uid + ' de-activated successfully');
-                return User.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
+                return Users.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
                        .exec();
               } else {
                 const groups: string[] = [];
@@ -33,7 +33,7 @@ export class UserSyncCron {
                 newProfile[0].memberOf = groups;
                 newProfile[0].isActive = true;
                 newProfile[0].updatedOn = moment( new Date() );
-                return User.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
+                return Users.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
                        .exec();
               }
             });
