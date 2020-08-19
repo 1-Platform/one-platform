@@ -62,8 +62,9 @@ export class ManageNotificationComponent implements OnInit {
       };
       this.appService.createNotificationConfig(this.notificationFormData).subscribe(result => {
         if (result) {
-          const pfeToast = window.document.querySelector('pfe-toast');
-          (pfeToast as any).open();
+          window.OpNotification.success({subject: 'Notification successfully created'});
+        } else {
+          window.OpNotification.error({subject: 'Error', body: 'Could not create notification'});
         }
       });
     } else {
@@ -74,8 +75,9 @@ export class ManageNotificationComponent implements OnInit {
       };
       this.appService.updateNotificationConfig(this.notificationFormData).subscribe(result => {
         if (result) {
-          const pfeToast = window.document.querySelector('pfe-toast');
-          (pfeToast as any).open();
+          window.OpNotification.success({subject: 'Notification successfully created'});
+        } else {
+          window.OpNotification.error({subject: 'Error', body: 'Could not update notification'});
         }
       });
     }

@@ -1,8 +1,1 @@
-const getUserDetails = () => {
-  try {
-    return window.OpAuthHelper?.getUserInfo();
-  } catch (err) {
-    console.error(err);
-  }
-};
-export const UserProfile = getUserDetails();
+export const UserProfile = window.OpAuthHelper?.getUserInfo();
