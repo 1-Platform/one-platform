@@ -40,7 +40,7 @@ export class ManageNotificationComponent implements OnInit {
 
   async ngOnInit() {
     this.applications = await this.appService.getHomeTypeByUser(this.user?.rhatUUID)
-    .then(result => result)
+    .then(result => result.filter(homeType => homeType.entity === 'spa'))
     .catch(err => err);
   }
 
