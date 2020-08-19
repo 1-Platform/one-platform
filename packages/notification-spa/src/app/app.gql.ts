@@ -71,6 +71,7 @@ const homeFragment = gql`
 fragment home on HomeType {
   _id
   name
+  entityType
 }
 `;
 
