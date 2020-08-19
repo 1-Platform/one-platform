@@ -64,7 +64,7 @@ export class ManageNotificationComponent implements OnInit {
         if (result) {
           window.OpNotification.success({subject: 'Notification successfully created'});
         } else {
-          window.OpNotification.error({subject: 'Error', body: 'Could not create notification'});
+          window.OpNotification.danger({subject: 'Error', body: 'Could not create notification'});
         }
       });
     } else {
@@ -77,7 +77,7 @@ export class ManageNotificationComponent implements OnInit {
         if (result) {
           window.OpNotification.success({subject: 'Notification successfully created'});
         } else {
-          window.OpNotification.error({subject: 'Error', body: 'Could not update notification'});
+          window.OpNotification.danger({subject: 'Error', body: 'Could not update notification'});
         }
       });
     }
