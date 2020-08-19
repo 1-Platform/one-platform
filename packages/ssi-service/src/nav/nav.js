@@ -89,7 +89,9 @@ window.customElements.define( 'op-nav', class extends LitElement {
           if ( res.errors ) {
             throw res.errors;
           }
-          this.showToast( res.data.notification, { addToDrawer: true } );
+          if ( res?.data?.notification ) {
+            this.showToast( res.data.notification, { addToDrawer: true } );
+          }
         } );
     } );
 
