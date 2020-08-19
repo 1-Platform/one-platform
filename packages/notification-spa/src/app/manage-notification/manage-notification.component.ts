@@ -30,6 +30,7 @@ export class ManageNotificationComponent implements OnInit {
     private router: Router,
   ) {
     this.route.params.subscribe(res => {
+      // If editID is available then the form is in edit state or else it is in create state
       if (res?.id) {
         this.editConfig(res.id);
         this.editID = res.id;
@@ -43,14 +44,18 @@ export class ManageNotificationComponent implements OnInit {
     .catch(err => err);
   }
 
-  onSubmit(value) {
+  /**
+   * This is a on Submit handler to create or update notification config
+   * @param formData Form data
+   */
+  onSubmit(formData) {
     this.notificationFormData = {
       source: this.applicationName,
-      channel: value.channel,
-      type: value.trigger,
+      channel: formData.channel,
+      type: formData.trigger,
       typeOptions: {
         action: this.repeat,
-        startDate: value.time,
+        startDate: formData.time,
       },
       targets: this.targets,
     };
