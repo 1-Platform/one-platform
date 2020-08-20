@@ -1,13 +1,17 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
 import * as schedule from 'node-schedule';
-import { UserResolver as resolver } from './src/users/resolver';
-import gqlSchema from './src/users/typedef.graphql';
 const { ApolloLogExtension } = require( 'apollo-log' );
 import cookieParser = require( 'cookie-parser' );
 import dotenv from 'dotenv';
+/* User Schema and Resolvers */
+import UserSchema from './src/users/typedef.graphql';
+import { UserResolver } from './src/users/resolver';
+/* Group Schema and Resolvers */
+import GroupSchema from './src/groups/typedef.graphql';
+import { GroupResolver } from './src/groups/resolver';
 
 // Crons for Data syncing
 import { UserSyncCron } from './src/users/cron';
@@ -53,8 +57,16 @@ mongoose.connection.on( 'error', error => {
 /* Defining the Apollo Server */
 const apollo = new ApolloServer( {
   playground: process.env.NODE_ENV !== 'production',
-  typeDefs: gqlSchema,
-  resolvers: resolver,
+  schema: mergeSchemas( {
+    schemas: [
+      UserSchema,
+      GroupSchema,
+    ],
+    resolvers: [
+      UserResolver,
+      GroupResolver,
+    ]
+  } ),
   subscriptions: {
     path: '/subscriptions',
   },

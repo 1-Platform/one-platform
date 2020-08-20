@@ -64,7 +64,8 @@ type LdapType = {
   objectClass?: string[];
 }
 
-type UserType = {
+type User = {
+  _id: any;
   name: string;
   title: string;
   uid: string;
@@ -77,3 +78,18 @@ type UserType = {
   updatedBy: string;
   updatedOn: Date;
 }
+
+type Group = {
+  _id: any;
+  name: string;
+  ldapCommonName: string;
+  createdOn: Date;
+  updatedOn: Date;
+}
+
+type GraphQLArgs = {
+  payload: Group,
+  selector: Group,
+  limit: number,
+  [ x: string ]: any,
+};

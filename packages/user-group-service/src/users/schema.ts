@@ -14,8 +14,8 @@ export const UserSchema: Schema = new Schema({
   updatedOn: { type: Date, default: Date.now },
 } );
 
-interface UserModel extends UserType , Document { }
+interface UserModel extends User, Document { }
 
 interface UserModelStatic extends Model <UserModel> { }
 
-export const Users: Model<UserModel> = model<UserModel, UserModelStatic>('User', UserSchema);
+export const Users: Model<UserModel> = model<UserModel, UserModelStatic>( 'User', UserSchema );

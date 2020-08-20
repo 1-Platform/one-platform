@@ -31,9 +31,7 @@ module.exports = {
   externals: [ nodeExternals() ],
   plugins: [
     new CleanWebpackPlugin(),
-    new Dotenv( {
-      path: envPath
-    } ),
+    new Dotenv(),
     new NodemonPlugin( {
       watch: path.resolve( './dist' ),
       script: './dist/bundle.js',
