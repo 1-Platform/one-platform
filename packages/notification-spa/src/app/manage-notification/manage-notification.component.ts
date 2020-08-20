@@ -65,12 +65,13 @@ export class ManageNotificationComponent implements OnInit {
         createdBy: this.user?.rhatUUID,
         createdOn: new Date().toUTCString(),
       };
-      this.appService.createNotificationConfig(this.notificationFormData).subscribe(result => {
+      this.appService.createNotificationConfig(this.notificationFormData).subscribe((result) => {
         if (result) {
           window.OpNotification.success({subject: 'Notification successfully created'});
-        } else {
-          window.OpNotification.danger({subject: 'Error', body: 'Could not create notification'});
         }
+      },
+      (err) => {
+        window.OpNotification.danger({subject: 'Error', body: err});
       });
     } else {
       this.notificationFormData = {
@@ -81,9 +82,10 @@ export class ManageNotificationComponent implements OnInit {
       this.appService.updateNotificationConfig(this.notificationFormData).subscribe(result => {
         if (result) {
           window.OpNotification.success({subject: 'Notification successfully created'});
-        } else {
-          window.OpNotification.danger({subject: 'Error', body: 'Could not update notification'});
         }
+      },
+      (err) => {
+        window.OpNotification.danger({subject: 'Error', body: err});
       });
     }
   }
