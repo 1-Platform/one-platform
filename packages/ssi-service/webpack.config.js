@@ -2,7 +2,6 @@ const path = require( 'path' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 const CopyPlugin = require( 'copy-webpack-plugin' );
-const MinifyPlugin = require( 'babel-minify-webpack-plugin' );
 const Dotenv = require( 'dotenv-webpack' );
 require( 'dotenv' ).config();
 
@@ -61,10 +60,6 @@ module.exports = ( _, { mode } ) => {
     ],
     devtool: mode !== 'production' ? 'source-map' : undefined,
   };
-
-  if ( config.mode === 'production' ) {
-    config.plugins.push( new MinifyPlugin() );
-  }
 
   return config;
 };
