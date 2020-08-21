@@ -50,7 +50,7 @@
     "graphql-redis-subscriptions": "2.2.2",
     "graphql-tools": "6.0.18",
     "ioredis": "4.17.3",
-    "lodash": "4.17.19",
+    "lodash": "4.17.20",
     "method-override": "3.0.0",
     "mongoose": "5.9.22",
     "morgan": "1.10.0",
