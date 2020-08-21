@@ -14,7 +14,6 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import '@patternfly/pfe-select/dist/pfe-select';
 import '@patternfly/pfe-select/dist/pfe-select';
-import '@patternfly/pfe-toast/dist/pfe-toast';
 
 @NgModule({
   declarations: [

@@ -10,16 +10,7 @@ fragment notification on NotificationConfigRaw {
   type
   action
   targets
-  source {
-    _id
-    name
-    icon
-    active
-    owners {
-      _id
-      name
-    }
-  }
+  source
   createdBy
   createdOn
   updatedBy
@@ -80,6 +71,7 @@ const homeFragment = gql`
 fragment home on HomeType {
   _id
   name
+  entityType
 }
 `;
 

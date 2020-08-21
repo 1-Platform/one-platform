@@ -30,6 +30,7 @@ export class ManageNotificationComponent implements OnInit {
     private router: Router,
   ) {
     this.route.params.subscribe(res => {
+      // If editID is available then the form is in edit state or else it is in create state
       if (res?.id) {
         this.editConfig(res.id);
         this.editID = res.id;
@@ -39,18 +40,22 @@ export class ManageNotificationComponent implements OnInit {
 
   async ngOnInit() {
     this.applications = await this.appService.getHomeTypeByUser(this.user?.rhatUUID)
-    .then(result => result)
+    .then(result => result.filter(spa => spa.entityType === 'spa'))
     .catch(err => err);
   }
 
-  onSubmit(value) {
+  /**
+   * This is a on Submit handler to create or update notification config
+   * @param formData Form data
+   */
+  onSubmit(formData) {
     this.notificationFormData = {
       source: this.applicationName,
-      channel: value.channel,
-      type: value.trigger,
+      channel: formData.channel,
+      type: formData.trigger,
       typeOptions: {
         action: this.repeat,
-        startDate: value.time,
+        startDate: formData.time,
       },
       targets: this.targets,
     };
@@ -60,11 +65,13 @@ export class ManageNotificationComponent implements OnInit {
         createdBy: this.user?.rhatUUID,
         createdOn: new Date().toUTCString(),
       };
-      this.appService.createNotificationConfig(this.notificationFormData).subscribe(result => {
+      this.appService.createNotificationConfig(this.notificationFormData).subscribe((result) => {
         if (result) {
-          const pfeToast = window.document.querySelector('pfe-toast');
-          (pfeToast as any).open();
+          window.OpNotification.success({subject: 'Notification successfully created'});
         }
+      },
+      (err) => {
+        window.OpNotification.danger({subject: 'Error', body: err});
       });
     } else {
       this.notificationFormData = {
@@ -74,9 +81,11 @@ export class ManageNotificationComponent implements OnInit {
       };
       this.appService.updateNotificationConfig(this.notificationFormData).subscribe(result => {
         if (result) {
-          const pfeToast = window.document.querySelector('pfe-toast');
-          (pfeToast as any).open();
+          window.OpNotification.success({subject: 'Notification successfully created'});
         }
+      },
+      (err) => {
+        window.OpNotification.danger({subject: 'Error', body: err});
       });
     }
   }

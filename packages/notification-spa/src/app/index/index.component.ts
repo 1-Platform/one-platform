@@ -19,7 +19,7 @@ export class IndexComponent implements OnInit {
 
   async ngOnInit() {
     this.notificationItems = await this.appService.getHomeTypeByUser(this.user?.rhatUUID)
-    .then(result => result)
+    .then(result => result.filter(spa => spa.entityType === 'spa'))
     .catch(err => err);
   }
 }
