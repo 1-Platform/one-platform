@@ -36,7 +36,7 @@
     "ngx-pipes": "2.7.5",
     "node-sass": "4.14.1",
     "rxjs": "6.6.2",
-    "subscriptions-transport-ws": "0.9.17",
+    "subscriptions-transport-ws": "0.9.18",
     "toastr": "2.1.4",
     "tslib": "2.0.1",
     "webpack-dev-server": "3.11.0",
