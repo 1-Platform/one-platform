@@ -30,7 +30,7 @@
     "graphql-request": "1.8.2",
     "graphql-tag": "2.11.0",
     "html-template-tag": "3.2.0",
-    "keycloak-js": "11.0.0",
+    "keycloak-js": "11.0.1",
     "lit-element": "2.3.1",
     "moment": "2.27.0",
     "subscriptions-transport-ws": "0.9.18"
@@ -48,7 +48,7 @@
     "dotenv-webpack": "1.8.0",
     "eslint-plugin-jest": "23.20.0",
     "html-webpack-plugin": "4.3.0",
-    "jest": "26.4.0",
+    "jest": "26.4.2",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
     "webpack": "4.44.1",
