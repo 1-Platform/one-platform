@@ -31,7 +31,7 @@
     "graphql-tag": "2.11.0",
     "html-template-tag": "3.2.0",
     "keycloak-js": "11.0.1",
-    "lit-element": "2.3.1",
+    "lit-element": "2.4.0"
     "moment": "2.27.0",
     "subscriptions-transport-ws": "0.9.18"
   },
