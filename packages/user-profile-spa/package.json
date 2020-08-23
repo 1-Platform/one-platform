@@ -38,7 +38,7 @@
     "jest-preset-angular": "8.2.1",
     "rxjs": "6.6.2",
     "ts-jest": "26.2.0",
-    "tslib": "2.0.0",
+    "tslib": "2.0.1",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
