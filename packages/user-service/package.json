@@ -76,7 +76,7 @@
     "@types/ldapjs": "1.0.9",
     "@types/lodash": "4.14.159",
     "@types/method-override": "0.0.31",
-    "@types/mocha": "7.0.2",
+    "@types/mocha": "8.0.3",
     "@types/mongoose": "5.7.36",
     "@types/morgan": "1.9.1",
     "@types/node": "12.12.54",
