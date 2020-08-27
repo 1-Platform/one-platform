@@ -1,4 +1,4 @@
 export const environment = {
-   API_URL: 'http://localhost:4000/graphql',
+   API_URL: process.env.API_URL,
    production: true,
 };
