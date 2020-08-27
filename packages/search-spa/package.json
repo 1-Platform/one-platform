@@ -5,7 +5,7 @@
     "config": "ts-node set-env.ts",
     "ng": "ng",
     "start": "npm run config && ng serve",
-    "build": "npm run config && ng build --watch --base-href /search/",
+    "build": "npm run config && ng build --base-href /search/",
     "test": "jest --verbose",
     "lint": "ng lint",
     "e2e": "ng e2e",
