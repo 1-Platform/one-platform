@@ -283,8 +283,8 @@ window.customElements.define( 'op-nav', class extends LitElement {
             <img class="op-logo__img" .src="${ ASSETS_URL }/rh-op-logo.svg" alt="Red Hat One Portal">
           </a>
 
-          <form class="op-search" onsubmit="return false" disabled>
-            <input type="search" name="q" autocomplete="off" aria-label="Search for Applications, Documents or any content" class="op-search-bar__input" placeholder="Search for Applications, Documents or any content" required disabled readonly>
+          <form class="op-search" action="/search">
+            <input type="search" name="query" autocomplete="off" aria-label="Search for Applications, Documents or any content" class="op-search-bar__input" placeholder="Search for Applications, Documents or any content" required>
             <button class="op-search__btn" type="submit">
               <ion-icon name="search-outline" class="op-nav__icon"></ion-icon>
             </button>

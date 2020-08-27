@@ -1,0 +1,81 @@
+scalar DateTime
+
+type SearchResponseCode {
+  status: Int
+}
+
+input DocumentInput {
+  id: String
+  title: String
+  abstract: String
+  description: String
+  contentType: String
+  operation: String
+  icon: String
+  uri: String
+  tags: [String]
+  timestamp: DateTime
+  lastModifiedDate: DateTime
+  createdDate: DateTime
+  createdBy: String
+  lastModifiedBy: String
+}
+
+input SearchInput {
+  dataSource: String
+  documents: [DocumentInput]
+}
+
+
+type DocumentType {
+  id: String
+  title: String
+  abstract: String
+  description: String
+  content_type: String
+  operation: String
+  icon: String
+  uri: String
+  tags: [String]
+  timestamp: DateTime
+  lastModifiedDate: DateTime
+  createdDate: DateTime
+  createdBy: String
+  lastModifiedBy: String
+}
+
+type ResponseHeaderType {
+  zkConnected: Boolean
+  status: Int
+  QTime: Int
+}
+
+type ResponseType {
+  numFound: Int
+  start: Int
+  docs: [DocumentType]
+}
+
+type SearchResponseType {
+  responseHeader: ResponseHeaderType
+  response: ResponseType
+}
+
+
+type Query {
+  """
+  Universal Search endpoint
+  """
+  search(query: String, start:Int, rows: Int): SearchResponseType
+}
+
+type Mutation {
+  """
+  Search index creation & updation
+  """
+  manageIndex(input: SearchInput): SearchResponseCode
+  """
+  Search index deletion
+  """
+  deleteIndex(id: String!): SearchResponseCode
+}
