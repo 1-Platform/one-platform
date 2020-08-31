@@ -10,6 +10,7 @@ services:
       # - ./packages/feedback-spa/dist:/var/www/html/feedback
       # - ./packages/notification-spa/dist:/var/www/html/notifications
       # - ./packages/user-profile-spa/dist:/var/www/html/user
+      # - ./packages/search-spa/dist:/var/www/html/search
       - ./packages/ssi-service/public/index.html:/var/www/html/index.html
       - ./packages/ssi-service/dist:/var/www/html/.include/nav
     ports:
@@ -24,11 +25,13 @@ services:
       FEEDBACK_SERVICE_SERVICE_HOST: feedback-service
       USER_SERVICE_SERVICE_HOST: user-service
       NOTIFICATIONS_SERVICE_SERVICE_HOST: notifications-service
+      SEARCH_SERVICE_SERVICE_HOST: search-service
       REDIS_SERVICE_HOST: redis
       HOME_SERVICE_SERVICE_PORT: 8080
       FEEDBACK_SERVICE_SERVICE_PORT: 8080
       USER_SERVICE_SERVICE_PORT: 8080
       NOTIFICATIONS_SERVICE_SERVICE_PORT: 8080
+      SEARCH_SERVICE_SERVICE_PORT: 8080
     volumes:
       - ./packages/api-gateway-service:/app
     ports:
@@ -38,6 +41,7 @@ services:
       - feedback-service
       - user-service
       - notifications-service
+      - search-service
       - redis
 
   home-service:
@@ -100,6 +104,21 @@ services:
       - ./packages/notifications-service:/app
     ports:
       - 8084:8080
+    depends_on:
+      - mongo
+      - redis
+
+  search-service:
+    build: ./packages/search-service
+    command: npm start
+    env_file: ./packages/search-service/.env
+    environment:
+      DB_PATH: mongo
+      REDIS_SERVICE_HOST: redis
+    volumes:
+      - ./packages/search-service:/app
+    ports:
+      - 8085:8080
     depends_on:
       - mongo
       - redis
