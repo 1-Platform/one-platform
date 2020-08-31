@@ -1,0 +1,41 @@
+.timestamp {
+    color: var(--pf-global--Color--400);
+}
+
+.search-title {
+    color: var(--pf-global--primary-color--100);
+}
+
+.search-abstract {
+    color: var(--pf-global--BackgroundColor--dark-200);
+}
+
+.filter-title {
+    font-size: var(--pf-global--FontSize--xl);
+}
+
+.icon-card {
+    padding-bottom: 5px;
+}
+
+.result-view {
+    border-radius: 10px;
+}
+
+.result-border {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.result-border:last-child {
+    margin-bottom: 0;
+    border-bottom: var(--pf-m-no-border-bottom);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.related-app-name {
+    font-size: 14px;
+}
