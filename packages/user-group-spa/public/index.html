@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <base href="%PUBLIC_URL%/">
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="User Group SPA for the One Platform"
+    />
+    <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+
+    <script defer>
+      ( function () {
+        const script = document.createElement( "script" );
+        script.type = "text/javascript";
+        script.src = "%PUBLIC_URL%/config.js?timestamp=" + new Date().getTime();
+        document.write( script.outerHTML );
+      } )();
+    </script>
+    <title>User and Groups</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <!-- SSI -->
+    <!--#include virtual="/.include/nav/default.html" -->
+  </body>
+</html>

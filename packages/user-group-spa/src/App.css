@@ -1,0 +1,76 @@
+.op-header {
+  width: 100%;
+}
+
+#root {
+  display: grid;
+  height: calc(100vh - var(--op-nav__height, 0px));
+  overflow: hidden;
+  grid-template-columns: 17.5rem 1fr;
+  z-index: 990;
+  align-items: stretch;
+  position: relative;
+}
+
+.op-sidemenu {
+  grid-column: 1;
+
+  background: #fafafa;
+  border-right: 1px solid #eee;
+  position: sticky;
+  top: var(--op-nav__height, 0px);
+  left: 0;
+}
+
+.app {
+  grid-column: 2;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.op-header {
+  background: #0066CC;
+  color: white;
+  padding: 1.5rem;
+  min-height: 10rem;
+}
+
+.page {
+  width: 70%;
+  min-width: 60vh;
+  min-height: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  box-sizing: border-box;
+}
+
+.page > form {
+  width: 50%;
+  min-width: inherit;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  background: #fff;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.16);
+}
+
+.members-chip > .pf-c-chip__text {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: .25rem;
+}
+
+.search-text-input {
+  min-width: 16rem;
+}
+
+/* Patternfly overrides */
+.pf-c-chip {
+  --pf-c-chip__text--FontSize: .875rem !important;
+}

@@ -1,0 +1,66 @@
+{
+  "name": "user-group-spa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "This package contains the react app for the One Platform User Group SPA",
+  "keywords": [
+    "user-group",
+    "patternfly",
+    "one-platform"
+  ],
+  "author": {
+    "name": "Mayur Deshmukh",
+    "email": "deshmukhmayur@outlook.com",
+    "url": "https://deshmukhmayur.com"
+  },
+  "contributors": [],
+  "license": "MIT",
+  "homepage": "/user-groups/",
+  "dependencies": {
+    "@patternfly/react-core": "^4.40.4",
+    "@patternfly/react-table": "^4.16.7",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "history": "^5.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "watch": "NODE_ENV=local npm-watch build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "."
+      ],
+      "ignore": "build",
+      "extensions": "*",
+      "quiet": false
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "npm-watch": "^0.7.0"
+  }
+}
