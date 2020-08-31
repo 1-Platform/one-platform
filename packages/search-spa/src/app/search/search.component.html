@@ -1,0 +1,109 @@
+<section class="block pf-u-mt-4xl">
+  <div class="pf-l-grid pf-m-gutter">
+    <div class="pf-l-grid__item pf-m-3-col pf-m-3-row">
+      <p><strong>Filter By</strong></p>
+      <div class="pf-c-card pf-m-compact">
+        <div class="pf-c-card__body">
+          <button class="pf-c-button pf-m-secondary pf-m-block" type="button">Clear All</button>
+        </div>
+        <div class="pf-c-card__body">
+          <p class="filter-title">Applications</p>
+        </div>
+        <div class="pf-c-card__body">
+          <div class="pf-c-check" *ngFor="let app of this.appsList">
+            <input class="pf-c-check__input" type="checkbox" id="check-basic" name="check-basic"
+              [(ngModel)]="app.selected" (change)="selectedContent()" />
+            <label class="pf-c-check__label" for="check-basic">{{ app.content_type }}<span
+                class="pf-c-badge pf-m-read">{{ app.count }}</span>
+            </label>
+          </div>
+          <hr class="pf-c-divider pf-u-mt-lg" />
+        </div>
+        <div class="pf-c-card__body">
+          <p class="filter-title">Sort by</p>
+        </div>
+        <div class="pf-c-card__body">
+          <div class="pf-c-check">
+            <input class="pf-c-check__input" type="checkbox" id="check-basic" name="check-basic"
+              [checked]="selectedOrder === 'desc'" (click)="orderFilter('desc')" />
+            <label class="pf-c-check__label" for="check-basic">Newest First</label>
+          </div>
+          <div class="pf-c-check">
+            <input class="pf-c-check__input" type="checkbox" id="check-basic" name="check-basic"
+              [checked]="selectedOrder === 'asc'" (click)="orderFilter('asc')">
+            <label class="pf-c-check__label" for="check-basic">Oldest First</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pf-l-grid__item pf-m-9-col">
+      <p><strong>Related Applications</strong></p>
+      <div class="pf-l-grid pf-m-gutter pf-u-display-flex">
+        <div class="pf-l-grid__item pf-m-2-col ">
+          <div class="pf-c-card pf-m-hoverable pf-u-text-align-center">
+            <div class="pf-c-card__body icon-card">
+              <img src="assets/icons/feedback.svg" width="25px" alt="Avatar image" />
+            </div>
+            <p class="related-app-name">Feedback</p>
+          </div>
+        </div>
+        <div class="pf-l-grid__item pf-m-2-col ">
+          <div class="pf-c-card pf-m-hoverable pf-u-text-align-center">
+            <div class="pf-c-card__body icon-card">
+              <img src="assets/icons/dsal.svg" width="25px" alt="Avatar image" />
+            </div>
+            <p class="related-app-name">DSAL</p>
+          </div>
+        </div>
+        <div class="pf-l-grid__item pf-m-2-col ">
+          <div class="pf-c-card pf-m-hoverable pf-u-text-align-center">
+            <div class="pf-c-card__body icon-card">
+              <img src="assets/icons/mod.svg" width="25px" alt="Avatar image" />
+            </div>
+            <p class="related-app-name">MoD Handovers</p>
+          </div>
+        </div>
+        <div class="pf-l-grid__item pf-m-2-col ">
+          <div class="pf-c-card pf-m-hoverable pf-u-text-align-center">
+            <div class="pf-c-card__body icon-card">
+              <img src="assets/icons/outages.svg" width="25px" alt="Avatar image" />
+            </div>
+            <p class="related-app-name">Outage Management</p>
+          </div>
+        </div>
+      </div>
+      <p class="pf-u-mt-xl"><strong>{{ searchResults?.response?.numFound || '0' }} Results found</strong></p>
+      <div class="pf-u-display-flex pf-u-justify-content-center" *ngIf="loading">
+        <span class="pf-c-spinner pf-m-lg" role="progressbar" aria-valuetext="Loading...">
+          <span class="pf-c-spinner__clipper"></span>
+          <span class="pf-c-spinner__lead-ball"></span>
+          <span class="pf-c-spinner__tail-ball"></span>
+        </span>
+      </div>
+      <div class="pf-c-card pf-m-flat result-view">
+        <div class="pf-c-card__body result-border" *ngFor="let result of searchResults?.response?.docs | filterBy: ['content_type']: this.filteredApps |
+               orderBy: sortOrder | slice: 0:sliceLimit">
+          <p class="timestamp">
+            {{ result?.lastModifiedDate | date:'fullDate' || result?.createdDate | date:'fullDate' }}
+          </p>
+          <a href="{{ result?.uri }}" target="_blank">
+            <p class="search-title">{{ result?.title }}</p>
+          </a>
+          <p class="search-abstract">
+            {{ (result?.abstract.length>200)? (result.abstract | slice:0:200)+'...':(result?.abstract) }}</p>
+          <p><span class="pf-c-badge pf-m-read" *ngFor="let tag of result?.tags">{{ tag }}</span></p>
+        </div>
+        <div class="pf-c-card__body result-border" *ngIf="searchResults?.response?.numFound - sliceLimit > 0">
+            <span class="pf-c-spinner pf-m-lg" role="progressbar" aria-valuetext="Loading..." *ngIf="loading">
+              <span class="pf-c-spinner__clipper"></span>
+              <span class="pf-c-spinner__lead-ball"></span>
+              <span class="pf-c-spinner__tail-ball"></span>
+            </span>
+          <p class="search-title cursor-pointer" (click)="loading=true;showMore();" *ngIf="!loading">Show
+            {{ searchResults?.response?.numFound - sliceLimit }}+ more&nbsp;<i class="fas fa-chevron-down"></i>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
