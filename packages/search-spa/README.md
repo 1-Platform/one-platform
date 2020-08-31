@@ -1,6 +1,6 @@
 # Search SPA
 
-This SPA will be the UI of the search results for the queries. This will be the one of the major pillar of the platform
+This SPA will be the UI of the search results for the queries. This will be the one of the major pillar of the platform.
 
 ## Development server
 
