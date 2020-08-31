@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const envConfigFile = `export const environment = {
    API_URL: process.env.API_URL,
-   production: true,
+   production: process.env.NODE_ENV === 'production',
 };
 `;
 console.log('The file `environment.ts` will be written with the following content: \n');
