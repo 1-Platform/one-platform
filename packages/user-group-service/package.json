@@ -1,27 +1,21 @@
 {
-  "name": "usergroup",
+  "name": "user-group-service",
   "description": "User Group micro-service for One Platform",
   "opservice": {
-    "className": "User",
-    "serviceName": "user"
+    "className": "UserGroup",
+    "serviceName": "user-group"
   },
-  "version": "",
+  "version": "0.0.1-beta",
   "keywords": [
-    "web-components",
-    "html"
+    "microservice",
+    "graphql"
   ],
   "repository": {
     "type": "git",
     "url": "github:1-Platform/one-platform",
-    "directory": "packages/user-service"
-  },
-  "publishConfig": {
-    "access": "private"
+    "directory": "packages/user-group-service"
   },
   "private": true,
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "test": "jest --forceExit",
     "build:dev": "webpack --config webpack.dev.js",
@@ -32,7 +26,13 @@
     "name": "Rigin Oommen",
     "email": "riginoommen@gmail.com"
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Mayur Deshmukh",
+      "email": "deshmukhmayur@outlook.com",
+      "url": "https://deshmukhmayur.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "apollo-log": "0.2.0",
@@ -97,7 +97,7 @@
     "webpack-node-externals": "1.7.2"
   },
   "bugs": {
-    "url": "https://github.com/1-Platform/one-platform/issues?q=is%3Aissue+is%3Aopen+user-service"
+    "url": "https://github.com/1-Platform/one-platform/issues?q=is%3Aissue+is%3Aopen+user-group-service"
   },
   "generator-op-microservice-version": "0.0.0"
 }

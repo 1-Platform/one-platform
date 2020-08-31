@@ -9,13 +9,13 @@ export const UserSchema: Schema = new Schema({
   memberOf: [String],
   apiRole: String,
   createdBy: String,
-  createdOn: Date,
+  createdOn: { type: Date, default: Date.now },
   updatedBy: String,
-  updatedOn: Date,
+  updatedOn: { type: Date, default: Date.now },
 } );
 
-interface UserModel extends UserType , Document { }
+interface UserModel extends User, Document { }
 
 interface UserModelStatic extends Model <UserModel> { }
 
-export const User: Model<UserModel> = model<UserModel, UserModelStatic>('User', UserSchema);
+export const Users: Model<UserModel> = model<UserModel, UserModelStatic>( 'User', UserSchema );

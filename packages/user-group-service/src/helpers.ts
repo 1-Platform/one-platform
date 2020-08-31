@@ -1,5 +1,5 @@
 import { createClient } from 'ldapjs';
-import { User } from './schema';
+import { Users } from './users/schema';
 import * as _ from 'lodash';
 import moment from 'moment';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
@@ -30,7 +30,7 @@ class UserGroupApiHelper {
   }
 
   // Helper function to fetch user/group profile from LDAP
-  public getProfilesBy ( profile_param: string ) {
+  public getProfilesBy ( profile_param: string ): Promise<LdapType> {
     return new Promise( ( resolve, reject ) => {
       const ldapClient = createClient( { url: this.ldapHost, reconnect: true } );
       const search_options: Object = {
@@ -58,14 +58,17 @@ class UserGroupApiHelper {
 
   // Helper function for the database interaction with ldap
   public addUserLDAP ( profile_param: string ) {
-    return new Promise( ( resolve, reject ) => {
-      this.getProfilesBy( profile_param ).then( ( response: any ) => {
-        if ( !_.isEmpty( response ) ) {
-          const groups: any = [];
-          response.memberOf.map( ( group: any ) => {
-            groups.push( group.substring( group.indexOf( `cn=` ) + 3, group.indexOf( `,` ) ) );
-          } );
-          const newUser = new User( {
+    return this.getProfilesBy( profile_param )
+      .then( ( response: any ) => {
+        if ( _.isEmpty( response ) ) {
+          throw new Error( 'User Not Found' );
+        }
+        const groups: any = [];
+        response.memberOf.map( ( group: any ) => {
+          groups.push( group.substring( group.indexOf( `cn=` ) + 3, group.indexOf( `,` ) ) );
+        } );
+        return Users
+          .findOneAndUpdate( { rhatUUID: response.rhatUUID }, {
             uid: response.uid,
             name: response.cn,
             rhatUUID: response.rhatUUID,
@@ -74,14 +77,10 @@ class UserGroupApiHelper {
             isActive: true,
             apiRole: ( groups.includes( 'one-portal-devel' ) ) ? `ADMIN` : 'USER',
             createdBy: response.rhatUUID,
-            createdOn: moment.utc( new Date() )
-          } );
-          resolve( newUser.save() );
-        } else {
-          reject( new Error( 'User Not Found' ) );
-        }
+            createdOn: moment.utc( new Date() ).toDate(),
+          }, { new: true, upsert: true } )
+          .exec();
       } );
-    } );
   }
 }
 

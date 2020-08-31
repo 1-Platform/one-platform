@@ -23,7 +23,7 @@ services:
     environment:
       HOME_SERVICE_SERVICE_HOST: home-service
       FEEDBACK_SERVICE_SERVICE_HOST: feedback-service
-      USER_SERVICE_SERVICE_HOST: user-service
+      USER_SERVICE_SERVICE_HOST: user-group-service
       NOTIFICATIONS_SERVICE_SERVICE_HOST: notifications-service
       SEARCH_SERVICE_SERVICE_HOST: search-service
       REDIS_SERVICE_HOST: redis
@@ -39,7 +39,7 @@ services:
     depends_on:
       - home-service
       - feedback-service
-      - user-service
+      - user-group-service
       - notifications-service
       - search-service
       - redis
@@ -50,7 +50,7 @@ services:
     env_file: ./packages/home-service/.env
     environment:
       DB_PATH: mongo
-      USER_SERVICE_SERVICE_HOST: user-service
+      USER_SERVICE_SERVICE_HOST: user-group-service
       USER_SERVICE_SERVICE_HOST: 8080
       REDIS_SERVICE_HOST: redis
     volumes:
@@ -76,15 +76,15 @@ services:
       - mongo
       - redis
 
-  user-service:
-    build: ./packages/user-service
+  user-group-service:
+    build: ./packages/user-group-service
     command: npm start
-    env_file: ./packages/user-service/.env
+    env_file: ./packages/user-group-service/.env
     environment:
       DB_PATH: mongo
       REDIS_SERVICE_HOST: redis
     volumes:
-      - ./packages/user-service:/app
+      - ./packages/user-group-service:/app
     ports:
       - 8083:8080
     depends_on:

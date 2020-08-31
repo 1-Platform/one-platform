@@ -1,5 +1,5 @@
 FROM node:alpine
-LABEL Name=one-platform-user-service \
+LABEL Name=one-platform-user-group-service \
   Version=0.0.1 \
   maintainer="mdeshmuk@redhat.com"
 

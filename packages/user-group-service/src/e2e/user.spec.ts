@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 /* Mock */
 import mock from './mock.json';
-import User from '../../service';
+import UserGroup from '../../service';
 
 /* Supertest */
 import supertest from 'supertest';
@@ -47,10 +47,10 @@ const query = `
 `;
 
 beforeAll( () => {
-  request = supertest.agent( User );
+  request = supertest.agent( UserGroup );
 } );
 afterAll( done => {
-  return User.close( done );
+  return UserGroup.close( done );
 } );
 
 describe( 'User-Group Microservice API Test', () => {
