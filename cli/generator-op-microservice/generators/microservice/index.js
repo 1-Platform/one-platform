@@ -49,12 +49,14 @@ module.exports = class extends Generator {
       {
         type: 'input',
         name: 'authorName',
-        message: 'Author name'
+        message: 'Author name',
+        default: this.user.git.name()
       },
       {
         type: 'input',
         name: 'authorEmail',
-        message: 'Author Email'
+        message: 'Author Email',
+        default: this.user.git.email()
       }
     ];
     return this.prompt( prompts ).then( answers => {
