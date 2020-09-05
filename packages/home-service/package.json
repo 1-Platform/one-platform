@@ -54,7 +54,7 @@
     "method-override": "3.0.0",
     "mongoose": "5.10.3",
     "morgan": "1.10.0",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.1",
     "nodemon-webpack-plugin": "4.3.2",
     "supertest": "4.0.2",
     "ts-jest": "26.3.0",
