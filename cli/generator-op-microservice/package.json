@@ -24,10 +24,10 @@
   "devDependencies": {
     "yeoman-test": "2.7.0",
     "yeoman-assert": "3.1.1",
-    "eslint": "7.7.0",
-    "prettier": "2.0.5",
+    "eslint": "7.8.1",
+    "prettier": "2.1.1",
     "husky": "4.2.5",
-    "lint-staged": "10.2.11",
+    "lint-staged": "10.3.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.4",
     "eslint-config-xo": "0.32.1",
