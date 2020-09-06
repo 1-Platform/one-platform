@@ -44,7 +44,7 @@
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0",
-    "webpack-merge": "4.2.2"
+    "webpack-merge": "5.1.3"
   },
   "dependencies": {
     "@patternfly/pfe-card": "^1.0.0-prerelease.38",
