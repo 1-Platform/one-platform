@@ -37,7 +37,6 @@ function User ( props ) {
   useEffect( () => {
     setLoading( true );
     const authUser = window.OpAuthHelper?.getUserInfo();
-    console.log( authUser );
     if ( authUser?.kerberosID === cn ) {
       setUser( {
         name: authUser.fullName,
@@ -46,7 +45,6 @@ function User ( props ) {
         title: authUser.title,
         roles: authUser.roles,
       } );
-      console.log( user );
     } else {
       window.OpNotification.warning( {
         subject: `Insufficient permissions to view the details for: ${cn}`

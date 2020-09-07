@@ -114,6 +114,7 @@ function GroupForm () {
           subject: `Group created successfully!`,
           link: `./group/${ res.ldapCommonName }`
         } );
+        history.push( `/group/${res.ldapCommonName}` );
       })
       .catch((err) => {
         console.error(err);
@@ -130,7 +131,8 @@ function GroupForm () {
         window.OpNotification.success({
           subject: `Group updated successfully!`,
           link: `./group/${res.ldapCommonName}`,
-        });
+        } );
+        history.push( `/group/${ res.ldapCommonName }` );
       })
       .catch((err) => {
         console.error( err );
