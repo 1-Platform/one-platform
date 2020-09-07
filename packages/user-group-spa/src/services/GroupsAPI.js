@@ -57,7 +57,7 @@ export default {
 
     return FetchClient( {
       query: updateGroup,
-      variables: { id: group._id, cleanedGroup }
+      variables: { id: group._id, group: cleanedGroup }
     } )
       .then( data => data.updateGroup );
   },

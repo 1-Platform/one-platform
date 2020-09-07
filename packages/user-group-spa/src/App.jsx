@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import {
@@ -17,6 +17,14 @@ import NotFound from './components/NotFound';
 
 function App ( props ) {
   const location = useLocation();
+  const [ user, setUser ] = useState( {} );
+
+  useEffect( () => {
+    const authUser = window.OpAuthHelper?.getUserInfo();
+    setUser( {
+      uid: authUser.kerberosID,
+    } );
+  } );
 
   function isNavItemActive ( url ) {
     return location.pathname === url;
@@ -27,10 +35,10 @@ function App ( props ) {
       <Nav theme="light" className="op-sidemenu">
         <NavList>
           <NavGroup title="User-Group Menu">
-            <NavItem isActive={isNavItemActive("/user/mdeshmuk")}>
-              <Link to="/user/mdeshmuk">My Profile</Link>
+            <NavItem isActive={ isNavItemActive( `/user/${ user?.uid }` ) }>
+              <Link to={ '/user/' + user.uid }>My Profile</Link>
             </NavItem>
-            <NavItem isActive={isNavItemActive("/")}>
+            <NavItem isActive={ isNavItemActive( "/" ) }>
               <Link to="/">User Groups</Link>
             </NavItem>
           </NavGroup>
