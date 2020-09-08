@@ -1,5 +1,5 @@
 ---
-id: analyst-papers-spa
+id: research-repository-spa
 title: Research Repository
 sidebar_label: Research Repository
 ---
@@ -32,21 +32,21 @@ The Homepage for Research Repository App.
 
 It shows the recently added documents in a grid view, with a search bar and some filters to sort and filter through the documents.
 
- ![Research Repository Home](./analyst-papers-landing-page.svg)
+ ![Research Repository Home](./research-repository-landing-page.svg)
 
 #### Search
 
 When a user enters a search query in the search bar and submits, the app performs a search across PNT Portal and/or Google Drive (as per the selected filter), and shows the search results in a grid view and the search keywords are highlighted.
 
- ![img](./analyst-papers-search-page.svg)
+ ![img](./research-repository-search-page.svg)
 
 #### Quick Preview
 
 * **Drive Papers**
-   ![img](./analyst-papers-drive-papers.svg)
+   ![img](./research-repository-drive-papers.svg)
 
 * **PnT Papers**
-   ![img](./analyst-papers-pnt-papers.svg)
+   ![img](./research-repository-pnt-papers.svg)
 
 ## For Developers
 
@@ -102,4 +102,4 @@ Research Repository Microservice provides a set of GraphQL Queries and Mutation 
     But unlike the homepage, newly added documents are searchable almost immediately. So they show up in search even though it doesn’t show up on the homepage.
 
 * **Research Repository Architecture**
-    ![img](./analyst-papers-architecture.svg)
+    ![img](./research-repository-architecture.svg)

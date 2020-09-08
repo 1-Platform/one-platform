@@ -3,7 +3,7 @@ module.exports = {
     Applications: [
       'apps/assets',
       {
-        Hosted: [ 'apps/hosted/analyst-papers/analyst-papers-spa']
+        Hosted: [ 'apps/hosted/research-repository/research-repository-spa']
       },
       {
         Internal: [
