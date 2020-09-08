@@ -1,7 +1,7 @@
 ---
-id: analyst-papers-spa
-title: Analyst Papers
-sidebar_label: Analyst Papers
+id: research-repository-spa
+title: Research Repository
+sidebar_label: Research Repository
 ---
 * * *
 
@@ -9,7 +9,7 @@ sidebar_label: Analyst Papers
 
 ### Introduction
 
-Analyst Papers is a simple application that allows users to search through all the Analyst Materials stored in the PNT Portal and Google Drive. It provides full text search along with citation functionality.
+Research Repository is a simple application that allows users to search through all the Analyst Materials stored in the PNT Portal and Google Drive. It provides full text search along with citation functionality.
 
 ### Supported Features
 
@@ -18,7 +18,7 @@ Analyst Papers is a simple application that allows users to search through all t
 
 ### Get Started
 
-Analyst Papers application provides the listing of the analyst papers stored in the PNT portal and Google Drive together. Users are able to search analyst material on the basis of the keyword provided and the application will list down the papers with the keyword highlighted in the title and description of the papers. Quick Preview helps the user identify the right content for them. Citation functionality lists out the copyable Red Hat citations for the users to put in anywhere they want the papers to be quoted.
+Research Repository application provides the listing of the analyst papers stored in the PNT portal and Google Drive together. Users are able to search analyst material on the basis of the keyword provided and the application will list down the papers with the keyword highlighted in the title and description of the papers. Quick Preview helps the user identify the right content for them. Citation functionality lists out the copyable Red Hat citations for the users to put in anywhere they want the papers to be quoted.
 
 ### Target Audience
 
@@ -28,25 +28,25 @@ Analyst Papers application provides the listing of the analyst papers stored in 
 
 #### Landing Page
 
-The Homepage for Analyst Papers App.
+The Homepage for Research Repository App.
 
 It shows the recently added documents in a grid view, with a search bar and some filters to sort and filter through the documents.
 
- ![Analyst Papers Home](./analyst-papers-landing-page.svg)
+ ![Research Repository Home](./research-repository-landing-page.svg)
 
 #### Search
 
 When a user enters a search query in the search bar and submits, the app performs a search across PNT Portal and/or Google Drive (as per the selected filter), and shows the search results in a grid view and the search keywords are highlighted.
 
- ![img](./analyst-papers-search-page.svg)
+ ![img](./research-repository-search-page.svg)
 
 #### Quick Preview
 
 * **Drive Papers**
-   ![img](./analyst-papers-drive-papers.svg)
+   ![img](./research-repository-drive-papers.svg)
 
 * **PnT Papers**
-   ![img](./analyst-papers-pnt-papers.svg)
+   ![img](./research-repository-pnt-papers.svg)
 
 ## For Developers
 
@@ -58,7 +58,7 @@ When a user enters a search query in the search bar and submits, the app perform
 
 ### Getting Started
 
-Analyst Papers application provides the listing of the analyst papers stored in the PNT portal and Google Drive together. Users are able to search analyst material on the basis of the keyword provided and the application will list down the papers with the keyword highlighted in the title and description of the papers. Quick Preview helps the user identify the right content for them. Citation functionality lists out the copyable Red Hat citations for the users to put in anywhere
+Research Repository application provides the listing of the analyst papers stored in the PNT portal and Google Drive together. Users are able to search analyst material on the basis of the keyword provided and the application will list down the papers with the keyword highlighted in the title and description of the papers. Quick Preview helps the user identify the right content for them. Citation functionality lists out the copyable Red Hat citations for the users to put in anywhere
 
 ### Usage
 
@@ -71,9 +71,7 @@ Analyst Papers application provides the listing of the analyst papers stored in 
 
 #### Microservice
 
-**Endpoint:** [https://analyst-papers-one-platform-qa.cloud.paas.psi.redhat.com/graphql](https://analyst-papers-one-platform-qa.cloud.paas.psi.redhat.com/graphql)
-
-Analyst Papers Microservice provides a set of GraphQL Queries and Mutation APIs to allow developers to list and search Analyst Papers.
+Research Repository Microservice provides a set of GraphQL Queries and Mutation APIs to allow developers to list and search Analyst Papers.
 
 #### GraphQL Queries
 
@@ -91,17 +89,17 @@ Analyst Papers Microservice provides a set of GraphQL Queries and Mutation APIs 
 
 ## FAQs
 
-* **Where is data/documents in the Analyst Papers coming from?**
+* **Where is data/documents in the Research Repository coming from?**
 
-    The Analyst Papers app has custom integrations with PNT Portal, and Google Drive which allows it to fetch and search for Analyst Papers documents.
+    The Research Repository app has custom integrations with PNT Portal, and Google Drive which allows it to fetch and search for Analyst Papers documents.
 
     For PNT Portal, it searches the documents from the ‘Analyst Materials’ table. And for Google Drive, it performs the search in the "Researches in One Platform" shared folder.
 
 * **How frequently is the data on the Homepage updated?**
 
-    The Homepage shows the documents from a cache stored in the Analyst Papers backend. The cache is updated every day to check for new document additions/removals.
+    The Homepage shows the documents from a cache stored in the Research Repository backend. The cache is updated every day to check for new document additions/removals.
 
     But unlike the homepage, newly added documents are searchable almost immediately. So they show up in search even though it doesn’t show up on the homepage.
 
-* **Analyst Papers Architecture**
-    ![img](./analyst-papers-architecture.svg)
+* **Research Repository Architecture**
+    ![img](./research-repository-architecture.svg)
