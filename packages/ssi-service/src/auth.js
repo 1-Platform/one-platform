@@ -112,7 +112,7 @@ class OpAuth {
    */
   _removeHashes () {
     if ( window.location.hash.startsWith( '#not-before-policy=0' ) ) {
-      history.pushState( "", document.title, window.location.pathname + window.location.search );
+      history.replaceState( "", document.title, window.location.pathname + window.location.search );
     }
   }
 }
