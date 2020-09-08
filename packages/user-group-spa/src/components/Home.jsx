@@ -59,7 +59,7 @@ function Home ( props ) {
         console.error( err );
         window.OpNotification.danger( { subject: 'There was some error fetching the list of groups' } );
       });
-  }, [props] );
+  }, [ ] );
 
   useEffect( () => {
     const searchQuery = RegExp( searchText, 'i' );
