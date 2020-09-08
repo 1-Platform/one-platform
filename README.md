@@ -6,6 +6,7 @@
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/1-Platform/one-platform#readme)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/1-Platform/one-platform/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/1-Platform/one-platform)](https://github.com/1-Platform/one-platform/blob/master/LICENSE)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/1-Platform/one-platform.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/1-Platform/one-platform/alerts/)
 
 An integrated application hosting platform which allows you to host your SPAs. It also provides common services like
 
