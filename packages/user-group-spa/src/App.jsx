@@ -24,7 +24,7 @@ function App ( props ) {
     setUser( {
       uid: authUser.kerberosID,
     } );
-  } );
+  }, [ ] );
 
   function isNavItemActive ( url ) {
     return location.pathname === url;
