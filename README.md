@@ -2,7 +2,7 @@
 
 # One Platform
 
-![Version](https://img.shields.io/badge/version-0.0.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/1-Platform/one-platform#readme)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/1-Platform/one-platform/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/1-Platform/one-platform)](https://github.com/1-Platform/one-platform/blob/master/LICENSE)
