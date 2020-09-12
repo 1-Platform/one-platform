@@ -1,7 +1,11 @@
 <div class="app-container">
   <op-side-panel></op-side-panel>
   <div class="app-container__content">
-    <op-notification-header></op-notification-header>
+    <opc-header heading="Notifications" id="header" theme="default">
+      <opc-header-breadcrumb slot="breadcrumb" id="breadcrumb"></opc-header-breadcrumb>
+      <opc-header-links slot="links" id="links"></opc-header-links>
+    </opc-header>  
     <router-outlet></router-outlet>
+    <opc-footer theme="light"></opc-footer>
   </div>
 </div>

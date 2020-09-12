@@ -5,12 +5,12 @@
     <form class="config-panel__form" method="POST" #notificationForm="ngForm" (submit)="onSubmit(notificationForm.value)" ngNativeValidate>
         <div class="config-panel__form--group">
             <p class="config-panel__field-title--small-bold">Select Application <span class="red">*</span></p>
-            <pfe-select>
+            <!-- <pfe-select> -->
                 <select [(ngModel)]="applicationName" name="template" required>
                     <option disabled>Please select</option>
                     <option *ngFor="let application of applications" value="{{ application._id }}">{{ application.name }}</option>
                 </select>
-            </pfe-select>
+            <!-- </pfe-select> -->
         </div>
         <div class="config-panel__form--group">
             <p class="config-panel__field-title--small-bold">Select Notification Channel <span class="red">*</span></p>

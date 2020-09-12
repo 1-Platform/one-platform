@@ -12,8 +12,8 @@ import { SpaNotificationsListComponent } from './index/spa-notifications-list/sp
 
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
-import '@patternfly/pfe-select/dist/pfe-select';
-import '@patternfly/pfe-select/dist/pfe-select';
+import '@one-platform/opc-footer/dist/opc-footer';
+import '@one-platform/opc-header/dist/opc-header';
 
 @NgModule({
   declarations: [

@@ -4,12 +4,16 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SidePanelComponent } from './side-panel/side-panel.component';
 import { Apollo } from 'apollo-angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA,
       ],
       declarations: [
         AppComponent,
