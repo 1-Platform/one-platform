@@ -30,8 +30,10 @@ window.OpAuthHelper.onLogin( () => {
     })
     .catch( err => {
       console.error(err);
-      microserviceCard.innerHTML = errorFetchingInformation;
-      apps.innerHTML = errorFetchingInformation;
+      if (microserviceCard !== null && apps !== null) {
+        microserviceCard.innerHTML = errorFetchingInformation;
+        apps.innerHTML = errorFetchingInformation;
+      }
     });
 });
 
@@ -140,16 +142,16 @@ function buildDom(apiData) {
       </div>`
     }).join('');
   }
+}
 
-  if (teamBlock !== null) {
-    teamBlock.innerHTML = teamMembers.map(member => {
-      return `
-      <div class="team-block__list--item">
-          <img src="/img/${member.gender === 'male' ? 'user-male.svg': 'user-female.svg'}" alt="">
-          <span class="name">${member.name}</span>
-          <span class="title">${member.title}</span>
-      </div>`;
-    })
-    .join('');
-  }
+if (teamBlock !== null) {
+  teamBlock.innerHTML = teamMembers.map(member => {
+    return `
+    <div class="team-block__list--item">
+        <img src="/img/${member.gender === 'male' ? 'user-male.svg': 'user-female.svg'}" alt="">
+        <span class="name">${member.name}</span>
+        <span class="title">${member.title}</span>
+    </div>`;
+  })
+  .join('');
 }

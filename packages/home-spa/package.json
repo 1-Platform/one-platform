@@ -47,6 +47,7 @@
     "webpack-merge": "5.1.4"
   },
   "dependencies": {
+    "@one-platform/opc-footer": "0.0.2-prerelease",
     "@patternfly/pfe-card": "^1.0.0-prerelease.38",
     "@patternfly/pfe-cta": "^1.0.0-prerelease.38",
     "@patternfly/pfe-tabs": "^1.0.0-prerelease.38",

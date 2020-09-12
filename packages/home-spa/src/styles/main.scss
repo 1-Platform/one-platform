@@ -3,7 +3,7 @@
 .hero {
     height: 90vh;
     text-align: center;
-    background-image: url('/img/illustration.svg');
+    background-image: url('../img/illustration.svg');
     background-position: center top;
     background-repeat: no-repeat;
     overflow: auto;
@@ -29,13 +29,13 @@
         q {
             position: relative;
             &::before {
-                content: url('/img/begin-quote.svg');
+                content: url('../img/begin-quote.svg');
                 position: relative;
                 top: -18px;
                 left: -8px;
             }
             &::after {
-                content: url('/img/end-quote.svg');
+                content: url('../img/end-quote.svg');
                 position: absolute;
                 top: 30px;
                 right: -24px;
@@ -60,12 +60,12 @@
 		ul {
 			max-width: 80vw;
 			display: grid;
-			grid-template-columns: repeat(8, minmax(0px, 1fr));
+			grid-template-columns: repeat(8, minmax(0, 1fr));
 			grid-template-rows: 1fr;
 			grid-auto-flow: row;
 			gap: 1rem;
-			padding: 0px;
-			margin: 0px auto;
+			padding: 0;
+			margin: 0 auto;
 			list-style: none;
 			li {
 				a {
@@ -174,7 +174,7 @@
 
         &:hover {
             border: none;
-            box-shadow: rgba(3, 3, 3, 0.25) 0px 5px 10px -4px;
+            box-shadow: rgba(3, 3, 3, 0.25) 0 5px 10px -4px;
         }
     }
     &__microservice-cards {
@@ -246,7 +246,7 @@
             height: 1px;
             width: 0;
             position: absolute;
-            bottom: 0px;
+            bottom: 0;
             right: 0;
             transition: all 320ms ease-in-out;
         }
