@@ -32,7 +32,7 @@
     "html-template-tag": "3.2.0",
     "keycloak-js": "11.0.2",
     "lit-element": "2.4.0",
-    "moment": "2.27.0",
+    "moment": "2.28.0",
     "subscriptions-transport-ws": "0.9.18"
   },
   "devDependencies": {
