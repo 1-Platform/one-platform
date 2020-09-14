@@ -3,9 +3,10 @@ module.exports = {
     Applications: [
       'apps/assets',
       {
-        Hosted: [ 'apps/hosted/research-repository/research-repository-spa',
-        'apps/hosted/mod-handovers/mod-handover-spa'
-      ]
+        Hosted: [
+          'apps/hosted/research-repository/research-repository-spa',
+          'apps/hosted/mod-handovers/mod-handover-spa'
+        ]
       },
       {
         Internal: [
