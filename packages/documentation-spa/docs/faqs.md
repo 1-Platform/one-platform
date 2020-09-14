@@ -13,7 +13,7 @@ sidebar_label: One Platform FAQs
 
 ### Hosted Apps
 
-1. [Analyst Papers](/docs/apps/hosted/analyst-papers/analyst-papers-spa#faqs)
+1. [Research Repository](/docs/apps/hosted/research-repository/research-repository-spa#faqs)
 
 ### Internal Apps
 
