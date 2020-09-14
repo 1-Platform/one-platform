@@ -43,7 +43,7 @@ Handover tool supports five pillars in Support Delivery.
 
 ### Introduction
 
-This SPA is integrated with the MoD Handovers Microservie which is integrated with the SFDC for obtaining current stats.
+This SPA is integrated with the MoD Handovers Microservice which is integrated with the SFDC for obtaining current stats.
 
 ### Supported Features
 
