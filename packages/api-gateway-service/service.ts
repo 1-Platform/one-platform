@@ -50,6 +50,11 @@ const searchService = getRemoteSchema( {
   subscriptionsUri: `ws://${ process.env.SEARCH_SERVICE_SERVICE_HOST }:${ process.env.SEARCH_SERVICE_SERVICE_PORT }/subscriptions`
 } );
 
+const modService = getRemoteSchema( {
+  uri: `http://${ process.env.MOD_SERVICE_SERVICE_HOST }:${ process.env.MOD_SERVICE_SERVICE_PORT }/graphql`,
+  subscriptionsUri: `ws://${ process.env.MOD_SERVICE_SERVICE_HOST }:${ process.env.MOD_SERVICE_SERVICE_PORT }/subscriptions`
+} );
+
 const context = ({ req, connection }: any) => {
   const authorizationHeader = req?.headers?.authorization || connection?.context?.Authorization;
 
@@ -67,7 +72,7 @@ const context = ({ req, connection }: any) => {
   } );
 };
 
-Promise.all( [ userService, feedbackService, homeService, notificationService, searchService ] )
+Promise.all( [ userService, feedbackService, homeService, notificationService, searchService, modService ] )
   .then( schemas => {
     const schema = stitchSchemas( { schemas } );
 
