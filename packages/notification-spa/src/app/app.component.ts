@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-
 @Component({
   selector: 'op-root',
   templateUrl: './app.component.html',
@@ -40,9 +38,7 @@ export class AppComponent implements OnInit {
     },
   ];
 
-  constructor(
-    router: Router,
-  ) {}
+  constructor() {}
 
   async ngOnInit() {
     const footer: any = document.querySelector('opc-footer');
