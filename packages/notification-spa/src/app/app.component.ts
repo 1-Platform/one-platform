@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from './app.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'op-root',
@@ -7,17 +7,10 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
   breadcrumbs = [
     { name: 'Home', href: '/' },
     { name: 'Notifications', href: '/notifications' },
   ];
-  headerLinks = [
-    {name: 'Video Guide', href: '#', icon: 'fa-play-circle'},
-    {name: 'FAQs', href: '#', icon: 'fa-question-circle'},
-    {name: 'Documentation', href: '#', icon: 'fa-file'}
-  ];
-
 
   footerLinks = [
     {
@@ -48,12 +41,15 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(
-    private appService: AppService,
+    router: Router,
   ) {}
 
   async ngOnInit() {
-    (document.querySelector('opc-footer') as any).opcLinkCategories = this.footerLinks;
+    const footer: any = document.querySelector('opc-footer');
+    footer.opcLinkCategories = this.footerLinks;
+    footer.addEventListener( 'opc-footer-link:click', () => {
+      (document.querySelector('op-feedback') as any).togglePanelVisibility();
+    }, false);
     (document.querySelector('#breadcrumb') as any).opcHeaderBreadcrumb = this.breadcrumbs;
-    (document.querySelector('#links') as any).opcHeaderLinks = this.headerLinks;
   }
 }

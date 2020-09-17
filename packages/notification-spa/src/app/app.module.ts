@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
 import { IndexComponent } from './index/index.component';
 import { ManageNotificationComponent } from './manage-notification/manage-notification.component';
 import { SidePanelComponent } from './side-panel/side-panel.component';
@@ -18,7 +17,6 @@ import '@one-platform/opc-header/dist/opc-header';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     IndexComponent,
     ManageNotificationComponent,
     SidePanelComponent,
