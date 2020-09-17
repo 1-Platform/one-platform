@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   Accordion,
@@ -25,6 +25,7 @@ import {
   ToolbarItem,
 } from "@patternfly/react-core";
 import { useEffect } from 'react';
+import { BreadcrumbContext } from '../context/BreadcrumbContext';
 
 function User ( props ) {
   const { cn } = useParams()
@@ -33,6 +34,17 @@ function User ( props ) {
   const [ user, setUser ] = useState( { name: cn } );
   const [ authRolesExpanded, setAuthRolesExpanded ] = useState( false );
   const history = useHistory();
+
+  const { updateCrumbs } = useContext( BreadcrumbContext );
+
+  useEffect( () => {
+    updateCrumbs( [
+      { name: 'Users', href: '#' },
+      { name: cn, href: window.location.href }
+    ] );
+
+    return () => updateCrumbs( [] );
+  }, [ cn ]);
 
   useEffect( () => {
     setLoading( true );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import {
   Toolbar,
@@ -20,6 +20,7 @@ import {
   TableBody,
 } from '@patternfly/react-table';
 import GroupsAPI from '../services/GroupsAPI';
+import { BreadcrumbContext } from '../context/BreadcrumbContext';
 
 function Home ( props ) {
   const [ searchText, setSearchText ] = useState( '' );
@@ -27,6 +28,7 @@ function Home ( props ) {
   const [ groups, setGroups ] = useState( [] );
   const [ searchResults, setSearchResults ] = useState( [] );
   const [ pagination, setPagination ] = useState( { page: 1, perPage: 10 } );
+  const { updateCrumbs } = useContext(BreadcrumbContext);
 
   const history = useHistory();
 
@@ -40,6 +42,10 @@ function Home ( props ) {
       onClick: (evt, rowId, rowData) => {history.push('/group/edit/' + rowData[1])},
     }
   ];
+
+  useEffect( () => {
+    updateCrumbs( [] );
+  }, [] );
 
   useEffect( () => {
     let abort = false;
@@ -129,10 +135,10 @@ function Home ( props ) {
               onClear={() => setSearchText("")}
             ></SearchInput>
           </ToolbarItem>
-          <ToolbarItem alignment={{ default: 'alignRight' }}>
-              <Button variant="secondary" component={Link} to="/group/new">
-                Add New Group
-              </Button>
+          <ToolbarItem alignment={{ default: "alignRight" }}>
+            <Button variant="secondary" component={Link} to="/group/new">
+              Add New Group
+            </Button>
           </ToolbarItem>
         </ToolbarContent>
       </Toolbar>
@@ -152,15 +158,17 @@ function Home ( props ) {
       </Table>
       <EmptyMessage />
 
-      { searchResults.length > 0 && <Pagination
-        itemCount={ searchResults.length }
-        perPage={ pagination.perPage }
-        page={ pagination.page }
-        onSetPage={ ( evt, page ) => setPagination( { ...pagination, page } ) }
-        onPerPageSelect={ ( evt, perPage ) =>
-          setPagination( { ...pagination, perPage } )
-        }
-      /> }
+      { searchResults.length > 0 && (
+        <Pagination
+          itemCount={ searchResults.length }
+          perPage={ pagination.perPage }
+          page={ pagination.page }
+          onSetPage={ ( evt, page ) => setPagination( { ...pagination, page } ) }
+          onPerPageSelect={ ( evt, perPage ) =>
+            setPagination( { ...pagination, perPage } )
+          }
+        />
+      ) }
     </>
   );
 }

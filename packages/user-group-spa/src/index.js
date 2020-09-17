@@ -6,9 +6,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import BreadcrumbContextProvider from './context/BreadcrumbContext.jsx'
+
 render(
   <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <App />
+    <BreadcrumbContextProvider>
+      <App />
+    </BreadcrumbContextProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );

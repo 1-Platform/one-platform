@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import {
   Form,
@@ -16,6 +16,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import GroupsAPI from '../services/GroupsAPI';
+import { BreadcrumbContext } from '../context/BreadcrumbContext'
 
 function GroupForm () {
   const [ group, setGroup ] = useState( {
@@ -30,6 +31,21 @@ function GroupForm () {
   const history = useHistory();
 
   const { cn } = useParams();
+
+  const { updateCrumbs } = useContext( BreadcrumbContext );
+
+  useEffect( () => {
+    const crumbs = [
+      { name: cn ? "Edit" : "Add Group", href: window.location.href },
+    ];
+    if ( cn ) {
+      crumbs.unshift( { name: cn, href: 'group/' + cn } );
+    }
+    updateCrumbs( crumbs );
+
+    return () => updateCrumbs([]);
+  }, [ cn ] );
+
   useEffect( () => {
     let abort = false;
     if ( cn ) {
