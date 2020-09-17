@@ -23,7 +23,7 @@ const errorFetchingInformation = `
 </div>
 `;
 
-window.OpAuthHelper.onLogin( () => {
+// window.OpAuthHelper.onLogin( () => {
   getData()
     .then((result) => {
       buildDom(result.data.listHomeType);
@@ -35,7 +35,7 @@ window.OpAuthHelper.onLogin( () => {
         apps.innerHTML = errorFetchingInformation;
       }
     });
-});
+// });
 
 window.carouselScroll = (direction) => {
   if (direction === 'left') {

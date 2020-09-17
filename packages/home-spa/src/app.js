@@ -59,6 +59,6 @@ const links = [
 const opcFooter = document.querySelector('opc-footer');
 opcFooter.opcLinkCategories = links;
 
-opcFooter.addEventListener( 'click', () => {
+opcFooter.addEventListener( 'opc-footer-link:click', () => {
   document.querySelector("op-feedback").togglePanelVisibility();
 }, false);
