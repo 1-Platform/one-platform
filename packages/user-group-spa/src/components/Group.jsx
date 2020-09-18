@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import {
   Badge,
@@ -24,6 +24,7 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 import GroupsAPI from '../services/GroupsAPI';
+import { BreadcrumbContext } from '../context/BreadcrumbContext';
 
 function Group ( props ) {
   const { cn } = useParams();
@@ -38,6 +39,15 @@ function Group ( props ) {
   } );
   const [ members, setMembers ] = useState( [] );
   const [ loading, setLoading ] = useState( true );
+  const { updateCrumbs } = useContext( BreadcrumbContext );
+
+  useEffect( () => {
+    updateCrumbs( [
+      { name: cn, href: window.location.href }
+    ] );
+
+    return () => updateCrumbs([]);
+  }, [ cn ] );
 
   useEffect( () => {
     setLoading( true );

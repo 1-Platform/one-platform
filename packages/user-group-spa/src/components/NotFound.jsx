@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -7,8 +7,19 @@ import {
   EmptyStatePrimary,
   Title,
 } from '@patternfly/react-core';
+import { BreadcrumbContext } from '../context/BreadcrumbContext';
 
 function NotFound () {
+  const { updateCrumbs } = useContext( BreadcrumbContext );
+
+  useEffect( () => {
+    updateCrumbs( [
+      { name: '404', href: window.location.href }
+    ] );
+
+    return () => updateCrumbs( [] );
+  }, [ ] );
+
   return (
     <EmptyState variant="xl" isFullHeight>
       <EmptyStateIcon

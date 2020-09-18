@@ -17,6 +17,7 @@
   "license": "MIT",
   "homepage": "/user-groups/",
   "dependencies": {
+    "@one-platform/opc-header": "0.0.2-prerelease",
     "@patternfly/react-core": "4.47.0",
     "@patternfly/react-table": "4.16.7",
     "@testing-library/jest-dom": "5.11.4",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Switch, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import {
@@ -7,6 +7,10 @@ import {
   NavItem,
   NavGroup,
 } from '@patternfly/react-core';
+import "@patternfly/patternfly/patternfly.css";
+import '@one-platform/opc-header/dist/opc-header';
+
+import { BreadcrumbContext } from "./context/BreadcrumbContext";
 
 import Home from './components/Home';
 import GroupForm from './components/Form';
@@ -14,17 +18,35 @@ import Group from './components/Group';
 import User from './components/User';
 import NotFound from './components/NotFound';
 
-
-function App ( props ) {
+function App () {
   const location = useLocation();
   const [ user, setUser ] = useState( {} );
+
+  const breadcrumbs = React.createRef();
+  const headerLinks = React.createRef();
+
+  const { crumbs } = useContext(BreadcrumbContext);
+
+  useEffect( () => {
+    breadcrumbs.current.opcHeaderBreadcrumb = crumbs;
+  }, [ crumbs ] );
+
+  useEffect( () => {
+    headerLinks.current.opcHeaderLinks = [
+      {
+        name: "Documentation",
+        href: "/get-started/docs/apps/internal/user-groups/user-groups-spa",
+        icon: 'fa-file'
+      },
+    ];
+  }, [] );
 
   useEffect( () => {
     const authUser = window.OpAuthHelper?.getUserInfo();
     setUser( {
-      uid: authUser.kerberosID,
+      uid: authUser?.kerberosID,
     } );
-  }, [ ] );
+  }, [] );
 
   function isNavItemActive ( url ) {
     return location.pathname === url;
@@ -45,9 +67,11 @@ function App ( props ) {
         </NavList>
       </Nav>
       <div className="app">
-        <header className="op-header">
-          <h1>User Group SPA</h1>
-        </header>
+
+        <opc-header heading="User Group SPA" theme="blue">
+          <opc-header-breadcrumb ref={breadcrumbs} slot="breadcrumb"></opc-header-breadcrumb>
+          <opc-header-links ref={headerLinks} slot="links"></opc-header-links>
+        </opc-header>
         <main className="page">
           <Switch>
             <Route path="/" component={Home} exact />
