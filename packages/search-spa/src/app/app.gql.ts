@@ -27,7 +27,7 @@ export const search = gql`
           abstract
           description
           content_type
-          operation
+          solr_command
           icon
           uri
           tags

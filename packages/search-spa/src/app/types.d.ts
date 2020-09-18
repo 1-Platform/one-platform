@@ -4,7 +4,7 @@ type Doc = {
     abstract: string;
     description: string;
     content_type: string;
-    operation: string;
+    solr_command: string;
     icon: string;
     uri: string;
     tags: string[];

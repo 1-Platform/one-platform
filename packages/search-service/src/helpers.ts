@@ -18,16 +18,20 @@ class IndexHelper {
     public index ( body: any ) {
         return new Promise( async ( resolve, reject ) => {
             let headers = new Headers();
-            headers.append( `Authorization`, `${ process.env.AUTH_TOKEN }` );
             headers.append( `Content-Type`, `application/json` );
             headers.append( `Accept`, `application/json` );
+            const httpsAgent = new https.Agent( {
+                rejectUnauthorized: false,
+            } );
             try {
-                return fetch( `${ process.env.HYDRA_API }/index`, {
+                return fetch( `${ process.env.SOLR_API }/rs/index`, {
                     method: `POST`,
                     headers,
                     body: JSON.stringify( body),
-                    agent: new HttpsProxyAgent( `${ process.env.AKAMAI_API }` ),
-                } ).then( ( response: SearchResponseCode ) => resolve( { status: response.status } ) );
+                    agent: httpsAgent
+                } ).then( ( response: SearchResponseCode ) => {
+                    resolve( { status: response.status } );
+                } );
             } catch ( err ) {
                 console.log( err );
                 reject(err)
@@ -38,16 +42,17 @@ class IndexHelper {
     public delete ( body: any ) {
         return new Promise( async ( resolve, reject ) => {
             let headers = new Headers();
-            headers.append( `Authorization`, `${ process.env.AUTH_TOKEN }` );
             headers.append( `Content-Type`, `application/json` );
             headers.append( `Accept`, `application/json` );
-            console.log( `${ process.env.HYDRA_API }/delete` );
             try {
-                return fetch( `${ process.env.HYDRA_API }/delete`, {
+                const httpsAgent = new https.Agent( {
+                    rejectUnauthorized: false,
+                } );
+                return fetch( `${ process.env.SOLR_API }/delete`, {
                     method: `DELETE`,
                     headers,
                     body: JSON.stringify( body ),
-                    agent: new HttpsProxyAgent( `${ process.env.AKAMAI_API }` ),
+                    agent: httpsAgent
                 } ).then( ( response: SearchResponseCode ) => resolve( { status: response.status } ) );
             } catch ( err ) {
                 console.log( err );
@@ -59,20 +64,19 @@ class IndexHelper {
     public search ( params: any ) {
         return new Promise( async ( resolve, reject ) => {
             let headers = new Headers();
-            headers.append( `Authorization`, `${ process.env.AUTH_TOKEN }` );
             headers.append( `Content-Type`, `application/json` );
             headers.append( `Accept`, `application/json` );
             try {
                 const httpsAgent = new https.Agent( {
                     rejectUnauthorized: false,
                 } );
-                return fetch( `${ process.env.SEARCH_API }?q=${ params.query }&start=${ params.start }&rows=${ params.rows }&sort=timestamp desc`, {
+                return fetch( `${ process.env.SOLR_API }/rs/search/platform/oneportal?q=${ params.query }&start=${ params.start }&rows=${ params.rows }&sort=timestamp desc`, {
                     method: `GET`,
                     headers,
                     agent: httpsAgent
                 } ).then( ( response: any ) => response.json() )
                     .then( async ( result: SearchResponseType ) => {
-                         result.response.docs = result?.response?.docs.map( ( doc: any ) => {
+                         result.response.docs = result?.response?.docs?.map( ( doc: any ) => {
                              Object.keys( doc ).forEach( ( key ) => {
                                  if ( key !== 'tags' ) {
                                      doc[ key ] = doc[ key ].toString();
