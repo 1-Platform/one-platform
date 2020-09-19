@@ -42,7 +42,7 @@
     "babel-loader": "8.1.0",
     "babel-preset-es2015": "6.24.1",
     "clean-webpack-plugin": "3.0.0",
-    "copy-webpack-plugin": "6.1.0",
+    "copy-webpack-plugin": "6.1.1",
     "css-loader": "4.3.0",
     "dotenv": "8.2.0",
     "dotenv-webpack": "2.0.0",
@@ -51,7 +51,7 @@
     "jest": "26.4.2",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
-    "webpack": "4.44.1",
+    "webpack": "4.44.2",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0",
     "whatwg-fetch": "3.4.1"
