@@ -55,7 +55,7 @@
     "express": "4.17.1",
     "graphql": "15.3.0",
     "graphql-redis-subscriptions": "2.3.1",
-    "graphql-tools": "6.2.2",
+    "graphql-tools": "6.2.3",
     "ioredis": "4.17.3",
     "lodash": "4.17.20",
     "method-override": "3.0.0",
