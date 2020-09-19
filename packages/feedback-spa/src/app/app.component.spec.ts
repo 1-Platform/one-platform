@@ -29,7 +29,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'feedback'`, () => {
-    expect(app.title).toEqual('feedback');
+  it(`should have as title 'Feedback'`, () => {
+    expect(app.title).toEqual('Feedback');
   });
 });

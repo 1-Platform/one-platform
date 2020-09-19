@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as FooterLinks from '../../../common/footer.json';
 @Component({
   selector: 'op-root',
   templateUrl: './app.component.html',
@@ -10,33 +11,7 @@ export class AppComponent implements OnInit {
     { name: 'Notifications', href: '/notifications' },
   ];
 
-  footerLinks = [
-    {
-      category: 'Quick Links',
-      links: [
-        { text: 'One Platform in Mojo', href: 'https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/' },
-        { text: 'Weekly Blog', href: 'https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/blog/' },
-        { text: 'Contact Us', href: '/contact-us' },
-      ]
-    },
-    {
-      category: 'Related sites',
-      links: [
-        { text: 'access.redhat.com', href: 'https://access.redhat.com/' },
-        { text: 'catalog.redhat.com', href: 'https://catalog.redhat.com/' },
-        { text: 'connect.redhat.com', href: 'https://connect.redhat.com/' },
-      ]
-    },
-    {
-      category: 'Help',
-      links: [
-        { text: 'Report An Issue' },
-        { text: 'One Portal FAQs', href: 'https://mojo.redhat.com/docs/DOC-1225598' },
-        { text: 'one-portal@redhat.com', href: 'mailto:one-portal@redhat.com' },
-        { text: 'GitHub', href: 'https://github.com/1-platform/one-platform' }
-      ]
-    },
-  ];
+  footerLinks = ( FooterLinks as any ).default;
 
   constructor() {}
 
