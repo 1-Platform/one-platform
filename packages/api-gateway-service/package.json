@@ -63,7 +63,7 @@
     "nodemon-webpack-plugin": "4.3.2",
     "subscriptions-transport-ws": "0.9.18",
     "supertest": "4.0.2",
-    "ts-jest": "26.3.0",
+    "ts-jest": "26.4.0",
     "ts-node": "9.0.0",
     "ws": "7.3.1"
   },
