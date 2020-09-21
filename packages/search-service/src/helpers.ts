@@ -20,15 +20,11 @@ class IndexHelper {
             let headers = new Headers();
             headers.append( `Content-Type`, `application/json` );
             headers.append( `Accept`, `application/json` );
-            const httpsAgent = new https.Agent( {
-                rejectUnauthorized: false,
-            } );
             try {
                 return fetch( `${ process.env.SOLR_API }/rs/index`, {
                     method: `POST`,
                     headers,
                     body: JSON.stringify( body),
-                    agent: httpsAgent
                 } ).then( ( response: SearchResponseCode ) => {
                     resolve( { status: response.status } );
                 } );
@@ -45,15 +41,21 @@ class IndexHelper {
             headers.append( `Content-Type`, `application/json` );
             headers.append( `Accept`, `application/json` );
             try {
-                const httpsAgent = new https.Agent( {
-                    rejectUnauthorized: false,
-                } );
-                return fetch( `${ process.env.SOLR_API }/delete`, {
-                    method: `DELETE`,
+                const data = `{
+                    'data_source': 'oneportal',
+                    'documents': [
+                       {
+                          'solr_command':'delete',
+                          'content_type':'oneportal',
+                          'id': ${ body }
+                       }
+                    ]
+                 }`
+                return fetch( `${ process.env.SOLR_API }/rs/index`, {
+                    method: `POST`,
                     headers,
-                    body: JSON.stringify( body ),
-                    agent: httpsAgent
-                } ).then( ( response: SearchResponseCode ) => resolve( { status: response.status } ) );
+                    body: data,
+                } ).then( ( response: SearchResponseCode ) => resolve( { status: response.status } ));
             } catch ( err ) {
                 console.log( err );
                 reject( err );
@@ -67,13 +69,9 @@ class IndexHelper {
             headers.append( `Content-Type`, `application/json` );
             headers.append( `Accept`, `application/json` );
             try {
-                const httpsAgent = new https.Agent( {
-                    rejectUnauthorized: false,
-                } );
                 return fetch( `${ process.env.SOLR_API }/rs/search/platform/oneportal?q=${ params.query }&start=${ params.start }&rows=${ params.rows }&sort=timestamp desc`, {
                     method: `GET`,
                     headers,
-                    agent: httpsAgent
                 } ).then( ( response: any ) => response.json() )
                     .then( async ( result: SearchResponseType ) => {
                          result.response.docs = result?.response?.docs?.map( ( doc: any ) => {
