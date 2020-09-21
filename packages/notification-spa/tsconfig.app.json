@@ -6,6 +6,7 @@
       "node"
     ],
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "files": [
     "src/main.ts",
