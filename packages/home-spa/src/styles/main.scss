@@ -35,10 +35,11 @@
                 left: -8px;
             }
             &::after {
-                content: url('../img/end-quote.svg');
+                content: url('../img/begin-quote.svg');
                 position: absolute;
                 top: 30px;
                 right: -24px;
+                transform: scaleX(-1);
             }
         }
     }
