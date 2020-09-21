@@ -28,6 +28,7 @@
     "apollo-client": "2.6.10",
     "apollo-link": "1.2.14",
     "apollo-link-context": "1.0.20",
+    "apollo-angular": "2.0.4",
     "apollo-link-retry": "2.2.16",
     "bootstrap": "4.5.2",
     "font-awesome": "4.7.0",
