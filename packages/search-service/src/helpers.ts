@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 const fetch = require( 'node-fetch' );
 
-import { HttpsProxyAgent } from 'https-proxy-agent';
 global.Headers = fetch.Headers;
 
 class IndexHelper {
@@ -24,7 +23,7 @@ class IndexHelper {
                     method: `POST`,
                     headers,
                     body: JSON.stringify( body),
-                } ).then( ( response: SearchResponseCode ) => resolve( { status: response.status } );
+                } ).then( ( response: SearchResponseCode ) => resolve( { status: response.status } ));
             } catch ( err ) {
                 console.log( err );
                 reject(err)
