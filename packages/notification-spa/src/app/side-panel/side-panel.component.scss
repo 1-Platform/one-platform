@@ -2,7 +2,7 @@
     position: fixed;
     background: #FFFFFF;
     width: 280px;
-    height: 100vh;
+    height: calc(100% - 269px);
     border: 1px solid #DDDDDD;
     &__accordian {
         display: flex;
