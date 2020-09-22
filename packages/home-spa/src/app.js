@@ -16,7 +16,7 @@ if (footer !== null) {
   footer.innerHTML = `
   <opc-footer theme="dark" id="darkFooterWithLinks">
     <span slot="copyright">
-      Red Hat. Internal Use Only.
+      Red Hat Inc. Internal Use Only.
     </span>
   </opc-footer>`;
 }
