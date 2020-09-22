@@ -13,7 +13,12 @@ import './js/controller.js';
 const footer = document.querySelector('footer');
 const band = document.querySelector('#band');
 if (footer !== null) {
-  footer.innerHTML = `<opc-footer theme="dark" id="darkFooterWithLinks"></opc-footer>`;
+  footer.innerHTML = `
+  <opc-footer theme="dark" id="darkFooterWithLinks">
+    <span slot="copyright">
+      Red Hat. Internal Use Only.
+    </span>
+  </opc-footer>`;
 }
 
 if (band !== null) {
