@@ -52,7 +52,6 @@
     "@angular/language-service": "10.1.2",
     "@types/jest": "26.0.14",
     "@types/node": "12.12.62",
-    "apollo-angular": "1.10.0",
     "codelyzer": "6.0.0",
     "jest": "26.4.2",
     "jest-preset-angular": "8.3.1",
