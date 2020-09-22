@@ -51,10 +51,6 @@ module.exports = {
                 use: [MiniCssExtractPlugin, 'css-loader']
             },
             {
-                test: /\.(png|jpe?g|gif|svg)$/i,
-                use: 'file-loader',
-            },
-            {
                 test: /\.s[ac]ss$/i,
                 use: [
                     'style-loader',

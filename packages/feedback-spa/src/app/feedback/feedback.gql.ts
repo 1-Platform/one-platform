@@ -1,4 +1,4 @@
-import { gql } from 'apollo-angular';
+import gql from 'graphql-tag';
 import { FeedbackType } from './feedback.fragment';
 
 export const listFeedback = gql`

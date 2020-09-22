@@ -1,4 +1,5 @@
-import { gql } from 'apollo-angular';
+import gql from 'graphql-tag';
+
 export const PopulatedFeedbackType = gql`
 fragment populatedFeedbackType on PopulatedFeedbackType {
   _id,

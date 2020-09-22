@@ -1,0 +1,37 @@
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+}
+
+.breadcrumb a {
+  color: var(--gray-500);
+  text-decoration: none;
+}
+
+.breadcrumb a.active {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+
+.breadcrumb i.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 4px;
+}
+
+/* Header */
+header {
+  border-bottom: 1px solid var(--gray-300);
+  padding: 1rem 1.5rem;
+}
+
+header h4.app-title,
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 100;
+  margin-bottom: 0;
+  margin-top: 1.5rem;
+}

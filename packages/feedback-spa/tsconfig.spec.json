@@ -7,8 +7,7 @@
       "node"
     ],
     "esModuleInterop": true, // 2
-    "emitDecoratorMetadata": true, // 3
-    "resolveJsonModule": true
+    "emitDecoratorMetadata": true // 3
   },
   "files": [
     "src/test.ts",

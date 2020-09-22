@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
 import { IndexComponent } from './index/index.component';
 import { ManageNotificationComponent } from './manage-notification/manage-notification.component';
 import { SidePanelComponent } from './side-panel/side-panel.component';
@@ -11,12 +12,13 @@ import { SpaNotificationsListComponent } from './index/spa-notifications-list/sp
 
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
-import '@one-platform/opc-footer/dist/opc-footer';
-import '@one-platform/opc-header/dist/opc-header';
+import '@patternfly/pfe-select/dist/pfe-select';
+import '@patternfly/pfe-select/dist/pfe-select';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HeaderComponent,
     IndexComponent,
     ManageNotificationComponent,
     SidePanelComponent,
