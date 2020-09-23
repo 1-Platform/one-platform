@@ -59,6 +59,7 @@ export class SearchComponent implements OnInit {
         selected: false
       };
     } );
+    this.filteredApps = [];
   }
 
   showMore = async () => {
@@ -86,5 +87,9 @@ export class SearchComponent implements OnInit {
     } else if ( this.selectedOrder === 'asc' ) {
       this.sortOrder = 'timestamp';
     }
+  }
+
+  resetFilters = () => {
+    this.generateAppFilter();
   }
 }

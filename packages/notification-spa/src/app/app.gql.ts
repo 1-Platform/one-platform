@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-angular';
 
 const notificationConfigFragment = gql`
 fragment notification on NotificationConfigRaw {

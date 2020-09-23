@@ -1,5 +1,9 @@
-<app-header></app-header>
+<opc-header [heading]="title" id="header" theme="default">
+  <opc-header-breadcrumb slot="breadcrumb" id="breadcrumb"></opc-header-breadcrumb>
+  <opc-header-links slot="links" id="links"></opc-header-links>
+</opc-header> 
 <main>
   <app-user-details></app-user-details>
   <app-user-auth-details></app-user-auth-details>
 </main>
+<opc-footer theme="light"></opc-footer>

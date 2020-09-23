@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {NgPipesModule} from 'ngx-pipes';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +18,8 @@ import {FeedbackItemComponent} from './feedback/feedback-item/feedback-item.comp
 import { CountBoxComponent } from './feedback/count-box/count-box.component';
 import { DropdownComponent } from './feedback/dropdown/dropdown.component';
 import { GraphQLModule } from './graphql.module';
+import '@one-platform/opc-footer/dist/opc-footer';
+import '@one-platform/opc-header/dist/opc-header';
 
 
 @NgModule({
@@ -28,7 +30,10 @@ import { GraphQLModule } from './graphql.module';
     CountBoxComponent,
     DropdownComponent
   ],
-  schemas: [NO_ERRORS_SCHEMA],
+  schemas: [
+    NO_ERRORS_SCHEMA,
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
   imports: [
     CommonModule,
     FormsModule,
