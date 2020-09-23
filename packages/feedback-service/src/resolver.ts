@@ -141,8 +141,7 @@ export const FeedbackResolver = {
           } );
         } )
         .catch( ( err: any ) => {
-          err.options.auth = '*******';
-          throw err;
+          throw err.message;
         } );
     },
 
@@ -221,8 +220,7 @@ export const FeedbackResolver = {
                   } );
                 } )
                   .catch( function ( err: any ) {
-                    err.options.auth = '*******';
-                    return err;
+                    throw err.message;
                   } );
               }
 
