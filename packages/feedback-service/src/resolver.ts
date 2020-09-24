@@ -141,7 +141,7 @@ export const FeedbackResolver = {
           } );
         } )
         .catch( ( err: any ) => {
-          throw err;
+          throw err.message;
         } );
     },
 
@@ -220,7 +220,7 @@ export const FeedbackResolver = {
                   } );
                 } )
                   .catch( function ( err: any ) {
-                    return err;
+                    throw err.message;
                   } );
               }
 
