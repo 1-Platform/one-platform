@@ -36,7 +36,7 @@
   "license": "MIT",
   "dependencies": {
     "apollo-log": "0.2.0",
-    "apollo-server-express": "2.17.0",
+    "apollo-server-express": "2.18.1",
     "body-parser": "1.19.0",
     "clean-webpack-plugin": "3.0.0",
     "cookie-parser": "1.4.5",
@@ -52,7 +52,7 @@
     "ioredis": "4.17.3",
     "lodash": "4.17.20",
     "method-override": "3.0.0",
-    "mongoose": "5.10.6",
+    "mongoose": "5.10.7",
     "morgan": "1.10.0",
     "node-fetch": "2.6.1",
     "nodemon-webpack-plugin": "4.3.2",

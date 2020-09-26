@@ -32,7 +32,7 @@
     "html-template-tag": "3.2.0",
     "keycloak-js": "11.0.2",
     "lit-element": "2.4.0",
-    "moment": "2.28.0",
+    "moment": "2.29.0",
     "subscriptions-transport-ws": "0.9.18"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "dotenv": "8.2.0",
     "dotenv-webpack": "2.0.0",
     "eslint-plugin-jest": "24.0.2",
-    "html-webpack-plugin": "4.4.1",
+    "html-webpack-plugin": "4.5.0",
     "jest": "26.4.2",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "to-string-loader": "1.1.6",
