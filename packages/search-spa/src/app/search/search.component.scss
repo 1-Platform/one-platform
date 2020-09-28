@@ -1,13 +1,21 @@
 .timestamp {
     color: var(--pf-global--Color--400);
+    font-size: 12px;
 }
 
 .search-title {
     color: var(--pf-global--primary-color--100);
+    font-size: 16px;
 }
 
 .search-abstract {
     color: var(--pf-global--BackgroundColor--dark-200);
+    font-size: 14px;
+}
+
+.search-tag {
+    font-size: 12px;
+    font-weight: 200;
 }
 
 .filter-title {
@@ -22,16 +30,6 @@
     border-radius: 10px;
 }
 
-.result-border {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-}
-
-.result-border:last-child {
-    margin-bottom: 0;
-    border-bottom: var(--pf-m-no-border-bottom);
-}
-
 .cursor-pointer {
     cursor: pointer;
 }
@@ -39,4 +37,8 @@
 .related-app-name {
     font-size: 14px;
     color: var(--pf-global--Color--100);
+}
+
+.pf-c-card {
+    border: none;
 }
