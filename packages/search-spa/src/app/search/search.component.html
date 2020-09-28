@@ -69,7 +69,7 @@
         </span>
       </div>
       <div class="pf-c-card pf-m-flat result-view">
-        <div class="pf-c-card__body result-border" *ngFor="let result of searchResults?.response?.docs | filterBy: ['content_type']: this.filteredApps |
+        <div class="pf-c-card__body" *ngFor="let result of searchResults?.response?.docs | filterBy: ['content_type']: this.filteredApps |
                orderBy: sortOrder | slice: 0:sliceLimit">
           <p class="timestamp">
             {{ result?.lastModifiedDate | date:'fullDate' || result?.createdDate | date:'fullDate' }}
@@ -79,9 +79,9 @@
           </a>
           <p class="search-abstract">
             {{ (result?.abstract.length>200)? (result.abstract | slice:0:200)+'...':(result?.abstract) }}</p>
-          <p><span class="pf-c-badge pf-m-read" *ngFor="let tag of result?.tags">{{ tag }}</span></p>
+          <p><span class="pf-c-badge pf-m-read search-tag" *ngFor="let tag of result?.tags">{{ tag }}</span></p>
         </div>
-        <div class="pf-c-card__body result-border" *ngIf="searchResults?.response?.numFound - sliceLimit > 0">
+        <div class="pf-c-card__body" *ngIf="searchResults?.response?.numFound - sliceLimit > 0">
             <span class="pf-c-spinner pf-m-lg" role="progressbar" aria-valuetext="Loading..." *ngIf="loading">
               <span class="pf-c-spinner__clipper"></span>
               <span class="pf-c-spinner__lead-ball"></span>
