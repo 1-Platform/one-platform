@@ -11,9 +11,9 @@
         </div>
         <div class="pf-c-card__body">
           <div class="pf-c-check" *ngFor="let app of this.appsList">
-            <input class="pf-c-check__input" type="checkbox" id="check-basic" name="check-basic"
+            <input class="pf-c-check__input" type="checkbox" id="app-filter" name="app-filter"
               [(ngModel)]="app.selected" (change)="selectedContent()" />
-            <label class="pf-c-check__label" for="check-basic">{{ app.content_type }}<span
+            <label class="pf-c-check__label" for="app-filter">{{ app.content_type }}<span
                 class="pf-c-badge pf-m-read">{{ app.count }}</span>
             </label>
           </div>
@@ -24,14 +24,14 @@
         </div>
         <div class="pf-c-card__body">
           <div class="pf-c-check">
-            <input class="pf-c-check__input" type="checkbox" id="check-basic" name="check-basic"
+            <input class="pf-c-check__input" type="checkbox" id="order-filter" name="order-filter"
               [checked]="selectedOrder === 'desc'" (click)="orderFilter('desc')" />
-            <label class="pf-c-check__label" for="check-basic">Newest First</label>
+            <label class="pf-c-check__label" for="order-filter">Newest First</label>
           </div>
           <div class="pf-c-check">
-            <input class="pf-c-check__input" type="checkbox" id="check-basic" name="check-basic"
+            <input class="pf-c-check__input" type="checkbox" id="order-filter" name="order-filter"
               [checked]="selectedOrder === 'asc'" (click)="orderFilter('asc')">
-            <label class="pf-c-check__label" for="check-basic">Oldest First</label>
+            <label class="pf-c-check__label" for="order-filter">Oldest First</label>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
         <div class="pf-c-card__body" *ngFor="let result of searchResults?.response?.docs | filterBy: ['content_type']: this.filteredApps |
                orderBy: sortOrder | slice: 0:sliceLimit">
           <p class="timestamp">
-            {{ result?.lastModifiedDate | date:'fullDate' || result?.createdDate | date:'fullDate' }}
+            {{ result.lastModifiedDate || result.createdDate | date:'fullDate' }}
           </p>
           <a href="{{ result?.uri }}" target="_blank">
             <p class="search-title">{{ result?.title }}</p>
