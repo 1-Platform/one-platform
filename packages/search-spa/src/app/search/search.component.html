@@ -72,7 +72,7 @@
         <div class="pf-c-card__body" *ngFor="let result of searchResults?.response?.docs | filterBy: ['content_type']: this.filteredApps |
                orderBy: sortOrder | slice: 0:sliceLimit">
           <p class="timestamp">
-            {{ result.lastModifiedDate || result.createdDate | date:'fullDate' }}
+            {{ (result.lastModifiedDate || result.createdDate) | date:'fullDate' }}
           </p>
           <a href="{{ result?.uri }}" target="_blank">
             <p class="search-title">{{ result?.title }}</p>
