@@ -5,7 +5,7 @@ author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat
 author_url: https://github.com/sayak-sarkar
 author_image_url: https://avatars0.githubusercontent.com/u/1418735?s=400&v=4
-tags: [redhat, blog, oneportal, oneplatform, react, angular, alpha, announcement, spaship]
+tags: [redhat, blog, one, platform, portal, oneportal, oneplatform, react, angular, alpha, announcement, spaship]
 ---
 We are happy to announce the One Platform Alpha release with limited alpha versions of Microservices and some of the inbuilt Single Page Applications (SPAs).
 
