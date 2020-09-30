@@ -1,16 +1,22 @@
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import express from 'express';
-import { stitchSchemas } from 'graphql-tools';
 import http from 'http';
 import { verify } from 'jsonwebtoken';
-import { getPublicKey, getRemoteSchema } from './src/helpers';
+import { getPublicKey } from './src/helpers';
 import cors from 'cors';
 import cookieParser = require( 'cookie-parser' );
+import dotenv from 'dotenv';
+import { stitchedSchemas } from './src/schema';
 const { ApolloLogExtension } = require( 'apollo-log' );
 
 /* Setting port for the server */
 const port = process.env.PORT || 4000;
 const app = express();
+
+/* If environment is test, set-up the environment variables */
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: './src/__tests__/.test.env' } );
+}
 
 const extensions = [ () => new ApolloLogExtension( {
   level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
@@ -26,34 +32,6 @@ app.use( cors() );
 
 /*  Creating the server based on the environment */
 const server = http.createServer( app );
-
-/* Binding the gateway with the apollo server and extracting the schema */
-const userService = getRemoteSchema( {
-  uri: `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`,
-  subscriptionsUri: `ws://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/subscriptions`
-} );
-const feedbackService = getRemoteSchema( {
-  uri: `http://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/graphql`,
-  subscriptionsUri: `ws://${ process.env.FEEDBACK_SERVICE_SERVICE_HOST }:${ process.env.FEEDBACK_SERVICE_SERVICE_PORT }/subscriptions`
-} );
-const homeService = getRemoteSchema( {
-  uri: `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`,
-  subscriptionsUri: `ws://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/subscriptions`
-} );
-const notificationService = getRemoteSchema( {
-  uri: `http://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/graphql`,
-  subscriptionsUri: `ws://${ process.env.NOTIFICATIONS_SERVICE_SERVICE_HOST }:${ process.env.NOTIFICATIONS_SERVICE_SERVICE_PORT }/subscriptions`
-} );
-
-const searchService = getRemoteSchema( {
-  uri: `http://${ process.env.SEARCH_SERVICE_SERVICE_HOST }:${ process.env.SEARCH_SERVICE_SERVICE_PORT }/graphql`,
-  subscriptionsUri: `ws://${ process.env.SEARCH_SERVICE_SERVICE_HOST }:${ process.env.SEARCH_SERVICE_SERVICE_PORT }/subscriptions`
-} );
-
-const modService = getRemoteSchema( {
-  uri: `http://${ process.env.MOD_SERVICE_SERVICE_HOST }:${ process.env.MOD_SERVICE_SERVICE_PORT }/graphql`,
-  subscriptionsUri: `ws://${ process.env.MOD_SERVICE_SERVICE_HOST }:${ process.env.MOD_SERVICE_SERVICE_PORT }/subscriptions`
-} );
 
 const context = ({ req, connection }: any) => {
   const authorizationHeader = req?.headers?.authorization || connection?.context?.Authorization;
@@ -72,10 +50,8 @@ const context = ({ req, connection }: any) => {
   } );
 };
 
-Promise.all( [ userService, feedbackService, homeService, notificationService, searchService, modService ] )
-  .then( schemas => {
-    const schema = stitchSchemas( { schemas } );
-
+stitchedSchemas()
+  .then( schema => {
     /* Defining the Apollo Server */
     const apollo = new ApolloServer( {
       schema,

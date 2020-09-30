@@ -1,0 +1,32 @@
+[
+  {
+    "name": "User Group",
+    "uri": "http://user-group-service:8080/graphql",
+    "subscriptionsUri": "ws://user-group:8080/subscriptions"
+  },
+  {
+    "name": "Feedback",
+    "uri": "http://feedback-service:8080/graphql",
+    "subscriptionsUri": "ws://feedback-service:8080/subscriptions"
+  },
+  {
+    "name": "Home",
+    "uri": "http://home-service:8080/graphql",
+    "subscriptionsUri": "ws://home-service:8080/subscriptions"
+  },
+  {
+    "name": "Notifications",
+    "uri": "http://notifications-service:8080/graphql",
+    "subscriptionsUri": "ws://notifications-service:8080/subscriptions"
+  },
+  {
+    "name": "Search",
+    "uri": "http://search-service:8080/graphql",
+    "subscriptionsUri": "ws://search-service:8080/subscriptions"
+  },
+  {
+    "name": "MOD Handovers",
+    "uri": "http://mod-service:8080/graphql",
+    "subscriptionsUri": "ws://mod-service:8080/subscriptions"
+  }
+]

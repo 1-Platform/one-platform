@@ -2,23 +2,25 @@
 
 API Gateway handles all the tasks involved in accepting and processing up to hundreds of thousands of concurrent API calls, including traffic management, CORS support, authorization and access control, throttling, monitoring.
 
-### Switch the working directory into `cd api-gateway-service`.
+## Local Development using docker-compose (recommended)
 
-Copy Certificates
+1. Copy the `.env.example` to `.env`. Change/modify the variable values as required.
+2. Change the URIs in `config.json` and add/remove the microservices as needed
+3. Then run the docker-compose service using
+   ```bash
+   docker-compose up api-gateway
+   ```
+   The above command will start all the dependent services from this project. (Make sure any external microservices added in step 2 are running and accessible)
 
----
+*Note:* Before starting the gateway, also make sure the microservices in this project are configured properly.
 
-1.  Copy the SSL paths to the `.env` file of `api-gateway` microservice.
+## Running Tests
 
-Start Microservice:
+```bash
+npm test
+```
 
----
+## Contributors:
 
-1.  Run `npm build:dev` to generate a build for dev env and `npm build` for production build.
-2.  Run `npm start` to run your microservice for dev env.
-
-Testing:
-
----
-
-1.  Run `npm test` to run default tests.
+👤 **Rigin Oommen** [@riginoommen](https://github.com/riginoommen)
+👤 **Mayur Deshmukh** [@deshmukhmayur](https://github.com/deshmukhmayur)
