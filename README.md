@@ -20,18 +20,10 @@ An integrated application hosting platform which allows you to host your SPAs. I
 
 ## Installation
 
-### Install dependencies and run platform
-
-```sh
-npm run platform:up
-```
-
-## Manual installation
-
 ### Install node_modules for all the packages
+#### PS: The below script also copies `.env.example` to `.env` for all the services
 ```sh
 npm install
-npm run lerna bootstrap
 ```
 
 ### Environment Config

@@ -40,7 +40,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli-microservice": "sh cli-init.sh",
     "deploy": "sh deploy.sh",
-    "platform:up": "npm install && npm run lerna bootstrap && node platform.js && docker-compose up"
+    "postinstall": "npm run lerna bootstrap && node platform.js"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.2.0",
