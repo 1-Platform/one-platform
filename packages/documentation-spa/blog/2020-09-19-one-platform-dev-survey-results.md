@@ -1,6 +1,6 @@
 ---
-slug: one-platform-developer-survey-results
-title: One Platform Developer Survey Results
+slug: one-platform-dev-survey-results
+title: One Platform Dev Survey Results
 author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat
 author_url: https://github.com/sayak-sarkar
@@ -21,7 +21,7 @@ Based on these responses, the team was able to identify that during the applicat
 
 The results from the survey were highly helpful to prioritize features and microservices that the team would be working on for the next phase of One Platform's development roadmap and accelerating the platform's application onboarding process. To this end, the upcoming releases of One Platform would be focussed upon improving the overall application onboarding process for developers with easily available documentation, quick application deployment, readily available platform integrations and high availability.
 
-### Here's a summary of the responses that we received:-
+### Summary of the responses that were received
 
 ![img](./images/2020-09-19-one-platform-developer-survey-results/1.png)
 
