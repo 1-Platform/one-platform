@@ -1,5 +1,5 @@
 ---
-id: announcing-one-platform-mvp
+slug: announcing-one-platform-mvp
 title: Announcing One Platform MVP
 author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat

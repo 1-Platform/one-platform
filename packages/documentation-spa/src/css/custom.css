@@ -9,7 +9,7 @@
 :root {
   --ifm-color-red: #cc0000;
   /* --ifm-color-primary: #25c2a0; */
-    --ifm-color-primary: #3578e5;
+  --ifm-color-primary: #3578e5;
   --ifm-color-primary-dark: #1d68e1;
   --ifm-color-primary-darker: #1b62d4;
   --ifm-color-primary-darkest: #1751af;
@@ -38,7 +38,7 @@
   font-size: 2.8rem;
 }
 
-.hero__title span{
+.hero__title span {
   color: var(--ifm-color-red);
 }
 

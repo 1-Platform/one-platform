@@ -22,12 +22,12 @@ module.exports = {
     Components: [ 'components/component-library' ],
     Documentation: [ 'documentation/styleguide' ],
     Microservices: [
-        'microservices/authorization/authorization-service',
-        'microservices/feedback/feedback-service',
-        'microservices/home/home-service',
-        'microservices/notifications/notifications-service',
-        'microservices/user-groups/user-groups-service',
+      'microservices/authorization/authorization-service',
+      'microservices/feedback/feedback-service',
+      'microservices/home/home-service',
+      'microservices/notifications/notifications-service',
+      'microservices/user-groups/user-groups-service',
     ],
-    FAQs: ['faqs'],
+    FAQs: [ 'faqs' ],
   },
 };

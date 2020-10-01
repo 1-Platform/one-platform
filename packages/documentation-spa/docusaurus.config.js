@@ -5,8 +5,8 @@ module.exports = {
   baseUrl: '/get-started/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: '1-platform', // Usually your GitHub org/user name.
-  projectName: '1-platform.github.io', // Usually your repo name.
+  organizationName: '1-platform',
+  projectName: '1-platform.github.io',
   themeConfig: {
     // announcementBar: {
     //   id: 'support_us', // Any value that will identify this message.
@@ -16,8 +16,8 @@ module.exports = {
     // },
     prism: {
       defaultLanguage: 'javascript',
-      theme: require('prism-react-renderer/themes/github'),
-      darkTheme: require('prism-react-renderer/themes/dracula'),
+      theme: require( 'prism-react-renderer/themes/github' ),
+      darkTheme: require( 'prism-react-renderer/themes/dracula' ),
     },
     colorMode: {
       // "light" | "dark"
@@ -86,18 +86,14 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: 'components/component-library',
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
           editUrl:
             'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/',
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
           editUrl:
-            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/',
+            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

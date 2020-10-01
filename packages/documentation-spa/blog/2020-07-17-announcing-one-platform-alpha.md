@@ -1,5 +1,5 @@
 ---
-id: announcing-one-platform-alpha
+slug: announcing-one-platform-alpha
 title: Announcing One Platform Alpha
 author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat

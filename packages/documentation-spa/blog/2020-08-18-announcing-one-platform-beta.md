@@ -1,5 +1,5 @@
 ---
-id: announcing-one-platform-beta
+slug: announcing-one-platform-beta
 title: Announcing One Platform Beta
 author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat

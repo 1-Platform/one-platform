@@ -1,5 +1,5 @@
 ---
-id: one-platform-developer-survey-results
+slug: one-platform-developer-survey-results
 title: One Platform Developer Survey Results
 author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat
