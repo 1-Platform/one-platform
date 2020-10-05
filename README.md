@@ -14,12 +14,38 @@ An integrated application hosting platform which allows you to host your SPAs. I
 - Notifications Framework
 - Feedback Framework
 
-## Install
+### Prerequisites
 
+- Docker [Download](https://www.docker.com/get-started)
+
+## Installation
+
+### Install node_modules for all the packages
+#### PS: The below script also copies `.env.example` to `.env` for all the services
 ```sh
 npm install
-# OR
-lerna bootstrap
+```
+
+### Environment Config
+
+Copy all the `.env.example` to `.env` and add the following fields
+
+- For SPAs (packages ending with *-spa)
+    1. Add API_URL and set the url to .env
+
+- For services (packages ending with *-service)
+    1. Add database path in DB_PATH
+    2. Add database name in DB_NAME
+    3. Add database username in DB_USER
+    4. Add database password in DB_PASSWORD
+
+#### Example
+```properties
+## Database
+DB_PATH=localhost
+DB_NAME=platform
+DB_USER=admin
+DB_PASSWORD=admin
 ```
 
 ## Using docker-compose for local development

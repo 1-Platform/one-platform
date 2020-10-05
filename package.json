@@ -36,9 +36,11 @@
   },
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "scripts": {
+    "lerna": "lerna",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli-microservice": "sh cli-init.sh",
-    "deploy": "sh deploy.sh"
+    "deploy": "sh deploy.sh",
+    "postinstall": "npm run lerna bootstrap && node platform.js"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.3.0",
