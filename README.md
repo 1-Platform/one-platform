@@ -14,7 +14,7 @@ An integrated application hosting platform which allows you to host your SPAs. I
 - Notifications Framework
 - Feedback Framework
 
-#### Prerequisites
+### Prerequisites
 
 - Docker [Download](https://www.docker.com/get-started)
 
