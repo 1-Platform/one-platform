@@ -21,17 +21,7 @@ services:
     command: npm start
     env_file: ./packages/api-gateway-service/.env
     environment:
-      HOME_SERVICE_SERVICE_HOST: home-service
-      FEEDBACK_SERVICE_SERVICE_HOST: feedback-service
-      USER_SERVICE_SERVICE_HOST: user-group-service
-      NOTIFICATIONS_SERVICE_SERVICE_HOST: notifications-service
-      SEARCH_SERVICE_SERVICE_HOST: search-service
       REDIS_SERVICE_HOST: redis
-      HOME_SERVICE_SERVICE_PORT: 8080
-      FEEDBACK_SERVICE_SERVICE_PORT: 8080
-      USER_SERVICE_SERVICE_PORT: 8080
-      NOTIFICATIONS_SERVICE_SERVICE_PORT: 8080
-      SEARCH_SERVICE_SERVICE_PORT: 8080
     volumes:
       - ./packages/api-gateway-service:/app
     ports:
