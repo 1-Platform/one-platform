@@ -1,4 +1,6 @@
-const fetch = require( 'node-fetch' );
+import { validate as uuidValidate } from 'uuid';
+import JWT from 'jsonwebtoken';
+import fetch from 'node-fetch';
 import { HttpLink } from 'apollo-link-http';
 import { RetryLink } from 'apollo-link-retry';
 import { WebSocketLink } from 'apollo-link-ws';
@@ -8,6 +10,8 @@ import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import ws from 'ws';
+import { microservices } from './schema';
+
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
   port: Number.parseInt( process.env.REDIS_SERVICE_PORT || '6379', 10 ),
@@ -21,7 +25,7 @@ export const pubsub = new RedisPubSub( {
 } );
 
 export async function getRemoteSchema ( { uri, subscriptionsUri }: any ) {
-  const httpLink = new HttpLink( { uri, fetch } );
+  const httpLink = new HttpLink( { uri, fetch: <any>fetch } );
 
   /* Create WebSocket link with custom client */
   const client = new SubscriptionClient( subscriptionsUri, { reconnect: true }, ws );
@@ -78,4 +82,53 @@ export function getPublicKey(): string {
     return formatAsPem( publicKey );
   }
   throw Error( 'No Keycloak Public Key found! Please configure it by setting the KEYCLOAK_PUBKEY environment variable.' );
-};
+}
+
+export function verify ( token: string, callback: any ) {
+  if ( uuidValidate( token ) ) {
+    return validateAPIKey( token )
+      .then( res => {
+        callback( null, res );
+      } )
+      .catch( err => {
+        callback( err, null );
+      });
+  }
+
+  return JWT.verify( token, getPublicKey(), callback );
+}
+
+function validateAPIKey ( accessToken: string ) {
+  const userGroupAPI = microservices.find( service => service.name === 'User Group' );
+  if ( !userGroupAPI ) {
+    throw new Error( 'API Key Config error. User Group not configured properly.' );
+  }
+
+  return fetch( userGroupAPI.uri, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify( {
+      query: /* GraphQL */`
+        query ValidateAPIKey($accessToken: String!) {
+          apiKey: validateAPIKey(accessToken: $accessToken) {
+            _id
+            access {
+              role
+              microservice
+            }
+          }
+        }
+      `,
+      variables: { accessToken }
+    } )
+  } )
+    .then( res => res.json())
+    .then( res => {
+      if ( res.errors ) {
+        throw res.errors[0];
+      }
+      return res.data.apiKey;
+    } );
+}

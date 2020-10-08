@@ -1,0 +1,51 @@
+type Query {
+  listAPIKeys: [APIKey]
+  getAPIKeysBy(selector: FindAPIKeyInput!): [APIKey]
+  validateAPIKey(accessToken: String!): APIKey
+}
+type Mutation {
+  createAPIKey(apiKey: CreateAPIKeyInput!): APIKey
+  changeAPIKeyPermissions(id: ID!, access: [APIAccessInput]!): APIKey
+  revokeAPIKey(id: ID!): APIKey
+  deleteAPIKey(id: ID!): APIKey
+}
+
+type APIKey {
+  _id: ID
+  shortKey: String
+  expiresOn: DateTime
+  owner: APIKeyOwner
+  ownerType: APIKeyOwnerType
+  access: [APIAccess]
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
+}
+type APIAccess {
+  role: String
+  microservice: String
+}
+
+union APIKeyOwner = UserType | Group
+enum APIKeyOwnerType {
+  User
+  Group
+}
+
+input FindAPIKeyInput {
+  shortKey: String
+  owner: String
+  ownerType: APIKeyOwnerType
+}
+
+input CreateAPIKeyInput {
+  expiresOn: DateTime
+  owner: String
+  ownerType: APIKeyOwnerType
+  access: [APIAccessInput]
+}
+input APIAccessInput {
+  role: String
+  microservice: String
+}

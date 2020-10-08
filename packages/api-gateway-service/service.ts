@@ -1,13 +1,11 @@
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
-import { verify } from 'jsonwebtoken';
-import { getPublicKey } from './src/helpers';
 import cors from 'cors';
-import cookieParser = require( 'cookie-parser' );
 import dotenv from 'dotenv';
-import { stitchedSchemas } from './src/schema';
 const { ApolloLogExtension } = require( 'apollo-log' );
+import { stitchedSchemas } from './src/schema';
+import { verify } from './src/helpers';
 
 /* Setting port for the server */
 const port = process.env.PORT || 4000;
@@ -24,9 +22,6 @@ const extensions = [ () => new ApolloLogExtension( {
   prefix: 'API Gateway:'
 } ) ];
 
-/* Mount cookie parser */
-app.use( cookieParser() );
-
 /* include cors middleware */
 app.use( cors() );
 
@@ -42,11 +37,11 @@ const context = ({ req, connection }: any) => {
 
   const token = authorizationHeader.split( ' ' )[ 1 ];
 
-  return verify( token, getPublicKey(), ( err: any, payload: any ) => {
+  return verify( token, ( err: any, payload: any ) => {
     if ( err ) {
-      throw new AuthenticationError( err );
+      throw new AuthenticationError( err.message );
     }
-    return { userData: payload };
+    return payload;
   } );
 };
 

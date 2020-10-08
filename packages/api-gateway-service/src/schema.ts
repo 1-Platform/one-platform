@@ -2,8 +2,9 @@ import fs from 'fs';
 import { stitchSchemas } from 'graphql-tools';
 import { getRemoteSchema } from './helpers';
 
+export const microservices = loadConfig();
+
 export async function stitchedSchemas () {
-  const microservices = loadConfig();
   const schemas = await Promise
     .all( microservices
       .map( service => {

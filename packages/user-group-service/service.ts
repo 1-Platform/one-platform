@@ -1,10 +1,9 @@
-import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import express from 'express';
+import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import http from 'http';
 import mongoose from 'mongoose';
 import * as schedule from 'node-schedule';
 const { ApolloLogExtension } = require( 'apollo-log' );
-import cookieParser = require( 'cookie-parser' );
 import dotenv from 'dotenv';
 /* User Schema and Resolvers */
 import UserSchema from './src/users/typedef.graphql';
@@ -12,6 +11,9 @@ import { UserResolver } from './src/users/resolver';
 /* Group Schema and Resolvers */
 import GroupSchema from './src/groups/typedef.graphql';
 import { GroupResolver } from './src/groups/resolver';
+/* APIKey Schema and Resolvers */
+import APIKeySchema from './src/api-keys/typedef.graphql';
+import { APIKeysResolver } from './src/api-keys/resolver';
 
 // Crons for Data syncing
 import { UserSyncCron } from './src/users/cron';
@@ -26,9 +28,6 @@ if ( process.env.NODE_ENV === 'test' ) {
 }
 
 const app = express();
-
-// Mount cookie parser
-app.use( cookieParser() );
 
 const extensions = [ () => new ApolloLogExtension( {
   level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
@@ -61,10 +60,12 @@ const apollo = new ApolloServer( {
     schemas: [
       UserSchema,
       GroupSchema,
+      APIKeySchema,
     ],
     resolvers: [
       UserResolver,
       GroupResolver,
+      APIKeysResolver,
     ]
   } ),
   subscriptions: {
