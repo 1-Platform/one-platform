@@ -78,7 +78,7 @@
     "@types/supertest": "2.0.10",
     "graphql-tag": "2.11.0",
     "husky": "2.7.0",
-    "jest": "26.5.2",
+    "jest": "26.5.3",
     "jest-transform-graphql": "2.1.0",
     "ts-loader": "8.0.4",
     "tslint": "6.1.3",
