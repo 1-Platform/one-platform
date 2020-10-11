@@ -68,7 +68,7 @@
     "@types/ejs": "3.0.4",
     "@types/errorhandler": "0.0.32",
     "@types/jest": "25.2.3",
-    "@types/lodash": "4.14.161",
+    "@types/lodash": "4.14.162",
     "@types/method-override": "0.0.31",
     "@types/mocha": "5.2.7",
     "@types/morgan": "1.9.1",
