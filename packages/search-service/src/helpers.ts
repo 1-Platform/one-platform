@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 const fetch = require( 'node-fetch' );
-import https from 'https';
 
 import { HttpsProxyAgent } from 'https-proxy-agent';
 global.Headers = fetch.Headers;

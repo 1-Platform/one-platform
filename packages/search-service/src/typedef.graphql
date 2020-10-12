@@ -9,8 +9,8 @@ input DocumentInput {
   title: String
   abstract: String
   description: String
-  content_type: String
-  solr_command: String
+  contentType: String
+  operation: String
   icon: String
   uri: String
   tags: [String]
@@ -22,7 +22,7 @@ input DocumentInput {
 }
 
 input SearchInput {
-  data_source: String
+  dataSource: String
   documents: [DocumentInput]
 }
 
@@ -33,7 +33,7 @@ type DocumentType {
   abstract: String
   description: String
   content_type: String
-  solr_command: String
+  operation: String
   icon: String
   uri: String
   tags: [String]
