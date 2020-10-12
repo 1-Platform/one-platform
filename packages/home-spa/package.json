@@ -52,7 +52,7 @@
     "@patternfly/pfe-cta": "^1.0.0-prerelease.38",
     "@patternfly/pfe-tabs": "^1.0.0-prerelease.38",
     "clean-webpack-plugin": "^3.0.0",
-    "dotenv-webpack": "^2.0.0",
+    "dotenv-webpack": "^3.0.0",
     "jest-cli": "^26.0.0",
     "path": "^0.12.7"
   }
