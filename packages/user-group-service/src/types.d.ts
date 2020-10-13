@@ -87,6 +87,28 @@ type Group = {
   updatedOn: Date;
 }
 
+type APIKey = {
+  _id: any;
+  accessToken: string;
+  shortKey: string;
+  hashKey: string;
+  expiresOn: Date;
+  owner: string;
+  ownerType: string;
+  access: [ {
+    role: string;
+    microservice: string;
+  } ];
+  createdOn: Date;
+  createdBy: string;
+  updatedOn: Date;
+  updatedBy: string;
+}
+declare enum OwnerType {
+  User = 'User',
+  Group = 'Group'
+}
+
 type GraphQLArgs = {
   payload: Group,
   selector: Group,
