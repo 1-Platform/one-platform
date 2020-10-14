@@ -6,23 +6,9 @@ import { RetryLink } from 'apollo-link-retry';
 import { WebSocketLink } from 'apollo-link-ws';
 import { introspectSchema, makeRemoteExecutableSchema } from 'apollo-server-express';
 import { getMainDefinition } from 'apollo-utilities';
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-import Redis from 'ioredis';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import ws from 'ws';
 import { microservices } from './schema';
-
-const redisOptions: Redis.RedisOptions = {
-  host: process.env.REDIS_SERVICE_HOST,
-  port: Number.parseInt( process.env.REDIS_SERVICE_PORT || '6379', 10 ),
-  retryStrategy: ( times: any ) => {
-    return Math.min( times * 50, 2000 );
-  }
-};
-export const pubsub = new RedisPubSub( {
-  publisher: new Redis( redisOptions ),
-  subscriber: new Redis( redisOptions ),
-} );
 
 export async function getRemoteSchema ( { uri, subscriptionsUri }: any ) {
   const httpLink = new HttpLink( { uri, fetch: <any>fetch } );

@@ -1,20 +1,23 @@
+import dotenv from 'dotenv-safe';
+/* If environment is test, set-up the environment variables */
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: '.test.env' } );
+} else {
+  dotenv.config();
+}
+
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
-import dotenv from 'dotenv';
 const { ApolloLogExtension } = require( 'apollo-log' );
 import { stitchedSchemas } from './src/schema';
 import { verify } from './src/helpers';
 
 /* Setting port for the server */
 const port = process.env.PORT || 4000;
-const app = express();
 
-/* If environment is test, set-up the environment variables */
-if ( process.env.NODE_ENV === 'test' ) {
-  dotenv.config( { path: './src/__tests__/.test.env' } );
-}
+const app = express();
 
 const extensions = [ () => new ApolloLogExtension( {
   level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
