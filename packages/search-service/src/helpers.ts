@@ -85,7 +85,7 @@ class IndexHelper {
             headers,
         } ).then( ( response: any ) => response.json() )
             .then( async ( result: SearchResponseType ) => {
-                result.response.docs = result?.response?.docs.map( ( doc: any ) => {
+                result.response.docs = result.response.docs.map( ( doc: any ) => {
                     Object.keys( doc ).forEach( ( key: string ) => {
                         if ( key !== 'tags' ) {
                             doc[ key ] = doc[ key ].toString();
