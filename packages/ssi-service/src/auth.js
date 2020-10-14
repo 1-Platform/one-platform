@@ -11,13 +11,15 @@ class OpAuth {
       url: process.env.KEYCLOAK_IDP_URL,
     };
     this.keycloakInitOptions = {
-      flow: 'implicit',
-      responseMode: 'fragment',
       onLoad: 'login-required',
       checkLoginIframe: false,
+      enableLogging: true,
     };
 
     this._keycloak = new Keycloak(this.keycloakOptions);
+    this._keycloak.onTokenExpired = ( e ) => {
+      this._keycloak.updateToken( 30 ).catch(console.error);
+    };
 
     this._postLoginCallbacks = [];
   }
@@ -111,9 +113,7 @@ class OpAuth {
    * Removes any garbage hashes from the page URL
    */
   _removeHashes () {
-    if ( window.location.hash.startsWith( '#not-before-policy=0' ) ) {
-      history.replaceState( "", document.title, window.location.pathname + window.location.search );
-    }
+    window.location.hash = window.location.hash.replace( '#not-before-policy=0', '' );
   }
 }
 
