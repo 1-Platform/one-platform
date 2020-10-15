@@ -1,9 +1,15 @@
+import dotenv from 'dotenv-safe';
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: '.test.env' } );
+} else {
+  dotenv.config();
+}
+
 import express from 'express';
 import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import http from 'http';
 import { ApolloLogExtension } from 'apollo-log';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 
 import NotificationConfigSchema from './src/notificationConfig/typedef.graphql';
 import NotificationsSchema from './src/typedef.graphql';
@@ -13,11 +19,6 @@ import { NotificationsBroadcaster } from './src/broadcaster';
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
-
-/* If environment is test, set-up the environment variables */
-if ( process.env.NODE_ENV === 'test' ) {
-  dotenv.config( { path: './src/__tests__/.test.env' } );
-}
 
 const app = express();
 
