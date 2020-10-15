@@ -61,15 +61,19 @@
 
   function main () {
     const dump = document.body.innerHTML;
-    document.body.innerHTML = '<div class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>';
+    document.write('<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>');
 
     const styleTag = document.createElement( 'style' );
     styleTag.innerHTML = styles;
-    document.body.prepend(styleTag);
+    document.head.appendChild(styleTag);
 
     window.OpAuthHelper.init();
     window.OpAuthHelper.onLogin( () => {
-      document.body.innerHTML = dump;
+      const loader = document.getElementById('op-loader__global');
+      if (loader) {
+        loader.remove();
+      }
+      styleTag.remove();
       document.body.prepend( opfNav );
       document.body.append( opfFeedback );
     } );
