@@ -1,3 +1,10 @@
+import dotenv from 'dotenv-safe';
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: '.test.env' } );
+} else {
+  dotenv.config();
+}
+
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
@@ -11,6 +18,7 @@ import { HomeResolver as resolver } from './src/resolver';
 const port = process.env.PORT || 8080;
 
 const app = express();
+
 const extensions = [ () => new ApolloLogExtension( {
   level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
   timestamp: true,
