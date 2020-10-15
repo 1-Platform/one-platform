@@ -1,6 +1,5 @@
 const nodeExternals = require( 'webpack-node-externals' );
 const path = require( 'path' );
-const Dotenv = require( 'dotenv-webpack' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const NodemonPlugin = require( 'nodemon-webpack-plugin' );
 
@@ -31,7 +30,6 @@ module.exports = {
   externals: [ nodeExternals() ],
   plugins: [
     new CleanWebpackPlugin(),
-    new Dotenv(),
     new NodemonPlugin( {
       watch: path.resolve( './dist' ),
       script: './dist/bundle.js',

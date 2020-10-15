@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
+
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
   port: Number.parseInt( process.env.REDIS_SERVICE_PORT || '6379', 10 ),
