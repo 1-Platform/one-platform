@@ -11,16 +11,23 @@ export async function stitchedSchemas () {
         console.log( `Loading microservice: ${ service.name }` );
         return getRemoteSchema( service )
           .catch( err => {
-            console.log( '[Error]:', err.message );
+            console.error( '[Error]:', err.message );
             console.log( '... Gateway will continue without:', service.name );
             return '';
           } );
       } ) );
+
+  if ( schemas.every( schema => !schema ) ) {
+    console.error( '[Error]: Could not load any microservice.' );
+    process.exit( 1 );
+  }
+
   return stitchSchemas( { schemas } );
 }
 
-function loadConfig (): [{ name: string, uri: string, subscriptionsUri: string, }] {
-  const configPath = process.env.CONFIG || 'config.json';
+function loadConfig (): [ { name: string, uri: string, subscriptionsUri: string, } ] {
+  console.log( 'Loading the config from', (process.env.CONFIG_PATH || 'config.json') );
+  const configPath = process.env.CONFIG_PATH || 'config.json';
   try {
     const configFile = fs.readFileSync( configPath );
     return JSON.parse( configFile.toString() );

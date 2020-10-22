@@ -1,3 +1,10 @@
+import dotenv from 'dotenv-safe';
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: '.test.env' } );
+} else {
+  dotenv.config();
+}
+
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import http from 'http';

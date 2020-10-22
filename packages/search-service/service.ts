@@ -1,3 +1,10 @@
+import dotenv from 'dotenv-safe';
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: '.test.env' } );
+} else {
+  dotenv.config();
+}
+
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
@@ -5,15 +12,11 @@ const { ApolloLogExtension } = require('apollo-log');
 
 import gqlSchema from './src/typedef.graphql';
 import { SearchResolver as resolver } from './src/resolver';
-import cookieParser = require('cookie-parser');
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
 const app = express();
-
-// Mount cookie parser
-app.use(cookieParser());
 
 const extensions = [ () => new ApolloLogExtension( {
   level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',

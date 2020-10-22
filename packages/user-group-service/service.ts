@@ -1,10 +1,17 @@
+import dotenv from 'dotenv-safe';
+/* If environment is test, set-up the environment variables */
+if ( process.env.NODE_ENV === 'test' ) {
+  dotenv.config( { path: '.test.env' } );
+} else {
+  dotenv.config();
+}
+
 import express from 'express';
 import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import http from 'http';
 import mongoose from 'mongoose';
 import * as schedule from 'node-schedule';
 const { ApolloLogExtension } = require( 'apollo-log' );
-import dotenv from 'dotenv';
 /* User Schema and Resolvers */
 import UserSchema from './src/users/typedef.graphql';
 import { UserResolver } from './src/users/resolver';
@@ -21,11 +28,6 @@ import { UserSyncCron } from './src/users/cron';
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
-
-/* If environment is test, set-up the environment variables */
-if ( process.env.NODE_ENV === 'test' ) {
-  dotenv.config( { path: './src/e2e/.test.env' } );
-}
 
 const app = express();
 

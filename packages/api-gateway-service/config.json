@@ -23,10 +23,5 @@
     "name": "Search",
     "uri": "http://search-service:8080/graphql",
     "subscriptionsUri": "ws://search-service:8080/subscriptions"
-  },
-  {
-    "name": "MOD Handovers",
-    "uri": "http://mod-service:8080/graphql",
-    "subscriptionsUri": "ws://mod-service:8080/subscriptions"
   }
 ]
