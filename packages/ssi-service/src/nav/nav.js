@@ -270,7 +270,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
       <h3 class="op-menu-drawer__title">${ this._userDetails?.fullName }</h3>
       <p>${ this._userDetails?.title }</p>
       <a href="/user-groups/user/${ this._userDetails?.kerberosID }" class="op-user-profile-btn">View Profile</a>
-      <button type="button" class="op-user-signout-btn">Sign Out</button>
+      <button type="button" onclick="window.OpAuthHelper.logout()" class="op-user-signout-btn">Sign Out</button>
     `;
   }
 
