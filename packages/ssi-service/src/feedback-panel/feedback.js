@@ -14,7 +14,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
       this.shadowRoot.appendChild( this._template.content.cloneNode( true ) );
 
       const styleTag = document.createElement( 'style' );
-      styleTag.innerText = styles;
+      styleTag.innerHTML = styles.toString();
       this.shadowRoot.prepend( styleTag );
 
       this.feedbackButton = this.shadowRoot.querySelector( '#op-feedback__button' );

@@ -19,7 +19,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
     };
   }
   static get styles () {
-    return css`${ unsafeCSS( styles ) }`;
+    return css`${ unsafeCSS( styles.toString() ) }`;
   }
 
   constructor () {

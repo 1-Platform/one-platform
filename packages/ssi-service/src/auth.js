@@ -13,7 +13,6 @@ class OpAuth {
     this.keycloakInitOptions = {
       onLoad: 'login-required',
       checkLoginIframe: false,
-      enableLogging: true,
     };
 
     this._keycloak = new Keycloak(this.keycloakOptions);

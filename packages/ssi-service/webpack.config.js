@@ -33,7 +33,7 @@ module.exports = ( _, { mode } ) => {
         },
         {
           test: /\.css$/i,
-          use: [ 'to-string-loader', 'css-loader' ]
+          use: [ 'css-loader' ]
         }
       ]
     },
