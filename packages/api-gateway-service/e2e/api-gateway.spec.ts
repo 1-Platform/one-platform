@@ -1,6 +1,5 @@
-import dotenv from 'dotenv';
 /* Mock */
-import ApiGateway from '../../service';
+import ApiGateway from '../service';
 
 /* Supertest */
 import supertest from 'supertest';
