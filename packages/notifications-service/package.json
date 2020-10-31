@@ -76,7 +76,7 @@
     "@types/jest": "26.0.15",
     "@types/lodash": "4.14.164",
     "@types/method-override": "0.0.31",
-    "@types/mongoose": "5.7.36",
+    "@types/mongoose": "5.7.37",
     "@types/node": "12.19.3",
     "@types/nodemailer": "6.4.0",
     "@types/supertest": "2.0.10",
