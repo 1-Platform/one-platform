@@ -14,11 +14,10 @@ export function provideApollo(httpLink: HttpLink) {
       Accept: 'charset=utf-8'
     }
   }));
+  const jwtToken = window.OpAuthHelper?.jwtToken;
   const auth = setContext((operation, context) => ({
     headers: {
-      Authorization: ( window as any ).OpAuthHelper?.jwtToken
-      ? 'Bearer ' + ( window as any ).OpAuthHelper.jwtToken
-      : '',
+      Authorization: jwtToken ? 'Bearer ' + jwtToken : '',
     },
   }));
   const link = ApolloLink.from([basic, auth, httpLink.create({ uri })]);
