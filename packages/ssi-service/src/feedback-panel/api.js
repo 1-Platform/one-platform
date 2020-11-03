@@ -10,12 +10,30 @@ export class APIService {
    * Returns the request headers with Authorization if jwtToken is present
    */
   get _headers () {
-    return {
+    const headers = {
       'Content-Type': 'application/json',
-      Authorization: window.OpAuthHelper?.jwtToken
-        ? 'Bearer ' + window.OpAuthHelper.jwtToken
-        : '',
-    };
+    }
+
+    if ( this.authToken ) {
+      headers.Authorization = 'Bearer ' + this.authToken;
+    } else if ( window.OpAuthHelper?.jwtToken ) {
+      headers.Authorization = 'Bearer ' + window.OpAuthHelper.jwtToken;
+    }
+
+    return headers;
+  }
+
+  /**
+   * Use a custom endpoint or auth token for the Feedback Graphql APIs
+   * @param {{ endpoint: string, authToken: string }} basePath
+   */
+  config ( { endpoint, authToken } ) {
+    if ( endpoint ) {
+      this._apiBasePath = endpoint;
+    }
+    if ( authToken ) {
+      this.authToken = authToken;
+    }
   }
 
   /**

@@ -1,20 +1,14 @@
-<script
-  src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"
-></script>
-<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
+<script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.2.3/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.2.3/ionicons/ionicons.js"></script>
 
-<script
-  src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-auth.js"
-></script>
-<script
-  src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-nav.js"
-></script>
-<script
-  src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-panel.js"
-></script>
+<script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-auth.js"></script>
+<script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-nav.js"></script>
+<script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-panel.js"></script>
 
 <script defer>
-  const styles = `
+  ( function () {
+    const styles = `
   .op-loader__container {
     position: absolute;
     top: 0;
@@ -59,32 +53,33 @@
     }
   }`;
 
-  function main () {
-    const dump = document.body.innerHTML;
-    document.write('<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>');
+    function main() {
+      const dump = document.body.innerHTML;
+      document.write( '<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>' );
 
-    const styleTag = document.createElement( 'style' );
-    styleTag.innerHTML = styles;
-    document.head.appendChild(styleTag);
+      const styleTag = document.createElement( 'style' );
+      styleTag.innerHTML = styles;
+      document.head.appendChild( styleTag );
 
-    window.OpAuthHelper.init();
-    window.OpAuthHelper.onLogin( () => {
-      const loader = document.getElementById('op-loader__global');
-      if (loader) {
-        loader.remove();
-      }
-      styleTag.remove();
-      document.body.prepend( opfNav );
-      document.body.append( opfFeedback );
-    } );
-  }
+      window.OpAuthHelper.init();
+      window.OpAuthHelper.onLogin( () => {
+        const loader = document.getElementById( 'op-loader__global' );
+        if ( loader ) {
+          loader.remove();
+        }
+        styleTag.remove();
+        document.body.prepend( opfNav );
+        document.body.append( opfFeedback );
+      } );
+    }
 
-  const opfNav = document.createElement("op-nav");
-  const opfFeedback = document.createElement("op-feedback");
+    const opfNav = document.createElement( "op-nav" );
+    const opfFeedback = document.createElement( "op-feedback" );
 
-  if (!document.body) {
-    window.addEventListener('load', main);
-  } else {
-    main();
-  }
+    if ( !document.body ) {
+      window.addEventListener( 'load', main );
+    } else {
+      main();
+    }
+  } )();
 </script>
