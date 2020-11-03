@@ -6,9 +6,17 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
   constructor () {
     super();
     this._appsList = [];
+
+    /* Custom properties for endpoint and auth token */
+    this.apiEndpoint = process.env.APPS_BASE_API;
+    this.authToken = null;
   }
 
   connectedCallback () {
+    if ( this.apiEndpoint || this.authToken ) {
+      APIHelper.config({ endpoint: this.apiEndpoint, authToken: this.authToken });
+    }
+
     if ( !this.shadowRoot ) {
       this.attachShadow( { mode: 'open' } );
       this.shadowRoot.appendChild( this._template.content.cloneNode( true ) );
@@ -22,37 +30,35 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
 
       this.feedbackPanel = this.shadowRoot.querySelector( '#op-feedback__panel' );
 
-      window.OpAuthHelper.onLogin( () => {
-        APIHelper.request( /* GraphQL */`query AppOptions {
-          appsList: getHomeTypeBy( input: {entityType: "spa"} ) {
-            _id
-            name
-            link
-            icon
-            active
-          }
-        }`)
-          .then( res => {
-            this._appsList = res.appsList.sort( ( prev, next ) => {
-              if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
-                return -1;
-              } else {
-                return 1;
-              }
-            } );
-            /* MAGIC: Refreshes the appsList dropdown if the feedback subPanel is already open */
-            if ( this.feedbackPanel.hasAttribute( 'open' )
-              && this.feedbackPanel.querySelector('#op-feedback__feedbackForm') ) {
-              this.feedbackPanel.querySelector( '#op-feedback__feedbackForm #feedbackType' ).innerHTML = `
-                <option value="">One Platform</option>
-                ${ this._appsList.map( app => html`<option value="${ app._id }" ${ this._isActiveApp( app ) ? 'selected' : '' }>${ app.name }</option>` ) }
-              `;
+      APIHelper.request( /* GraphQL */`query AppOptions {
+        appsList: getHomeTypeBy( input: {entityType: "spa"} ) {
+          _id
+          name
+          link
+          icon
+          active
+        }
+      }`)
+        .then( res => {
+          this._appsList = res.appsList.sort( ( prev, next ) => {
+            if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
+              return -1;
+            } else {
+              return 1;
             }
-          } )
-          .catch( err => {
-            console.error( err );
           } );
-      } );
+          /* MAGIC: Refreshes the appsList dropdown if the feedback subPanel is already open */
+          if ( this.feedbackPanel.hasAttribute( 'open' )
+            && this.feedbackPanel.querySelector('#op-feedback__feedbackForm') ) {
+            this.feedbackPanel.querySelector( '#op-feedback__feedbackForm #feedbackType' ).innerHTML = `
+              <option value="">One Platform</option>
+              ${ this._appsList.map( app => html`<option value="${ app._id }" ${ this._isActiveApp( app ) ? 'selected' : '' }>${ app.name }</option>` ) }
+            `;
+          }
+        } )
+        .catch( err => {
+          console.error( err );
+        } );
     }
   }
 

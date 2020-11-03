@@ -50,6 +50,24 @@ module.exports = ( _, { mode } ) => {
         filename: 'default.html',
         inject: false,
         ssiHostname: process.env.ASSETS_HOST || '.',
+        minify: {
+          collapseWhitespace: true,
+          minifyCSS: true,
+          minifyJS: true,
+        },
+        cache: false,
+      } ),
+      new HtmlWebPackPlugin( {
+        template: './src/feedback.slim.html',
+        filename: 'feedback.slim.html',
+        inject: false,
+        ssiHostname: process.env.ASSETS_HOST || '.',
+        authToken: process.env.OP_API_KEY || '',
+        minify: {
+          collapseWhitespace: true,
+          minifyCSS: true,
+          minifyJS: true,
+        },
         cache: false,
       } ),
       new CopyPlugin( {
