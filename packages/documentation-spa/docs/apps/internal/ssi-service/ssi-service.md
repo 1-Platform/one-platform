@@ -164,7 +164,7 @@ And an optional options object which can be used to provide the toast duration, 
 
     ```html
     <head>
-        <!--#include virtual="/.include/nav/default.html" -->
+        <!--#include virtual="/.ssi/nav/default.html" -->
     </head>
     ```
 
