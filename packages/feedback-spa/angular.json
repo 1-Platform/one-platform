@@ -37,20 +37,12 @@
           },
           "configurations": {
             "local": {
-              "budgets": [ {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb"
-              } ],
               "fileReplacements": [ {
                 "replace": "src/environments/environment.ts",
                 "with": "src/environments/local.env"
               } ]
             },
             "dev": {
-              "budgets": [ {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb"
-              } ],
               "fileReplacements": [ {
                 "replace": "src/environments/environment.ts",
                 "with": "src/environments/dev.env"
@@ -69,33 +61,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [ {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
-            },
+          },
             "qa": {
-              "budgets": [ {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb"
-              } ],
               "fileReplacements": [ {
                 "replace": "src/environments/environment.ts",
                 "with": "src/environments/qa.env"
               } ]
             },
             "stage": {
-              "budgets": [ {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb"
-              } ],
               "fileReplacements": [ {
                 "replace": "src/environments/environment.ts",
                 "with": "src/environments/stage.env"
