@@ -38,8 +38,8 @@ const links = [
   {
     category: 'Quick Links',
     links: [
-      { text: 'One Platform in Mojo', href: 'https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/' },
-      { text: 'Weekly Blog', href: 'https://mojo.redhat.com/groups/pnt-devops/projects/one-portal/blog/' },
+      { text: 'One Platform in Source', href: 'https://source.redhat.com/groups/public/pnt-devops/oneportal' },
+      { text: 'One Platform Blog', href: '/get-started/blog/' },
       { text: 'Contact Us', href: '/contact-us' },
     ]
   },
@@ -55,7 +55,7 @@ const links = [
     category: 'Help',
     links: [
       { text: 'Report An Issue' },
-      { text: 'One Portal FAQs', href: 'https://mojo.redhat.com/docs/DOC-1225598' },
+      { text: 'One Platform FAQs', href: 'https://source.redhat.com/groups/public/pnt-devops/oneportal/one_portal_wiki/faqs_one_platform' },
       { text: 'one-portal@redhat.com', href: 'mailto:one-portal@redhat.com' },
       { text: 'GitHub', href: 'https://github.com/1-platform/one-platform' }
     ]
