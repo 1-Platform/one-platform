@@ -1,8 +1,6 @@
 import {Apollo} from 'apollo-angular';
 import {HttpLink,  HttpLinkModule } from 'apollo-angular-link-http';
 import { Injectable } from '@angular/core';
-
-
 import { GraphQLModule } from './graphql.module';
 
 @Injectable()

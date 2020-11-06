@@ -211,3 +211,13 @@ a.btn.fb-issue-link:hover {
 	color: #6c757d;
 	border: 1px solid rgba(108, 117, 125, 0.75);
 }
+
+.spinner {
+	display: grid;
+	place-items: center;
+	height: 60vh;
+}
+
+.empty-state-container {
+	margin: 10rem;
+}

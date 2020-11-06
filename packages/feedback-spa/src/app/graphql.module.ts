@@ -7,18 +7,15 @@ import { setContext } from '@apollo/client/link/context';
 import { environment } from 'src/environments/environment';
 
 const uri = environment.graphqlAPI;
-
 export function provideApollo(httpLink: HttpLink) {
   const basic = setContext((operation, context) => ({
     headers: {
       Accept: 'charset=utf-8'
     }
   }));
-  const auth = setContext((operation, context) => ({
+  const auth = setContext( (operation, context) => ({
     headers: {
-      Authorization: window.OpAuthHelper?.jwtToken
-      ? 'Bearer ' + window.OpAuthHelper.jwtToken
-      : '',
+      Authorization: window.OpAuthHelper ? `Bearer: ${window.OpAuthHelper.jwtToken}` : '',
     },
   }));
   const link = ApolloLink.from( [ basic, auth, httpLink.create( { uri } ) ] );

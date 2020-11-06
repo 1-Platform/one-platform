@@ -57,8 +57,8 @@
   </div>
   <button #fiModalTrigger hidden="true" aria-hidden="true" data-target="#feedback-details-modal" data-toggle="modal"
     aria-label="Show Details"></button>
-  <div class="modal fade" id="feedback-details-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg mt-5">
+  <div class="modal fade pf-c-backdrop" id="feedback-details-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-body modal-lg mt-5">
       <div class="modal-content">
         <div class="modal-header">
           <a class="h5 text-dark" *ngIf="feedbackDetails?.ticketID"
@@ -161,10 +161,22 @@
     </div>
   </div>
   <div class="empty-state-container" *ngIf="!allFeedback?.length">
-    <p>No feedback found!</p>
+    <div class="pf-c-empty-state pf-m-lg">
+      <div class="pf-c-empty-state__content">
+        <i class="fas fa-cubes pf-c-empty-state__icon" aria-hidden="true"></i>
+        <h1 class="pf-c-title pf-m-lg">No Feedback Found</h1>
+        <a href="/" class="pf-c-button pf-m-primary" type="button">Home</a>
+      </div>
+    </div>
   </div>
   <div *ngIf="allFeedback?.length > 10">
     <pagination-controls id="allFeedback" (pageChange)="feedbackPage = $event"></pagination-controls>
   </div>
 </section>
-<section class="feedback-section" *ngIf="!allFeedback"></section>
+<section class="feedback-section spinner" *ngIf="!allFeedback">
+  <span class="pf-c-spinner" role="progressbar" aria-valuetext="Loading...">
+    <span class="pf-c-spinner__clipper"></span>
+    <span class="pf-c-spinner__lead-ball"></span>
+    <span class="pf-c-spinner__tail-ball"></span>
+  </span>
+</section>
