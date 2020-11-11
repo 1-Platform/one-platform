@@ -8,6 +8,7 @@ import '@patternfly/pfe-tabs/dist/pfe-tabs.min.js';
 import '@one-platform/opc-footer/dist/opc-footer';
 // Local javascript imports
 import './js/controller.js';
+import * as FooterLinks from '../../common/footer.json';
 
 // Common HTML -> footer and band
 const footer = document.querySelector('footer');
@@ -34,33 +35,7 @@ if (band !== null) {
     </div>`;
 }
 
-const links = [
-  {
-    category: 'Quick Links',
-    links: [
-      { text: 'One Platform in Source', href: 'https://source.redhat.com/groups/public/pnt-devops/oneportal' },
-      { text: 'One Platform Blog', href: '/get-started/blog/' },
-      { text: 'Contact Us', href: '/contact-us' },
-    ]
-  },
-  {
-    category: 'Related sites',
-    links: [
-      { text: 'access.redhat.com', href: 'https://access.redhat.com/' },
-      { text: 'catalog.redhat.com', href: 'https://catalog.redhat.com/' },
-      { text: 'connect.redhat.com', href: 'https://connect.redhat.com/' },
-    ]
-  },
-  {
-    category: 'Help',
-    links: [
-      { text: 'Report An Issue' },
-      { text: 'One Platform FAQs', href: 'https://source.redhat.com/groups/public/pnt-devops/oneportal/one_portal_wiki/faqs_one_platform' },
-      { text: 'one-portal@redhat.com', href: 'mailto:one-portal@redhat.com' },
-      { text: 'GitHub', href: 'https://github.com/1-platform/one-platform' }
-    ]
-  },
-];
+const links = FooterLinks.default;
 const opcFooter = document.querySelector('opc-footer');
 opcFooter.opcLinkCategories = links;
 

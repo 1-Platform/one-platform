@@ -4,8 +4,7 @@
   "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "dev": "webpack-dev-server --open",
+    "start": "webpack serve",
     "build": "webpack --mode production",
     "test": "jest --verbose"
   },
@@ -44,7 +43,7 @@
     "webpack": "5.4.0",
     "webpack-cli": "4.2.0",
     "webpack-dev-server": "3.11.0",
-    "webpack-merge": "5.3.0"
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1"
   },
   "dependencies": {
     "@one-platform/opc-footer": "0.0.3-prerelease",
