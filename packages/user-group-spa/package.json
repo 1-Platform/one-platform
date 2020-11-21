@@ -18,10 +18,10 @@
   "homepage": "/user-groups/",
   "dependencies": {
     "@one-platform/opc-header": "0.0.2-prerelease",
-    "@patternfly/react-core": "4.75.2",
-    "@patternfly/react-table": "4.19.5",
+    "@patternfly/react-core": "4.79.2",
+    "@patternfly/react-table": "4.19.24",
     "@testing-library/jest-dom": "5.11.6",
-    "@testing-library/react": "11.1.2",
+    "@testing-library/react": "11.2.2",
     "@testing-library/user-event": "12.2.2",
     "history": "5.0.0",
     "react": "16.14.0",

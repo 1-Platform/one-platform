@@ -11,8 +11,8 @@
     "serve": "docusaurus serve --dir=dist"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.66",
-    "@docusaurus/preset-classic": "2.0.0-alpha.66",
+    "@docusaurus/core": "2.0.0-alpha.68",
+    "@docusaurus/preset-classic": "2.0.0-alpha.68",
     "@mdx-js/react": "1.6.21",
     "clsx": "1.1.1",
     "react": "16.14.0",
