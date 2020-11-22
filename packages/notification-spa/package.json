@@ -46,7 +46,7 @@
     "@angular/cli": "10.2.0",
     "@angular/compiler-cli": "10.2.3",
     "@angular/language-service": "10.2.3",
-    "@apollo/client": "3.3.0-rc.3",
+    "@apollo/client": "3.3.0-rc.4",
     "@types/jasminewd2": "2.0.8",
     "@types/node": "12.19.6",
     "codelyzer": "6.0.1",
