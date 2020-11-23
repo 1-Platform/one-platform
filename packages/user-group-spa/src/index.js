@@ -9,7 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import BreadcrumbContextProvider from './context/BreadcrumbContext.jsx'
 
 const renderApp = () => {
-  ReactDOM.render(
+  render(
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <BreadcrumbContextProvider>
         <App />
