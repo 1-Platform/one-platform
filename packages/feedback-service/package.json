@@ -51,7 +51,7 @@
     "jira-client": "6.21.1",
     "lodash": "4.17.20",
     "method-override": "3.0.0",
-    "mongoose": "5.10.17",
+    "mongoose": "5.10.18",
     "morgan": "1.10.0",
     "nodemailer": "6.4.16",
     "nodemon-webpack-plugin": "4.3.2",
