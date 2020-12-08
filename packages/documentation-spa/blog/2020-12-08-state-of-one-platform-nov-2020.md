@@ -12,17 +12,17 @@ tags: [redhat, blog, oneportal, oneplatform, react, angular, november, update]
 
 **Ongoing/Upcoming Sprint:** OP - 20.12/1
 
-**One Platform:** <https://one.redhat.com/>
+**One Platform:** [one.redhat.com](https://one.redhat.com)
 
-**JIRA:** <https://projects.engineering.redhat.com/projects/ONEPLAT/issues>
+**JIRA:** [https://projects.engineering.redhat.com/projects/ONEPLAT/issues](https://projects.engineering.redhat.com/projects/ONEPLAT/issues)
 
-**GitHub:** <https://github.com/1-Platform/one-platform/issues>
+**GitHub:** [https://github.com/1-Platform/one-platform/issues](https://github.com/1-Platform/one-platform/issues)
 
 ### Introduction
 This is a quick summary of the development goals achieved by the One Platform team in the month of November 2020. This month the team had the following goals:
 
-- **One Portal Migration:** Migrate the One Portal application to One Platform as a set of legacy applications under the ‘/legacy’ route.
-- **One Platform Production Release:** Deploy One Platform to the production environment on <https://one.redhat.com/>.
+- **One Portal Migration:** Migrate the One Portal application to One Platform as a set of legacy applications under the ‘[/legacy](https://one.redhat.com/legacy)’ route.
+- **One Platform Production Release:** Deploy One Platform to the production environment on [one.redhat.com](https://one.redhat.com).
 - **Application development and readiness:** SPAs, Microservices and APi Gateway.
 - **Component Library:** Continue development of new components as per requirements and enhance existing components.
 
@@ -31,14 +31,14 @@ During the sprint of November 2020, the team was able to close over 50 JIRAs acr
 
 - **One Portal Migration:**
   - Clean up all deprecated applications within the One Portal Application
-  - Deploy the One Portal application to the ‘/legacy’ path.
+  - Deploy the One Portal application to the ‘[/legacy](https://one.redhat.com/legacy)’ path.
   - Test all legacy applications for any broken functionality.
   - Fix all broken functionality and optimize Legacy for One Platform
 
 - **One Platform Production Release:**
   - Setup Managed PaaS infrastructure under the CPOPS organization.
   - Deploy all platform microservices to MPaaS.
-  - Remap DNS for <https://one.redhat.com/> to point to the MPaaS production instance.
+  - Remap DNS for [one.redhat.com](https://one.redhat.com) to point to the MPaaS production instance.
 
 - **Application development and readiness:**
   - **API Gateway**: Implement API Key based auth with permission management.
@@ -70,7 +70,7 @@ During the sprint of November 2020, the team was able to close over 50 JIRAs acr
     - **Research Repository:** Further enhancements and feature development
     - **One Platform Test Automation:** Automated end-to-end testing for One Platform. In collaboration with the QE team.
 
-For more updates related to One Platform, please check out the One Platform Blog at: <https://one.redhat.com/get-started/blog>
+For more updates related to One Platform, please check out the One Platform Blog at: [one.redhat.com](https://one.redhat.com/get-started/blog)
 
 ## Questions
 
