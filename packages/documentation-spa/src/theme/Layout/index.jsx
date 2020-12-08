@@ -76,7 +76,7 @@ function Layout(props) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <AnnouncementBar />
-      <div dangerouslySetInnerHTML={ { __html: '<!--#include virtual="/.include/nav/default.html" -->' } } />
+      <div dangerouslySetInnerHTML={ { __html: '<!--#include virtual="/.ssi/nav/default.html" -->' } } />
       <div className="main-wrapper">{ children }</div>
       {!noFooter && <Footer />}
     </Providers>

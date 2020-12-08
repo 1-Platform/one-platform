@@ -71,7 +71,6 @@ During the sprint of November 2020, the team was able to close over 50 JIRAs acr
     - **One Platform Test Automation:** Automated end-to-end testing for One Platform. In collaboration with the QE team.
 
 For more updates related to One Platform, please check out the One Platform Blog at: [one.redhat.com](https://one.redhat.com/get-started/blog)
-
 ## Questions
 
 For any questions, please reach out to One Platform team over [one-portal-devel@redhat.com](mailto:one-portal-devel@redhat.com) or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
