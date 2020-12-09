@@ -68,7 +68,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
    * @param {HTMLFormControlsCollection} formData
    */
   _submitBugReport ( formData ) {
-    const user = window.OpAuthHelper.getUserInfo();
+    const user = window.OpAuthHelper?.getUserInfo();
     if ( !user ) {
       throw new Error( 'Could not find details of the logged in user.' );
     }
@@ -92,12 +92,12 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
 
     APIHelper.request( query, variables )
       .then( res => {
-        window.OpNotification.showToast( { subject: 'Bug Report Submitted Successfully!', body: 'Click the title to see the bug report.', link: '/feedback' } );
+        window.OpNotification?.showToast( { subject: 'Bug Report Submitted Successfully!', body: 'Click the title to see the bug report.', link: '/feedback' } );
         this.togglePanelVisibility();
     } )
       .catch( err => {
         console.error( err );
-        window.OpNotification.showToast( { subject: 'An Error occured!', body: 'Please try again or contact <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>' } );
+        window.OpNotification?.showToast( { subject: 'An Error occured!', body: 'Please try again or contact <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>' } );
       } );
   }
 
@@ -107,7 +107,7 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
    * @param {HTMLFormControlsCollection} formData
    */
   _submitFeedback ( formData ) {
-    const user = window.OpAuthHelper.getUserInfo();
+    const user = window.OpAuthHelper?.getUserInfo();
     if ( !user ) {
       throw new Error( 'Could not find details of the logged in user.' );
     }
@@ -133,12 +133,12 @@ window.customElements.define( 'op-feedback', class extends HTMLElement {
 
     APIHelper.request( query, variables )
       .then( res => {
-        window.OpNotification.showToast( { subject: 'Feedback Submitted Successfully!', body: 'Click the title to see the feedback.', link: '/feedback' } );
+        window.OpNotification?.showToast( { subject: 'Feedback Submitted Successfully!', body: 'Click the title to see the feedback.', link: '/feedback' } );
         this.togglePanelVisibility();
       } )
       .catch( err => {
         console.error( err );
-        window.OpNotification.showToast( {
+        window.OpNotification?.showToast( {
           subject: 'An Error occured!',
           body: 'Please try again or contact <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>'
         } );
