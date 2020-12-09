@@ -54,8 +54,7 @@
   }`;
 
     function main() {
-      const dump = document.body.innerHTML;
-      document.write( '<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>' );
+      document.write( '<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>' ); // lgtm [js/eval-like-call]
 
       const styleTag = document.createElement( 'style' );
       styleTag.innerHTML = styles;

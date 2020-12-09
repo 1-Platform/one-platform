@@ -158,7 +158,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
     const toast = new PfeToast();
     toast.setAttribute( 'auto-dismiss', options.duration );
     toast.classList.add( 'op-menu-drawer__notification-toast' );
-    if ( options.variant && options.variant ) {
+    if ( options.variant ) {
       toast.classList.add( `op-toast__${options.variant}` );
     }
 
