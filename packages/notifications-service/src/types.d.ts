@@ -77,14 +77,24 @@ type NotificationConfig = {
   updatedOn: Date;
 };
 
-type GraphQLArgs = {
-  notificationConfig: NotificationConfig,
-  id: string,
-  [ x: string ]: any,
-};
-
 type GraphQLQueryInput = {
   queries: string[],
   variables?: { [ x: string ]: any; },
   fragments?: string[],
+};
+
+type GraphQLArgs = {
+  id: string;
+  limit: number;
+  selectors: any;
+  notificationConfig: NotificationConfig,
+  [ x: string ]: any;
+};
+
+type GraphQLResolverFunction = ( parent: any, args: GraphQLArgs, ctx: any, info: any ) => any;
+
+type GraphQLResolver = {
+  [ x: string ]: {
+    [ y: string ]: GraphQLResolverFunction;
+  };
 };

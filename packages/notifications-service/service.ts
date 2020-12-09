@@ -13,8 +13,10 @@ import mongoose from 'mongoose';
 
 import NotificationConfigSchema from './src/notificationConfig/typedef.graphql';
 import NotificationsSchema from './src/typedef.graphql';
+import NotificationTemplatesSchema from './src/notificationTemplates/typedef.graphql';
 import { NotificationConfigResolver } from './src/notificationConfig/resolver';
 import { NotificationsResolver } from './src/resolver';
+import { NotificationTemplateResolver } from './src/notificationTemplates/resolver';
 import { NotificationsBroadcaster } from './src/broadcaster';
 
 /* Setting port for the server */
@@ -51,11 +53,13 @@ const apollo = new ApolloServer( {
   schema: mergeSchemas( {
     schemas: [
       NotificationConfigSchema,
-      NotificationsSchema
+      NotificationsSchema,
+      NotificationTemplatesSchema,
     ],
     resolvers: [
       NotificationConfigResolver,
-      NotificationsResolver
+      NotificationsResolver,
+      NotificationTemplateResolver,
     ]
   } ),
   subscriptions: {
