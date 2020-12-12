@@ -71,7 +71,7 @@
     "@types/mocha": "8.2.0",
     "@types/mongoose": "5.10.2",
     "@types/morgan": "1.9.2",
-    "@types/node": "12.19.8",
+    "@types/node": "12.19.9",
     "@types/supertest": "2.0.10",
     "cross-env": "7.0.3",
     "graphql-tag": "2.11.0",
