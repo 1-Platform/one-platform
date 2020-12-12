@@ -26,7 +26,7 @@
     "yeoman-assert": "3.1.1",
     "eslint": "7.15.0",
     "prettier": "2.2.1",
-    "husky": "4.3.4",
+    "husky": "4.3.5",
     "lint-staged": "10.5.3",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-prettier": "3.2.0",
