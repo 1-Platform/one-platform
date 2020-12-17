@@ -1,4 +1,3 @@
-import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { Groups } from '../groups/schema';
 import { Users } from '../users/schema';
@@ -78,11 +77,15 @@ export const APIKeysResolver = {
   },
   APIKey: {
     owner ( parent: APIKey ) {
-        const ownerModel: Model<any> = ( parent.ownerType === 'Group' ) ? Groups : Users;
-
-      return ownerModel
-        .findOne( { rhatUUID: parent.owner } )
-        .exec();
+      if ( parent.ownerType === 'Group' ) {
+        return Groups
+          .findById( parent.owner )
+          .exec();
+      } else {
+        return Users
+          .findOne( { rhatUUID: parent.owner } )
+          .exec();
+      }
     }
   },
   APIKeyOwner: {
