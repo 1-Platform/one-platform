@@ -39,7 +39,7 @@ export const getGroupDetailsByCn = /* GraphQL */`
 
 export const listGroups = /* GraphQL */`
   query ListGroups {
-    listGroups(limit: -1) {
+    listGroups {
       _id
       name
       ldapCommonName
