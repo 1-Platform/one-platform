@@ -4,10 +4,24 @@ type Query {
   validateAPIKey(accessToken: String!): APIKey
 }
 type Mutation {
-  createAPIKey(apiKey: CreateAPIKeyInput!): APIKey
+  createAPIKey(apiKey: CreateAPIKeyInput!): FullAPIKey
   changeAPIKeyPermissions(id: ID!, access: [APIAccessInput]!): APIKey
-  revokeAPIKey(id: ID!): APIKey
+  revokeAPIKey(id: ID!): FullAPIKey
   deleteAPIKey(id: ID!): APIKey
+}
+
+type FullAPIKey {
+  _id: ID
+  accessToken: String
+  shortKey: String
+  expiresOn: DateTime
+  owner: APIKeyOwner
+  ownerType: APIKeyOwnerType
+  access: [APIAccess]
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
 }
 
 type APIKey {

@@ -6,13 +6,13 @@ import { hash } from './util';
 
 export const APIKeysResolver = {
   Query: {
-    listAPIKeys ( parent: any, { limit = -1 }: GraphQLArgs ) {
+    listAPIKeys ( parent: any, { limit }: GraphQLArgs ) {
       return APIKeys
         .find()
         .limit( limit )
         .exec();
     },
-    getAPIKeysBy ( parent: any, { selector, limit = -1 }: GraphQLArgs ) {
+    getAPIKeysBy ( parent: any, { selector, limit }: GraphQLArgs ) {
       return APIKeys
         .find( selector )
         .limit( limit )

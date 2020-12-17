@@ -2,13 +2,13 @@ import { Groups } from './schema';
 
 export const GroupResolver = {
   Query: {
-    listGroups ( root: any, { limit = 25 }: GraphQLArgs, ctx: any ) {
+    listGroups ( root: any, { limit }: GraphQLArgs, ctx: any ) {
       return Groups
         .find()
         .limit( limit )
         .exec();
     },
-    getGroupsBy ( root: any, { selector, limit = 25 }: GraphQLArgs, ctx: any ) {
+    getGroupsBy ( root: any, { selector, limit }: GraphQLArgs, ctx: any ) {
       return Groups
         .find( selector )
         .limit( limit )
