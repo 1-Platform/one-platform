@@ -29,13 +29,13 @@
         q {
             position: relative;
             &::before {
-                content: url('../img/begin-quote.svg');
+                content: url('../img/quotes.svg');
                 position: relative;
                 top: -18px;
                 left: -8px;
             }
             &::after {
-                content: url('../img/begin-quote.svg');
+                content: url('../img/quotes.svg');
                 position: absolute;
                 top: 30px;
                 margin-left: .5rem;
