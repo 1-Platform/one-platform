@@ -65,7 +65,7 @@ type LdapType = {
 }
 
 type User = {
-  _id: any;
+  _id?: any;
   name: string;
   title: string;
   uid: string;
@@ -80,7 +80,7 @@ type User = {
 }
 
 type Group = {
-  _id: any;
+  _id?: any;
   name: string;
   ldapCommonName: string;
   createdOn: Date;
@@ -88,7 +88,7 @@ type Group = {
 }
 
 type APIKey = {
-  _id: any;
+  _id?: any;
   accessToken: string;
   shortKey: string;
   hashKey: string;
