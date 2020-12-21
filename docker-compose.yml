@@ -12,7 +12,7 @@ services:
       # - ./packages/search-spa/dist:/var/www/html/search
       # - ./packages/user-group-spa/build:/var/www/html/user-groups
       - ./packages/ssi-service/public/index.html:/var/www/html/index.html
-      - ./packages/ssi-service/dist:/var/www/html/.include/nav
+      - ./packages/ssi-service/dist:/var/www/html/.ssi/nav
     ports:
       - 5500:8080
 
