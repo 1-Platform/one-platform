@@ -61,3 +61,23 @@ export const GqlHelper = {
       } );
   }
 };
+
+export function validateAndFormatRecipients ( recipients: Array<EmailRecipient | string> ) {
+  const EmailRegExp = RegExp( /\S+@\S+/ );
+
+  return recipients.reduce( ( acc, recipient ) => {
+    if ( typeof recipient === 'string' && EmailRegExp.test(recipient) ) {
+      acc.push( recipient );
+    } else {
+      const { preferredName, email } = recipient as EmailRecipient;
+      if ( EmailRegExp.test( email ) ) {
+        if ( preferredName ) {
+          acc.push( `"${ preferredName }" <${ email }>` );
+        } else {
+          acc.push( email );
+        }
+      }
+    }
+    return acc;
+  }, [] as string[] );
+}

@@ -1,17 +1,32 @@
 import Agenda from 'agenda';
 import moment from 'moment';
 import { NotificationQueue } from './schema';
-import RuleEngine from './engine';
+import * as RuleEngine from './engine';
+import { Db } from 'mongodb';
 
 export class NotificationsBroadcaster {
-  private agenda: Agenda;
+  private static instance: NotificationsBroadcaster;
   private repeatInterval = 2;
+  agenda: Agenda;
 
-  constructor ( connectionString: string ) {
-    this.agenda = new Agenda( { db: { address: connectionString }, } )
-      .defaultConcurrency( 1 );
-
+  private constructor ( db: Db ) {
+    this.agenda = new Agenda( { mongo: db, defaultConcurrency: 1 } );
     this.agenda.define( 'send notifications', this.sendNotifications );
+
+    this.agenda.define( 'send email notification', job => {
+      const data: any = job.attrs.data;
+      return RuleEngine.sendEmailNotification( data );
+    } );
+  }
+
+  public static getInstance (db?: Db) {
+    if ( !this.instance ) {
+      if ( !db ) {
+        throw new Error( 'Cannot initialize NotificationsBroadcaster without db' );
+      }
+      this.instance = new NotificationsBroadcaster( db );
+    }
+    return this.instance;
   }
 
   /**
@@ -19,6 +34,7 @@ export class NotificationsBroadcaster {
    */
   async start () {
     try {
+      console.log( '[NotificationBroadcaster]: initializing...' );
       await this.agenda.start();
       await this.agenda.every( `${ this.repeatInterval } minutes`, 'send notifications' );
     } catch ( err ) {

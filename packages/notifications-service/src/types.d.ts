@@ -21,7 +21,6 @@ declare enum NotificationStatus {
  * Notification API Interface used to send One Platform Notifications
  */
 interface OpNotification {
-  id?: any;
   subject: string,
   body: string,
   link: string,
@@ -48,8 +47,10 @@ interface NotificationArchive extends OpNotification {
 
 type EmailNotificationOptions = {
   subject: string;
-  to: string[];
-  cc?: string[];
+  from?: EmailRecipient | string;
+  to: EmailRecipient[] | string[];
+  cc?: EmailRecipient[] | string[];
+  bcc?: EmailRecipient[] | string[];
   body: string;
 };
 type PushNotificationOptions = {
@@ -61,9 +62,13 @@ type PushNotificationOptions = {
   type: NotificationChannel.PUSH | NotificationChannel.BANNER;
   sentOn: Date;
 };
+type EmailRecipient = {
+  preferredName?: string;
+  email: string;
+}
 
 type NotificationConfig = {
-  id?: any,
+  id?: string,
   template: string,
   defaultLink: string,
   source: string,
@@ -87,7 +92,6 @@ type GraphQLArgs = {
   id: string;
   limit: number;
   selectors: any;
-  notificationConfig: NotificationConfig,
   [ x: string ]: any;
 };
 

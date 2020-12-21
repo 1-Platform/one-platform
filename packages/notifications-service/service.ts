@@ -8,7 +8,6 @@ if ( process.env.NODE_ENV === 'test' ) {
 import express from 'express';
 import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import http from 'http';
-import { ApolloLogExtension } from 'apollo-log';
 import mongoose from 'mongoose';
 
 import NotificationConfigSchema from './src/notificationConfig/typedef.graphql';
@@ -24,12 +23,6 @@ const port = process.env.PORT || 8080;
 
 const app = express();
 
-const extensions = [ () => new ApolloLogExtension( {
-  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
-  timestamp: true,
-  prefix: 'apollo:'
-} ) ];
-
 /* Configuring Mongoose */
 mongoose.plugin( ( schema: any ) => { schema.options.usePushEach = true; } );
 mongoose.set( 'useNewUrlParser', true );
@@ -43,7 +36,11 @@ const dbCredentials = ( process.env.DB_USER && process.env.DB_PASSWORD )
   : '';
 const dbConnection = `mongodb://${ dbCredentials }${ process.env.DB_PATH }/${ process.env.DB_NAME }`;
 
-mongoose.connect( dbConnection, { useNewUrlParser: true, useCreateIndex: true } ).catch( console.error );
+mongoose.connect( dbConnection, { useNewUrlParser: true, useCreateIndex: true } )
+  .then( res => {
+    /* Start the broadcasting service once the server starts */
+    NotificationsBroadcaster.getInstance( res.connection.db ).start();
+  });
 
 mongoose.connection.on( 'error', console.error );
 
@@ -66,6 +63,7 @@ const apollo = new ApolloServer( {
     path: '/subscriptions',
   },
   formatError: error => {
+    console.error( error );
     return ( {
       message: error.message,
       locations: error.locations,
@@ -73,7 +71,19 @@ const apollo = new ApolloServer( {
       ...error.extensions,
     } );
   },
-  extensions
+  plugins: [
+    {
+      requestDidStart: ( requestContext ) => {
+        if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
+          return;
+        }
+        const query = requestContext.request.query?.replace( /\s+/g, ' ' ).trim();
+        const variables = JSON.stringify( requestContext.request.variables );
+        console.log( new Date().toISOString(), `- [Request Started] { query: ${ query }, variables: ${ variables }, operationName: ${ requestContext.request.operationName } }` );
+        return;
+      },
+    },
+  ]
 } );
 
 /* Applying apollo middleware to express server */
@@ -87,7 +97,4 @@ apollo.installSubscriptionHandlers( server );
 // Notifications
 export default server.listen( { port }, () => {
   console.log( `Microservice running on ${ process.env.NODE_ENV } at ${ port }${ apollo.graphqlPath }` );
-
-  /* Start the broadcasting service once the server starts */
-  new NotificationsBroadcaster( dbConnection ).start();
 } );

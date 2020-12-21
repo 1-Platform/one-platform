@@ -1,5 +1,4 @@
 type NotificationTemplate = {
-  _id: any;
   name: string;
   description: string;
   subject: string;
@@ -16,6 +15,15 @@ type NotificationTemplate = {
   createdBy: string;
   updatedOn: Date;
   updatedBy: string;
+}
+
+type NotificationTemplatePayload = {
+  subject: string;
+  body: string;
+  to: EmailRecipient[];
+  cc: EmailRecipient[];
+  bcc: EmailRecipient[];
+  data: any;
 }
 
 type TemplateDataMap = {

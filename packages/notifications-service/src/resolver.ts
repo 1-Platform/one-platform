@@ -1,6 +1,6 @@
 import { NotificationQueue, NotificationsArchive } from './schema';
 import { NotificationConfig } from './notificationConfig/schema';
-import NotificationsEngine from './engine';
+import * as RuleEngine from './engine';
 import { pubsub } from './helpers';
 
 export const NotificationsResolver = {
@@ -34,13 +34,23 @@ export const NotificationsResolver = {
     },
   },
   Mutation: {
-    async newNotification ( root: any, { payload }: GraphQLArgs, ctx: any ) {
-      const config = await NotificationConfig.findOne( { configID: payload.configID } ).exec().catch( err => { throw err; } );
+    async newNotification ( root: any, { configID, payload }: GraphQLArgs, ctx: any ) {
+      const config = await NotificationConfig.findOne( { configID } ).exec().catch( err => { throw err; } );
       if ( !config ) {
         throw new Error( 'Notification Config not found' );
       }
 
-      return NotificationsEngine.process( payload, config );
+      return RuleEngine.processNotification( payload, config );
+    },
+    triggerNotification ( root: any, { templateID, payload }: GraphQLArgs ) {
+      return RuleEngine.processTemplate( templateID, payload )
+        .then( emailJob => {
+          return {
+            data: emailJob.attrs.data,
+            priority: emailJob.attrs.priority,
+            willRunAt: emailJob.attrs.nextRunAt,
+          };
+        });
     }
   },
   Subscription: {
