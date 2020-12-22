@@ -19,12 +19,13 @@ type NotificationTemplate {
   subject: String
   body: String
   templateEngine: NotificationTemplateEngineEnum
-  dataMap: [NotificationTemplateDataMap]
+  # dataMap: [NotificationTemplateDataMap]
   templateType: NotificationTemplateTypeEnum
   owners: [NotificationTemplateOwner]
   isEnabled: Boolean
 
   templateID: String
+  requiredVariables: [String]
 
   createdOn: DateTime
   updateOn: DateTime
@@ -42,7 +43,7 @@ input FindNotificationTemplates {
   subject: String
   body: String
   templateEngine: NotificationTemplateEngineEnum
-  dataMap: [NotificationTemplateDataMapInput]
+  # dataMap: [NotificationTemplateDataMapInput]
   templateType: NotificationTemplateTypeEnum
   owners: [ID]
   isEnabled: Boolean
@@ -53,7 +54,7 @@ input CreateNotificationTemplate {
   subject: String!
   body: String!
   templateEngine: NotificationTemplateEngineEnum
-  dataMap: [NotificationTemplateDataMapInput]
+  # dataMap: [NotificationTemplateDataMapInput]
   templateType: NotificationTemplateTypeEnum
   owners: [ID!]!
   isEnabled: Boolean
@@ -64,7 +65,7 @@ input UpdateNotificationTemplate {
   subject: String
   body: String
   templateEngine: NotificationTemplateEngineEnum
-  dataMap: [NotificationTemplateDataMapInput]
+  # dataMap: [NotificationTemplateDataMapInput]
   templateType: NotificationTemplateTypeEnum
   owners: [ID]
   isEnabled: Boolean

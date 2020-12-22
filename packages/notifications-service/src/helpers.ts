@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import { createTransport } from 'nodemailer';
+import * as Twig from 'twig';
 
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
@@ -80,4 +81,18 @@ export function validateAndFormatRecipients ( recipients: Array<EmailRecipient |
     }
     return acc;
   }, [] as string[] );
+}
+
+export function findTwigVariables ( template: Twig.Template ): Set<string> {
+  return ( <any> template ).tokens
+    .reduce( ( acc: Set<string>, token: any ) => {
+      if ( token.type === 'output' ) {
+        token?.stack?.reduce( ( acc2: any, expr: any ) => {
+          if ( expr.type === 'Twig.expression.type.variable' ) {
+            acc.add( expr.value );
+          }
+        }, [] );
+      }
+      return acc;
+    }, new Set() );
 }

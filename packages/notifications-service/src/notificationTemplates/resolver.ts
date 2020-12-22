@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import Twig from 'twig';
+import { findTwigVariables } from '../helpers';
 import { NotificationTemplate } from './schema';
 
 export const NotificationTemplateResolver: GraphQLResolver = {
@@ -39,6 +41,19 @@ export const NotificationTemplateResolver: GraphQLResolver = {
       return NotificationTemplate
         .findByIdAndRemove( id )
         .exec();
+    }
+  },
+  NotificationTemplate: {
+    requiredVariables ( parent: NotificationTemplate ) {
+      if ( parent.templateEngine === TemplateEngine.TWIG ) {
+        const subjectTemplate = Twig.twig( { data: parent.subject } );
+        const bodyTemplate = Twig.twig( { data: parent.body} );
+        return new Set( [
+          ...Array.from( findTwigVariables( subjectTemplate ) ),
+          ...Array.from( findTwigVariables( bodyTemplate ) ),
+        ]);
+      }
+      return null;
     }
   }
 };

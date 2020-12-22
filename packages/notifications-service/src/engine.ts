@@ -1,7 +1,8 @@
 import moment from 'moment';
 import Twig from 'twig';
+import * as _ from 'lodash';
 import { NotificationQueue, NotificationsArchive } from './schema';
-import { pubsub, nodemailer, validateAndFormatRecipients } from './helpers';
+import { pubsub, nodemailer, validateAndFormatRecipients, findTwigVariables } from './helpers';
 import { NotificationConfigModel } from './notificationConfig/schema';
 import { NotificationTemplate } from './notificationTemplates/schema';
 import { NotificationsBroadcaster } from './broadcaster';
@@ -48,14 +49,26 @@ export async function processTemplate ( templateID: string, payload: Notificatio
   if ( !template.isEnabled ) {
     throw new Error( 'The selected template is disabled/inactive. Please enable it to use it.' );
   }
-  let subject = template.subject;
-  let body = template.body;
-  if ( template.templateEngine === TemplateEngine.TWIG ) {
-    const subjectTemplate = Twig.twig( { data: template.subject } );
-    const bodyTemplate = Twig.twig( { data: template.body } );
-    subject = subjectTemplate.render( payload.data );
-    body = bodyTemplate.render( payload.data );
+  if ( template.templateType !== TemplateType.EMAIL ) {
+    throw new Error( `Notification triggers are not supported for ${ template.templateType } yet.` );
   }
+
+  const subjectTemplate = Twig.twig( { data: template.subject } );
+  const bodyTemplate = Twig.twig( { data: template.body } );
+
+  /* Preliminary check to verify if payload contains the required variables */
+  const templateVariables = new Set( [
+    ...Array.from( findTwigVariables( subjectTemplate ) ),
+    ...Array.from( findTwigVariables( bodyTemplate ) ),
+  ] );
+  const missingVars = _.difference( Array.from( templateVariables ), Object.keys( payload.data ) );
+  if ( missingVars.length > 0 ) {
+    throw new Error( `payload.data is missing some fields: ${ missingVars.join( ', ' ) }` );
+  }
+
+  /* Render the templates using payload */
+  const subject = subjectTemplate.render( payload.data );
+  const body = bodyTemplate.render( payload.data );
 
   const to = payload.to ? validateAndFormatRecipients( payload.to ) : [];
   const cc = payload.cc ? validateAndFormatRecipients( payload.cc ) : [];
