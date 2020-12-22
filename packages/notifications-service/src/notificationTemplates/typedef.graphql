@@ -1,0 +1,93 @@
+type Query {
+  notificationTemplates: [NotificationTemplate]
+  notificationTemplate(id: ID!): NotificationTemplate
+  findNotificationTemplates(selectors: FindNotificationTemplates!): [NotificationTemplate]
+}
+
+type Mutation {
+  createNotificationTemplate(template: CreateNotificationTemplate!): NotificationTemplate
+  updateNotificationTemplate(id: ID!, template: UpdateNotificationTemplate!): NotificationTemplate
+  deleteNotificationTemplate(id: ID!): NotificationTemplate
+}
+
+scalar Object
+
+type NotificationTemplate {
+  _id: ID
+  name: String
+  description: String
+  subject: String
+  body: String
+  templateEngine: NotificationTemplateEngineEnum
+  # dataMap: [NotificationTemplateDataMap]
+  templateType: NotificationTemplateTypeEnum
+  owners: [NotificationTemplateOwner]
+  isEnabled: Boolean
+
+  templateID: String
+  requiredVariables: [String]
+
+  createdOn: DateTime
+  updateOn: DateTime
+  createdBy: ID
+  updatedBy: ID
+}
+type NotificationTemplateOwner {
+  name: String
+  uid: String
+  rhatUUID: ID
+}
+input FindNotificationTemplates {
+  name: String
+  description: String
+  subject: String
+  body: String
+  templateEngine: NotificationTemplateEngineEnum
+  # dataMap: [NotificationTemplateDataMapInput]
+  templateType: NotificationTemplateTypeEnum
+  owners: [ID]
+  isEnabled: Boolean
+}
+input CreateNotificationTemplate {
+  name: String!
+  description: String!
+  subject: String!
+  body: String!
+  templateEngine: NotificationTemplateEngineEnum
+  # dataMap: [NotificationTemplateDataMapInput]
+  templateType: NotificationTemplateTypeEnum
+  owners: [ID!]!
+  isEnabled: Boolean
+}
+input UpdateNotificationTemplate {
+  name: String
+  description: String
+  subject: String
+  body: String
+  templateEngine: NotificationTemplateEngineEnum
+  # dataMap: [NotificationTemplateDataMapInput]
+  templateType: NotificationTemplateTypeEnum
+  owners: [ID]
+  isEnabled: Boolean
+}
+
+enum NotificationTemplateEngineEnum {
+  TWIG
+  HBS
+  NJK
+}
+
+type NotificationTemplateDataMap {
+  key: String
+  value: Object
+}
+input NotificationTemplateDataMapInput {
+  key: String
+  value: Object
+}
+
+enum NotificationTemplateTypeEnum {
+  EMAIL
+  BANNER
+  PUSH
+}

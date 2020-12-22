@@ -12,14 +12,19 @@ type Query {
   """
   Returns notifications matching the given selection criteria
   """
-  getNotificationsBy(selector: NotificationPayloadInput!): [Notification]
+  getNotificationsBy(selector: FindNotificationInput!): [Notification]
 }
 
 type Mutation {
   """
-  Creates a new notification and add it to the queue
+  Creates a new notification using a config and add it to the queue
   """
-  newNotification(payload: NotificationPayloadInput!): Notification
+  newNotification(configID: ID!, payload: FindNotificationInput!): Notification
+
+  """
+  Trigger notification using a template ID
+  """
+  triggerNotification(templateID: ID!, payload: NotificationPayloadInput!): TriggerNotification
 }
 
 type Subscription {
@@ -78,7 +83,35 @@ type Notification {
   messageId: String
 }
 
+type TriggerNotification {
+  data: TiggerNotificationData
+  priority: Int
+  willRunAt: DateTime
+}
+type TiggerNotificationData {
+  to: [Recipient]
+  cc: [Recipient]
+  bcc: [Recipient]
+  subject: String
+  body: String
+}
+type Recipient {
+  email: String
+  preferredName: String
+}
+
 input NotificationPayloadInput {
+  to: [RecipientInput!]!,
+  cc: [RecipientInput],
+  bcc: [RecipientInput],
+  data: Data
+}
+input RecipientInput {
+  email: String,
+  preferredName: String
+}
+
+input FindNotificationInput {
   id: ID
   configID: ID
   subject: String

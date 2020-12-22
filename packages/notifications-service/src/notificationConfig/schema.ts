@@ -26,7 +26,7 @@ const NotificationConfigSchema: Schema<NotificationConfig> = new Schema( {
 
 NotificationConfigSchema.post( 'save', ( doc: NotificationConfigModel ) => {
   if ( !doc.configID ) {
-    doc.configID = createHash( 'md5' ).update( doc.id ).digest( 'hex' );
+    doc.configID = createHash( 'md5' ).update(String(doc._id)).digest( 'hex' );
     doc.save();
   }
 } );
