@@ -51,7 +51,7 @@
     "@angular/compiler-cli": "10.2.4",
     "@angular/language-service": "10.2.4",
     "@types/jest": "26.0.19",
-    "@types/node": "12.19.9",
+    "@types/node": "12.19.11",
     "codelyzer": "6.0.1",
     "jest": "26.6.3",
     "jest-preset-angular": "8.3.2",
