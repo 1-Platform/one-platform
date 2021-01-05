@@ -25,7 +25,12 @@ module.exports = {
       'microservices/authorization/authorization-service',
       'microservices/feedback/feedback-service',
       'microservices/home/home-service',
-      'microservices/notifications/notifications-service',
+      {
+        Notifications: [
+          'microservices/notifications/notifications-service',
+          'microservices/notifications/notifications-get-started',
+        ]
+      },
       'microservices/user-groups/user-groups-service',
     ],
     FAQs: [ 'faqs' ],

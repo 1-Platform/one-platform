@@ -59,10 +59,10 @@ Notifications Microservice provides a set of GraphQL Queries and Mutation APIs t
 | `notificationTemplates` | Returns a list of all notificationTemplates |
 | `notificationTemplate(id: ID!)` | Returns a notificationTemplate with matching id |
 | `findNotificationTemplates(selectors: FindNotificationTemplates!)` | Finds a notification template matching the given selectors |
-| `listActiveNotifications` | Returns a list of Active Notifications.<br>It accepts a parameter `limit`, to restrict the number of notifications in the response. (The default limit is 25) |
-| `listArchivedNotifications(targets: [String]!)` | Returns a list of the old/archived notifications.<br>It accepts a mandatory parameter `targets` which can be used to get the notifications for the provided targets.<br>It also accepts a parameter `limit`, to restrict the number of notifications in the response. (The default limit is 25) |
-| `getNotificationsBy(selector: FindNotificationInput!)` | Returns notifications matching the given selection criteria.<br>It accepts a parameter “selector” of type NotificationPayloadInput. |
-<br>
+| `listActiveNotifications` | Returns a list of Active Notifications.<br/>It accepts a parameter `limit`, to restrict the number of notifications in the response. (The default limit is 25) |
+| `listArchivedNotifications(targets: [String]!)` | Returns a list of the old/archived notifications.<br/>It accepts a mandatory parameter `targets` which can be used to get the notifications for the provided targets.<br/>It also accepts a parameter `limit`, to restrict the number of notifications in the response. (The default limit is 25) |
+| `getNotificationsBy(selector: FindNotificationInput!)` | Returns notifications matching the given selection criteria.<br/>It accepts a parameter “selector” of type NotificationPayloadInput. |
+<br/>
 
 ### GraphQL Mutations
 
@@ -73,14 +73,14 @@ Notifications Microservice provides a set of GraphQL Queries and Mutation APIs t
 | `deleteNotificationTemplate(id: ID!)` | Delete a notification template matching id |
 | `triggerNotification(templateID: ID!, payload: NotificationPayloadInput!)` | Trigger notification using a template ID |
 | `newNotification(configID: ID!, payload: FindNotificationInput!)` | Creates a new notification using a config and add it to the queue |
-<br>
+<br/>
 
 ### GraphQL Subscriptions
 
 | Subscription | Description |
 | --- | --- |
-| `newNotifications(target: [String!]!)` | A GraphQL subscription that establishes a socket connection with the Server.<br>An event is sent to the client whenever a new notification is triggered. It accepts a `targets` parameter to filter and listen to the notifications for the specified targets. |
-<br>
+| `newNotifications(target: [String!]!)` | A GraphQL subscription that establishes a socket connection with the Server.<br/>An event is sent to the client whenever a new notification is triggered. It accepts a `targets` parameter to filter and listen to the notifications for the specified targets. |
+<br/>
 
 ## FAQs
 
@@ -109,8 +109,9 @@ The Notifications Microservice consists of 3 main components.
   1. APIs
   2. Rule Engine
   3. Queue / Scheduler
+
 </details>
-<br>
+<br/>
 
 ## Architecture Diagram of the Notifications Microservice**
   ![Notifications Microservice Architecture](notifications-ms-architecture.png)
