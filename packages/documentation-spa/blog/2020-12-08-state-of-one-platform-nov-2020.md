@@ -1,5 +1,5 @@
 ---
-id: state-of-one-platform-nov-2020
+slug: state-of-one-platform-nov-2020
 title: State of One Platform - November 2020
 author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat
