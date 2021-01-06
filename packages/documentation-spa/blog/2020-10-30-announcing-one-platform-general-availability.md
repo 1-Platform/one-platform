@@ -1,5 +1,5 @@
 ---
-id: announcing-one-platform-general-availability
+slug: announcing-one-platform-general-availability
 title: Announcing One Platform General Availability
 author: Sayak Sarkar
 author_title: Senior Software Engineer @ Red Hat
