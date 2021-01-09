@@ -21,7 +21,7 @@
     "@patternfly/react-core": "4.84.4",
     "@patternfly/react-table": "4.19.45",
     "@testing-library/jest-dom": "5.11.8",
-    "@testing-library/react": "11.2.2",
+    "@testing-library/react": "11.2.3",
     "@testing-library/user-event": "12.6.0",
     "history": "5.0.0",
     "react": "16.14.0",
