@@ -61,7 +61,7 @@
     "@types/ejs": "3.0.5",
     "@types/errorhandler": "0.0.32",
     "@types/express": "4.17.9",
-    "@types/ioredis": "4.17.10",
+    "@types/ioredis": "4.17.11",
     "@types/jest": "26.0.20",
     "@types/lodash": "4.14.167",
     "@types/method-override": "0.0.31",
