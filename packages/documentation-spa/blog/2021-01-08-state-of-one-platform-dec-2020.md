@@ -22,15 +22,16 @@ tags: [redhat, blog, oneportal, oneplatform, react, angular, december, update]
 This is a summary of the development goals achieved by the One Platform team in the month of December 2020. This month the team had the following goals:
 
 - **Application Development:** Focus on the development of the next versions of the Feedback [/feedback](https://one.redhat.com/feedback) and One Platform Notifications applications.
-- **Component Library:** Development and release of the ([opc-input-chip](https://www.npmjs.com/package/@one-platform/opc-input-chip) component.
+- **Component Library:** Development and release of the [opc-input-chip](https://www.npmjs.com/package/@one-platform/opc-input-chip) component.
 
 ### OKRs
 
 | OKR  | Status |
 |---|---|
-| **One Platform readiness for in-built SPAs and onboarding developers.** | Developed & Released 4 foundational SPAs and Microservices (Notification, Feedback, User Group and Home). |
-| **Onboarding 3 New SPAs** | SPAs onboarded so far: MoD Handovers, RHEL Developer Guide, Research Repository,  Video Library. |
-| **Increase the speed of SPA development by creating 25 components** | Continued development and expansion of the Component Library with the addition of the new opc-input-chip coomponent. |
+| **Onboard/Migrate min. 3 non-native SPAs to One Platform.** | SPAs onboarded so far: MoD Handovers, RHEL Developer Guide, Research Repository, Legacy(One Portal),  Video Library. |
+| **Improve the One Platform microservice deployment speed by 500%.** | Developed OpenShift templates for quick and easy microservice deployments. |
+| **Increase the speed of SPA development by creating 25 components** | Continued development and expansion of the Component Library with the addition of the new opc-input-chip component. |
+| **Infrastructure maintenance and enhancements to support the One Platform** | Migration planned for One Platform QA to MPaaS. |
 
 ### Key highlights
 The team was able to close 17+ JIRAs across a range of development priorities. The highlights are :
@@ -47,7 +48,7 @@ The team was able to close 17+ JIRAs across a range of development priorities. T
     - **Research Repository**:
       - Dashboard enhancements, Added charts.
       - Addressed feedback from the stakeholders.
-    - **Video Library**: Deployed to production at [/video-library](https://one.redhat.com/video-library) and relesed.
+    - **Video Library**: Deployed to production at [/video-library](https://one.redhat.com/video-library) and released.
     - **DSAL**:
       - DSAL Code migration took place in December from the old One Portal codebase to an independent SPA and microservice to be deployed on One Platform.
       - Overall release status: 80%
@@ -59,9 +60,9 @@ The team was able to close 17+ JIRAs across a range of development priorities. T
 ### What's coming?
 
 - **SPA onboarding:**
-  - **GDPR:** GDPR has been deployed to the QA and Stage enviroments. Prodution release expected to be closed by the end of Jan’21.
+  - **GDPR:** GDPR has been deployed to the QA and Stage environments. Production release is expected to be closed by the end of Jan ’21.
   - **Pantheon:** Discussions underway. The teams are exploring the technical feasibility of migrating the backend applications.
-  - **Life Cycle:** Working with stakeholders on timeline. Latest update is Feb’21.
+  - **Life Cycle:** Working with stakeholders on timeline. Latest update is Feb ’21.
 - **Development and Adoption Priorities**
   - **Feedback:** Integration with Developer Console and Explore opportunities to use Qualtrics.
   - **Notifications** (impact on OKR): Banner and inter-application notifications enhancements. Integration with Developer Console for consistent developers experience.
