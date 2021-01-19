@@ -14,21 +14,10 @@
     "url": "git+https://github.com/1-Platform/one-platform.git"
   },
   "version": "0.0.0",
-  "author": {
-    "name": "Sayak Sarkar",
-    "email": "sayak.bugsmith@gmail.com"
-  },
+  "author": "Sayak Sarkar <sayak.bugsmith@gmail.com>",
   "contributors": [
-    {
-      "name": "Diwanshi Pandey",
-      "email": "diwanshipandey@gmail.com",
-      "url": "https://github.com/diwanshi"
-    },
-    {
-      "name": "Rigin Oommen",
-      "email": "riginoommen@gmail.com",
-      "url": "https://github.com/riginoommen"
-    }
+    "Diwanshi Pandey <diwanshipandey@gmail.com> (https://github.com/diwanshi)",
+    "Rigin Oommen <riginoommen@gmail.com> (https://github.com/riginoommen)"
   ],
   "license": "MIT",
   "bugs": {
@@ -55,6 +44,8 @@
     "lerna": "3.22.1"
   },
   "dependencies": {
-    "@spaship/cli": "0.13.2"
-  }
+    "@spaship/cli": "0.13.2",
+    "cypress": "^6.2.1"
+  },
+  "main": "platform.js"
 }
