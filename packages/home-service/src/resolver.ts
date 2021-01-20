@@ -89,7 +89,7 @@ export const HomeResolver = {
           });
         }
       })
-      .catch(err => err);
+      .catch((err: any) => err);
     },
   }
 };

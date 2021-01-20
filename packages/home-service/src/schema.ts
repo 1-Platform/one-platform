@@ -14,6 +14,14 @@ export const HomeServiceSchema: Schema = new Schema({
     updatedBy: { type: String },
     updatedOn: { type: Date, default: Date.now, },
     active: { type: Boolean, default: false },
+    applicationType: {
+        type: String,
+        enum: [
+            'NATIVE',
+            'HOSTED'
+        ],
+        required: true,
+    },
     permissions: [
         {
             roverGroup: String,
