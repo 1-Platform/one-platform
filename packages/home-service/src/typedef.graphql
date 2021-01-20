@@ -4,6 +4,10 @@ enum APIROLE {
   ADMIN
   USER
 }
+enum APPLICATIONTYPE {
+  NATIVE
+  HOSTED
+}
 type PermissionsType {
   roverGroup: String
   role: APIROLE
@@ -37,6 +41,7 @@ type HomeType {
   updatedBy: HomeUserType
   updatedOn: DateTime
   active: Boolean
+  applicationType: APPLICATIONTYPE
   permissions: [PermissionsType]
 }
 input PermissionsInput {
@@ -58,6 +63,7 @@ input HomeInput {
   updatedBy: String
   updatedOn: DateTime
   active: Boolean
+  applicationType: APPLICATIONTYPE
   permissions: [PermissionsInput]
 }
 

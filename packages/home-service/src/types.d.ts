@@ -36,5 +36,6 @@ type HomeType = {
   updatedBy: string | HomeUserType;
   updatedOn: Date;
   active: boolean;
+  applicationType: string;
   permissions: PermissionsType[];
 };
