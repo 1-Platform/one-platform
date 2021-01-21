@@ -151,7 +151,7 @@ export const FeedbackResolver = {
       const data = new Feedback( args.input );
       return data.save().then( response => {
         return Feedback.findById( response._id )
-          .then( fb => {
+          .then( (fb: any) => {
             const promises = [];
               const formattedQuery = `
                 query GetUserBy {
