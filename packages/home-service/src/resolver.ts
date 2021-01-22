@@ -5,7 +5,7 @@ export const HomeResolver = {
   Query: {
     listHomeType(root: any, args: any, ctx: any) {
       return Home.find().lean()
-      .then( (response: any) => {
+      .then( (response) => {
         const query = `${HomeHelper.buildGqlQuery(response)}`;
         return HomeHelper.getUserDetails(query).then((userDetails: any) => {
           return HomeHelper.stitchHomeType(response, userDetails.data);
@@ -27,7 +27,7 @@ export const HomeResolver = {
     },
     getHomeTypeBy(root: any, args: any, ctx: any) {
       return Home.find(args.input).lean()
-      .then( (response: any) => {
+      .then( (response) => {
         const builtQuery = `${HomeHelper.buildGqlQuery(response)}`;
         return HomeHelper.getUserDetails(builtQuery).then((userDetails: any) => {
           return HomeHelper.stitchHomeType(response, userDetails.data);
@@ -37,7 +37,7 @@ export const HomeResolver = {
     },
     getHomeTypeByUser(root: any, args: any, ctx: any) {
       return Home.find({'owners': {'$in': [ args.rhuuid ]}}).lean()
-      .then( (response: any) => {
+      .then( (response) => {
         const builtQuery = `${HomeHelper.buildGqlQuery(response)}`;
         return HomeHelper.getUserDetails(builtQuery).then((userDetails: any) => {
           return HomeHelper.stitchHomeType(response, userDetails.data);
@@ -89,7 +89,7 @@ export const HomeResolver = {
           });
         }
       })
-      .catch((err: any) => err);
+      .catch(err => err);
     },
   }
 };
