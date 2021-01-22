@@ -58,7 +58,7 @@ class IndexHelper {
                     "documents": [
                        {
                            "operation":"delete",
-                           "id": ${ body }
+                           "id": "${ body }"
                        }
                     ]
                  }`;
