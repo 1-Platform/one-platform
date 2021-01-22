@@ -16,11 +16,11 @@ const app = express();
 // Mount cookie parser
 app.use(cookieParser());
 
-const extensions = [ () => new ApolloLogExtension( {
+const extensions = [() => new ApolloLogExtension({
   level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
   timestamp: true,
-  prefix: 'apollo:'
-} ) ];
+  prefix: 'Feedback Service:'
+})];
 
 /* Configuring Mongoose */
 mongoose.plugin((schema: any) => { schema.options.usePushEach = true; });
@@ -55,14 +55,14 @@ const apollo = new ApolloServer({
     path: error.path,
     ...error.extensions,
   }),
-  // extensions
+  extensions
 });
 
 /* Applying apollo middleware to express server */
 apollo.applyMiddleware({ app });
 
 /*  Creating the server based on the environment */
-const server =  http.createServer(app);
+const server = http.createServer(app);
 
 // Installing the apollo ws subscription handlers
 apollo.installSubscriptionHandlers(server);
