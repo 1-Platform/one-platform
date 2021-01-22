@@ -36,6 +36,11 @@ type HomeUserType {
   updatedBy: String
   updatedOn: DateTime
 }
+
+type HomeIndexResponseCode {
+  status: Int
+}
+
 type HomeType {
   _id: String
   name: String
@@ -97,4 +102,6 @@ type Mutation {
   updateHomeType(input: HomeInput): HomeType
   # Delete HomeType by id
   deleteHomeType(_id: String!): HomeType
+  # Update Home Index for Search
+  updateHomeIndex: HomeIndexResponseCode
 }

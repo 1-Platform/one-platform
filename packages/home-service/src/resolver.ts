@@ -55,7 +55,12 @@ export const HomeResolver = {
             const resp =  { ...{ ...response }._doc };
             const query = `${HomeHelper.buildGqlQuery([resp])}`;
             return HomeHelper.getUserDetails(query).then((userDetails: any) => {
-              return HomeHelper.stitchHomeType([resp], userDetails.data)[0];
+              const homeResponse = HomeHelper.stitchHomeType([resp], userDetails.data)[0];
+              if(homeResponse.active) {
+                const searchInput = HomeHelper.formatSearchInput(homeResponse);
+                HomeHelper.manageSearchIndex(searchInput,'index');
+              }
+              return homeResponse;
             });
           }
         })
@@ -71,7 +76,12 @@ export const HomeResolver = {
             if (resp !== null) {
               const query = `${HomeHelper.buildGqlQuery([resp])}`;
               return HomeHelper.getUserDetails(query).then((userDetails: any) => {
-                return HomeHelper.stitchHomeType([resp], userDetails.data)[0];
+                const homeResponse = HomeHelper.stitchHomeType([resp], userDetails.data)[0];
+                if(homeResponse.active) {
+                  const searchInput = HomeHelper.formatSearchInput(homeResponse);
+                  HomeHelper.manageSearchIndex(searchInput,'index');
+                }
+                return homeResponse;
               });
             }
           });
@@ -82,6 +92,10 @@ export const HomeResolver = {
       return Home.findByIdAndRemove(args._id)
       .then((response: HomeType | null | any) => {
         if (response !== null) {
+          let id = {
+            'id': args._id
+          };
+          HomeHelper.manageSearchIndex(id, 'delete');
           const resp =  { ...{ ...response }._doc };
           const query = `${HomeHelper.buildGqlQuery([resp])}`;
           return HomeHelper.getUserDetails(query).then((userDetails: any) => {
@@ -91,5 +105,27 @@ export const HomeResolver = {
       })
       .catch(err => err);
     },
+    updateHomeIndex(root: any, args: any, ctx: any) {
+      return Home.find().lean()
+      .then( (response: any) => {
+        const query = `${HomeHelper.buildGqlQuery(response)}`;
+        return HomeHelper.getUserDetails(query).then(async (userDetails: any) => {
+          const homeResponse: Array<any> = HomeHelper.stitchHomeType(response, userDetails.data);
+          const indexStatus = await homeResponse.map(async (response: any) => {
+            if(response.active) {
+              const searchInput = HomeHelper.formatSearchInput(response);
+              return await HomeHelper.manageSearchIndex(searchInput,'index');
+            }
+          });
+          if(indexStatus.length) {
+            const indexResponse = {
+              status: 200
+            };
+            return indexResponse;
+          }
+        });
+      })
+      .catch((err: Error) => err);
+    }
   }
 };
