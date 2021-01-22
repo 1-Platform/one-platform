@@ -2,6 +2,7 @@
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 const fetch = require( 'node-fetch' );
 import Redis from 'ioredis';
+global.Headers = fetch.Headers;
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
   port: Number.parseInt( process.env.REDIS_SERVICE_PORT || '6379', 10 ),
@@ -94,6 +95,75 @@ class HomeAPIHelper {
       return data;
     } );
   }
+
+  // Search Data formatter
+  public formatSearchInput(data: any) {
+    return {
+      'input': {
+        'dataSource': 'oneportal',
+        'documents': {
+          'id': `${data._id}`,
+          'title': data.name,
+          'abstract': data.description || '',
+          'description': data.description || '',
+          'icon': `assets/icons/home.svg`,
+          'uri': `${process.env.CLIENT_URL + data.link}`,
+          'tags': `Home, ${data.name}`,
+          'contentType': 'Home',
+          'createdBy': data.createdBy?.name || '',
+          'createdDate': data?.createdOn || new Date(),
+          'lastModifiedBy': data?.updatedBy?.name || '',
+          'lastModifiedDate': data?.updatedOn || new Date()
+        }
+      }
+    }
+  }
+
+  // Helper function to create/update/delete data to search microservice
+  public manageSearchIndex(data: any, mode: string) {
+    let query: string = ``;
+    if ( mode === 'index') {
+      query = `
+      mutation ManageIndex($input: SearchInput) {
+        manageIndex(input: $input) {
+          status
+        }
+      }
+      `;
+    } else if( mode === 'delete') {
+      query = `
+        mutation DeleteIndex($id: String) {
+          deleteIndex(id: $id) {
+            status
+          }
+        }      
+      `
+    }
+    let headers = new Headers();
+    let body = JSON.stringify({
+      query: query,
+      variables: data
+    });
+
+    headers.append(`Authorization`, `${process.env.GATEWAY_AUTH_TOKEN}`);
+    headers.append(`Content-Type`, `application/json`);
+    return fetch(`${process.env.API_GATEWAY}`, {
+      method: `POST`,
+      headers,
+      body: body,
+    }).then((response: any) => response.json())
+      .then((result: any) => {
+        if ((result.data?.manageIndex?.status === 200) || (result?.data?.deleteIndex?.status === 204)) {
+          console.log('Sucessfully completed the index updation')
+        } else if ((result?.data?.manageIndex?.status !== 200) || (result?.data?.removeIndex?.status !== 204)) {
+          console.log("Error in index updation.");
+        }
+      })
+      .catch((err: any) => {
+        throw err;
+      });
+  }
+
 }
 
 export const HomeHelper = new HomeAPIHelper();
