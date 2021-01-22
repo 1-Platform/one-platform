@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { stitchSchemas } from 'graphql-tools';
+import { stitchSchemas } from '@graphql-tools/stitch';
 import remoteSchema from './remote-schema';
 
 export const microservices = loadConfig();
@@ -10,7 +10,7 @@ export async function stitchedSchemas() {
     return remoteSchema( service )
       .catch( err => {
         console.error( '[Error]:', err.message );
-        console.log( '... Gateway will continnue without:', service.name );
+        console.log( '... Skipping:', service.name );
         return '';
       } );
   } ) );

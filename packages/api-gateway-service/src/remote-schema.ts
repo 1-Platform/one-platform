@@ -1,8 +1,9 @@
 import { fetch } from 'cross-fetch';
 import { print } from 'graphql';
 import { introspectSchema, wrapSchema } from '@graphql-tools/wrap';
-import { createClient } from 'graphql-transport-ws';
-import { observableToAsyncIterable } from '@graphql-tools/utils';
+import { observableToAsyncIterable, Subscriber } from 'graphql-tools';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
+import ws from 'ws';
 
 function getExecutor ( uri: string, serviceName: string ) {
   return async ( { document, variables, context }: any ) => {
@@ -22,52 +23,57 @@ function getExecutor ( uri: string, serviceName: string ) {
   };
 }
 
-function getSubscriber( url: string, serviceName: string): any {
-  return ( { document, variables, context }: any ) => {
-    const subscriptionClient = createClient( {
+function getSubscriber ( url: string, serviceName: string ): Subscriber {
+  return async ( { document, variables, context }: any ) => {
+    const client = new SubscriptionClient(
       url,
-      connectionParams: {
-        'X-OP-User-ID': context?.uid,
-        'From': 'OP-API-GATEWAY'
-      }
-    } );
+      {
+        connectionParams: {
+          'X-OP-User-ID': context?.uid,
+          'From': 'OP-API-GATEWAY',
+        },
+        connectionCallback: ( err, res ) => {
+          console.log( err, res );
+        }
+      },
+      ws
+    );
 
     return observableToAsyncIterable( {
       subscribe: observer => {
-        console.log( new Date().toISOString(), '- Subscription forwarded to:', serviceName );
-        return {
-          unsubscribe: subscriptionClient.subscribe(
-            {
-              query: document,
-              variables,
+        console.log( new Date().toISOString(), '- Subscription forwarded to:', serviceName, url );
+        return client.request( {
+          query: document,
+          variables,
+        } )
+          .subscribe( {
+            next: ( data: any ) => {
+              console.log( 'sending...' );
+              return observer.next && observer.next( data );
             },
-            {
-              next: data => observer.next && observer.next( data ),
-              error: err => {
-                if ( !observer.error ) {
-                  return;
-                }
-                if ( err instanceof Error ) {
-                  observer.error( err );
-                } else if ( err instanceof CloseEvent ) {
-                  observer.error( new Error( `Socket closed with event ${ err.code }` ) );
-                } else {
-                  // GraphQLError[]
-                  observer.error( new Error( err.map( ( { message } ) => message ).join( ', ' ) ) );
-                }
-              },
-              complete: () => observer.complete && observer.complete(),
-            }
-          ),
-        };
+            error: ( err: any ) => {
+              if ( !observer.error ) {
+                return;
+              }
+              if ( err instanceof Error ) {
+                observer.error( err );
+              } else if ( err?.type === 'close' ) {
+                observer.error( new Error( `Socket closed with event ${ err.code }` ) );
+              } else {
+                // GraphQLError[]
+                observer.error( new Error( err.map( ( { message }: any ) => message ).join( ', ' ) ) );
+              }
+            },
+            complete: () => observer.complete && observer.complete(),
+          } );
       },
     } );
   };
 }
 
-export default async ({ uri, subcriptionUri, name }: any) => {
+export default async ({ uri, subscriptionsUri, name }: any) => {
   const executor = getExecutor( uri, name );
-  const subscriber = getSubscriber( subcriptionUri, name );
+  const subscriber = getSubscriber( subscriptionsUri, name );
   return wrapSchema( {
     schema: await introspectSchema( executor ),
     executor,

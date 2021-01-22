@@ -22,9 +22,6 @@ const app = express();
 /* include cors middleware */
 app.use( cors() );
 
-/*  Creating the server based on the environment */
-const server = http.createServer( app );
-
 const context = ({ req, connection }: any) => {
   const authorizationHeader = req?.headers?.authorization || connection?.context?.Authorization;
 
@@ -73,7 +70,7 @@ stitchedSchemas()
           'request.credentials': 'include'
         },
         headers: {
-          Authorization: `Bearer <ENTER_API_KEY_HERE>`,
+          Authorization: `Bearer <ENTER_API_KEY_HERE>`, /* lgtm [js/hardcoded-credentials] */
         },
       },
       plugins: [
@@ -98,6 +95,9 @@ stitchedSchemas()
     throw err;
   } );
 
-export default server.listen( { port: port }, () => {
+/*  Creating the server based on the environment */
+const server = http.createServer( app );
+
+export default server.listen( port, () => {
   console.log( `Gateway Running on ${ process.env.NODE_ENV } environment at port ${ port }` );
 } );
