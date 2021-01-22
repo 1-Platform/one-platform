@@ -1,246 +1,355 @@
-import * as _ from 'lodash';
 import { Feedback } from './schema';
-const JiraApi = require( 'jira-client' );
-const fetch = require( 'node-fetch' );
-import { createJira } from './helpers';
-
+import { FeedbackIntegrationHelper } from './helpers';
+import * as _ from 'lodash';
 
 export const FeedbackResolver = {
   Query: {
-    listFeedback ( root: any, args: any, ctx: any ) {
-      return Feedback.find()
-        .sort( { 'timestamp': -1 } )
-        .then( response => {
-          const createdBy = response.map( res => `rhatUUID_${ res.createdBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.createdBy }")
-          { _id name title uid rhatUUID isActive}` );
-          const updatedBy = response.filter( res => res.updatedBy ).map( res => {
-            return `rhatUUID_${ res.updatedBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
-          } );
-          const users = createdBy.concat( updatedBy );
-          const formattedquery = 'query' + `{${ users }}`;
-          const graphql = JSON.stringify( {
-            query: formattedquery,
-            variables: {}
-          } );
-          const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: graphql
-          };
-          const graphql_api = `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`;
-          return fetch( graphql_api, requestOptions )
-            .then( ( result: any ) => result.json() )
-            .then( ( output: any ) => {
-              const usersdata = output.data;
-              return response.map( function ( data: any ) {
-                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ].replace( /-/g, '' ) ][0];
-                let updatedby;
-                if ( data[ 'updatedBy' ] ) {
-                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ].replace( /-/g, '' ) ][0];
+    async listFeedbacks(root: any, args: any, ctx: any) {
+      let homeResponse = await FeedbackIntegrationHelper.listHomeType();
+      const queryList: Array<object> = [];
+      const promises: any = [];
+      let feedbackList: Array<FeedbackType> = [];
+      let query: string = ``;
+      let timestampQuery: string = ``;
+      let userData: Array<object> = [];
+      return Feedback.find().sort({ 'createdOn': -1 }).exec()
+        .then((response: FeedbackType[]) => {
+          return JSON.parse(JSON.stringify(response)).map((res: any) => {
+            const filteredHomeResponse = homeResponse.filter((homeRes: any) => homeRes?._id === res?.config)[0] || null;
+            res.feedback = filteredHomeResponse.feedback || null;
+            res.module = filteredHomeResponse.name || null;
+            res.source = res.feedback.source || null;
+            return res;
+          });
+        }).then((feedback: any) => {
+          feedbackList = feedback;
+          feedback = _.groupBy(feedback, 'feedback.sourceUrl');
+          Object.keys(feedback).map((key: string) => {
+            feedback[key].forEach((groupedList: FeedbackType, index: any) => {
+              timestampQuery += `
+              rhatUUID_${(groupedList.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${groupedList.createdBy}") {
+                name
+                title
+                uid
+                rhatUUID
+              }
+              
+              ${(groupedList.updatedBy) ? `
+              rhatUUID_${(groupedList.updatedBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${groupedList.updatedBy}") {
+                name
+                title
+                uid
+                rhatUUID
+              }
+              `: ``}
+              `;
+              if ((groupedList as any).feedback.source === 'GITLAB') {
+                query += `
+                      gitlab_${index}_${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]}:project(fullPath: "${(groupedList as any).feedback.projectKey}") {
+                        issue(iid: "${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]}") {
+                        title
+                        description
+                        state
+                        webUrl
+                        labels {
+                            edges {
+                            node {
+                                title
+                            }
+                            }
+                        }
+                        assignees {
+                            nodes {
+                            name
+                            email
+                            webUrl
+                            }
+                        }
+                        }
+                    }
+                    `;
+                if (feedback[key].length === index + 1) {
+                  query = `query listGitlabIssues {${query} }`;
+                  const gitlabQuery = {
+                    'query': query,
+                    'sourceUrl': key,
+                    'source': (groupedList as any).feedback.source
+                  }
+                  query = '';
+                  queryList.push(gitlabQuery);
                 }
-                return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
-              } );
-            } )
-            .catch( ( error: any ) => { throw error; } );
-        } )
-        .catch( ( error: any ) => { throw error; } );
-    },
-
-    getFeedback ( root: any, args: any, ctx: any ) {
-      return Feedback.findById( args.id )
-        .then( ( response: any ) => {
-          if ( response ) {
-            const createdBy = [ `rhatUUID_${ response.createdBy.replace( /-/g, '' )}:getUsersBy(rhatUUID:"${ response.createdBy }") { _id name title uid rhatUUID isActive}` ];
-            let users;
-            if ( response.updatedBy ) {
-              const updatedBy = [ `rhatUUID_${ response.updatedBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ response.updatedBy }") { _id name title uid rhatUUID isActive}` ];
-              users = createdBy.concat( updatedBy );
-            } else {
-              users = createdBy;
+              } else if ((groupedList as any).feedback.source === 'GITHUB') {
+                query += `
+                  gitlab_${index}_${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]}:repository(name: "${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 3]}", owner: "${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 4]}") {
+                        issue(number: ${Number(groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1])}) {
+                        url
+                        title
+                        body
+                        state
+                        author {
+                            login
+                            avatarUrl
+                        }
+                        assignees(first:100) {
+                            nodes {
+                            name
+                            email
+                            url
+                            }
+                        }
+                        }
+                    }`;
+                if (feedback[key].length === index + 1) {
+                  query = `query listGithubIssues {${query} }`;
+                  const githubQuery = {
+                    'query': query,
+                    'sourceUrl': key,
+                    'source': (groupedList as any).feedback.source
+                  }
+                  query = '';
+                  queryList.push(githubQuery);
+                }
+              } else if ((groupedList as any).feedback.source === 'JIRA') {
+                query += `${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]} `;
+                if (feedback[key].length === index + 1) {
+                  const jiraQuery = {
+                    'query': query,
+                    'sourceUrl': key,
+                    'source': (groupedList as any).feedback.source
+                  }
+                  query = '';
+                  queryList.push(jiraQuery);
+                }
+              }
+            });
+          });
+        }).then(async () => {
+          timestampQuery = `query ListUsers {
+            ${timestampQuery}
+          }`;
+          userData = await FeedbackIntegrationHelper.getUserProfiles(timestampQuery);
+          queryList.map(async (queries: any) => {
+            if (queries.source === 'GITLAB') {
+              const gitlabPromise = new Promise(async (resolve, reject) => {
+                const gitlabResponse: Array<object> = await FeedbackIntegrationHelper.listGitlabIssues(queries);
+                resolve(gitlabResponse);
+              }).catch((err: Error) => {
+                throw err
+              });
+              promises.push(gitlabPromise)
+            } else if (queries.source === 'GITHUB') {
+              const githubPromise = new Promise(async (resolve, reject) => {
+                const githubResponse: Array<object> = await FeedbackIntegrationHelper.listGithubIssues(queries);
+                resolve(githubResponse);
+              }).catch((err: Error) => {
+                throw err
+              });
+              promises.push(githubPromise)
+            } else if (queries.source === 'JIRA') {
+              queries.query.trim().split(' ').map((issue: any) => {
+                const jiraPromise = new Promise(async (resolve, reject) => {
+                  const query = {
+                    query: issue,
+                    source: queries.source,
+                    sourceUrl: queries.sourceUrl
+                  };
+                  const jiraResponse: any = await FeedbackIntegrationHelper.listJira(query);
+                  resolve(jiraResponse);
+                }).catch((err: Error) => {
+                  throw err
+                });
+                promises.push(jiraPromise);
+              });
             }
-            const formattedquery = 'query' + `{${ users }}`;
-            const graphql = JSON.stringify( {
-              query: formattedquery,
-              variables: {}
-            } );
-            const requestOptions = {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: graphql
-            };
-            const graphql_api = `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`;
-            return fetch( graphql_api, requestOptions )
-              .then( ( result: any ) => result.json() )
-              .then( ( output: any ) => {
-                const usersdata = output.data;
-                const createdby = usersdata[ 'rhatUUID_' + response[ 'createdBy' ].replace( /-/g, '' ) ][ 0 ];
-                let updatedby;
-                if ( response[ 'updatedBy' ] ) {
-                  updatedby = usersdata[ 'rhatUUID_' + response[ 'updatedBy' ].replace( /-/g, '' )][ 0 ];
-                }
-                return { ...{ ...response }._doc, createdBy: createdby, updatedBy: updatedby };
-              } )
-              .catch( ( error: any ) => { throw error; } );
-          }
-        } )
-        .catch( err => err );
+          });
+        }).then(async () => {
+          const responses = await Promise.all(promises).then((values) => _.flattenDeep(values));
+          return feedbackList.map((feedback: FeedbackType) => {
+            const selectedResponse = (responses.filter((response: any) => feedback.ticketUrl === (response.webUrl || response.url))[0] as any);
+            feedback.state = selectedResponse.state;
+            feedback.assignee = selectedResponse.assignee;
+            (feedback as any).createdBy = userData.filter((user: any) => user.rhatUUID === feedback.createdBy)[0];
+            (feedback as any).updatedBy = userData.filter((user: any) => user.rhatUUID === feedback.updatedBy)[0];
+            return feedback;
+          });
+        }).catch((error: Error) => error);
     },
-    getFeedbackBy ( root: any, args: any, ctx: any ) {
-      return Feedback.find( args.input )
-        .sort( { 'timestamp': -1 } )
-        .then( response => {
-          const createdBy = response.map( res => `rhatUUID_${ res.createdBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.createdBy }")
-          { _id name title uid rhatUUID isActive}` );
-          const updatedBy = response.filter( res => res.updatedBy ).map( res => {
-            return `rhatUUID_${ res.updatedBy.replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ res.updatedBy }") { _id name title uid rhatUUID isActive}`;
-          } );
-          const users = createdBy.concat( updatedBy );
-          const formattedquery = 'query' + `{${ users }}`;
-          const graphql = JSON.stringify( {
-            query: formattedquery,
-            variables: {}
-          } );
-          const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: graphql
-          };
-          const graphql_api = `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`;
-          return fetch( graphql_api, requestOptions )
-            .then( ( result: any ) => result.json() )
-            .then( ( output: any ) => {
-              const usersdata = output.data;
-              return response.map( function ( data: any ) {
-                const createdby = usersdata[ 'rhatUUID_' + data[ 'createdBy' ].replace( /-/g, '' ) ][ 0 ];
-                let updatedby;
-                if ( data[ 'updatedBy' ] ) {
-                  updatedby = usersdata[ 'rhatUUID_' + data[ 'updatedBy' ].replace( /-/g, '' ) ][ 0 ];
-                }
-                return { ...{ ...data }._doc, createdBy: createdby, updatedBy: updatedby };
-              } );
-            } )
-            .catch( ( error: any ) => { throw error; } );
-        } )
-        .catch( ( error: any ) => { throw error; } );
+    listFeedback(root: any, args: any, ctx: any) {
+      return Feedback.findById(args._id).exec()
+        .then((response: FeedbackType) => response)
+        .catch((error: Error) => error);
     },
-    getAllJiraIssues ( root: any, args: any, ctx: any ) {
-      const jira = new JiraApi( {
-        protocol: 'https',
-        host: process.env.JIRA_HOST,
-        username: process.env.JIRA_USERNAME,
-        password: process.env.JIRA_PASSWORD,
-        apiVersion: '2',
-        strictSSL: false
-      } );
-      const jql = `project = ONEPLAT AND labels = 'Reported-via-One-Platform'`;
-      return jira.searchJira( jql )
-        .then( function ( getIssuesForBoard: any ) {
-          return getIssuesForBoard[ 'issues' ].map( ( issue: any ) => {
-            issue[ 'fields' ][ 'ticketID' ] = issue[ 'key' ];
-            return issue[ 'fields' ];
-          } );
-        } )
-        .catch( ( err: any ) => {
-          throw err.message;
-        } );
-    },
-
   },
   Mutation: {
-    addFeedback ( root: any, args: any, ctx: any ) {
-      const data = new Feedback( args.input );
-      return data.save().then( response => {
-        return Feedback.findById( response._id )
-          .then( (fb: any) => {
-            const promises = [];
-              const formattedQuery = `
-                query GetUserBy {
-                  getUsersBy(rhatUUID: "${ fb?.createdBy }") {
-                    _id
-                    name
-                    uid
-                  }
-                }
-                `;
-              const graphql = JSON.stringify( {
-                query: formattedQuery,
-                variables: {}
-              } );
-              const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: graphql
-              };
-            const graphql_api = `http://${ process.env.USER_SERVICE_SERVICE_HOST }:${ process.env.USER_SERVICE_SERVICE_PORT }/graphql`;
-            const userPromise = fetch( graphql_api, requestOptions )
-              .then( ( result: any ) => result.json() );
-            if ( fb?.spa ) {
-                const formattedQuery = `
-                  query GetHomeType {
-                    getHomeType(_id: "${ fb?.spa }") {
-                      name
-                    }
-                  }
-                  `;
-                const graphql = JSON.stringify( {
-                  query: formattedQuery,
-                  variables: {}
-                } );
-                const requestOptions = {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: graphql
-                };
-              const graphql_api = `http://${ process.env.HOME_SERVICE_SERVICE_HOST }:${ process.env.HOME_SERVICE_SERVICE_PORT }/graphql`;
-              const homePromise = fetch( graphql_api, requestOptions )
-                .then( ( result: any ) => result.json() );
-              promises.push( userPromise, homePromise );
-            } else {
-              promises.push( userPromise );
-            }
-            return Promise.all( promises ).then( ( results: any ) => {
-              if ( fb ) {
-                const issue = {
-                  'fields': {
-                    'project': {
-                      'key': process.env.PROJECT_KEY
-                    },
-                    'summary': ( fb.title || `${fb.feedbackType} from ${ results[ 0 ]?.data?.getUsersBy[ 0 ]?.uid } on ${ results[ 1 ]?.data?.getHomeType?.name || 'One Platform' }` ),
-                    'description': fb.description,
-                    'labels': [ 'Reported-via-One-Platform' ],
-                    'issuetype': { 'name': 'Task' },
-                  }
-                };
-                return createJira( issue ).then( ( jira: any ) => {
-                  args.input.ticketID = jira.key;
-                  return Feedback.update( fb, args.input ).then( ( feedback: any ) => {
-                    if ( feedback ) {
-                      return Feedback.findById( response._id );
-                    }
-                  } );
-                } )
-                  .catch( function ( err: any ) {
-                    throw err.message;
-                  } );
+    async createFeedback(root: any, args: any, ctx: any) {
+      let homeResponse: any;
+      let apiResponse: any = {};
+      let userQuery = `query ListUsers {
+        rhatUUID_${(args.input.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${args.input.createdBy}") {
+          name
+          title
+          uid
+          rhatUUID
+        }
+      }`;
+      let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
+
+      if (!args.input.config && args.input?.stackInfo?.path) {
+        homeResponse = await FeedbackIntegrationHelper.listHomeType();
+        homeResponse = homeResponse.filter((response: any) => response.link === `/${args.input.stackInfo.path.split('/')[1]}`)[0];
+        args.input.config = homeResponse._id;
+      } else if ((args.input.config && !args.input?.stackInfo?.path) || (args.input.config && args.input?.stackInfo?.path)) {
+        let homeParam = {
+          _id: args.input.config
+        }
+        homeResponse = await FeedbackIntegrationHelper.getHomeType(homeParam);
+      }
+      let descriptionTemplate = `
+${(args.input?.stackInfo?.error) ? `Error: ${args.input?.stackInfo?.error}` : ``}
+${(args.input?.stackInfo?.stack || args.input?.stackInfo?.path) ? `
+Browser Information
+___________________
+`: ``}
+${(args.input?.stackInfo?.stack) ? `Stack - ${args.input?.stackInfo?.stack}` : ``}
+${(args.input?.stackInfo?.path) ? `URL - ${args.input?.stackInfo?.path}` : ``}
+
+Reported by 
+Name - ${userData[0].name}  
+`;
+      if (!args.input.description) {
+        args.input.description = descriptionTemplate;
+      } else if (args.input.description) {
+        args.input.description = args.input.description.concat(descriptionTemplate)
+      }
+      switch (homeResponse.feedback.source) {
+        case 'GITHUB':
+          const query = {
+            'githubIssueInput': {
+              'title': args.input.summary,
+              'body': args.input.description,
+              'repositoryId': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
+            },
+            'sourceUrl': homeResponse.feedback.sourceUrl
+          };
+          const githubResponse = await FeedbackIntegrationHelper.createGithubIssue(query);
+          apiResponse = {
+            ...args.input,
+            ticketUrl: githubResponse.issue.url
+          };
+          break;
+        case 'JIRA':
+          const jiraQuery = {
+            'jiraIssueInput': {
+              'fields': {
+                'project': {
+                  'key': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
+                },
+                'summary': `${args.input.summary}`,
+                'description': `${args.input.description}`,
+                'labels': ['Reported-via-One-Platform'],
+                'issuetype': {
+                  'name': 'Task'
+                },
               }
+            },
+            'sourceUrl': homeResponse.feedback.sourceUrl
+          };
+          const jiraResponse = await FeedbackIntegrationHelper.createJira(jiraQuery);
+          apiResponse = {
+            ...args.input,
+            ticketUrl: `https://${process.env.JIRA_HOST}/browse/${jiraResponse.key}`,
+          };
+          break;
+        case 'GITLAB':
+          const gitlabQuery: object = {
+            'gitlabIssueInput': {
+              'title': args.input.summary,
+              'description': args.input.description,
+              'projectPath': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
+            },
+            'sourceUrl': homeResponse.feedback.sourceUrl
+          }
+          const gitlabResponse = await FeedbackIntegrationHelper.createGitlabIssue(gitlabQuery);
+          apiResponse = {
+            ...args.input,
+            ticketUrl: gitlabResponse.webUrl
+          };
+          break;
+        default:
+          console.warn('Integration not Mentioned/Available');
+          apiResponse = {
+            ...args.input
+          }
+      }
+      const emailBody = `
+Hi ${userData[0].name},<br/><br/>
+Please find the details of the feedback we recieved as below:<br/><br/>
+Summary: ${apiResponse.summary}<br/><br/>
+Description: ${apiResponse.description}<br/><br/>
+You can track updates for your feedback at: ${apiResponse.ticketUrl}<br/><br/>
 
-            } );
+Thanks<br/><br/>
 
-          } );
-      } );
+P.S.: This is an automated email. Please do not reply.
+`;
+      const emailData = {
+        from: `noreply@redhat.com`,
+        cc: `${userData[0].uid}@redhat.com`,
+        to: process.env.EMAIL_ADDRESS,
+        subject: `Thanks for submitting the ${apiResponse.category} ${(homeResponse.name) ? `for ${homeResponse.name}` : ''}.`,
+        body: emailBody
+      };
+      FeedbackIntegrationHelper.sendEmail(emailData);
+      return new Feedback(apiResponse).save()
+        .then(async (response: any) => {
+          response.createdBy = userData[0].name;
+          const formattedSearchResponse = FeedbackIntegrationHelper.formatSearchInput(response);
+          FeedbackIntegrationHelper.manageSearchIndex(formattedSearchResponse, 'index');
+          return response;
+        })
+        .catch((error: Error) => error);
     },
-    updateFeedback ( root: any, args: any, ctx: any ) {
-      return Feedback.findById( args.input._id ).then( response => {
-        return Object.assign( response, args.input ).save().then( ( feedback: any ) => {
-          return feedback;
-        } );
-      } ).catch( ( err: any ) => err );
+    updateFeedback(root: any, args: any, ctx: any) {
+      return Feedback.findById(args.input._id)
+        .then((response: FeedbackType) => {
+          return Object.assign(response, args.input).save()
+            .then(async (feedback: FeedbackType) => {
+              let userQuery = `query ListUsers {
+                rhatUUID_${(feedback.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${feedback.createdBy}") {
+                  name
+                  title
+                  uid
+                  rhatUUID
+                }
+                ${(feedback.updatedBy) ? `
+                rhatUUID_${(feedback.updatedBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${feedback.updatedBy}") {
+                  name
+                  title
+                  uid
+                  rhatUUID
+                }
+              }
+              `: ``}
+              `;
+              let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
+              response.createdBy = userData.filter((user: any) => user.rhatUUID === feedback.createdBy)[0].name;
+              response.updatedBy = userData.filter((user: any) => user.rhatUUID === feedback.updatedBy)[0].name;
+              const formattedSearchResponse = FeedbackIntegrationHelper.formatSearchInput(response);
+              FeedbackIntegrationHelper.manageSearchIndex(formattedSearchResponse, 'index');
+              return feedback;
+            });
+        }).catch((err: Error) => err);
     },
-    deleteFeedback ( root: any, args: any, ctx: any ) {
-      return Feedback.findByIdAndRemove( args.id )
-        .then( response => response )
-        .catch( err => err );
-    },
-
+    deleteFeedback(root: any, args: any, ctx: any) {
+      return Feedback.findByIdAndRemove(args._id)
+        .then((response: FeedbackType) => {
+          let id = {
+            'id': args._id
+          };
+          FeedbackIntegrationHelper.manageSearchIndex(id, 'delete');
+          return response;
+        })
+        .catch((error: Error) => error);
+    }
   }
 };
