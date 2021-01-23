@@ -4,6 +4,27 @@ enum APIROLE {
   ADMIN
   USER
 }
+
+enum SOURCE {
+  JIRA
+  GITHUB
+  GITLAB
+}
+
+type HomeFeedbackType {
+  source: SOURCE
+  sourceUrl: String
+  isActive: Boolean
+  projectKey: String
+}
+
+input HomeFeedbackInput {
+  source: SOURCE
+  sourceUrl: String
+  isActive: Boolean
+  projectKey: String
+}
+
 enum APPLICATIONTYPE {
   BUILTIN
   HOSTED
@@ -35,6 +56,8 @@ type HomeUserType {
   createdOn: DateTime
   updatedBy: String
   updatedOn: DateTime
+  feedback: HomeFeedbackType
+
 }
 type HomeType {
   _id: String
@@ -54,6 +77,7 @@ type HomeType {
   active: Boolean
   applicationType: APPLICATIONTYPE
   permissions: [PermissionsType]
+  feedback: HomeFeedbackType
 }
 input PermissionsInput {
   roverGroup: String
@@ -77,6 +101,7 @@ input HomeInput {
   active: Boolean
   applicationType: APPLICATIONTYPE
   permissions: [PermissionsInput]
+  feedback: HomeFeedbackInput
 }
 
 type Query {

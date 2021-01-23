@@ -11,6 +11,10 @@ type FeedbackUserProfileType {
   url: String
 }
 
+type FeedbackIndexResponseCode {
+  status: Int
+}
+
 enum category {
   BUG
   FEEDBACK
@@ -73,4 +77,8 @@ type Mutation {
   Delete feedback with _id parameter
   """
   deleteFeedback(_id: ID!): FeedbackType
+  """
+  Update Feedback Index for Search
+  """
+  updateFeedbackIndex: FeedbackIndexResponseCode
 }
