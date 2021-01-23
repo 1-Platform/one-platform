@@ -1,23 +1,57 @@
-# Feedback
+# Feedback SPA
+Feedback SPA provides the consolidated view of user experience which has shared to developer team.
 
-This module lists all existing feedback created by various users across the platform. An user can submit both feedback as well as bug reports here.
-Feedback list can be filter based on Opened/closed feedback type of feedback filter by module.
-User can get Feedback detail while clicking any of the feedback from feedback list and can see its detail can open it in gitlab
+#### Features Supported
 
-## How to use it
+* Exporting feedback.
+* Filtered view of feedback.
 
-Listing page redirct to baseurl/feedback it will take to feedback/bug list page
-Provide feedback 1 redirect to listing page 2 click on "provide feedback" button choose bug/feedback give description
+## Project setup
 
-## How to maintain/update it
+1. ```NodeJS >= v12.16.1``` is required.
 
-For any kind of update or maintain contact to anjnee.k.sharma@gmail.com.
-Technology used in this module is Angualr 8 and node js and Graphql
+2. ```yarn``` is the package manager used.
 
-## Running unit tests
+### Setting environment variables
+```VUE_APP_GRAPHQL_HTTP``` is the environment variable used to set the api endpoint for Feedback SPA
 
-Run `npx jest` to execute the unit tests via [Jest]
+eg. ```export VUE_APP_GRAPHQL_HTTP=http://localhost:4000```
 
-## To test a specific file execute the command
+Set the environment variable before building/serving the app.
 
-Run 'npx jest -- <file.spec>'
+### Installation of dependencies
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Run your unit tests
+```
+yarn test:unit
+```
+
+### Run your end-to-end tests
+```
+yarn test:e2e
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Contributors:
+
+👤 **Rigin Oommen** [@riginoommen](https://github.com/riginoommen)
