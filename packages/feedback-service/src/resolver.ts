@@ -360,40 +360,42 @@ P.S.: This is an automated email. Please do not reply.
       let searchInput: any = [];
       return Feedback.find()
         .then(async (response: any) => {
-          response.map((data: any) => {
-            userQueryParams += `rhatUUID_${(data.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${data.createdBy}") {
-              name
-              title
-              uid
-              rhatUUID
+          if(response.length) {
+            response.map((data: any) => {
+              userQueryParams += `rhatUUID_${(data.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${data.createdBy}") {
+                name
+                title
+                uid
+                rhatUUID
+              }
+              ${(data.updatedBy) ? `
+              rhatUUID_${(data.updatedBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${data.updatedBy}") {
+                name
+                title
+                uid
+                rhatUUID
+              }`: ``}`;
+              const formattedData = FeedbackIntegrationHelper.formatSearchInput(data);
+              searchInput.push(formattedData);
+            });
+            let userQuery = `
+          query ListUsers {
+            ${userQueryParams}
+          }
+          `;
+            let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
+            const indexStatus = searchInput.map((searchData: any) => {
+              searchData.input.documents.createdBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents.createdBy)[0]?.name;
+              searchData.input.documents.updatedBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents?.updatedBy)[0]?.name;
+              return FeedbackIntegrationHelper.manageSearchIndex(searchData, 'index');
+            });
+  
+            if (indexStatus.length) {
+              const indexResponse = {
+                status: 200
+              };
+              return indexResponse;
             }
-            ${(data.updatedBy) ? `
-            rhatUUID_${(data.updatedBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${data.updatedBy}") {
-              name
-              title
-              uid
-              rhatUUID
-            }`: ``}`;
-            const formattedData = FeedbackIntegrationHelper.formatSearchInput(data);
-            searchInput.push(formattedData);
-          });
-          let userQuery = `
-        query ListUsers {
-          ${userQueryParams}
-        }
-        `;
-          let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
-          const indexStatus = searchInput.map((searchData: any) => {
-            searchData.input.documents.createdBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents.createdBy)[0]?.name;
-            searchData.input.documents.updatedBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents?.updatedBy)[0]?.name;
-            return FeedbackIntegrationHelper.manageSearchIndex(searchData, 'index');
-          });
-
-          if (indexStatus.length) {
-            const indexResponse = {
-              status: 200
-            };
-            return indexResponse;
           }
 
         })
