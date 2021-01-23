@@ -1,8 +1,5 @@
-import dotenv from 'dotenv';
 /* Mock */
 import mock from './mock.json';
-import path from 'path';
-
 import Feedback from '../../service';
 
 /* Supertest */
