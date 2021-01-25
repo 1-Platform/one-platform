@@ -1,21 +1,19 @@
 import fs from 'fs';
-import { stitchSchemas } from 'graphql-tools';
-import { getRemoteSchema } from './helpers';
+import { stitchSchemas } from '@graphql-tools/stitch';
+import remoteSchema from './remote-schema';
 
 export const microservices = loadConfig();
 
-export async function stitchedSchemas () {
-  const schemas = await Promise
-    .all( microservices
-      .map( service => {
-        console.log( `Loading microservice: ${ service.name }` );
-        return getRemoteSchema( service )
-          .catch( err => {
-            console.error( '[Error]:', err.message );
-            console.log( '... Gateway will continue without:', service.name );
-            return '';
-          } );
-      } ) );
+export async function stitchedSchemas() {
+  const schemas = await Promise.all( microservices.map( service => {
+    console.log( `Loading microservice: ${ service.name }` );
+    return remoteSchema( service )
+      .catch( err => {
+        console.error( '[Error]:', err.message );
+        console.log( '... Skipping:', service.name );
+        return '';
+      } );
+  } ) );
 
   if ( schemas.every( schema => !schema ) ) {
     console.error( '[Error]: Could not load any microservice.' );
