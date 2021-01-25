@@ -227,7 +227,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
       return acc;
     }, [ [], [] ] );
     return html`
-    <div class="op-menu-drawer__title"><span>Built in applications</span></div>
+    <div class="op-menu-drawer__title"><span>Built-in Services</span></div>
     <ul class="op-menu-drawer__app-list">
       ${builtIn.map( app => ( html`
         <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
@@ -242,7 +242,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
         </li>
       `) ) }
     </ul>
-    <div class="op-menu-drawer__title"><span>Hosted applications</span></div>
+    <div class="op-menu-drawer__title"><span>Hosted Applications</span></div>
     <ul class="op-menu-drawer__app-list">
       ${hosted.map( app => ( html`
       <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
