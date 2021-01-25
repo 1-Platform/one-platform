@@ -17,10 +17,15 @@ export const HomeServiceSchema: Schema = new Schema({
     applicationType: {
         type: String,
         enum: [
-            'NATIVE',
+            'BUILTIN',
             'HOSTED'
         ],
         required: true,
+    },
+    contacts: {
+        developers: [ String ],
+        qe: [ String ],
+        stakeholders: [ String ],
     },
     permissions: [
         {

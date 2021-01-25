@@ -5,12 +5,22 @@ enum APIROLE {
   USER
 }
 enum APPLICATIONTYPE {
-  NATIVE
+  BUILTIN
   HOSTED
 }
 type PermissionsType {
   roverGroup: String
   role: APIROLE
+}
+type Contacts {
+  developers: [String]
+  qe: [String]
+  stakeholders: [String]
+}
+input ContactsInput {
+  developers: [String]
+  qe: [String]
+  stakeholders: [String]
 }
 type HomeUserType {
   _id: String
@@ -36,6 +46,7 @@ type HomeType {
   colorScheme: String
   videoUrl: String
   owners: [HomeUserType]
+  contacts: Contacts
   createdBy: HomeUserType
   createdOn: DateTime
   updatedBy: HomeUserType
@@ -58,6 +69,7 @@ input HomeInput {
   colorScheme: String
   videoUrl: String
   owners: [String]
+  contacts: ContactsInput
   createdBy: String
   createdOn: DateTime
   updatedBy: String
