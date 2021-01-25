@@ -218,12 +218,18 @@ window.customElements.define( 'op-nav', class extends LitElement {
         <p>No Apps found. Please try reloading the page.</p>
       </div>`;
     }
-    const builtIn = this._appsList;
-    console.log( builtIn );
+    const [ builtIn, hosted ] = this._appsList.reduce( ( acc, spa ) => {
+      if (spa.applicationType === 'BUILTIN') {
+        acc[ 0 ].push( spa );
+      } else {
+        acc[ 1 ].push( spa );
+      }
+      return acc;
+    }, [ [], [] ] );
     return html`
     <div class="op-menu-drawer__title"><span>Built in applications</span></div>
     <ul class="op-menu-drawer__app-list">
-      ${this._appsList.map( app => ( html`
+      ${builtIn.map( app => ( html`
         <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
           <a .href="${ app.link }">
             <div>
@@ -238,7 +244,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
     </ul>
     <div class="op-menu-drawer__title"><span>Hosted applications</span></div>
     <ul class="op-menu-drawer__app-list">
-      ${this._appsList.map( app => ( html`
+      ${hosted.map( app => ( html`
       <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
         <a .href="${ app.link }">
           <div>
