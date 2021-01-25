@@ -218,9 +218,18 @@ window.customElements.define( 'op-nav', class extends LitElement {
         <p>No Apps found. Please try reloading the page.</p>
       </div>`;
     }
-
-    return html`<ul class="op-menu-drawer__app-list">
-      ${this._appsList.map( app => ( html`
+    const [ builtIn, hosted ] = this._appsList.reduce( ( acc, spa ) => {
+      if (spa.applicationType === 'BUILTIN') {
+        acc[ 0 ].push( spa );
+      } else {
+        acc[ 1 ].push( spa );
+      }
+      return acc;
+    }, [ [], [] ] );
+    return html`
+    <div class="op-menu-drawer__title"><span>Built-in Services</span></div>
+    <ul class="op-menu-drawer__app-list">
+      ${builtIn.map( app => ( html`
         <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
           <a .href="${ app.link }">
             <div>
@@ -232,6 +241,22 @@ window.customElements.define( 'op-nav', class extends LitElement {
           </a>
         </li>
       `) ) }
+    </ul>
+    <div class="op-menu-drawer__title"><span>Hosted Applications</span></div>
+    <ul class="op-menu-drawer__app-list">
+      ${hosted.map( app => ( html`
+      <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
+        <a .href="${ app.link }">
+          <div>
+            <img .src="${ app.icon || ASSETS_URL + '/rh-hat-logo.svg' }" />
+          </div>
+          <span>
+            ${ app.name }
+          </span>
+        </a>
+      </li>
+      `) ) }
+    </ul>
       `;
   }
 

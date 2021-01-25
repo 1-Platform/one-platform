@@ -5,7 +5,6 @@
   --op-menu-drawer__width: 25rem;
   --op-user-proflie-icon__radius: 5rem;
   --op-highlight__color-blue: #0070e0;
-  --op-transition--default: 120ms ease-in-out;
   --op-menu--icon-size: 4rem;
 
   display: block;
@@ -322,6 +321,13 @@
 }
 .op-menu-drawer__notification-toast:hover {
   box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.32);
+}
+
+.op-menu-drawer__title {
+  margin: auto;
+  max-width: 80vw;
+  font-weight: 400;
+  font-size: 1.5rem;
 }
 
 .op-toast__success {

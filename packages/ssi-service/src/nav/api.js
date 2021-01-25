@@ -87,6 +87,7 @@ export class APIService {
           link
           icon
           active
+          applicationType
         }
         notificationsList: listArchivedNotifications(targets: $targets , limit: 25) {
           id
