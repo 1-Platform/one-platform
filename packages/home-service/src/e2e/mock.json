@@ -1,6 +1,6 @@
 {
    "_id": "5ea80745dc06d7981aa4b32c",
-   "name": "Authentication",
+   "name": "Authentications",
    "description": "Adding authentication to your application is pice of cake. Just integrate with our API and focus on application development.",
    "link": "microservice-details.html#authentication",
    "icon": "img/shield.svg",
@@ -12,7 +12,13 @@
    ],
    "createdBy": "81d46410-a234-11e9-97cb-001a4a0a0044",
    "active": true,
-   "permissions": 
+   "applicationType": "BUILTIN",
+   "contacts": {
+      "developers": ["one-portal-devel@redhat.com"],
+      "qe": ["qe@redhat.com"],
+      "stakeholders": ["stakeholders-one-portal@redhat.com"]
+   },
+   "permissions":
    [
       {
          "role": "ADMIN",
