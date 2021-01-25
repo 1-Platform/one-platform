@@ -1,0 +1,30 @@
+{
+  "name": "@one-platform/feedback-api-layer",
+  "version": "0.1.1",
+  "description": "Feedback API Layer manages the communication with the endpoint of feedback microservice.",
+  "main": "./src/feedback.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "test": "npm run build && DEBUG_MODE=1 jest --verbose=true"
+  },
+  "keywords": [
+    "feedback",
+    "api",
+    "one-platform"
+  ],
+  "author": "Rigin Oommen",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "5.15.0",
+    "webpack-cli": "4.3.1",
+    "webpack-dev-server": "3.11.2",
+    "jest": "26.6.3"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  }
+}
