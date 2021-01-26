@@ -15,7 +15,7 @@ type FeedbackIndexResponseCode {
   status: Int
 }
 
-enum category {
+enum FeedbackCategory {
   BUG
   FEEDBACK
 }
@@ -28,7 +28,7 @@ type FeedbackType {
   config: String
   state: String
   ticketUrl: String
-  category: category
+  category: FeedbackCategory
   source: String
   module: String
   assignee: FeedbackUserProfileType
@@ -46,7 +46,7 @@ input FeedbackInput {
   experience: String
   config: String
   ticketUrl: String
-  category: category
+  category: FeedbackCategory
   createdOn: DateTime
   createdBy: String
   updatedOn: DateTime

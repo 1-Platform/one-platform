@@ -1,7 +1,7 @@
 declare module '*.graphql';
 declare module '*.json';
 
-declare enum category {
+declare enum FeedbackCategory {
     BUG='BUG',
     FEEDBACK='FEEDBACK'
 }
@@ -22,7 +22,7 @@ type FeedbackType = {
     state: string;
     source: string;
     ticketUrl: string;
-    category: category;
+    category: FeedbackCategory;
     module: string;
     stackInfo: JSON;
     assignee: FeedbackUserProfileType
