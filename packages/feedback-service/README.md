@@ -31,7 +31,7 @@ One platform's Feedback GraphQL microservice supports managing the feedback with
    docker-compose up -d api-gateway
    ```
 
-## Runnninng Tests
+## Running Tests
 
 ```bash
 npm test

@@ -1,3 +1,16 @@
+/**
+ * MIT License
+ * Copyright (c) 2021 Red Hat One Platform
+ * 
+ * @version 0.0.2
+ * 
+ * GraphQL interface for managing the business logic
+ * 
+ * @author Rigin Oommen <riginoommen@gmail.com>
+ *
+ * Created at     : 2021-01-14 13:50:01
+ * Last modified  : 2021-01-26 17:17:56
+ */
 import { Feedback } from './schema';
 import { FeedbackIntegrationHelper } from './helpers';
 import * as _ from 'lodash';
@@ -197,7 +210,6 @@ export const FeedbackResolver = {
         }
       }`;
       let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
-
       if (!args.input.config && args.input?.stackInfo?.path) {
         homeResponse = await FeedbackIntegrationHelper.listHomeType();
         homeResponse = homeResponse.filter((response: any) => response.link === `/${args.input.stackInfo.path.split('/')[1]}`)[0];
@@ -216,14 +228,13 @@ ___________________
 `: ``}
 ${(args.input?.stackInfo?.stack) ? `Stack - ${args.input?.stackInfo?.stack}` : ``}
 ${(args.input?.stackInfo?.path) ? `URL - ${args.input?.stackInfo?.path}` : ``}
-
 Reported by 
 Name - ${userData[0].name}  
 `;
       if (!args.input.description) {
         args.input.description = descriptionTemplate;
       } else if (args.input.description) {
-        args.input.description = args.input.description.concat(descriptionTemplate)
+        args.input.description = args.input.description.concat(descriptionTemplate);
       }
       switch (homeResponse.feedback.source) {
         case 'GITHUB':
