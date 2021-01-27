@@ -9,7 +9,7 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-01-14 13:50:01
- * Last modified  : 2021-01-26 17:17:56
+ * Last modified  : 2021-01-27 14:33:42
  */
 import { Feedback } from './schema';
 import { FeedbackIntegrationHelper } from './helpers';
@@ -221,14 +221,14 @@ export const FeedbackResolver = {
         homeResponse = await FeedbackIntegrationHelper.getHomeType(homeParam);
       }
       let descriptionTemplate = `
-${(args.input?.stackInfo?.error) ? `Error: ${args.input?.stackInfo?.error}` : ``}
-${(args.input?.stackInfo?.stack || args.input?.stackInfo?.path) ? `
-Browser Information
-___________________
+${(args.input?.stackInfo?.error) ? `<br/>Error: ${args.input?.stackInfo?.error}` : ``}
+${(args.input?.stackInfo?.stack || args.input?.stackInfo?.path) ? `<br/><br/>
+Browser Information<br/>
+___________________<br/>
 `: ``}
-${(args.input?.stackInfo?.stack) ? `Stack - ${args.input?.stackInfo?.stack}` : ``}
-${(args.input?.stackInfo?.path) ? `URL - ${args.input?.stackInfo?.path}` : ``}
-Reported by 
+${(args.input?.stackInfo?.stack) ? `Stack - ${args.input?.stackInfo?.stack}<br/>` : ``}
+${(args.input?.stackInfo?.path) ? `URL - ${args.input?.stackInfo?.path}<br/><br/>` : ``}
+Reported by <br/>
 Name - ${userData[0].name}  
 `;
       if (!args.input.description) {
@@ -238,10 +238,11 @@ Name - ${userData[0].name}
       }
       switch (homeResponse.feedback.source) {
         case 'GITHUB':
+          let githubDescription = (args.input.description.concat(`UID - ${userData[0].uid}`))
           const query = {
             'githubIssueInput': {
               'title': args.input.summary,
-              'body': args.input.description,
+              'body': githubDescription,
               'repositoryId': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
             },
             'sourceUrl': homeResponse.feedback.sourceUrl
@@ -253,14 +254,15 @@ Name - ${userData[0].name}
           };
           break;
         case 'JIRA':
+          let jiraDescription = (args.input.description.concat(`UID - [~${userData[0].uid}]`)).replace( /(<([^>]+)>)/ig, '');
           const jiraQuery = {
             'jiraIssueInput': {
-              'fields': {
+              'fields': { 
                 'project': {
                   'key': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
                 },
-                'summary': `${args.input.summary}`,
-                'description': `${args.input.description}`,
+                'summary': args.input.summary  ,
+                'description': jiraDescription,
                 'labels': ['Reported-via-One-Platform'],
                 'issuetype': {
                   'name': 'Task'
@@ -272,14 +274,15 @@ Name - ${userData[0].name}
           const jiraResponse = await FeedbackIntegrationHelper.createJira(jiraQuery);
           apiResponse = {
             ...args.input,
-            ticketUrl: `https://${process.env.JIRA_HOST}/browse/${jiraResponse.key}`,
+            ticketUrl: `https://${homeResponse.feedback.sourceUrl || process.env.JIRA_HOST}/browse/${jiraResponse.key}`,
           };
           break;
         case 'GITLAB':
+          let gitlabDescription = args.input.description.concat(`<br/>UID - @${userData[0].uid}`);
           const gitlabQuery: object = {
             'gitlabIssueInput': {
               'title': args.input.summary,
-              'description': args.input.description,
+              'description': gitlabDescription,
               'projectPath': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
             },
             'sourceUrl': homeResponse.feedback.sourceUrl
@@ -315,6 +318,7 @@ P.S.: This is an automated email. Please do not reply.
         body: emailBody
       };
       FeedbackIntegrationHelper.sendEmail(emailData);
+      apiResponse.description = apiResponse.description.replace( /(<([^>]+)>)/ig, '');
       return new Feedback(apiResponse).save()
         .then(async (response: any) => {
           response.createdBy = userData[0].name;
