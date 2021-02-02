@@ -29,7 +29,7 @@ const context = ({ req, connection }: any) => {
     throw new AuthenticationError( 'Auth Token Missing' );
   }
 
-  if ( !authorizationHeader.startsWith( 'Bearer' ) ) {
+  if ( !authorizationHeader.toLowerCase().startsWith( 'bearer' ) ) {
     throw new AuthenticationError( 'Only Bearer tokens are supported' );
   }
 
