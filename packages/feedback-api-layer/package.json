@@ -15,7 +15,10 @@
     "api",
     "one-platform"
   ],
-  "author": "Rigin Oommen",
+  "author": {
+    "name": "Rigin Oommen",
+    "email": "riginoommen@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "webpack": "5.15.0",
