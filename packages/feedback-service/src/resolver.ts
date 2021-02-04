@@ -9,7 +9,7 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-01-14 13:50:01
- * Last modified  : 2021-01-27 14:33:42
+ * Last modified  : 2021-02-04 16:31:27
  */
 import { Feedback } from './schema';
 import { FeedbackIntegrationHelper } from './helpers';
@@ -201,6 +201,7 @@ export const FeedbackResolver = {
     async createFeedback(root: any, args: any, ctx: any) {
       let homeResponse: any;
       let apiResponse: any = {};
+      (!args.input.category) ? args.input.category = (args.input.experience !== 'Sad') ? 'FEEDBACK' : 'BUG': null;
       let userQuery = `query ListUsers {
         rhatUUID_${(args.input.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${args.input.createdBy}") {
           name

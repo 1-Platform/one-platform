@@ -7,8 +7,8 @@ import supertest from 'supertest';
 
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
-  query ListFeedbacks {
-    listFeedbacks {
+query ListFeedbacks {
+  listFeedbacks {
       _id
       summary
       experience
@@ -25,7 +25,7 @@ const query = `
         rhatUUID
       }
     }
-  }  
+  }
 
   query ListFeedback($_id: ID) {
     listFeedback(_id: $_id) {

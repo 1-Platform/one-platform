@@ -7,8 +7,11 @@
   },
   "version": "0.0.2",
   "keywords": [
-    "web-components",
-    "html"
+    "feedback",
+    "microservice",
+    "jira",
+    "github",
+    "gitlab"
   ],
   "repository": {
     "type": "git",
@@ -29,13 +32,12 @@
     "start": "webpack --watch --config webpack.dev.js"
   },
   "author": {
-    "name": "RIgin Oommen",
+    "name": "Rigin Oommen",
     "email": "riginoommen@gmail.com"
   },
   "contributors": [],
   "license": "MIT",
   "dependencies": {
-    "apollo-log": "^0.2.0",
     "apollo-server-express": "^2.19.0",
     "body-parser": "^1.19.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -43,7 +45,6 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "dotenv-safe": "8.2.0",
-    "dotenv-webpack": "^1.7.0",
     "ejs": "^3.0.1",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
