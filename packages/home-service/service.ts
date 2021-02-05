@@ -8,7 +8,6 @@ if ( process.env.NODE_ENV === 'test' ) {
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
-const { ApolloLogExtension } = require( 'apollo-log' );
 import mongoose from 'mongoose';
 
 import gqlSchema from './src/typedef.graphql';
@@ -18,12 +17,6 @@ import { HomeResolver as resolver } from './src/resolver';
 const port = process.env.PORT || 8080;
 
 const app = express();
-
-const extensions = [ () => new ApolloLogExtension( {
-  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
-  timestamp: true,
-  prefix: 'Home Service:'
-} ) ];
 
 /* Configuring Mongoose */
 mongoose.plugin( ( schema: any ) => { schema.options.usePushEach = true; } );
@@ -58,7 +51,19 @@ const apollo = new ApolloServer( {
     path: error.path,
     ...error.extensions,
   } ),
-  extensions
+  plugins: [
+    {
+      requestDidStart: ( requestContext ) => {
+        if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
+          return;
+        }
+        const query = requestContext.request.query?.replace( /\s+/g, ' ' ).trim();
+        const variables = JSON.stringify( requestContext.request.variables );
+        console.log( new Date().toISOString(), `- [Request Started] { query: ${ query }, variables: ${ variables }, operationName: ${ requestContext.request.operationName } }` );
+        return;
+      },
+    },
+  ]
 } );
 
 /* Applying apollo middleware to express server */

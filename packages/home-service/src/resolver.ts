@@ -57,8 +57,14 @@ export const HomeResolver = {
             return HomeHelper.getUserDetails(query).then((userDetails: any) => {
               const homeResponse = HomeHelper.stitchHomeType([resp], userDetails.data)[0];
               if(homeResponse.active) {
-                const searchInput = HomeHelper.formatSearchInput(homeResponse);
-                HomeHelper.manageSearchIndex(searchInput,'index');
+                const documentInput = HomeHelper.formatSearchInput(homeResponse);
+                const indexInput = {
+                  'input': {
+                    'dataSource': 'oneportal',
+                    'documents': documentInput
+                  }
+                };
+                HomeHelper.manageSearchIndex(indexInput,'index');
               }
               return homeResponse;
             });
@@ -106,23 +112,27 @@ export const HomeResolver = {
       .catch(err => err);
     },
     updateHomeIndex(root: any, args: any, ctx: any) {
+      let documentInput:any=[];
       return Home.find().lean()
       .then( (response: any) => {
         const query = `${HomeHelper.buildGqlQuery(response)}`;
         return HomeHelper.getUserDetails(query).then(async (userDetails: any) => {
           const homeResponse: Array<any> = HomeHelper.stitchHomeType(response, userDetails.data);
-          const indexStatus = await homeResponse.map(async (response: any) => {
+          await homeResponse.map(async (response: any) => {
             if(response.active) {
-              const searchInput = HomeHelper.formatSearchInput(response);
-              return await HomeHelper.manageSearchIndex(searchInput,'index');
+              documentInput.push(HomeHelper.formatSearchInput(response));
             }
           });
-          if(indexStatus.length) {
-            const indexResponse = {
-              status: 200
-            };
-            return indexResponse;
-          }
+          const indexInput = {
+            'input': {
+              'dataSource': 'oneportal',
+              'documents': documentInput
+            }
+          };
+          const indexResponse = await HomeHelper.manageSearchIndex(indexInput ,'index');
+          return {
+            status: indexResponse
+          };
         });
       })
       .catch((err: Error) => err);

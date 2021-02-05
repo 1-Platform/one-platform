@@ -99,23 +99,18 @@ class HomeAPIHelper {
   // Search Data formatter
   public formatSearchInput(data: any) {
     return {
-      'input': {
-        'dataSource': 'oneportal',
-        'documents': {
-          'id': `${data._id}`,
-          'title': data.name,
-          'abstract': data.description || '',
-          'description': data.description || '',
-          'icon': `assets/icons/home.svg`,
-          'uri': `${process.env.CLIENT_URL + data.link}`,
-          'tags': `Home, ${data.name}`,
-          'contentType': 'Home',
-          'createdBy': data.createdBy?.name || '',
-          'createdDate': data?.createdOn || new Date(),
-          'lastModifiedBy': data?.updatedBy?.name || '',
-          'lastModifiedDate': data?.updatedOn || new Date()
-        }
-      }
+      'id': data._id,
+      'title': data.name,
+      'abstract': data.description || '',
+      'description': data.description || '',
+      'icon': `assets/icons/home.svg`,
+      'uri': process.env.CLIENT_URL + data.link,
+      'tags': `Home, ${data.name}`,
+      'contentType': 'Home',
+      'createdBy': data.createdBy?.name || '',
+      'createdDate': data?.createdOn || new Date(),
+      'lastModifiedBy': data?.updatedBy?.name || '',
+      'lastModifiedDate': data?.updatedOn || new Date()
     }
   }
 
@@ -154,9 +149,11 @@ class HomeAPIHelper {
     }).then((response: any) => response.json())
       .then((result: any) => {
         if ((result.data?.manageIndex?.status === 200) || (result?.data?.deleteIndex?.status === 204)) {
-          console.log('Sucessfully completed the index updation')
-        } else if ((result?.data?.manageIndex?.status !== 200) || (result?.data?.removeIndex?.status !== 204)) {
+          console.log('Sucessfully completed the index updation');
+          return result.data?.manageIndex?.status || result?.data?.deleteIndex?.status;
+        } else if ((result?.data?.manageIndex?.status !== 200) || (result?.data?.deleteIndex?.status !== 204)) {
           console.log("Error in index updation.");
+          return result.data?.manageIndex?.status || result?.data?.deleteIndex?.status;
         }
       })
       .catch((err: any) => {
