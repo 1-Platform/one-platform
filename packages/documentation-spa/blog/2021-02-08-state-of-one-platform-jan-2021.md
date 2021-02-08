@@ -152,7 +152,7 @@ The team was able to close 11 JIRAs across a range of development priorities and
 ### What's coming?
 
 - **SPA Onboarding**
-  - **GDPR**: Deployed on MPaaS QA environment.
+  - **GDPR**: Deploy GDPR on the Production environment.
   - **Pantheon**: Discussions underway. Timelines will be communicated in the next Jan’21 blog.
   - **Life Cycle**: Initiate the conversation with  Feng Wang (fwang@redhat.com).
 
