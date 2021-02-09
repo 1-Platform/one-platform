@@ -166,7 +166,7 @@ The team was able to close 11 JIRAs across a range of development priorities and
 
 - **One Platform Test Automation**: Automated end-to-end testing for One Platform initial set of modules, in collaboration with the QE team. Create one POD in MPaaS to deploy a test runner app created by the QA team to test infrastructure readiness.
 
-For more updates related to One Platform, please check out the One Platform Blog at: [one.redhat.com/blog](https://one.redhat.com/get-started/blog)
+For more updates related to One Platform, please check out the One Platform Blog at: [one.redhat.com/get-started/blog](https://one.redhat.com/get-started/blog/)
 ## Questions
 
 For any questions, please reach out to One Platform team over [one-portal-devel@redhat.com](mailto:one-portal-devel@redhat.com) or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
