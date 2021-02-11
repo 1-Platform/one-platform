@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { search } from './app.gql';
+import * as _ from 'lodash';
 import { GraphQLModule } from './graphql.module';
 
 @Injectable({
@@ -22,6 +23,6 @@ export class AppService extends GraphQLModule {
         start,
         rows
       }
-    } ).result().then( result => result.data.search );
+    } ).result().then( result => _.cloneDeep( result.data.search ) );
   }
 }

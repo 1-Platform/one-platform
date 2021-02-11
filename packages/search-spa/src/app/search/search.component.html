@@ -72,13 +72,13 @@
         <div class="pf-c-card__body" *ngFor="let result of searchResults?.response?.docs | filterBy: ['content_type']: this.filteredApps |
                orderBy: sortOrder | slice: 0:sliceLimit">
           <p class="timestamp">
-            {{ (result.lastModifiedDate || result.createdDate) | date:'fullDate' }}
+            {{ (result?.lastModifiedDate || result?.createdDate) | date:'fullDate' }}
           </p>
           <a href="{{ result?.uri }}" target="_blank">
             <p class="search-title">{{ result?.title }}</p>
           </a>
           <p class="search-abstract">
-            {{ (result?.abstract.length>200)? (result.abstract | slice:0:200)+'...':(result?.abstract) }}</p>
+            {{ (result?.abstract?.length>200)? (result?.abstract | slice:0:200)+'...':(result?.abstract) }}</p>
           <p><span class="pf-c-badge pf-m-read search-tag" *ngFor="let tag of result?.tags">{{ tag }}</span></p>
         </div>
         <div class="pf-c-card__body" *ngIf="searchResults?.response?.numFound - sliceLimit > 0">

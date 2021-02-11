@@ -41,7 +41,7 @@ export class SearchComponent implements OnInit {
       if ( !this.searchResults ) {
         this.searchResults = searchResponse;
       } else {
-        this.searchResults.response.docs = this.searchResults.response.docs.concat( searchResponse.response.docs);
+        this.searchResults.response.docs = this.searchResults.response.docs.concat( searchResponse.response.docs );
       }
     } );
   }
