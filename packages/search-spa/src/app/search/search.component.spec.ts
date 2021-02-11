@@ -1,5 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchComponent } from './search.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { ResultMock } from '../testing/mocks/result.mock';
@@ -17,7 +16,7 @@ describe('SearchComponent', () => {
     Promise.resolve( ResultMock )
   );
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ SearchComponent ],
       imports: [
@@ -31,7 +30,7 @@ describe('SearchComponent', () => {
       ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchComponent);
