@@ -1,86 +1,84 @@
+scalar URI
+scalar JSON
 scalar DateTime
 
-type FeedbackUserType {
-  _id: String
+
+type FeedbackUserProfileType {
   name: String
-  title: String
   uid: String
   rhatUUID: String
-  isActive: Boolean
+  email: String
+  url: String
 }
 
-type FeedbackWithUserType {
-  _id: String
-  description: String
-  ticketID: String
-  experience: String
-  spa: String
-  createdOn: DateTime
-  createdBy: FeedbackUserType
-  updatedOn: DateTime
-  updatedBy: FeedbackUserType
-  title: String
-  feedbackType: String
+type FeedbackIndexResponseCode {
+  status: Int
+}
+
+enum FeedbackCategory {
+  BUG
+  FEEDBACK
 }
 
 type FeedbackType {
-  _id: String
+  _id: ID
+  summary: String
   description: String
-  ticketID: String
   experience: String
-  spa: String
+  config: String
+  state: String
+  ticketUrl: String
+  category: FeedbackCategory
+  source: String
+  module: String
+  assignee: FeedbackUserProfileType
   createdOn: DateTime
-  createdBy: String
+  createdBy: FeedbackUserProfileType
   updatedOn: DateTime
-  updatedBy: String
-  title: String
-  feedbackType: String
+  updatedBy: FeedbackUserProfileType
 }
 
 input FeedbackInput {
-  _id: String
+  _id: ID
+  summary: String
   description: String
-  ticketID: String
+  stackInfo: JSON
   experience: String
-  spa: String
+  config: String
+  ticketUrl: String
+  category: FeedbackCategory
   createdOn: DateTime
   createdBy: String
   updatedOn: DateTime
   updatedBy: String
-  title: String
-  feedbackType: String
-}
-
-type StatusType {
-  name: String
-}
-
-type AssigneeType {
-  name: String
-}
-
-type TicketType {
-  status: StatusType
-  assignee: AssigneeType
-  ticketID: String
 }
 
 type Query {
-  # Fetches all Feedbacks
-  listFeedback: [FeedbackWithUserType]
-  # Fetches specific Feedback by its id
-  getFeedback(id: String!): FeedbackWithUserType
-  #Fetches Feedbacks by any property
-  getFeedbackBy(input: FeedbackInput!): [FeedbackWithUserType]
-  #Fetches tickets from jiraboard
-  getAllJiraIssues: [TicketType]
+  """
+  List All Feedbacks
+  """
+  listFeedbacks: [FeedbackType]
+  """
+  List the Feedback by _id parameter
+  """
+  listFeedback(_id: ID): FeedbackType
 }
 
 type Mutation {
-  # Add a new Feedback
-  addFeedback(input: FeedbackInput!): FeedbackType
-  # Update Feedback based on input
+  """
+  Create Feedback and open tickets
+  """
+  createFeedback(input: FeedbackInput!): FeedbackType
+  """
+  Update Feedback infomation on database
+  """
   updateFeedback(input: FeedbackInput!): FeedbackType
-  # Delete specific Feedback by id
-  deleteFeedback(id: String!): FeedbackType
+  """
+  Delete feedback with _id parameter
+  """
+  deleteFeedback(_id: ID!): FeedbackType
+  """
+  Update Feedback Index for Search
+  """
+  updateFeedbackIndex: FeedbackIndexResponseCode
 }

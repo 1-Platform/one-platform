@@ -1,19 +1,19 @@
 import { Document, Model, model, Schema } from 'mongoose';
 
-const FeedbackSchema: Schema = new Schema({
-  description: String,
-  experience: String,
-  ticketID: String,
-  spa: String,
-  createdOn: { type: Date, default: Date.now },
-  createdBy: {type: String, required: true},
-  updatedOn: { type: Date, default: Date.now },
-  updatedBy: String,
-  title: String,
-  feedbackType: String
+export const FeedbackSchema: Schema = new Schema( {
+    summary: String,
+    description: String,
+    experience: String,
+    config: String,
+    ticketUrl: String,
+    category: { type: String, enum: [ 'BUG', 'FEEDBACK' ] },
+    createdOn: { type: Date, default: Date.now },
+    createdBy: String,
+    updatedOn: { type: Date, default: Date.now },
+    updatedBy: String,
 });
 
-interface FeedbackModel extends IFeedback , Document { }
+interface FeedbackModel extends FeedbackType , Document { }
 
 interface FeedbackModelStatic extends Model <FeedbackModel> { }
 

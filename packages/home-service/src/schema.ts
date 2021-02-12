@@ -37,6 +37,12 @@ export const HomeServiceSchema: Schema = new Schema({
             }
         }
     ],
+    feedback: {
+        source: { type: String, enum: [ 'JIRA', 'GITHUB', 'GITLAB' ] },
+        sourceUrl: { type: String },
+        isActive: { type: Boolean },
+        projectKey: { type: String },
+    },
 });
 
 interface HomeModel extends HomeType , Document { }

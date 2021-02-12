@@ -1,5 +1,4 @@
 module.exports = {
-  setupFiles: ["dotenv/config"],
   "moduleFileExtensions": [
     "ts",
     "tsx",
@@ -19,8 +18,6 @@ module.exports = {
   "testMatch": [
     "**/src/e2e/*.spec.(ts|tsx|js)"
   ],
-  "testEnvironment": "node",
-  "coveragePathIgnorePatterns": [
-    "/node_modules/"
-  ]
+  "testEnvironment": "node"
 }
+

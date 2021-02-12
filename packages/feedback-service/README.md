@@ -1,24 +1,41 @@
 # Feedback Microservice
 
-One platform's server-side Feedback GraphQL microservice. This microservice will allow users to talk to the feedback database and can perform operations like addfeedback, updatefeedback, deletefeedback & listfeedback.
+One platform's Feedback GraphQL microservice supports managing the feedback with the JIRA/Github/Gitlab.
 
-### Switch the working directory into `cd feedback-service`.
+## Local Development
 
-Copy Certificates
+### 1. Switch to the working directory
 
----
+1. Switch to the working directory `cd feedback-service`
+2. Copy the `.env.example` to the `.env`
+3. Change the values as needed, keeping the unneeded values as undefined
 
-1.  Copy the SSL paths to the `.env` file of `feedback` microservice.
+### 2. Start Microservice
 
-Start Microservice:
+1. Run `npm build:dev` to generate a build for dev env and `npm build` for production build
+2. Run `npm start` to run your microservice for dev env
 
----
+## Using docker-compose (Recommended)
 
-1.  Run `npm build:dev` to generate a build for dev env and `npm build` for production build.
-2.  Run `npm start` to run your microservice for dev env.
+1. Follow the first 2 steps from above
+2. Then execute the following command to start a standalone instance of `notificfeedbackations-service`
 
-Testing:
+   ```bash
+   docker-compose up -d feedback-service
+   ```
 
----
+3. To start the entire cluster of microservices, use the following command
 
-1.  Run `npm test` to run default tests.
+   ```bash
+   docker-compose up -d api-gateway
+   ```
+
+## Running Tests
+
+```bash
+npm test
+```
+
+## Contributors:
+
+👤 **Rigin Oommen** [@riginoommen](https://github.com/riginoommen)

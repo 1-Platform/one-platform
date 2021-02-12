@@ -3,7 +3,7 @@ LABEL Name=one-platform-feedback-service \
   Version=0.0.1 \
   maintainer="mdeshmuk@redhat.com"
 
-# Building the user-group microservice
+# Building the feedback microservice
 ADD  . /app
 WORKDIR /app
 RUN npm install --silent && \
