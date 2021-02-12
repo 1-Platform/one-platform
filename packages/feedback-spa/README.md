@@ -1,23 +1,58 @@
-# Feedback
+# Feedback SPA
 
-This module lists all existing feedback created by various users across the platform. An user can submit both feedback as well as bug reports here.
-Feedback list can be filter based on Opened/closed feedback type of feedback filter by module.
-User can get Feedback detail while clicking any of the feedback from feedback list and can see its detail can open it in gitlab
+Feedback SPA provides the consolidated view of user experience which has shared to developer team. It consist of encapsulated view of bugs/feedback shared by the users. This provides a clear picture about the progress of the feedback and status.
 
-## How to use it
+#### Features Supported
 
-Listing page redirct to baseurl/feedback it will take to feedback/bug list page
-Provide feedback 1 redirect to listing page 2 click on "provide feedback" button choose bug/feedback give description
+* Exporting feedback.
+* Filtered view of feedback.
 
-## How to maintain/update it
+## Project setup
 
-For any kind of update or maintain contact to anjnee.k.sharma@gmail.com.
-Technology used in this module is Angualr 8 and node js and Graphql
+1. ```NodeJS >= v12.16.1``` is required.
 
-## Running unit tests
+2. ```yarn``` is the package manager used.
 
-Run `npx jest` to execute the unit tests via [Jest]
+### Setting environment variables
+```VUE_APP_GRAPHQL_HTTP``` is the environment variable used to set the api endpoint for Feedback SPA
 
-## To test a specific file execute the command
+eg. ```export VUE_APP_GRAPHQL_HTTP=http://localhost:4000```
 
-Run 'npx jest -- <file.spec>'
+Set the environment variable before building/serving the app.
+
+### Installation of dependencies
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Run your unit tests
+```
+yarn test:unit
+```
+
+### Run your end-to-end tests
+```
+yarn test:e2e
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Contributors:
+
+👤 **Rigin Oommen** [@riginoommen](https://github.com/riginoommen)
