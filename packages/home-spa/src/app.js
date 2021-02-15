@@ -51,14 +51,11 @@ opcFooter.addEventListener( 'opc-footer-link:click', () => {
   document.querySelector("op-feedback").togglePanelVisibility();
 }, false);
 
-
-
-
 const documentationModal = document.querySelector('#documentation-modal');
 const openDocumentationModal = document.querySelector('#open-documentation-modal');
 const blogList = document.querySelector('#blog-list');
 const closeModal = document.querySelector('#modal-close');
-const blogItems = Blog.default;
+const blogItems = Blog.default.slice(0, 3);
 if (blogList !== null) {
   blogList.innerHTML = `
     ${blogItems.map(item => `
