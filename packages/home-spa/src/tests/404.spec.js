@@ -23,10 +23,6 @@ describe('404 page', () => {
     expect(document.querySelector("#banner-links")).toBeTruthy();
   });
 
-  it('brand band exists', () => {
-    expect(document.querySelector("body > div.band")).toBeTruthy();
-  });
-
   it('footer exists', () => {
     expect(document.querySelector("body > footer")).toBeTruthy();
   });

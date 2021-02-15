@@ -41,7 +41,7 @@ API_URL=https://example.com/api
 - Run development server
 
 ```sh
-npm run dev
+npm run start
 ```
 
 ### Build
