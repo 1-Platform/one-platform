@@ -9,6 +9,7 @@ import '@one-platform/opc-footer/dist/opc-footer';
 // Local javascript imports
 import './js/controller.js';
 import * as FooterLinks from '../../common/footer.json';
+import * as Blog from '../../common/blogs.json';
 
 // Common HTML -> footer and band
 const footer = document.querySelector('footer');
@@ -28,9 +29,9 @@ if (band !== null) {
 			<div class="band__text">
         <h1> Join the One Platform Digital Experience! </h1>
         <p>
-          One Portal provides a single place for all internal applications and services, 
-          supports consistent User experience by providing standard platform for service hosting and data integration, 
-          efficient 
+          One Portal provides a single place for all internal applications and services,
+          supports consistent User experience by providing standard platform for service hosting and data integration,
+          efficient
         </p>
       </div>
       <button id="open-documentation-modal">
@@ -57,32 +58,7 @@ const documentationModal = document.querySelector('#documentation-modal');
 const openDocumentationModal = document.querySelector('#open-documentation-modal');
 const blogList = document.querySelector('#blog-list');
 const closeModal = document.querySelector('#modal-close');
-const blogItems = [
-  {
-    blogLink: '/get-started/blog/state-of-one-platform-jan-2021',
-    name: 'State of One Platform - January 2021',
-    date: 'February 8, 2021',
-    authorName: 'Ghanshyam Lohar',
-    authorPosition: 'Senior Software Engineer @ Red Hat',
-    authorImg: 'male'
-  },
-  {
-    blogLink: '/get-started/blog/state-of-one-platform-dec-2020/',
-    name: 'State of One Platform - December 2020',
-    date: 'January 8, 2021',
-    authorName: 'Sayak Sarkar',
-    authorPosition: 'Senior Software Engineer @ Red Hat',
-    authorImg: 'male'
-  },
-  {
-    blogLink: '/get-started/blog/state-of-one-platform-nov-2020',
-    name: 'State of One Platform - November 2020',
-    date: 'December 8, 2020',
-    authorName: 'Sayak Sarkar',
-    authorPosition: 'Senior Software Engineer @ Red Hat',
-    authorImg: 'male'
-  },
-];
+const blogItems = Blog.default;
 if (blogList !== null) {
   blogList.innerHTML = `
     ${blogItems.map(item => `
@@ -118,4 +94,4 @@ window.onclick = (Event) => {
   if (Event.target === documentationModal) {
     documentationModal.style.display = 'none';
   }
-} 
+}

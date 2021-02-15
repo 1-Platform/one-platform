@@ -1,0 +1,26 @@
+[
+    {
+        "blogLink": "/get-started/blog/state-of-one-platform-jan-2021",
+        "name": "State of One Platform - January 2021",
+        "date": "February 8, 2021",
+        "authorName": "Ghanshyam Lohar",
+        "authorPosition": "Senior Software Engineer @ Red Hat",
+        "authorImg": "male"
+    },
+    {
+        "blogLink": "/get-started/blog/state-of-one-platform-dec-2020/",
+        "name": "State of One Platform - December 2020",
+        "date": "January 8, 2021",
+        "authorName": "Sayak Sarkar",
+        "authorPosition": "Senior Software Engineer @ Red Hat",
+        "authorImg": "male"
+    },
+    {
+        "blogLink": "/get-started/blog/state-of-one-platform-nov-2020",
+        "name": "State of One Platform - November 2020",
+        "date": "December 8, 2020",
+        "authorName": "Sayak Sarkar",
+        "authorPosition": "Senior Software Engineer @ Red Hat",
+        "authorImg": "male"
+    }
+]
