@@ -323,7 +323,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
                   target="_blank"
                   href="/get-started">
                   <img src="${rocketOutline}" class="op-nav__icon" alt="rocket-outline">
-                  <span>Get-Started</span>
+                  <span>Get Started</span>
                 </a>
               </li>
               <li class="op-menu__item">
