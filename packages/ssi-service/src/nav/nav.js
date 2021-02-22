@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import PfeToast from '@patternfly/pfe-toast';
 import styles from './nav.css';
 import APIHelper from './api';
-
+import { rocketOutline, appsOutline, notificationsOutline, personOutline } from './assets.js';
 
 const ASSETS_URL = process.env.ASSETS_HOST + '/assets';
 
@@ -318,12 +318,21 @@ window.customElements.define( 'op-nav', class extends LitElement {
           <nav class="op-menu">
             <ul class="op-menu-wrapper">
               <li class="op-menu__item">
+                <a type="button"
+                  class="op-menu__item-button"
+                  target="_blank"
+                  href="/get-started">
+                  <img src="${rocketOutline}" class="op-nav__icon" alt="rocket-outline">
+                  <span>Get-Started</span>
+                </a>
+              </li>
+              <li class="op-menu__item">
                 <button type="button"
                   class="op-menu__item-button"
                   data-type="app"
                   ?data-active="${this.activeDrawerType === 'app' }"
                   @click="${ this._handleDrawerToggle }">
-                  <ion-icon name="apps-outline" class="op-nav__icon"></ion-icon>
+                  <img src="${appsOutline}" class="op-nav__icon" alt="apps-outline">
                   <span>Apps</span>
                 </button>
               </li>
@@ -333,7 +342,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
                   data-type="notification"
                   ?data-active="${this.activeDrawerType === 'notification' }"
                   @click="${ this._handleDrawerToggle }">
-                  <ion-icon name="notifications-outline" class="op-nav__icon"></ion-icon>
+                  <img src="${notificationsOutline}" class="op-nav__icon" alt="notification-outline">
                   <span class="op-nav__item-dot" ?disabled="${this._notificationsList.length === 0}"></span>
                   <span>Notifications</span>
                 </button>
@@ -344,7 +353,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
                   data-type="user"
                   ?data-active="${this.activeDrawerType === 'user' }"
                   @click="${ this._handleDrawerToggle }">
-                  <ion-icon name="person-outline" class="op-nav__icon"></ion-icon>
+                  <img src="${personOutline}" class="op-nav__icon" alt="notification-outline">
                   <span>${this._userDetails?.kerberosID || 'Sign In' }</span>
                 </button>
               </li>
