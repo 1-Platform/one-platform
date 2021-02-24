@@ -1,8 +1,10 @@
-//import { LOCAL } from "../helper/constants"
+import { Stage_HOST, Username, Password } from "../.gitignore/constants";
 
 context( 'Test homepage', () => {
     before( () => {
-        cy.visit( 'http://stage.one.redhat.com/' ); Cypress.config( 'includeShadowDom', true ); cy.get( '#username', { timeout: 5000 } ).type( '' ); cy.get( '#password' ).type( '' ); cy.get( '#submit' ).click();
+        cy.visit( Stage_HOST );
+        Cypress.config( 'includeShadowDom', true );
+        cy.get( '#username', { timeout: 5000 } ).type( Username ); cy.get( '#password' ).type(Password); cy.get( '#submit' ).click();
     } );
 
     it( 'Test for home page header section', () => {

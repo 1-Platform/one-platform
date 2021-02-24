@@ -38,11 +38,11 @@
   "scripts": {
     "clean:reports":"rm -R -f cypress/reports && mkdir cypress/reports/mochareports/report.json",
     "pretest":"npm run clean:reports",
-    "scripts":"cypress run",
+    "cypress":"cypress run",
     "combine-reports":"mochawesome-merge --reportDir cypress/reports/mocha > cypress/reports/mochareports/report.json",
     "generate-report":"merge cypress/reports/mochareports/report.json -f report -o cypress/reports/mochareports",
     "posttest":"npm run combine-reports && npm run generate-report",
-    "all":"npm run scripts || npm run posttest",
+    "execute-tests":"npm run cypress || npm run posttest",
     "lerna": "lerna",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli-microservice": "sh cli-init.sh",
