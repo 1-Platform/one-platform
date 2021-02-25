@@ -17,10 +17,12 @@
     "email": "deshmukhmayur@outlook.com",
     "url": "https://deshmukhmayur.com"
   },
-  "contributors": [{
-    "name": "Rigin Oommen",
-    "email": "riginoommen@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Rigin Oommen",
+      "email": "riginoommen@gmail.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "@patternfly/pfe-toast": "1.1.0",
