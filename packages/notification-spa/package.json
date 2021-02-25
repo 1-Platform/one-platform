@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.1100.7",
-    "@angular/cli": "10.2.1",
+    "@angular/cli": "11.2.2",
     "@angular/compiler-cli": "10.2.4",
     "@angular/language-service": "10.2.4",
     "@apollo/client": "3.3.7",
