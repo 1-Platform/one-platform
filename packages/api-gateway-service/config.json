@@ -10,9 +10,9 @@
     "subscriptionsUri": "ws://feedback-service:8080/subscriptions"
   },
   {
-    "name": "Home",
-    "uri": "http://home-service:8080/graphql",
-    "subscriptionsUri": "ws://home-service:8080/subscriptions"
+    "name": "Apps",
+    "uri": "http://apps-service:8080",
+    "subscriptionsUri": "ws://apps-service:8080/subscriptions"
   },
   {
     "name": "Notifications",

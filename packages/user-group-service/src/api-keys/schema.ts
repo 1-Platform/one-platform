@@ -3,7 +3,7 @@ import { hash } from './util';
 
 export interface APIKeyModel extends APIKey, Document { }
 
-export const APIKeySchema = new Schema<APIKey>( {
+export const APIKeySchema = new Schema<APIKeyModel>( {
   accessToken: { type: String },
   hashKey: { type: String, default: function ( this: APIKeyModel ) { return hash( this.accessToken ); } },
   expiresOn: { type: Date },

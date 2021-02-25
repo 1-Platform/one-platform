@@ -1,0 +1,3 @@
+interface IAppsContext {
+  rhatUUID: string;
+}
