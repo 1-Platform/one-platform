@@ -27,29 +27,23 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - home-service
+      - apps-service
       - feedback-service
       - user-group-service
       - notifications-service
       - search-service
-      - redis
 
-  home-service:
-    build: ./packages/home-service
+  apps-service:
+    build: ./packages/apps-service
     command: npm start
-    env_file: ./packages/home-service/.env
     environment:
-      DB_PATH: mongo
-      USER_SERVICE_SERVICE_HOST: user-group-service
-      USER_SERVICE_SERVICE_HOST: 8080
-      REDIS_SERVICE_HOST: redis
+      MONGO_URL: mongodb://mongo:27017/apps-service
     volumes:
-      - ./packages/home-service:/app
+      - ./packages/apps-service:/usr/src
     ports:
       - 8081:8080
     depends_on:
       - mongo
-      - redis
 
   feedback-service:
     build: ./packages/feedback-service
