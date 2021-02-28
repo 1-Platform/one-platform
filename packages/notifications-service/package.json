@@ -43,7 +43,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "agenda": "3.1.0",
+    "agenda": "4.1.0",
     "apollo-server-express": "2.19.2",
     "body-parser": "1.19.0",
     "clean-webpack-plugin": "3.0.0",
