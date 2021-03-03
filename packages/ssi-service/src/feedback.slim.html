@@ -1,13 +1,19 @@
 <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
 <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.3.0/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.3.0/ionicons/ionicons.js"></script>
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly/patternfly.css" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly/patternfly-addons.css" crossorigin="anonymous" />
+<script src="https://unpkg.com/@one-platform/opc-feedback@latest/dist/opc-feedback.js"></script>
 
-<script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-panel.js"></script>
+<script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-api.js"></script>
 
 <script defer>
   ( function () {
-    const opFeedbackPanel = document.createElement( 'op-feedback' );
-    opFeedbackPanel.authToken = '<%= htmlWebpackPlugin.options.authToken %>';
-    document.body.appendChild( opFeedbackPanel );
+    const opcFeedback = document.createElement("opc-feedback");
+    document.body.appendChild( opcFeedback );
+    opcFeedback.addEventListener("opc-feedback:submit", (event) => {
+      event.detail.data.createdBy = window.OpAuthHelper?.getUserInfo()?.rhatUUID;
+      window.sendFeedback( event.detail.data);
+    } );
   } )();
 </script>
