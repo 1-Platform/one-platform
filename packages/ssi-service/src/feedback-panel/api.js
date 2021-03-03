@@ -12,7 +12,7 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-01-14 13:50:01
- * Last modified  : 2021-03-03 14:35:29
+ * Last modified  : 2021-03-03 17:17:40
  */
 
 sendFeedback = (feedbackInput) => {
@@ -31,7 +31,7 @@ sendFeedback = (feedbackInput) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${(window.OpAuthHelper.jwtToken) ? `Bearer ${window.OpAuthHelper.jwtToken}` : null}`
+            'Authorization': `${(window.OpAuthHelper?.jwtToken) ? `Bearer ${window.OpAuthHelper?.jwtToken}` : null}`
         },
         body: body
     })
