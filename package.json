@@ -14,10 +14,21 @@
     "url": "git+https://github.com/1-Platform/one-platform.git"
   },
   "version": "0.0.0",
-  "author": "Sayak Sarkar <sayak.bugsmith@gmail.com>",
+  "author": {
+    "name": "Sayak Sarkar",
+    "email": "sayak.bugsmith@gmail.com"
+  },
   "contributors": [
-    "Diwanshi Pandey <diwanshipandey@gmail.com> (https://github.com/diwanshi)",
-    "Rigin Oommen <riginoommen@gmail.com> (https://github.com/riginoommen)"
+    {
+      "name": "Diwanshi Pandey",
+      "email": "diwanshipandey@gmail.com",
+      "url": "https://github.com/diwanshi"
+    },
+    {
+      "name": "Rigin Oommen",
+      "email": "riginoommen@gmail.com",
+      "url": "https://github.com/riginoommen"
+    }
   ],
   "license": "MIT",
   "bugs": {
