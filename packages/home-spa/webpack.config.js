@@ -75,6 +75,7 @@ module.exports = {
             patterns: [
                 { from: 'img/**', context: 'src' },
                 'favicon.ico',
+                '.htaccess'
             ],
         }),
         new HtmlWebpackPlugin({
