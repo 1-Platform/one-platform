@@ -66,4 +66,4 @@ tmp/
 
 #environment variables
 *.env.json
-reports
+e2e/reports/

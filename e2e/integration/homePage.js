@@ -1,4 +1,5 @@
-context( 'Test homepage form', () => {
+import { apps } from "../helper/apps.list"
+context( 'Test homepage', () => {
     before( () => {
         cy.visit( Cypress.env( 'STAGE_HOST' ) );
         Cypress.config( 'includeShadowDom', true );
@@ -15,22 +16,13 @@ context( 'Test homepage form', () => {
         cy.get( '.button--light' ).should( 'contain.text', 'Built-in Microservices' );
     } );
 
-    it( 'Test for apps list section', () => {
-        cy.get( '.op-menu-drawer__app-list-item ' ).each( () => {
-            cy.get( 'a[ href = "/outages" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "#" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/feedback" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/notifications" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/outages" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/research-repository" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/get-started/docs/faqs" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/user-groups" ]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/get-started/blog" ]' ).should( 'be.visible' ); cy.get( 'a[ href = "/get-started"]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/legacy"]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/rhel-developer-guide"]' ).should( 'be.visible' );
-            cy.get( 'a[ href = "/components"]' ).should( 'be.visible' );
+    it( 'Test that all the deployed apps are visible', () => {
+        cy.get( '.apps__list' ).should( 'be.visible' ).within( () => {
+            apps.forEach( function ( item ) {
+                cy.get( `a[ href = "${ item }" ]` ).should( 'be.visible' );
+            })
         } );
-    } );
+    })
 
     it( 'Test for Built-In-Microservices section', () => {
         cy.get( '#microservice-cards' ).within( () => {
