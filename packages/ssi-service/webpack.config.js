@@ -11,7 +11,7 @@ module.exports = ( _, { mode } ) => {
     entry: {
       'op-auth': path.join( __dirname, 'src', 'auth' ),
       'op-nav': path.join( __dirname, 'src', 'nav', 'nav' ),
-      'op-feedback-panel': path.join( __dirname, 'src', 'feedback-panel', 'feedback' )
+      'op-feedback-api': path.join( __dirname, 'src', 'feedback-panel', 'api' )
     },
     output: {
       path: path.join( __dirname, 'dist' ),
