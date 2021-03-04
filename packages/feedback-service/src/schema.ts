@@ -4,6 +4,7 @@ export const FeedbackSchema: Schema = new Schema( {
     summary: String,
     description: String,
     experience: String,
+    error: String,
     config: String,
     ticketUrl: String,
     category: { type: String, enum: [ 'BUG', 'FEEDBACK' ] },

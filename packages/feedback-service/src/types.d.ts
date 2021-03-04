@@ -18,6 +18,7 @@ type FeedbackType = {
     summary: string;
     description: string;
     experience: string;
+    error: string;
     config: string;
     state: string;
     source: string;
