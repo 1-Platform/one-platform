@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import PfeToast from '@patternfly/pfe-toast';
 import styles from './nav.css';
 import APIHelper from './api';
-import { rocketOutline, appsOutline, notificationsOutline, personOutline } from './assets.js';
+import { docs, apps, notification, person, personFilled, search } from './assets.js';
 
 const ASSETS_URL = process.env.ASSETS_HOST + '/assets';
 
@@ -290,7 +290,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
 
     return html`
       <figure class="op-user-profile-icon">
-        <ion-icon name="person" size="large"></ion-icon>
+        <img src="${personFilled}" class="op-nav__icon" alt="user">
       </figure>
       <h3 class="op-menu-drawer__title">${ this._userDetails?.fullName }</h3>
       <p>${ this._userDetails?.title }</p>
@@ -311,7 +311,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
           <form class="op-search" action="/search">
             <input type="search" name="query" autocomplete="off" aria-label="Search for Applications, Documents or any content" class="op-search-bar__input" placeholder="Search for Applications, Documents or any content" required>
             <button class="op-search__btn" type="submit">
-              <ion-icon name="search-outline" class="op-nav__icon"></ion-icon>
+              <img src="${search}" class="op-nav__icon" alt="user">
             </button>
           </form>
 
@@ -322,7 +322,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
                   class="op-menu__item-button"
                   target="_blank"
                   href="/get-started">
-                  <img src="${rocketOutline}" class="op-nav__icon" alt="rocket-outline">
+                  <img src="${docs}" class="op-nav__icon" alt="rocket-outline">
                   <span>Get Started</span>
                 </a>
               </li>
@@ -332,7 +332,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
                   data-type="app"
                   ?data-active="${this.activeDrawerType === 'app' }"
                   @click="${ this._handleDrawerToggle }">
-                  <img src="${appsOutline}" class="op-nav__icon" alt="apps-outline">
+                  <img src="${apps}" class="op-nav__icon" alt="apps-outline">
                   <span>Apps</span>
                 </button>
               </li>
@@ -342,7 +342,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
                   data-type="notification"
                   ?data-active="${this.activeDrawerType === 'notification' }"
                   @click="${ this._handleDrawerToggle }">
-                  <img src="${notificationsOutline}" class="op-nav__icon" alt="notification-outline">
+                  <img src="${notification}" class="op-nav__icon" alt="notification">
                   <span class="op-nav__item-dot" ?disabled="${this._notificationsList.length === 0}"></span>
                   <span>Notifications</span>
                 </button>
@@ -353,7 +353,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
                   data-type="user"
                   ?data-active="${this.activeDrawerType === 'user' }"
                   @click="${ this._handleDrawerToggle }">
-                  <img src="${personOutline}" class="op-nav__icon" alt="notification-outline">
+                  <img src="${person}" class="op-nav__icon" alt="user">
                   <span>${this._userDetails?.kerberosID || 'Sign In' }</span>
                 </button>
               </li>
