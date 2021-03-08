@@ -11,7 +11,7 @@ export const SearchResolver = {
       return SearchIndexHelper.index( args.input );
     },
     deleteIndex(root: any, args: any, ctx: any) {
-      return SearchIndexHelper.delete( args.id );
+      return SearchIndexHelper.delete( args.input );
     }
   }
 }

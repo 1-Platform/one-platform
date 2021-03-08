@@ -1,0 +1,95 @@
+scalar DateTime
+
+type FieldType {
+    from: String
+    to: String
+}
+
+
+type ApiConfigType {
+    mode: String
+    apiUrl: String
+    param: String
+    body: String
+}
+
+type SearchMapPreferenceType {
+    iconUrl: String,
+    searchUrlTemplate: String
+    searchUrlParams: [String]
+}
+
+type SearchMapType {
+    _id: String
+    appId: String
+    apiConfig: ApiConfigType
+    fields: [FieldType]
+    preferences: SearchMapPreferenceType
+    createdBy: String
+    createdOn: DateTime
+    updatedBy: String
+    updatedOn: DateTime
+}
+
+input SearchMapPreferenceInput {
+    iconUrl: String,
+    searchUrlTemplate: String
+    searchUrlParams: [String]
+}
+
+input ApiConfigInput {
+    mode: String
+    apiUrl: String
+    authorizationHeader: String
+    param: String
+    body: String
+}
+
+input FieldInput {
+    from: String
+    to: String
+}
+
+input SearchMapInput {
+    _id: String
+    appId: String
+    apiConfig: ApiConfigInput
+    fields: [FieldInput]
+    preferences: SearchMapPreferenceInput
+    createdBy: String
+    createdOn: DateTime
+    updatedBy: String
+    updatedOn: DateTime
+}
+
+type SearchCronResponseCode {
+  status: Int
+  name: String
+}
+
+type Query {
+    """
+    Fetch active fields and configs and maps
+    """
+    listSearchMap: [SearchMapType]
+    """
+    Fetch Specific search map with _id
+    """
+    getSearchMap(_id: String!): SearchMapType
+    triggerSearchMap: SearchMapType
+}
+
+type Mutation {
+    """
+    Add a new Search Map configuration in database
+    """
+    createSearchMap(input: SearchMapInput): SearchMapType
+    """
+    update the Search Map configuration in database
+    """
+    updateSearchMap(input: SearchMapInput): SearchMapType
+    """
+    Delete Search Map configuration from database
+    """
+    deleteSearchMap(_id: String!): SearchMapType
+}
