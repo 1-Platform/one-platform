@@ -9,9 +9,10 @@ export const SearchMapResolver = {
         getSearchMap(root: any, args: any, ctx: any) {
             return SearchMap.findById(args._id).exec();
         },
-        triggerSearchMap(root: any, args: any, ctx: any) {
+        triggerSearchMap ( root: any, args: any, ctx: any ) {
             const searchMapCron = new SearchMapCron();
             searchMapCron.searchMapTrigger();
+            return 'test';
         }
     },
     Mutation: {

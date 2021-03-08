@@ -9,8 +9,8 @@ type FieldType {
 type ApiConfigType {
     mode: String
     apiUrl: String
+    query: String
     param: String
-    body: String
 }
 
 type SearchMapPreferenceType {
@@ -41,8 +41,8 @@ input ApiConfigInput {
     mode: String
     apiUrl: String
     authorizationHeader: String
+    query: String
     param: String
-    body: String
 }
 
 input FieldInput {

@@ -47,19 +47,14 @@ type FieldList = {
     to: string
 }
 
-declare enum ApiModel {
-    GRAPHQL = 'GRAPHQL',
-    REST = 'REST'
-}
 
 type SearchMapMode = {
     appId: string;
     apiConfig: {
-        model: ApiModel;
         mode: string;
-        param: string;
         apiUrl: string;
-        gqlQuery: string;
+        query: string;
+        param: string;
         authorizationHeader: string;
     };
     fields: FieldList[];

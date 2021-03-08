@@ -4,24 +4,25 @@ import { SearchIndexHelper } from "../search-config/helpers";
 import * as _ from "lodash";
 
 export class SearchMapCron {
-    public async searchMapTrigger() {
+    public async searchMapTrigger () {
         let mappedList: any = [];
         let statusList: any = [];
-        const searchConfigList = await SearchMap.find();
-        await searchConfigList.map(async (searchConfig: any, configIndex: any) => {
-            const apiResponse = await TemplateHelper.fetchApi(searchConfig.apiConfig.authorizationHeader, searchConfig.apiConfig.apiUrl, searchConfig.apiConfig.body, searchConfig.apiConfig.param || null, searchConfig.apiConfig.mode);
+        const searchMapList = await SearchMap.find();
+        const apps = await TemplateHelper.listApps();
+        await searchMapList.map( async ( searchMap: any, configIndex: any ) => {
+            const apiResponse = await TemplateHelper.fetchApi( searchMap.apiConfig.authorizationHeader, searchMap.apiConfig.apiUrl, searchMap.apiConfig.query, searchMap.apiConfig.param || null, searchMap.apiConfig.mode );
             await apiResponse[Object.keys(apiResponse)[0]].map(async (data: any) => {
                 let mappedField: any = {};
-                await searchConfig.fields.map(async (field: any, index: any) => {
+                await searchMap.fields.map(async (field: any, index: any) => {
                     mappedField[field.to] = await TemplateHelper.objectStringMapper(data, field.from);
-                    if (searchConfig.fields.length === index + 1) {
-                        mappedField.tags = searchConfig.name;
-                        mappedField.contentType = data.name;
-                        mappedField.icon = searchConfig.preferences.iconUrl;
-                        searchConfig.preferences.searchUrlParams.map((urlParam: any) => {
-                            searchConfig.preferences.searchUrlTemplate = searchConfig.preferences.searchUrlTemplate.replace(urlParam, data[urlParam]);
+                    if ( searchMap.fields.length === index + 1 ) {
+                        mappedField.tags = apps.filter( ( app: any ) => app.id === searchMap.appId )[ 0 ].name;;
+                        mappedField.contentType = apps.filter( ( app: any ) => app.id === searchMap.appId )[0].name;
+                        mappedField.icon = searchMap.preferences.iconUrl;
+                        searchMap.preferences.searchUrlParams.map((urlParam: any) => {
+                            searchMap.preferences.searchUrlTemplate = searchMap.preferences.searchUrlTemplate.replace(urlParam, data[urlParam]);
                         });
-                        mappedField.uri = process.env.CLIENT_URL + searchConfig.preferences.searchUrlTemplate;
+                        mappedField.uri = process.env.CLIENT_URL + searchMap.preferences.searchUrlTemplate;
                         mappedList.push(mappedField);
                     }
                 });
@@ -32,7 +33,7 @@ export class SearchMapCron {
             };
             const response = await SearchIndexHelper.index(searchInput);
             statusList.push({ status: response.status });
-            if (searchConfigList.length === configIndex + 1) {
+            if (searchMapList.length === configIndex + 1) {
                 console.info('Index Status -', statusList);
             }
         });

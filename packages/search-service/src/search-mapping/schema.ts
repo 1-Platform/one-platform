@@ -10,8 +10,8 @@ export const SearchMapSchema: Schema = new Schema({
     mode: String,
     authorizationHeader: String,
     apiUrl: String,
-    param: String,
-    body: String
+    query: String,
+    param: String
   },
   preferences: {
     iconUrl: String,
