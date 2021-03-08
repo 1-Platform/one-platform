@@ -1,14 +1,14 @@
 /**
  * MIT License
  * Copyright (c) 2021 Red Hat One Platform
- * 
+ *
  * @version 0.1.0
- * 
- * This is the api interface for the opc-feedback component. This supports passing the payload of 
+ *
+ * This is the api interface for the opc-feedback component. This supports passing the payload of
  * feedback data that needs to be passed to backend.
  * @params - feedbackInput: Feedback data which needs to be passed to backend
- * 
- * @summary feedback.js enables to to interact with feedback microservice. 
+ *
+ * @summary feedback.js enables to to interact with feedback microservice.
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-01-14 13:50:01
@@ -42,12 +42,12 @@ sendFeedback = (feedbackInput) => {
             }
             return res.json();
         })
-        .then(res => {
-            if (res.errors) {
-                (window.OpNotification) ? window.OpNotification.danger({ subject: `Error in Feedback Submission` }) : alert('Error in Feedback Submission');
-                throw new Error('There were some errors in the query' + JSON.stringify(res.errors));
-            } else if (!res.errors) {
+        .then( res => {
+            if(res.data.createFeedback) {
                 (window.OpNotification) ? window.OpNotification.success({ subject: `Submitted Feedback`, link: response?.data?.createFeedback?.ticketUrl || null }) : alert('Submitted Feedback');
+            } else {
+                ( window.OpNotification ) ? window.OpNotification.danger( { subject: `Error in Feedback Submission` } ) : alert( 'Error in Feedback Submission' );
+                throw new Error( 'There were some errors in the query' + JSON.stringify( res.errors ) );
             }
             return res.data;
         });
