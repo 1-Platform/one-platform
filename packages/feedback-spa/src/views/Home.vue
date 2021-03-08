@@ -71,11 +71,11 @@
           <p class="pf-u-text-align-center">No Feedback Found.</p>
         </div>
       <!-- Pagination -->
-      <div class="pf-c-pagination pf-m-compact" v-if="recordSize !== 0 && recordSize >= pageSize">
+      <div class="pf-c-pagination pf-m-compact" v-if="recordSize !== 0">
         <div class="pf-c-options-menu">
           <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
             <span class="pf-c-options-menu__toggle-text">
-              <b>{{ Number(pageNumber)+1 }} - {{ Number(pageNumber) + (Number(pageSize)) }}</b>&nbsp;of&nbsp;
+              <b>{{ Number(pageNumber) + 1  }} - {{ (this.allFeedback.length > Number(pageSize)) ? Number(pageSize) : this.allFeedback.length }}</b>&nbsp;of&nbsp;
               <b>{{ this.allFeedback.length }}</b>
             </span>
           </div>
@@ -89,12 +89,12 @@
         </div>
         <nav class="pf-c-pagination__nav" aria-label="Pagination">
           <div class="pf-c-pagination__nav-control pf-m-prev">
-            <button class="pf-c-button pf-m-plain" type="button" aria-label="Go to previous page" v-on:click="pageNumber = Number(pageNumber) - Number(pageSize)">
+            <button class="pf-c-button pf-m-plain" type="button" :disabled="Number(pageNumber) < Number(pageSize)" aria-label="Go to previous page" v-on:click="pageNumber = Number(pageNumber) - Number(pageSize)">
               <i class="fas fa-angle-left" aria-hidden="true"></i>
             </button>
           </div>
           <div class="pf-c-pagination__nav-control pf-m-next">
-            <button class="pf-c-button pf-m-plain" type="button" aria-label="Go to next page" v-on:click="pageNumber = Number(pageNumber) + Number(pageSize)">
+            <button class="pf-c-button pf-m-plain" type="button" :disabled="Number(pageNumber) > Number(pageSize)" aria-label="Go to next page" v-on:click="pageNumber = Number(pageNumber) + Number(pageSize)">
               <i class="fas fa-angle-right" aria-hidden="true"></i>
             </button>
           </div>
