@@ -8,6 +8,7 @@ export const ListFeedbacks = gql`
     module
     description
     experience
+    error
     ticketUrl
     state
     source
