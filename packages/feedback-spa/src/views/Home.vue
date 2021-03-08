@@ -55,17 +55,11 @@
         <button class="pf-c-button pf-m-secondary" type="button" v-on:click="csvExport(allFeedback)"><i class="fas fa-upload"></i>&nbsp;Export</button>
       </div>
       <div class="pf-u-ml-sm pf-l-grid__item pf-m-3-col">
-        <div class="pf-c-search-input">
-          <span class="pf-c-search-input__text">
-            <input class="pf-c-search-input__text-input" type="text" placeholder="Search Feedback" aria-label="Search Feedback" v-model="searchText"/>
-          </span>
-          <span class="pf-c-search-input__utilities">
-            <span class="pf-c-search-input__clear">
-              <button class="pf-c-button pf-m-plain" type="button" aria-label="Clear">
-                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-              </button>
-            </span>
-          </span>
+        <div class="pf-c-input-group">
+          <input class="pf-c-form-control" placeholder="Search Feedback" type="search" id="input-search" name="search-input" aria-label="Search" v-model="searchText"/>
+          <button class="pf-c-button pf-m-control" type="button" aria-label="Search button for search input">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -73,8 +67,11 @@
       <span v-for="feedback in filterFeedback(allFeedback, this.pageSize, this.pageNumber)" v-bind:key="feedback._id">
         <ListFeedback  v-if="recordSize !== 0" :feedback="feedback" @openModal="openDetailsModal(feedback)"/>
       </span>
+        <div class="pf-u-mt-xl" v-if="recordSize === 0">
+          <p class="pf-u-text-align-center">No Feedback Found.</p>
+        </div>
       <!-- Pagination -->
-      <div class="pf-c-pagination pf-m-compact">
+      <div class="pf-c-pagination pf-m-compact" v-if="recordSize !== 0 && recordSize >= pageSize">
         <div class="pf-c-options-menu">
           <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
             <span class="pf-c-options-menu__toggle-text">
@@ -103,10 +100,6 @@
           </div>
         </nav>
       </div>
-    </div>
-
-    <div class="pf-u-mt-xl" v-if="recordSize === 0">
-      <p class="pf-u-text-align-center">No Feedback Found.</p>
     </div>
     <!-- Modal -->
     <div class="pf-c-backdrop pf-l-bullseye" v-if="showModal">
