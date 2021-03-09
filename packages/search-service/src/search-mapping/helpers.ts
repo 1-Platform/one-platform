@@ -17,7 +17,7 @@ class APITemplateHelper {
         let indexList = indexProp.split( '.' );
         indexList.forEach( ( element: any ) => {
             if ( element in object ) {
-                object = object[ element ];
+                object = object[ element ] || '';
             } else {
                 return;
             }
@@ -36,9 +36,9 @@ class APITemplateHelper {
                     }`,
             variables: {}
         } );
-        headers.append( `Authorization`, `${ process.env.API_GATEWAY }` );
+        headers.append( `Authorization`, `${ process.env.GATEWAY_AUTH_TOKEN }` );
         headers.append( `Content-Type`, `application/json` );
-        return fetch( `${ process.env.GATEWAY_AUTH_TOKEN }`, {
+        return fetch( `${ process.env.API_GATEWAY }`, {
             method: `POST`,
             headers,
             body: body,
