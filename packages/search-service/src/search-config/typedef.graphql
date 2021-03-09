@@ -26,7 +26,6 @@ input SearchInput {
   documents: [DocumentInput]
 }
 
-
 type DocumentType {
   id: String
   title: String
@@ -77,5 +76,5 @@ type Mutation {
   """
   Search index deletion
   """
-  deleteIndex(id: String): SearchResponseCode
+  deleteIndex(input: SearchInput): SearchResponseCode
 }
