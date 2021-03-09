@@ -12,7 +12,6 @@ export const SearchMapResolver = {
         triggerSearchMap ( root: any, args: any, ctx: any ) {
             const searchMapCron = new SearchMapCron();
             searchMapCron.searchMapTrigger();
-            return 'test';
         }
     },
     Mutation: {

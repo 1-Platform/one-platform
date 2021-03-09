@@ -38,7 +38,7 @@ class APITemplateHelper {
         } );
         headers.append( `Authorization`, `${ process.env.GATEWAY_AUTH_TOKEN }` );
         headers.append( `Content-Type`, `application/json` );
-        return fetch(`${process.env.API_GATEWAY}`, {
+        return fetch(`http://api-gateway:8080/graphql`, {
             method: `POST`,
             headers,
             body: body,
