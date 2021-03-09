@@ -39,6 +39,7 @@
     "clean:reports": "rm -R -f e2e/reports && mkdir e2e/reports",
     "pretest": "npm run clean:reports ",
     "test:e2e": "cypress run",
+    "test:e2e:browser": "cypress open",
     "combine-reports": "mochawesome-merge --reportDir e2e/reports > e2e/reports/mochareports/report.json",
     "generate-report": "marge e2e/reports/mochareports/report.json -f report -o e2e/reports/mochareports",
     "e2e:reports": "npm run combine-reports && npm run generate-report",
