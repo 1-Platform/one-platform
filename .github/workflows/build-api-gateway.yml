@@ -35,7 +35,7 @@ jobs:
       - name: Build and publish to ghcr
         uses: elgohr/Publish-Docker-Github-Action@3.02
         with:
-          name: deshmukhmayur/api-gateway
+          name: 1-Platform/api-gateway
           username: ${{ github.actor }}
           password: ${{ secrets.CR_PAT }}
           registry: ghcr.io
