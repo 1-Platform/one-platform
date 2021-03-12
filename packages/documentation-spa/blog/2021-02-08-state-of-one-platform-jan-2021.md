@@ -27,7 +27,7 @@ This is a summary of the development goals achieved by the One Platform team in 
   * DSAL migrated to One Platform
   * Microservices' enhancements
 
-- **Application Development:**
+- **Infrastructure update:**
   * Migration of QA environment from PSI to MPaaS
   * In conversation with IT on Catchpoint adoption and configuration
 
