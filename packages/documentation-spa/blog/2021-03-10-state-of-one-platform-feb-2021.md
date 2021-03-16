@@ -29,6 +29,10 @@ This is a summary of the development goals achieved by the One Platform team in 
   * Microservices’ enhancements(continued)
   * Research Repository phase 2 features release
 
+- **Onboarding:**
+  * GDPR deployment on production
+  * Onboarding discussions about Lifecycle, Pantheon, IR dashboard
+
 - **Infrastructure update:**
   * New strategy for using an external image repository to build and store One Platform Microservice docker images (either quay.io or GitHub container registry)
 
@@ -180,7 +184,7 @@ The team was able to close 33 JIRAs across a range of development priorities. Th
         *   Build and release the Developer Console Dashboard UI
 *   **One Platform Test Automation:**
     *   Automated end-to-end testing for all native modules
-    *   Test report automation using Jenkins
+    *   Test report automation & dashboard using Jenkins
 
 For more updates related to One Platform, please check out the One Platform Blog at [one.redhat.com/get-started/blog](https://one.redhat.com/get-started/blog/)
 ## Questions
