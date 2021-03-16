@@ -37,7 +37,7 @@ This is a summary of the development goals achieved by the One Platform team in 
   * New strategy for using an external image repository to build and store One Platform Microservice docker images (either quay.io or GitHub container registry)
 
 - **Component Library:**
-  * Feedback component(opc-feedback) added
+  * Feedback as a pluggable web component(opc-feedback)
 
 ### OKRs
 
