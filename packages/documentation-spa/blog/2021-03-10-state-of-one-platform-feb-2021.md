@@ -41,17 +41,60 @@ This is a summary of the development goals achieved by the One Platform team in 
 
 ### OKRs
 
-Objectives  | Status | IMP Summary from Key Results
----|---|---
- **Accelerate and provide consistent SPA development & delivery experience** | At Risk | Revamped Feedback SPA & Service are deployed on QA & Stage and are being tested.
-Notifications Microservice is completed, Notifications SPA design discussions are In Progress.
-User Groups rover integration - Not started
-Change Home Service schema into Developer Console schema.
-Developer console API developed.
-List of use cases & status for polishing microservices & SPAs is, as in the table below.
- **Evolve one.redhat.com as a single place to host internal applications and accessible outside VPN.** | On Track | Implemented a Document hub to access all the documents at one place.
-Plans for using quay.io for storing docker images for native microservices.
-External app support put on hold due to missing use cases and stakeholders.
+<table>
+  <tr>
+   <td>Objectives
+   </td>
+   <td>Status
+   </td>
+   <td>IMP Summary from Key Results
+   </td>
+  </tr>
+  <tr>
+   <td><strong>Accelerate and provide consistent SPA development & delivery experience</strong>
+   </td>
+   <td>At Risk
+   </td>
+   <td>
+<ul>
+
+<li>Revamped Feedback SPA & Service are deployed on QA & Stage and are being tested.
+
+<li>Notifications Microservice is completed, Notifications SPA designs in progress.
+
+<li>User Groups rover integration - Not started
+
+<li>Change Home Service schema into Developer Console schema
+
+<li>Developer console API developed
+
+<li>List of use cases & status for polishing microservices & SPAs is, as in the table below.
+</li>
+</ul>
+   </td>
+  </tr>
+  <tr>
+   <td><strong>Evolve<a href="http://one.redhat.com/"> one.redhat.com</a> as a single place to host internal applications and accessible outside VPN. </strong>
+   </td>
+   <td>On Track
+   </td>
+   <td>
+<ul>
+
+<li>Implemented a Document hub to access all the documents at one place.
+
+<li>Plans for using <a href="https://quay.io/">quay.io</a> for storing docker images for native microservices.
+
+<li>External app support - Acknowledged. Build a team to go external.
+
+<li>GDPR in production.
+
+<li>Lifecycle, Pantheon - In discussion.
+</li>
+</ul>
+   </td>
+  </tr>
+</table>
 
 ### Polishing microservice/SPA use cases:
 
