@@ -1,6 +1,6 @@
 ---
-slug: state-of-one-platform-jan-2021
-title: State of One Platform - January 2021
+slug: state-of-one-platform-feb-2021
+title: State of One Platform - February 2021
 author: Ghanshyam Lohar
 author_title: Senior Software Engineer @ Red Hat
 author_url: https://github.com/ghanlohar
@@ -58,15 +58,15 @@ This is a summary of the development goals achieved by the One Platform team in 
    <td>
 <ul>
 
-<li>Revamped Feedback SPA & Service are deployed on QA & Stage and are being tested.
+<li>Revamped Feedback SPA & Service are deployed on QA & Stage and are being tested.</li>
 
-<li>Notifications Microservice is completed, Notifications SPA designs in progress.
+<li>Notifications Microservice is completed, Notifications SPA designs in progress.</li>
 
-<li>User Groups rover integration - Not started
+<li>User Groups rover integration - Not started</li>
 
-<li>Change Home Service schema into Developer Console schema
+<li>Change Home Service schema into Developer Console schema</li>
 
-<li>Developer console API developed
+<li>Developer console API developed</li>
 
 <li>List of use cases & status for polishing microservices & SPAs is, as in the table below.
 </li>
@@ -81,16 +81,15 @@ This is a summary of the development goals achieved by the One Platform team in 
    <td>
 <ul>
 
-<li>Implemented a Document hub to access all the documents at one place.
+<li>Implemented a Document hub to access all the documents at one place.</li>
 
-<li>Plans for using <a href="https://quay.io/">quay.io</a> for storing docker images for native microservices.
+<li>Plans for using <a href="https://quay.io/">quay.io</a> for storing docker images for native microservices.</li>
 
-<li>External app support - Acknowledged. Build a team to go external.
+<li>External app support - Acknowledged. Build a team to go external.</li>
 
-<li>GDPR in production.
+<li>GDPR in production.</li>
 
-<li>Lifecycle, Pantheon - In discussion.
-</li>
+<li>Lifecycle, Pantheon - In discussion.</li>
 </ul>
    </td>
   </tr>
