@@ -1,6 +1,6 @@
-FROM node:alpine
+FROM node:12-alpine
 LABEL Name=one-platform-notifications-service \
-  Version=0.0.1 \
+  Version=0.1.1 \
   maintainer="mdeshmuk@redhat.com"
 
 # Building the user-group microservice

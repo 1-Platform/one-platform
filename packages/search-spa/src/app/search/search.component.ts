@@ -3,11 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { AppService } from 'src/app/app.service';
 
-@Component({
+@Component( {
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
-})
+  styleUrls: [ './search.component.scss' ]
+} )
 export class SearchComponent implements OnInit {
 
   searchResults: SearchResponseType;
@@ -15,12 +15,23 @@ export class SearchComponent implements OnInit {
   appsStats: any[] = [];
   appsList: any[] = [];
   filteredApps: any[] = [];
-  selectedOrder: string;
   sortOrder: string;
   query: string;
   start = 0;
   rows = 10;
   loading = true;
+  responseTime: string;
+  appFilterActive = false;
+  appSortActive = false;
+  selectedOrderName = 'Sort';
+  sortList = [ {
+    name: 'Newest First',
+    filter: 'desc',
+  },
+  {
+    name: 'Oldest First',
+    filter: 'asc',
+  } ];
 
   constructor(
     private appService: AppService,
@@ -29,15 +40,17 @@ export class SearchComponent implements OnInit {
     this.route.queryParamMap.subscribe( params => {
       this.query = params.get( 'query' );
     } );
-   }
+  }
 
   async ngOnInit(): Promise<void> {
-    await this.search( this.start ).then(() => this.loading = false);
+    await this.search( this.start ).then( () => this.loading = false );
     await this.generateAppFilter();
   }
 
-  search =  (start) => {
+  search = ( start ) => {
+    const startTime = new Date().getTime();
     return this.appService.search( this.query, start, this.rows ).then( searchResponse => {
+      this.responseTime = ( new Date().getTime() - startTime ) / 1000 + 'Seconds';
       if ( !this.searchResults ) {
         this.searchResults = searchResponse;
       } else {
@@ -69,27 +82,24 @@ export class SearchComponent implements OnInit {
     await this.generateAppFilter();
   }
 
-  selectedContent = () => {
-    this.filteredApps = _.compact(this.appsList.map( app => {
+  selectedApps = () => {
+    this.filteredApps = _.compact( this.appsList.map( app => {
       if ( app.selected ) {
         return app.content_type;
       }
-    }));
+    } ) );
   }
 
-  orderFilter = ( orderType: any ) => {
-    if ( this.selectedOrder === orderType ) {
-      this.selectedOrder = null;
-    }
-    this.selectedOrder = orderType;
-    if ( this.selectedOrder === 'desc' ) {
-      this.sortOrder = '-timestamp';
-    } else if ( this.selectedOrder === 'asc' ) {
-      this.sortOrder = 'timestamp';
+  orderFilter = ( orderType: string, orderName: string ) => {
+    this.selectedOrderName = orderName;
+    if ( orderType === 'desc' ) {
+      this.sortOrder = '-createdDate';
+    } else if ( orderType === 'asc' ) {
+      this.sortOrder = 'createdDate';
     }
   }
 
-  resetFilters = () => {
-    this.generateAppFilter();
+  openFeedbackPanel = () => {
+    ( document as any ).querySelector( 'opc-feedback' ).toggle();
   }
 }
