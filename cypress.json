@@ -1,4 +1,5 @@
 {
+    "chromeWebSecurity": false,
     "video": false,
     "numTestsKeptInMemory": 0,
     "restartBrowserBetweenSpecFiles": true,
@@ -10,8 +11,9 @@
             "reportDir":"e2e/reports",
             "quite":true,
             "overwrite": false,
-            "html":false,
-            "json":true
+            "html":true,
+            "json":false
         }
     }
+
 }
