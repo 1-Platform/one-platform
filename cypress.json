@@ -1,5 +1,4 @@
 {
-    "chromeWebSecurity": false,
     "video": false,
     "numTestsKeptInMemory": 0,
     "restartBrowserBetweenSpecFiles": true,
