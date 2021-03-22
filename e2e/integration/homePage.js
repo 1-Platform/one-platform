@@ -7,6 +7,9 @@ context( 'Test homepage', () => {
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
     } );
+    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
+        return false;
+    } );
 
     it( 'Test for home page header section', () => {
         cy.get( '.hero__mantra' ).should( 'contain.text', 'Develop Fast·Deliver Faster' );
