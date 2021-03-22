@@ -11,8 +11,8 @@
             "reportDir":"e2e/reports",
             "quite":true,
             "overwrite": false,
-            "html":true,
-            "json":false
+            "html":false,
+            "json":true
         }
     }
 
