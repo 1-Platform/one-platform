@@ -73,11 +73,16 @@
       <!-- Pagination -->
       <div class="pf-c-pagination pf-m-compact" v-if="recordSize !== 0">
         <div class="pf-c-options-menu">
-          <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
-            <span class="pf-c-options-menu__toggle-text">
-              <b>{{ Number(pageNumber) + 1  }} - {{ (this.allFeedback.length > Number(pageSize)) ? Number(pageSize) : this.allFeedback.length }}</b>&nbsp;of&nbsp;
-              <b>{{ this.allFeedback.length }}</b>
-            </span>
+          <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain pf-u-m-sm">
+              <span class="pf-c-options-menu__toggle-text">
+                <b>{{ Number(pageNumber) + 1 }} - {{
+                    this.allFeedback.length > Number(pageSize) + Number(pageNumber)
+                      ? Number(pageSize) + Number(pageNumber)
+                      : this.allFeedback.length
+                  }}</b
+                >&nbsp;of&nbsp;
+                <b>{{ this.allFeedback.length }}</b>
+              </span>
           </div>
           <select class="pf-c-form-control page-width" id="perPage" name="perPage" aria-label="per page entry" v-model="pageSize">
             <option value="5">5 per page</option>

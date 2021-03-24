@@ -42,7 +42,7 @@
           </i>
         </div>
         <div class="fb-accordion pf-u-display-flex pf-u-justify-content-center pf-u-align-items-center" v-bind:class="{'close':!isAccordionOpen, 'open':isAccordionOpen }" v-on:click="isAccordionOpen = !isAccordionOpen">
-          <i class="fas fa-sort-up"></i>
+          <i class="fas fa-sort-up" v-bind:class="{'close':!isAccordionOpen, 'open':isAccordionOpen }" v-on:click="isAccordionOpen = !isAccordionOpen"></i>
         </div>
       </span>
 
