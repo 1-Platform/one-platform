@@ -67,7 +67,7 @@ context( 'Test feedback form', () => {
             cy.get( '.pf-u-display-flex' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.get( '.pf-u-font-size-sm' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.contains( 'View Details' ).should( 'be.visible' )
-            cy.get( 'a[ href *= "https://projects.devel.engineering.redhat.com"]').should( 'have.text', 'JIRA Link ' );
+            cy.get( `a[ href *= "${ Cypress.env('JIRA')}"]`).should( 'have.text', 'JIRA Link ' );
         })
     } )
 
