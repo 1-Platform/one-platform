@@ -264,18 +264,8 @@ export default {
       this.selectedStateIndex = index
       this.selectedState = state.toLowerCase()
     },
-    matcher: function (expression) {
-      return (obj) => {
-        let found = false
-        Object.keys(obj).forEach((key) => {
-          if (!found) {
-            if ((typeof obj[key] === 'string') && expression.exec(obj[key])) {
-              found = true
-            }
-          }
-        })
-        return found
-      }
+    escapeString: function (string) {
+      return string.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&')
     },
     filterFeedback: function (feedbackList, pageSize, pageNumber) {
       if (this.activeCategory) {
@@ -294,7 +284,26 @@ export default {
         feedbackList = feedbackList.filter(feedback => feedback.module === this.selectedModule)
       }
       if (this.searchText) {
-        feedbackList = feedbackList.filter(this.matcher(new RegExp('\\b' + this.searchText + '\\b', 'i')))
+        const regex = new RegExp(this.escapeString(this.searchText), 'i')
+        feedbackList = feedbackList.filter((feedback) => {
+          return (
+            regex.test(feedback?._id) ||
+            regex.test(feedback?.summary) ||
+            regex.test(feedback?.module) ||
+            regex.test(feedback?.description) ||
+            regex.test(feedback?.experience) ||
+            regex.test(feedback?.error) ||
+            regex.test(feedback?.ticketUrl) ||
+            regex.test(feedback?.state) ||
+            regex.test(feedback?.source) ||
+            regex.test(feedback?.category) ||
+            !!(feedback?.createdBy && regex.test(feedback?.createdBy?.name)) ||
+            !!(feedback?.createdBy && regex.test(feedback?.createdBy?.uid)) ||
+            !!(feedback?.assignee && regex.test(feedback?.assignee?.name)) ||
+            !!(feedback?.assignee && regex.test(feedback?.assignee?.email)) ||
+            !!(feedback?.assignee && regex.test(feedback?.assignee?.url))
+          )
+        })
       }
       feedbackList = feedbackList.slice(Number(pageNumber), Number(pageNumber) + Number(pageSize))
       this.recordSize = feedbackList.length
