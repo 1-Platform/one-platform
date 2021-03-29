@@ -1,4 +1,5 @@
 <p align="center"><img src="https://avatars1.githubusercontent.com/u/58499608?s=100&v=4" alt="One Platform Logo"></p>
+
 # One Platform
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000)
