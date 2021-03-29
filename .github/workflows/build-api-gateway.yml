@@ -36,7 +36,7 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@3.02
         with:
           name: 1-Platform/api-gateway
-          username: ${{ github.actor }}
+          username: ${{ secrets.CR_ACTOR }}
           password: ${{ secrets.CR_PAT }}
           registry: ghcr.io
           context: packages/api-gateway-service
