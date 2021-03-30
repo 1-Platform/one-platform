@@ -297,11 +297,8 @@ export default {
             regex.test(feedback?.state) ||
             regex.test(feedback?.source) ||
             regex.test(feedback?.category) ||
-            !!(feedback?.createdBy && regex.test(feedback?.createdBy?.name)) ||
-            !!(feedback?.createdBy && regex.test(feedback?.createdBy?.uid)) ||
-            !!(feedback?.assignee && regex.test(feedback?.assignee?.name)) ||
-            !!(feedback?.assignee && regex.test(feedback?.assignee?.email)) ||
-            !!(feedback?.assignee && regex.test(feedback?.assignee?.url))
+            !!(feedback?.createdBy && (regex.test(feedback?.createdBy?.name) || regex.test(feedback?.createdBy?.uid))) ||
+            !!(feedback?.assignee && (regex.test(feedback?.assignee?.name) || regex.test(feedback?.assignee?.email) || regex.test(feedback?.assignee?.url)))
           )
         })
       }
