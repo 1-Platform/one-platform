@@ -44,7 +44,7 @@ type SearchResponseCode = {
 
 type FieldList = {
     from: string;
-    to: string
+    to: string;
 }
 
 
@@ -59,9 +59,11 @@ type SearchMapMode = {
     };
     fields: FieldList[];
     preferences: {
-        iconUrl: string,
-        searchUrlTemplate: string
-        searchUrlParams: string[]
+        iconUrl: string;
+        titleTemplate: string;
+        titleParams: string;
+        urlTemplate: string;
+        urlParams: string[];
     },
     createdBy: string;
     createdOn: Date;
