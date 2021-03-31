@@ -22,20 +22,25 @@ const errorFetchingInformation = `
   There was an error while fetching information.
 </div>
 `;
+document.addEventListener( 'DOMContentLoaded', () => {
+  document.querySelector( 'body' ).style.visibility = 'visible'
+} );
 
 window.OpAuthHelper.onLogin( () => {
-  getData()
-    .then((result) => {
-      buildDom(result.data.listHomeType);
-    })
-    .catch( err => {
-      console.error(err);
-      if (microserviceCard !== null && apps !== null) {
+  getData().then( ( result ) =>
+  {
+    buildDom( result.data.listHomeType );
+  } )
+    .catch( err =>
+    {
+      console.error( err );
+      if ( microserviceCard !== null && apps !== null )
+      {
         microserviceCard.innerHTML = errorFetchingInformation;
         apps.innerHTML = errorFetchingInformation;
       }
-    });
-});
+    } );
+} );
 
 window.carouselScroll = (direction) => {
   if (direction === 'left') {
