@@ -15,8 +15,10 @@ export const SearchMapSchema: Schema = new Schema({
   },
   preferences: {
     iconUrl: String,
-    searchUrlTemplate: String,
-    searchUrlParams: [String]
+    urlTemplate: String,
+    urlParams: [ String ],
+    titleTemplate: String,
+    titleParams: [ String ]
   },
   createdBy: String,
   createdOn: { type: Date, default: Date.now },

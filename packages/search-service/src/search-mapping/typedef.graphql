@@ -15,8 +15,10 @@ type ApiConfigType {
 
 type SearchMapPreferenceType {
     iconUrl: String,
-    searchUrlTemplate: String
-    searchUrlParams: [String]
+    urlTemplate: String
+    urlParams: [String]
+    titleTemplate: String
+    titleParams: [String]
 }
 
 type SearchMapType {
@@ -33,8 +35,10 @@ type SearchMapType {
 
 input SearchMapPreferenceInput {
     iconUrl: String,
-    searchUrlTemplate: String
-    searchUrlParams: [String]
+    urlTemplate: String
+    urlParams: [String]
+    titleTemplate: String
+    titleParams: [String]
 }
 
 input ApiConfigInput {
