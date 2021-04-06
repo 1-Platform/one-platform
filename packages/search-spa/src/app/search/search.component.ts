@@ -43,15 +43,15 @@ export class SearchComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.search( this.start ).then( () => this.loading = false );
+    await this.search( this.query, this.start, this.rows ).then( () => this.loading = false );
     await this.generateAppFilter();
   }
 
-  search = ( start ) => {
+  search = ( query, start, rows ) => {
     const startTime = new Date().getTime();
-    return this.appService.search( this.query, start, this.rows ).then( searchResponse => {
-      this.responseTime = ( new Date().getTime() - startTime ) / 1000 + 'Seconds';
-      if ( !this.searchResults ) {
+    return this.appService.search( query, start, rows ).then( searchResponse => {
+      this.responseTime = (( new Date().getTime() - startTime ) / 1000).toFixed(2) + ' Seconds';
+      if ( !this.searchResults) {
         this.searchResults = searchResponse;
       } else {
         this.searchResults.response.docs = this.searchResults.response.docs.concat( searchResponse.response.docs );
@@ -77,7 +77,7 @@ export class SearchComponent implements OnInit {
 
   showMore = async () => {
     this.start += this.rows;
-    await this.search( this.start ).then( () => this.loading = false );
+    await this.search( this.query, this.start, this.rows ).then( () => this.loading = false );
     this.sliceLimit = this.start + this.rows;
     await this.generateAppFilter();
   }
