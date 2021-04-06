@@ -24,10 +24,10 @@
             </button>
             <div class="pf-c-select__menu" *ngIf="appFilterActive">
               <fieldset class="pf-c-select__menu-fieldset" aria-label="Select input">
-                <label class="pf-c-check pf-c-select__menu-item" for="select-checkbox-expanded-active"
+                <label class="pf-c-check pf-c-select__menu-item" for="select-checkbox-expanded-active-{{i}}"
                   *ngFor="let app of this.appsList; let i = index">
                   <input class="pf-c-check__input" type="checkbox" type="checkbox"
-                    id="select-checkbox-expanded-active-{{index}}" name="select-checkbox-expanded-active"
+                    id="select-checkbox-expanded-active-{{i}}" name="select-checkbox-expanded-active"
                     [(ngModel)]="app.selected" (change)="selectedApps()" />
                   <span class="pf-c-check__label">{{ app.content_type }}
                     <span class="pf-c-badge pf-m-read">{{ app.count }}</span>
@@ -36,9 +36,9 @@
               </fieldset>
             </div>
           </div>
-        </div>&nbsp;
+        </div>
         <!-- Sort -->
-        <div class="pf-l-grid__item pf-m-2-col pf-u-mt-xl" *ngIf="searchResults?.response?.numFound !== 0">
+        <div class="pf-l-grid__item pf-m-2-col pf-u-mt-xl pf-u-ml-xl" *ngIf="searchResults?.response?.numFound !== 0">
           <div class="pf-c-select pf-m-expanded search-filter__width">
             <button class="pf-c-select__toggle" type="button" id="select-checkbox-expanded-toggle" aria-haspopup="true"
               aria-expanded="true" aria-labelledby="select-checkbox-expanded-label select-checkbox-expanded-toggle"
@@ -93,7 +93,7 @@
         </p>
       </div>
       <!-- Related Keywords Section -->
-      <div class="pf-u-mb-md pf-u-mt-md" *ngIf="searchResults?.response?.numFound !== 0">
+      <div class="pf-u-mb-md pf-u-mt-md" *ngIf="!loading">
         <p><strong>Related Searched keywords</strong></p>
         <a href="/search?query=MoD Handovers">
           <span class="pf-c-label pf-m-blue search-cursor">
@@ -102,7 +102,7 @@
         </a>&nbsp;
         <a href="/search?query=Research Repository">
           <span class="pf-c-label pf-m-blue search-cursor">
-            <span class="pf-c-label__content"><strong class="search-link">MoD Handovers</strong></span>
+            <span class="pf-c-label__content"><strong class="search-link">Research Repository</strong></span>
           </span>
         </a>&nbsp;
         <a href="/search?query=DSAL">
