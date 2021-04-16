@@ -8,7 +8,7 @@
     "reporterOptions":{
         "reporterEnabled":"mochawesome",
         "mochawesomeReporterOptions":{
-            "reportDir":"e2e/reports",
+            "reportDir":"e2e/reports/mochawesome-report",
             "quite":true,
             "overwrite": false,
             "html":false,
