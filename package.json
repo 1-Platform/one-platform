@@ -44,6 +44,8 @@
     "generate-report": "marge e2e/reports/mochareports/report.json -f report -o e2e/reports/mochareports",
     "e2e:reports": "npm run combine-reports && npm run generate-report",
     "test:e2e:reports": "npm run test:e2e || npm run e2e:reports",
+    "e2e:report:html": "marge e2e/reports/output.json --reportDir e2e/reports --inline",
+    "combinereports": "mochawesome-merge e2e/reports/mochawesome-report/*.json > e2e/reports/output.json",
     "lerna": "lerna",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli-microservice": "sh cli-init.sh",
