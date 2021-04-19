@@ -99,7 +99,7 @@ function buildDom(apiData) {
           return `<a href="${spa.link}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
         }
       }
-    ).join('');
+    ).splice(0,10).join('');
   }
 
   if (apps !== null) {
