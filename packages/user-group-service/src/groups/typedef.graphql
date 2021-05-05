@@ -2,11 +2,19 @@ type Query {
   """
   Returns a list of all Groups (default limit=25)
   """
-  listGroups(limit: Int): [Group]
+  listGroups(limit: Int): [Group] @deprecated(reason: "This query is no longer maintained")
   """
   Returns a list of Groups for the given selector query (default limit=25)
   """
-  getGroupsBy(selector: GetGroupInput!, limit: Int): [Group]
+  getGroupsBy(selector: GetGroupInput!, limit: Int): [Group] @deprecated(reason: "This query is no longer maintained")
+  """
+  Returns a group
+  """
+  group( cn: String ): Group
+  """
+  Returns a list of Groups for the given selector query (default limit=25)
+  """
+  findGroups(selector: GetGroupInput!, limit: Int): [Group]
 }
 
 type Mutation {
@@ -32,6 +40,7 @@ type Group {
   ldapCommonName: String
   createdOn: DateTime
   updatedOn: DateTime
+  members: [String]
 }
 
 input AddGroupInput {

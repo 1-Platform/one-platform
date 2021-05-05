@@ -14,7 +14,7 @@ context( 'Test homepage', () => {
     it( 'Test for home page header section', () => {
         cy.get( '.hero__mantra' ).should( 'contain.text', 'Develop Fast·Deliver Faster' );
         cy.get( '.hero__quote' ).should( 'contain.text', 'One Platform to host your Internal Applications and Services' );
-        cy.get( '.hero__description' ).should( 'contain.text', 'One Portal provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.' );
+        cy.get( '.hero__description' ).should( 'contain.text', 'One Platform provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.' );
         cy.get( '.button--danger' ).should( 'contain.text', 'View Applications' );
         cy.get( '.button--light' ).should( 'contain.text', 'Built-in Microservices' );
     } );

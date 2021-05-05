@@ -1,12 +1,16 @@
 scalar DateTime
 
-# API Aceess Roles Defined in the APIs
+"""
+API Aceess Roles Defined in the APIs
+"""
 enum APIROLE {
   ADMIN
   USER
 }
 
-# LDAP Data model which returns from ldap source
+"""
+LDAP Data model which returns from ldap source
+"""
 type LdapType {
   dn: String
   controls: [String]
@@ -97,27 +101,99 @@ input UserInput {
   updatedOn: DateTime
 }
 
+enum ldapFieldType {
+  uid
+  cn
+  rhatUUID
+}
+
+type RoverUserType {
+  uid: String
+  cn: String
+  rhatJobTitle: String
+  rhatCostCenter: String
+  rhatCostCenterDesc: String
+  rhatGeo: String
+  givenName: String
+  displayName: String
+  employeeType: String
+  rhatLocation: String
+  rhatOfficeLocation: String
+  mobile: String
+  mail: String
+  country: String
+  homePhone: String
+  telephoneNumber: String
+  rhatPhoneExt: String
+  objectClass: String
+  rhatUuid: String
+  serviceAccount: Boolean
+  manager: RoverUserType
+  roverGroups: [RoverGroupType]
+}
+
+type RoverGroupType {
+  cn: String
+  name: String
+  description: String
+  ownerUids: [String]
+  memberUids: [String]
+  inclusionUids: [String]
+  exclusionUids: [String]
+  notes: String
+  membershipInfo: String
+  userDefinedRoleList: [String]
+  objectClass: String,
+  membershipInfo: MembershipType
+}
+
+type MembershipType {
+  query: String
+}
 type Mutation {
-  # Add a new User
+  """
+  Add a new User
+  """
   addUser(input: UserInput): UserType
-  # Update existing User
+  """
+  Update existing User
+  """
   updateUser(input: UserInput): UserType
-  # Delete a User by ID
+  """
+  Delete a User by ID
+  """
   deleteUser(_id: String!): UserType
-  # add user from LDAP
+  """
+  add user from LDAP
+  """
   addUserFromLDAP(uid: String!): UserType
 }
 
+
 type Query {
-  # Fetches specific User by uid, rhatUUID, apiRole, name
+  """
+  Fetches specific User by uid, rhatUUID, apiRole, name
+  """
   getUsersBy(
     uid: String
     rhatUUID: String
     apiRole: String
     name: String
-  ): [UserType]
-  # Fetches all Users
-  listUsers: [UserType]
-  # Fetch LDAP Group Members
-  getGroupMembers(cn: String): [LdapType]
+  ): [UserType] @deprecated(reason: "This query is no longer maintained")
+  """
+  Fetches all Users
+  """
+  listUsers: [UserType] @deprecated(reason: "This query is no longer maintained")
+  """
+  Fetch LDAP Group Members
+  """
+  getGroupMembers(cn: String): [LdapType] @deprecated(reason: "This query is no longer maintained")
+  """
+  Fetches specific User by uid, rhatUuid
+  """
+  user(uid: String, rhatUUID: String): RoverUserType
+  """
+  Fetches Users based on criteria
+  """
+  findUsers(ldapfield: ldapFieldType, value: String): [RoverUserType]
 }

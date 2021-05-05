@@ -1,9 +1,10 @@
 import { createClient } from 'ldapjs';
 import { Users } from './users/schema';
-import * as _ from 'lodash';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
+import fetch from 'node-fetch';
 
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
@@ -61,7 +62,7 @@ class UserGroupApiHelper {
   public addUserLDAP ( profile_param: string ) {
     return this.getProfilesBy( profile_param )
       .then( ( response: any ) => {
-        if ( _.isEmpty( response ) ) {
+        if ( isEmpty( response ) ) {
           throw new Error( 'User Not Found' );
         }
         const groups: any = [];
@@ -82,6 +83,29 @@ class UserGroupApiHelper {
           }, { new: true, upsert: true } )
           .exec();
       } );
+  }
+  // Helper function for rover interaction
+  public roverFetch ( urlPart: String ) {
+    let credentials = `${ process.env.ROVER_USERNAME }:${ process.env.ROVER_PASSWORD }`;
+    return fetch(
+      `${ process.env.ROVER_API }${ urlPart }`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Basic ${ Buffer.from( credentials ).toString( 'base64' ) }`
+        },
+      }
+    )
+      .then( ( res: any ) => {
+        if ( !res.ok ) {
+          console.error( 'Request Failed:', { statusText: res.statusText, status: res.status });
+        }
+        return res;
+      } )
+      .then( res => res.json() )
+      .then( res => res.result )
+      .catch( console.error );
   }
 }
 
