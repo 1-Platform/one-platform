@@ -37,10 +37,10 @@ context( 'Test feedback form', () => {
 
     it( 'Test if feedback and bug counts are visible in view existing feedback section', () => {
         cy.visit( Cypress.env( 'QA_HOST' ) + 'feedback' );
-        cy.get( '#username', { timeout: 10000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#username', { timeout: 20000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
-        cy.get( '#card-action', { timeout: 10000 } ).should( 'be.visible' ).each( () => {
+        cy.get( '#card-action', { timeout: 20000 } ).should( 'be.visible' ).each( () => {
             cy.get( '.pf-c-card__header' ).within( () => {
                 cy.get( '.count' ).should( 'be.visible' );
             } );
