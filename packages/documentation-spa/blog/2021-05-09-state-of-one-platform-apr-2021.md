@@ -5,7 +5,7 @@ author: Ghanshyam Lohar
 author_title: Senior Software Engineer @ Red Hat
 author_url: https://github.com/ghanlohar
 author_image_url: https://avatars.githubusercontent.com/u/5575651?s=400&v=4
-tags: [redhat, blog, oneportal, oneplatform, react, angular, january, update]
+tags: [redhat, blog, oneportal, oneplatform, react, angular, vue, april, update]
 ---
 ### Meta
 **Completed Sprint:** One Platform – Apr'21
