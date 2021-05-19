@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.45.0/patternfly.min.css">
+    <title>Home | One Platform</title>
+  </head>
+<body>
+  <!--#include virtual="/.ssi/nav/default.html" -->
+  <header class="header container">
+    <div class="header__content">
+      <h3 class="header__content-heading">
+        One Platform helps you build and deploy internal apps, microservice and website
+      </h3>
+      <p>
+        One Platform provides a single place for all internal applications and services, 
+        supports consistent User experience by providing standard platform for service hosting and data integration, 
+        efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
+      </p>
+      <div class="header__action-buttons">
+        <a class="pf-c-button" type="button">Get Started</a>
+      </div>
+    </div>
+    <div class="header__illustration">
+      <img class="header__illustration-cubes" src="../res/img/appCubes.svg" alt="app cubes">
+      <img class="header__illustration-spaship" src="../res/img/spaship.svg" alt="SPAship">
+      <img class="header__illustration-gateway" src="../res/img/gateway.svg" alt="api gateway">
+      <img class="header__illustration-core" src="../res/img/opCore.svg" alt="one platform core">
+    </div>
+  </header>
+
+  <section class="section container">
+    <nav class="section__sidebar">
+      <h3 class="section__sidebar-header">
+        jump to section
+      </h3>
+      <div class="section__sidebar-links">
+        <div class="pf-c-tabs pf-m-vertical" id="vertical-example">
+          <ul class="pf-c-tabs__list" id="sidebar-links">
+            <li class="pf-c-tabs__item pf-m-current" onclick="selector(this)">
+              <a href="#deployments" class="pf-c-tabs__link" id="vertical-example-users-link">
+                <span class="pf-c-tabs__item-text">Easy App Deployment</span>
+              </a>
+            </li>
+            <li class="pf-c-tabs__item" onclick="selector(this)">
+              <a href="#microservices" class="pf-c-tabs__link" id="vertical-example-containers-link">
+                <span class="pf-c-tabs__item-text">Built-in Microservices</span>
+              </a>
+            </li>
+            <li class="pf-c-tabs__item" onclick="selector(this)">
+              <a href="#applications" class="pf-c-tabs__link" id="vertical-example-containers-link">
+                <span class="pf-c-tabs__item-text">Hosted Applications</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="section__main">
+      <div class="section__app-deployment" id="deployments">
+        <h1 class="section__header">
+          Easy Deployment steps to follow
+        </h1>
+        <div class="section__app-deployment-cards">
+          <div class="section__app-deployment-card">
+            <div class="section__app-deployment-card-image">
+              <img src="../res/img/1checklist.svg" alt="">
+            </div>
+            <h2 class="section__app-deployment-card-header">
+              1. Create a Namespace
+            </h2>
+            <p class="section__app-deployment-card-description">
+              Reserve a unique path for your app and add it to One Platform application catalog.
+            </p>
+          </div>
+          <div class="section__app-deployment-card">
+            <div class="section__app-deployment-card-image">
+              <img src="../res/img/2build.svg" alt="">
+            </div>
+            <h2 class="section__app-deployment-card-header">
+              2. Connect & Configure
+            </h2>
+            <p class="section__app-deployment-card-description">
+              Connect your app to One Platform Micro-service APIs from Developer Console.
+            </p>
+          </div>
+          <div class="section__app-deployment-card">
+            <div class="section__app-deployment-card-image">
+              <img src="../res/img/3deploy.svg" alt="">
+            </div>
+            <h2 class="section__app-deployment-card-header">
+              3. Deploy & Monitor
+            </h2>
+            <p class="section__app-deployment-card-description">
+              Easily deploy your app using SPAship and monitor app performance, uptime and analytics.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="section__microservices" id="microservices">
+        <h1 class="section__header">Built-in Microservices for most common features</h1>
+        <div class="section__microservices-cards" id="microservice-cards"></div>
+      </div>
+      <div class="section__applications" id="applications">
+        <h1 class="section__header">
+          All Applications
+        </h1>
+        <div class="pf-c-tabs" id="default-example">
+          <button
+            class="pf-c-tabs__scroll-button"
+            disabled
+            aria-hidden="true"
+            aria-label="Scroll left"
+          >
+            <i class="fas fa-angle-left" aria-hidden="true"></i>
+          </button>
+          <ul class="pf-c-tabs__list">
+            <li class="pf-c-tabs__item pf-m-current">
+              <button class="pf-c-tabs__link" id="default-example-users-link">
+                <span class="pf-c-tabs__item-text">Built-in Applications</span>
+              </button>
+            </li>
+            <li class="pf-c-tabs__item">
+              <button class="pf-c-tabs__link" id="default-example-containers-link">
+                <span class="pf-c-tabs__item-text">Hosted Applications</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="section__applications-cards" id="applications-cards">
+        </div>
+      </div>
+    </main>
+  </section>
+  <footer>
+  </footer>
+</body>
+
+</html>

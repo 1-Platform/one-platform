@@ -1,0 +1,38 @@
+[
+    {
+      "name": "Authentication",
+      "description": "Adding authentication to your application is pice of cake. Just integrate with our API and focus on application development.",
+      "link": "",
+      "icon": "res/img/auth.svg",
+      "imgBgColor": "#F3FAF2"
+    },
+    {
+      "name": "Feedback",
+      "description": "Allows users to review and rate services and products provided by teams. Built into a power packed microservice so serve all.",
+      "link": "",
+      "icon": "res/img/feedback.svg",
+      "imgBgColor": "#FAEAE8"
+    },
+    {
+      "name": "Notification",
+      "description": "Notification framework for One Platform and also all other SPAs",
+      "link": "",
+      "icon": "res/img/notification.svg",
+      "imgBgColor": "#E7F1FA"
+    },
+    {
+      "name": "User Profile",
+      "description": "A prebuilt integration with LDAP to authenticate, authorize and get user information.",
+      "link": "",
+      "icon": "res/img/user.svg",
+      "imgBgColor": "#FDF7E7"
+    },
+    {
+      "name": "Search",
+      "description": "A unified search API gives you ability to search across all hosted applications on the platform.",
+      "link": "#",
+      "icon": "res/img/search.svg",
+      "imgBgColor": "#F2F9F9"
+    }
+  ]
+  

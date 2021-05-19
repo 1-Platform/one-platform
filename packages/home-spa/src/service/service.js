@@ -1,6 +1,8 @@
-const listHomeType = `
-query {
-  listHomeType {
+const getHomeTypeBySPA = `
+query HomePageQuery {
+  getHomeTypeBy(input: {
+    entityType: "spa"
+  }) {
       _id
       name
       description
@@ -9,8 +11,8 @@ query {
       entityType
       colorScheme
       active
-      }
-  }`;
+    }
+}`;
 
 export function getData() {
   const fetchOptions = {
@@ -20,7 +22,7 @@ export function getData() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: listHomeType
+      query: getHomeTypeBySPA
     })
   };
   return fetch(process.env.API_URL, fetchOptions)
