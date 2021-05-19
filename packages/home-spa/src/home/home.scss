@@ -1,0 +1,213 @@
+// mixin
+@mixin cards {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  gap: 1.5rem;
+}
+
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    transform: translate(20px, 8rem);
+    transition: all 320ms ease-in-out;
+    margin: auto;
+    &__content {
+      // margin-top: 8rem;
+      flex: 1 0 21.875rem;
+    }
+    &__action-buttons {
+      margin-top: 1.5rem;
+      a {
+        color: #C9190B;
+        background-color: #FAEAE8;
+        font-weight: bold;
+      }
+    }
+    &__content-heading {
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+    &__illustration {
+      max-width: 25rem;
+      height: 31.25rem;
+      transform: translate(20px, -16rem);
+      img {
+        position: relative;
+      }
+      &-cubes {
+        transform: translate(25px, 12rem);
+        transition: all 320ms ease-in-out;
+        z-index: 3;
+      }
+      &-spaship {
+        transition: all 320ms ease-in-out;
+        z-index: 2;
+      }
+      &-gateway {
+        transform: translate(0px, -12rem);
+        transition: all 320ms ease-in-out;
+        z-index: 1;
+      }
+      &-core {
+        transform: translate(0px, -25rem);
+        transition: all 320ms ease-in-out;
+      }
+    }
+  }
+  
+  .section {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    margin: 10rem auto;
+    &__main > div {
+      margin-bottom: 7rem;
+    }
+    // Sidebar
+    &__sidebar {
+      position: sticky;
+      top: 0;
+      height: fit-content;
+      margin-top: 1rem;
+      &-header {
+        text-transform: uppercase;
+      }
+      &-links {
+        div {
+          ul {
+            li {
+              a {
+                --pf-c-tabs__link--after--BorderColor: #EE0000;
+                &:hover {
+                  --pf-c-tabs__link--after--BorderColor: #D2D2D2;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    // Common header
+    &__header {
+      color: #151515;
+      font-size: 2.25rem;
+    }
+    // app-deployment section and cards
+    &__app-deployment {
+      &-cards {
+        @include cards;
+      }
+      &-card {
+        height: 25rem;
+        width: 20rem;
+        border: 1px solid #D2D2D2;
+        border-radius: 5px 5px 3px 3px;
+        padding: 1rem;
+        &-image {
+          height: 9.75rem;
+          width: 9.75rem;
+          border-radius: 50%;
+          background-color: #FAFAFA;
+          margin: 0 auto 3rem auto;
+        }
+        &-header {
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        &-description {
+          font-size: 1.125rem;
+        }
+      }
+    }
+    // microservice section and cards
+    &__microservices {
+      &-cards {
+        @include cards
+      }
+      &-card {
+        height: 21.875rem;
+        width: 20rem;
+        border: 1px solid #D2D2D2;
+        border-radius: 3px;
+        padding: 1rem;
+        &-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 1.5rem;
+          &-image {
+            display: grid;
+            place-items: center;
+            height: 5rem;
+            width: 5rem;
+            border-radius: 50%;
+            img {
+              max-width: 2.5rem;
+              max-height: 2.5rem;
+            }
+          }
+          h3 {
+            margin-left: 1rem;
+            font-size: 1.5rem;
+          }
+        }
+        &-description {
+          font-size: 1.125rem;
+          color: #151515;
+          margin-bottom: 2rem;
+          height: 7.5rem;
+          overflow: hidden;
+        }
+        &-cta {
+          border: 1px solid #151515;
+          color: #151515;
+          font-weight: bolder;
+          padding: 1rem 2rem;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+    // application section and cards
+    &__applications {
+      &-cards {
+        @include cards;
+      }
+      &-card {
+        width: 14rem;
+        height: 12rem;
+        border: 1px solid #DDDDDD;
+        &-image {
+          background-color: #DDDDDD;
+          height: 80%;
+          display: grid;
+          place-content: center;
+          img {
+            width: 4rem;
+            height: 5rem;
+          }
+        }
+        &-label {
+          color: #151515;
+          padding: 0.5rem 1rem;
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+      ul {
+        li {
+          button {
+            --pf-c-tabs__link--after--BorderColor: #EE0000;
+            &:hover {
+              --pf-c-tabs__link--after--BorderColor: #D2D2D2;
+            }
+          }
+        }
+      }
+    }
+  }
+  
