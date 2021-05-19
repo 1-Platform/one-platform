@@ -64,6 +64,9 @@ stitchedSchemas()
         path: error.path,
         ...error.extensions,
       } ),
+      subscriptions: {
+        path: '/subscriptions',
+      },
       playground: <any>{
         title: 'API Gateway',
         settings: {
