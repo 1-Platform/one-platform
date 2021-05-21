@@ -32,7 +32,12 @@ export const applicationCards = (spas) => {
   if (appCards !== null) {
     appCards.innerHTML = spas.map(
       (spa) => {
-        return`<a target="_blank" href="${spa.link}" class="section__applications-card">
+        return `
+        <a 
+          target="_blank" 
+          ${!spa.active ? '': 'href="' + spa.link + '"'} 
+          style="${spa.active ? '': 'cursor: no-drop'}" 
+          class="section__applications-card">
           <div class="section__applications-card-image">
             <img src="${spa.active ? '../res/img/redcube.svg': '../res/img/cube.svg'}" alt="cube">
           </div>
