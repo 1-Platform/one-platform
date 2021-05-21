@@ -1,5 +1,5 @@
 ---
-id: component-library
+id: getting-started
 title: Getting Started with One Platform
 sidebar_label: Getting Started
 slug: /

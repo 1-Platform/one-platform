@@ -20,6 +20,7 @@ module.exports = {
     ],
     CLI: [ 'cli/op-cli' ],
     Components: [ 'components/component-library' ],
+    GettingStarted: [ 'getting-started/getting-started' ],
     Documentation: [ 'documentation/styleguide' ],
     Microservices: [
       'microservices/authorization/authorization-service',
