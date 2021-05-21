@@ -2,7 +2,6 @@
 id: component-library
 title: Component Library
 sidebar_label: Component Library
-slug: /
 ---
 * * *
 
@@ -13,7 +12,7 @@ slug: /
 * Sumeet Ingole - [singole@redhat.com](mailto:singole@redhat.com)
 * Deepesh Nair - [denair@redhat.com](mailto:denair@redhat.com)
 
-### Getting Started
+### Getting Started with Component Library
 
 #### GitHub Repo
 
