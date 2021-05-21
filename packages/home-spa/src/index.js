@@ -32,7 +32,7 @@ opcFooter.addEventListener( 'opc-footer-link:click', () => {
 }, false);
 // Footer end
 
-// window.OpAuthHelper.onLogin( () => {
+window.OpAuthHelper.onLogin( () => {
   getData().then( ( result ) => {
     console.log(result);
     renderSPAList(result.data.getHomeTypeBy);
@@ -43,4 +43,4 @@ opcFooter.addEventListener( 'opc-footer-link:click', () => {
     .catch( err => {
       console.error( err );
     } );
-// } );
+} );

@@ -6,208 +6,257 @@
   flex: 1 1 auto;
   gap: 1.5rem;
 }
+@function toRem($pxs) {
+  $remValue: ($pxs /16) + rem;
+  @return $remValue
+}
 
 
 .header {
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1;
-    transform: translate(20px, 8rem);
-    transition: all 320ms ease-in-out;
-    margin: auto;
-    &__content {
-      // margin-top: 8rem;
-      flex: 1 0 21.875rem;
-    }
-    &__action-buttons {
-      margin-top: 1.5rem;
-      a {
-        color: #C9190B;
-        background-color: #FAEAE8;
-        font-weight: bold;
-      }
-    }
-    &__content-heading {
-      font-size: 2rem;
-      font-weight: 300;
-      margin-bottom: 1.5rem;
-    }
-    &__illustration {
-      max-width: 25rem;
-      height: 31.25rem;
-      transform: translate(20px, -16rem);
-      img {
-        position: relative;
-      }
-      &-cubes {
-        transform: translate(25px, 12rem);
-        transition: all 320ms ease-in-out;
-        z-index: 3;
-      }
-      &-spaship {
-        transition: all 320ms ease-in-out;
-        z-index: 2;
-      }
-      &-gateway {
-        transform: translate(0px, -12rem);
-        transition: all 320ms ease-in-out;
-        z-index: 1;
-      }
-      &-core {
-        transform: translate(0px, -25rem);
-        transition: all 320ms ease-in-out;
-      }
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  transform: translate(20px, 8rem);
+  transition: all 320ms ease-in-out;
+  margin: auto;
+  &__content {
+    // margin-top: 8rem;
+    flex: 1 0 21.875rem;
+  }
+  &__action-buttons {
+    margin-top: 1.5rem;
+    a {
+      color: #C9190B;
+      background-color: #FAEAE8;
+      font-weight: bold;
     }
   }
-  
-  .section {
-    display: grid;
-    grid-template-columns: 2fr 10fr;
-    margin: 10rem auto;
-    &__main > div {
-      margin-bottom: 7rem;
+  &__content-heading {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  &__illustration {
+    max-width: 25rem;
+    height: 31.25rem;
+    transform: translate(20px, -16rem);
+    img {
+      position: relative;
     }
-    // Sidebar
-    &__sidebar {
-      position: sticky;
-      top: 0;
-      height: fit-content;
-      margin-top: 1rem;
-      &-header {
-        text-transform: uppercase;
-      }
-      &-links {
-        div {
-          ul {
-            li {
-              a {
-                --pf-c-tabs__link--after--BorderColor: #EE0000;
-                &:hover {
-                  --pf-c-tabs__link--after--BorderColor: #D2D2D2;
-                }
+    &-cubes {
+      transform: translate(25px, 12rem);
+      transition: all 320ms ease-in-out;
+      z-index: 3;
+      animation: movecubes 3s infinite;
+    }
+    &-spaship {
+      transition: all 320ms ease-in-out;
+      z-index: 2;
+    }
+    &-gateway {
+      transform: translate(0px, -12rem);
+      transition: all 320ms ease-in-out;
+      z-index: 1;
+      animation: gateway 3s infinite;
+    }
+    &-core {
+      transform: translate(0px, -25rem);
+      transition: all 320ms ease-in-out;
+      animation: core 3s infinite;
+    }
+  }
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+  margin: 5rem auto;
+  &__main > div {
+    margin-bottom: 7rem;
+  }
+  // Sidebar
+  &__sidebar {
+    position: sticky;
+    top: toRem(72);
+    height: toRem(230);
+    margin-top: 4.5rem;
+    &-header {
+      text-transform: uppercase;
+    }
+    &-links {
+      div {
+        ul {
+          li {
+            a {
+              --pf-c-tabs__link--after--BorderColor: #EE0000;
+              &:hover {
+                --pf-c-tabs__link--after--BorderColor: #D2D2D2;
               }
             }
           }
         }
       }
     }
-    // Common header
-    &__header {
-      color: #151515;
-      font-size: 2.25rem;
+  }
+  // Common header
+  &__header {
+    color: #151515;
+    font-size: 2.25rem;
+    padding: 4rem 0 0 0;
+  }
+  // app-deployment section and cards
+  &__app-deployment {
+    &-cards {
+      @include cards;
     }
-    // app-deployment section and cards
-    &__app-deployment {
-      &-cards {
-        @include cards;
+    &-card {
+      height: 24rem;
+      width: 20rem;
+      border: 1px solid #D2D2D2;
+      border-radius: 5px 5px 3px 3px;
+      padding: 1rem;
+      &-image {
+        height: 9.75rem;
+        width: 9.75rem;
+        border-radius: 50%;
+        background-color: #FAFAFA;
+        margin: 0 auto 3rem auto;
       }
-      &-card {
-        height: 25rem;
-        width: 20rem;
-        border: 1px solid #D2D2D2;
-        border-radius: 5px 5px 3px 3px;
-        padding: 1rem;
+      &-header {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      &-description {
+        font-size: 1.125rem;
+      }
+    }
+  }
+  // microservice section and cards
+  &__microservices {
+    &-cards {
+      @include cards
+    }
+    &-card {
+      height: 21rem;
+      width: 20rem;
+      border: 1px solid #D2D2D2;
+      border-radius: 3px;
+      padding: 1rem;
+      &-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
         &-image {
-          height: 9.75rem;
-          width: 9.75rem;
-          border-radius: 50%;
-          background-color: #FAFAFA;
-          margin: 0 auto 3rem auto;
-        }
-        &-header {
-          font-size: 1.5rem;
-          margin-bottom: 1rem;
-        }
-        &-description {
-          font-size: 1.125rem;
-        }
-      }
-    }
-    // microservice section and cards
-    &__microservices {
-      &-cards {
-        @include cards
-      }
-      &-card {
-        height: 21.875rem;
-        width: 20rem;
-        border: 1px solid #D2D2D2;
-        border-radius: 3px;
-        padding: 1rem;
-        &-header {
-          display: flex;
-          align-items: center;
-          margin-bottom: 1.5rem;
-          &-image {
-            display: grid;
-            place-items: center;
-            height: 5rem;
-            width: 5rem;
-            border-radius: 50%;
-            img {
-              max-width: 2.5rem;
-              max-height: 2.5rem;
-            }
-          }
-          h3 {
-            margin-left: 1rem;
-            font-size: 1.5rem;
-          }
-        }
-        &-description {
-          font-size: 1.125rem;
-          color: #151515;
-          margin-bottom: 2rem;
-          height: 7.5rem;
-          overflow: hidden;
-        }
-        &-cta {
-          border: 1px solid #151515;
-          color: #151515;
-          font-weight: bolder;
-          padding: 1rem 2rem;
-          &:hover {
-            text-decoration: none;
-          }
-        }
-      }
-    }
-    // application section and cards
-    &__applications {
-      &-cards {
-        @include cards;
-      }
-      &-card {
-        width: 14rem;
-        height: 12rem;
-        border: 1px solid #DDDDDD;
-        &-image {
-          background-color: #DDDDDD;
-          height: 80%;
           display: grid;
-          place-content: center;
+          place-items: center;
+          height: 5rem;
+          width: 5rem;
+          border-radius: 50%;
           img {
-            width: 4rem;
-            height: 5rem;
+            max-width: 2.5rem;
+            max-height: 2.5rem;
           }
         }
-        &-label {
-          color: #151515;
-          padding: 0.5rem 1rem;
-          display: flex;
-          justify-content: space-between;
+        h3 {
+          margin-left: 1rem;
+          font-size: 1.5rem;
         }
       }
-      ul {
-        li {
-          button {
-            --pf-c-tabs__link--after--BorderColor: #EE0000;
-            &:hover {
-              --pf-c-tabs__link--after--BorderColor: #D2D2D2;
-            }
+      &-description {
+        font-size: 1.125rem;
+        color: #151515;
+        margin-bottom: 2rem;
+        height: 7.5rem;
+        overflow: hidden;
+      }
+      &-cta {
+        border: 1px solid #151515;
+        color: #151515;
+        font-weight: bolder;
+        padding: 1rem 2rem;
+        &:hover {
+          text-decoration: none;
+          box-shadow: 1px 2px 3px #ddd;
+        }
+      }
+    }
+  }
+  // application section and cards
+  &__applications {
+    &-cards {
+      @include cards;
+    }
+    &-card {
+      width: 14rem;
+      height: 12rem;
+      border: 1px solid #DDDDDD;
+      &-image {
+        background-color: #fafafa;
+        height: 80%;
+        display: grid;
+        place-content: center;
+        img {
+          width: 3.5rem;
+          height: 4rem;
+        }
+      }
+      &-label {
+        color: #151515;
+        padding: 0.5rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    ul {
+      li {
+        button {
+          --pf-c-tabs__link--after--BorderColor: #EE0000;
+          &:hover {
+            --pf-c-tabs__link--after--BorderColor: #D2D2D2;
           }
         }
       }
     }
   }
-  
+}
+
+@keyframes movecubes {
+  0% {
+    transform: translate(25px, 12rem);
+  }
+  50% {
+    transform: translate(25px, 9rem);
+  }
+  100% {
+    transform: translate(25px, 12rem);
+  }
+}
+
+@keyframes gateway {
+  0% {
+    transform: translate(0px, -12rem);
+  }
+  50% {
+    transform: translate(0px, -9rem);
+  }
+  100% {
+    transform: translate(0px, -12rem);
+  }
+}
+
+@keyframes core {
+  0% {
+    transform: translate(0px, -25rem);
+  }
+  50% {
+    transform: translate(0px, -20rem);
+  }
+  100% {
+    transform: translate(0px, -25rem);
+  }
+}
+
