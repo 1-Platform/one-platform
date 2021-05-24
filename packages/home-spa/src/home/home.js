@@ -42,8 +42,14 @@ export const applicationCards = (spas) => {
             <img src="${spa.active ? '../res/img/redcube.svg': '../res/img/cube.svg'}" alt="cube">
           </div>
           <div class="section__applications-card-label">
-            <label>${spa.name}</label>
-            <i class="fas fa-external-link-alt"></i>
+            <label>${spa.name.length > 20 ? spa.name.slice(0, 20) + '...' : spa.name}</label>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" 
+            viewBox="0 0 12 12"><g transform="translate(0.5 0.5)">
+            <path d="M11,6.5V9a2.006,2.006,0,0,1-2,2H2A2.006,2.006,0,0,1,0,9V2A2.006,2.006,0,0,1,2,0H4.5" fill="none" 
+            stroke="#4d4d4d" stroke-miterlimit="10" stroke-width="1"/><line x1="5.5" y2="5.5" 
+            transform="translate(5.5)" fill="none" stroke="#4d4d4d" 
+            stroke-miterlimit="10" stroke-width="1"/><path d="M6.5,0H11V4.5" fill="none" 
+            stroke="#4d4d4d" stroke-miterlimit="10" stroke-width="1"/></g></svg>
           </div>
         </a>`;
       }
