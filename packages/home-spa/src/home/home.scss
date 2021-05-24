@@ -39,28 +39,31 @@
   &__illustration {
     max-width: 25rem;
     height: 31.25rem;
-    transform: translate(20px, -16rem);
+    transform: translate(20px, -10rem);
     img {
       position: relative;
+      width: toRem(300);
     }
     &-cubes {
-      transform: translate(25px, 12rem);
+      transform: translate(0px, 4rem);
       transition: all 320ms ease-in-out;
       z-index: 3;
       animation: movecubes 3s infinite;
     }
     &-spaship {
+      transform: translate(0px, -2.5rem);
       transition: all 320ms ease-in-out;
       z-index: 2;
+      animation: spaship 3s infinite;
     }
     &-gateway {
-      transform: translate(0px, -12rem);
+      transform: translate(0px, -9rem);
       transition: all 320ms ease-in-out;
       z-index: 1;
       animation: gateway 3s infinite;
     }
     &-core {
-      transform: translate(0px, -25rem);
+      transform: translate(0px, -18rem);
       transition: all 320ms ease-in-out;
       animation: core 3s infinite;
     }
@@ -70,6 +73,7 @@
 .section {
   display: grid;
   grid-template-columns: 2fr 10fr;
+  gap: 2rem;
   margin: 5rem auto;
   &__main > div {
     margin-bottom: 7rem;
@@ -190,6 +194,7 @@
       width: 14rem;
       height: 12rem;
       border: 1px solid #DDDDDD;
+      border-radius: 3px;
       &-image {
         background-color: #fafafa;
         height: 80%;
@@ -226,13 +231,25 @@
 
 @keyframes movecubes {
   0% {
-    transform: translate(25px, 12rem);
+    transform: translate(0px, 10rem);
   }
   50% {
-    transform: translate(25px, 9rem);
+    transform: translate(0px, 4rem);
   }
   100% {
-    transform: translate(25px, 12rem);
+    transform: translate(0px, 10rem);
+  }
+}
+
+@keyframes spaship {
+  0% {
+    transform: translate(0px, -0.5rem);
+  }
+  50% {
+    transform: translate(0px, -2.5rem);
+  }
+  100% {
+    transform: translate(0px, -0.5rem);
   }
 }
 
@@ -253,7 +270,7 @@
     transform: translate(0px, -25rem);
   }
   50% {
-    transform: translate(0px, -20rem);
+    transform: translate(0px, -18rem);
   }
   100% {
     transform: translate(0px, -25rem);

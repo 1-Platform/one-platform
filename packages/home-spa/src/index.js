@@ -34,7 +34,6 @@ opcFooter.addEventListener( 'opc-footer-link:click', () => {
 
 window.OpAuthHelper.onLogin( () => {
   getData().then( ( result ) => {
-    console.log(result);
     renderSPAList(result.data.getHomeTypeBy);
     applicationCards(result.data.getHomeTypeBy)
     microserviceCards();
