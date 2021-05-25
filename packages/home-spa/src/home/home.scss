@@ -16,11 +16,9 @@
   display: flex;
   flex-wrap: wrap;
   flex: 1;
-  transform: translate(20px, 8rem);
-  transition: all 320ms ease-in-out;
+  transform: translate(20px, 9rem);
   margin: auto;
   &__content {
-    // margin-top: 8rem;
     flex: 1 0 21.875rem;
   }
   &__action-buttons {
@@ -40,32 +38,81 @@
     max-width: 25rem;
     height: 31.25rem;
     transform: translate(20px, -10rem);
+    .transform-node {
+      &-app {
+        transform: translate(18rem, -6.5rem);
+      }
+      &-spaship {
+        transform: translate(18rem, -10.5rem);
+      }
+      &-gateway {
+        transform: translate(18rem, -15.5rem);
+      }
+      &-core {
+        transform: translate(18rem, -26.5rem);
+      }
+    }
+    &-connector {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      animation: nodetext 3.5s infinite;
+      & > span {
+        color: #A0A0A0;
+        margin-left: 0.5rem;
+      }
+    }
+    &-node {
+      display: flex;
+      align-items: center;
+      &-start {
+        border-top: 1px solid #A0A0A0;
+        border-bottom: 1px solid #A0A0A0;
+        border-right: 1px solid #A0A0A0;
+        width: toRem(30);
+        &.medium {
+          height: toRem(84);
+        }
+        &.small {
+          height: toRem(40);
+        }
+        &.large {
+          height: toRem(86);
+        }
+      }
+      &-end {
+        height: 1px;
+        width: toRem(30);
+        background: #A0A0A0;
+      }
+
+    }
     img {
       position: relative;
-      width: toRem(300);
+      width: toRem(280);
     }
     &-cubes {
-      transform: translate(0px, 4rem);
+      transform: translate(0px, 2.5rem);
       transition: all 320ms ease-in-out;
+      animation: movecubes 3.5s infinite;
       z-index: 3;
-      animation: movecubes 3s infinite;
     }
     &-spaship {
-      transform: translate(0px, -2.5rem);
+      transform: translate(0px, -3.5rem);
       transition: all 320ms ease-in-out;
       z-index: 2;
-      animation: spaship 3s infinite;
+      animation: spaship 3.5s infinite;
     }
     &-gateway {
-      transform: translate(0px, -9rem);
+      transform: translate(0px, -8.5rem);
       transition: all 320ms ease-in-out;
       z-index: 1;
-      animation: gateway 3s infinite;
+      animation: gateway 3.5s infinite;
     }
     &-core {
-      transform: translate(0px, -18rem);
+      transform: translate(0px, -15.5rem);
       transition: all 320ms ease-in-out;
-      animation: core 3s infinite;
+      animation: core 3.5s infinite;
     }
   }
 }
@@ -231,49 +278,61 @@
 
 @keyframes movecubes {
   0% {
-    transform: translate(0px, 10rem);
+    transform: translate(0px, 7.5rem);
   }
   50% {
-    transform: translate(0px, 4rem);
+    transform: translate(0px, 2rem);
   }
   100% {
-    transform: translate(0px, 10rem);
+    transform: translate(0px, 7.5rem);
   }
 }
 
 @keyframes spaship {
   0% {
-    transform: translate(0px, -0.5rem);
+    transform: translate(0px, -2em);
   }
   50% {
-    transform: translate(0px, -2.5rem);
+    transform: translate(0px, -4rem);
   }
   100% {
-    transform: translate(0px, -0.5rem);
+    transform: translate(0px, -2rem);
   }
 }
 
 @keyframes gateway {
   0% {
-    transform: translate(0px, -12rem);
+    transform: translate(0px, -11.5rem);
   }
   50% {
-    transform: translate(0px, -9rem);
+    transform: translate(0px, -8.5rem);
   }
   100% {
-    transform: translate(0px, -12rem);
+    transform: translate(0px, -11.5rem);
   }
 }
 
 @keyframes core {
   0% {
-    transform: translate(0px, -25rem);
+    transform: translate(0px, -22rem);
   }
   50% {
-    transform: translate(0px, -18rem);
+    transform: translate(0px, -15.5rem);
   }
   100% {
-    transform: translate(0px, -25rem);
+    transform: translate(0px, -22rem);
+  }
+}
+
+@keyframes nodetext {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 

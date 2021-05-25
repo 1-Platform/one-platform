@@ -26,9 +26,37 @@
     </div>
     <div class="header__illustration">
       <img class="header__illustration-cubes" src="../res/img/appCubes.svg" alt="app cubes">
+      <div class="header__illustration-connector transform-node-app">
+        <div class="header__illustration-node">
+          <div class="header__illustration-node-start medium"></div>
+          <div class="header__illustration-node-end"></div>
+        </div>
+        <span class="header__illustration-app-node-text">Your apps & services</span>
+      </div>
       <img class="header__illustration-spaship" src="../res/img/spaship.svg" alt="SPAship">
+      <div class="header__illustration-connector transform-node-spaship">
+        <div class="header__illustration-node">
+          <div class="header__illustration-node-start small"></div>
+          <div class="header__illustration-node-end"></div>
+        </div>
+        <span class="header__illustration-spaship-node-text">SPAship integration</span>
+      </div>
       <img class="header__illustration-gateway" src="../res/img/gateway.svg" alt="api gateway">
+      <div class="header__illustration-connector transform-node-gateway">
+        <div class="header__illustration-node">
+          <div class="header__illustration-node-start small"></div>
+          <div class="header__illustration-node-end"></div>
+        </div>
+        <span class="header__illustration-gateway-node-text">API Gateway</span>
+      </div>
       <img class="header__illustration-core" src="../res/img/opCore.svg" alt="one platform core">
+      <div class="header__illustration-connector transform-node-core">
+        <div class="header__illustration-node">
+          <div class="header__illustration-node-start large"></div>
+          <div class="header__illustration-node-end"></div>
+        </div>
+        <span class="header__illustration-connector-text">One platform core</span>
+      </div>
     </div>
   </header>
 
@@ -40,17 +68,17 @@
       <div class="section__sidebar-links">
         <div class="pf-c-tabs pf-m-vertical" id="vertical-example">
           <ul class="pf-c-tabs__list" id="sidebar-links">
-            <li class="pf-c-tabs__item pf-m-current" onclick="selector(this)">
+            <li class="pf-c-tabs__item pf-m-current" onclick="selectSideNav(this)">
               <a href="#deployments" class="pf-c-tabs__link" id="vertical-example-users-link">
                 <span class="pf-c-tabs__item-text">Easy App Deployment</span>
               </a>
             </li>
-            <li class="pf-c-tabs__item" onclick="selector(this)">
+            <li class="pf-c-tabs__item" onclick="selectSideNav(this)">
               <a href="#microservices" class="pf-c-tabs__link" id="vertical-example-containers-link">
                 <span class="pf-c-tabs__item-text">Built-in Microservices</span>
               </a>
             </li>
-            <li class="pf-c-tabs__item" onclick="selector(this)">
+            <li class="pf-c-tabs__item" onclick="selectSideNav(this)">
               <a href="#applications" class="pf-c-tabs__link" id="vertical-example-containers-link">
                 <span class="pf-c-tabs__item-text">Hosted Applications</span>
               </a>
@@ -117,14 +145,14 @@
           >
             <i class="fas fa-angle-left" aria-hidden="true"></i>
           </button>
-          <ul class="pf-c-tabs__list">
-            <li class="pf-c-tabs__item pf-m-current">
-              <button class="pf-c-tabs__link" id="default-example-users-link">
+          <ul class="pf-c-tabs__list" id="app-tabs">
+            <li class="pf-c-tabs__item pf-m-current" value="BUILTIN" onclick="selectTab(this)">
+              <button class="pf-c-tabs__link">
                 <span class="pf-c-tabs__item-text">Built-in Applications</span>
               </button>
             </li>
-            <li class="pf-c-tabs__item">
-              <button class="pf-c-tabs__link" id="default-example-containers-link">
+            <li class="pf-c-tabs__item" value="HOSTED" onclick="selectTab(this)">
+              <button class="pf-c-tabs__link">
                 <span class="pf-c-tabs__item-text">Hosted Applications</span>
               </button>
             </li>
