@@ -49,7 +49,7 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: [MiniCssExtractPlugin, 'css-loader']
+                use: [MiniCssExtractPlugin, 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/i,
