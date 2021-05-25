@@ -273,14 +273,14 @@
       width: 14rem;
       height: 12rem;
       border: 1px solid #DDDDDD;
-      border-radius: 3px;
+      border-radius: 8px;
       &-image {
         background-color: #fafafa;
         height: 80%;
         display: grid;
         place-content: center;
         img {
-          width: 3.5rem;
+          width: 4rem;
           height: 4rem;
         }
       }
@@ -293,6 +293,7 @@
       }
       &:hover {
         text-decoration: none;
+        box-shadow: 1px 2px 3px #33333330;
       }
     }
     ul {
@@ -309,6 +310,8 @@
       margin-top: 2rem;
       padding: 1rem 2rem;
       background-color: #F5F5F5;
+      border: none;
+      color: #333333;
     }
   }
 }
