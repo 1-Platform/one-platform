@@ -3,8 +3,6 @@ id: search-service
 title: Search Service
 sidebar_label: Search Service
 ---
-***
-# Search Service
 
 ## Developers
 
