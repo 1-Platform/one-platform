@@ -27,10 +27,12 @@ export const microserviceCards = () => {
     }
 };
 
-export const applicationCards = (spas) => {
+export const applicationCards = (spas, spaType = "BUILTIN") => {
   const appCards = document.querySelector('#applications-cards');
   if (appCards !== null) {
-    appCards.innerHTML = spas.map(
+    appCards.innerHTML = spas
+    .filter(spa => spa.applicationType === spaType)
+    .map(
       (spa) => {
         return `
         <a 
@@ -57,7 +59,7 @@ export const applicationCards = (spas) => {
   }
 };
 
-window.selector = (element) => {
+window.selectSideNav = (element) => {
   const sideBarLinks = document.querySelector('#sidebar-links').querySelectorAll('li');
   if (sideBarLinks !== null) {
     for (let listNode of sideBarLinks) {
@@ -65,4 +67,15 @@ window.selector = (element) => {
     }
   }
   element.classList.add('pf-m-current');
+};
+
+window.selectTab = (element) => {
+  const tabList = document.querySelector('#app-tabs').querySelectorAll('li');
+  if (tabList !== null) {
+    for (let listNode of tabList) {
+      listNode.classList.remove('pf-m-current')
+    }
+  }
+  element.classList.add('pf-m-current');
+  applicationCards(JSON.parse(localStorage.getItem('spaList')), element.attributes.value.value)
 };

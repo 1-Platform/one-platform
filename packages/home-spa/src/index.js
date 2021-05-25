@@ -36,6 +36,7 @@ window.OpAuthHelper.onLogin( () => {
   getData().then( ( result ) => {
     renderSPAList(result.data.getHomeTypeBy);
     applicationCards(result.data.getHomeTypeBy)
+    localStorage.setItem('spaList', JSON.stringify(result.data.getHomeTypeBy));
     microserviceCards();
     contactUsTeamBlock();
   } )
