@@ -32,6 +32,7 @@ export const applicationCards = (spas, spaType = "BUILTIN") => {
   if (appCards !== null) {
     appCards.innerHTML = spas
     .filter(spa => spa.applicationType === spaType)
+    .slice(0, 12)
     .map(
       (spa) => {
         const icon = ((spa.icon === "") || (spa.icon === null)) ?  '../res/img/redcube.svg' : spa.icon;
