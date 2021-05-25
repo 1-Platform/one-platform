@@ -33,6 +33,7 @@ module.exports = {
         ]
       },
       'microservices/user-groups/user-groups-service',
+      'microservices/search/search-service',
     ],
     FAQs: [ 'faqs' ],
   },
