@@ -30,7 +30,7 @@
     {
       "name": "Search",
       "description": "A unified search API gives you ability to search across all hosted applications on the platform.",
-      "link": "/search",
+      "link": "/get-started/docs/microservices/search/search-service/",
       "icon": "res/img/search.svg",
       "imgBgColor": "#F2F9F9"
     }

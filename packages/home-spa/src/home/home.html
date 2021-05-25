@@ -21,7 +21,8 @@
         efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
       </p>
       <div class="header__action-buttons">
-        <a target="_blank" class="pf-c-button" href="/docs/get-started" type="button">Get Started</a>
+        <a target="_blank" class="pf-c-button" href="/get-started/docs" type="button">Get Started</a>
+        <a target="_blank" class="pf-c-button" href="/get-started/" type="button">Learn More</a>
       </div>
     </div>
     <div class="header__illustration">
@@ -31,7 +32,7 @@
           <div class="header__illustration-node-start medium"></div>
           <div class="header__illustration-node-end"></div>
         </div>
-        <span class="header__illustration-app-node-text">Your apps & services</span>
+        <span class="header__illustration-app-node-text">Your apps</span>
       </div>
       <img class="header__illustration-spaship" src="../res/img/spaship.svg" alt="SPAship">
       <div class="header__illustration-connector transform-node-spaship">
@@ -39,7 +40,7 @@
           <div class="header__illustration-node-start small"></div>
           <div class="header__illustration-node-end"></div>
         </div>
-        <span class="header__illustration-spaship-node-text">SPAship integration</span>
+        <span class="header__illustration-spaship-node-text">SPAship</span>
       </div>
       <img class="header__illustration-gateway" src="../res/img/gateway.svg" alt="api gateway">
       <div class="header__illustration-connector transform-node-gateway">
@@ -55,14 +56,14 @@
           <div class="header__illustration-node-start large"></div>
           <div class="header__illustration-node-end"></div>
         </div>
-        <span class="header__illustration-connector-text">One platform core</span>
+        <span class="header__illustration-connector-text">One Platform Core</span>
       </div>
     </div>
   </header>
 
   <section class="section container">
     <nav class="section__sidebar">
-      <h3 class="section__sidebar-header">
+      <h3 class="section__sidebar-header" id="anchor">
         jump to section
       </h3>
       <div class="section__sidebar-links">
@@ -87,7 +88,7 @@
         </div>
       </div>
     </nav>
-    <main class="section__main">
+    <main class="section__main" id="section-main">
       <div class="section__app-deployment" id="deployments">
         <h1 class="section__header">
           Easy Deployment steps to follow
@@ -127,6 +128,10 @@
             </p>
           </div>
         </div>
+        <div class="section__app-deployment-action-buttons">
+          <!-- <button class="pf-c-button" type="button">Quick Deploy</button> -->
+          <a target="_blank" class="pf-c-button" href="/get-started/docs" type="button">Read More</a>
+        </div>
       </div>
       <div class="section__microservices" id="microservices">
         <h1 class="section__header">Built-in Microservices for most common features</h1>
@@ -137,14 +142,6 @@
           All Applications
         </h1>
         <div class="pf-c-tabs" id="default-example">
-          <button
-            class="pf-c-tabs__scroll-button"
-            disabled
-            aria-hidden="true"
-            aria-label="Scroll left"
-          >
-            <i class="fas fa-angle-left" aria-hidden="true"></i>
-          </button>
           <ul class="pf-c-tabs__list" id="app-tabs">
             <li class="pf-c-tabs__item pf-m-current" value="BUILTIN" onclick="selectTab(this)">
               <button class="pf-c-tabs__link">
@@ -160,6 +157,7 @@
         </div>
         <div class="section__applications-cards" id="applications-cards">
         </div>
+        <button class="pf-c-button section__applications-view-more" onclick="openAppDrawer()" type="button">View more application</button>
       </div>
     </main>
   </section>

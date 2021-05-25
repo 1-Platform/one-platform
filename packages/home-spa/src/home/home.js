@@ -34,6 +34,7 @@ export const applicationCards = (spas, spaType = "BUILTIN") => {
     .filter(spa => spa.applicationType === spaType)
     .map(
       (spa) => {
+        const icon = ((spa.icon === "") || (spa.icon === null)) ?  '../res/img/redcube.svg' : spa.icon;
         return `
         <a 
           target="_blank" 
@@ -41,7 +42,7 @@ export const applicationCards = (spas, spaType = "BUILTIN") => {
           style="${spa.active ? '': 'cursor: no-drop'}" 
           class="section__applications-card">
           <div class="section__applications-card-image">
-            <img src="${spa.active ? '../res/img/redcube.svg': '../res/img/cube.svg'}" alt="cube">
+            <img src="${spa.active ? icon : '../res/img/cube.svg'}" alt="cube">
           </div>
           <div class="section__applications-card-label">
             <label>${spa.name.length > 20 ? spa.name.slice(0, 20) + '...' : spa.name}</label>
@@ -62,9 +63,7 @@ export const applicationCards = (spas, spaType = "BUILTIN") => {
 window.selectSideNav = (element) => {
   const sideBarLinks = document.querySelector('#sidebar-links').querySelectorAll('li');
   if (sideBarLinks !== null) {
-    for (let listNode of sideBarLinks) {
-      listNode.classList.remove('pf-m-current')
-    }
+    sideBarLinks.forEach((listNode )=> listNode.classList.remove('pf-m-current'))
   }
   element.classList.add('pf-m-current');
 };
@@ -79,3 +78,27 @@ window.selectTab = (element) => {
   element.classList.add('pf-m-current');
   applicationCards(JSON.parse(localStorage.getItem('spaList')), element.attributes.value.value)
 };
+
+window.openAppDrawer = () => {
+  try {
+    document.querySelector("body > op-nav").toggleDrawer('app');
+  } catch(err) {
+    return err;
+  }
+};
+
+window.onload = () => {
+  const main = document.querySelector('#sidebar-links').querySelectorAll('li');
+  const sections = document.querySelectorAll("#section-main > div");
+  sections.forEach( (section, index) => {
+    const observer = new IntersectionObserver( (entry) => {
+      if (entry[0].isIntersecting) {
+        main.forEach((listNode) => listNode.classList.remove('pf-m-current'))
+        main[index].classList.add('pf-m-current');
+      }
+    }, {
+      rootMargin: "-50% 0px",
+    });
+    observer.observe(section);
+  })
+}

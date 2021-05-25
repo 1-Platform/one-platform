@@ -24,9 +24,16 @@
   &__action-buttons {
     margin-top: 1.5rem;
     a {
+      padding: 1rem 2rem;
+      margin-right: 1rem;
+    }
+    a:first-of-type {
       color: #C9190B;
       background-color: #FAEAE8;
-      font-weight: bold;
+    }
+    a:last-of-type {
+      color: #333333;
+      background-color: #F5F5F5;
     }
   }
   &__content-heading {
@@ -56,7 +63,9 @@
       position: absolute;
       display: flex;
       align-items: center;
-      animation: nodetext 3.5s infinite;
+      animation: nodetext 10s infinite;
+
+
       & > span {
         color: #A0A0A0;
         margin-left: 0.5rem;
@@ -94,26 +103,31 @@
     &-cubes {
       transform: translate(0px, 2.5rem);
       transition: all 320ms ease-in-out;
-      animation: movecubes 3.5s infinite;
+      animation: movecubes 10s infinite;
+
+
       z-index: 3;
     }
     &-spaship {
       transform: translate(0px, -3.5rem);
       transition: all 320ms ease-in-out;
       z-index: 2;
-      animation: spaship 3.5s infinite;
-    }
+      animation: spaship 10s infinite;
+}
+    
     &-gateway {
       transform: translate(0px, -8.5rem);
       transition: all 320ms ease-in-out;
       z-index: 1;
-      animation: gateway 3.5s infinite;
-    }
+      animation: gateway 10s infinite;
+}
+    
     &-core {
       transform: translate(0px, -15.5rem);
       transition: all 320ms ease-in-out;
-      animation: core 3.5s infinite;
-    }
+      animation: core 10s infinite;
+}
+    
   }
 }
 
@@ -181,6 +195,21 @@
         font-size: 1.125rem;
       }
     }
+    &-action-buttons {
+      margin-top: 2rem;
+      button, a {
+        padding: 1rem 2rem;
+        margin-right: 1rem;
+      }
+      button:first-of-type {
+        color: #C9190B;
+        background-color: #FAEAE8;
+      }
+      a:first-of-type {
+        color: #333333;
+        background-color: #F5F5F5;
+      }
+    }
   }
   // microservice section and cards
   &__microservices {
@@ -237,6 +266,9 @@
     &-cards {
       @include cards;
     }
+    & > div {
+      margin-top: 1rem;
+    }
     &-card {
       width: 14rem;
       height: 12rem;
@@ -272,6 +304,11 @@
           }
         }
       }
+    }
+    &-view-more {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background-color: #F5F5F5;
     }
   }
 }
