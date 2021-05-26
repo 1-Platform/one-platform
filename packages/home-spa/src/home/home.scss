@@ -8,9 +8,19 @@
 }
 @function toRem($pxs) {
   $remValue: ($pxs /16) + rem;
-  @return $remValue
+  @return $remValue;
 }
-
+@mixin moveLayers ($name, $from, $to) {
+  animation: #{$name} 3s ease-in-out;
+  @keyframes #{$name} {
+    0% {
+      transform: translateY($from);
+    }
+    100% {
+      transform: translateY($to);
+    }
+  }
+}
 
 .header {
   display: flex;
@@ -63,9 +73,7 @@
       position: absolute;
       display: flex;
       align-items: center;
-      animation: nodetext 10s infinite;
-
-
+      animation: nodetext 3s cubic-bezier(.17,.67,.83,.67);
       & > span {
         color: #A0A0A0;
         margin-left: 0.5rem;
@@ -101,31 +109,29 @@
       width: toRem(280);
     }
     &-cubes {
-      transform: translate(0px, 2.5rem);
+      transform: translate(0px, 2rem);
       transition: all 320ms ease-in-out;
-      animation: movecubes 10s infinite;
-
-
+      @include moveLayers('moveCubes', 7.5rem, 2rem); 
       z-index: 3;
     }
     &-spaship {
-      transform: translate(0px, -3.5rem);
+      transform: translate(0px, -4rem);
       transition: all 320ms ease-in-out;
       z-index: 2;
-      animation: spaship 10s infinite;
+      @include moveLayers('spaship', -2em, -4rem);
 }
     
     &-gateway {
       transform: translate(0px, -8.5rem);
       transition: all 320ms ease-in-out;
       z-index: 1;
-      animation: gateway 10s infinite;
+      @include moveLayers('gateway', -11.5rem, -8.5rem);
 }
     
     &-core {
       transform: translate(0px, -15.5rem);
       transition: all 320ms ease-in-out;
-      animation: core 10s infinite;
+      @include moveLayers('core', -22rem, -15.5rem);
 }
     
   }
@@ -183,7 +189,7 @@
       &-image {
         height: 9.75rem;
         width: 9.75rem;
-        border-radius: 50%;
+        border-radius: 100%;
         background-color: #FAFAFA;
         margin: 0 auto 3rem auto;
       }
@@ -231,7 +237,7 @@
           place-items: center;
           height: 5rem;
           width: 5rem;
-          border-radius: 50%;
+          border-radius: 100%;
           img {
             max-width: 2.5rem;
             max-height: 2.5rem;
@@ -316,63 +322,48 @@
   }
 }
 
-@keyframes movecubes {
-  0% {
-    transform: translate(0px, 7.5rem);
-  }
-  50% {
-    transform: translate(0px, 2rem);
-  }
-  100% {
-    transform: translate(0px, 7.5rem);
-  }
-}
+// @keyframes movecubes {
+//   0% {
+//     transform: translate(0px, 7.5rem);
+//   }
+//   100% {
+//     transform: translate(0px, 2rem);
+//   }
+// }
 
-@keyframes spaship {
-  0% {
-    transform: translate(0px, -2em);
-  }
-  50% {
-    transform: translate(0px, -4rem);
-  }
-  100% {
-    transform: translate(0px, -2rem);
-  }
-}
+// @keyframes spaship {
+//   0% {
+//     transform: translate(0px, -2em);
+//   }
+//   100% {
+//     transform: translate(0px, -4rem);
+//   }
+// }
 
-@keyframes gateway {
-  0% {
-    transform: translate(0px, -11.5rem);
-  }
-  50% {
-    transform: translate(0px, -8.5rem);
-  }
-  100% {
-    transform: translate(0px, -11.5rem);
-  }
-}
+// @keyframes gateway {
+//   0% {
+//     transform: translate(0px, -11.5rem);
+//   }
+//   100% {
+//     transform: translate(0px, -8.5rem);
+//   }
+// }
 
-@keyframes core {
-  0% {
-    transform: translate(0px, -22rem);
-  }
-  50% {
-    transform: translate(0px, -15.5rem);
-  }
-  100% {
-    transform: translate(0px, -22rem);
-  }
-}
+// @keyframes core {
+//   0% {
+//     transform: translate(0px, -22rem);
+//   }
+//   100% {
+//     transform: translate(0px, -15.5rem);
+//   }
+// }
 
 @keyframes nodetext {
   0% {
     opacity: 0;
   }
-  50% {
-    opacity: 1;
-  }
   100% {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
