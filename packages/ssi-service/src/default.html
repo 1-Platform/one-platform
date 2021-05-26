@@ -1,10 +1,13 @@
 <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
 <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.3.0/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.3.0/ionicons/ionicons.js"></script>
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly/patternfly.css" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly/patternfly-addons.css" crossorigin="anonymous" />
+<script src="https://unpkg.com/@one-platform/opc-feedback@latest/dist/opc-feedback.js"></script>
 
 <script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-auth.js"></script>
 <script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-nav.js"></script>
-<script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-panel.js"></script>
+<script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-api.js"></script>
 
 <script defer>
   ( function () {
@@ -68,12 +71,16 @@
         }
         styleTag.remove();
         document.body.prepend( opfNav );
-        document.body.append( opfFeedback );
+        document.body.append( opcFeedback );
       } );
     }
 
     const opfNav = document.createElement( "op-nav" );
-    const opfFeedback = document.createElement( "op-feedback" );
+    const opcFeedback = document.createElement("opc-feedback");
+    opcFeedback.addEventListener("opc-feedback:submit", (event) => {
+      event.detail.data.createdBy = window.OpAuthHelper?.getUserInfo()?.rhatUUID;
+      window.sendFeedback( event.detail.data);
+    } );
 
     if ( !document.body ) {
       window.addEventListener( 'load', main );

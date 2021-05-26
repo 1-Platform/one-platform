@@ -1,11 +1,28 @@
 import { Users } from './schema';
-import * as _ from 'lodash';
+import { pick, compact } from 'lodash';
 import { UserGroupAPIHelper } from '../helpers';
 
 export const UserResolver = {
   Query: {
+    user ( root: any, args: any, ctx: any ) {
+      const cleanedInput: any = pick( args, [ 'uid', 'rhatUUID' ] );
+      const arr = [];
+      for ( let key in cleanedInput ) {
+        if ( cleanedInput.hasOwnProperty( key ) ) {
+          arr.push( key + '=' + cleanedInput[ key ] );
+        }
+      };
+      return UserGroupAPIHelper.roverFetch( `/users/search?filter=((${ arr.join( ',' ) }))` )
+        .then( ( res: any ) => res.result[0] );
+    },
+    findUsers ( root: any, args: any, ctx: any ) {
+      return UserGroupAPIHelper.roverFetch( `/users?criteria=${ args.value }&fields=${ args.ldapfield }` )
+        .then( ( res: any ) => {
+          return res.result;
+        } );
+    },
     getUsersBy ( root: any, args: any, ctx: any ) {
-      const cleanedInput = _.pick( args, ['uid', 'rhatUUID', 'apiRole', 'name'] );
+      const cleanedInput = pick( args, ['uid', 'rhatUUID', 'apiRole', 'name'] );
       return Users.find( cleanedInput )
         .then( users => {
           if ( users.length > 0 ) {
@@ -45,11 +62,29 @@ export const UserResolver = {
           } );
         } )
         .then( userPromise => Promise.all( userPromise ) )
-        .then( users => _.compact( users ) )
+        .then( users => compact( users ) )
         .catch( err => {
           throw err;
         } );
     }
+  },
+  RoverUserType: {
+    manager ( parent: any, args: any, ctx: any ) {
+      if ( parent.manager ) {
+        return UserGroupAPIHelper.roverFetch( `/users/${ parent.manager.substring( 4, parent.manager.indexOf( ',ou' ) ) }` )
+          .then( ( res ) => {
+            return res;
+          } );
+      }
+      else {
+        return null;
+      }
+    },
+    roverGroups ( parent: any, args: any, ctx: any ) {
+        return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
+        .then( ( res ) => res.result );
+    },
+
   },
   Mutation: {
     addUser ( root: any, { input }: any, ctx: any ) {

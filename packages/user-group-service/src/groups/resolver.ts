@@ -1,4 +1,5 @@
 import { Groups } from './schema';
+import { UserGroupAPIHelper } from '../helpers';
 
 export const GroupResolver = {
   Query: {
@@ -14,6 +15,28 @@ export const GroupResolver = {
         .limit( limit )
         .exec();
     },
+    group ( root: any, { cn }: GraphQLArgs, ctx: any ) {
+      return Groups
+        .find({ ldapCommonName: cn })
+        .exec()
+        .then( res => res[0] );
+    },
+    findGroups ( root: any, { selector, limit }: GraphQLArgs, ctx: any ) {
+      return Groups
+        .find( selector )
+        .limit( limit )
+        .exec();
+    }
+  },
+  Group: {
+    members ( root: any, GraphQLArgs: any, ctx: any ) {
+      return UserGroupAPIHelper.roverFetch( `/groups/${ ( root[0] || root ).ldapCommonName }` )
+            .then( ( res ) => {
+              return res.result?.memberUids.map( ( member: string ) => {
+                return member.substring( 4, member.indexOf( ',ou' ) );
+              } );
+          } );
+      }
   },
   Mutation: {
     addGroup ( root: any, { payload }: GraphQLArgs, ctx: any ) {

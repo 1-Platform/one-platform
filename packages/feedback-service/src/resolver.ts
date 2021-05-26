@@ -9,7 +9,7 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-01-14 13:50:01
- * Last modified  : 2021-02-04 16:31:27
+ * Last modified  : 2021-03-04 21:40:13
  */
 import { Feedback } from './schema';
 import { FeedbackIntegrationHelper } from './helpers';
@@ -201,7 +201,6 @@ export const FeedbackResolver = {
     async createFeedback(root: any, args: any, ctx: any) {
       let homeResponse: any;
       let apiResponse: any = {};
-      (!args.input.category) ? args.input.category = (args.input.experience !== 'Sad') ? 'FEEDBACK' : 'BUG': null;
       let userQuery = `query ListUsers {
         rhatUUID_${(args.input.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${args.input.createdBy}") {
           name
@@ -222,7 +221,7 @@ export const FeedbackResolver = {
         homeResponse = await FeedbackIntegrationHelper.getHomeType(homeParam);
       }
       let descriptionTemplate = `
-${(args.input?.stackInfo?.error) ? `<br/>Error: ${args.input?.stackInfo?.error}` : ``}
+${(args.input?.error) ? `<br/>Error: ${args.input?.error}` : ``}
 ${(args.input?.stackInfo?.stack || args.input?.stackInfo?.path) ? `<br/><br/>
 Browser Information<br/>
 ___________________<br/>

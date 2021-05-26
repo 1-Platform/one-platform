@@ -1,7 +1,7 @@
 declare module '*.graphql';
 declare module '*.json';
 
-// define your types here
+// Search Config Types
 type Doc = {
     id: string;
     title: string;
@@ -38,4 +38,35 @@ type SearchResponseType = {
 
 type SearchResponseCode = {
     status: number;
+};
+
+// Search Map Types
+
+type FieldList = {
+    from: string;
+    to: string;
+}
+
+
+type SearchMapMode = {
+    appId: string;
+    apiConfig: {
+        mode: string;
+        apiUrl: string;
+        query: string;
+        param: string;
+        authorizationHeader: string;
+    };
+    fields: FieldList[];
+    preferences: {
+        iconUrl: string;
+        titleTemplate: string;
+        titleParams: string;
+        urlTemplate: string;
+        urlParams: string[];
+    },
+    createdBy: string;
+    createdOn: Date;
+    updatedBy: string;
+    updatedOn: Date;
 }

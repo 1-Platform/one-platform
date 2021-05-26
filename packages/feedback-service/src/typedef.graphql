@@ -15,6 +15,11 @@ type FeedbackIndexResponseCode {
   status: Int
 }
 
+input StackInfoInput {
+  stack: String
+  path: String
+}
+
 enum FeedbackCategory {
   BUG
   FEEDBACK
@@ -25,6 +30,7 @@ type FeedbackType {
   summary: String
   description: String
   experience: String
+  error: String
   config: String
   state: String
   ticketUrl: String
@@ -42,8 +48,9 @@ input FeedbackInput {
   _id: ID
   summary: String
   description: String
-  stackInfo: JSON
+  stackInfo: StackInfoInput
   experience: String
+  error: String
   config: String
   ticketUrl: String
   category: FeedbackCategory
