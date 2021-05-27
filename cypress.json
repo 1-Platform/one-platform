@@ -1,0 +1,18 @@
+{
+    "chromeWebSecurity": false,
+    "video": false,
+    "numTestsKeptInMemory": 0,
+    "restartBrowserBetweenSpecFiles": true,
+    "integrationFolder":"e2e/integration",
+    "reporter":"cypress-multi-reporters",
+    "reporterOptions":{
+        "reporterEnabled":"mochawesome",
+        "mochawesomeReporterOptions":{
+            "reportDir":"e2e/reports/mochawesome-report",
+            "quite":true,
+            "overwrite": false,
+            "html":false,
+            "json":true
+        }
+    }
+}

@@ -6,8 +6,6 @@ export const UserSchema: Schema = new Schema({
   uid: String,
   rhatUUID: String,
   isActive: Boolean,
-  memberOf: [String],
-  apiRole: String,
   createdBy: String,
   createdOn: { type: Date, default: Date.now },
   updatedBy: String,

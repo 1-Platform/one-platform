@@ -73,6 +73,9 @@
   box-sizing: border-box;
   cursor: pointer;
 }
+.op-search__btn > img {
+  height: 1rem;
+}
 .op-search__btn:hover,
 .op-search__btn:focus {
   background: #ddd;
@@ -222,6 +225,10 @@
   border: 1px solid #ddd;
   overflow: hidden;
   margin: 1.5rem 2rem;
+}
+
+.op-user-profile-icon > img {
+  height: 2rem;
 }
 
 .op-menu-drawer > h3,
