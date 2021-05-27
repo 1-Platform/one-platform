@@ -36,6 +36,11 @@ export const contactUsTeamBlock = () => {
       gender: 'male'
     },
     {
+      name: 'Prasad Ambulkar',
+      title: 'Software Engineer',
+      gender: 'male'
+    },
+    {
       name: 'Deepesh Nair',
       title: 'Software Engineer',
       gender: 'male'
