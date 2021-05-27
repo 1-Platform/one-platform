@@ -38,7 +38,7 @@ export default <IResolvers<App, IAppsContext>>{
         ...app,
         updatedBy: ctx.rhatUUID,
         updatedOn: new Date(),
-      } ).exec();
+      }, { new: true } ).exec();
     },
     deleteApp: ( parent, { id }, ctx ) => {
       if ( !Apps.isAuthorized( id, ctx.rhatUUID ) ) {
