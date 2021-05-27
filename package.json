@@ -36,6 +36,16 @@
   },
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "scripts": {
+    "clean:reports": "rm -R -f e2e/reports && mkdir e2e/reports",
+    "pretest": "npm run clean:reports ",
+    "test:e2e": "cypress run",
+    "test:e2e:browser": "cypress open",
+    "combine-reports": "mochawesome-merge --reportDir e2e/reports > e2e/reports/mochareports/report.json",
+    "generate-report": "marge e2e/reports/mochareports/report.json -f report -o e2e/reports/mochareports",
+    "e2e:reports": "npm run combine-reports && npm run generate-report",
+    "test:e2e:reports": "npm run test:e2e || npm run e2e:reports",
+    "e2e:report:html": "marge e2e/reports/output.json --reportDir e2e/reports --inline",
+    "combinereports": "mochawesome-merge e2e/reports/mochawesome-report/*.json > e2e/reports/output.json",
     "lerna": "lerna",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli-microservice": "sh cli-init.sh",
@@ -47,14 +57,22 @@
     "@typescript-eslint/parser": "4.16.1",
     "bats": "1.2.1",
     "eslint": "7.21.0",
+    "cypress": "^6.5.0",
+    "cypress-multi-reporters": "^1.4.0",
     "eslint-config-standard": "14.1.1",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "4.1.0",
-    "lerna": "3.22.1"
+    "lerna": "3.22.1",
+    "mocha": "^8.3.0",
+    "mochawesome": "^6.2.2",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^5.2.0"
   },
   "dependencies": {
     "@spaship/cli": "0.14.0"
   }
+  },
+  "main": "platform.js"
 }

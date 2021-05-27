@@ -24,8 +24,10 @@
         </div>
 
         <div class="feedback-experience">
-          <p>Experience</p>
-          <p>{{ feedback.experience || 'N/A'}}</p>
+          <p v-if="feedback.category === 'FEEDBACK'">Experience</p>
+          <p v-if="feedback.category==='FEEDBACK'">{{ feedback.experience || 'N/A'}}</p>
+          <p v-if="feedback.category === 'BUG'">Error</p>
+          <p v-if="feedback.category==='BUG'">{{ feedback.error || 'N/A'}}</p>
         </div>
 
         <div class="feedback-assignees">
@@ -40,7 +42,7 @@
           </i>
         </div>
         <div class="fb-accordion pf-u-display-flex pf-u-justify-content-center pf-u-align-items-center" v-bind:class="{'close':!isAccordionOpen, 'open':isAccordionOpen }" v-on:click="isAccordionOpen = !isAccordionOpen">
-          <i class="fas fa-sort-up"></i>
+          <i class="fas fa-sort-up" v-bind:class="{'close':!isAccordionOpen, 'open':isAccordionOpen }" v-on:click="isAccordionOpen = !isAccordionOpen"></i>
         </div>
       </span>
 
@@ -71,7 +73,7 @@ export default {
   filters: {
     formatDate: function (date) {
       const formattedDate = new Date(date)
-      return `${formattedDate.getDay()}-${formattedDate.getMonth()}-${formattedDate.getFullYear()}`
+      return `${formattedDate.getDate()}-${formattedDate.getMonth() + 1}-${formattedDate.getFullYear()}`
     },
     truncate: function (text) {
       return (text.length > 100 ? text.slice(0, 100) + '...' : text)

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import '@one-platform/opc-footer/dist/opc-footer';
 
 @Component({
   selector: 'app-root',

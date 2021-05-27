@@ -7,7 +7,7 @@ const targetPath = './src/environments/environment.ts';
 require('dotenv').config();
 
 const envConfigFile = `export const environment = {
-   API_URL: process.env.API_URL,
+   API_URL: '${process.env.API_URL || ''}',
    production: process.env.NODE_ENV === 'production',
 };
 `;

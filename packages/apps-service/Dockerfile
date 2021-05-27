@@ -1,5 +1,5 @@
 FROM node:12-alpine
-LABEL Name="apps-service" \
+LABEL Name="one-platform-apps-service" \
   Version="1.0.0" \
   maintainer="mdeshmuk@redhat.com"
 

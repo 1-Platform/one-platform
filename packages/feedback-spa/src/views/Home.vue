@@ -55,17 +55,11 @@
         <button class="pf-c-button pf-m-secondary" type="button" v-on:click="csvExport(allFeedback)"><i class="fas fa-upload"></i>&nbsp;Export</button>
       </div>
       <div class="pf-u-ml-sm pf-l-grid__item pf-m-3-col">
-        <div class="pf-c-search-input">
-          <span class="pf-c-search-input__text">
-            <input class="pf-c-search-input__text-input" type="text" placeholder="Search Feedback" aria-label="Search Feedback" v-model="searchText"/>
-          </span>
-          <span class="pf-c-search-input__utilities">
-            <span class="pf-c-search-input__clear">
-              <button class="pf-c-button pf-m-plain" type="button" aria-label="Clear">
-                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-              </button>
-            </span>
-          </span>
+        <div class="pf-c-input-group">
+          <input class="pf-c-form-control" placeholder="Search Feedback" type="search" id="input-search" name="search-input" aria-label="Search" v-model="searchText"/>
+          <button class="pf-c-button pf-m-control" type="button" aria-label="Search button for search input">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -73,14 +67,22 @@
       <span v-for="feedback in filterFeedback(allFeedback, this.pageSize, this.pageNumber)" v-bind:key="feedback._id">
         <ListFeedback  v-if="recordSize !== 0" :feedback="feedback" @openModal="openDetailsModal(feedback)"/>
       </span>
+        <div class="pf-u-mt-xl" v-if="recordSize === 0">
+          <p class="pf-u-text-align-center">No Feedback Found.</p>
+        </div>
       <!-- Pagination -->
-      <div class="pf-c-pagination pf-m-compact">
+      <div class="pf-c-pagination pf-m-compact" v-if="recordSize !== 0">
         <div class="pf-c-options-menu">
-          <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
-            <span class="pf-c-options-menu__toggle-text">
-              <b>{{ Number(pageNumber)+1 }} - {{ Number(pageNumber) + (Number(pageSize)) }}</b>&nbsp;of&nbsp;
-              <b>{{ this.allFeedback.length }}</b>
-            </span>
+          <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain pf-u-m-sm">
+              <span class="pf-c-options-menu__toggle-text">
+                <b>{{ Number(pageNumber) + 1 }} - {{
+                    this.allFeedback.length > Number(pageSize) + Number(pageNumber)
+                      ? Number(pageSize) + Number(pageNumber)
+                      : this.allFeedback.length
+                  }}</b
+                >&nbsp;of&nbsp;
+                <b>{{ this.allFeedback.length }}</b>
+              </span>
           </div>
           <select class="pf-c-form-control page-width" id="perPage" name="perPage" aria-label="per page entry" v-model="pageSize">
             <option value="5">5 per page</option>
@@ -92,21 +94,17 @@
         </div>
         <nav class="pf-c-pagination__nav" aria-label="Pagination">
           <div class="pf-c-pagination__nav-control pf-m-prev">
-            <button class="pf-c-button pf-m-plain" type="button" aria-label="Go to previous page" v-on:click="pageNumber = Number(pageNumber) - Number(pageSize)">
+            <button class="pf-c-button pf-m-plain" type="button" :disabled="Number(pageNumber) < Number(pageSize)" aria-label="Go to previous page" v-on:click="pageNumber = Number(pageNumber) - Number(pageSize)">
               <i class="fas fa-angle-left" aria-hidden="true"></i>
             </button>
           </div>
           <div class="pf-c-pagination__nav-control pf-m-next">
-            <button class="pf-c-button pf-m-plain" type="button" aria-label="Go to next page" v-on:click="pageNumber = Number(pageNumber) + Number(pageSize)">
+            <button class="pf-c-button pf-m-plain" type="button" :disabled="Number(pageNumber) > Number(pageSize)" aria-label="Go to next page" v-on:click="pageNumber = Number(pageNumber) + Number(pageSize)">
               <i class="fas fa-angle-right" aria-hidden="true"></i>
             </button>
           </div>
         </nav>
       </div>
-    </div>
-
-    <div class="pf-u-mt-xl" v-if="recordSize === 0">
-      <p class="pf-u-text-align-center">No Feedback Found.</p>
     </div>
     <!-- Modal -->
     <div class="pf-c-backdrop pf-l-bullseye" v-if="showModal">
@@ -266,18 +264,8 @@ export default {
       this.selectedStateIndex = index
       this.selectedState = state.toLowerCase()
     },
-    matcher: function (expression) {
-      return (obj) => {
-        let found = false
-        Object.keys(obj).forEach((key) => {
-          if (!found) {
-            if ((typeof obj[key] === 'string') && expression.exec(obj[key])) {
-              found = true
-            }
-          }
-        })
-        return found
-      }
+    escapeString: function (string) {
+      return string.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&')
     },
     filterFeedback: function (feedbackList, pageSize, pageNumber) {
       if (this.activeCategory) {
@@ -296,7 +284,23 @@ export default {
         feedbackList = feedbackList.filter(feedback => feedback.module === this.selectedModule)
       }
       if (this.searchText) {
-        feedbackList = feedbackList.filter(this.matcher(new RegExp('\\b' + this.searchText + '\\b', 'i')))
+        const regex = new RegExp(this.escapeString(this.searchText), 'i')
+        feedbackList = feedbackList.filter((feedback) => {
+          return (
+            regex.test(feedback?._id) ||
+            regex.test(feedback?.summary) ||
+            regex.test(feedback?.module) ||
+            regex.test(feedback?.description) ||
+            regex.test(feedback?.experience) ||
+            regex.test(feedback?.error) ||
+            regex.test(feedback?.ticketUrl) ||
+            regex.test(feedback?.state) ||
+            regex.test(feedback?.source) ||
+            regex.test(feedback?.category) ||
+            !!(feedback?.createdBy && (regex.test(feedback?.createdBy?.name) || regex.test(feedback?.createdBy?.uid))) ||
+            !!(feedback?.assignee && (regex.test(feedback?.assignee?.name) || regex.test(feedback?.assignee?.email) || regex.test(feedback?.assignee?.url)))
+          )
+        })
       }
       feedbackList = feedbackList.slice(Number(pageNumber), Number(pageNumber) + Number(pageSize))
       this.recordSize = feedbackList.length
