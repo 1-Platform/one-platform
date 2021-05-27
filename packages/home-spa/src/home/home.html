@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.45.0/patternfly.min.css">
     <title>Home | One Platform</title>
   </head>
-<body>
+<body style="visibility: hidden;">
   <!--#include virtual="/.ssi/nav/default.html" -->
   <header class="header container">
     <div class="header__content">
@@ -156,6 +156,13 @@
           </ul>
         </div>
         <div class="section__applications-cards" id="applications-cards">
+         <div class="section__applications-spinner">
+          <span class="pf-c-spinner" role="progressbar" aria-valuetext="Loading...">
+            <span class="pf-c-spinner__clipper"></span>
+            <span class="pf-c-spinner__lead-ball"></span>
+            <span class="pf-c-spinner__tail-ball"></span>
+          </span>
+         </div>
         </div>
         <button class="section__applications-view-more" onclick="openAppDrawer()" type="button">View more application</button>
       </div>
