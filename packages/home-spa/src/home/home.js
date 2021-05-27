@@ -36,6 +36,8 @@ export const applicationCards = (spas, spaType = "BUILTIN") => {
     .map(
       (spa) => {
         const icon = ((spa.icon === "") || (spa.icon === null)) ?  '../res/img/redcube.svg' : spa.icon;
+        const addStyle = ((spa.icon === "") || (spa.icon === null)) ?  '' 
+        : 'style="filter:invert(21%) sepia(54%) saturate(5781%) hue-rotate(322deg) brightness(74%) contrast(126%)"';
         return `
         <a 
           target="_blank" 
@@ -43,7 +45,7 @@ export const applicationCards = (spas, spaType = "BUILTIN") => {
           style="${spa.active ? '': 'cursor: no-drop'}" 
           class="section__applications-card">
           <div class="section__applications-card-image">
-            <img src="${spa.active ? icon : '../res/img/cube.svg'}" alt="cube">
+            <img src="${spa.active ? icon : '../res/img/cube.svg'}" ${addStyle} alt="cube">
           </div>
           <div class="section__applications-card-label">
             <label>${spa.name.length > 20 ? spa.name.slice(0, 20) + '...' : spa.name}</label>

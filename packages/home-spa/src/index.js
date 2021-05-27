@@ -31,7 +31,9 @@ opcFooter.addEventListener( 'opc-footer-link:click', () => {
   document.querySelector("op-feedback").togglePanelVisibility();
 }, false);
 // Footer end
-
+document.addEventListener( 'DOMContentLoaded', () => {
+  document.querySelector( 'body' ).style.visibility = 'visible'
+} );
 window.OpAuthHelper.onLogin( () => {
   getData().then( ( result ) => {
     renderSPAList(result.data.getHomeTypeBy);

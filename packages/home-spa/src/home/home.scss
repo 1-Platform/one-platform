@@ -275,6 +275,12 @@
     & > div {
       margin-top: 1rem;
     }
+    &-spinner {
+      display: grid;
+      width: 100%;
+      place-items: center;
+      height: 24rem;
+    }
     &-card {
       width: 14rem;
       height: 12rem;
@@ -322,48 +328,30 @@
   }
 }
 
-// @keyframes movecubes {
-//   0% {
-//     transform: translate(0px, 7.5rem);
-//   }
-//   100% {
-//     transform: translate(0px, 2rem);
-//   }
-// }
-
-// @keyframes spaship {
-//   0% {
-//     transform: translate(0px, -2em);
-//   }
-//   100% {
-//     transform: translate(0px, -4rem);
-//   }
-// }
-
-// @keyframes gateway {
-//   0% {
-//     transform: translate(0px, -11.5rem);
-//   }
-//   100% {
-//     transform: translate(0px, -8.5rem);
-//   }
-// }
-
-// @keyframes core {
-//   0% {
-//     transform: translate(0px, -22rem);
-//   }
-//   100% {
-//     transform: translate(0px, -15.5rem);
-//   }
-// }
-
 @keyframes nodetext {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+@media (max-width: 1500px) {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 850px) {
+  .header {
+    display: block;
+    &__illustration {
+      display: none;
+    }
+    &__action-buttons {
+      padding-bottom: 4rem;
+    }
   }
 }
 
