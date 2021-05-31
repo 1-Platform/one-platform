@@ -7,6 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Google Chat Notification
-      uses: gautamkrishnar/google-chat-notification@master
+      uses: associate-run-projects/google-chat-notification@master
       with:
         url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
