@@ -129,7 +129,7 @@
           </div>
         </div>
         <div class="section__app-deployment-action-buttons">
-          <!-- <button class="pf-c-button" type="button">Quick Deploy</button> -->
+          <button class="pf-c-button" id="quick-deploy" type="button">Quick Deploy</button>
           <a target="_blank" class="pf-c-button" href="/get-started/docs" type="button">Read More</a>
         </div>
       </div>
@@ -170,6 +170,30 @@
   </section>
   <footer>
   </footer>
+  <div
+  class="pf-c-modal-box pf-m-md"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-md-title"
+  aria-describedby="modal-md-description"
+>
+  <button
+    class="pf-c-button pf-m-plain"
+    type="button"
+    aria-label="Close dialog"
+  >
+    <i class="fas fa-times" aria-hidden="true"></i>
+  </button>
+  <header class="pf-c-modal-box__header">
+    <h1 class="pf-c-modal-box__title" id="modal-md-title">Modal title</h1>
+  </header>
+  <div class="pf-c-modal-box__body" id="modal-md-description">
+    Static text describing modal purpose. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.
+  </div>
+</div>
 </body>
 
 </html>
