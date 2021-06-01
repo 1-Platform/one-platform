@@ -36,9 +36,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 } );
 window.OpAuthHelper.onLogin( () => {
   getData().then( ( result ) => {
-    renderSPAList(result.data.getHomeTypeBy);
-    applicationCards(result.data.getHomeTypeBy)
-    localStorage.setItem('spaList', JSON.stringify(result.data.getHomeTypeBy));
+    const apps = result.data.apps ? result.data.apps : [];
+    renderSPAList(apps);
+    applicationCards(apps)
+    localStorage.setItem('spaList', JSON.stringify(apps));
     microserviceCards();
     contactUsTeamBlock();
   } )
