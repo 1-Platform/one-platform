@@ -21,8 +21,8 @@
         efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
       </p>
       <div class="header__action-buttons">
-        <a target="_blank" class="pf-c-button" href="/get-started/docs" type="button">Get Started</a>
-        <a target="_blank" class="pf-c-button" href="/get-started/" type="button">Learn More</a>
+        <a target="_blank" rel="noopener" class="pf-c-button" href="/get-started/docs" type="button">Get Started</a>
+        <a target="_blank" rel="noopener" class="pf-c-button" href="/get-started/" type="button">Learn More</a>
       </div>
     </div>
     <div class="header__illustration">
@@ -130,7 +130,7 @@
         </div>
         <div class="section__app-deployment-action-buttons">
           <button class="pf-c-button" onclick="toggleDeployModal('block')" id="quick-deploy" type="button">Quick Deploy</button>
-          <a target="_blank" class="pf-c-button" href="/get-started/docs" type="button">Read More</a>
+          <a target="_blank" rel="noopener" class="pf-c-button" href="/get-started/docs" type="button">Read More</a>
         </div>
       </div>
       <div class="section__microservices" id="microservices">
@@ -180,10 +180,10 @@
           <h1 class="pf-c-modal-box__title" id="modal-title">Deploy to One Platform</h1>
         </header>
         <div class="pf-c-modal-box__body" id="modal-description">
-          <form class="pf-c-form">
+          <form class="pf-c-form" id="deploy-form" onsubmit="validate(); return false;">
             <div class="pf-c-form__group">
               <div class="pf-c-form__group-label">
-                <label class="pf-c-form__label" for="form-help-text-name">
+                <label class="pf-c-form__label" for="app-name">
                   <span class="pf-c-form__label-text">Application Name</span>
                   <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
                 </label>
@@ -195,6 +195,7 @@
                   id="app-name"
                   name="app-name"
                   aria-invalid="false"
+                  oninput="checkAppName()"
                   aria-describedby="app-name-helper"
                   placeholder="app-name"
                   required="true"
@@ -208,32 +209,43 @@
             </div>
             <div class="pf-c-form__group">
               <div class="pf-c-form__group-label">
-                <label class="pf-c-form__label" for="form-help-text-address">
+                <label class="pf-c-form__label" for="app-path">
                   <span class="pf-c-form__label-text">Application Path</span>
                   <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
                 </label>
               </div>
               <div class="pf-c-form__group-control">
-                <input
-                  class="pf-c-form-control"
-                  type="text"
-                  id="form-help-text-address"
-                  name="form-help-text-address"
-                  aria-invalid="false"
-                  aria-describedby="form-help-text-address-helper"
-                  placeholder="app-path"
-                  required="true"
-                />
+                <div class="pf-c-input-group">
+                  <input
+                    class="pf-c-form-control"
+                    type="text"
+                    id="app-path"
+                    name="app-path"
+                    oninput="checkAppPath()"
+                    pattern="^\/[-a-z]+$"
+                    aria-describedby="app-path-helper"
+                    placeholder="app-path"
+                    required="true"
+                  />
+                  <button
+                    class="pf-c-button pf-m-control"
+                    type="button"
+                    aria-label="Popover for input"
+                    title="App name should start with forward slash( / ) and should be lowercase. Example -  /app-path"
+                  >
+                    <i class="fas fa-question-circle" aria-hidden="true"></i>
+                  </button>
+                </div>
                 <p
                   class="pf-c-form__helper-text"
-                  id="form-help-text-address-helper"
+                  id="app-path-helper"
                   aria-live="polite"
                 >Enter the path on which you would to deploy your SPA/Application.</p>
               </div>
             </div>
             <div class="pf-c-form__group">
               <div class="pf-c-form__group-label">
-                <label class="pf-c-form__label" for="description">
+                <label class="pf-c-form__label" for="app-description">
                   <span class="pf-c-form__label-text">Application Description</span>
                 </label>
               </div>
@@ -241,7 +253,7 @@
                 <textarea
                 class="pf-c-form-control"
                 type="text"
-                id="deploy-description"
+                id="app-description"
                 name="description"
                 aria-label="description"
                 placeholder="description"
@@ -250,32 +262,60 @@
             </div>
             <div class="pf-c-form__group">
               <div class="pf-c-form__group-label">
-                <label class="pf-c-form__label" for="description">
+                <label class="pf-c-form__label" for="app-file">
+                  <span class="pf-c-form__label-text">Archive file</span>
+                  <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                </label>
+              </div>
+              <div class="pf-c-form__group-control">
+                <input
+                  type="file"
+                  class="pf-c-form-control"
+                  id="app-file"
+                  name="app-file"
+                  aria-invalid="false"
+                  accept=".gz,.tar,.zip"
+                  aria-describedby="app-file-helper"
+                  placeholder="app-file"
+                  required
+                />
+                <p
+                  class="pf-c-form__helper-text"
+                  id="app-file-helper"
+                  aria-live="polite"
+                >Select the archive file you wish to upload</p>
+              </div>
+            </div>
+            <div class="pf-c-form__group">
+              <div class="pf-c-form__group-label">
+                <label class="pf-c-form__label" for="app-single-page">
                   <span class="pf-c-form__label-text">Single Page</span>
                   <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
                 </label>
               </div>
               <div class="pf-c-form-group pf-l-flex">
                 <div class="pf-c-radio">
-                  <label class="pf-c-radio" for="deploy-single-true">
+                  <label class="pf-c-radio" for="app-single-page-true">
                     <input
                       class="pf-c-radio__input"
                       type="radio"
-                      id="deploy-single-true"
+                      id="app-single-page-true"
                       name="single-page"
                       required="true"
+                      value="true"
                     />
                     <span class="pf-c-radio__label">True</span>
                   </label>
                 </div>
                 <div class="pf-c-radio">
-                  <label class="pf-c-radio" for="deploy-single-false">
+                  <label class="pf-c-radio" for="app-single-page-false">
                     <input
                       class="pf-c-radio__input"
                       type="radio"
-                      id="deploy-single-false"
+                      id="app-single-page-false"
                       name="single-page"
                       required="true"
+                      value="false"
                       checked
                     />
                     <span class="pf-c-radio__label">False</span>
@@ -283,7 +323,7 @@
                 </div>
               </div>             
             </div>
-            <input class="pf-c-button pf-m-primary" type="submit" placeholder="Deploy" value="Deploy">
+            <input class="pf-c-button pf-m-primary" id="deploy-submit" type="submit" placeholder="Deploy" value="Deploy">
           </form>
         </div>
       </div>
