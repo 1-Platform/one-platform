@@ -1,18 +1,14 @@
 const getHomeTypeBySPA = `
 query HomePageQuery {
-  getHomeTypeBy(input: {
-    entityType: "spa"
-  }) {
-      _id
-      name
-      description
-      link
-      icon
-      entityType
-      colorScheme
-      active
-      applicationType
-    }
+  apps {
+    id
+    applicationType
+    name
+    icon
+    isActive
+    entityType
+    path
+  }
 }`;
 
 export function getData() {

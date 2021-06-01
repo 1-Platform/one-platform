@@ -129,7 +129,7 @@
           </div>
         </div>
         <div class="section__app-deployment-action-buttons">
-          <button class="pf-c-button" id="quick-deploy" type="button">Quick Deploy</button>
+          <button class="pf-c-button" onclick="toggleDeployModal('block')" id="quick-deploy" type="button">Quick Deploy</button>
           <a target="_blank" class="pf-c-button" href="/get-started/docs" type="button">Read More</a>
         </div>
       </div>
@@ -170,30 +170,124 @@
   </section>
   <footer>
   </footer>
-  <div
-  class="pf-c-modal-box pf-m-md"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="modal-md-title"
-  aria-describedby="modal-md-description"
->
-  <button
-    class="pf-c-button pf-m-plain"
-    type="button"
-    aria-label="Close dialog"
-  >
-    <i class="fas fa-times" aria-hidden="true"></i>
-  </button>
-  <header class="pf-c-modal-box__header">
-    <h1 class="pf-c-modal-box__title" id="modal-md-title">Modal title</h1>
-  </header>
-  <div class="pf-c-modal-box__body" id="modal-md-description">
-    Static text describing modal purpose. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat.
+  <div class="pf-c-backdrop" id="deploy-spa-modal">
+    <div class="pf-l-bullseye">
+      <div class="pf-c-modal-box pf-m-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+        <button class="pf-c-button pf-m-plain" onclick="toggleDeployModal('none')" type="button" aria-label="Close dialog">
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <header class="pf-c-modal-box__header">
+          <h1 class="pf-c-modal-box__title" id="modal-title">Deploy to One Platform</h1>
+        </header>
+        <div class="pf-c-modal-box__body" id="modal-description">
+          <form class="pf-c-form">
+            <div class="pf-c-form__group">
+              <div class="pf-c-form__group-label">
+                <label class="pf-c-form__label" for="form-help-text-name">
+                  <span class="pf-c-form__label-text">Application Name</span>
+                  <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                </label>
+              </div>
+              <div class="pf-c-form__group-control">
+                <input
+                  class="pf-c-form-control"
+                  type="text"
+                  id="app-name"
+                  name="app-name"
+                  aria-invalid="false"
+                  aria-describedby="app-name-helper"
+                  placeholder="app-name"
+                  required="true"
+                />
+                <p
+                  class="pf-c-form__helper-text"
+                  id="app-name-helper"
+                  aria-live="polite"
+                >Enter the Application/SPA name</p>
+              </div>
+            </div>
+            <div class="pf-c-form__group">
+              <div class="pf-c-form__group-label">
+                <label class="pf-c-form__label" for="form-help-text-address">
+                  <span class="pf-c-form__label-text">Application Path</span>
+                  <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                </label>
+              </div>
+              <div class="pf-c-form__group-control">
+                <input
+                  class="pf-c-form-control"
+                  type="text"
+                  id="form-help-text-address"
+                  name="form-help-text-address"
+                  aria-invalid="false"
+                  aria-describedby="form-help-text-address-helper"
+                  placeholder="app-path"
+                  required="true"
+                />
+                <p
+                  class="pf-c-form__helper-text"
+                  id="form-help-text-address-helper"
+                  aria-live="polite"
+                >Enter the path on which you would to deploy your SPA/Application.</p>
+              </div>
+            </div>
+            <div class="pf-c-form__group">
+              <div class="pf-c-form__group-label">
+                <label class="pf-c-form__label" for="description">
+                  <span class="pf-c-form__label-text">Application Description</span>
+                </label>
+              </div>
+              <div class="pf-c-form__group-control">
+                <textarea
+                class="pf-c-form-control"
+                type="text"
+                id="deploy-description"
+                name="description"
+                aria-label="description"
+                placeholder="description"
+              ></textarea>
+              </div>
+            </div>
+            <div class="pf-c-form__group">
+              <div class="pf-c-form__group-label">
+                <label class="pf-c-form__label" for="description">
+                  <span class="pf-c-form__label-text">Single Page</span>
+                  <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                </label>
+              </div>
+              <div class="pf-c-form-group pf-l-flex">
+                <div class="pf-c-radio">
+                  <label class="pf-c-radio" for="deploy-single-true">
+                    <input
+                      class="pf-c-radio__input"
+                      type="radio"
+                      id="deploy-single-true"
+                      name="single-page"
+                      required="true"
+                    />
+                    <span class="pf-c-radio__label">True</span>
+                  </label>
+                </div>
+                <div class="pf-c-radio">
+                  <label class="pf-c-radio" for="deploy-single-false">
+                    <input
+                      class="pf-c-radio__input"
+                      type="radio"
+                      id="deploy-single-false"
+                      name="single-page"
+                      required="true"
+                      checked
+                    />
+                    <span class="pf-c-radio__label">False</span>
+                  </label>
+                </div>
+              </div>             
+            </div>
+            <input class="pf-c-button pf-m-primary" type="submit" placeholder="Deploy" value="Deploy">
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 </body>
-
 </html>

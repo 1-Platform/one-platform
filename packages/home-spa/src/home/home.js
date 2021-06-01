@@ -30,6 +30,7 @@ export const microserviceCards = () => {
 export const applicationCards = (spas, spaType = "BUILTIN") => {
   const appCards = document.querySelector('#applications-cards');
   if (appCards !== null) {
+    console.log(spas);
     appCards.innerHTML = spas
     .filter(spa => spa.applicationType === spaType)
     .slice(0, 12)
@@ -41,11 +42,11 @@ export const applicationCards = (spas, spaType = "BUILTIN") => {
         return `
         <a 
           target="_blank" 
-          ${!spa.active ? '': 'href="' + spa.link + '"'} 
-          style="${spa.active ? '': 'cursor: no-drop'}" 
+          ${!spa.isActive ? '': 'href="' + spa.path + '"'} 
+          style="${spa.isActive ? '': 'cursor: no-drop'}" 
           class="section__applications-card">
           <div class="section__applications-card-image">
-            <img src="${spa.active ? icon : '../res/img/cube.svg'}" ${addStyle} alt="cube">
+            <img src="${spa.isActive ? icon : '../res/img/cube.svg'}" ${addStyle} alt="cube">
           </div>
           <div class="section__applications-card-label">
             <label>${spa.name.length > 20 ? spa.name.slice(0, 20) + '...' : spa.name}</label>
@@ -88,6 +89,11 @@ window.openAppDrawer = () => {
   } catch(err) {
     return err;
   }
+};
+
+window.toggleDeployModal = (state) => {
+  const modal = document.querySelector('#deploy-spa-modal');
+  modal.style.display = state;
 };
 
 window.onload = () => {
