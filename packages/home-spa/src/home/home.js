@@ -18,7 +18,7 @@ export const microserviceCards = () => {
                 <div class="section__microservices-card-description">
                   ${details.description}
                 </div>
-                <a target="_blank" href="${details.link}" class="section__microservices-card-cta">
+                <a target="_blank" rel="noopener" href="${details.link}" class="section__microservices-card-cta">
                   Read More
                 </a>
               </div>`;
@@ -30,7 +30,6 @@ export const microserviceCards = () => {
 export const applicationCards = (spas, spaType = "BUILTIN") => {
   const appCards = document.querySelector('#applications-cards');
   if (appCards !== null) {
-    console.log(spas);
     appCards.innerHTML = spas
     .filter(spa => spa.applicationType === spaType)
     .slice(0, 12)
@@ -94,6 +93,7 @@ window.openAppDrawer = () => {
 window.toggleDeployModal = (state) => {
   const modal = document.querySelector('#deploy-spa-modal');
   modal.style.display = state;
+  document.querySelector( 'body' ).style.overflow = state === 'block' ? 'hidden' : 'visible';
 };
 
 window.onload = () => {
@@ -111,3 +111,77 @@ window.onload = () => {
     observer.observe(section);
   })
 }
+
+// Form Validations
+const spaList = JSON.parse(localStorage.getItem('spaList'));
+document.addEventListener( 'DOMContentLoaded', () => {
+  document.querySelector('#deploy-form').addEventListener('change', validate);
+} );
+
+window.validate = () => {
+  const submitBtn = document.querySelector('#deploy-submit');
+  const validateForm = checkAppName() && checkAppPath();
+  submitBtn.disabled = !validateForm;
+  if (validateForm === true) {
+    submitForm();
+  }
+}
+
+window.checkAppName = () => {
+  const appNameInput = document.querySelector('#app-name');
+  const appNames = spaList.map(spa => spa.name.toLowerCase());
+  const helper = document.querySelector('#app-name-helper');
+  const value = appNameInput.value.toLowerCase().trim();
+  if (!appNames.includes(value) && value !== '') {
+    helper.classList.remove('pf-m-error')
+    helper.classList.add('pf-m-success');
+    helper.innerHTML = 'SPA name available.'
+    appNameInput.classList.add('pf-m-success');
+    appNameInput.setAttribute('aria-invalid', 'false');
+    return true;
+  }
+  helper.innerHTML = 
+  helper.classList.remove('pf-m-success')
+  helper.classList.add('pf-m-error');
+  helper.innerHTML = 'SPA name invalid or already in use.'
+  appNameInput.classList.remove('pf-m-success');
+  appNameInput.setAttribute('aria-invalid', 'true');
+  return false;
+};
+
+window.checkAppPath = () => {
+  const appPathInput = document.querySelector('#app-path');
+  const appPath = spaList.map(spa => spa.path.toLowerCase());
+  const helper = document.querySelector('#app-path-helper');
+  const regex = /^\/[-a-z]+$/;
+  const value = appPathInput.value;
+  if (!appPath.includes(value) && regex.test(value)) {
+    helper.classList.remove('pf-m-error')
+    helper.classList.add('pf-m-success');
+    helper.innerHTML = 'Path available.'
+    appPathInput.classList.add('pf-m-success');
+    appPathInput.setAttribute('aria-invalid', 'false');
+    return true;
+  }
+  helper.innerHTML = 
+  helper.classList.remove('pf-m-success')
+  helper.classList.add('pf-m-error');
+  helper.innerHTML = 'App path url invalid or already in use, please check the guide.'
+  appPathInput.classList.remove('pf-m-success');
+  appPathInput.setAttribute('aria-invalid', 'true');
+  return false;
+};
+
+const submitForm = () => {
+  const singlePage = document.querySelector('#app-single-page-true').checked 
+    ? document.querySelector('#app-single-page-true').value
+    : document.querySelector('#app-single-page-false').value;
+  const app = {
+    appName: document.querySelector('#app-name').value,
+    appPath: document.querySelector('#app-path').value,
+    appDescription: document.querySelector('#app-description').value,
+    appFile: document.querySelector('#app-file').files[0],
+    appSinglePage: singlePage,
+  };
+  console.log(app);
+};
