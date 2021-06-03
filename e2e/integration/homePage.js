@@ -1,4 +1,4 @@
-import { apps } from "../helper/apps.list"
+import { deployment, deploydesc, microservicesheader, microservicesdesc, microservicesreadmore, builtapps, hostedapps } from "../helper/apps.list"
 context( 'Test homepage', () => {
     before( () => {
         cy.visit( Cypress.env( 'STAGE_HOST' ) );
@@ -12,32 +12,69 @@ context( 'Test homepage', () => {
     } );
 
     it( 'Test for home page header section', () => {
-        cy.get( '.hero__mantra' ).should( 'contain.text', 'Develop Fast·Deliver Faster' );
-        cy.get( '.hero__quote' ).should( 'contain.text', 'One Platform to host your Internal Applications and Services' );
-        cy.get( '.hero__description' ).should( 'contain.text', 'One Portal provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.' );
-        cy.get( '.button--danger' ).should( 'contain.text', 'View Applications' );
-        cy.get( '.button--light' ).should( 'contain.text', 'Built-in Microservices' );
-    } );
+        cy.get( '.header__content' ).within( () => {
+            cy.get('p').should( 'contain.text', 'One Platform provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.' )
+            cy.get( '.header__content-heading' ).should( 'contain.text', 'One Platform helps you build and deploy internal apps, microservice and website' );
+        } )
+        cy.get( '.header__action-buttons' ).within( () => {
+            cy.get( 'a[ href = "/get-started/docs" ]' ).should( 'have.text', 'Get Started' );
+            cy.get( 'a[ href = "/get-started/" ]' ).should( 'have.text', 'Learn More' );
+      })
+   } );
 
-    it( 'Test that all the deployed apps are visible', () => {
-        cy.get( '.apps__list' ).should( 'be.visible' ).within( () => {
-            apps.forEach( function ( item ) {
-                cy.get( `a[ href = "${ item }" ]` ).should( 'be.visible' );
-            })
+    it( 'Test for easy app deployment section', () => {
+        cy.get( '#deployments' ).should( 'be.visible' ).within( () => {
+            cy.get( '.section__header' ).should( 'contain.text', 'Easy Deployment steps to follow' );
+            deployment.forEach( function ( item ) {
+                cy.get( '.section__app-deployment-card' ).each( () => {
+                    cy.contains( `${ item }` ).should( 'be.visible' );
+                } );
+            } );
+            deploydesc.forEach( function ( item ) {
+                cy.get( '.section__app-deployment-card-description' ).each( () => {
+                    cy.contains( `${ item }` ).should( 'be.visible' );
+                } );
+                cy.get( '.section__app-deployment-action-buttons' ).should( 'have.text', ' Read More' );
+            } );
+          })
         } );
-    })
 
     it( 'Test for Built-In-Microservices section', () => {
-        cy.get( '#microservice-cards' ).within( () => {
-            cy.get( '.PFElement ' ).each( () => {
-                cy.get( 'a[ href = "/get-started/docs/microservices/feedback/feedback-service" ]' ).should( 'have.text', 'Learn More' );
-                cy.get( 'a[ href = "/get-started/docs/microservices/authorization/authorization-service" ]' ).should( 'have.text', 'Learn More' );
-                cy.get( 'a[ href = "#" ]' ).should( 'have.text', 'Learn More' );
-                cy.get( 'a[ href = "/get-started/docs/microservices/user-groups/user-groups-service" ]' ).should( 'have.text', 'Learn More' );
-                cy.get( 'a[ href = "/get-started/docs/microservices/notifications/notifications-service" ]' ).should( 'have.text', 'Learn More' );
+        cy.get( '#microservices' ).should( 'be.visible' ).within( () => {
+            cy.get( '.section__header' ).should( 'contain.text', 'Built-in Microservices for most common features' );
+            microservicesheader.forEach( function ( item ) {
+                cy.get( '.section__microservices-card-header' ).each( () => {
+                    cy.contains( `${ item }` ).should( 'be.visible' );
+                } );
             } );
-        } );
+            microservicesdesc.forEach( function ( item ) {
+                cy.get( '.section__microservices-card-description' ).each( () => {
+                    cy.contains( `${ item }` ).should( 'be.visible' );
+                } );
+            } );
+            microservicesreadmore.forEach( function ( item ) {
+                cy.get( `a[ href = "${ item }" ]` ).should( 'contain.text', 'Read More' );
+            } );
+        })
     } );
+
+    it( 'Test for all applications', () => {
+        cy.get( '#applications' ).should( 'be.visible' ).within( () => {
+            cy.get( '.section__header' ).should( 'contain.text', 'All Applications' );
+            builtapps.forEach( function ( item ) {
+                cy.get( '.section__applications-cards' ).within( () => {
+                    cy.get( `a[href="${ item }" ]` ).should( 'be.visible' );
+                } );
+            } );
+            /*cy.get( 'a[href="#applications"]' ).click();
+            cy.contains( 'Hosted Applications' ).click({force:true});
+            hostedapps.forEach( function ( item ) {
+                cy.get( '.section__applications-cards' ).within( () => {
+                    cy.get(`a[href="${ item }" ]`).should( 'be.visible' );
+                } );
+            } );*/
+        })
+    })
 
     it( 'Test for footer section', () => {
         //Quick links
