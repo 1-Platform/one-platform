@@ -17,7 +17,7 @@ const htmlWebpackPluginMinify = {
 module.exports = {
     mode: 'development',
     entry: {
-        app: './src/app.js',
+        app: './src/index.js',
     },
     devtool: 'inline-source-map',
     output: {
@@ -49,7 +49,7 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: [MiniCssExtractPlugin, 'css-loader']
+                use: [MiniCssExtractPlugin, 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/i,
@@ -73,7 +73,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new CopyPlugin( {
             patterns: [
-                { from: 'img/**', context: 'src' },
+                { from: 'res/img/**', context: 'src' },
                 'favicon.ico',
                 '.htaccess'
             ],
@@ -81,19 +81,19 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             chunks: ['app'],
-            template: './src/index.html',
+            template: './src/home/home.html',
             minify: htmlWebpackPluginMinify,
         }),
         new HtmlWebpackPlugin({
-            filename: '404.html',
+            filename: '404/index.html',
             chunks: ['app'],
-            template: './src/404.html',
+            template: './src/404/404.html',
             minify: htmlWebpackPluginMinify,
         }),
         new HtmlWebpackPlugin({
             filename: 'contact-us/index.html',
             chunks: ['app'],
-            template: './src/contact-us/index.html',
+            template: './src/contact-us/contact-us.html',
             minify: htmlWebpackPluginMinify,
         }),
         new MiniCssExtractPlugin(),
