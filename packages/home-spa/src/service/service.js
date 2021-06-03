@@ -13,10 +13,10 @@ query HomePageQuery {
 
 export function getData() {
   const fetchOptions = {
-    method: "post",
+    method: 'post',
     headers: {
       Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       query: getHomeTypeBySPA
@@ -24,4 +24,17 @@ export function getData() {
   };
   return fetch(process.env.API_URL, fetchOptions)
     .then(res => res.json());
-};
+}
+
+export function deploySPA(formData) {
+  const fetchOptions = {
+    method: 'post',
+    headers: {
+      Authorization: '',
+      'Content-Type': 'multipart/form-data',
+    },
+    body: formData,
+  }
+  return fetch(process.env.DEPLOY_URL, fetchOptions)
+    .then(res => res.json());
+}

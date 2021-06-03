@@ -1,4 +1,5 @@
 import * as microservices from '../res/static/microservices.json';
+import { deploySPA } from '../service/service';
 
 export const microserviceCards = () => {
     const microservicesCardDetails = microservices.default;
@@ -94,6 +95,8 @@ window.toggleDeployModal = (state) => {
   const modal = document.querySelector('#deploy-spa-modal');
   modal.style.display = state;
   document.querySelector( 'body' ).style.overflow = state === 'block' ? 'hidden' : 'visible';
+  document.querySelector('#deploy-form').reset();
+
 };
 
 window.onload = () => {
@@ -122,9 +125,7 @@ window.validate = () => {
   const submitBtn = document.querySelector('#deploy-submit');
   const validateForm = checkAppName() && checkAppPath();
   submitBtn.disabled = !validateForm;
-  if (validateForm === true) {
-    submitForm();
-  }
+  return validateForm;
 }
 
 window.checkAppName = () => {
@@ -172,16 +173,46 @@ window.checkAppPath = () => {
   return false;
 };
 
-const submitForm = () => {
-  const singlePage = document.querySelector('#app-single-page-true').checked 
-    ? document.querySelector('#app-single-page-true').value
-    : document.querySelector('#app-single-page-false').value;
+window.submitForm = () => {
+  if (!validate()) {
+    return;
+  }
   const app = {
-    appName: document.querySelector('#app-name').value,
-    appPath: document.querySelector('#app-path').value,
-    appDescription: document.querySelector('#app-description').value,
-    appFile: document.querySelector('#app-file').files[0],
-    appSinglePage: singlePage,
+    name: document.querySelector('#app-name').value,
+    path: document.querySelector('#app-path').value,
+    description: document.querySelector('#app-description').value,
+    upload: document.querySelector('#app-file').files[0],
+    ref: document.querySelector('#app-ref').value,
   };
-  console.log(app);
+  const formData = new FormData()
+  Object.keys(app).forEach(key => formData.append(key, app[key]));
+  document.querySelector('#deploy-submit').innerHTML = ` 
+  <span class="pf-c-spinner pf-m-md" role="progressbar" aria-valuetext="Loading...">
+    <span class="pf-c-spinner__clipper"></span>
+    <span class="pf-c-spinner__lead-ball"></span>
+    <span class="pf-c-spinner__tail-ball"></span>
+  </span>
+  Deploying Now`;
+  deploySPA(formData).then( (response) => {
+    window.OpNotification.success(
+      { 
+        subject: 'App Deployed Successfully',
+        body: 'You will be redirected to the dev console page shortly',
+        link: response.path
+      })
+    setTimeout(
+      () => 
+        window.location.href = `/dev-console${response.path}`, 
+        3000)
+  })
+  .catch(err => {
+    console.error(err);
+    window.OpNotification.danger(
+      { 
+        subject: 'There was an error deploying the app',
+        body: err,
+        link: response.path
+      })
+    toggleDeployModal('none');
+  })
 };
