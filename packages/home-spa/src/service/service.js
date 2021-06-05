@@ -30,7 +30,7 @@ export function deploySPA(formData) {
   const fetchOptions = {
     method: 'post',
     headers: {
-      Authorization: '',
+      Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`,
       'Content-Type': 'multipart/form-data',
     },
     body: formData,

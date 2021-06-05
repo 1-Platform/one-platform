@@ -349,6 +349,24 @@
     margin-right: .5rem;
   }
 }
+#app-path-label {
+  i {
+    position: relative;
+    color: #888888;
+  }
+  i[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    width: 25ch;
+    bottom: 30px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 1px 2px 4px #a0a0a0;
+    border-radius: 10px;
+    color: #7b7b7b;
+    right: -100px;
+  }
+}
 
 @keyframes nodetext {
   0% {

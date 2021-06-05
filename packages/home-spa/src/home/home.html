@@ -211,9 +211,14 @@
             <div class="pf-l-grid pf-m-gutter">
               <div class="pf-c-form__group pf-m-9-col">
                 <div class="pf-c-form__group-label">
-                  <label class="pf-c-form__label" for="app-path">
+                  <label class="pf-c-form__label" id="app-path-label" for="app-path">
                     <span class="pf-c-form__label-text">Application Path</span>
                     <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                    <i 
+                      title="App name should start with forward slash( / ) and should be lowercase. Example -  /app-path"
+                      class="pficon pf-icon-help" 
+                      aria-hidden="true">
+                    </i>
                   </label>
                 </div>
                 <div class="pf-c-form__group-control">
@@ -229,14 +234,6 @@
                       placeholder="/app-path"
                       required="true"
                     />
-                    <button
-                      class="pf-c-button pf-m-control"
-                      type="button"
-                      aria-label="Popover for input"
-                      title="App name should start with forward slash( / ) and should be lowercase. Example -  /app-path"
-                    >
-                      <i class="fas fa-question-circle" aria-hidden="true"></i>
-                    </button>
                   </div>
                   <p
                     class="pf-c-form__helper-text"
