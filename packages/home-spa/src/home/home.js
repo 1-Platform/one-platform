@@ -187,7 +187,7 @@ window.submitForm = () => {
   const formData = new FormData()
   Object.keys(app).forEach(key => formData.append(key, app[key]));
   document.querySelector('#deploy-submit').innerHTML = ` 
-  <span class="pf-c-spinner pf-m-md" role="progressbar" aria-valuetext="Loading...">
+  <span class="pf-c-spinner pf-m-md" style="--pf-c-spinner--Color: #C9190B;" role="progressbar" aria-valuetext="Loading...">
     <span class="pf-c-spinner__clipper"></span>
     <span class="pf-c-spinner__lead-ball"></span>
     <span class="pf-c-spinner__tail-ball"></span>
@@ -202,7 +202,7 @@ window.submitForm = () => {
       })
     setTimeout(
       () => 
-        window.location.href = `/dev-console${response.path}`, 
+        window.location.href = `/console${response.path}`, 
         3000)
   })
   .catch(err => {
