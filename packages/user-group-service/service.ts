@@ -79,7 +79,7 @@ const apollo = new ApolloServer( {
     path: error.path,
     ...error.extensions,
   } ),
-  extensions,
+  //extensions,
 } );
 
 /* Applying apollo middleware to express server */
@@ -104,3 +104,7 @@ schedule.scheduleJob( '0 0 * * *', () => {
   const userSyncCron = new UserSyncCron();
   userSyncCron.syncUsers();
 } );
+
+console.log( `Running User Sync Cron on ${ new Date().toISOString() }` );
+const userSyncCron = new UserSyncCron();
+userSyncCron.syncUsers();

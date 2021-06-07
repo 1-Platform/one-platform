@@ -73,31 +73,19 @@ type LdapType {
 }
 
 type UserType {
-  _id: String
-  name: String
-  title: String
-  uid: String
-  rhatUUID: String
-  memberOf: [String]
-  isActive: Boolean
-  apiRole: APIROLE
-  createdBy: String
-  createdOn: DateTime
-  updatedBy: String
+  cn: String,
+  rhatJobTitle: String,
+  uid: String,
+  rhatUuid: String,
+  createdOn: DateTime,
   updatedOn: DateTime
 }
 input UserInput {
-  _id: String
-  name: String
-  title: String
-  uid: String
-  rhatUUID: String
-  memberOf: [String]
-  isActive: Boolean
-  apiRole: APIROLE
-  createdBy: String
-  createdOn: DateTime
-  updatedBy: String
+  cn: String,
+  rhatJobTitle: String,
+  uid: String,
+  rhatUuid: String,
+  createdOn: DateTime,
   updatedOn: DateTime
 }
 

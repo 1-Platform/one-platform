@@ -1,4 +1,4 @@
-import { Users } from './schema';
+import { RoverUsers as Users } from './roverSchema';
 import { pick, compact } from 'lodash';
 import { UserGroupAPIHelper } from '../helpers';
 
@@ -6,14 +6,22 @@ export const UserResolver = {
   Query: {
     user ( root: any, args: any, ctx: any ) {
       const cleanedInput: any = pick( args, [ 'uid', 'rhatUUID' ] );
-      const arr = [];
-      for ( let key in cleanedInput ) {
-        if ( cleanedInput.hasOwnProperty( key ) ) {
-          arr.push( key + '=' + cleanedInput[ key ] );
-        }
-      };
-      return UserGroupAPIHelper.roverFetch( `/users/search?filter=((${ arr.join( ',' ) }))` )
-        .then( ( res: any ) => res.result[0] );
+      return Users.find( cleanedInput )
+        .then( users => {
+          if ( users.length > 0 ) {
+            return users;
+          }
+          else {
+            const arr = [];
+            for ( let key in cleanedInput ) {
+              if ( cleanedInput.hasOwnProperty( key ) ) {
+                arr.push( key + '=' + cleanedInput[ key ] );
+              }
+            };
+            return UserGroupAPIHelper.roverFetch( `/users/search?filter=((${ arr.join( ',' ) }))` )
+              .then( ( res: any ) => res.result[0] );
+          }
+        } );
     },
     findUsers ( root: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users?criteria=${ args.value }&fields=${ args.ldapfield }` )
