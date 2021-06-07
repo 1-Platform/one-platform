@@ -3,72 +3,89 @@ id: feedback-spa
 title: Feedback
 sidebar_label: Feedback
 ---
-* * *
-
 ## Developers
 
 ### Component Contributors
 
-1. Anjnee Sharma - [anjsharm@redhat.com](mailto:anjsharm@redhat.com) - [anjneeksharma (Anjnee Sharma) · GitHub](https://github.com/anjneeksharma)
+1. Rigin Oommen - [roommen@redhat.com](mailto:roommen@redhat.com) - [riginoommen (Rigin Oommen) · GitHub](https://github.com/riginoommen)
 
-### Getting Started
+## Getting Started
 
-Feedback-spa is a landing page for already existing feedback and bugs users can search bugs here using many filters.
-
-![Feedback Home](./feedback-spa-home.svg)
-
-### Usage
-
-#### Introduction
-
-Feedback-SPA is a landing page for all feedback/bugs, those are created around a platform they can be filtered based on many filters like feedback title, feedback name, status, description and type.
+Feedback Application is the interface which have the view of the feedback & bug reports submitted by the users.
 
 #### Supported Features
 
-1. List all feedback.
+1. List all feedbacks/bugs.
 
-2. Filter feedback on the listing page.
+2. Filter feedback/bugs on the listing page.
 
-3. Create new feedback.
+3. Users can check the status of submitted feedbacks/bugs.
 
-4. Users can check the status of submitted feedback.
+## Quick Start Guide
+### Prerequisites
 
-#### Quick Start Guide
+1. **NodeJS**  should be installed (*version>=**v10.15.3*)
+2. **NPM** should be installed *(version>=**6.4.1**)*
+3. Version control system required. Preferably **git**.
+4. **Vue CLI** needs to be installed
+### Steps
 
-Follow these steps to setup feedback-spa in your local environment:
+1. Clone the [repository](https://github.com/1-Platform/one-platform).
 
-1. Clone or download project from the one-platform repo [https://github.com/1-Platform/one-platform](https://github.com/1-Platform/one-platform)
+ ```sh
+ git clone git@github.com:1-Platform/one-platform.git
+ ```
 
-2. `cd one-platform/packages/feedback-spa`
+2. Switch the working directory to the user  microservice
 
-3. `ng build`
+ ```sh
+ cd one-platform/packages/feedback-spa
+ ```
 
-4. `ng serve`
+3. Install the dependencies.
 
-5. Access <https://localhost:4200/feedback/> from your preferred browser.
+ ```sh
+  yarn install
+ ```
+### Start
 
-### API Reference
+1. Run ```yarn serve``` to run your spa for dev env
+2. Navigate to port 4200 to see the running app.
+ eg: `http://localhost:4200`
+### Build
 
-For api reference access feedback-service document, feedback-service is backend for feedback-spa
+1. [Webpack](https://webpack.js.org) is used for the build system in the microservices.
+2. Execute ```yarn build ``` to generate a build
+### Testing
 
-<!-- The API reference details can be found at the [Feedback Microservice Documentation](/microservices/feedback/feedback-microservice). -->
+1. For testing microservice with [jest](https://jestjs.io/) with the preconfigured settings.
 
+    #### Unit Tests
+    ```sh
+    yarn test:unit
+    ```
+    #### E2E tests
+    ```sh
+    yarn test:e2e
+    ```
+
+### API References
+Visit [Feedback Microservice](/docs/microservices/feedback/feedback-service) documentation for API references
 ## FAQs
 
-* **How can I access feedback-spa ?**
+<details>
+<summary>How to submit a feedback/bug?.</summary>
+Feedback can be submitted through <a href="https://www.npmjs.com/package/@one-platform/opc-feedback">opc-feedback</a>webcomponent only. SPA does n't have the functionality to create a new SPA.
+</details>
+<details>
+<summary>Can i update the feedback here?.</summary>
+No. Thats possible only with the integration(Jira/GitHub/GitLab) supported for that feedback/bug?
+</details>
 
-    [https://localhost:4200/feedback/](https://localhost:4200/feedback/)
+## Screenshots
 
-* **Does the feedback-spa have any dependency to access it ?**
+1. Home Page
+![Home](home.svg)
 
-    Yes you would need to start the feedback-microservice.
-
-* **How can I create new feedback ?**
-
-    From any One Platform page's bottom right  corner, you can use the feedback button.
-    ![Feedback Popout](./feedback-popout.svg)
-
-* **How can I access existing feedback ?**
-
-    From any One Platform page's bottom right  corner, click the feedback button and then the ***View Existing feedback*** option.
-    ![Feedback Popout](./feedback-popout.svg)
+2. Details View
+![Details](details.svg)

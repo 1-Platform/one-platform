@@ -6,7 +6,7 @@ sidebar_label: Feedback Service
 
 ## Developers
 
-## Component Contributors
+### Component Contributors
 
 1. Rigin Oommen - [roommen@redhat.com](mailto:roommen@redhat.com) - [riginoommen (Rigin Oommen) · GitHub](https://github.com/riginoommen)
 
@@ -84,12 +84,12 @@ eg: http://localhost:8080/graphql
 npm run test
 ```
 
-### API References
+## API References
 
 In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operations are defined as Mutations.
 
-## Queries
-### List all Feedbacks
+### Queries
+#### List all Feedbacks
 
 - Operation Name - ListFeedbacks
 
@@ -127,7 +127,7 @@ query ListFeedbacks {
   }
 }
 ```
-### List Feedback
+@@### List Feedback
 
 - Operation Name - ListFeedback
 - Variables - ```_id```
@@ -167,8 +167,8 @@ query ListFeedbacks($_id: ID!) {
 }
 ```
 
-## Mutations
-### Create feedback
+### Mutations
+#### Create feedback
 1. Create new feedback to database and open the ticket accordingly.
 
 - Operation Name - CreateFeedback
@@ -184,7 +184,7 @@ mutation CreateFeedback($input: FeedbackInput!) {
   }
 }
 ```
-### Update feedback
+#### Update feedback
 
 - Operation Name - UpdateFeedback
 - Variables - _FeedbackInput_
@@ -201,7 +201,7 @@ mutation UpdateFeedback($input: FeedbackInput!) {
   }
 }
 ```
-### Delete feedback
+#### Delete feedback
 
 - Operation Name - DeleteFeedback
 - Variables - __id_
@@ -220,8 +220,7 @@ mutation UpdateFeedback($input: FeedbackInput!) {
 ```
 
 
-
-### Update feedback search index
+#### Update feedback search index
 
 - Operation Name - UpdateFeedbackIndex
 
