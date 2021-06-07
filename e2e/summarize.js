@@ -1,11 +1,9 @@
 const fs = require( "fs" );
-const path = require( "path" );
 
 let rawReport = fs.readFileSync( `e2e/reports/output.json` );
 let report = JSON.parse( rawReport );
 
 function buildHtml ( req ) {
-    let body = '';
     return `
         <!DOCTYPE html>
         <html>
