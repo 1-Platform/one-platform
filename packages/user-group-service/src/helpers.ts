@@ -5,6 +5,7 @@ import moment from 'moment';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import fetch from 'node-fetch';
+import https from 'https';
 
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
@@ -86,6 +87,10 @@ class UserGroupApiHelper {
   }
   // Helper function for rover interaction
   public roverFetch ( urlPart: String ) {
+    console.log( 'Inside roverFetch' );
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false,
+    });
     let credentials = `${ process.env.ROVER_USERNAME }:${ process.env.ROVER_PASSWORD }`;
     return fetch(
       `${ process.env.ROVER_API }${ urlPart }`,
@@ -95,6 +100,7 @@ class UserGroupApiHelper {
           "Content-Type": "application/json",
           "Authorization": `Basic ${ Buffer.from( credentials ).toString( 'base64' ) }`
         },
+        agent: httpsAgent
       }
     )
       .then( ( res: any ) => {
