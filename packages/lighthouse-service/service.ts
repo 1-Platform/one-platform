@@ -7,34 +7,13 @@ if ( process.env.NODE_ENV === 'test' ) {
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
-import mongoose from 'mongoose';
 import { LighthouseAuditResolver } from './src/lighthouse-audit-manager/resolver';
 import gqlSchema from './src/lighthouse-audit-manager/typedef.graphql';
-
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
 const app = express();
-
-/* Configuring Mongoose */
-mongoose.plugin((schema: any) => { schema.options.usePushEach = true; });
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
-
-/* Establishing mongodb connection */
-const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
-  ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
-  : '';
-const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
-
-mongoose.connect(dbConnection, { useNewUrlParser: true, useCreateIndex: true }).catch(console.error);
-
-mongoose.connection.on('error', error => {
-  console.error(error);
-});
 
 /* Defining the Apollo Server */
 const apollo = new ApolloServer({
