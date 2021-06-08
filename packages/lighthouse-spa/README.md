@@ -1,5 +1,5 @@
 # Lighthouse SPA
-Lighthouse SPA is the interface test a web property with support of lighthouse ci.
+Lighthouse SPA is the web ui which helps to test a web property with the industry standards it also provides the scores of the test to the user.
 
 ## Development server
 

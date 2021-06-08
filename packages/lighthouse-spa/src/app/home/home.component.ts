@@ -8,14 +8,14 @@ const Ansi = require( 'ansi-to-html' );
   styleUrls: [ './home.component.scss' ]
 } )
 export class HomeComponent implements OnInit {
-  document: Document | any;
-  sites: string | any = '';
-  buildToken: string | any = '';
-  buildID: string | any = '';
-  projectID: string | any = '';
-  loading: boolean | any = false;
-  showScore: boolean | any = false;
-  selectedPreset: string | any = 'lighthouse:recommended';
+  document: Document;
+  sites: string = '';
+  buildToken: string = '';
+  buildID: string = '';
+  projectID: string = '';
+  loading: boolean = false;
+  showScore: boolean = false;
+  selectedPreset: string = 'lighthouse:recommended';
   presets = [ {
     name: 'All',
     value: 'lighthouse:all'
@@ -27,8 +27,8 @@ export class HomeComponent implements OnInit {
     name: 'No PWA',
     value: 'lighthouse:no-pwa'
   } ];
-  auditProgress: string | any = '';
-  auditId: string | any;
+  auditProgress: string = '';
+  auditId: string;
   convert = new Ansi();
   lhciScores = [ {
     name: 'Performance',
