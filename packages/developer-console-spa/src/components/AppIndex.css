@@ -1,0 +1,65 @@
+.app-card .pf-c-dropdown__toggle {
+  --pf-c-dropdown__toggle--PaddingRight: .5rem !important;
+  --pf-c-dropdown__toggle--PaddingLeft: .5rem !important;
+}
+
+.new-app--card {
+  border: 2px dashed;
+  border-color: #ddd;
+  background-color: #fff;
+}
+.new-app--card:hover, .new-app--card:focus {
+  border-color: var(--color-active);
+  font-weight: bold;
+}
+:is(.new-app--card, .app-card) {
+  transition: all 240ms ease;
+}
+
+.app-card {
+  position: relative;
+}
+.app-card > * {
+  padding: 1rem 1.5rem;
+}
+.app-card--body > p {
+  --line-height: 1.25rem;
+  --max-lines: 2;
+  color: rgba(0,0,0,.75);
+  margin-top: .5rem;
+  line-height: var(--line-height);
+  max-height: calc(var(--line-height) * var(--max-lines));
+  overflow: hidden;
+  position: relative;
+}
+.app-card--body > p::before {
+  content: "...";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.app-card--body > p::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  background: white;
+}
+.app-card--footer {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  border-top: 1px solid #eee;
+}
+.app-card--footer a {
+  font-weight: bold;
+}
+.app-card--footer a > .ion-icon {
+  margin-left: .5rem;
+}
+.app-card--dropdown {
+  padding: 0;
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+}

@@ -11,8 +11,10 @@ services:
       # - ./packages/notification-spa/dist:/var/www/html/notifications
       # - ./packages/search-spa/dist:/var/www/html/search
       # - ./packages/user-group-spa/build:/var/www/html/user-groups
+      # - ./packages/developer-console-spa/build:/var/www/html/console
       - ./packages/ssi-service/public/index.html:/var/www/html/index.html
       - ./packages/ssi-service/dist:/var/www/html/.ssi/nav
+      - ./packages/ssi-service/dist:/var/www/html/assets
     ports:
       - 5500:8080
 
