@@ -12,7 +12,7 @@ sidebar_label: Feedback Service
 
 ## Getting Started
 
-Feedback Microservice is one of the major pillar of one platform ecosystem. This enables the support to share the feedback with the project management tools.
+Feedback Microservice is one of the major pillar of One Platform ecosystem. This enables the support to share the feedback with the project management tools.
 
 #### Integrations Supported
  * Jira
@@ -23,7 +23,7 @@ Feedback Microservice is one of the major pillar of one platform ecosystem. This
 
 ### Introduction
 
-Feedback microservice is built using NodeJS. This interface collects the data from graphql API and opens request with project management tools which is mentioned.
+Feedback microservice is built using NodeJS. This interface collects the data from GraphQL API and interacts with the project management tool provided in the configuration
 
 ### Supported Features
 1. Create Feedback
