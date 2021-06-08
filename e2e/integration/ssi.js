@@ -12,15 +12,6 @@ context( 'Test for SSI', () => {
         return false;
     } );
 
-    it( 'Test that all the deployed Apps are visible', () => {
-        cy.get( '.op-menu__item-button' ).first().click();
-        cy.get( '.apps__list' ).should( 'be.visible' ).within( () => {
-            apps.forEach( function ( item ) {
-                cy.get( `a[ href = "${ item }" ]` ).should( 'be.visible' );
-            } );
-        } );
-    } );
-
     it( 'Test for Notifications section', () => {
         cy.get( '.op-nav-wrapper' ).within( () => {
             cy.contains( 'Notifications' ).click();

@@ -15,7 +15,7 @@ context( 'Test search', () => {
         cy.get( '.op-search__btn' ).click();
         cy.get( '.search-result-section', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
             cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
-                cy.get( '.search-timestamp' ).should( 'be.visible' )
+                cy.get( '.search-timestamp', { timeout: 20000 }  ).should( 'be.visible' )
                 cy.get( '.search-title' ).should( 'be.visible' )
                 cy.get( '.search-abstract' ).should( 'be.visible' )
                 cy.get( '.search-tag' ).should( 'be.visible' )
