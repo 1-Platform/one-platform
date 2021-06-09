@@ -1,0 +1,104 @@
+<section class="lighthouse-block">
+    <div class="pf-l-bullseye">
+        <div class="pf-u-font-size-2xl pf-u-text-align-center pf-u-mt-xl pf-u-mb-4xl">
+            Measure performance of your application
+        </div>
+    </div>
+
+    <div class="pf-l-bullseye">
+        <div class="pf-l-bullseye__item pf-u-ml-4xl pf-u-mr-4xl">
+            <div class="lighthouse-step-dot pf-u-ml-4xl pf-u-mr-4xl">
+                <span>1</span>
+            </div>
+            <div class="pf-u-text-align-center">
+                <div class="pf-u-font-size-lg">Run Tests on your site</div>
+            </div>
+            <span class="pf-u-text-align-center pf-u-color-400">Enter your site's url to see how<br />well it performs
+                across all audits.</span>
+        </div>
+
+        <div class="pf-l-bullseye__item pf-u-ml-4xl pf-u-mr-4xl">
+            <div class="lighthouse-step-dot pf-u-ml-4xl pf-u-mr-4xl">
+                <span>2</span>
+            </div>
+            <div class="pf-u-text-align-center">
+                <div class="pf-u-font-size-lg">Look at what matters</div>
+            </div>
+            <span class="pf-u-text-align-center pf-u-color-400">See your site's performance across<br />the areas you
+                care about.</span>
+        </div>
+
+        <div class="pf-l-bullseye__item pf-u-ml-4xl pf-u-mr-4xl">
+            <div class="lighthouse-step-dot pf-u-ml-4xl pf-u-mr-4xl">
+                <span>3</span>
+            </div>
+            <div class="pf-u-text-align-center">
+                <div class="pf-u-font-size-lg">Get tips for improving</div>
+            </div>
+            <span class="pf-u-text-align-center pf-u-color-400">Each test comes with helpful steps<br />to improve your
+                site's results.</span>
+        </div>
+    </div>
+    <div class="pf-l-bullseye pf-u-mt-2xl">
+        <div class="pf-c-input-group pf-u-w-33">
+            <input class="pf-c-form-control" type="text" id="sites" name="sites" aria-label="Enter webpage url"
+                placeholder="Enter web page url" [(ngModel)]="sites" />
+            <button class="pf-c-button pf-m-control" type="button" aria-label="Popover for input" disabled>
+                <i class="fas fa-window-restore" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="pf-c-input-group pf-u-w-25">
+            <input class="pf-c-form-control" type="text" id="buildToken" name="buildToken"
+                aria-label="Enter the build token" placeholder="Enter the build token" (blur)="fetchProjectDetails()" [(ngModel)]="buildToken" />
+            <button class="pf-c-button pf-m-control" type="button" aria-label="Popover for input" disabled>
+                <i class="fas fa-key" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        &nbsp;
+        <button class="pf-c-button pf-m-progress pf-m-primary" type="button" *ngIf="!loading"
+            (click)="auditWebsite()" [disabled]="!projectID">Run Audit</button>
+
+        <button class="pf-c-button pf-m-progress pf-m-in-progress pf-m-primary" type="button" *ngIf="loading">
+            <span class="pf-c-button__progress">
+                <span class="pf-c-spinner pf-m-md" role="progressbar" aria-valuetext="Loading...">
+                    <span class="pf-c-spinner__clipper"></span>
+                    <span class="pf-c-spinner__lead-ball"></span>
+                    <span class="pf-c-spinner__tail-ball"></span>
+                </span>
+            </span>
+            Running Audit
+        </button>
+    </div>
+
+    <div class="pf-l-bullseye pf-u-mt-2xl">
+        <div class="pf-u-font-weight-bold">Presets</div>: &nbsp;
+        <span *ngFor="let preset of presets;index as i">
+            <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset">&nbsp;
+            <label for="preset">{{ preset.name }}</label>&nbsp;&nbsp;
+        </span>
+    </div>
+    <div class="pf-l-bullseye pf-u-mt-md" *ngIf="showScore">
+        <div class="gauge-chart" *ngFor="let report of lhciScores">
+            <svg viewBox="0 0 36 36" class="gauge-circle-chart {{report.class}}">
+                <path class="gauge-circle-bg" d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="gauge-circle" attr.stroke-dasharray="{{report.score}}, 100" d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <text x="18" y="20.35" class="gauge-percentage">{{report.score}}%</text>
+            </svg>
+            <p class="pf-u-text-align-center">{{report.name}}</p>
+        </div>
+    </div>
+
+    <div class="pf-c-code-block">
+        <div class="pf-c-code-block__content lighthouse-code-block pf-u-mt-2xl" id="codeBlock">
+            <pre class="pf-c-code-block__pre"><code class="pf-c-code-block__code" [innerHtml]="auditProgress"></code>
+            </pre>
+        </div>
+    </div>
+
+</section>
