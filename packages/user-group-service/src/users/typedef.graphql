@@ -8,87 +8,6 @@ enum APIROLE {
   USER
 }
 
-"""
-LDAP Data model which returns from ldap source
-"""
-type LdapType {
-  dn: String
-  controls: [String]
-  memberOf: [String]
-  rhatContactMethod: String
-  roomInt: String
-  rhatOfficeFloor: String
-  rhatOfficeLocation: String
-  registeredAddress: String
-  street: String
-  physicalDeliveryOfficeName: String
-  postalCode: Int
-  rhatCostCenterDesc: String
-  rhatUUID: String
-  uidInt: Int
-  rhatJobTitle: String
-  employeeType: String
-  rhatAdjSvcDate: String
-  co: String
-  rhatAmbassadorED: String
-  l: String
-  cn: String
-  mobile: String
-  manager: String
-  c: String
-  homeDirectory: String
-  rhatOraclePersonID: Int
-  loginShell: String
-  st: String
-  rhatTeamLead: Boolean
-  sn: String
-  rhatSupervisorID: Int
-  uid: String
-  title: String
-  rhatPersonType: String
-  rhatNickName: String
-  displayName: String
-  telephoneInt: Int
-  gidInt: Int
-  rhatPhoneExt: Int
-  rhatLocation: String
-  rhatCostCenter: Int
-  givenName: String
-  rhatGeo: String
-  preferredTimeZone: String
-  rhatHireDate: String
-  rhatCurrency: String
-  rhatPrimaryMail: String
-  employeeInt: Int
-  rhatWorkHours: String
-  mail: String
-  rhatOriginalHireDate: String
-  rhatLegalEntity: String
-  rhatJobCode: Int
-  rhatBJNMeetingID: Int
-  rhatSocialURL: [String]
-  rhatJobRole: String
-  rhatBJNUserName: String
-  objectClass: [String]
-}
-
-type UserType {
-  cn: String,
-  rhatJobTitle: String,
-  uid: String,
-  rhatUuid: String,
-  createdOn: DateTime,
-  updatedOn: DateTime
-}
-input UserInput {
-  cn: String,
-  rhatJobTitle: String,
-  uid: String,
-  rhatUuid: String,
-  createdOn: DateTime,
-  updatedOn: DateTime
-}
-
 enum ldapFieldType {
   uid
   cn
@@ -118,6 +37,33 @@ type RoverUserType {
   serviceAccount: Boolean
   manager: RoverUserType
   roverGroups: [RoverGroupType]
+  createdOn: DateTime,
+  updatedOn: DateTime
+}
+
+input RoverUserInput {
+  _id: String
+  uid: String
+  cn: String
+  rhatJobTitle: String
+  rhatCostCenter: String
+  rhatCostCenterDesc: String
+  rhatGeo: String
+  givenName: String
+  displayName: String
+  employeeType: String
+  rhatLocation: String
+  rhatOfficeLocation: String
+  mobile: String
+  mail: String
+  country: String
+  homePhone: String
+  telephoneNumber: String
+  rhatPhoneExt: String
+  objectClass: String
+  rhatUuid: String!
+  serviceAccount: Boolean
+  manager: String
 }
 
 type RoverGroupType {
@@ -142,46 +88,36 @@ type Mutation {
   """
   Add a new User
   """
-  addUser(input: UserInput): UserType
+  addUser(input: RoverUserInput): RoverUserType
   """
   Update existing User
   """
-  updateUser(input: UserInput): UserType
+  updateUser(input: RoverUserInput): RoverUserType
   """
   Delete a User by ID
   """
-  deleteUser(_id: String!): UserType
+  deleteUser(_id: String!): RoverUserType
   """
-  add user from LDAP
+  add user from Rover
   """
-  addUserFromLDAP(uid: String!): UserType
+  addUserFromRover(uid: String!): RoverUserType
 }
 
 
 type Query {
   """
-  Fetches specific User by uid, rhatUUID, apiRole, name
+  Fetches specific User from Cache by uid, rhatUuid
   """
   getUsersBy(
     uid: String
-    rhatUUID: String
-    apiRole: String
-    name: String
-  ): [UserType] @deprecated(reason: "This query is no longer maintained")
+    rhatUuid: String
+  ): [RoverUserType]
   """
   Fetches all Users
   """
-  listUsers: [UserType] @deprecated(reason: "This query is no longer maintained")
+  listUsers: [RoverUserType]
   """
-  Fetch LDAP Group Members
-  """
-  getGroupMembers(cn: String): [LdapType] @deprecated(reason: "This query is no longer maintained")
-  """
-  Fetches specific User by uid, rhatUuid
-  """
-  user(uid: String, rhatUUID: String): RoverUserType
-  """
-  Fetches Users based on criteria
+  Fetches Users based on criteria from Rover
   """
   findUsers(ldapfield: ldapFieldType, value: String): [RoverUserType]
 }

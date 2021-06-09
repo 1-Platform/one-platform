@@ -1,28 +1,9 @@
-import { RoverUsers as Users } from './roverSchema';
+import { Users } from './schema';
 import { pick, compact } from 'lodash';
 import { UserGroupAPIHelper } from '../helpers';
 
 export const UserResolver = {
   Query: {
-    user ( root: any, args: any, ctx: any ) {
-      const cleanedInput: any = pick( args, [ 'uid', 'rhatUUID' ] );
-      return Users.find( cleanedInput )
-        .then( users => {
-          if ( users.length > 0 ) {
-            return users;
-          }
-          else {
-            const arr = [];
-            for ( let key in cleanedInput ) {
-              if ( cleanedInput.hasOwnProperty( key ) ) {
-                arr.push( key + '=' + cleanedInput[ key ] );
-              }
-            };
-            return UserGroupAPIHelper.roverFetch( `/users/search?filter=((${ arr.join( ',' ) }))` )
-              .then( ( res: any ) => res.result[0] );
-          }
-        } );
-    },
     findUsers ( root: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users?criteria=${ args.value }&fields=${ args.ldapfield }` )
         .then( ( res: any ) => {
@@ -30,50 +11,37 @@ export const UserResolver = {
         } );
     },
     getUsersBy ( root: any, args: any, ctx: any ) {
-      const cleanedInput = pick( args, ['uid', 'rhatUUID', 'apiRole', 'name'] );
+      const cleanedInput = pick( args, ['uid', 'rhatUuid'] );
       return Users.find( cleanedInput )
         .then( users => {
           if ( users.length > 0 ) {
             return users;
           }
 
-          if ( !cleanedInput.uid && !cleanedInput.rhatUUID ) {
+          if ( !cleanedInput.uid && !cleanedInput.rhatUuid ) {
             throw new Error( 'User not found for the given input' );
           }
 
           /* Fetch the user from LDAP while adding to the db for future use */
-          const key = cleanedInput.rhatUUID ? 'rhatUUID' : 'uid';
+          const key = cleanedInput.rhatUuid ? 'rhatUuid' : 'uid';
           const value = cleanedInput[ key ];
           return UserGroupAPIHelper
-            .addUserLDAP( `${ key }=${ value }` )
-            .then( res => [ res ] );
+            .roverFetch( `/users/search?filter=((${ key }=${ value }))` )
+            .then( ( res: any ) => {
+              const user = res.result[ 0 ];
+              if ( !user ) {
+                throw new Error( `User not found for the given ${key}` );
+              }
+              user.isActive = true;
+              user.updatedOn = new Date();
+              Users.findOneAndUpdate( { rhatUuid: user.rhatUuid }, user , { new: true, upsert: true } )
+              .exec();
+              return [user];
+            } );
         } );
     },
     listUsers ( root: any, args: any, ctx: any ) {
       return Users.find().exec();
-    },
-    getGroupMembers ( root: any, args: any, ctx: any ) {
-      const groupMembers: any = [];
-      return UserGroupAPIHelper.getProfilesBy( `(cn=${ args.cn })` )
-        .then( ( response: any ) => {
-          response.uniqueMember.map( ( member: any ) => {
-            groupMembers.push( member.substring( member.indexOf( 'uid=' ) + 4, member.indexOf( ',' ) ) );
-          } );
-        } )
-        .then( () => {
-          return groupMembers.map( ( user: any, index: any ) => {
-            return UserGroupAPIHelper.getProfilesBy( `(uid=${ user })` )
-              .catch( err => {
-                console.log( 'error', err );
-                throw err;
-              } );
-          } );
-        } )
-        .then( userPromise => Promise.all( userPromise ) )
-        .then( users => compact( users ) )
-        .catch( err => {
-          throw err;
-        } );
     }
   },
   RoverUserType: {
@@ -89,7 +57,7 @@ export const UserResolver = {
       }
     },
     roverGroups ( parent: any, args: any, ctx: any ) {
-        return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
+      return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
         .then( ( res ) => res.result );
     },
 
@@ -100,7 +68,7 @@ export const UserResolver = {
       data.isActive = true;
       return data.save();
     },
-    addUserFromLDAP ( root: any, { uid }: any, ctx: any ) {
+    addUserFromRover( root: any, { uid }: any, ctx: any ) {
       return Users
         .findOne( { uid } )
         .exec()
@@ -109,8 +77,16 @@ export const UserResolver = {
             return data;
           }
           return UserGroupAPIHelper
-            .addUserLDAP( `uid=${ uid }` )
-            .then( res => [ res ] );
+            .roverFetch( `/users/search?filter=((uid=${ uid }))` )
+            .then( ( res: any ) => {
+              const user = res.result[ 0 ];
+              user.isActive = true;
+              user.updatedOn = new Date();
+              user.createdOn = new Date();
+              return Users.findOneAndUpdate( { rhatUuid: user.rhatUuid }, user, { new: true, upsert: true } )
+                .exec()
+                .then( user => user );
+            } );
         } );
     },
     deleteUser ( root: any, { _id }: any, ctx: any ) {
@@ -120,7 +96,7 @@ export const UserResolver = {
     },
     updateUser ( root: any, { input }: any, ctx: any ) {
       return Users
-        .findByIdAndUpdate( input._id, input, { new: true } )
+        .findOneAndUpdate( { rhatUuid: input.rhatUuid }, input, { new: true } )
         .exec();
     }
   }
