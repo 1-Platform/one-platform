@@ -1,5 +1,5 @@
 
-import { RoverUsers as Users } from './roverSchema';
+import { Users } from './schema';
 import moment from 'moment';
 import { UserGroupAPIHelper } from '../helpers';
 import { isEmpty } from 'lodash';
@@ -10,7 +10,6 @@ import { isEmpty } from 'lodash';
 export class UserSyncCron {
   public syncUsers() {
     Users.find().then((userInfo: any) => {
-      console.log(userInfo);
       if ( userInfo.length ) {
         const rhatUUIDs = userInfo.map( ( user: any ) => user.rhatUuid );
         if (rhatUUIDs.length) {
@@ -20,17 +19,16 @@ export class UserSyncCron {
               .then( async ( res: any ) => {
                 const response = res?.result[ 0 ];
                 const oldProfile = userInfo.filter( ( user: any ) => user.rhatUuid === rhatUUID );
-                const newProfile = oldProfile;
-                console.log('resp', response);
+                const newProfile = response;
                 if ( isEmpty(response) ) {
-                  newProfile[0].isActive = false;
+                  newProfile.isActive = false;
                   console.log('Account of ' + oldProfile[0].uid + ' de-activated successfully');
-                  return Users.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
+                  return Users.findByIdAndUpdate(oldProfile[0]._id, newProfile, { new: true })
                   .exec();
                 } else {
-                  newProfile[0].isActive = true;
-                  newProfile[0].updatedOn = new Date();
-                  return Users.findByIdAndUpdate(oldProfile[0]._id, newProfile[0], { new: true })
+                  newProfile.isActive = true;
+                  newProfile.updatedOn = new Date();
+                  return Users.findByIdAndUpdate(oldProfile[0]._id, newProfile, { new: true })
                   .exec();
                 }
               });

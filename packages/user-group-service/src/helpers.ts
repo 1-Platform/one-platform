@@ -87,7 +87,6 @@ class UserGroupApiHelper {
   }
   // Helper function for rover interaction
   public roverFetch ( urlPart: String ) {
-    console.log( 'Inside roverFetch' );
     const httpsAgent = new https.Agent({
       rejectUnauthorized: false,
     });
