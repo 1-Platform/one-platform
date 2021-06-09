@@ -52,14 +52,14 @@ window.customElements.define( 'op-nav', class extends LitElement {
 
       APIHelper.navDrawerData( this._userTargets )
         .then( res => {
-          this._appsList = res.appsList.sort( ( prev, next ) => {
+          this._appsList = res.appsList?.sort( ( prev, next ) => {
             if ( prev.name?.toLowerCase() <= next.name?.toLowerCase() ) {
               return -1;
             } else {
               return 1;
             }
-          } );
-          this._notificationsList = res.notificationsList;
+          } ) || [];
+          this._notificationsList = res.notificationsList || [];
         } )
         .catch( err => {
           console.error( err );

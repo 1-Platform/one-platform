@@ -2,4 +2,4 @@ Options +SymLinksIfOwnerMatch
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . 404.html [L]
+RewriteRule . 404/index.html [L]

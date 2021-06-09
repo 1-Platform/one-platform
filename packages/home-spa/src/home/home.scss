@@ -223,6 +223,9 @@
       @include cards
     }
     &-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       height: 21rem;
       width: 20rem;
       border: 1px solid #D2D2D2;
@@ -260,6 +263,7 @@
         color: #151515;
         font-weight: bolder;
         padding: 1rem 2rem;
+        width: 14ch;
         &:hover {
           text-decoration: none;
           box-shadow: 1px 2px 3px #ddd;
@@ -325,6 +329,42 @@
       border: none;
       color: #333333;
     }
+  }
+}
+
+#deploy-spa-modal {
+  display: none;
+}
+#deploy-submit {
+  display: flex;
+  align-items: center;
+  color: #C9190B;
+  background-color: #FAEAE8;
+  &:disabled {
+    color: #333333;
+    background-color: #F5F5F5;
+    cursor: no-drop;
+  }
+  span {
+    margin-right: .5rem;
+  }
+}
+#app-path-label {
+  i {
+    position: relative;
+    color: #888888;
+  }
+  i[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    width: 25ch;
+    bottom: 30px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 1px 2px 4px #a0a0a0;
+    border-radius: 10px;
+    color: #7b7b7b;
+    right: -100px;
   }
 }
 

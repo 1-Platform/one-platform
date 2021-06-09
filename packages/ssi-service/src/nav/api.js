@@ -13,7 +13,7 @@ export class APIService {
     this._apiBaseURL = new URL( this._apiBasePath );
 
     this._wsLink = new WebSocketLink( {
-      uri: `wss://${ this._apiBaseURL.host }${ this._apiBaseURL.pathname }`,
+      uri: `wss://${ this._apiBaseURL.host }/subscriptions`,
       options: {
         reconnect: true,
         connectionParams: () => ({ ...this._headers })
@@ -70,6 +70,9 @@ export class APIService {
       } )
       .then( res => {
         if ( res.errors ) {
+          console.error( 'Error executing query: ', res.errors );
+        }
+        if ( !res.data ) {
           throw new Error( 'There were some errors in the query' + JSON.stringify( res.errors ) );
         }
         return res.data;
