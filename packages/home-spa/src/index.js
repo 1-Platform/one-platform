@@ -28,7 +28,7 @@ const opcFooter = document.querySelector('opc-footer');
 opcFooter.opcLinkCategories = links;
 
 opcFooter.addEventListener( 'opc-footer-link:click', () => {
-  document.querySelector("op-feedback").togglePanelVisibility();
+  document.querySelector('opc-feedback').toggle();
 }, false);
 // Footer end
 document.addEventListener( 'DOMContentLoaded', () => {
