@@ -42,7 +42,7 @@ type RoverUserType {
 }
 
 input RoverUserInput {
-  _id: String
+  _id: ID
   uid: String
   cn: String
   rhatJobTitle: String

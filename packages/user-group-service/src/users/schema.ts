@@ -4,7 +4,7 @@ export const UserSchema: Schema = new Schema({
   cn: String,
   rhatJobTitle: String,
   uid: String,
-  isActive: String,
+  isActive: Boolean,
   rhatCostCenter: String,
   rhatCostCenterDesc: String,
   rhatGeo: String,
