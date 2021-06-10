@@ -20,23 +20,6 @@ context( 'Test for UserGroup', () => {
             })
         } );
 
-    /*it( 'Test for edit the group', () => {
-        cy.get( '[data-ouia-component-id="0"]' ).should( 'be.visible' ).within( () => {
-            cy.get( '#pf-dropdown-toggle-id-0' ).click()
-            cy.contains( 'Edit Group' ).click()
-        } )
-        cy.get( '#groupName' ).clear().type( 'Test' )
-        cy.contains( 'Update Group' ).click()
-        cy.contains( 'Group updated successfully!' ).should('be.visible')
-        cy.get( '#pf-random-id-1' ).should( 'contain.text', 'Test' )
-        cy.contains( 'Edit Group' ).click()
-        cy.get( '#groupName' ).clear().type( 'One Platform Developers' )
-        cy.contains( 'Update Group' ).click()
-        cy.contains( 'Group updated successfully!' ).should( 'be.visible' )
-        cy.get( '#pf-random-id-1' ).should( 'contain.text', 'One Platform Developers' )
-        //one-portal-devel
-    } )*/
-
     it( 'Test for search user group by name', () => {
         cy.get( '#searchText' ).type( 'DSAL Admins' )
         cy.get( 'tbody' ).within( () => {
