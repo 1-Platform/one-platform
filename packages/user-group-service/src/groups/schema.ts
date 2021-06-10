@@ -2,7 +2,7 @@ import { Schema, Document, Model, model } from 'mongoose';
 
 export const GroupSchema: Schema = new Schema( {
   name: { type: String, unique: true, required: true, },
-  ldapCommonName: { type: String, unique: true, required: true, },
+  cn: { type: String, unique: true, required: true, },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 } );

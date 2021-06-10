@@ -1,5 +1,5 @@
 import { Users } from './schema';
-import { pick, compact } from 'lodash';
+import { pick } from 'lodash';
 import { UserGroupAPIHelper } from '../helpers';
 
 export const UserResolver = {

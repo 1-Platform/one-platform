@@ -2,19 +2,15 @@ type Query {
   """
   Returns a list of all Groups (default limit=25)
   """
-  listGroups(limit: Int): [Group] @deprecated(reason: "This query is no longer maintained")
+  listGroups(limit: Int): [Group]
   """
   Returns a list of Groups for the given selector query (default limit=25)
   """
-  getGroupsBy(selector: GetGroupInput!, limit: Int): [Group] @deprecated(reason: "This query is no longer maintained")
+  getGroupsBy(selector: GetGroupInput!, limit: Int): [Group]
   """
   Returns a group
   """
   group( cn: String ): Group
-  """
-  Returns a list of Groups for the given selector query (default limit=25)
-  """
-  findGroups(selector: GetGroupInput!, limit: Int): [Group]
 }
 
 type Mutation {
@@ -36,25 +32,25 @@ scalar DateTime
 
 type Group {
   _id: ID
+  cn: String
   name: String
-  ldapCommonName: String
   createdOn: DateTime
   updatedOn: DateTime
   members: [String]
 }
 
 input AddGroupInput {
+  cn: String!
   name: String!
-  ldapCommonName: String!
 }
 
 input GetGroupInput {
   _id: ID
-  name: String
-  ldapCommonName: String
+  cn: String!
+  name: String!
 }
 
 input UpdateGroupInput {
-  name: String
-  ldapCommonName: String
+  cn: String!
+  name: String!
 }
