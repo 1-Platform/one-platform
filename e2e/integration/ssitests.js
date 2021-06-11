@@ -3,7 +3,6 @@ context( 'Test for SSI', () => {
 
     before( () => {
         cy.visit( Cypress.env( 'STAGE_HOST' ) );
-        Cypress.config( 'includeShadowDom', true );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
