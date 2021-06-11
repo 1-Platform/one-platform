@@ -2,7 +2,6 @@ context( 'Test for UserGroup', () => {
 
     before( () => {
         cy.visit( Cypress.env( 'STAGE_HOST' ) + 'user-groups/' );
-        Cypress.config( 'includeShadowDom', true );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
