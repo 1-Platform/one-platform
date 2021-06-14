@@ -1,0 +1,81 @@
+scalar DateTime
+
+input LighthouseInput {
+  sites: String
+  auditId: String
+  serverBaseUrl: String
+  currentBranch: String
+  authorName: String
+  authorEmail: String
+  buildToken: String
+  commitMessage: String
+  preset: String
+}
+
+type LighthouseScoreType {
+  performance: Float
+  accessibility: Float
+  bestPractices: Float
+  seo: Float
+  pwa: Float
+}
+
+type LighthouseProjectType {
+  id: ID
+  name: String
+  slug: String
+  externalUrl: String
+  token: ID
+  baseBranch: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type LighthouseBuildType {
+  id: ID
+  projectId: ID
+  branch: String
+  runAt: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type LighthouseBranchType {
+  branch: String
+}
+
+type Query {
+  """
+  List all projects registered in lighthouse server
+  """
+  fetchProjects(serverBaseUrl: String): [LighthouseProjectType]
+  """
+  Fetch lighthouse report(lhr) from server.
+  """
+  fetchProjectLHR(serverBaseUrl: String, projectID: String!, buildID: String!): [LighthouseScoreType]
+  """
+  Fetch & Verify Project details of valid project
+  """
+  fetchProjectDetails(serverBaseUrl: String, buildToken: String!): LighthouseProjectType
+  """
+  Fetch Builds of the project by branch name and project id
+  """
+  fetchProjectBuilds(serverBaseUrl: String, projectID: String!, branch: String!, limit: Int!): [LighthouseBuildType]
+  """
+  Fetch the branches of a project.
+  """
+  fetchProjectBranches(serverBaseUrl: String, projectID: String!): [LighthouseBranchType]
+  """
+  Fetch the scores of a webproperty locally.
+  """
+  fetchScore(auditId: String!): [LighthouseScoreType]
+}
+
+type Mutation {
+  auditWebsite(property: LighthouseInput): String
+  upload(property: LighthouseInput): String
+}
+
+type Subscription {
+  autorun: String
+}

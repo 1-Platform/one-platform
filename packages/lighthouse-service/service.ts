@@ -7,8 +7,8 @@ if ( process.env.NODE_ENV === 'test' ) {
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
-import { LighthouseAuditResolver } from './src/lighthouse-audit-manager/resolver';
-import gqlSchema from './src/lighthouse-audit-manager/typedef.graphql';
+import { LighthouseAuditResolver } from './src/audit-manager/resolver';
+import gqlSchema from './src/audit-manager/typedef.graphql';
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;

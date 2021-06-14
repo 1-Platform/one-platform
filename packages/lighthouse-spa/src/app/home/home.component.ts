@@ -9,13 +9,13 @@ const Ansi = require( 'ansi-to-html' );
 } )
 export class HomeComponent implements OnInit {
   document: Document;
-  sites: string = '';
-  buildToken: string = '';
-  buildID: string = '';
-  projectID: string = '';
-  loading: boolean = false;
-  showScore: boolean = false;
-  selectedPreset: string = 'lighthouse:recommended';
+  sites = '';
+  projectID = '';
+  loading = false;
+  showScore = false;
+  toggleModal = false;
+  validUploadConfig = false;
+  selectedPreset = 'lighthouse:recommended';
   presets = [ {
     name: 'All',
     value: 'lighthouse:all'
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     name: 'No PWA',
     value: 'lighthouse:no-pwa'
   } ];
-  auditProgress: string = '';
+  auditProgress = '';
   auditId: string;
   convert = new Ansi();
   lhciScores = [ {
@@ -56,16 +56,20 @@ export class HomeComponent implements OnInit {
     score: 0,
     class: null,
   } ];
+  projects = [];
+  projectBranches = [];
+  property: any = {};
   constructor(
     private appService: AppService
   ) { }
 
   ngOnInit(): void {
     this.updateProgress();
+    this.fetchProjects();
   }
 
   get user(): any {
-    return window.OpAuthHelper.getUserInfo();
+    return window?.OpAuthHelper?.getUserInfo();
   }
 
   scrollBottom = () => {
@@ -73,21 +77,23 @@ export class HomeComponent implements OnInit {
   }
 
   fetchProjectDetails = () => {
-    this.appService.fetchProjectDetails( this.buildToken ).then( response => {
-      if ( response.fetchProjectDetails?.token === this.buildToken ) {
-        this.projectID = response.fetchProjectDetails?.id;
-        window.OpNotification.success( {
-          subject: `Valid Token`,
-          body: `Token valid for project ${ response.fetchProjectDetails?.name }.`
-        } );
-      } else {
-        this.projectID = null;
-        window.OpNotification.warning( {
-          subject: `Invalid Token`,
-          body: `Build token is invalid.`
-        } );
-      }
-    } );
+    if( this.property.buildToken ) {
+      this.appService.fetchProjectDetails(environment.LH_SERVER_URL, this.property.buildToken ).then( response => {
+        if ( response.fetchProjectDetails?.id === this.projectID ) {
+          this.validUploadConfig = true;
+          window.OpNotification.success( {
+            subject: `Valid Token`,
+            body: `Token valid for project ${ response.fetchProjectDetails?.name }.`
+          } );
+        } else {
+          this.validUploadConfig = false;
+          window.OpNotification.warning( {
+            subject: `Invalid Token`,
+            body: `Build token is invalid.`
+          } );
+        }
+      } );
+    }
   }
 
   updateProgress = () => {
@@ -96,17 +102,14 @@ export class HomeComponent implements OnInit {
         if ( progress.replace( this.auditId, '' ) ) {
           progress = progress.replace( this.auditId, '' );
           if ( progress !== `1` ) {
-            if ( progress.match( /Saving CI Build/img ) ) {
-              this.buildID = progress.substring( progress.lastIndexOf( 'Saving CI build (' ) + 17, progress.lastIndexOf( ')' ) );
-            }
             progress = this.linkParser( progress );
             this.auditProgress += this.convert.toHtml( progress );
           } else {
             this.loading = false;
-            this.fetchScore(this.projectID, this.buildID);
             window.OpNotification.success( {
               subject: `Audit completed successfully`
             } );
+            this.fetchScore(this.auditId);
           }
           this.scrollBottom();
         }
@@ -128,12 +131,6 @@ export class HomeComponent implements OnInit {
     this.showScore = false;
     const property = {
       sites: this.sites,
-      serverBaseUrl: environment.LH_SERVER_URL,
-      currentBranch: 'spa-master',
-      authorName: this.user.fullName,
-      authorEmail: this.user.email,
-      buildToken: this.buildToken,
-      commitMessage: `Benchmark Commit by ${ this.user.fullName } at ${ new Date().toUTCString() }`,
       preset: this.selectedPreset
     };
     this.appService.auditWebsite( property ).subscribe( response => {
@@ -144,9 +141,8 @@ export class HomeComponent implements OnInit {
     } );
   }
 
-  fetchScore = (projectID, buildID) => {
-    this.appService.fetchScore( projectID, buildID ).then( responses => {
-      console.log( responses );
+  fetchScore = (auditId) => {
+    this.appService.fetchScore( auditId ).then( responses => {
       this.showScore = true;
       const scores = responses.reduce( ( acc, val ) => {
         Object.keys( val ).map( ( prop: any ) => {
@@ -172,5 +168,38 @@ export class HomeComponent implements OnInit {
         } );
       } );
     } );
+  }
+
+  fetchProjects = () => {
+    this.appService.fetchProjects( environment.LH_SERVER_URL ).then( responses => {
+      this.projects = responses.fetchProjects;
+    });
+  }
+
+  fetchProjectBranches = () => {
+    if ( this.projectID ) {
+      this.appService.fetchProjectBranches( environment.LH_SERVER_URL, this.projectID ).then( responses => {
+        this.projectBranches = responses.fetchProjectBranches;
+      });
+    }
+  }
+
+  upload = (property) => {
+    const uploadProperty  = {
+      auditId: this.auditId,
+      serverBaseUrl: environment.LH_SERVER_URL,
+      authorName: this.user.fullName,
+      authorEmail: this.user.email,
+      ...property
+    };
+    this.toggleModal=false;
+    this.appService.upload( uploadProperty ).subscribe( response => {
+      if(response.upload) {
+        window.OpNotification.success( {
+          subject: `Started upload of LHR Report`,
+          body:`LHR Upload to ${environment.LH_SERVER_URL} in progress.`
+        } );
+      }
+    });
   }
 }

@@ -48,17 +48,9 @@
             </button>
         </div>
 
-        <div class="pf-c-input-group pf-u-w-25">
-            <input class="pf-c-form-control" type="text" id="buildToken" name="buildToken"
-                aria-label="Enter the build token" placeholder="Enter the build token" (blur)="fetchProjectDetails()" [(ngModel)]="buildToken" />
-            <button class="pf-c-button pf-m-control" type="button" aria-label="Popover for input" disabled>
-                <i class="fas fa-key" aria-hidden="true"></i>
-            </button>
-        </div>
-
         &nbsp;
         <button class="pf-c-button pf-m-progress pf-m-primary" type="button" *ngIf="!loading"
-            (click)="auditWebsite()" [disabled]="!projectID">Run Audit</button>
+            (click)="auditWebsite()">Run Audit</button>
 
         <button class="pf-c-button pf-m-progress pf-m-in-progress pf-m-primary" type="button" *ngIf="loading">
             <span class="pf-c-button__progress">
@@ -95,9 +87,72 @@
     </div>
 
     <div class="pf-c-code-block">
-        <div class="pf-c-code-block__content lighthouse-code-block pf-u-mt-2xl" id="codeBlock">
+        <div class="pf-c-code-block__header pf-u-mt-2xl">
+            <div class="pf-c-code-block__actions">
+                <div class="pf-c-code-block__actions-item">
+                    <button class="pf-c-button pf-m-plain" type="button" aria-label="Upload to lighthouse ci server"
+                        (click)="toggleModal=true">
+                        <i class="fas fa-upload" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="pf-c-code-block__content lighthouse-code-block" id="codeBlock">
             <pre class="pf-c-code-block__pre"><code class="pf-c-code-block__code" [innerHtml]="auditProgress"></code>
             </pre>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="pf-c-backdrop" *ngIf="toggleModal">
+        <div class="pf-l-bullseye">
+            <div class="pf-c-modal-box pf-u-w-50" role="dialog" aria-modal="true" aria-labelledby="upload-results-title"
+                aria-describedby="upload-results-description">
+                <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" (click)="toggleModal = false">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+                <header class="pf-c-modal-box__header">
+                    <h1 class="pf-c-modal-box__title" id="upload-results-title">Upload results to Lighthouse CI Server
+                    </h1>
+                </header>
+                <div class="pf-c-modal-box__body">
+                    <div class="pf-l-grid pf-m-gutter">
+                        <div class="pf-l-grid__item pf-m-4-col">
+                            <label for="project-select">Project</label>
+                            <select class="pf-c-form-control pf-m-placeholder" id="project-select" name="project-select"
+                                aria-label="project select" [(ngModel)]="projectID" required>
+                                <option value disabled selected>Select Project</option>
+                                <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="pf-l-grid__item pf-m-4-col">
+                            <label for="project-branch">Branch</label>
+                            <select class="pf-c-form-control pf-m-placeholder" id="project-branch" name="project-branch"
+                                aria-label="project branch" [(ngModel)]="property.currentBranch"
+                                (click)="validUploadConfig=false;fetchProjectBranches();fetchProjectDetails();"
+                                required>
+                                <option value disabled selected>Select Branch</option>
+                                <option *ngFor="let project of projectBranches" [value]="project.branch">{{
+                                    project.branch }}</option>
+                            </select>
+                        </div>
+
+                        <div class="pf-l-grid__item pf-m-4-col">
+                            <label for="build-token">Build Token</label>
+                            <input class="pf-c-form-control" type="text" [(ngModel)]="property.buildToken"
+                                id="buildToken" aria-label="Build Token" placeholder="Enter Build Token"
+                                name="buildToken" (blur)="fetchProjectDetails()" required/>
+                        </div>
+                    </div>
+
+                </div>
+                <footer class="pf-c-modal-box__footer">
+                    <button class="pf-c-button pf-m-primary" (click)="upload(property)"
+                        [disabled]="!validUploadConfig">Upload</button>
+                </footer>
+            </div>
         </div>
     </div>
 
