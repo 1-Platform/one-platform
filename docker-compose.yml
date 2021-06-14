@@ -11,6 +11,7 @@ services:
       # - ./packages/notification-spa/dist:/var/www/html/notifications
       # - ./packages/search-spa/dist:/var/www/html/search
       # - ./packages/user-group-spa/build:/var/www/html/user-groups
+      # - ./packages/lighthouse-spa/dist:/var/www/html/lighthouse
       - ./packages/ssi-service/public/index.html:/var/www/html/index.html
       - ./packages/ssi-service/dist:/var/www/html/.ssi/nav
     ports:
@@ -107,6 +108,21 @@ services:
       - mongo
       - redis
 
+  lighthouse-service:
+    build: ./packages/lighthouse-service
+    command: npm start
+    env_file: ./packages/lighthouse-service/.env
+    environment:
+      DB_PATH: mongo
+      REDIS_SERVICE_HOST: redis
+    volumes:
+      - ./packages/lighthouse-service:/app
+    ports:
+      - 8086:8080
+    depends_on:
+      - mongo
+      - redis
+      
   mongo:
     image: mongo:4
     restart: always
