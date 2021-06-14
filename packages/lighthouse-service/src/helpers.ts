@@ -11,7 +11,7 @@ const redisOptions: Redis.RedisOptions = {
     retryStrategy: ( times: any ) => {
         return Math.min( times * 50, 2000 );
     }
-};
+} as any;
 
 export const pubsub = new RedisPubSub( {
     publisher: new Redis( redisOptions ),
@@ -40,10 +40,23 @@ class LHCIHelper {
             } );
     }
 
-    fetchProjectDetails ( buildToken: string ) {
+    fetchProjects (serverBaseUrl: string) {
         let headers = new Headers();
         headers.append( `Content-Type`, `application/json` );
-        return fetch( `${ process.env.SERVER_BASE_URL }/v1/projects/lookup`, {
+        return fetch( `${ serverBaseUrl }/v1/projects`, {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow'
+        } ).then( ( res: any ) => res.json() )
+            .then( ( result: LighthouseProjectType ) => result, ( error: any ) => {
+                throw new Error( error );
+            } );
+    }
+
+    fetchProjectDetails ( serverBaseUrl: string, buildToken: string ) {
+        let headers = new Headers();
+        headers.append( `Content-Type`, `application/json` );
+        return fetch( `${ serverBaseUrl }/v1/projects/lookup`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify( { "token": buildToken } ),
@@ -54,23 +67,23 @@ class LHCIHelper {
             } );
     }
 
-    fetchProjectBuilds ( projectID: string ) {
+    fetchProjectBuilds ( serverBaseUrl: string, projectID: string, branch:string, limit: number ) {
         let headers = new Headers();
         headers.append( `Content-Type`, `application/json` );
-        return fetch( `${ process.env.SERVER_BASE_URL }/v1/projects/${ projectID }/builds`, {
+        return fetch( `${ serverBaseUrl }/v1/projects/${ projectID }/builds?branch=${ branch }&limit=${ limit }`, {
             method: 'GET',
             headers: headers,
-            redirect: 'follow'
+            redirect: 'follow',
         } ).then( ( res: any ) => res.json() )
             .then( ( result: LighthouseProjectType ) => result, ( error: any ) => {
                 throw new Error( error );
             } );
     }
 
-    fetchProjectLHR ( projectID: string, buildID: string ) {
+    fetchProjectLHR ( serverBaseUrl: string, projectID: string, buildID: string ) {
         let headers = new Headers();
         headers.append( `Content-Type`, `application/json` );
-        return fetch( `${ process.env.SERVER_BASE_URL }/v1/projects/${ projectID }/builds/${ buildID }/runs`, {
+        return fetch( `${ serverBaseUrl }/v1/projects/${ projectID }/builds/${ buildID }/runs`, {
             method: 'GET',
             headers: headers,
             redirect: 'follow'
@@ -87,6 +100,19 @@ class LHCIHelper {
                 } );
                 return scores;
             }, ( error: any ) => {
+                throw new Error( error );
+            } );
+    }
+    
+    fetchProjectBranches ( serverBaseUrl: string, projectID: string) {
+        let headers = new Headers();
+        headers.append( `Content-Type`, `application/json` );
+        return fetch( `${ serverBaseUrl }/v1/projects/${ projectID }/branches`, {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow',
+        } ).then( ( res: any ) => res.json() )
+            .then( ( result: LighthouseProjectType ) => result, ( error: any ) => {
                 throw new Error( error );
             } );
     }
