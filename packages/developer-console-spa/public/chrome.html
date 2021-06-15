@@ -1,0 +1,89 @@
+<!-- Temporary Chrome SSI for Developer Console. To avoid the patternfly dependency conflicts between React Patternfly and the opc-feedback -->
+
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-feedback@latest/dist/opc-feedback.js"></script>
+
+<script src="/assets/op-auth.js"></script>
+<script src="/assets/op-nav.js"></script>
+<script src="/assets/op-feedback-api.js"></script>
+
+<script defer>
+  ( function () {
+    const styles = `
+  .op-loader__container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-content: center;
+    background-color: rgba(255,255,255,.95);
+    z-index: 999;
+  }
+  .op-loader {
+    display: block;
+    font-size: 48px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: rgba(0,0,0,.64);
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .op-loader::before {
+    content: '';
+    position: absolute;
+    left: 34px;
+    bottom: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 5px solid rgba(0,0,0,.64);
+    border-bottom-color: #FF3D00;
+    box-sizing: border-box;
+    animation: rotation 0.6s linear infinite;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }`;
+
+    function main() {
+      document.write( '<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>' ); // lgtm [js/eval-like-call]
+
+      const styleTag = document.createElement( 'style' );
+      styleTag.innerHTML = styles;
+      document.head.appendChild( styleTag );
+
+      window.OpAuthHelper.init();
+      window.OpAuthHelper.onLogin( () => {
+        const loader = document.getElementById( 'op-loader__global' );
+        if ( loader ) {
+          loader.remove();
+        }
+        styleTag.remove();
+        document.body.prepend( opfNav );
+        document.body.append( opcFeedback );
+      } );
+    }
+
+    const opfNav = document.createElement( "op-nav" );
+    const opcFeedback = document.createElement( "opc-feedback" );
+    opcFeedback.addEventListener( "opc-feedback:submit", ( event ) => {
+      event.detail.data.createdBy = window.OpAuthHelper?.getUserInfo()?.rhatUUID;
+      window.sendFeedback( event.detail.data );
+    } );
+
+    if ( !document.body ) {
+      window.addEventListener( 'load', main );
+    } else {
+      main();
+    }
+  } )();
+</script>

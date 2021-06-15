@@ -1,0 +1,29 @@
+#root {
+  min-height: var(--max-page-height);
+  background-color: #fafafa;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 1.5rem 0;
+}
+@media screen and (min-width: 800px) {
+  .container {
+    max-width: 90%;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .container {
+    max-width: 75%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 65%;
+  }
+}
+
+a {
+  text-decoration: none;
+}
