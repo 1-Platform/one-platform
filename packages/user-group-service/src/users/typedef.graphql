@@ -16,7 +16,7 @@ enum ldapFieldType {
 
 type RoverUserType {
   uid: String
-  cn: String
+  name: String
   rhatJobTitle: String
   rhatCostCenter: String
   rhatCostCenterDesc: String
@@ -33,40 +33,50 @@ type RoverUserType {
   telephoneNumber: String
   rhatPhoneExt: String
   objectClass: String
-  rhatUuid: String
+  rhatUUID: String
   serviceAccount: Boolean
-  manager: RoverUserType
-  roverGroups: [RoverGroupType]
+  manager: UserType
+  roverGroups: [GroupType]
   createdOn: DateTime,
   updatedOn: DateTime
 }
 
-input RoverUserInput {
-  _id: ID
+type UserType {
   uid: String
-  cn: String
+  name: String
+  isActive: Boolean
   rhatJobTitle: String
   rhatCostCenter: String
   rhatCostCenterDesc: String
-  rhatGeo: String
-  givenName: String
-  displayName: String
   employeeType: String
-  rhatLocation: String
+  rhatOfficeLocation: String
+  mail: String
+  rhatUUID: String
+  serviceAccount: Boolean
+  manager: UserType
+  roverGroups: [GroupType]
+  createdOn: DateTime
+  updatedOn: DateTime
+}
+
+input UserInput {
+  _id: ID
+  uid: String
+  name: String
+  isActive: Boolean
+  rhatJobTitle: String
+  rhatCostCenter: String
+  rhatCostCenterDesc: String
+  employeeType: String
   rhatOfficeLocation: String
   mobile: String
   mail: String
-  country: String
-  homePhone: String
-  telephoneNumber: String
-  rhatPhoneExt: String
-  objectClass: String
-  rhatUuid: String!
+  rhatUUID: String!
   serviceAccount: Boolean
   manager: String
 }
 
-type RoverGroupType {
+type GroupType {
   cn: String
   name: String
   description: String
@@ -88,34 +98,34 @@ type Mutation {
   """
   Add a new User
   """
-  addUser(input: RoverUserInput): RoverUserType
+  addUser(input: UserInput): UserType
   """
   Update existing User
   """
-  updateUser(input: RoverUserInput): RoverUserType
+  updateUser(input: UserInput): UserType
   """
   Delete a User by ID
   """
-  deleteUser(_id: String!): RoverUserType
+  deleteUser(_id: String!): UserType
   """
   add user from Rover
   """
-  addUserFromRover(uid: String!): RoverUserType
+  addUserFromRover(uid: String!): UserType
 }
 
 
 type Query {
   """
-  Fetches specific User from Cache by uid, rhatUuid
+  Fetches specific User from Cache by uid, rhatUUID
   """
   getUsersBy(
     uid: String
-    rhatUuid: String
-  ): [RoverUserType]
+    rhatUUID: String
+  ): [UserType]
   """
   Fetches all Users
   """
-  listUsers: [RoverUserType]
+  listUsers: [UserType]
   """
   Fetches Users based on criteria from Rover
   """

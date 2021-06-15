@@ -11,19 +11,19 @@ export const UserResolver = {
         } );
     },
     getUsersBy ( root: any, args: any, ctx: any ) {
-      const cleanedInput = pick( args, ['uid', 'rhatUuid'] );
+      const cleanedInput = pick( args, ['uid', 'rhatUUID'] );
       return Users.find( cleanedInput )
         .then( users => {
           if ( users.length > 0 ) {
             return users;
           }
 
-          if ( !cleanedInput.uid && !cleanedInput.rhatUuid ) {
+          if ( !cleanedInput.uid && !cleanedInput.rhatUUID ) {
             throw new Error( 'User not found for the given input' );
           }
 
           /* Fetch the user from LDAP while adding to the db for future use */
-          const key = cleanedInput.rhatUuid ? 'rhatUuid' : 'uid';
+          const key = cleanedInput.rhatUUID ? 'rhatUUID' : 'uid';
           const value = cleanedInput[ key ];
           return UserGroupAPIHelper
             .roverFetch( `/users/search?filter=((${ key }=${ value }))` )
@@ -44,6 +44,29 @@ export const UserResolver = {
       return Users.find().exec();
     }
   },
+  UserType: {
+    manager ( parent: any, args: any, ctx: any ) {
+      if ( parent.manager ) {
+        return UserGroupAPIHelper.roverFetch( `/users/${ parent.manager.substring( 4, parent.manager.indexOf( ',ou' ) ) }` )
+          .then( ( res ) => {
+            return res;
+          } );
+      }
+      else {
+        return null;
+      }
+    },
+    name ( parent: any, args: any, ctx: any ) {
+      return parent.cn;
+    },
+    rhatUUID ( parent: any, args: any, ctx: any ) {
+      return parent.rhatUuid;
+    },
+    roverGroups ( parent: any, args: any, ctx: any ) {
+      return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
+        .then( ( res ) => res.result );
+    }
+  },
   RoverUserType: {
     manager ( parent: any, args: any, ctx: any ) {
       if ( parent.manager ) {
@@ -56,14 +79,22 @@ export const UserResolver = {
         return null;
       }
     },
+    name ( parent: any, args: any, ctx: any ) {
+      return parent.cn;
+    },
+    rhatUUID ( parent: any, args: any, ctx: any ) {
+      return parent.rhatUuid;
+    },
     roverGroups ( parent: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
         .then( ( res ) => res.result );
-    },
-
+    }
   },
   Mutation: {
     addUser ( root: any, { input }: any, ctx: any ) {
+      // Reverse mapping to handle familiar names
+      input.rhatUuid = input.rhatUUID;
+      input.cn = input.name;
       const data = new Users( input );
       data.isActive = true;
       return data.save();
@@ -95,8 +126,10 @@ export const UserResolver = {
         .exec();
     },
     updateUser ( root: any, { input }: any, ctx: any ) {
+      // Reverse mapping to handle familiar names
+      input.cn = input.name;
       return Users
-        .findOneAndUpdate( { rhatUuid: input.rhatUuid }, input, { new: true } )
+        .findOneAndUpdate( { rhatUuid: input.rhatUUID }, input, { new: true } )
         .exec();
     }
   }
