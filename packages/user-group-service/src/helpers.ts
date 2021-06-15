@@ -1,11 +1,6 @@
-import { createClient } from 'ldapjs';
-import { Users } from './users/schema';
-import { isEmpty } from 'lodash';
-import moment from 'moment';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import fetch from 'node-fetch';
-import https from 'https';
 
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
@@ -22,8 +17,6 @@ export const pubsub = new RedisPubSub( {
 
 class UserGroupApiHelper {
   private static UserGroupHelperInstance: UserGroupApiHelper;
-  ldapHost: string | any = process.env.LDAP_HOST;
-  ldapBase: string | any = process.env.LDAP_BASE;
   constructor () { }
   public static getApiInstance () {
     if ( !UserGroupApiHelper.UserGroupHelperInstance ) {
@@ -34,9 +27,6 @@ class UserGroupApiHelper {
 
   // Helper function for rover interaction
   public roverFetch ( urlPart: String ) {
-    const httpsAgent = new https.Agent({
-      rejectUnauthorized: false,
-    });
     let credentials = `${ process.env.ROVER_USERNAME }:${ process.env.ROVER_PASSWORD }`;
     return fetch(
       `${ process.env.ROVER_API }${ urlPart }`,
@@ -45,8 +35,7 @@ class UserGroupApiHelper {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Basic ${ Buffer.from( credentials ).toString( 'base64' ) }`
-        },
-        agent: httpsAgent
+        }
       }
     )
       .then( ( res: any ) => {

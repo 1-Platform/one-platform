@@ -41,7 +41,7 @@ type APIAccess {
   microservice: String
 }
 
-union APIKeyOwner = RoverUserType | Group
+union APIKeyOwner = UserType | Group
 enum APIKeyOwnerType {
   User
   Group

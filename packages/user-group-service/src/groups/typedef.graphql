@@ -46,11 +46,11 @@ input AddGroupInput {
 
 input GetGroupInput {
   _id: ID
-  cn: String!
-  name: String!
+  cn: String
+  name: String
 }
 
 input UpdateGroupInput {
-  cn: String!
-  name: String!
+  cn: String
+  name: String
 }

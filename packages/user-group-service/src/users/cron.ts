@@ -11,14 +11,14 @@ export class UserSyncCron {
   public syncUsers() {
     Users.find().then((userInfo: any) => {
       if ( userInfo.length ) {
-        const rhatUUIDs = userInfo.map( ( user: any ) => user.rhatUuid );
-        if (rhatUUIDs.length) {
-          rhatUUIDs.map((rhatUUID: any) => {
+        const rhatUuids = userInfo.map( ( user: any ) => user.rhatUuid );
+        if (rhatUuids.length) {
+          rhatUuids.map((rhatUuid: any) => {
             return UserGroupAPIHelper
-              .roverFetch( `/users/search?filter=((rhatUUID=${ rhatUUID }))` )
+              .roverFetch( `/users/search?filter=((rhatUuid=${ rhatUuid }))` )
               .then( async ( res: any ) => {
                 const response = res?.result[ 0 ];
-                const oldProfile = userInfo.filter( ( user: any ) => user.rhatUuid === rhatUUID );
+                const oldProfile = userInfo.filter( ( user: any ) => user.rhatUuid === rhatUuid );
                 const newProfile = response;
                 if ( isEmpty(response) ) {
                   newProfile.isActive = false;
