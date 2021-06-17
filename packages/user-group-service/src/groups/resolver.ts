@@ -24,7 +24,7 @@ export const GroupResolver = {
   },
   Group: {
     members ( root: any, GraphQLArgs: any, ctx: any ) {
-      return UserGroupAPIHelper.roverFetch( `/groups/${ ( root[ 0 ] || root ).cn }` )
+      return UserGroupAPIHelper.roverFetch( `/groups/${ root.cn }` )
             .then( ( res ) => {
               return res.result?.memberUids.map( ( member: string ) => {
                 return member.substring( 4, member.indexOf( ',ou' ) );
