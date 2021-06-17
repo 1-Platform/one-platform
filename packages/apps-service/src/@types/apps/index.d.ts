@@ -1,4 +1,5 @@
 type App = {
+  appId: string
   isActive: boolean
   name: string
   description: string
@@ -7,7 +8,7 @@ type App = {
   entityType: App.EntityType
   colorScheme: string
   videoUrl: string
-  owner: string
+  ownerId: string
   applicationType: App.Type
   contacts: {
     developers: Array<string>

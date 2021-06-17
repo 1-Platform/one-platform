@@ -2,6 +2,7 @@
 
 import { IResolvers } from 'apollo-server';
 import { Apps } from '.';
+import uniqueIdFromPath from '../../utils/unique-id-from-path';
 
 export default <IResolvers<App, IAppsContext>>{
   Query: {
@@ -12,11 +13,14 @@ export default <IResolvers<App, IAppsContext>>{
       if ( !ctx.rhatUUID ) {
         throw new Error( 'User unauthorized to view my apps' );
       }
-      return Apps.find().where( 'owner', ctx.rhatUUID ).exec();
+      return Apps.find({ ownerId: ctx.rhatUUID }).exec();
     },
-    app: ( parent, { selectors }, ctx ) => {
+    findApps: ( parent, { selectors }, ctx ) => {
       return Apps.find( selectors ).exec();
-    }
+    },
+    app: ( parent, { appId } ) => {
+      return Apps.findOne( { appId } ).exec();
+    },
   },
   Mutation: {
     createApp: ( parent, { app }, ctx ) => {
@@ -25,14 +29,17 @@ export default <IResolvers<App, IAppsContext>>{
       }
       return new Apps( {
         ...app,
-        owner: ctx.rhatUUID,
+        ownerId: ctx.rhatUUID,
         createdBy: ctx.rhatUUID,
         updatedBy: ctx.rhatUUID,
       } ).save();
     },
     updateApp: ( parent, { id, app }, ctx ) => {
       if ( !Apps.isAuthorized( id, ctx.rhatUUID ) ) {
-        throw new Error( 'User unauthorized to update app' );
+        throw new Error( 'User unauthorized to update the app' );
+      }
+      if ( app.path ) {
+        app.appId = uniqueIdFromPath( app.path );
       }
       return Apps.findByIdAndUpdate( id, {
         ...app,
@@ -42,7 +49,7 @@ export default <IResolvers<App, IAppsContext>>{
     },
     deleteApp: ( parent, { id }, ctx ) => {
       if ( !Apps.isAuthorized( id, ctx.rhatUUID ) ) {
-        throw new Error( 'User unauthorized to update app' );
+        throw new Error( 'User unauthorized to delete the app' );
       }
       return Apps.findByIdAndRemove( id ).exec();
     }
