@@ -1,5 +1,5 @@
 import { Users } from './schema';
-import { pick } from 'lodash';
+import { pickBy } from 'lodash';
 import { UserGroupAPIHelper } from '../helpers';
 
 export const UserResolver = {
@@ -11,19 +11,20 @@ export const UserResolver = {
         } );
     },
     getUsersBy ( root: any, args: any, ctx: any ) {
-      const cleanedInput = pick( args, ['uid', 'rhatUUID'] );
+      const input = { "uid": args.uid, "rhatUuid": args.rhatUUID }
+      const cleanedInput = pickBy( input, v => v !== undefined );
       return Users.find( cleanedInput )
         .then( users => {
           if ( users.length > 0 ) {
             return users;
           }
 
-          if ( !cleanedInput.uid && !cleanedInput.rhatUUID ) {
+          if ( !cleanedInput.uid && !cleanedInput.rhatUuid ) {
             throw new Error( 'User not found for the given input' );
           }
 
           /* Fetch the user from LDAP while adding to the db for future use */
-          const key = cleanedInput.rhatUUID ? 'rhatUUID' : 'uid';
+          const key = cleanedInput.rhatUuid ? 'rhatUuid' : 'uid';
           const value = cleanedInput[ key ];
           return UserGroupAPIHelper
             .roverFetch( `/users/search?filter=((${ key }=${ value }))` )

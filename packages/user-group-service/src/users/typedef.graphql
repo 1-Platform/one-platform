@@ -17,6 +17,7 @@ enum ldapFieldType {
 type RoverUserType {
   uid: String
   name: String
+  cn: String
   rhatJobTitle: String
   rhatCostCenter: String
   rhatCostCenterDesc: String
@@ -44,6 +45,7 @@ type RoverUserType {
 type UserType {
   uid: String
   name: String
+  cn: String
   isActive: Boolean
   rhatJobTitle: String
   rhatCostCenter: String
