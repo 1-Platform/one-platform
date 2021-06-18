@@ -27,7 +27,7 @@ sendFeedback = (feedbackInput) => {
             "input": feedbackInput
         }
     });
-    return fetch(process.env.APPS_BASE_API, {
+    return fetch( process.env.OP_API_GATEWAY_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

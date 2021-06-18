@@ -9,11 +9,11 @@ import { split } from 'apollo-link';
  */
 export class APIService {
   constructor () {
-    this._apiBasePath = process.env.APPS_BASE_API;
-    this._apiBaseURL = new URL( this._apiBasePath );
+    this._apiBasePath = process.env.OP_API_GATEWAY_URL;
+    this._subscriptionsPath = process.env.OP_SUBSCRIPTIONS_URL;
 
     this._wsLink = new WebSocketLink( {
-      uri: `wss://${ this._apiBaseURL.host }/subscriptions`,
+      uri: this._subscriptionsPath,
       options: {
         reconnect: true,
         connectionParams: () => ({ ...this._headers })
@@ -85,11 +85,11 @@ export class APIService {
   navDrawerData (targets) {
     const query = `
       query NavMenu ($targets: [String]!) {
-        appsList: getHomeTypeBy( input: {entityType: "spa"} ) {
+        appsList: apps {
           name
-          link
+          path
           icon
-          active
+          isActive
           applicationType
         }
         notificationsList: listArchivedNotifications(targets: $targets , limit: 25) {
