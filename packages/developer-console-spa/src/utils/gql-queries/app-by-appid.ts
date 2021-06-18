@@ -1,11 +1,11 @@
 export const appByAppId = /* GraphQL */`
-query App($appId: String) {
-  app (selectors: { path: $appId }) {
+query App($appId: String!) {
+  app ( appId: $appId ) {
     id
     name
     path
     description
-    owner
+    ownerId
     isActive
     createdOn
     createdBy
