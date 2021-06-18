@@ -1,13 +1,15 @@
 import { Button, Nav, NavItem, NavList, OptionsMenu, OptionsMenuItem, OptionsMenuToggle, Title } from '@patternfly/react-core';
 import { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import useMyAppsAPI from '../hooks/useMyAppsAPI';
 import './Sidebar.css';
 
 function Sidebar () {
   const { apps } = useMyAppsAPI();
-  const { app, loading } = useContext(AppContext);
+  const { app, loading } = useContext( AppContext );
+  const { appId } = useParams<any>();
+
   const location = useLocation();
 
   const [ appMenuOptions, setAppMenuOptions ] = useState<any[]>([]);
@@ -19,11 +21,11 @@ function Sidebar () {
       <OptionsMenuItem
         key={ tapp.id }
         id={ tapp.id }
-        isSelected={ tapp.id === app.id }>
+        isSelected={ tapp.appId === appId }>
         { tapp.name }
       </OptionsMenuItem>
     ) ) );
-  }, [ apps, app ] );
+  }, [ apps, appId ] );
 
   const appsMenuToggle = <OptionsMenuToggle onToggle={ () => {setAppsListOpen( !appsListOpen )} } toggleTemplate={ loading ? 'Loading...' : app?.name }></OptionsMenuToggle>;
 

@@ -40,7 +40,7 @@ export default function AppAppForm () {
     gqlClient( { query: newApp, variables: { app } } )
       .then( res => {
         if ( res?.data?.app ) {
-          history.push( res.data.app.path );
+          history.push( res.data.app.appId );
         }
       } );
   }

@@ -2,10 +2,11 @@ export const myApps = /* GraphQL */`
 query AppsList {
   myApps {
     id
+    appId
     name
     path
     description
-    owner
+    ownerId
     isActive
     updatedOn
   }

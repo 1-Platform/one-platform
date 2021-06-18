@@ -10,13 +10,13 @@ export default function useAppAPI ( appId: string ) {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    gqlClient( { query: appByAppId, variables: { appId: '/' + appId } }, signal )
+    gqlClient( { query: appByAppId, variables: { appId } }, signal )
       .then( res => {
-        if ( !res || !res.data ) {
+        if ( !res?.data?.app ) {
           setLoading( false );
           return;
         }
-        setApp( res.data.app[ 0 ] );
+        setApp( res.data.app );
         setLoading( false );
       } );
 
