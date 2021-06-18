@@ -134,5 +134,5 @@ type Query {
   """
   Fetches Users based on criteria from Rover
   """
-  findUsers(ldapfield: ldapFieldType, value: String): [RoverUserType]
+  searchRoverUsers(ldapfield: ldapFieldType, value: String, cacheUser: Boolean): [RoverUserType]
 }
