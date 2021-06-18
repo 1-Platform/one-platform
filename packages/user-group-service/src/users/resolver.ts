@@ -4,11 +4,15 @@ import { UserGroupAPIHelper } from '../helpers';
 
 export const UserResolver = {
   Query: {
-    findUsers ( root: any, args: any, ctx: any ) {
+    searchRoverUsers ( root: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users?criteria=${ args.value }&fields=${ args.ldapfield }` )
         .then( ( res: any ) => {
+          if ( args.cacheUser ) {
+            Users.insertMany( res.result )
+              .catch( (res) => console.error( 'Can not insert some users to the Cache.', res.writeErrors && res.writeErrors[0], res.result ) );;
+          }
           return res.result;
-        } );
+        } )
     },
     getUsersBy ( root: any, args: any, ctx: any ) {
       const input = { "uid": args.uid, "rhatUuid": args.rhatUUID }
