@@ -16,9 +16,10 @@ enum ldapFieldType {
 
 type RoverUserType {
   uid: String
-  name: String
+  name: String @deprecated(reason: "Field is deprecated!")
   cn: String
   rhatJobTitle: String
+  title: String @deprecated(reason: "Field is deprecated!")
   rhatCostCenter: String
   rhatCostCenterDesc: String
   rhatGeo: String
@@ -43,11 +44,13 @@ type RoverUserType {
 }
 
 type UserType {
+  _id: String
   uid: String
-  name: String
+  name: String @deprecated(reason: "Field is deprecated!")
   cn: String
   isActive: Boolean
   rhatJobTitle: String
+  title: String @deprecated(reason: "Field is deprecated!")
   rhatCostCenter: String
   rhatCostCenterDesc: String
   employeeType: String
