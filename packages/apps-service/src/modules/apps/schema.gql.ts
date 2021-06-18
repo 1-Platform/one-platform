@@ -21,13 +21,12 @@ type App {
   description: String
   path: String
   icon: String
-  entityType: AppEntityType
   colorScheme: String
   videoUrl: String
   ownerId: String
   applicationType: AppType
   contacts: AppContacts
-  access: [AppAccess]
+  permissions: [AppPermissions]
   feedback: AppFeedbackConfig
   search: AppMicroserviceConfig
   notifications: AppMicroserviceConfig
@@ -41,7 +40,6 @@ input FindAppInput {
   appId: String
   name: String
   path: String
-  entityType: AppEntityType
   ownerId: String
   applicationType: AppType
   createdBy: String
@@ -53,12 +51,11 @@ input CreateAppInput {
   description: String
   path: String!
   icon: String
-  entityType: AppEntityType
   colorScheme: String
   videoUrl: String
   applicationType: AppType
   contacts: AppContactsInput
-  access: [AppAccessInput]
+  permissions: [AppPermissionsInput]
   feedback: AppFeedbackConfigInput
   search: AppMicroserviceConfigInput
   notifications: AppMicroserviceConfigInput
@@ -69,20 +66,15 @@ input UpdateAppInput {
   description: String
   path: String
   icon: String
-  entityType: AppEntityType
   colorScheme: String
   videoUrl: String
   ownerId: String
   applicationType: AppType
   contacts: AppContactsInput
-  access: [AppAccessInput]
+  permissions: [AppPermissionsInput]
   feedback: AppFeedbackConfigInput
   search: AppMicroserviceConfigInput
   notifications: AppMicroserviceConfigInput
-}
-enum AppEntityType {
-  SPA
-  MICROSERVICE
 }
 enum AppType {
   BUILTIN
@@ -98,17 +90,19 @@ input AppContactsInput {
   qe: [String]
   stakeholders: [String]
 }
-type AppAccess {
-  roverGroup: String
-  role: AppAccessRole
+type AppPermissions {
+  refId: String
+  refType: AppPermissionsRefType
+  role: String
 }
-input AppAccessInput {
-  roverGroup: String
-  role: AppAccessRole
+input AppPermissionsInput {
+  refId: String!
+  refType: AppPermissionsRefType!
+  role: String!
 }
-enum AppAccessRole {
-  EDIT
-  VIEW
+enum AppPermissionsRefType {
+  User
+  Group
 }
 type AppFeedbackConfig {
   isEnabled: Boolean

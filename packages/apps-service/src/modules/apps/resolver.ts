@@ -9,11 +9,11 @@ export default <IResolvers<App, IAppsContext>>{
     apps: ( parent, args, ctx, info ) => {
       return Apps.find().exec();
     },
-    myApps: ( parent, args, ctx ) => {
-      if ( !ctx.rhatUUID ) {
-        throw new Error( 'User unauthorized to view my apps' );
+    myApps: ( parent, args, { rhatUUID } ) => {
+      if ( !rhatUUID ) {
+        throw new Error( 'Anonymous user unauthorized to view my apps' );
       }
-      return Apps.find({ ownerId: ctx.rhatUUID }).exec();
+      return Apps.find({ ownerId: rhatUUID }).exec();
     },
     findApps: ( parent, { selectors }, ctx ) => {
       return Apps.find( selectors ).exec();
@@ -25,7 +25,7 @@ export default <IResolvers<App, IAppsContext>>{
   Mutation: {
     createApp: ( parent, { app }, ctx ) => {
       if ( !ctx.rhatUUID ) {
-        throw new Error( 'User unauthorized to create new app' );
+        throw new Error( 'Anonymous user unauthorized to create new app' );
       }
       return new Apps( {
         ...app,

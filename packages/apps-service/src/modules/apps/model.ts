@@ -14,7 +14,7 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   appId: {
     type: String,
     unique: true,
-    default: function ( this: App ) { return uniqueIdFromPath( this.path ); }
+    default: function ( this: App ) { return uniqueIdFromPath( this.path ) || uniqueIdFromPath( this.name ); },
   },
   isActive: { type: Boolean, default: false, },
   name: { type: String, unique: true, },
@@ -60,6 +60,14 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   },
   notifications: {
     isEnabled: { type: Boolean, default: false, },
+  },
+  database: {
+    isEnabled: { type: Boolean, default: false, },
+  },
+  lighthouse: {
+    isEnabled: { type: Boolean, default: false, },
+    projectId: { type: String, },
+    branch: { type: String, },
   },
   createdBy: { type: String, },
   createdOn: { type: Date, default: Date.now, },
