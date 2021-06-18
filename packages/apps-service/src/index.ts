@@ -1,8 +1,9 @@
 import { ApolloServer, mergeSchemas } from 'apollo-server';
-import setupDatabase from './setup/database';
+import setupDatabase, {mongoose} from './setup/database';
 import { PORT } from './setup/env';
 import { CommonSchema } from './modules/common';
 import { AppsResolver, AppsSchema } from './modules/apps';
+import { MicroservicesResolver, MicroservicesSchema } from './modules/microservices';
 
 ( async () => {
   /* Initialize database connection */
@@ -18,9 +19,11 @@ import { AppsResolver, AppsSchema } from './modules/apps';
       schemas: [
         CommonSchema,
         AppsSchema,
+        MicroservicesSchema,
       ],
       resolvers: [
         AppsResolver,
+        MicroservicesResolver,
       ]
     } ),
     plugins: [

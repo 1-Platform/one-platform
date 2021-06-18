@@ -4,7 +4,8 @@ export default /* GraphQL */`
 type Query {
   apps: [App]
   myApps: [App]
-  app(selectors: FindAppInput!): [App]
+  findApps(selectors: FindAppInput!): [App]
+  app(appId: String!): App
 }
 type Mutation {
   createApp(app: CreateAppInput!): App
@@ -14,6 +15,7 @@ type Mutation {
 
 type App {
   id: ID
+  appId: String
   isActive: Boolean
   name: String
   description: String
@@ -22,7 +24,7 @@ type App {
   entityType: AppEntityType
   colorScheme: String
   videoUrl: String
-  owner: String
+  ownerId: String
   applicationType: AppType
   contacts: AppContacts
   access: [AppAccess]
@@ -36,10 +38,11 @@ type App {
 }
 input FindAppInput {
   id: ID
+  appId: String
   name: String
   path: String
   entityType: AppEntityType
-  owner: String
+  ownerId: String
   applicationType: AppType
   createdBy: String
   updatedBy: String
@@ -69,7 +72,7 @@ input UpdateAppInput {
   entityType: AppEntityType
   colorScheme: String
   videoUrl: String
-  owner: String
+  ownerId: String
   applicationType: AppType
   contacts: AppContactsInput
   access: [AppAccessInput]
