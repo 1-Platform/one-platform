@@ -3,138 +3,233 @@ id: feedback-service
 title: Feedback Service
 sidebar_label: Feedback Service
 ---
-***
 
 ## Developers
 
 ### Component Contributors
 
-1. Anjnee Sharma - [anjsharm@redhat.com](mailto:anjsharm@redhat.com)   <https://github.com/anjneeksharma>
+1. Rigin Oommen - [roommen@redhat.com](mailto:roommen@redhat.com) - [riginoommen (Rigin Oommen) · GitHub](https://github.com/riginoommen)
 
 ## Getting Started
 
-Feedback microservice is accessible from graphql playground with authorization header but in case of production playground is disabled.
+Feedback Microservice is one of the major pillar of One Platform ecosystem. This enables the support to share the feedback with the project management tools.
 
-To access it in local system:
-
-1 Clone it from one portal git repo if it's not available in the local system.
-
-2 cd  one-platform/packages/feedback-service
-
-3  Run `npm run build:dev` to generate build.
-
-4  Run `npm run start`
-
-5  access it in browser [http://localhost:8080/graphql](http://localhost:8080/graphql)
-
-6 Now you can access all graphql endpoints.
-
-For details users can access the `DOCS` and `SCHEMA` options in the upper right corner of the playground.
+#### Integrations Supported
+ * Jira
+ * GitLab
+ * GitHub
 
 ## Usage
 
 ### Introduction
 
-One Platform's server-side Feedback GraphQL Microservice allows users to talk to the feedback database and can perform operations like addfeedback, updatefeedback, deletefeedback and listfeedback.
+Feedback microservice is built using NodeJS. This interface collects the data from GraphQL API and interacts with the project management tool provided in the configuration
 
 ### Supported Features
-
-1. addFeedback
-2. updateFeedback
-3. deleteFeedback
-4. Listfeedback
-5. getFeedbackById
-6. getFeedbackBy
-
-Add feedback example
-![Feedback Addition Example](image_0.png)
+1. Create Feedback
+2. Update Feedback
+3. Update Feedback Index
+4. Delete Feedback
+5. List all Feedbacks
+6. List Feedback by ID
 
 #### Apps using this microservice
-
-1. Home
-2. API Gateway
-3. SSI
-4. User
-5. Feedback
-6. Notifications
+* All Native and Non native SPAs
 
 ### Quick Start Guide
 
- Follow below steps to set up a feedback service.
+#### Prerequisites
+1. **NodeJS** should be installed (_version\&gt;=__v14.15.4_)
+2. **NPM** should be installed _(version\&gt;= __6.4.1__ )_
+3. Version control system required. Preferably **git**.
 
-1. Git clone/download zip ([https://github.com/1-Platform/one-platform.git](https://github.com/1-Platform/one-platform.git))
-2. Install all the dependency (npm install)
-3. Run it (npm run start)
-4. Access it from GraphQL Playground ([http://localhost:8080/graphql](http://localhost:8080/graphql))
-5. Refer below screenshot for graphql endpoint access
-    ![image alt text](image_1.png)
+#### Steps
 
-    Result is as below
+1. Clone the [repository](https://github.com/1-Platform/one-platform).
 
-    ![image alt text](image_2.png)
+```sh
+git clone git@github.com:1-Platform/one-platform.git
+```
 
-Note: For more details refer the `docs` and `schema` options in right upper corner of GraphQL Playground.
+2. Switch the working directory to the user microservice
 
-## Other Details Pages
+```sh
+cd one-platform/packages/feedback-service
+```
 
-You would also need to build and start user-service as well because feedback fetch user information from  user-service.
+3. Install the microservice dependencies.
 
-1. `cd one-platform/packages/user-service`
-2. `npm install`
-3. `npm build:dev`
-4. `npm run start`
+```sh
+npm i
+```
+### Start
 
-## FAQs
+1. Run npm start:dev to run your microservice for dev env and npm start for production env.
+2. Navigate to port 8080 to see the microservice.
 
-* **Is the feedback module used only for giving feedback ?**
+eg: http://localhost:8080/graphql
 
-    No, using the feedback module we can give feedback and also report bugs.
+### Build
 
-* **Who can give feedback ?**
+1. [Webpack](https://webpack.js.org/) is used for the build system in the microservices.
+2. Run npm build:dev to generate a build for dev env and npm build for production build.
 
-    Any user who can login to one.portal.redhat.com can give feedback
+### Testing
 
-* **How can we create a bug report?**
+1. For testing microservice with [supertest](https://www.npmjs.com/package/supertest) with the preconfigured settings.
+2. Test related environment configurations are present in .test.env under the e2e folder.
+3. Execute the command for testing.
 
-    Login to One Portal to find the feedback button to the bottom right corner
-    ![image alt text](image_3.png)
+```sh
+npm run test
+```
 
-* **How can I get my feedback status?**
+## API References
 
-    Go to feedback listing page [https://one.redhat.com/feedback/](https://qa.one.redhat.com/feedback/) there feedback can be search many ways
+In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operations are defined as Mutations.
 
-* **How does the feedback module handle feedback/bugs internally?**
+### Queries
+#### List all Feedbacks
 
-    Create a jira ticket on a one-portal jira board someone from the team will pick it and start working.
+- Operation Name - ListFeedbacks
 
-* **Is there any plan to improve the existing feedback module ?**
+Example Query
+```bash
+query ListFeedbacks {
+  listFeedbacks {
+    _id
+    summary
+    description
+    experience
+    error
+    config
+    state
+    ticketUrl
+    category
+    source
+    module
+    assignee{
+      name
+      uid
+      email
+    }
+    createdOn
+    createdBy {
+      name
+      uid
+      email
+    }
+    updatedOn
+    updatedBy {
+      name
+      uid
+    }
+  }
+}
+```
+@@### List Feedback
 
-    Yes, we are working with stakeholders as per requirement it will be customized.
+- Operation Name - ListFeedback
+- Variables - ```_id```
 
-## API Reference
+Example Query
+```bash
+query ListFeedbacks($_id: ID!) {
+  listFeedback(_id: $_id) {
+    _id
+    summary
+    description
+    experience
+    error
+    config
+    state
+    ticketUrl
+    category
+    source
+    module
+    assignee{
+      name
+      uid
+      email
+    }
+    createdOn
+    createdBy {
+      name
+      uid
+      email
+    }
+    updatedOn
+    updatedBy {
+      name
+      uid
+    }
+  }
+}
+```
 
-**AddFeedback:** add new feedback
-![image alt text](image_4.png)
+### Mutations
+#### Create feedback
+1. Create new feedback to database and open the ticket accordingly.
 
-**updateFeedback:**- update existing feedback.
-![image alt text](image_5.png)
+- Operation Name - CreateFeedback
 
-**deleteFeedback:** it will delete existing feedback.
-![image alt text](image_6.png)
+- Variables - _FeedbackInput_
 
-**listFeedback:**  It will list feedback.
-![image alt text](image_7.png)
+Example Mutation
+```bash
+mutation CreateFeedback($input: FeedbackInput!) {
+  createFeedback(input: $input) {
+    _id
+    ticketUrl
+  }
+}
+```
+#### Update feedback
 
-**getFeedback:** get the feedback based on its id
-![image alt text](image_8.png)
+- Operation Name - UpdateFeedback
+- Variables - _FeedbackInput_
 
-**getFeedbackBy:** get feedback by any of its properties like id, title, description for more detail refer docs in graphql playground.
-![image alt text](image_9.png)
+Example Mutation
 
-## Target Users
+```bash
+mutation UpdateFeedback($input: FeedbackInput!) {
+  updateFeedback(input: $input) {
+    _id
+    summary
+    description
+    experience
+  }
+}
+```
+#### Delete feedback
 
-This docs is meant for developers as well end users.
+- Operation Name - DeleteFeedback
+- Variables - __id_
 
-## Applications (SPAs)
+Example Mutation
 
-It is used by the feedback-spa for listing feedback and adding feedback
+```bash
+mutation UpdateFeedback($input: FeedbackInput!) {
+  updateFeedback(input: $input) {
+    _id
+    summary
+    description
+    experience
+  }
+}
+```
+
+
+#### Update feedback search index
+
+- Operation Name - UpdateFeedbackIndex
+
+Example Mutation
+
+```bash
+mutation UpdateFeedbackIndex {
+  updateFeedbackIndex{
+    status
+  }
+}
+```
