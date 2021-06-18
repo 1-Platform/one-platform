@@ -63,6 +63,9 @@ export const UserResolver = {
     rhatUUID ( parent: any, args: any, ctx: any ) {
       return parent.rhatUuid;
     },
+    title ( parent: any, args: any, ctx: any ) {
+      return parent.rhatJobTitle;
+    },
     roverGroups ( parent: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
         .then( ( res ) => res.result );
@@ -85,6 +88,9 @@ export const UserResolver = {
     },
     rhatUUID ( parent: any, args: any, ctx: any ) {
       return parent.rhatUuid;
+    },
+    title ( parent: any, args: any, ctx: any ) {
+      return parent.rhatJobTitle;
     },
     roverGroups ( parent: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
