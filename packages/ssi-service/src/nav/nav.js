@@ -230,7 +230,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
     <div class="op-menu-drawer__title"><span>Built-in Services</span></div>
     <ul class="op-menu-drawer__app-list">
       ${builtIn.map( app => ( html`
-        <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
+        <li class="op-menu-drawer__app-list-item ${ app.isActive ? '' : 'inactive' }">
           <a .href="${ app.link }">
             <div>
               <img .src="${ app.icon || ASSETS_URL + '/rh-hat-logo.svg' }"/>
@@ -245,7 +245,7 @@ window.customElements.define( 'op-nav', class extends LitElement {
     <div class="op-menu-drawer__title"><span>Hosted Applications</span></div>
     <ul class="op-menu-drawer__app-list">
       ${hosted.map( app => ( html`
-      <li class="op-menu-drawer__app-list-item ${ app.active ? '' : 'inactive' }">
+      <li class="op-menu-drawer__app-list-item ${ app.isActive ? '' : 'inactive' }">
         <a .href="${ app.link }">
           <div>
             <img .src="${ app.icon || ASSETS_URL + '/rh-hat-logo.svg' }" />
