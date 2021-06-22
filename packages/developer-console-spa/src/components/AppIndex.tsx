@@ -8,9 +8,9 @@ import './AppIndex.css'
 function AppIndex () {
   const { apps, loading } = useMyAppsAPI();
 
-  const cardDropdownItems = [
-    <DropdownItem key='edit'>Edit App</DropdownItem>,
-    <DropdownItem key='delete' className="pf-u-danger-color-100">Delete App</DropdownItem>,
+  const cardDropdownItems = (appId: string) => [
+    <DropdownItem key='edit' href={ process.env.PUBLIC_URL + '/' + appId + '/settings' }>Edit App</DropdownItem>,
+    <DropdownItem key='delete' className="pf-u-danger-color-100" href={ process.env.PUBLIC_URL + '/' + appId + '/settings?action=delete' }>Delete App</DropdownItem>,
   ];
 
   function NewAppButton () {
@@ -50,7 +50,7 @@ function AppIndex () {
                   <GridItem key={app.id}>
                     <AppCard
                       app={app}
-                      dropdownItems={ cardDropdownItems } />
+                      dropdownItems={ cardDropdownItems(app.appId) } />
                   </GridItem>
                 ) }
               </Grid>

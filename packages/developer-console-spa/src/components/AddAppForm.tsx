@@ -35,14 +35,17 @@ export default function AppAppForm () {
 
   function handleFormSubmit (event: any) {
     event.preventDefault();
-    console.log( app );
     /* TODO: Form validation before submitting */
     gqlClient( { query: newApp, variables: { app } } )
       .then( res => {
         if ( res?.data?.app ) {
+          window.OpNotification.success( { subject: 'App Created Succssfully!' } );
           history.push( res.data.app.appId );
         }
-      } );
+      } ).catch( err => {
+        window.OpNotification.danger( { subject: 'An error occured when deleting the App.', body: 'Please try again later.' } );
+        console.error( err );
+      });
   }
 
   return <>
