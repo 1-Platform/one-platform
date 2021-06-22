@@ -20,7 +20,8 @@ npm install
 - Add URL to API_URL in .env file
 
 ```sh
-API_URL=https://example.com/api
+API_URL=https://example.com/graphql
+DEPLOY_URL=https://example.com/api/deploy
 ```
 
 - Schema
@@ -31,7 +32,6 @@ API_URL=https://example.com/api
     description: 'Description of the entity,
     link: 'Link to entity'
     icon: 'Icon for the entity',
-    entityType: 'Spa/Microservice',
     colorScheme: 'In case of microservice entity',
     videoUrl: 'In caase of spa entity',
 
