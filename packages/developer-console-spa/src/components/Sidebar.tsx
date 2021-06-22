@@ -7,7 +7,7 @@ import './Sidebar.css';
 
 function Sidebar () {
   const { apps } = useMyAppsAPI();
-  const { app, loading } = useContext( AppContext );
+  const { app, loading, setApp } = useContext( AppContext );
   const { appId } = useParams<any>();
 
   const location = useLocation();
@@ -21,11 +21,12 @@ function Sidebar () {
       <OptionsMenuItem
         key={ tapp.id }
         id={ tapp.id }
-        isSelected={ tapp.appId === appId }>
+        isSelected={ tapp.appId === appId }
+        onSelect={ () => {setApp( tapp.appId ); setAppsListOpen( false )} }>
         { tapp.name }
       </OptionsMenuItem>
     ) ) );
-  }, [ apps, appId ] );
+  }, [ apps, appId, setApp, setAppsListOpen ] );
 
   const appsMenuToggle = <OptionsMenuToggle onToggle={ () => {setAppsListOpen( !appsListOpen )} } toggleTemplate={ loading ? 'Loading...' : app?.name }></OptionsMenuToggle>;
 
@@ -45,6 +46,7 @@ function Sidebar () {
     <>
       <Nav theme="light" className="app-details--sidebar pf-u-box-shadow-md-right">
 
+        {/* TODO: use context selector instead of options menu (https://www.patternfly.org/v4/components/context-selector) */}
         <OptionsMenu
           className="app-menu--list"
           id="app-list-options-menu"
@@ -71,8 +73,11 @@ function Sidebar () {
           ))}
         </NavList>
         <NavList className="app-details--sidebar--settings pf-u-mt-auto">
-          <NavItem>App Settings
-           <ion-icon class="pf-u-ml-auto pf-u-my-auto" name="settings-outline"></ion-icon>
+          <NavItem>
+            <Link to={ 'settings' }>
+              App Settings
+              <ion-icon class="pf-u-ml-auto pf-u-my-auto" name="settings-outline"></ion-icon>
+            </Link>
           </NavItem>
         </NavList>
         </Nav>

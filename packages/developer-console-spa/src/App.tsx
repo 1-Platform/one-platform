@@ -11,6 +11,7 @@ import UnderDevelopment from './components/UnderDevelopment';
 import ConfigureFeedback from './components/ConfigureFeedback';
 import ConfigureSSI from './components/ConfigureSSI';
 import ConfigureDatabase from './components/ConfigureDatabase';
+import AppSettings from './components/AppSettings';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/:appId/search" component={ UnderDevelopment } exact />
               <Route path="/:appId/notifications" component={ UnderDevelopment } exact />
               <Route path="/:appId/user-groups" component={ UnderDevelopment } exact />
+              <Route path="/:appId/settings" component={ AppSettings } exact />
               <Route path="*" component={ NotFound } />
             </Switch>
           </AppConsoleShell>
