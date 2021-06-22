@@ -4,7 +4,6 @@ export const stub = [
       description: "Adding authentication to your application is pice of cake. Just integrate with our API and focus on application development.",
       link: "microservice-details.html#authentication",
       icon: "img/shield.svg",
-      entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #E2EAF6 0%, #E8E4F6 100%)",
       videoUrl: "#"
    },
@@ -13,7 +12,6 @@ export const stub = [
       description: "Allows users to review and rate services and products provided by teams. Built into a power packed microservice so serve all.",
       link: "microservice-details.html#feedback",
       icon: "img/talk-bubble.svg",
-      entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #E4F3F4 0%, #EDF6F0 100%)",
       videoUrl: "#"
    },
@@ -22,7 +20,6 @@ export const stub = [
       description: "Notification framework for One Platform and also all other SPAs",
       link: "microservice-details.html#notification",
       icon: "img/bell.svg",
-      entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #FFF7C4 0%, #F2F7E6 100%)",
       videoUrl: "#"
    },
@@ -31,7 +28,6 @@ export const stub = [
       description: "A prebuilt integration with LDAP to authenticate, authorize and get user information.",
       link: "microservice-details.html#user-profile",
       icon: "img/login.svg",
-      entityType: "microservice",
       colorScheme: "linear-gradient(119deg, #E4F3F4 0%, #F3F3F3 100%)",
       videoUrl: "#"
    },
@@ -40,7 +36,6 @@ export const stub = [
       description: "Outage Module is a combined tool which helps for planning and operation solutions to manage, control, visualize the process in outage management",
       link: "#",
       icon: "fa-tools",
-      entityType: "spa",
       colorScheme: "#",
       videoUrl: "https://www.youtube.com/embed/Pj_tLugpz8g"
    },
@@ -49,7 +44,6 @@ export const stub = [
       description: "DSAL (pronounced like Diesel) is a shared lab program and its main goal is to better utilize the hardware for different projects/programs inside Red Hat. Here you can loan from DSAL high-end physical servers connected and top of the line switch in order to have your own lab for 4+2 months",
       link: "#",
       icon: "fa-tools",
-      entityType: "spa",
       colorScheme: "",
       videoUrl: "https://www.youtube.com/embed/Pj_tLugpz8g"
    }

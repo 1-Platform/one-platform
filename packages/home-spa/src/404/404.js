@@ -3,7 +3,7 @@ export const renderSPAList = (homeList) => {
     if (spaListForFourZeroFour !== null) {
       spaListForFourZeroFour.innerHTML = homeList.map(spa =>
         {
-          if (spa.entityType === 'spa') {
+          if (spa) {
             return `<a href="${spa.link}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
           }
         }

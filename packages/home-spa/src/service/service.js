@@ -6,7 +6,6 @@ query HomePageQuery {
     name
     icon
     isActive
-    entityType
     path
   }
 }`;
