@@ -30,27 +30,6 @@ type Mutation {
 
 scalar DateTime
 
-type UserType {
-  _id: String
-  uid: String
-  name: String @deprecated(reason: "Field is deprecated!")
-  cn: String
-  isActive: Boolean
-  rhatJobTitle: String
-  title: String @deprecated(reason: "Field is deprecated!")
-  rhatCostCenter: String
-  rhatCostCenterDesc: String
-  employeeType: String
-  rhatOfficeLocation: String
-  mail: String
-  rhatUUID: String
-  serviceAccount: Boolean
-  manager: UserType
-  roverGroups: [GroupType]
-  createdOn: DateTime
-  updatedOn: DateTime
-}
-
 type Group {
   _id: ID
   cn: String

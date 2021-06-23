@@ -28,7 +28,8 @@ export const GroupResolver = {
       return UserGroupAPIHelper.roverFetch( `/groups/${ root.cn }` )
         .then( ( res ) => {
           const uids = res.result?.memberUids.map( ( member: string ) => {
-            return member.substring( 4, member.indexOf( ',ou' ) );
+            const uidPart = member.split( ',' ).find( (part) => part.startsWith("uid=") );
+            return uidPart && uidPart.substring(4);
           } );
           return Users.find( { "uid": { "$in": uids } } );
         } )
