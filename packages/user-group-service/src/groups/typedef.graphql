@@ -10,7 +10,7 @@ type Query {
   """
   Returns a group
   """
-  group( cn: String ): Group
+  group( cn: String! ): Group
 }
 
 type Mutation {
@@ -36,7 +36,7 @@ type Group {
   name: String
   createdOn: DateTime
   updatedOn: DateTime
-  members: [String]
+  members: [UserType]
 }
 
 input AddGroupInput {

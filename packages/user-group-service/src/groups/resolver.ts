@@ -1,4 +1,5 @@
 import { Groups } from './schema';
+import { Users } from '../users/schema';
 import { UserGroupAPIHelper } from '../helpers';
 
 export const GroupResolver = {
@@ -25,12 +26,14 @@ export const GroupResolver = {
   Group: {
     members ( root: any, GraphQLArgs: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/groups/${ root.cn }` )
-            .then( ( res ) => {
-              return res.result?.memberUids.map( ( member: string ) => {
-                return member.substring( 4, member.indexOf( ',ou' ) );
-              } );
-            } )
-            .catch((err) => { throw("There is some problem fetching members of the group ") });
+        .then( ( res ) => {
+          const uids = res.result?.memberUids.map( ( member: string ) => {
+            const uidPart = member.split( ',' ).find( (part) => part.startsWith("uid=") );
+            return uidPart && uidPart.substring(4);
+          } );
+          return Users.find( { "uid": { "$in": uids } } );
+        } )
+        .catch((err) => { throw("There is some problem fetching members of the group.") });
       }
   },
   Mutation: {
