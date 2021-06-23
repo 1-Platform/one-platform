@@ -17,29 +17,30 @@ export default {
   },
 
   /**
-   * Fetches group details by its ldapCommonName
-   * @param {string} ldapCommonName
+   * Fetches group details by its cn
+   * @param {string} cn
    */
-  getGroupByCn ( ldapCommonName ) {
+  getGroupByCn ( cn ) {
     return FetchClient( {
       query: getGroupsBy,
-      variables: { selector: { ldapCommonName } }
+      variables: { selector: { cn } }
     } )
       .then(data => data?.getGroupsBy[0] || null);
   },
 
   /**
-   * Fetches group details and its members by ldapCommonName
-   * @param {string} ldapCommonName
+   * Fetches group details and its members by cn
+   * @param {string} cn
    */
-  getGroupDetailsByCn ( ldapCommonName ) {
+  getGroupDetailsByCn ( cn ) {
     return FetchClient( {
       query: getGroupDetailsByCn,
-      variables: { ldapCommonName }
+      variables: { cn }
     } )
       .then( data => ( {
         ...data,
-        group: data.group[ 0 ],
+        group: data.group,
+        members: data.members
       } ) );
   },
 
@@ -70,7 +71,7 @@ export default {
       .then( data => data.deleteGroup );
   },
 
-  searchGroups ( ldapCommonName ) {
+  searchGroups ( cn ) {
     return new Promise( resolve => {
       setTimeout( () => {
         resolve( [

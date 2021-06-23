@@ -33,7 +33,7 @@ function Group ( props ) {
   const [ group, setGroup ] = useState( {
     _id: '',
     name: cn,
-    ldapCommonName: cn,
+    cn: cn,
     createdOn: null,
     updatedOn: null,
   } );
@@ -124,7 +124,7 @@ function Group ( props ) {
                   LDAP/Rover Common Name
                 </DescriptionListTerm>
                 <DescriptionListDescription>
-                  {group.ldapCommonName}
+                  {group.cn}
                 </DescriptionListDescription>
               </DescriptionListGroup>
 
