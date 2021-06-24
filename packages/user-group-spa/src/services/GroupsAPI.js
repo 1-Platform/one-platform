@@ -53,9 +53,7 @@ export default {
   },
 
   updateGroup ( group ) {
-    const cleanedGroup = Object.create(group);
-    delete cleanedGroup._id;
-
+    const cleanedGroup = { cn: group.cn, name: group.name };
     return FetchClient( {
       query: updateGroup,
       variables: { id: group._id, group: cleanedGroup }
