@@ -21,18 +21,16 @@ export const getGroupsBy = /* GraphQL */`
 `;
 
 export const getGroupDetailsByCn = /* GraphQL */ `
-  query GetGroupDetailsBy($cn: String) {
+  query GetGroupDetailsBy($cn: String!) {
     group: group(cn: $cn) {
       _id
       name
       cn
       createdOn
       updatedOn
-    }
-    members: group(cn: $cn) {
       members {
-        name
-        mail
+        cn
+        uid
       }
     }
   }

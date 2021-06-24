@@ -63,7 +63,7 @@ function Home ( props ) {
           return;
         }
         console.error( err );
-        window.OpNotification.danger( { subject: 'There was some error fetching the list of groups' } );
+        window.OpNotification && window.OpNotification.danger( { subject: 'There was some error fetching the list of groups' } );
       });
   }, [ ] );
 

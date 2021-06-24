@@ -65,7 +65,7 @@ function GroupForm () {
             return;
           }
           console.error( err );
-          window.OpNotification.danger({
+          window.OpNotification && window.OpNotification.danger({
             subject: err.message,
             body: `There was some problem fetching the information for: ${cn}. For more details, see the console.`,
           } );
@@ -126,7 +126,7 @@ function GroupForm () {
   function addGroup ( group ) {
     GroupsAPI.addGroup(group)
       .then((res) => {
-        window.OpNotification.success( {
+       window.OpNotification && window.OpNotification.success( {
           subject: `Group created successfully!`,
           link: `./group/${ res.cn }`
         } );
@@ -134,7 +134,7 @@ function GroupForm () {
       })
       .catch((err) => {
         console.error(err);
-        window.OpNotification.danger( {
+        window.OpNotification && window.OpNotification.danger( {
           subject: 'Could not create the group',
           body: 'There was some error while trying to create the group. Please try again.'
         } );
@@ -144,7 +144,7 @@ function GroupForm () {
   function updateGroup ( group ) {
     GroupsAPI.updateGroup(group)
       .then((res) => {
-        window.OpNotification.success({
+       window.OpNotification && window.OpNotification.success({
           subject: `Group updated successfully!`,
           link: `./group/${res.cn}`,
         } );
@@ -152,7 +152,7 @@ function GroupForm () {
       })
       .catch((err) => {
         console.error( err );
-        window.OpNotification.danger({
+        window.OpNotification && window.OpNotification.danger({
           subject: 'Could not update the group',
           body: 'There was some error while trying to update the group. Please try again.',
         });

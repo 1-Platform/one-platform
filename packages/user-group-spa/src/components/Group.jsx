@@ -61,13 +61,14 @@ function Group ( props ) {
           if ( !res ) {
             throw new Error( 'Group not found' );
           }
+          setMembers( res.group.members );
+          delete res.group.members;
           setGroup( res.group );
-          setMembers( res.members );
           setLoading( false );
         } )
         .catch( err => {
           console.error( err );
-          window.OpNotification.danger({
+          window.OpNotification && window.OpNotification.danger({
             subject: err.message,
             body: `There was some problem fetching the information for: ${cn}. For more details, see the console.`,
           } );
