@@ -63,7 +63,8 @@ typings/
 
 # Temporary files
 tmp/
+e2e/reports/
+cypress/
 
 #environment variables
 *.env.json
-e2e/reports/
