@@ -13,7 +13,13 @@
     "email": "deshmukhmayur@outlook.com",
     "url": "https://deshmukhmayur.com"
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Ghanshyam Lohar",
+      "email": "gslohar@gmail.com",
+      "url": "https://github.com/ghanlohar"
+    }
+  ],
   "license": "MIT",
   "homepage": "/user-groups/",
   "dependencies": {
