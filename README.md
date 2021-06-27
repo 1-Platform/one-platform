@@ -58,7 +58,7 @@ docker-compose up $service_name
 
 This will start the service along with any dependent services/databases required for the service (for eg. mongo).
 
-_Note:_ The service name should match the service labels given the the [docker-compose.yml](./docker-compose.yml) in the root directory.
+_Note:_ The service name should match the service labels given the [docker-compose.yml](./docker-compose.yml) in the root directory.
 
 ### Personal MongoDB instance using Docker Compose
 
@@ -81,7 +81,7 @@ After that, just start the service:
 docker-compose up mongo
 ```
 
-This will start a MongoDB container instance, which can be access using localhost via the port mentioned in the docker-compose.
+This will start a MongoDB container instance, which can be accessed using localhost via the port mentioned in the docker-compose.
 
 ## Run tests
 
@@ -95,7 +95,7 @@ npm run test
 
 ### Usage
 
-You can use the deployment scipt for deploying any SPA to One Platform:
+You can use the deployment script for deploying any SPA to One Platform:
 
 ```sh
 npm run deploy <PackageType> <PackageName> <PackagePath> <DeploymentEnv> <RefValue>
