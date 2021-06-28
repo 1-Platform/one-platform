@@ -1,15 +1,15 @@
 /**
  * MIT License
  * Copyright (c) 2021 Red Hat One Platform
- * 
- * @version 0.0.2
- * 
+ *
+ * @version 0.0.3
+ *
  * GraphQL interface for managing the business logic
- * 
+ *
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-01-14 13:50:01
- * Last modified  : 2021-03-04 21:40:13
+ * Last modified  : 2021-06-28 17:21:06
  */
 import { Feedback } from './schema';
 import { FeedbackIntegrationHelper } from './helpers';
@@ -18,46 +18,46 @@ import * as _ from 'lodash';
 export const FeedbackResolver = {
   Query: {
     async listFeedbacks(root: any, args: any, ctx: any) {
-      let homeResponse = await FeedbackIntegrationHelper.listHomeType();
+      let Apps = await FeedbackIntegrationHelper.listApps();
       const queryList: Array<object> = [];
       const promises: any = [];
       let feedbackList: Array<FeedbackType> = [];
       let query: string = ``;
       let timestampQuery: string = ``;
       let userData: Array<object> = [];
-      return Feedback.find().sort({ 'createdOn': -1 }).exec()
+      return Feedback.find().sort({ 'createdOn': -1 }).lean()
         .then((response: FeedbackType[]) => {
-          return JSON.parse(JSON.stringify(response)).map((res: any) => {
-            const filteredHomeResponse = homeResponse.filter((homeRes: any) => homeRes?._id === res?.config)[0] || null;
-            res.feedback = filteredHomeResponse.feedback || null;
-            res.module = filteredHomeResponse.name || null;
-            res.source = res.feedback.source || null;
+          return response.map((res: any) => {
+            const filteredApps = Apps.filter((app: any) => app?.id === res?.config)[0] || null;
+            res.feedback = filteredApps.feedback || null;
+            res.module = filteredApps.name || null;
+            res.source = res.feedback.sourceType || null;
             return res;
           });
         }).then((feedback: any) => {
           feedbackList = feedback;
           if (feedbackList.length) {
-            feedback = _.groupBy(feedback, 'feedback.sourceUrl');
+            feedback = _.groupBy(feedback, 'feedback.sourceApiUrl');
             Object.keys(feedback).map((key: string) => {
               feedback[key].forEach((groupedList: FeedbackType, index: any) => {
                 timestampQuery += `
                 rhatUUID_${(groupedList.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${groupedList.createdBy}") {
-                  name
-                  title
+                  cn
+                  mail
                   uid
                   rhatUUID
                 }
-                
+
                 ${(groupedList.updatedBy) ? `
                 rhatUUID_${(groupedList.updatedBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${groupedList.updatedBy}") {
-                  name
-                  title
+                  cn
+                  mail
                   uid
                   rhatUUID
                 }
                 `: ``}
                 `;
-                if ((groupedList as any).feedback.source === 'GITLAB') {
+                if ((groupedList as any).feedback.sourceType === 'GITLAB') {
                   query += `
                         gitlab_${index}_${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]}:project(fullPath: "${(groupedList as any).feedback.projectKey}") {
                           issue(iid: "${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]}") {
@@ -65,13 +65,6 @@ export const FeedbackResolver = {
                           description
                           state
                           webUrl
-                          labels {
-                              edges {
-                              node {
-                                  title
-                              }
-                              }
-                          }
                           assignees {
                               nodes {
                               name
@@ -87,12 +80,12 @@ export const FeedbackResolver = {
                     const gitlabQuery = {
                       'query': query,
                       'sourceUrl': key,
-                      'source': (groupedList as any).feedback.source
+                      'source': (groupedList as any).feedback.sourceType
                     }
                     query = '';
                     queryList.push(gitlabQuery);
                   }
-                } else if ((groupedList as any).feedback.source === 'GITHUB') {
+                } else if ((groupedList as any).feedback.sourceType === 'GITHUB') {
                   query += `
                     gitlab_${index}_${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]}:repository(name: "${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 3]}", owner: "${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 4]}") {
                           issue(number: ${Number(groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1])}) {
@@ -102,7 +95,6 @@ export const FeedbackResolver = {
                           state
                           author {
                               login
-                              avatarUrl
                           }
                           assignees(first:100) {
                               nodes {
@@ -118,18 +110,18 @@ export const FeedbackResolver = {
                     const githubQuery = {
                       'query': query,
                       'sourceUrl': key,
-                      'source': (groupedList as any).feedback.source
+                      'source': (groupedList as any).feedback.sourceType
                     }
                     query = '';
                     queryList.push(githubQuery);
                   }
-                } else if ((groupedList as any).feedback.source === 'JIRA') {
+                } else if ((groupedList as any).feedback.sourceType === 'JIRA') {
                   query += `${groupedList.ticketUrl.split('/')[groupedList.ticketUrl.split('/').length - 1]} `;
                   if (feedback[key].length === index + 1) {
                     const jiraQuery = {
                       'query': query,
                       'sourceUrl': key,
-                      'source': (groupedList as any).feedback.source
+                      'source': (groupedList as any).feedback.sourceType
                     }
                     query = '';
                     queryList.push(jiraQuery);
@@ -182,9 +174,9 @@ export const FeedbackResolver = {
         }).then(async () => {
           const responses = await Promise.all(promises).then((values) => _.flattenDeep(values));
           return feedbackList.map((feedback: FeedbackType) => {
-            const selectedResponse = (responses.filter((response: any) => feedback.ticketUrl === (response.webUrl || response.url))[0] as any);
-            feedback.state = selectedResponse.state;
-            feedback.assignee = selectedResponse.assignee;
+            const selectedResponse = (responses.filter((response: any) => feedback?.ticketUrl === (response?.webUrl || response?.url))[0] as any);
+            feedback.state = selectedResponse?.state;
+            feedback.assignee = selectedResponse?.assignee;
             (feedback as any).createdBy = userData.filter((user: any) => user.rhatUUID === feedback.createdBy)[0];
             (feedback as any).updatedBy = userData.filter((user: any) => user.rhatUUID === feedback.updatedBy)[0];
             return feedback;
@@ -199,29 +191,30 @@ export const FeedbackResolver = {
   },
   Mutation: {
     async createFeedback(root: any, args: any, ctx: any) {
-      let homeResponse: any;
+      let apps: any;
       let apiResponse: any = {};
-      let userQuery = `query ListUsers {
+      let userQuery = `query GetUsersBy {
         rhatUUID_${(args.input.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${args.input.createdBy}") {
           name
-          title
           uid
           rhatUUID
         }
       }`;
       let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
       if (!args.input.config && args.input?.stackInfo?.path) {
-        homeResponse = await FeedbackIntegrationHelper.listHomeType();
-        homeResponse = homeResponse.filter((response: any) => response.link === `/${args.input.stackInfo.path.split('/')[1]}`)[0];
-        args.input.config = homeResponse._id;
+        apps = await FeedbackIntegrationHelper.listApps();
+        apps = apps.filter((response: any) => response.path === `/${args.input.stackInfo.path.split('/')[1]}`)[0];
+        args.input.config = apps.id;
       } else if ((args.input.config && !args.input?.stackInfo?.path) || (args.input.config && args.input?.stackInfo?.path)) {
-        let homeParam = {
-          _id: args.input.config
-        }
-        homeResponse = await FeedbackIntegrationHelper.getHomeType(homeParam);
+        let appParam = {
+          id: args.input.config
+        };
+        apps = await FeedbackIntegrationHelper.getApp(appParam);
       }
       let descriptionTemplate = `
 ${(args.input?.error) ? `<br/>Error: ${args.input?.error}` : ``}
+${(args.input?.experience) ? `<br/>Experience: ${args.input?.experience}` : ``}
+${(args.input?.description) ? `<br/>Description: ${args.input?.description}` : ``}
 ${(args.input?.stackInfo?.stack || args.input?.stackInfo?.path) ? `<br/><br/>
 Browser Information<br/>
 ___________________<br/>
@@ -229,23 +222,28 @@ ___________________<br/>
 ${(args.input?.stackInfo?.stack) ? `Stack - ${args.input?.stackInfo?.stack}<br/>` : ``}
 ${(args.input?.stackInfo?.path) ? `URL - ${args.input?.stackInfo?.path}<br/><br/>` : ``}
 Reported by <br/>
-Name - ${userData[0].name}  
+Name - ${(apps.feedback.sourceType === 'JIRA') ? `[~${userData[0].uid}]` :
+          (apps.feedback.sourceType !== 'JIRA') ? `${userData[0].cn} (${userData[0].uid})` : ''}
 `;
       if (!args.input.description) {
         args.input.description = descriptionTemplate;
       } else if (args.input.description) {
         args.input.description = args.input.description.concat(descriptionTemplate);
       }
-      switch (homeResponse.feedback.source) {
+      let summary = (!args?.input?.summary || args.input.summary.length > 230) ?
+        `${args.input.category} reported by ${userData[0].cn} for ${apps.name}`
+        : args.input.summary;
+      let description = (args.input?.summary?.length > 230) ? args.input.summary + args.input.description : args.input.description;
+
+      switch (apps.feedback.sourceType) {
         case 'GITHUB':
-          let githubDescription = (args.input.description.concat(`UID - ${userData[0].uid}`))
           const query = {
             'githubIssueInput': {
-              'title': args.input.summary,
-              'body': githubDescription,
-              'repositoryId': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
+              'title': summary,
+              'body': description,
+              'repositoryId': apps.feedback.projectKey
             },
-            'sourceUrl': homeResponse.feedback.sourceUrl
+            'sourceUrl': apps.feedback.sourceApiUrl
           };
           const githubResponse = await FeedbackIntegrationHelper.createGithubIssue(query);
           apiResponse = {
@@ -254,38 +252,36 @@ Name - ${userData[0].name}
           };
           break;
         case 'JIRA':
-          let jiraDescription = (args.input.description.concat(`UID - [~${userData[0].uid}]`)).replace( /(<([^>]+)>)/ig, '');
           const jiraQuery = {
             'jiraIssueInput': {
-              'fields': { 
+              'fields': {
                 'project': {
-                  'key': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
+                  'key': apps.feedback.projectKey
                 },
-                'summary': args.input.summary  ,
-                'description': jiraDescription,
+                'summary': summary,
+                'description': description.replace(/(<([^>]+)>)/ig, ''),
                 'labels': ['Reported-via-One-Platform'],
                 'issuetype': {
                   'name': 'Task'
                 },
               }
             },
-            'sourceUrl': homeResponse.feedback.sourceUrl
+            'sourceUrl': apps.feedback.sourceApiUrl
           };
           const jiraResponse = await FeedbackIntegrationHelper.createJira(jiraQuery);
           apiResponse = {
             ...args.input,
-            ticketUrl: `https://${homeResponse.feedback.sourceUrl || process.env.JIRA_HOST}/browse/${jiraResponse.key}`,
+            ticketUrl: `https://${apps.feedback.sourceApiUrl || process.env.JIRA_HOST}/browse/${jiraResponse.key}`,
           };
           break;
         case 'GITLAB':
-          let gitlabDescription = args.input.description.concat(`<br/>UID - @${userData[0].uid}`);
           const gitlabQuery: object = {
             'gitlabIssueInput': {
-              'title': args.input.summary,
-              'description': gitlabDescription,
-              'projectPath': homeResponse.feedback.projectKey || process.env.PROJECT_KEY
+              'title': summary,
+              'description': description,
+              'projectPath': apps.feedback.projectKey
             },
-            'sourceUrl': homeResponse.feedback.sourceUrl
+            'sourceUrl': apps.feedback.sourceApiUrl
           }
           const gitlabResponse = await FeedbackIntegrationHelper.createGitlabIssue(gitlabQuery);
           apiResponse = {
@@ -300,7 +296,7 @@ Name - ${userData[0].name}
           }
       }
       const emailBody = `
-Hi ${userData[0].name},<br/><br/>
+Hi ${userData[0].cn},<br/><br/>
 Please find the details of the feedback we recieved as below:<br/><br/>
 Summary: ${apiResponse.summary}<br/><br/>
 Description: ${apiResponse.description}<br/><br/>
@@ -311,17 +307,17 @@ Thanks<br/><br/>
 P.S.: This is an automated email. Please do not reply.
 `;
       const emailData = {
-        from: `noreply@redhat.com`,
-        cc: `${userData[0].uid}@redhat.com`,
-        to: process.env.EMAIL_ADDRESS,
-        subject: `Thanks for submitting the ${apiResponse.category} ${(homeResponse.name) ? `for ${homeResponse.name}` : ''}.`,
+        from: `no-reply@redhat.com`,
+        cc: userData[0].mail,
+        to: apps.feedback.feedbackEmail,
+        subject: `Thanks for submitting the ${apiResponse.category} ${(apps.name) ? `for ${apps.name}` : ''}.`,
         body: emailBody
       };
       FeedbackIntegrationHelper.sendEmail(emailData);
-      apiResponse.description = apiResponse.description.replace( /(<([^>]+)>)/ig, '');
+      apiResponse.description = apiResponse.description.replace(/(<([^>]+)>)/ig, '');
       return new Feedback(apiResponse).save()
         .then(async (response: any) => {
-          response.createdBy = userData[0].name;
+          response.createdBy = userData[0].cn;
           const formattedSearchResponse = FeedbackIntegrationHelper.formatSearchInput(response);
           FeedbackIntegrationHelper.manageSearchIndex(formattedSearchResponse, 'index');
           return response;
@@ -335,15 +331,13 @@ P.S.: This is an automated email. Please do not reply.
             .then(async (feedback: FeedbackType) => {
               let userQuery = `query ListUsers {
                 rhatUUID_${(feedback.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${feedback.createdBy}") {
-                  name
-                  title
+                  cn
                   uid
                   rhatUUID
                 }
                 ${(feedback.updatedBy) ? `
                 rhatUUID_${(feedback.updatedBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${feedback.updatedBy}") {
-                  name
-                  title
+                  cn
                   uid
                   rhatUUID
                 }
@@ -351,8 +345,8 @@ P.S.: This is an automated email. Please do not reply.
               `: ``}
               `;
               let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
-              response.createdBy = userData.filter((user: any) => user.rhatUUID === feedback.createdBy)[0].name;
-              response.updatedBy = userData.filter((user: any) => user.rhatUUID === feedback.updatedBy)[0].name;
+              response.createdBy = userData.filter((user: any) => user.rhatUUID === feedback.createdBy)[0].cn;
+              response.updatedBy = userData.filter((user: any) => user.rhatUUID === feedback.updatedBy)[0].cn;
               const formattedSearchResponse = FeedbackIntegrationHelper.formatSearchInput(response);
               FeedbackIntegrationHelper.manageSearchIndex(formattedSearchResponse, 'index');
               return feedback;
@@ -375,7 +369,7 @@ P.S.: This is an automated email. Please do not reply.
       let searchInput: any = [];
       return Feedback.find()
         .then(async (response: any) => {
-          if(response.length) {
+          if (response.length) {
             response.map((data: any) => {
               userQueryParams += `rhatUUID_${(data.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${data.createdBy}") {
                 name
@@ -396,15 +390,14 @@ P.S.: This is an automated email. Please do not reply.
             let userQuery = `
           query ListUsers {
             ${userQueryParams}
-          }
-          `;
-            let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
-            const indexStatus = searchInput.map((searchData: any) => {
-              searchData.input.documents.createdBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents.createdBy)[0]?.name;
-              searchData.input.documents.updatedBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents?.updatedBy)[0]?.name;
+          }`;
+          let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
+          const indexStatus = searchInput.map((searchData: any) => {
+            searchData.input.documents.createdBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents.createdBy)[0]?.name;
+            searchData.input.documents.updatedBy = userData.filter((user: any) => user.rhatUUID === searchData.input.documents?.updatedBy)[0]?.name;
               return FeedbackIntegrationHelper.manageSearchIndex(searchData, 'index');
             });
-  
+
             if (indexStatus.length) {
               const indexResponse = {
                 status: 200
