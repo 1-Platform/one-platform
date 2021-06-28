@@ -116,22 +116,28 @@ class FeedbackHelper {
 
     }
 
-    public listHomeType() {
+    public listApps() {
         let headers = new Headers();
         let body = JSON.stringify({
-            query: `query ListHomeType {
-                        listHomeType {
-                            _id
-                            name
-                            link
-                            feedback{
-                                source
-                                isActive
-                                projectKey
-                                sourceUrl
-                            }
-                        }
-                    }`,
+            query: `query Apps {
+                apps {
+                  id
+                  appId
+                  path
+                  name
+                  feedback {
+                    sourceType
+                    isEnabled
+                    sourceApiUrl
+                    sourceHeaders {
+                      key
+                      value
+                    }
+                    projectKey
+                    feedbackEmail
+                  }
+                }
+              }`,
             variables: null
         });
         headers.append(`Authorization`, `${process.env.GATEWAY_AUTH_TOKEN}`);
@@ -141,28 +147,30 @@ class FeedbackHelper {
             headers,
             body: body,
         }).then((response: any) => response.json())
-            .then((result: any) => result.data.listHomeType)
+            .then((result: any) => result.data.apps)
             .catch((err: any) => {
                 throw err;
             });
     }
 
-    public getHomeType(params: any) {
+    public getApp(params: any) {
         let headers = new Headers();
         let body = JSON.stringify({
             query: `
-            query GetHomeType($_id: String!) {
-                getHomeType(_id: $_id) {
-                    _id
-                    name
-                    feedback {
-                        source
-                        sourceUrl
-                        isActive
-                        projectKey
-                    }
+            query FindApps($id: ID) {
+                findApps(selectors: { id: $id }) {
+                  id
+                  path
+                  name
+                  feedback {
+                    sourceType
+                    isEnabled
+                    sourceApiUrl
+                    projectKey
+                    feedbackEmail
+                  }
                 }
-            }`,
+              }`,
             variables: params
         });
         headers.append(`Authorization`, `${process.env.GATEWAY_AUTH_TOKEN}`);
@@ -172,7 +180,7 @@ class FeedbackHelper {
             headers,
             body: body,
         }).then((response: any) => response.json())
-            .then((result: any) => result.data.getHomeType)
+            .then((result: any) => result.data.app)
             .catch((err: any) => {
                 throw err;
             });
@@ -267,7 +275,7 @@ class FeedbackHelper {
         });
         return JiraApiClient.searchJira(`issue = ${jiraQuery.query}`).then(response => {
             const jiraList: Array<any> = [];
-            response.issues.map((jira: any) => {
+            response?.issues?.map((jira: any) => {
                 jiraList.push({
                     'key': jira.key,
                     'url': `${(new URL(jira.self)).origin}/browse/${jira.key}`,
@@ -284,7 +292,8 @@ class FeedbackHelper {
             });
             return jiraList;
         }).catch((err: Error) => {
-            throw err.message;
+            console.error(err.message);
+            return [];
         });
     }
 
@@ -297,14 +306,14 @@ class FeedbackHelper {
             html: data.body
         }, (err: Error) => {
             if (err) {
-                console.log(err);
+                console.error(err.message);
             } else {
                 return { 'message': 'Email Sent' };
             }
         });
     }
 
-    // Helper function to format data for handover tool for search
+    // Helper function to format data for feedback tool for search
     public formatSearchInput(data: any) {
         return {
             'input': {
@@ -327,7 +336,7 @@ class FeedbackHelper {
         }
     }
 
-    // Helper function to create/update/delete data to search microservice
+    // Helper function to create/update/delete data to feedback microservice
     public manageSearchIndex(data: any, mode: string) {
         let query: string = ``;
         if (mode === 'index') {
