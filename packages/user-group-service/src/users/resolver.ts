@@ -38,10 +38,8 @@ export const UserResolver = {
                 throw new Error( `User not found for the given ${key}` );
               }
               user.isActive = true;
-              user.updatedOn = new Date();
-              Users.findOneAndUpdate( { rhatUuid: user.rhatUuid }, user , { new: true, upsert: true } )
-              .exec();
-              return [user];
+              const data = new Users( user );
+              return data.save().then( (user: any) => [user]);
             } );
         } );
     },
@@ -123,11 +121,8 @@ export const UserResolver = {
             .then( ( res: any ) => {
               const user = res.result[ 0 ];
               user.isActive = true;
-              user.updatedOn = new Date();
-              user.createdOn = new Date();
-              return Users.findOneAndUpdate( { rhatUuid: user.rhatUuid }, user, { new: true, upsert: true } )
-                .exec()
-                .then( user => user );
+              const data = new Users( user );
+              return data.save().then( (user: any) => user);
             } );
         } );
     },
@@ -139,6 +134,7 @@ export const UserResolver = {
     updateUser ( root: any, { input }: any, ctx: any ) {
       // Reverse mapping to handle familiar names
       input.cn = input.name;
+      input.updatedOn = new Date();
       return Users
         .findOneAndUpdate( { rhatUuid: input.rhatUUID }, input, { new: true } )
         .exec();
