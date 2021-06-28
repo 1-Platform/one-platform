@@ -33,7 +33,7 @@ function Group ( props ) {
   const [ group, setGroup ] = useState( {
     _id: '',
     name: cn,
-    ldapCommonName: cn,
+    cn: cn,
     createdOn: null,
     updatedOn: null,
   } );
@@ -61,13 +61,14 @@ function Group ( props ) {
           if ( !res ) {
             throw new Error( 'Group not found' );
           }
+          setMembers( res.group.members );
+          delete res.group.members;
           setGroup( res.group );
-          setMembers( res.members );
           setLoading( false );
         } )
         .catch( err => {
           console.error( err );
-          window.OpNotification.danger({
+          window.OpNotification && window.OpNotification.danger({
             subject: err.message,
             body: `There was some problem fetching the information for: ${cn}. For more details, see the console.`,
           } );
@@ -124,7 +125,7 @@ function Group ( props ) {
                   LDAP/Rover Common Name
                 </DescriptionListTerm>
                 <DescriptionListDescription>
-                  {group.ldapCommonName}
+                  {group.cn}
                 </DescriptionListDescription>
               </DescriptionListGroup>
 

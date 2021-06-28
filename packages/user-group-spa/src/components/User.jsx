@@ -58,7 +58,7 @@ function User ( props ) {
         roles: authUser.roles,
       } );
     } else {
-      window.OpNotification.warning( {
+      window.OpNotification && window.OpNotification.warning( {
         subject: `Insufficient permissions to view the details for: ${cn}`
       } );
       history.replace( `/user/${ authUser.kerberosID }` );

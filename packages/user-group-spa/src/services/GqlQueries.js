@@ -3,7 +3,7 @@ export const addGroup = /* GraphQL */`
     addGroup(payload: $group) {
       _id
       name
-      ldapCommonName
+      cn
     }
   }
 `;
@@ -13,26 +13,25 @@ export const getGroupsBy = /* GraphQL */`
     getGroupsBy(selector: $selector) {
       _id
       name
-      ldapCommonName
+      cn
       createdOn
       updatedOn
     }
   }
 `;
 
-export const getGroupDetailsByCn = /* GraphQL */`
-  query GetGroupDetailsBy ( $ldapCommonName: String ) {
-    group: getGroupsBy(selector: { ldapCommonName: $ldapCommonName }) {
+export const getGroupDetailsByCn = /* GraphQL */ `
+  query GetGroupDetailsBy($cn: String!) {
+    group: group(cn: $cn) {
       _id
       name
-      ldapCommonName
+      cn
       createdOn
       updatedOn
-    }
-    members: getGroupMembers( cn: $ldapCommonName ) {
-      cn
-      uid
-      rhatUUID
+      members {
+        cn
+        uid
+      }
     }
   }
 `;
@@ -42,7 +41,7 @@ export const listGroups = /* GraphQL */`
     listGroups {
       _id
       name
-      ldapCommonName
+      cn
       createdOn
       updatedOn
     }
@@ -54,7 +53,7 @@ export const updateGroup = /* GraphQL */`
     updateGroup(id: $id, payload: $group) {
       _id
       name
-      ldapCommonName
+      cn
       createdOn
       updatedOn
     }
@@ -66,7 +65,7 @@ export const deleteGroup = /* GraphQL */`
     deleteGroup(id: $id) {
       _id
       name
-      ldapCommonName
+      cn
     }
   }
 `;

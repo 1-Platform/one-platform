@@ -63,7 +63,7 @@ function Home ( props ) {
           return;
         }
         console.error( err );
-        window.OpNotification.danger( { subject: 'There was some error fetching the list of groups' } );
+        window.OpNotification && window.OpNotification.danger( { subject: 'There was some error fetching the list of groups' } );
       });
   }, [ ] );
 
@@ -74,13 +74,13 @@ function Home ( props ) {
         .filter(
           (group) =>
             searchQuery.test(group.name) ||
-            searchQuery.test(group.ldapCommonName)
+            searchQuery.test(group.cn)
         )
         .map( ( group ) => [
           {
-            title: <Link to={ `/group/${ group.ldapCommonName }` }>{ group.name }</Link>
+            title: <Link to={ `/group/${ group.cn }` }>{ group.name }</Link>
           },
-          group.ldapCommonName
+          group.cn
         ] )
     );
   }, [searchText, groups, pagination]);

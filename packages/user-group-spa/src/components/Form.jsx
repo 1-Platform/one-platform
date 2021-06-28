@@ -21,7 +21,7 @@ import { BreadcrumbContext } from '../context/BreadcrumbContext'
 function GroupForm () {
   const [ group, setGroup ] = useState( {
     name: '',
-    ldapCommonName: '',
+    cn: '',
     _id: undefined,
   } );
   const [ searchText, setSearchText ] = useState( '' );
@@ -58,14 +58,14 @@ function GroupForm () {
             throw new Error( 'Group not found' );
           }
           setGroup( res );
-          // searchGroup( res.ldapCommonName );
+          // searchGroup( res.cn );
         } )
         .catch( err => {
           if ( abort ) {
             return;
           }
           console.error( err );
-          window.OpNotification.danger({
+          window.OpNotification && window.OpNotification.danger({
             subject: err.message,
             body: `There was some problem fetching the information for: ${cn}. For more details, see the console.`,
           } );
@@ -76,7 +76,7 @@ function GroupForm () {
   }, [ cn, history ] );
 
   useEffect( () => {
-    setCanSubmit( !!group.name && !!group.ldapCommonName );
+    setCanSubmit( !!group.name && !!group.cn );
   }, [ cn, group] );
 
   function searchGroup ( value ) {
@@ -99,14 +99,14 @@ function GroupForm () {
   }
 
   function selectGroup ( currentItem, { value } ) {
-    if ( value !== group.ldapCommonName ) {
-      setGroup( { ...group, ldapCommonName: value } );
+    if ( value !== group.cn ) {
+      setGroup( { ...group, cn: value } );
     }
     setSearchText( value );
   }
 
   function selectedGroupMembers () {
-    return searchResults.find( res => res.cn === group.ldapCommonName )?.members;
+    return searchResults.find( res => res.cn === group.cn )?.members;
   }
 
   function submitForm (event) {
@@ -126,15 +126,15 @@ function GroupForm () {
   function addGroup ( group ) {
     GroupsAPI.addGroup(group)
       .then((res) => {
-        window.OpNotification.success( {
+       window.OpNotification && window.OpNotification.success( {
           subject: `Group created successfully!`,
-          link: `./group/${ res.ldapCommonName }`
+          link: `./group/${ res.cn }`
         } );
-        history.push( `/group/${res.ldapCommonName}` );
+        history.push( `/group/${res.cn}` );
       })
       .catch((err) => {
         console.error(err);
-        window.OpNotification.danger( {
+        window.OpNotification && window.OpNotification.danger( {
           subject: 'Could not create the group',
           body: 'There was some error while trying to create the group. Please try again.'
         } );
@@ -144,15 +144,15 @@ function GroupForm () {
   function updateGroup ( group ) {
     GroupsAPI.updateGroup(group)
       .then((res) => {
-        window.OpNotification.success({
+       window.OpNotification && window.OpNotification.success({
           subject: `Group updated successfully!`,
-          link: `./group/${res.ldapCommonName}`,
+          link: `./group/${res.cn}`,
         } );
-        history.push( `/group/${ res.ldapCommonName }` );
+        history.push( `/group/${ res.cn }` );
       })
       .catch((err) => {
         console.error( err );
-        window.OpNotification.danger({
+        window.OpNotification && window.OpNotification.danger({
           subject: 'Could not update the group',
           body: 'There was some error while trying to update the group. Please try again.',
         });
@@ -178,7 +178,7 @@ function GroupForm () {
         <SearchInput
           id="searchText"
           placeholder="Enter the Rover/LDAP common name..."
-          value={group.ldapCommonName}
+          value={group.cn}
           onChange={searchGroup}
           resultsCount={searchResults.length || null}
           onClear={() => setSearchText("")}
