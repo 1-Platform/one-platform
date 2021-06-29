@@ -10,10 +10,11 @@ sidebar_label: User/Group Service
 ### Component Contributors
 
 1. Rigin Oommen - [roommen@redhat.com](mailto:roommen@redhat.com) - [riginoommen (Rigin Oommen) · GitHub](https://github.com/riginoommen)
+2. Ghanshyam Lohar - [glohar@redhat.com](mailto:glohar@redhat.com) - [ghanlohar (Ghanshyam Lohar) · GitHub](https://github.com/ghanlohar)
 
 ## Getting Started
 
-User group service acts as the primary pillar for obtaining enterprise user information for the one platform. This service talks to the organizational data sources like LDAP.
+User group service acts as the primary pillar for obtaining enterprise user information for the one platform. This service talks to the organizational data sources like LDAP via Rover API.
 
 ## Usage
 
@@ -25,7 +26,7 @@ User group microservice is built using NodeJS which has mongodb integration as d
 
 1. GraphQL endpoints for the user and group information
 2. Scripts to update the user information in data store.
-3. LDAP integration.
+3. Rover integration.
 
 ### Apps using this microservice
 
@@ -51,7 +52,7 @@ User group microservice is built using NodeJS which has mongodb integration as d
 2. Switch the working directory to the user  microservice
 
     ```sh
-    cd one-platform/packages/user-service
+    cd one-platform/packages/user-group-service
     ```
 
 3. Install the microservice dependencies.
@@ -91,7 +92,7 @@ In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operatio
 
    **Operation Name:** getUserBy
 
-    **Supported Query Variables:** *uid*, *rhatUUID*, *apiRole*, *name*
+    **Supported Query Variables:** *uid*, *rhatUUID*
 
     **Example Query:**
 
@@ -99,16 +100,26 @@ In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operatio
     query getUserBy($uid: String) {
         getUsersBy(uid: $uid) {
             _id
-            name
-            title
             uid
-            rhatUUID
-            memberOf
+            cn
             isActive
-            apiRole
-            createdBy
+            rhatJobTitle
+            rhatCostCenter
+            rhatCostCenterDesc
+            employeeType
+            rhatOfficeLocation
+            mail
+            rhatUUID
+            serviceAccount
+            manager {
+                name
+                uid
+            }
+            roverGroups {
+                name
+                cn
+            }
             createdOn
-            updatedBy
             updatedOn
         }
     }
@@ -124,33 +135,87 @@ In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operatio
     query ListUsers {
         listUsers {
             _id
-            name
-            title
             uid
-            rhatUUID
-            memberOf
+            cn
             isActive
-            apiRole
-            createdBy
+            rhatJobTitle
+            rhatCostCenter
+            rhatCostCenterDesc
+            employeeType
+            rhatOfficeLocation
+            mail
+            rhatUUID
+            serviceAccount
+            manager {
+                name
+                uid
+            }
+            roverGroups {
+                name
+                cn
+            }
             createdOn
-            updatedBy
+            updatedOn
+        }
+    }
+    ```
+3. ### Search Users based on a criteria from Rover and optionally cache them into the cache DB.
+
+    **Operation Name:** searchRoverUsers
+
+    **Supported Query Variables:** ldapfield, value, cacheUser
+
+    **Example Query:**
+
+    ```js
+    query searchRoverUsers( $ldapfield: ldapFieldType, $value: String, $cacheUser: Boolean ) {
+        searchRoverUsers( ldapfield: $ldapfield, value: $value, cacheUser: $cacheUser ) {
+            _id
+            uid
+            cn
+            isActive
+            rhatJobTitle
+            rhatCostCenter
+            rhatCostCenterDesc
+            employeeType
+            rhatOfficeLocation
+            mail
+            rhatUUID
+            serviceAccount
+            manager {
+                name
+                uid
+            }
+            roverGroups {
+                name
+                cn
+            }
+            createdOn
             updatedOn
         }
     }
     ```
 
-3. ### Fetch group members included in a Rover / LDAP group
+4. ### Fetch group details & members included in a Rover group
 
-    **Operation Name:** GetGroupMembers
+    **Operation Name:** group
 
     **Supported Query Variables:** cn
 
     **Example Query:**
 
     ```js
-    query GetGroupMembers($cn: String) {
-        getGroupMembers(cn: $cn) {
-            dn
+    query group($cn: String!) {
+        group(cn: $cn) {
+            cn
+            name
+            members {
+                name
+                uid
+                _id
+                rhatUUID
+                rhatJobTitle
+            }
         }
     }
     ```
@@ -161,48 +226,70 @@ In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operatio
 
     **Operation Name:** AddUser
 
-    **Required Mutation Variables:** *name*, *title*, *uid*, *rhatUUID*, *memberOf*, *createdBy*, *createdOn*, *updatedBy*, *updatedOn*
+    **Required Mutation Variables:** *uid*, *rhatUUID*
 
     **Example Mutation:**
 
     ```js
     mutation AddUser($input: UserInput) {
         addUser(input: $input) {
-            name
-            title
+            _id
             uid
-            rhatUUID
-            memberOf
+            cn
             isActive
-            memberOf
-            createdBy
+            rhatJobTitle
+            rhatCostCenter
+            rhatCostCenterDesc
+            employeeType
+            rhatOfficeLocation
+            mail
+            rhatUUID
+            serviceAccount
+            manager {
+                name
+                uid
+            }
+            roverGroups {
+                name
+                cn
+            }
             createdOn
-            updatedBy
             updatedOn
         }
     }
 
-2. ### Add new user from LDAP
+2. ### Add new user from Rover
 
-    **Operation Name:** AddUserFromLDAP
+    **Operation Name:** AddUserFromRover
 
     **Required Mutation Variables:** *uid*
 
     **Example Mutation:**
 
     ```js
-    mutation AddUserFromLDAP($uid: String!) {
-        addUserFromLDAP(uid: $uid) {
-            name
-            title
+    mutation AddUserFromRover($uid: String!) {
+        addUserFromRover(uid: $uid) {
+            _id
             uid
-            rhatUUID
-            memberOf
+            cn
             isActive
-            memberOf
-            createdBy
+            rhatJobTitle
+            rhatCostCenter
+            rhatCostCenterDesc
+            employeeType
+            rhatOfficeLocation
+            mail
+            rhatUUID
+            serviceAccount
+            manager {
+                name
+                uid
+            }
+            roverGroups {
+                name
+                cn
+            }
             createdOn
-            updatedBy
             updatedOn
         }
     }
@@ -219,16 +306,27 @@ In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operatio
     ```js
     mutation UpdateUser($input: UserInput) {
         updateUser(input: $input) {
-            name
-            title
+            _id
             uid
-            rhatUUID
-            memberOf
+            cn
             isActive
-            apiRole
-            createdBy
+            rhatJobTitle
+            rhatCostCenter
+            rhatCostCenterDesc
+            employeeType
+            rhatOfficeLocation
+            mail
+            rhatUUID
+            serviceAccount
+            manager {
+                name
+                uid
+            }
+            roverGroups {
+                name
+                cn
+            }
             createdOn
-            updatedBy
             updatedOn
         }
     }
@@ -238,24 +336,26 @@ In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operatio
 
     **Operation Name:** DeleteUser
 
-    **Required Mutation Variables:** *name*, *title*, *uid*, *rhatUUID*, *memberOf*, *createdBy*, *createdOn*, *updatedBy*, *updatedOn*
+    **Required Mutation Variables:** id
 
     **Example Mutation:**
 
     ```js
     mutation DeleteUser($id: String!) {
         deleteUser(_id:$id) {
-            name
-            title
+            _id
             uid
-            rhatUUID
-            memberOf
+            name
             isActive
-            apiRole
-            createdBy
-            createdOn
-            updatedBy
-            updatedOn
+            rhatJobTitle
+            rhatCostCenter
+            rhatCostCenterDesc
+            employeeType
+            rhatOfficeLocation
+            mobile
+            mail
+            rhatUUID
+            serviceAccount
         }
     }
     ```
