@@ -35,6 +35,7 @@
         font-size: 1.5rem;
         font-weight: 200;
     }
+
     &__list {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
@@ -48,9 +49,11 @@
             &>span {
                 text-align: center;
             }
+
             .name {
                 color: #000000;
                 font-size: 16px;
+                 margin-top: 4px;
             }
             .title {
                 color: #4C4C4C;
