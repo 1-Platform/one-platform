@@ -10,7 +10,7 @@ import { renderSPAList } from './404/404';
 import { contactUsTeamBlock } from './contact-us/contact-us';
 import { microserviceCards, applicationCards } from './home/home';
 // Service function import
-import { getData }  from './service/service';
+import { getData, getHomeTypeBySPA }  from './service/service';
 
 // Common HTML -> Footer start
 const footer = document.querySelector('footer');
@@ -35,15 +35,16 @@ document.addEventListener( 'DOMContentLoaded', () => {
   document.querySelector( 'body' ).style.visibility = 'visible'
 } );
 window.OpAuthHelper.onLogin( () => {
-  getData().then( ( result ) => {
-    const apps = result.data.apps ? result.data.apps : [];
-    renderSPAList(apps);
-    applicationCards(apps)
-    localStorage.setItem('spaList', JSON.stringify(apps));
-    microserviceCards();
-    contactUsTeamBlock();
-  } )
-    .catch( err => {
-      console.error( err );
-    } );
+  getData(getHomeTypeBySPA)
+    .then((result) => {
+      const apps = result.data.apps ? result.data.apps : [];
+      renderSPAList(apps);
+      applicationCards(apps);
+      localStorage.setItem("spaList", JSON.stringify(apps));
+      microserviceCards();
+      contactUsTeamBlock();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 } );
