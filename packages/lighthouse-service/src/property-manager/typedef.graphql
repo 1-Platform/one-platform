@@ -1,0 +1,102 @@
+scalar DateTime
+
+input PropertyAppInput {
+  name: String
+  branch: String
+}
+
+input AddPropertyAppInput {
+  name: String!
+  branch: String!
+}
+
+input PropertyInput {
+  name: String
+  description: String
+  projectId: String!
+  apps: [PropertyAppInput!]!
+}
+
+input AddPropertyInput {
+  name: String!
+  description: String
+  projectId: String!
+  apps: [AddPropertyAppInput!]!
+  createdBy: String!
+}
+
+input UpdatePropertyInput {
+  name: String
+  description: String
+  projectId: String
+  apps: [PropertyAppInput!]
+  updatedBy: String!
+}
+
+type PropertyUserProfileType {
+  cn: String
+  uid: String
+  rhatUUID: String
+  mail: String
+}
+
+type PropertyAppType {
+  id: ID
+  name: String
+  branch: String
+}
+
+type PropertyType {
+  id: ID
+  name: String
+  description: String
+  projectId: String
+  apps: [PropertyAppType!]
+  createdBy: PropertyUserProfileType
+  createdOn: DateTime
+  updatedBy: PropertyUserProfileType
+  updatedOn: DateTime
+}
+
+type Query {
+  """
+  list all the properties
+  """
+  fetchProperties(
+    limit: Int
+    offset: Int
+    search: String
+    user: String
+  ): [PropertyType]
+  """
+  to fetch just one property based on id
+  """
+  fetchProperty(id: ID!): PropertyType
+}
+
+type Mutation {
+  """
+  create a new property
+  """
+  createProperty(property: AddPropertyInput!): PropertyType
+  """
+  update a property
+  """
+  updateProperty(id: ID!, data: UpdatePropertyInput): PropertyType
+  """
+  delete a property
+  """
+  deleteProperty(id: ID!): PropertyType
+  """
+  add an app to a property
+  """
+  createApp(propertyId: ID!, appData: AddPropertyAppInput!): PropertyType
+  """
+  update an app from a property
+  """
+  updateApp(appId: ID!, appData: PropertyAppInput!): PropertyType
+  """
+  delete an app from a property
+  """
+  deleteApp(appId: ID!): PropertyType
+}

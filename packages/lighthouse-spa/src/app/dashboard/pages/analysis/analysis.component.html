@@ -1,0 +1,57 @@
+<div class="pf-l-flex pf-m-column pf-m-nowrap pf-u-p-lg">
+    <div class="pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center" *ngIf="appListLoading">
+        <app-loader title="Loading...">
+        </app-loader>
+    </div>
+    <ng-container *ngIf="!appListLoading">
+        <div class="pf-l-flex__item">
+            <nav class="pf-c-breadcrumb" aria-label="breadcrumb">
+                <ol class="pf-c-breadcrumb__list">
+                    <li class="pf-c-breadcrumb__item">
+                        <span class="pf-c-breadcrumb__item-divider">
+                            <i class="fas fa-angle-right" aria-hidden="true"></i>
+                        </span>
+                        <a routerLink="/dashboard" class="pf-c-breadcrumb__link">Dashboard</a>
+                    </li>
+                    <li class="pf-c-breadcrumb__item">
+                        <span class="pf-c-breadcrumb__item-divider">
+                            <i class="fas fa-angle-right" aria-hidden="true"></i>
+                        </span>
+                        <span class="pf-c-breadcrumb__link pf-m-current" aria-current="page">
+                            {{title}}
+                        </span>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div class="pf-l-flex pf-m-grow pf-m-align-items-center pf-m-column pf-u-w-100 pf-u-py-md">
+            <div id="apps-score-card" class="pf-l-flex pf-m-column pf-u-w-75" *ngFor="let app of apps">
+                <div class="pf-l-flex__item pf-c-content">
+                    <h3>{{app.name}}</h3>
+                </div>
+                <div class="pf-l-flex__item">
+                    <div class="pf-c-card score-card">
+                        <div class="pf-c-card__body">
+                            <div class="pf-l-flex pf-m-nowrap pf-m-justify-content-space-around pf-m-space-items-xl">
+                                <ng-container *ngIf="scoreLoading">
+                                    <div class="pf-u-py-2xl">
+                                        <app-loader title="loading score..." spinnerClassName="pf-m-lg"
+                                            textClassName="pf-m-md">
+                                        </app-loader>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!scoreLoading">
+                                    <div class="pf-l-flex__item" *ngFor="let score of scores[app.id]">
+                                        <app-outlined-pie-graph score={{score.score}} name={{score.label}}>
+                                        </app-outlined-pie-graph>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <app-lhcard-legend></app-lhcard-legend>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

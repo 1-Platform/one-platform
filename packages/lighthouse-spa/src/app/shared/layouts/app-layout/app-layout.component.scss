@@ -1,0 +1,28 @@
+:host {
+  --pf-c-nav__link--m-current--BackgroundColor: #2866cc1a;
+}
+
+nav {
+  min-width: 256px;
+}
+
+.pf-c-nav__link {
+  padding: 12px 24px;
+  opacity: 0.8;
+}
+
+.pf-m-current {
+  font-weight: 600;
+}
+
+.box-shadow {
+  box-shadow: 1px 0 #00000029;
+}
+
+.content {
+  overflow-y: auto;
+}
+
+.sidebar {
+  margin-right: 1px;
+}

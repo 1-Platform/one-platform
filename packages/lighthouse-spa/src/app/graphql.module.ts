@@ -10,89 +10,93 @@ import { RetryLink } from 'apollo-link-retry';
 import { HttpHeaders } from '@angular/common/http';
 import { onError } from 'apollo-link-error';
 
-
-export function createApollo( httpLink: HttpLink ): ApolloClientOptions<any> {
-  const wsClient = new WebSocketLink( {
+export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+  const wsClient = new WebSocketLink({
     uri: environment.WS_URL,
     options: {
       reconnect: true,
       inactivityTimeout: 0,
-      reconnectionAttempts: 10
+      reconnectionAttempts: 10,
+      connectionParams: {
+        Authorization: `Bearer ${window.OpAuthHelper.jwtToken}`,
+      },
     },
-  } ) as any;
+  }) as any;
 
-  const httpClient = httpLink.create( {
+  const httpClient = httpLink.create({
     uri: environment.API_URL,
-    headers: new HttpHeaders().append( 'Authorization', `Bearer ${ window.OpAuthHelper.jwtToken }` )
-  } ) as any;
+    headers: new HttpHeaders().append(
+      'Authorization',
+      `Bearer ${window.OpAuthHelper.jwtToken}`
+    ),
+  }) as any;
 
   const splitLink = split(
-    ( { query } ) => {
-      const definition = getMainDefinition( query );
+    ({ query }) => {
+      const definition = getMainDefinition(query);
       return (
         definition.kind === 'OperationDefinition' &&
         definition.operation === 'subscription'
       );
     },
     wsClient,
-    httpClient,
+    httpClient
   );
-  const retry = new RetryLink( {
+  const retry = new RetryLink({
     delay: {
       initial: 500,
       max: Infinity,
-      jitter: false
+      jitter: false,
     },
     attempts: {
       max: 5,
-      retryIf: ( _error, _operation ) => !!_error
-    }
-  } ) as any;
+      retryIf: (_error, _operation) => !!_error,
+    },
+  }) as any;
 
-  const error = onError( ( { graphQLErrors, networkError } ) => {
-    if ( graphQLErrors ) {
-      graphQLErrors.map( ( { message, locations, path } ) =>
+  const error = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.map(({ message, locations, path }) =>
         console.log(
-          `[GraphQL error]: Message: ${ JSON.stringify( message ) }, Location: ${ JSON.stringify( locations ) }, Path: ${ JSON.stringify( path ) }`,
-        ),
+          `[GraphQL error]: Message: ${JSON.stringify(
+            message
+          )}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(
+            path
+          )}`
+        )
       );
     }
-    if ( networkError && networkError[ 'status' ] === 0 ) {
-        this.isCertificateError.next( true );
-        console.log( `[Network error]: ${ JSON.stringify( networkError ) }` );
-      }
-  } );
+    if (networkError && networkError['status'] === 0) {
+      this.isCertificateError.next(true);
+      console.log(`[Network error]: ${JSON.stringify(networkError)}`);
+    }
+  });
 
-
-  const link = WebSocketLink.from( [
-    retry,
-    error,
-    splitLink,
-  ] );
+  const link = WebSocketLink.from([retry, error, splitLink]);
 
   return {
     name: 'Lighthouse GraphQL Client',
     version: '0.0.1',
     link,
-    cache: new InMemoryCache( {
-      addTypename: false
+    cache: new InMemoryCache({
+      addTypename: false,
     }),
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'network-only',
-        errorPolicy: 'all'
-      }
-    }
+        errorPolicy: 'all',
+      },
+    },
   };
 }
 
-@NgModule( {
+@NgModule({
   providers: [
     {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
-      deps: [ HttpLink ],
+      deps: [HttpLink],
     },
   ],
-} )
-export class GraphQLModule { }
+})
+export class GraphQLModule {}

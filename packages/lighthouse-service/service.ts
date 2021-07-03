@@ -4,21 +4,51 @@ if ( process.env.NODE_ENV === 'test' ) {
 } else {
   dotenv.config();
 }
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, mergeSchemas } from 'apollo-server-express';
+import mongoose from 'mongoose';
 import express from 'express';
 import http from 'http';
 import { LighthouseAuditResolver } from './src/audit-manager/resolver';
-import gqlSchema from './src/audit-manager/typedef.graphql';
-
+import { PropertyResolver } from './src/property-manager/resolver';
+import auditSchema from './src/audit-manager/typedef.graphql';
+import propertySchema from './src/property-manager/typedef.graphql';
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
+
+/* Configuring Mongoose */
+mongoose.plugin((schema: any) => {
+  schema.options.usePushEach = true;
+});
+
+/* Establishing mongodb connection */
+const dbCredentials =
+  process.env.DB_USER && process.env.DB_PASSWORD
+    ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
+    : "";
+const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
+
+mongoose
+  .connect(dbConnection, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .catch(console.error);
+
+mongoose.connection.on("error", (error) => {
+  console.error(error);
+});
 
 const app = express();
 
 /* Defining the Apollo Server */
 const apollo = new ApolloServer({
-  playground: process.env.NODE_ENV !== 'production',
-  typeDefs: gqlSchema,
+  playground: process.env.NODE_ENV !== "production",
+  schema: mergeSchemas({
+    schemas: [auditSchema, propertySchema],
+    resolvers: [LighthouseAuditResolver, PropertyResolver],
+  }),
   resolvers: LighthouseAuditResolver,
   subscriptions: {
     path: '/subscriptions',
