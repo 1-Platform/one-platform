@@ -1,0 +1,42 @@
+.gauge {
+  &-chart {
+    justify-content: space-around;
+  }
+  &-circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+  }
+  &-circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+  }
+  &-circle-chart {
+    display: block;
+    margin: 10px auto;
+    width: 120px;
+    height: 120px;
+  }
+  &-circle-chart.low .gauge-circle {
+    stroke: #ee0000;
+  }
+  &-circle-chart.average .gauge-circle {
+    stroke: #f0ab00;
+  }
+  &-circle-chart.best .gauge-circle {
+    stroke: #3e8635;
+  }
+  &-percentage {
+    font-family: sans-serif;
+    font-size: 0.4rem;
+    text-anchor: middle;
+  }
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}

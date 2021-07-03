@@ -1,0 +1,23 @@
+<div class="pf-l-flex pf-m-nowrap pf-m-align-items-flex-start pf-u-h-100">
+    <div class="pf-l-flex__item box-shadow pf-u-h-100 sidebar">
+        <nav class="pf-c-nav pf-m-light" aria-label="Global">
+            <ul class="pf-c-nav__list">
+                <li class="pf-c-nav__item">
+                    <a routerLink="" class="pf-c-nav__link" routerLinkActive="pf-m-current"
+                        [routerLinkActiveOptions]="{exact:true}">Lighthouse</a>
+                </li>
+                <li class="pf-c-nav__item">
+                    <a routerLink="/dashboard" class="pf-c-nav__link" aria-current="page"
+                        routerLinkActive="pf-m-current">Dashboard</a>
+                </li>
+                <li class="pf-c-nav__item">
+                    <a routerLink="/dashboard/ci" class="pf-c-nav__link" routerLinkActive="pf-m-current"
+                        [routerLinkActiveOptions]="{exact:true}">Lighthouse CI</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="pf-l-flex__item pf-m-grow pf-u-h-100 content">
+        <ng-content></ng-content>
+    </div>
+</div>

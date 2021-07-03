@@ -36,6 +36,7 @@ type LighthouseBuildType {
   projectId: ID
   branch: String
   runAt: DateTime
+  score:[LighthouseScoreType]
   createdAt: DateTime
   updatedAt: DateTime
 }

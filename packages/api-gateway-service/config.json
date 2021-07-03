@@ -23,5 +23,10 @@
     "name": "Search",
     "uri": "http://search-service:8080/graphql",
     "subscriptionsUri": "ws://search-service:8080/subscriptions"
+  },
+  {
+    "name": "Lighthouse",
+    "uri": "http://lighthouse-service:8080/graphql",
+    "subscriptionsUri": "ws://lighthouse-service:8080/subscriptions"
   }
 ]

@@ -15,8 +15,18 @@ export const LighthouseAuditResolver = {
     async fetchProjectDetails(root: any, args: any, ctx: any) {
       return await lhci.fetchProjectDetails(args.serverBaseUrl || process.env.SERVER_BASE_URL, args.buildToken);
     },
-    async fetchProjectBuilds(root: any, args: any, ctx: any){
-      return await lhci.fetchProjectBuilds(args.serverBaseUrl || process.env.SERVER_BASE_URL, args.projectID, args.branch, args.limit);
+    async fetchProjectBuilds ( root: any, args: any, ctx: any ) {
+      const projectBuilds = await lhci.fetchProjectBuilds( args.serverBaseUrl || process.env.SERVER_BASE_URL, args.projectID, args.branch, args.limit );
+      return projectBuilds.map( async ( build: any ) => {
+        const { id, projectId } = build;
+        const score = await lhci.fetchProjectLHR(
+          args.serverBaseUrl || process.env.SERVER_BASE_URL,
+          projectId,
+          id
+        );
+        build.score = score;
+        return build;
+      } );
     },
     async fetchProjectBranches(root: any, args: any, ctx: any){
       return await lhci.fetchProjectBranches(args.serverBaseUrl || process.env.SERVER_BASE_URL, args.projectID);

@@ -1,0 +1,25 @@
+.lh-score-card__range::before {
+  content: "";
+  width: 14px;
+  height: 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.lh-score-card__range.lh-score--pass::before {
+  background-color: #3e8635;
+}
+
+.lh-score-card__range.lh-score--average::before {
+  background-color: #f0ab00;
+}
+
+.lh-score-card__range.lh-score--fail::before {
+  background-color: #ee0000;
+}
+
+.lh-score__label {
+  font-size: 14px;
+  color: #5f6368;
+}
