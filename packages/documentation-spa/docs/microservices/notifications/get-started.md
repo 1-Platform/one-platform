@@ -2,6 +2,7 @@
 id: notifications-get-started
 title: Getting Started with Notification Templates
 sidebar_label: Get Started with Templates
+slug: /microservices/notifications-service/get-started
 ---
 ***
 

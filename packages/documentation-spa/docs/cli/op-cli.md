@@ -2,6 +2,7 @@
 id: op-cli
 title: One Platform CLI
 sidebar_label: One Platform CLI
+slug: /cli
 ---
 * * *
 

@@ -2,6 +2,7 @@
 id: feedback-spa
 title: Feedback
 sidebar_label: Feedback
+slug: /apps/internal/feedback
 ---
 ## Developers
 

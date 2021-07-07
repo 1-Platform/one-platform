@@ -2,6 +2,7 @@
 id: component-library
 title: Component Library
 sidebar_label: Component Library
+slug: /component-library
 ---
 * * *
 

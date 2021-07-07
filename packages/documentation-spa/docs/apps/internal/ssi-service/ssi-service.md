@@ -2,6 +2,7 @@
 id: ssi-service
 title: SSI Service
 sidebar_label: SSI Service
+slug: /apps/internal/ssi
 ---
 * * *
 
