@@ -12,7 +12,7 @@ We are happy to announce the Beta release for [One Platform](https://beta.one.re
 ## Highlights of this release
 
 - Enhancements to the [Home page](https://beta.one.redhat.com/) for seamless user experience.
-- Enhancements to the [User & Group microservice](https://beta.one.redhat.com/get-started/docs/microservices/user-groups/user-groups-service/) for implementing a consolidated team framework.
+- Enhancements to the [User & Group microservice](https://beta.one.redhat.com/get-started/docs/microservices/user-groups-service/) for implementing a consolidated team framework.
 - One Portal Migration: Complete [MoD Handovers](https://beta.one.redhat.com/mod-handovers/) SPA Beta UI release.
 - Analyst Papers SPA: [Beta UI](https://beta.one.redhat.com/analyst-papers) release that includes Listing, Search, Quote, Quick Preview and Google Drive integration.
 - Integrations: Rover Groups and Google Drive.
