@@ -2,6 +2,7 @@
 id: notifications-spa
 title: Notifications
 sidebar_label: Notifications
+slug: /apps/internal/notifications
 ---
 * * *
 

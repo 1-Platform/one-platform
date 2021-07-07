@@ -2,6 +2,7 @@
 id: faqs
 title: One Platform FAQs
 sidebar_label: One Platform FAQs
+slug: /faqs
 ---
 ***
 

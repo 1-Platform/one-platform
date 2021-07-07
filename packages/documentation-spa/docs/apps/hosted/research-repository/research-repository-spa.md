@@ -2,6 +2,7 @@
 id: research-repository-spa
 title: Research Repository
 sidebar_label: Research Repository
+slug: /apps/hosted/research-repository
 ---
 * * *
 

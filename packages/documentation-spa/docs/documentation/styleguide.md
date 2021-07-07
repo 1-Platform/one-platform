@@ -2,6 +2,7 @@
 id: styleguide
 title: Style Guide
 sidebar_label: Style Guide
+slug: /component-library/style-guide
 ---
 
 You can write content using [GitHub-flavored Markdown syntax](https://github.github.com/gfm/).

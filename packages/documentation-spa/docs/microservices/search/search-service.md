@@ -2,6 +2,7 @@
 id: search-service
 title: Search Service
 sidebar_label: Search Service
+slug: /microservices/search-service
 ---
 
 ## Developers
