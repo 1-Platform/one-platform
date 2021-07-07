@@ -27,11 +27,11 @@ export const microservicesDesc = [
 ];
 
 export const microservicesReadmore = [
-    "/get-started/docs/microservices/authorization/authorization-service/",
-    "/get-started/docs/microservices/feedback/feedback-service/",
-    "/get-started/docs/microservices/notifications/notifications-service/",
-    "/get-started/docs/microservices/user-groups/user-groups-service/",
-    "/get-started/docs/microservices/search/search-service/"
+    "/get-started/docs/microservices/authorization-service/",
+    "/get-started/docs/microservices/feedback-service/",
+    "/get-started/docs/microservices/notifications-service/",
+    "/get-started/docs/microservices/user-groups-service/",
+    "/get-started/docs/microservices/search-service/"
 ];
 
 export const inBuiltApps = [
