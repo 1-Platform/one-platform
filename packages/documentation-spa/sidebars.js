@@ -33,6 +33,7 @@ module.exports = {
       label: 'Microservices',
       collapsed: false,
       items: [
+        'microservices/api-gateway/api-gateway',
         'microservices/authorization/authorization-service',
         'microservices/feedback/feedback-service',
         'microservices/apps-service/apps-service',
