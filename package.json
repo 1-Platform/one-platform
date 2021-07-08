@@ -72,7 +72,6 @@
   },
   "dependencies": {
     "@spaship/cli": "0.14.0"
-  }
   },
   "main": "platform.js"
 }

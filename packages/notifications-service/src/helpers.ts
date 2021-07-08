@@ -56,8 +56,8 @@ export const GqlHelper = {
         body: JSON.stringify( body )
       }
     )
-      .then( res => res.json() )
-      .catch( err => {
+      .then( (res: any) => res.json() )
+      .catch( (err: any) => {
         throw new Error( '[UserServiceApiError]: ' + err );
       } );
   }
