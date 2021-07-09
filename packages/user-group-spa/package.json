@@ -1,6 +1,6 @@
 {
   "name": "user-group-spa",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "This package contains the react app for the One Platform User Group SPA",
   "keywords": [
