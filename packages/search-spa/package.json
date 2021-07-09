@@ -1,6 +1,6 @@
 {
   "name": "search-spa",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "config": "ts-node set-env.ts",
     "ng": "ng",
