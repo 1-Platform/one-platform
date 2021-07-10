@@ -21,6 +21,7 @@ module.exports = {
           items: [
             'apps/internal/feedback/feedback-spa',
             'apps/internal/home/home-spa',
+            'apps/internal/lighthouse/lighthouse-spa',
             'apps/internal/notifications/notifications-spa',
             'apps/internal/user-groups/user-groups-spa',
             'apps/internal/ssi-service/ssi-service'
@@ -34,10 +35,11 @@ module.exports = {
       collapsed: false,
       items: [
         'microservices/api-gateway/api-gateway',
+        'microservices/apps-service/apps-service',
         'microservices/authorization/authorization-service',
         'microservices/feedback/feedback-service',
-        'microservices/apps-service/apps-service',
         'microservices/home/home-service',
+        'microservices/lighthouse-service/lighthouse-service',
         {
           type: 'category',
           label: 'Notifications',
