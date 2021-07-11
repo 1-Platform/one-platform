@@ -1,6 +1,5 @@
 
 import { Users } from './schema';
-import moment from 'moment';
 import { UserGroupAPIHelper } from '../helpers';
 import { isEmpty } from 'lodash';
 
