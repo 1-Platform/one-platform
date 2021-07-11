@@ -1,6 +1,6 @@
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
-import fetch from 'node-fetch';
+const fetch = require( 'node-fetch' );
 
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_SERVICE_HOST,
@@ -44,8 +44,8 @@ class UserGroupApiHelper {
         }
         return res;
       } )
-      .then( res => res.json() )
-      .then( res => res.result )
+      .then( ( res:any ) => res.json() )
+      .then( ( res: any ) => res.result )
       .catch( console.error );
   }
 }
