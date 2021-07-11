@@ -203,7 +203,7 @@ export class HomeComponent implements OnInit {
     this.appService
       .fetchProjects(environment.LH_SERVER_URL)
       .then((responses) => {
-        this.projects = responses.fetchProjects;
+        this.projects = responses.listLHProjects;
       });
   };
 
@@ -212,7 +212,7 @@ export class HomeComponent implements OnInit {
       this.appService
         .fetchProjectBranches(environment.LH_SERVER_URL, this.projectID)
         .then((responses) => {
-          this.projectBranches = responses.fetchProjectBranches;
+          this.projectBranches = responses.listLHProjectBranches;
         });
     }
   };

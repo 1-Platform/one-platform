@@ -1,102 +1,102 @@
 scalar DateTime
 
-input PropertyAppInput {
+input LHPropertyAppInput {
   name: String
   branch: String
 }
 
-input AddPropertyAppInput {
+input AddLHPropertyAppInput {
   name: String!
   branch: String!
 }
 
-input PropertyInput {
+input LHPropertyInput {
   name: String
   description: String
   projectId: String!
-  apps: [PropertyAppInput!]!
+  apps: [LHPropertyAppInput!]!
 }
 
-input AddPropertyInput {
+input AddLHPropertyInput {
   name: String!
   description: String
   projectId: String!
-  apps: [AddPropertyAppInput!]!
+  apps: [AddLHPropertyAppInput!]!
   createdBy: String!
 }
 
-input UpdatePropertyInput {
+input UpdateLHPropertyInput {
   name: String
   description: String
   projectId: String
-  apps: [PropertyAppInput!]
+  apps: [LHPropertyAppInput!]
   updatedBy: String!
 }
 
-type PropertyUserProfileType {
+type LHPropertyUserProfileType {
   cn: String
   uid: String
   rhatUUID: String
   mail: String
 }
 
-type PropertyAppType {
+type LHPropertyAppType {
   id: ID
   name: String
   branch: String
 }
 
-type PropertyType {
+type LHPropertyType {
   id: ID
   name: String
   description: String
   projectId: String
-  apps: [PropertyAppType!]
-  createdBy: PropertyUserProfileType
+  apps: [LHPropertyAppType!]
+  createdBy: LHPropertyUserProfileType
   createdOn: DateTime
-  updatedBy: PropertyUserProfileType
+  updatedBy: LHPropertyUserProfileType
   updatedOn: DateTime
 }
 
 type Query {
   """
-  list all the properties
+  List all lighthouse properties
   """
-  fetchProperties(
+  listLHProperties(
     limit: Int
     offset: Int
     search: String
     user: String
-  ): [PropertyType]
+  ): [LHPropertyType]
   """
-  to fetch just one property based on id
+  To get a particular lighthouse property by id
   """
-  fetchProperty(id: ID!): PropertyType
+  getLHPropertyById(id: ID!): LHPropertyType
 }
 
 type Mutation {
   """
-  create a new property
+  Create a new lighthouse property
   """
-  createProperty(property: AddPropertyInput!): PropertyType
+  createLHProperty(property: AddLHPropertyInput!): LHPropertyType
   """
-  update a property
+  Update a lighthouse property
   """
-  updateProperty(id: ID!, data: UpdatePropertyInput): PropertyType
+  updateLHProperty(id: ID!, data: UpdateLHPropertyInput): LHPropertyType
   """
-  delete a property
+  Delete a lighthouse property
   """
-  deleteProperty(id: ID!): PropertyType
+  deleteLHProperty(id: ID!): LHPropertyType
   """
-  add an app to a property
+  Add an app to a lighthouse property
   """
-  createApp(propertyId: ID!, appData: AddPropertyAppInput!): PropertyType
+  createLHApp(propertyId: ID!, appData: AddLHPropertyAppInput!): LHPropertyType
   """
-  update an app from a property
+  Update an app of a lighthouse property
   """
-  updateApp(appId: ID!, appData: PropertyAppInput!): PropertyType
+  updateLHApp(appId: ID!, appData: LHPropertyAppInput!): LHPropertyType
   """
-  delete an app from a property
+  Delete an app of a lighthouse property
   """
-  deleteApp(appId: ID!): PropertyType
+  deleteLHApp(appId: ID!): LHPropertyType
 }

@@ -13,10 +13,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.dashboardService
-      .fetchProperties()
+      .listLHProperties()
       .valueChanges.subscribe(({ data, loading }) => {
         this.loading = loading;
-        this.properties = data.fetchProperties;
+        this.properties = data.listLHProperties;
       });
   }
 }

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { GraphQLModule } from 'app/graphql.module';
 import {
-  FetchProperties,
-  FetchProperty,
-  FetchPropertyScore,
+  ListLHProperties,
+  GetLHPropertyById,
+  ListLHPropertyScores,
 } from './dashboard.gql';
 
 @Injectable({
@@ -15,24 +15,24 @@ export class DashboardService extends GraphQLModule {
     super();
   }
 
-  fetchProperties() {
-    return this.apollo.watchQuery<{ fetchProperties: Properties[] }>({
-      query: FetchProperties,
+  listLHProperties() {
+    return this.apollo.watchQuery<{ listLHProperties: Properties[] }>({
+      query: ListLHProperties,
     });
   }
 
-  fetchProperty(propertyId: string) {
-    return this.apollo.watchQuery<{ fetchProperty: Properties }>({
-      query: FetchProperty,
+  getLHPropertyById(propertyId: string) {
+    return this.apollo.watchQuery<{ getLHPropertyById: Properties }>({
+      query: GetLHPropertyById,
       variables: {
         propertyId,
       },
     });
   }
 
-  fetchScores(projectId: string, apps: PropertyApps[]) {
+  getLHPropertyScores(projectId: string, apps: PropertyApps[]) {
     return this.apollo.watchQuery<Record<string, PropertyBuilds[]>>({
-      query: FetchPropertyScore(projectId, apps),
+      query: ListLHPropertyScores(projectId, apps),
       variables: {
         projectId,
       },
