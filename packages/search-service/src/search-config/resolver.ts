@@ -8,6 +8,9 @@ export const SearchResolver = {
   },
   Mutation: {
     manageIndex ( root: any, args: any, ctx: any ) {
+      return SearchIndexHelper.manageIndex( args.input, args.mode );
+    },
+    createUpdateIndex ( root: any, args: any, ctx: any ) {
       return SearchIndexHelper.index( args.input );
     },
     deleteIndex(root: any, args: any, ctx: any) {

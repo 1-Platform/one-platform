@@ -28,7 +28,7 @@ class IndexHelper {
             });
     }
 
-    public async index(body: any) {
+    public async index ( body: any ) {
         const authData: any = await this.auth();
         let headers = new Headers();
         headers.append(`Authorization`, `Bearer ${authData.access_token}`);
@@ -39,11 +39,19 @@ class IndexHelper {
             headers,
             body: JSON.stringify(body),
             agent: process.env.NODE_ENV !== 'production' ? new HttpsProxyAgent(`${process.env.AKAMAI_API}`) : null,
-        }).then((response: SearchResponseCode) => {
+        } ).then( ( response: SearchResponseCode ) => {
             return { 'status': response.status };
         }).catch((err: any) => {
             throw err;
-        });
+        } );
+    }
+
+    public async manageIndex ( data: any, mode: string ) {
+        if (mode === 'index') {
+            return this.index(data);
+        } else if (mode === 'delete') {
+            return this.delete(data);
+        }
     }
 
     public async delete(body: any) {
@@ -57,7 +65,7 @@ class IndexHelper {
             headers,
             body: JSON.stringify(body),
             agent: process.env.NODE_ENV !== 'production' ? new HttpsProxyAgent(`${process.env.AKAMAI_API}`) : null,
-        }).then((response: SearchResponseCode) => {
+        } ).then( ( response: SearchResponseCode ) => {
             return { 'status': response.status };
         }).catch((err: any) => {
             throw err;
