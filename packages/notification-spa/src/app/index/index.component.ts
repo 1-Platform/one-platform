@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
-import { FormsModule } from '@angular/forms';
 import { UserProfile } from '../helper';
 @Component({
   selector: 'op-index',
