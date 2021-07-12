@@ -282,7 +282,7 @@ Name - ${(apps.feedback.sourceType === 'JIRA') ? `[~${userData[0].uid}]` :
               'projectPath': apps.feedback.projectKey
             },
             'sourceUrl': apps.feedback.sourceApiUrl
-          }
+          };
           const gitlabResponse = await FeedbackIntegrationHelper.createGitlabIssue(gitlabQuery);
           apiResponse = {
             ...args.input,
@@ -293,7 +293,7 @@ Name - ${(apps.feedback.sourceType === 'JIRA') ? `[~${userData[0].uid}]` :
           console.warn('Integration not Mentioned/Available');
           apiResponse = {
             ...args.input
-          }
+          };
       }
       const emailBody = `
 Hi ${userData[0].cn},<br/><br/>

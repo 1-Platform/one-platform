@@ -68,10 +68,6 @@ module.exports = class extends Generator {
         .camelCase()
         .upperFirst()
         .value();
-      const camelCasedName = _
-        .chain( answers.name )
-        .camelCase()
-        .value();
       const { version: serviceVersion } = fs.existsSync(
         this.destinationPath( './package.json' )
       )
