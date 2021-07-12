@@ -43,7 +43,7 @@ class APITemplateHelper {
             headers,
             body: body,
         } ).then( ( response: any ) => response.json() )
-            .then( ( result: any ) => result.data.apps)
+            .then( ( result: any ) => result.data.apps )
             .catch( ( err: any ) => {
                 throw err;
             } );

@@ -1,7 +1,7 @@
 import JiraApi from 'jira-client';
 const fetch = require('node-fetch');
 import * as _ from 'lodash';
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 (global as any).Headers = fetch.Headers;
 
@@ -33,7 +33,7 @@ class FeedbackHelper {
                         }
                     }`,
             variables: {
-                "input": query.githubIssueInput
+                'input': query.githubIssueInput
             }
         });
         headers.append(`Authorization`, `${process.env.GITHUB_AUTH_TOKEN}`);
@@ -95,7 +95,7 @@ class FeedbackHelper {
                             }
                         }`,
             variables: {
-                "input": query.gitlabIssueInput
+                'input': query.gitlabIssueInput
             }
         });
 
@@ -325,7 +325,7 @@ class FeedbackHelper {
                     'description': data.description,
                     'icon': `assets/icons/feedback.svg`,
                     'uri': `${process.env.FEEDBACK_CLIENT}`,
-                    'tags': `Feedback App, ${data?.category},`,
+                    'tags': `Feedback, ${data?.category}`,
                     'contentType': 'Feedback',
                     'createdBy': data?.createdBy || '',
                     'createdDate': data?.createdOn || new Date(),
@@ -337,43 +337,36 @@ class FeedbackHelper {
     }
 
     // Helper function to create/update/delete data to feedback microservice
-    public manageSearchIndex(data: any, mode: string) {
-        let query: string = ``;
-        if (mode === 'index') {
-            query = `
-                mutation ManageIndex($input: SearchInput) {
-                    manageIndex(input: $input) {
+    public manageSearchIndex ( data: any, mode: string ) {
+        let query: string = `
+                mutation ManageIndex($input: SearchInput, $mode: String) {
+                    manageIndex(input: $input, mode: $mode) {
                         status
                     }
                 }
             `;
-        } else if (mode === 'delete') {
-            query = `
-                mutation DeleteIndex($id: String) {
-                    deleteIndex(id: $id) {
-                        status
-                    }
-                }      
-            `
-        }
         let headers = new Headers();
-        let body = JSON.stringify({
-            query: query,
-            variables: data
-        });
-
-        headers.append(`Authorization`, `${process.env.GATEWAY_AUTH_TOKEN}`);
-        headers.append(`Content-Type`, `application/json`);
-        return fetch(`${process.env.API_GATEWAY}`, {
+        headers.append( `Authorization`, `${ process.env.GATEWAY_AUTH_TOKEN }` );
+        headers.append( `Content-Type`, `application/json` );
+        return fetch( `${ process.env.API_GATEWAY }`, {
             method: `POST`,
             headers,
-            body: body,
-        }).then((response: any) => response.json())
-            .then((result: any) => {
-                if ((result.data?.manageIndex?.status === 200) || (result?.data?.deleteIndex?.status === 204)) {
-                    console.log('Sucessfully completed the index updation')
-                } else if ((result?.data?.manageIndex?.status !== 200) || (result?.data?.removeIndex?.status !== 204)) {
-                    console.log("Error in index updation.");
+            body: JSON.stringify({
+                query: query,
+                variables: {
+                    input: mode === 'index'? data?.input : data,
+                    mode
+                }
+            } ),
+        } ).then( ( response: any ) => {
+            return response.json();
+        } )
+            .then( ( result: any ) => {
+                const succesStatusCodes = [ 200, 204 ];
+                if ( succesStatusCodes.includes(result.data?.manageIndex?.status) ) {
+                    console.info('Sucessfully completed the index updation.')
+                } else if ( !succesStatusCodes.includes(result.data?.manageIndex?.status) ) {
+                    console.info('Error in index updation.');
                 }
             })
             .catch((err: Error) => {

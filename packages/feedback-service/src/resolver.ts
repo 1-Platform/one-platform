@@ -356,10 +356,11 @@ P.S.: This is an automated email. Please do not reply.
     deleteFeedback(root: any, args: any, ctx: any) {
       return Feedback.findByIdAndRemove(args._id)
         .then((response: FeedbackType) => {
-          let id = {
-            'id': args._id
+          let input = {
+            dataSource: "oneportal",
+            documents: [ { 'id': args._id } ]
           };
-          FeedbackIntegrationHelper.manageSearchIndex(id, 'delete');
+          FeedbackIntegrationHelper.manageSearchIndex(input, 'delete');
           return response;
         })
         .catch((error: Error) => error);

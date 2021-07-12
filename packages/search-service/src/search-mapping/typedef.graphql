@@ -80,7 +80,7 @@ type Query {
     Fetch Specific search map with _id
     """
     getSearchMap(_id: String!): SearchMapType
-    triggerSearchMap: SearchMapType
+    triggerSearchMap: String
 }
 
 type Mutation {
