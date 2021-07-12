@@ -18,23 +18,23 @@ export const GroupResolver = {
     },
     group ( root: any, { cn }: GraphQLArgs, ctx: any ) {
       return Groups
-        .find({ cn: cn })
+        .find( { cn: cn } )
         .exec()
-        .then( res => res[0] );
+        .then( res => res[ 0 ] );
     }
   },
   Group: {
     members ( root: any, GraphQLArgs: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/groups/${ root.cn }` )
-        .then( ( res ) => {
+        .then( ( res: any ) => {
           const uids = res.result?.memberUids.map( ( member: string ) => {
-            const uidPart = member.split( ',' ).find( (part) => part.startsWith("uid=") );
-            return uidPart && uidPart.substring(4);
+            const uidPart = member.split( ',' ).find( ( part ) => part.startsWith( "uid=" ) );
+            return uidPart && uidPart.substring( 4 );
           } );
           return Users.find( { "uid": { "$in": uids } } );
         } )
-        .catch((err) => { throw("There is some problem fetching members of the group.") });
-      }
+        .catch( ( err: Error ) => { throw ( 'There is some problem fetching members of the group.' ); } );
+    }
   },
   Mutation: {
     addGroup ( root: any, { payload }: GraphQLArgs, ctx: any ) {
@@ -43,7 +43,7 @@ export const GroupResolver = {
     },
     updateGroup ( root: any, { id, payload }: GraphQLArgs, ctx: any ) {
       return Groups
-        .findByIdAndUpdate( id, {...payload, updatedOn: new Date() }, { new: true } )
+        .findByIdAndUpdate( id, { ...payload, updatedOn: new Date() }, { new: true } )
         .exec();
     },
     deleteGroup ( root: any, { id }: GraphQLArgs, ctx: any ) {
