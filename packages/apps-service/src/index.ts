@@ -1,5 +1,5 @@
 import { ApolloServer, mergeSchemas } from 'apollo-server';
-import setupDatabase, {mongoose} from './setup/database';
+import setupDatabase from './setup/database';
 import { PORT } from './setup/env';
 import { CommonSchema } from './modules/common';
 import { AppsResolver, AppsSchema } from './modules/apps';

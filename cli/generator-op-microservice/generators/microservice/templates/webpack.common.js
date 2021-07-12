@@ -1,6 +1,5 @@
 const nodeExternals = require( 'webpack-node-externals' );
 const path = require( 'path' );
-const fs = require( 'fs' );
 const Dotenv = require( 'dotenv-webpack' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const NodemonPlugin = require( 'nodemon-webpack-plugin' );
