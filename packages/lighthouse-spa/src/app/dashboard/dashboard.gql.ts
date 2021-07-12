@@ -1,17 +1,17 @@
 import { gql } from 'apollo-angular';
 
-export const FetchProperties = gql`
-  query FetchProperties {
-    fetchProperties {
+export const ListLHProperties = gql`
+  query ListLHProperties {
+    listLHProperties {
       id
       name
     }
   }
 `;
 
-export const FetchProperty = gql`
-  query FetchProperty($propertyId: ID!) {
-    fetchProperty(id: $propertyId) {
+export const GetLHPropertyById = gql`
+  query GetLHPropertyById($propertyId: ID!) {
+    getLHPropertyById(id: $propertyId) {
       projectId
       name
       apps {
@@ -23,11 +23,14 @@ export const FetchProperty = gql`
   }
 `;
 
-export const FetchPropertyScore = (projectId: string, apps: PropertyApps[]) => {
+export const ListLHPropertyScores = (
+  projectId: string,
+  apps: PropertyApps[]
+) => {
   let queryAliasBuilder = '';
   apps.map(({ branch, id }) => {
     queryAliasBuilder += `
-    app${id}:fetchProjectBuilds(projectID:$projectId,branch:"${branch}",limit:1){
+    app${id}:listLHProjectBuilds(projectID:$projectId,branch:"${branch}",limit:1){
       id
       projectId
       score{
@@ -41,7 +44,7 @@ export const FetchPropertyScore = (projectId: string, apps: PropertyApps[]) => {
     `;
   });
   return gql`
-  query FetchProperyScores($projectId: String!) {
+  query ListLHPropertyScores($projectId: String!) {
     ${queryAliasBuilder}
   }
   `;
