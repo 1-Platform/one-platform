@@ -152,7 +152,6 @@ export function sendNow ( payload: OpNotification, config: NotificationConfig ) 
 
 function enqueue ( payload: Partial<OpNotification>, config: NotificationConfigModel ) {
   const startDate = moment( payload.startDate ),
-    endDate = moment( payload.endDate ),
     currentDateWithBuffer = moment().subtract( 30, 'minutes' );
 
   if ( startDate < currentDateWithBuffer ) {
