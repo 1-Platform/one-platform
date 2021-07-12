@@ -198,14 +198,12 @@ The team was able to close 16 JIRAs across a range of development priorities. Th
             *   UI integrations with One Platform Microservices for enabling and customizing the microservice features for an App
         *   Notifications:
             *   Implementation of a federated UI for notifications management went into further discussion to make a common consumable component
-
-
-        *   **Lighthouse CI GA’ed**.
+        *   Lighthouse CI GA’ed:
             *   Catalog team adopted the lighthouse CI
             *   Lighthouse SPA & Microservice Development - Microservice & SPA development in progress.
         *   Home Page enhancements
 
-        **Non Native Apps:**
+      * **Non Native Apps:**
 
         *   Outage SPA
             *   Proof of Value demoed, decision on the use of statuspage vs service now in the coming weeks.
@@ -213,7 +211,7 @@ The team was able to close 16 JIRAs across a range of development priorities. Th
             *   Dashboard migration
             *   Ansible Pipelines migration nearing completion
 
-        **Designs:**
+      * **Designs:**
 
         *   Design for Lighthouse SPA
         *   Design for POC for app monitoring & analytics
