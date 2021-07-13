@@ -8,20 +8,20 @@ slug: /faqs
 
 ## Documentation FAQs
 
-1. [Documentation Style Guide](/docs/documentation/styleguide)
+1. [Documentation Style Guide](/docs/component-library/style-guide)
 
 ## Applications FAQs
 
 ### Hosted Apps
 
-1. [Research Repository](/docs/apps/hosted/research-repository/research-repository-spa#faqs)
+1. [Research Repository](/docs/apps/hosted/research-repository#faqs)
 
 ### Internal Apps
 
-1. [Feedback](/docs/apps/internal/feedback/feedback-spa#faqs)
-2. [Home](/docs/apps/internal/home/home-spa#faqs)
-3. [Notifications](/docs/apps/internal/notifications/notifications-spa#faqs)
-4. [SSI Service](/docs/apps/internal/ssi-service/ssi-service#faqs)
+1. [Feedback](/docs/apps/internal/feedback#faqs)
+2. [Home](/docs/apps/internal/home#faqs)
+3. [Notifications](/docs/apps/internal/notifications#faqs)
+4. [SSI Service](/docs/apps/internal/ssi#faqs)
 
 ### Assets
 
@@ -29,10 +29,10 @@ slug: /faqs
 
 ## CLI FAQs
 
-1. [OP CLI](/docs/cli/op-cli#faqs)
+1. [OP CLI](/docs/cli#faqs)
 
 ## Microservice FAQs
 
-1. [Feedback](/docs/microservices/feedback/feedback-service#faqs)
-2. [Home](/docs/microservices/home/home-service#faqs)
-3. [Notifications Service](/docs/microservices/notifications/notifications-service#faqs)
+1. [Feedback](/docs/microservices/feedback-service#faqs)
+2. [Home](/docs/microservices/apps-service#faqs)
+3. [Notifications Service](/docs/microservices/notifications-service#faqs)

@@ -32,10 +32,10 @@ The API Gateway is basically a collection / entrypoint for the One Platform Micr
 
 The Microservices available via the API Gateway are:
 - [User & Groups](/get-started/docs/microservices/user-groups-service)
-- [Feedback Service](/get-started/microservices/feedback-service)
-- [Notifciations Service](/get-started/microservices/notifications-service)
-- [Search Service](/get-started/microservices/search-service)
-- [Apps Service](/get-started/microservices/apps-service)
+- [Feedback Service](/get-started/docs/microservices/feedback-service)
+- [Notifciations Service](/get-started/docs/microservices/notifications-service)
+- [Search Service](/get-started/docs/microservices/search-service)
+- [Apps Service](/get-started/docs/microservices/apps-service)
 
 ## Developers
 
