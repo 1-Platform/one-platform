@@ -53,16 +53,16 @@
     "postinstall": "npm run lerna bootstrap && node platform.js"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "4.13.0",
-    "@typescript-eslint/parser": "4.13.0",
+    "@typescript-eslint/eslint-plugin": "4.16.1",
+    "@typescript-eslint/parser": "4.16.1",
     "bats": "1.2.1",
+    "eslint": "7.21.0",
     "cypress": "^6.5.0",
     "cypress-multi-reporters": "^1.4.0",
-    "eslint": "7.18.0",
     "eslint-config-standard": "14.1.1",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "4.1.0",
     "lerna": "3.22.1",
     "mocha": "^8.3.0",
@@ -71,7 +71,7 @@
     "mochawesome-report-generator": "^5.2.0"
   },
   "dependencies": {
-    "@spaship/cli": "0.13.2"
+    "@spaship/cli": "0.14.0"
   },
   "main": "platform.js"
 }
