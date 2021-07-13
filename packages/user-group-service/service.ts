@@ -11,7 +11,6 @@ import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import http from 'http';
 import mongoose from 'mongoose';
 import * as schedule from 'node-schedule';
-const { ApolloLogExtension } = require( 'apollo-log' );
 /* User Schema and Resolvers */
 import UserSchema from './src/users/typedef.graphql';
 import { UserResolver } from './src/users/resolver';
@@ -30,12 +29,6 @@ import { UserSyncCron } from './src/users/cron';
 const port = process.env.PORT || 8080;
 
 const app = express();
-
-const extensions = [ () => new ApolloLogExtension( {
-  level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
-  timestamp: true,
-  prefix: 'User Service:'
-} ) ];
 
 /* Configuring Mongoose */
 mongoose.plugin( ( schema: any ) => { schema.options.usePushEach = true; } );
@@ -79,7 +72,19 @@ const apollo = new ApolloServer( {
     path: error.path,
     ...error.extensions,
   } ),
-  extensions,
+  plugins: [
+    {
+      requestDidStart: ( requestContext ) => {
+        if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
+          return;
+        }
+        const query = requestContext.request.query?.replace( /\s+/g, ' ' ).trim();
+        const variables = JSON.stringify( requestContext.request.variables );
+        console.log( new Date().toISOString(), `- [Request Started] { query: ${ query }, variables: ${ variables }, operationName: ${ requestContext.request.operationName } }` );
+        return;
+      },
+    },
+  ]
 } );
 
 /* Applying apollo middleware to express server */
