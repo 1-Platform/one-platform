@@ -35,8 +35,8 @@ module.exports = {
       collapsed: false,
       items: [
         'microservices/api-gateway/api-gateway',
-        'microservices/apps-service/apps-service',
         'microservices/authorization/authorization-service',
+        'microservices/apps-service/apps-service',
         'microservices/feedback/feedback-service',
         'microservices/home/home-service',
         'microservices/lighthouse-service/lighthouse-service',
