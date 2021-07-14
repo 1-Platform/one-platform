@@ -160,7 +160,7 @@ query GetSearchMap($_id: String!) {
 
 Example Mutation
 ```graphql
-mutation ManageIndex($input: SearchInput, $mode: String) {
+mutation ManageIndex($input: SearchInput, $mode: String!) {
     manageIndex(input: $input, mode: $mode) {
         status
     }
@@ -253,7 +253,7 @@ mutation DeleteSearchMap($id: String!) {
 ```js
 manageSearchIndex(data: any, mode: string) {
     let query: string = `
-    mutation ManageIndex($input: SearchInput, $mode: String) {
+    mutation ManageIndex($input: SearchInput, $mode: String!) {
         manageIndex(input: $input, mode: $mode) {
             status
         }
