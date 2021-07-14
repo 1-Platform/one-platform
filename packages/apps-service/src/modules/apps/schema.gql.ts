@@ -5,7 +5,7 @@ type Query {
   apps: [App]
   myApps: [App]
   findApps(selectors: FindAppInput!): [App]
-  app(appId: String!): App
+  app(id: ID, appId: String): App
 }
 type Mutation {
   createApp(app: CreateAppInput!): App

@@ -16,10 +16,13 @@ export default <IResolvers<App, IAppsContext>>{
       return Apps.find({ ownerId: rhatUUID }).exec();
     },
     findApps: ( parent, { selectors }, ctx ) => {
-      return Apps.find( selectors ).exec();
+      return Apps.find( {...selectors, _id: selectors.id } ).exec();
     },
-    app: ( parent, { appId } ) => {
-      return Apps.findOne( { appId } ).exec();
+    app: ( parent, { id, appId } ) => {
+      if ( !id && !appId ) {
+        throw new Error( 'Please provide atleast one argument for id or appId' );
+      }
+      return Apps.findOne( { appId, _id: id } ).exec();
     },
   },
   Mutation: {

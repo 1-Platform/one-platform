@@ -16,10 +16,13 @@ export default <IResolvers<Microservice, IAppsContext>>{
       return Microservices.find( { ownerId: rhatUUID } ).exec();
     },
     findServices: ( parent, { selectors }, ctx ) => {
-      return Microservices.find( selectors ).exec();
+      return Microservices.find( { ...selectors, _id: selectors.id } ).exec();
     },
-    service: ( parent, { serviceId }, { rhatUUID } ) => {
-      return Microservices.findOne( { serviceId } ).exec();
+    service: ( parent, { id, serviceId }, { rhatUUID } ) => {
+      if ( !id && !serviceId ) {
+        throw new Error( 'Please provide atleast one argument for id or serviceId' );
+      }
+      return Microservices.findOne( { serviceId, _id: id } ).exec();
     },
   },
   Mutation: {
