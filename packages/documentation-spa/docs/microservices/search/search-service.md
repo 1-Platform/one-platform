@@ -7,9 +7,8 @@ slug: /microservices/search-service
 
 ## Developers
 
-## Component Contributors
-
 1. Rigin Oommen - [roommen@redhat.com](mailto:roommen@redhat.com) - [riginoommen (Rigin Oommen) · GitHub](https://github.com/riginoommen)
+2. Ghanshyam Lohar - [glohar@redhat.com](mailto:glohar@redhat.com) - [ghanlohar (Ghanshyam Lohar) · GitHub](https://github.com/ghanlohar)
 
 ## Getting Started
 
@@ -23,14 +22,16 @@ Search microservice is built using NodeJS which has hydra API support. This micr
 
 ### Supported Features
 
-1. Create Search Index
-2. Update Search Index
-3. Delete Search Index
-4. Read Search Index
+1. Create, Update & Delete Search Index
+2. Read Search Index
+3. Create, Update & Delete Search Map
+6. List the Search Map
+7. List Search Map by `_id`
+
 
 #### Apps using this microservice
 
-* All Native and Non native SPAs
+* All Native & Non-Native SPAs
 
 ### Quick Start Guide
 
@@ -81,17 +82,14 @@ eg: http://localhost:8080/graphql
 ```sh
 npm run test
 ```
-
-### API References
+## API References
 
 In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operations are defined as Mutations.
+### Queries
+#### Search Query
 
-## Queries
-
-### Search Query
-
-- Operation Name - search
-    - Supported Query Variables - query, start, rows
+- Operation Name - Search
+- Supported Query Variables - `query`, `start`, `rows`
 
 Example Query
 ```graphql
@@ -115,40 +113,75 @@ query Search($query: String, $start: Int, $rows: Int) {
     }
 }
 ```
-## Mutations
+#### List Search Maps Query
+- Operation Name - ListSearchMap
 
-In search microservice every record has a unique key called id which is used to manage the mutation.
-
-1. Add/Update new index
-
-### Operation Name - manageIndex
-
-- Required Mutation Variables - SearchInput
-
-Example Mutation
+Example Query
 ```graphql
-mutation ManageIndex($input: SearchInput) {
-    manageIndex(input: $input) {
-        response {
-            docs: [{
-                id
-                title
-                abstract
-                description
-                icon
-                uri
-                tags
-                timestamp
-            }]
-        }
+query ListSearchMap {
+    listSearchMap {
+        _id
+        appId
+        apiConfig
+        fields
+        preferences
+        createdBy
+        createdOn
+        updatedBy
+        updatedOn
     }
 }
 ```
-### Delete from index
+#### List Search Map by `_id`
 
-- Operation Name - deleteIndex
+- Operation Name - GetSearchMap
+- Supported Query Variables - `_id`
 
-    - Required Mutation Variables - name, title, uid, rhatUUID, memberOf, createdBy, createdOn, updatedBy, updatedOn
+Example Query
+```graphql
+query GetSearchMap($_id: String!) {
+    getSearchMap(_id: $_id) {
+        _id
+        appId
+        apiConfig
+        fields
+        preferences
+        createdBy
+        createdOn
+        updatedBy
+        updatedOn
+    }
+}
+```
+### Mutations
+#### Create/Update/Delete data in index
+- Operation Name - ManageIndex
+- Required Mutation variables type - `SearchInput`, `mode`
+
+Example Mutation
+```graphql
+mutation ManageIndex($input: SearchInput, $mode: String!) {
+    manageIndex(input: $input, mode: $mode) {
+        status
+    }
+}
+```
+#### Create/Update data in index
+- Operation Name - CreateUpdateIndex
+- Required Mutation variables type - `SearchInput`
+
+Example Mutation
+```graphql
+mutation CreateUpdateIndex($input: SearchInput) {
+    CreateUpdateIndex(input: $input) {
+        status
+    }
+}
+```
+#### Delete data from index
+
+- Operation Name - DeleteIndex
+- Required Mutation Variable - `id`
 
 Example Mutation
 
@@ -157,5 +190,102 @@ mutation DeleteIndex($id: String!) {
     deleteIndex(id:$id) {
         status
     }
+}
+```
+#### Create Search Map
+- Operation Name - CreateSearchMap
+- Required Mutation variables type - `SearchMapInput`
+
+Example Mutation
+```graphql
+mutation CreateSearchMap($input: SearchMapInput) {
+    createSearchMap(input: $input) {
+        _id
+        appId
+        apiConfig
+        fields
+        preferences
+        createdBy
+        createdOn
+        updatedBy
+        updatedOn
+    }
+}
+```
+#### Update Search Map
+- Operation Name - UpdateSearchMap
+- Required Mutation variables type - `SearchMapInput`
+
+Example Mutation
+```graphql
+mutation UpdateSearchMap($input: SearchMapInput) {
+    updateSearchMap(input: $input) {
+        _id
+        appId
+        apiConfig
+        fields
+        preferences
+        createdBy
+        createdOn
+        updatedBy
+        updatedOn
+    }
+}
+```
+#### Delete Search Map
+
+- Operation Name - DeleteSearchMap
+- Required Mutation Variable - `id`
+
+Example Mutation
+
+```graphql
+mutation DeleteSearchMap($id: String!) {
+    deleteSearchMap(_id: $id) {
+        status
+    }
+}
+```
+## Code Snippets
+#### Universal Helper code for indexing the data with search microservice.
+
+- Language - Javascript
+```js
+manageSearchIndex(data: any, mode: string) {
+    let query: string = `
+    mutation ManageIndex($input: SearchInput, $mode: String!) {
+        manageIndex(input: $input, mode: $mode) {
+            status
+        }
+    }`;
+    let headers = new Headers();
+    // Authorization Token for API gateway
+    headers.append(`Authorization`, `${ process.env.GATEWAY_AUTH_TOKEN }`);
+    headers.append(`Content-Type`, `application/json`);
+    // API Gateway URL.
+    return fetch(`${ process.env.API_GATEWAY }`, {
+            method: `POST`,
+            headers,
+            body: JSON.stringify({
+                query: query,
+                variables: {
+                    input: mode === 'index' ? data?.input : data,
+                    mode
+                }
+            }),
+        }).then((response: any) => {
+            return response.json();
+        })
+        .then((result: any) => {
+            const successStatusCodes = [200, 204];
+            if (successStatusCodes.includes(result.data?.manageIndex?.status)) {
+                console.info('Sucessfully completed the index updation')
+            } else if (!successStatusCodes.includes(result.data?.manageIndex?.status)) {
+                console.info('Error in index updation.');
+            }
+        })
+        .catch((err: Error) => {
+            throw err;
+        });
 }
 ```
