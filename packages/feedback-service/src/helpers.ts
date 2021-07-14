@@ -339,7 +339,7 @@ class FeedbackHelper {
     // Helper function to create/update/delete data to feedback microservice
     public manageSearchIndex ( data: any, mode: string ) {
         let query: string = `
-                mutation ManageIndex($input: SearchInput, $mode: String) {
+                mutation ManageIndex($input: SearchInput, $mode: String!) {
                     manageIndex(input: $input, mode: $mode) {
                         status
                     }

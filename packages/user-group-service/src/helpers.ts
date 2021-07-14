@@ -48,6 +48,64 @@ class UserGroupApiHelper {
       .then( ( res: any ) => res.result )
       .catch( console.error );
   }
+  // Helper function to format user service data for search service
+    public formatSearchInput(data: any) {
+        return {
+            'input': {
+                'dataSource': 'oneportal',
+                'documents': {
+                    'id': `${data._id}`,
+                    'title': data.name,
+                    'abstract': data.cn,
+                    'description': data.name,
+                    'icon': `assets/icons/user-1.svg`,
+                    'uri': `/user-groups/group/${data.cn}`,
+                    'tags': `User Group`,
+                    'contentType': 'User Group',
+                    'createdBy': data?.createdBy || '',
+                    'createdDate': data?.createdOn || new Date(),
+                    'lastModifiedBy': data?.updatedBy || '',
+                    'lastModifiedDate': data?.updatedOn || new Date()
+                }
+            }
+        }
+    }
+
+    // Helper function to handle indexing of create/update/delete data to search microservice
+    public manageSearchIndex ( data: any, mode: string ) {
+        let query: string = `
+                mutation ManageIndex($input: SearchInput, $mode: String!) {
+                    manageIndex(input: $input, mode: $mode) {
+                        status
+                    }
+                }
+            `;
+        return fetch( `${ process.env.API_GATEWAY }`, {
+            method: `POST`,
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `${ process.env.GATEWAY_AUTH_TOKEN }`
+            },
+            body: JSON.stringify({
+                query: query,
+                variables: {
+                    input: mode === 'index'? data?.input : data,
+                    mode
+                }
+            } ),
+        } ).then( ( response: any ) => response.json())
+            .then( ( result: any ) => {
+                const succesStatusCodes = [ 200, 204 ];
+                if ( succesStatusCodes.includes(result.data?.manageIndex?.status) ) {
+                    console.info('Sucessfully completed the index updation.')
+                } else if ( !succesStatusCodes.includes(result.data?.manageIndex?.status) ) {
+                    console.info('Error in index updation.');
+                }
+            })
+            .catch((err: Error) => {
+                throw err;
+            });
+    }
 }
 
 export const UserGroupAPIHelper = UserGroupApiHelper.getApiInstance();

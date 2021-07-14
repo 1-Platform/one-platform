@@ -39,17 +39,35 @@ export const GroupResolver = {
   Mutation: {
     addGroup ( root: any, { payload }: GraphQLArgs, ctx: any ) {
       return new Groups( payload )
-        .save();
+        .save()
+        .then( ( res: any ) => {
+          const transformedData = UserGroupAPIHelper.formatSearchInput( res );
+          UserGroupAPIHelper.manageSearchIndex(transformedData, 'index');
+          return res;
+        });
     },
     updateGroup ( root: any, { id, payload }: GraphQLArgs, ctx: any ) {
       return Groups
         .findByIdAndUpdate( id, { ...payload, updatedOn: new Date() }, { new: true } )
-        .exec();
+        .exec()
+        .then( ( res: any ) => {
+          const transformedData = UserGroupAPIHelper.formatSearchInput( res );
+          UserGroupAPIHelper.manageSearchIndex(transformedData, 'index');
+          return res;
+        });
     },
     deleteGroup ( root: any, { id }: GraphQLArgs, ctx: any ) {
       return Groups
         .findByIdAndRemove( id )
-        .exec();
+        .exec()
+        .then( ( res: any ) => {
+          const input = {
+            dataSource: "oneportal",
+            documents: [ { 'id': res._id } ]
+          };
+          UserGroupAPIHelper.manageSearchIndex( input, 'delete' );
+          return res;
+        });
     },
   }
 };
