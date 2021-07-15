@@ -17,13 +17,22 @@ export default <IResolvers<App, IAppsContext>>{
       return Apps.find({ ownerId: rhatUUID }).exec();
     },
     findApps: ( parent, { selectors }, ctx ) => {
-      return Apps.find( {...selectors, _id: selectors.id } ).exec();
+      const _id = selectors.id;
+      delete selectors.id;
+
+      return Apps.find( {
+        ...selectors,
+        ...( _id && { _id } ),
+      } ).exec();
     },
     app: ( parent, { id, appId } ) => {
       if ( !id && !appId ) {
         throw new Error( 'Please provide atleast one argument for id or appId' );
       }
-      return Apps.findOne( { appId, _id: id } ).exec();
+      return Apps.findOne( {
+        ...( appId && { appId } ),
+        ...( id && { _id: id } ),
+      } ).exec();
     },
   },
   Mutation: {
