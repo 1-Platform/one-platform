@@ -3,6 +3,7 @@
 import { IResolvers } from 'apollo-server';
 import { Apps } from '.';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
+import AppsHelper from '../../utils/apps-helper';
 
 export default <IResolvers<App, IAppsContext>>{
   Query: {
@@ -35,7 +36,12 @@ export default <IResolvers<App, IAppsContext>>{
         ownerId: ctx.rhatUUID,
         createdBy: ctx.rhatUUID,
         updatedBy: ctx.rhatUUID,
-      } ).save();
+      } ).save()
+        .then( ( res: any ) => {
+          const transformedData = AppsHelper.formatSearchInput( res );
+          AppsHelper.manageSearchIndex(transformedData, 'index');
+          return res;
+        });
     },
     updateApp: ( parent, { id, app }, ctx ) => {
       if ( !Apps.isAuthorized( id, ctx.rhatUUID ) ) {
@@ -48,13 +54,28 @@ export default <IResolvers<App, IAppsContext>>{
         ...app,
         updatedBy: ctx.rhatUUID,
         updatedOn: new Date(),
-      }, { new: true } ).exec();
+      }, { new: true } )
+        .exec()
+        .then( ( res: any ) => {
+          const transformedData = AppsHelper.formatSearchInput( res );
+          AppsHelper.manageSearchIndex(transformedData, 'index');
+          return res;
+        });
     },
     deleteApp: ( parent, { id }, ctx ) => {
       if ( !Apps.isAuthorized( id, ctx.rhatUUID ) ) {
         throw new Error( 'User unauthorized to delete the app' );
       }
-      return Apps.findByIdAndRemove( id ).exec();
+      return Apps.findByIdAndRemove( id )
+        .exec()
+        .then( ( res: any ) => {
+          const input = {
+            dataSource: "oneportal",
+            documents: [ { 'id': res._id } ]
+          };
+          AppsHelper.manageSearchIndex(input, 'delete');
+          return res;
+        });;
     }
   }
 }
