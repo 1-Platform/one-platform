@@ -52,9 +52,9 @@ class UserGroupApiHelper {
     public formatSearchInput(data: any) {
         return {
             'input': {
-                'dataSource': 'oneportal',
+                'dataSource': process.env.DATA_SOURCE,
                 'documents': {
-                    'id': `${data._id}`,
+                    'id': data._id,
                     'title': data.name,
                     'abstract': data.cn,
                     'description': data.name,
