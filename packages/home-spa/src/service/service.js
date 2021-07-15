@@ -78,7 +78,7 @@ export function deploySPA(formData) {
     },
     body: formData,
   };
-  return fetch(process.env.DEPLOY_URL, fetchOptions)
+  return fetch(process.env.SPASHIP_API_URL, fetchOptions)
     .then( handleError )
     .then((res) => res.json());
 }
