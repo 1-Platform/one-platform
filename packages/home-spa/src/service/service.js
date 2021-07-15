@@ -74,8 +74,7 @@ export function deploySPA(formData) {
   const fetchOptions = {
     method: 'post',
     headers: {
-      Authorization: `Bearer ${window.OpAuthHelper?.jwtToken}`,
-      'Content-Type': 'multipart/form-data',
+      Authorization: `apikey ${process.env.SPASHIP_API_KEY}`,
     },
     body: formData,
   };

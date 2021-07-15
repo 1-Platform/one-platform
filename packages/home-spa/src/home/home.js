@@ -193,14 +193,15 @@ window.submitForm = () => {
     <span class="pf-c-spinner__tail-ball"></span>
   </span>
   Deploying Now`;
-  addApp(appData).then( (res) => {
+  document.querySelector('#deploy-submit').disabled = true;
+  addApp(appData).then( () => {
     deploySPA(formData).then( (response) => {
       window.OpNotification.success({ 
         subject: 'App Deployed Successfully',
         body: 'You will be redirected to the dev console page shortly',
-        link: response.path
+        link: response.data.path
       })
-      setTimeout(() => window.location.href = `/console/${response.path}`, 3000)
+      setTimeout(() => window.location.href = `/console/${response.data.path}`, 3000)
     })
   } )
   .catch(err => {
