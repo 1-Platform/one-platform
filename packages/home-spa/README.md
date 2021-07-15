@@ -21,7 +21,8 @@ npm install
 
 ```sh
 API_URL=https://example.com/graphql
-DEPLOY_URL=https://example.com/api/deploy
+SPASHIP_API_URL=https://example.com/api/deploy
+SPASHIP_API_KEY=abcd-abcd-abcd-abcd
 ```
 
 - Schema

@@ -1,5 +1,5 @@
 import * as microservices from '../res/static/microservices.json';
-import { deploySPA } from '../service/service';
+import { deploySPA, addApp } from '../service/service';
 
 export const microserviceCards = () => {
     const microservicesCardDetails = microservices.default;
@@ -177,7 +177,7 @@ window.submitForm = () => {
   if (!validate()) {
     return;
   }
-  const app = {
+  const appData = {
     name: document.querySelector('#app-name').value,
     path: document.querySelector('#app-path').value,
     description: document.querySelector('#app-description').value,
@@ -185,7 +185,7 @@ window.submitForm = () => {
     ref: document.querySelector('#app-ref').value,
   };
   const formData = new FormData()
-  Object.keys(app).forEach(key => formData.append(key, app[key]));
+  Object.keys(appData).forEach(key => formData.append(key, appData[key]));
   document.querySelector('#deploy-submit').innerHTML = ` 
   <span class="pf-c-spinner pf-m-md" style="--pf-c-spinner--Color: #C9190B;" role="progressbar" aria-valuetext="Loading...">
     <span class="pf-c-spinner__clipper"></span>
@@ -193,26 +193,24 @@ window.submitForm = () => {
     <span class="pf-c-spinner__tail-ball"></span>
   </span>
   Deploying Now`;
-  deploySPA(formData).then( (response) => {
-    window.OpNotification.success(
-      { 
+  document.querySelector('#deploy-submit').disabled = true;
+  addApp(appData).then( () => {
+    deploySPA(formData).then( (response) => {
+      window.OpNotification.success({ 
         subject: 'App Deployed Successfully',
         body: 'You will be redirected to the dev console page shortly',
-        link: response.path
+        link: response.data.path
       })
-    setTimeout(
-      () => 
-        window.location.href = `/console${response.path}`, 
-        3000)
-  })
+      setTimeout(() => window.location.href = `/console/${response.data.path}`, 3000)
+    })
+  } )
   .catch(err => {
     console.error(err);
-    window.OpNotification.danger(
-      { 
-        subject: 'There was an error deploying the app',
-        body: err,
-        link: response.path
-      })
+    window.OpNotification.danger({ 
+      subject: 'There was an error deploying the app, please try again from the Developer Console',
+      body: 'err',
+    })
+    setTimeout(() => window.location.href = `/console`, 3000)
     toggleDeployModal('none');
   })
 };

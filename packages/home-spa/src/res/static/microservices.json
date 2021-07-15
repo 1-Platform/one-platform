@@ -2,7 +2,7 @@
     {
       "name": "Authentication",
       "description": "Adding authentication to your application is pice of cake. Just integrate with our API and focus on application development.",
-      "link": "/get-started/docs/microservices/authorization-service/",
+      "link": "/get-started/docs/microservices/authorization/",
       "icon": "res/img/auth.svg",
       "imgBgColor": "#F3FAF2"
     },
