@@ -317,9 +317,9 @@ class FeedbackHelper {
     public formatSearchInput(data: any) {
         return {
             'input': {
-                'dataSource': 'oneportal',
+                'dataSource': process.env.DATA_SOURCE,
                 'documents': {
-                    'id': `${data._id}`,
+                    'id': data._id,
                     'title': data.summary,
                     'abstract': data.description,
                     'description': data.description,
