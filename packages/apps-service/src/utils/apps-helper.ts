@@ -13,7 +13,7 @@ class AppsHelper {
     public formatSearchInput ( data: any ) {
         return {
             'input': {
-                'dataSource': process.env.DATA_SOURCE,
+                'dataSource': process.env.SEARCH_DATA_SOURCE,
                 'documents': {
                     'id': data._id,
                     'title': data.name,
