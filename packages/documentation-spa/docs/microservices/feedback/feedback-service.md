@@ -2,6 +2,7 @@
 id: feedback-service
 title: Feedback Service
 sidebar_label: Feedback Service
+slug: /microservices/feedback-service
 ---
 
 ## Developers

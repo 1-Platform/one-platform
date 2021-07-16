@@ -29,7 +29,7 @@ module.exports = {
         contentBase: path.join(__dirname, 'dist'),
         open: true,
         compress: true,
-        port: 4200,
+        port: 5500,
     },
     optimization : {
         minimizer: [new TerserPlugin()],

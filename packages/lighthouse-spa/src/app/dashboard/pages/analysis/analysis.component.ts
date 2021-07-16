@@ -22,15 +22,15 @@ export class AnalysisComponent implements OnInit {
     this.route.params.subscribe((params) => {
       const propertyId = params.id;
       this.dashboardService
-        .fetchProperty(propertyId)
+        .getLHPropertyById(propertyId)
         .valueChanges.subscribe(({ data, loading }) => {
-          const { apps, projectId, name } = data.fetchProperty;
+          const { apps, projectId, name } = data.getLHPropertyById;
           this.apps = apps;
           this.title = name;
           this.appListLoading = loading;
           // fetch scores for all apps
           this.dashboardService
-            .fetchScores(projectId, apps)
+            .getLHPropertyScores(projectId, apps)
             .valueChanges.subscribe(({ data, loading }) => {
               Object.entries(data).map(([id, appLatestBuild]) => {
                 const buildScore = this.getAverageScore(

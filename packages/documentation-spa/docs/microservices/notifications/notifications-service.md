@@ -2,6 +2,7 @@
 id: notifications-service
 title: Notifications Service
 sidebar_label: Notifications Service
+slug: /microservices/notifications-service
 ---
 ***
 

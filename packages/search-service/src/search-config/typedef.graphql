@@ -22,16 +22,16 @@ input DocumentInput {
 }
 
 input SearchInput {
-  dataSource: String
+  dataSource: String!
   documents: [DocumentInput]
 }
 
 type DocumentType {
-  id: String
+  id: String!
   title: String
   abstract: String
   description: String
-  content_type: String
+  content_type: String!
   operation: String
   icon: String
   uri: String
@@ -70,9 +70,13 @@ type Query {
 
 type Mutation {
   """
+  Manage index creation updation & deletion
+  """
+  manageIndex(input: SearchInput, mode: String!): SearchResponseCode
+  """
   Search index creation & updation
   """
-  manageIndex(input: SearchInput): SearchResponseCode
+  createUpdateIndex(input: SearchInput): SearchResponseCode
   """
   Search index deletion
   """

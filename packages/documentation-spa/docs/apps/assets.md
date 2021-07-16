@@ -2,6 +2,7 @@
 id: assets
 title: One Platform Assets
 sidebar_label: Assets
+slug: /apps/assets
 ---
 * * *
 

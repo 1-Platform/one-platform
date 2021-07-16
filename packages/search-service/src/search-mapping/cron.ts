@@ -25,7 +25,12 @@ export class SearchMapCron {
                         searchMap.preferences.titleParams.map( ( titleParam: any ) => mappedTitle = mappedTitle.replace( titleParam, data[ titleParam ] ));
                         mappedField.title = mappedTitle;
                         mappedUrl = searchMap.preferences.urlTemplate;
-                        searchMap.preferences.urlParams.map( ( urlParam: any ) => mappedUrl = mappedUrl.replace( urlParam, data[ urlParam ] ));
+                        searchMap.preferences.urlParams.map( ( urlParam: any, index: number ) => {
+                            if ( index === 0 && urlParam === 'path' && data[ urlParam ].startsWith('/') ) {
+                                data[ urlParam ] = data[ urlParam ].slice(1);
+                            }
+                            return mappedUrl = mappedUrl.replace( urlParam, data[ urlParam ] )
+                        } );
                         mappedField.uri = process.env.CLIENT_URL + mappedUrl;
                         mappedList.push(mappedField);
                     }

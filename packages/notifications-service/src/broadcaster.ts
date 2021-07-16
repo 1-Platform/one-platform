@@ -13,7 +13,7 @@ export class NotificationsBroadcaster {
     this.agenda = new Agenda( { mongo: db, defaultConcurrency: 1 } );
     this.agenda.define( 'send notifications', this.sendNotifications );
 
-    this.agenda.define( 'send email notification', job => {
+    this.agenda.define( 'send email notification', (job: any) => {
       const data: any = job.attrs.data;
       return RuleEngine.sendEmailNotification( data );
     } );

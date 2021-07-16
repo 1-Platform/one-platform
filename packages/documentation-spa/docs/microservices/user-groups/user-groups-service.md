@@ -2,6 +2,7 @@
 id: user-groups-service
 title: User/Group Service
 sidebar_label: User/Group Service
+slug: /microservices/user-groups-service
 ---
 ***
 

@@ -12,6 +12,7 @@ export const SearchMapResolver = {
         triggerSearchMap ( root: any, args: any, ctx: any ) {
             const searchMapCron = new SearchMapCron();
             searchMapCron.searchMapTrigger();
+            return 'Indexing Search Maps has been triggered.';
         }
     },
     Mutation: {

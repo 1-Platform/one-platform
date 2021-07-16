@@ -56,7 +56,7 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
     feedbackEmail: { type: String, },
   },
   search: {
-    isActive: { type: Boolean, default: false, },
+    isEnabled: { type: Boolean, default: false, },
   },
   notifications: {
     isEnabled: { type: Boolean, default: false, },

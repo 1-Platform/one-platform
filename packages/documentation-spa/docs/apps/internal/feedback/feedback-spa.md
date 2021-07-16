@@ -2,6 +2,7 @@
 id: feedback-spa
 title: Feedback
 sidebar_label: Feedback
+slug: /apps/internal/feedback
 ---
 ## Developers
 
@@ -70,7 +71,7 @@ Feedback Application is the interface which have the view of the feedback & bug 
     ```
 
 ### API References
-Visit [Feedback Microservice](/docs/microservices/feedback/feedback-service) documentation for API references
+Visit [Feedback Microservice](/docs/microservices/feedback-service) documentation for API references
 ## FAQs
 
 <details>

@@ -40,7 +40,7 @@ export class AppService extends GraphQLModule {
       variables: {
         auditId
       }
-    }).result().then(result => _.cloneDeep(result.data.fetchScore));
+    }).result().then(result => _.cloneDeep(result.data.listLHScore));
   }
 
   // Fetch & Verify Project details of valid project

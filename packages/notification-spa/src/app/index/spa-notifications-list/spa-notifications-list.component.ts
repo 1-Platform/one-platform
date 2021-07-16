@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserProfile } from '../../helper';
 import { AppService } from 'src/app/app.service';
 
 @Component({

@@ -60,8 +60,8 @@ function AppOverview () {
                   isSelected={false}
                   actions={
                     <MenuItemAction
-                      icon={<Switch
-                      onClickCapture={ ( event ) => event.stopPropagation() }
+                    icon={ <Switch
+                      isDisabled={true}
                       id={ 'switch-' + service.id }
                       aria-label={ service.name }
                       isChecked={ service.isActive }

@@ -8,4 +8,5 @@ declare namespace NodeJS {
 
 declare interface Window {
   OpAuthHelper?: any;
+  OpNotification?: any;
 }

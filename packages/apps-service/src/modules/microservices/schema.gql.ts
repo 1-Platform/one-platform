@@ -5,7 +5,7 @@ type Query {
   services: [Service]
   myServices: [Service]
   findServices(selectors: FindServicesInput!): [Service]
-  service(serviceId: String!): Service
+  service(id: ID, serviceId: String): Service
 }
 
 type Mutation {
@@ -36,6 +36,7 @@ type AppPermissions {
 }
 
 input FindServicesInput {
+  id: ID
   serviceId: String
   name: String
   isActive: Boolean

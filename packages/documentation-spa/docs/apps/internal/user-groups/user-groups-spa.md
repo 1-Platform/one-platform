@@ -2,6 +2,7 @@
 id: user-groups-spa
 title: User Groups
 sidebar_label: User Groups
+slug: /apps/internal/user-groups
 ---
 * * *
 

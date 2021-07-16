@@ -11,8 +11,17 @@
                         routerLinkActive="pf-m-current">Dashboard</a>
                 </li>
                 <li class="pf-c-nav__item">
-                    <a routerLink="/dashboard/ci" class="pf-c-nav__link" routerLinkActive="pf-m-current"
-                        [routerLinkActiveOptions]="{exact:true}">Lighthouse CI</a>
+                    <a [href]="lighthouseServerUrl" class="pf-c-nav__link pf-l-flex pf-m-align-items-center"
+                        routerLinkActive="pf-m-current" target="_blank" rel="noreferrer noopener"
+                        [routerLinkActiveOptions]="{exact:true}">Lighthouse
+                        CI
+                        <i class="fas fa-external-link-alt icon"></i>
+                    </a>
+                </li>
+                <li class="pf-c-nav__item">
+                    <a href="/get-started/docs/apps/internal/lighthouse/lighthouse-spa" class="pf-c-nav__link"
+                        target="_blank" rel="noreferrer noopener" aria-current="page"
+                        routerLinkActive="pf-m-current">Documentation</a>
                 </li>
             </ul>
         </nav>

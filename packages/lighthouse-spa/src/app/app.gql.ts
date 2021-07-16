@@ -14,7 +14,7 @@ export const Autorun = gql`
 
 export const FetchScore = gql`
 query FetchScore($auditId: String!) {
-  fetchScore(auditId: $auditId) {
+  listLHScore(auditId: $auditId) {
     performance
     accessibility
     bestPractices
@@ -26,7 +26,7 @@ query FetchScore($auditId: String!) {
 
 export const FetchProjectDetails = gql`
 query FetchProjectDetails($serverBaseUrl: String, $buildToken: String!){
-  fetchProjectDetails(serverBaseUrl: $serverBaseUrl, buildToken: $buildToken) {
+  verifyLHProjectDetails(serverBaseUrl: $serverBaseUrl, buildToken: $buildToken) {
     id
     name
     token
@@ -35,8 +35,8 @@ query FetchProjectDetails($serverBaseUrl: String, $buildToken: String!){
 `;
 
 export const FetchProjects = gql`
-query FetchProjects($serverBaseUrl: String) {
-  fetchProjects(serverBaseUrl: $serverBaseUrl) {
+query listLHProjects($serverBaseUrl: String) {
+  listLHProjects(serverBaseUrl: $serverBaseUrl) {
     id
     name
     slug
@@ -50,7 +50,7 @@ query FetchProjectLHR(
   $projectID: String!
   $buildID: String!
 ) {
-  fetchProjectLHR(
+  listProjectLHReport(
     serverBaseUrl: $serverBaseUrl
     projectID: $projectID
     buildID: $buildID
@@ -71,7 +71,7 @@ query FetchProjectBuilds(
   $branch: String!
   $limit: Int!
 ) {
-  fetchProjectBuilds(
+  listLHProjectBuilds(
     serverBaseUrl: $serverBaseUrl
     projectID: $projectID
     branch: $branch
@@ -87,7 +87,7 @@ query FetchProjectBuilds(
 
 export const FetchProjectBranches = gql`
 query FetchProjectBranches($serverBaseUrl: String, $projectID: String!) {
-  fetchProjectBranches(serverBaseUrl: $serverBaseUrl, projectID: $projectID) {
+  listLHProjectBranches(serverBaseUrl: $serverBaseUrl, projectID: $projectID) {
     branch
   }
 }
@@ -95,6 +95,6 @@ query FetchProjectBranches($serverBaseUrl: String, $projectID: String!) {
 
 export const Upload = gql`
 mutation Upload($property: LighthouseInput) {
-  upload(property: $property)
+  uploadLHReport(property: $property)
 }
 `;

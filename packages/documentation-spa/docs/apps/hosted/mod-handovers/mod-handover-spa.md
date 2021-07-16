@@ -2,6 +2,7 @@
 id: mod-handover-spa
 title: MoD Handovers
 sidebar_label: MoD Handovers
+slug: /apps/hosted/mod-handovers
 ---
 * * *
 # MoD Handover SPA

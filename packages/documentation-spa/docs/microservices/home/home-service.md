@@ -2,12 +2,13 @@
 id: home-service
 title: Home Service
 sidebar_label: Home Service
+slug: /microservices/home-service
 ---
 ***
 
-## Developers
+> This service is being deprecated, and the related APIs will be removed soon. Please see apps-service for the updated APIs.
 
-### Component Contributors
+## Developers
 
 1. Deepesh Nair - [denair@redhat.com](mailto:denair@redhat.com)
 

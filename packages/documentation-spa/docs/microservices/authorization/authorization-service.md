@@ -2,6 +2,7 @@
 id: authorization-service
 title: Authorization Service
 sidebar_label: Authorization Service
+slug: /microservices/authorization
 ---
 * * *
 

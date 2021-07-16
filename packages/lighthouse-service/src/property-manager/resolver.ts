@@ -4,7 +4,7 @@ import { Property } from "./schema";
 
 export const PropertyResolver = {
   Query: {
-    async fetchProperties(root: any, args: any, ctx: any) {
+    async listLHProperties(root: any, args: any, ctx: any) {
       const { limit, offset, search, user } = args;
 
       const filters: FilterQuery<PropertyType> = {
@@ -32,7 +32,7 @@ export const PropertyResolver = {
         return property;
       });
     },
-    async fetchProperty(root: any, args: any, ctx: any) {
+    async getLHPropertyById(root: any, args: any, ctx: any) {
       const { id } = args;
       const mongoosePropertyDoc = await Property.findById(id).exec();
       if (!mongoosePropertyDoc) return {};
@@ -47,14 +47,14 @@ export const PropertyResolver = {
     },
   },
   Mutation: {
-    async createProperty(root: any, args: any, ctx: any) {
+    async createLHProperty(root: any, args: any, ctx: any) {
       const { property } = args;
       property.updatedBy = property.createdBy;
       const mongoosePropertyDoc = new Property(property);
       const savedProperty = await mongoosePropertyDoc.save();
       return populateMongooseDocWithUser(savedProperty);
     },
-    async updateProperty(root: any, args: any, ctx: any) {
+    async updateLHProperty(root: any, args: any, ctx: any) {
       const { id, data } = args;
       const mongoosePropertyDoc = await Property.findById(id).exec();
       if (data.updatedBy !== mongoosePropertyDoc?.createdBy)
@@ -66,12 +66,12 @@ export const PropertyResolver = {
       ).exec();
       return populateMongooseDocWithUser(updatedDoc);
     },
-    async deleteProperty(root: any, args: any, ctx: any) {
+    async deleteLHProperty(root: any, args: any, ctx: any) {
       const { id } = args;
       const mongoosePropertyDoc = await Property.findByIdAndDelete(id).exec();
       return populateMongooseDocWithUser(mongoosePropertyDoc);
     },
-    async createApp(root: any, args: any, ctx: any) {
+    async createLHApp(root: any, args: any, ctx: any) {
       const { propertyId, appData } = args;
       return Property.findByIdAndUpdate(
         propertyId,
@@ -81,7 +81,7 @@ export const PropertyResolver = {
         { new: true }
       ).exec();
     },
-    async updateApp(root: any, args: any, ctx: any) {
+    async updateLHApp(root: any, args: any, ctx: any) {
       const { appId, appData } = args;
       /**
        * To patch a sub document we use set fn. of mongoose
@@ -99,7 +99,7 @@ export const PropertyResolver = {
         new: true,
       }).exec();
     },
-    async deleteApp(root: any, args: any, ctx: any) {
+    async deleteLHApp(root: any, args: any, ctx: any) {
       const { appId } = args;
       return Property.findOneAndUpdate(
         { "apps._id": appId },

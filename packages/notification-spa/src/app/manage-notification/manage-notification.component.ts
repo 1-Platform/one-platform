@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { AppService } from '../app.service';
 import { UserProfile } from '../helper';
 import { ActivatedRoute, Router } from '@angular/router';

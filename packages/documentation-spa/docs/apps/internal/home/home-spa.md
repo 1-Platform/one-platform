@@ -2,6 +2,7 @@
 id: home-spa
 title: Home
 sidebar_label: Home
+slug: /apps/internal/home
 ---
 * * *
 

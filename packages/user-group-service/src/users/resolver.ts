@@ -9,13 +9,13 @@ export const UserResolver = {
         .then( ( res: any ) => {
           if ( args.cacheUser ) {
             Users.insertMany( res.result )
-              .catch( (res) => console.error( 'Can not insert some users to the Cache.', res.writeErrors && res.writeErrors[0], res.result ) );;
+              .catch( ( res ) => console.error( 'Can not insert some users to the Cache.', res.writeErrors && res.writeErrors[ 0 ], res.result ) );
           }
           return res.result;
-        } )
+        } );
     },
     getUsersBy ( root: any, args: any, ctx: any ) {
-      const input = { "uid": args.uid, "rhatUuid": args.rhatUUID }
+      const input = { "uid": args.uid, "rhatUuid": args.rhatUUID };
       const cleanedInput = pickBy( input, v => v !== undefined );
       return Users.find( cleanedInput )
         .then( users => {
@@ -35,11 +35,11 @@ export const UserResolver = {
             .then( ( res: any ) => {
               const user = res.result[ 0 ];
               if ( !user ) {
-                throw new Error( `User not found for the given ${key}` );
+                throw new Error( `User not found for the given ${ key }` );
               }
               user.isActive = true;
               const data = new Users( user );
-              return data.save().then( (user: any) => [user]);
+              return data.save().then( ( user: any ) => [ user ] );
             } );
         } );
     },
@@ -51,9 +51,7 @@ export const UserResolver = {
     manager ( parent: any, args: any, ctx: any ) {
       if ( parent.manager ) {
         return UserGroupAPIHelper.roverFetch( `/users/${ parent.manager.substring( 4, parent.manager.indexOf( ',ou' ) ) }` )
-          .then( ( res ) => {
-            return res;
-          } );
+          .then( ( res: User ) => res );
       }
       else {
         return null;
@@ -70,16 +68,14 @@ export const UserResolver = {
     },
     roverGroups ( parent: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
-        .then( ( res ) => res.result );
+        .then( ( res: any ) => res.result );
     }
   },
   RoverUserType: {
     manager ( parent: any, args: any, ctx: any ) {
       if ( parent.manager ) {
         return UserGroupAPIHelper.roverFetch( `/users/${ parent.manager.substring( 4, parent.manager.indexOf( ',ou' ) ) }` )
-          .then( ( res ) => {
-            return res;
-          } );
+          .then( ( res: User ) => res );
       }
       else {
         return null;
@@ -96,7 +92,7 @@ export const UserResolver = {
     },
     roverGroups ( parent: any, args: any, ctx: any ) {
       return UserGroupAPIHelper.roverFetch( `/users/${ parent.uid }/groups` )
-        .then( ( res ) => res.result );
+        .then( ( res: any ) => res.result );
     }
   },
   Mutation: {
@@ -108,7 +104,7 @@ export const UserResolver = {
       data.isActive = true;
       return data.save();
     },
-    addUserFromRover( root: any, { uid }: any, ctx: any ) {
+    addUserFromRover ( root: any, { uid }: any, ctx: any ) {
       return Users
         .findOne( { uid } )
         .exec()
@@ -122,7 +118,7 @@ export const UserResolver = {
               const user = res.result[ 0 ];
               user.isActive = true;
               const data = new Users( user );
-              return data.save().then( (user: any) => user);
+              return data.save().then( ( user: any ) => user );
             } );
         } );
     },

@@ -36,7 +36,7 @@ type LighthouseBuildType {
   projectId: ID
   branch: String
   runAt: DateTime
-  score:[LighthouseScoreType]
+  score: [LighthouseScoreType]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -49,34 +49,58 @@ type Query {
   """
   List all projects registered in lighthouse server
   """
-  fetchProjects(serverBaseUrl: String): [LighthouseProjectType]
+  listLHProjects(serverBaseUrl: String): [LighthouseProjectType]
   """
   Fetch lighthouse report(lhr) from server.
   """
-  fetchProjectLHR(serverBaseUrl: String, projectID: String!, buildID: String!): [LighthouseScoreType]
+  listProjectLHReport(
+    serverBaseUrl: String
+    projectID: String!
+    buildID: String!
+  ): [LighthouseScoreType]
   """
   Fetch & Verify Project details of valid project
   """
-  fetchProjectDetails(serverBaseUrl: String, buildToken: String!): LighthouseProjectType
+  verifyLHProjectDetails(
+    serverBaseUrl: String
+    buildToken: String!
+  ): LighthouseProjectType
   """
   Fetch Builds of the project by branch name and project id
   """
-  fetchProjectBuilds(serverBaseUrl: String, projectID: String!, branch: String!, limit: Int!): [LighthouseBuildType]
+  listLHProjectBuilds(
+    serverBaseUrl: String
+    projectID: String!
+    branch: String!
+    limit: Int!
+  ): [LighthouseBuildType]
   """
   Fetch the branches of a project.
   """
-  fetchProjectBranches(serverBaseUrl: String, projectID: String!): [LighthouseBranchType]
+  listLHProjectBranches(
+    serverBaseUrl: String
+    projectID: String!
+  ): [LighthouseBranchType]
   """
   Fetch the scores of a webproperty locally.
   """
-  fetchScore(auditId: String!): [LighthouseScoreType]
+  listLHScore(auditId: String!): [LighthouseScoreType]
 }
 
 type Mutation {
+  """
+  Audit Website with Lighthouse CI
+  """
   auditWebsite(property: LighthouseInput): String
-  upload(property: LighthouseInput): String
+  """
+  Upload the lhr to server
+  """
+  uploadLHReport(property: LighthouseInput): String
 }
 
 type Subscription {
+  """
+  Watcher for the audit status.
+  """
   autorun: String
 }

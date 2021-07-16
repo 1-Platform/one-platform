@@ -282,7 +282,7 @@ Name - ${(apps.feedback.sourceType === 'JIRA') ? `[~${userData[0].uid}]` :
               'projectPath': apps.feedback.projectKey
             },
             'sourceUrl': apps.feedback.sourceApiUrl
-          }
+          };
           const gitlabResponse = await FeedbackIntegrationHelper.createGitlabIssue(gitlabQuery);
           apiResponse = {
             ...args.input,
@@ -293,7 +293,7 @@ Name - ${(apps.feedback.sourceType === 'JIRA') ? `[~${userData[0].uid}]` :
           console.warn('Integration not Mentioned/Available');
           apiResponse = {
             ...args.input
-          }
+          };
       }
       const emailBody = `
 Hi ${userData[0].cn},<br/><br/>
@@ -356,10 +356,11 @@ P.S.: This is an automated email. Please do not reply.
     deleteFeedback(root: any, args: any, ctx: any) {
       return Feedback.findByIdAndRemove(args._id)
         .then((response: FeedbackType) => {
-          let id = {
-            'id': args._id
+          let input = {
+            dataSource: "oneportal",
+            documents: [ { 'id': args._id } ]
           };
-          FeedbackIntegrationHelper.manageSearchIndex(id, 'delete');
+          FeedbackIntegrationHelper.manageSearchIndex(input, 'delete');
           return response;
         })
         .catch((error: Error) => error);

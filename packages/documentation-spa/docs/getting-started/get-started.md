@@ -14,7 +14,7 @@ slug: /
 
 ### Deploying to One Platform
   #### Setting up the SPAship CLI.
-- SPAship is an open source platform for deploying, integrating, and managing single-page apps (SPAs). 
+- SPAship is an open source platform for deploying, integrating, and managing single-page apps (SPAs).
 - SPAship have a CLI client which enables to push the SPA to the specified environments.
 
 ```sh
@@ -36,7 +36,7 @@ npm install -g @spaship/cli
   - Create .spashiprc.yaml in the home folder and add the api keys and SPAship urls.  Based on the SPAship Instances QA and Stage environment urls also need to be included.
 
 ```sh
-$ cat ~/.spashiprc.yml 
+$ cat ~/.spashiprc.yml
 envs:
   qa:
     url: https://op-spaship-qa-api.cloud.paas.psi.redhat.com
@@ -49,7 +49,7 @@ envs:
 #### Using the Spaship deploy command.
   - SPAship allows the user to deploy the packaged version of the SPA build. Based on the Technology stack you use to build the SPA generate the build accordingly.
   - Execute spaship init command to include the spaceship configuration on build
-  - Switch the working directory into the *dist* folder. Pack the dist folder of SPA using zip utility. 
+  - Switch the working directory into the *dist* folder. Pack the dist folder of SPA using zip utility.
 
 `zip spa.zip .`
 
@@ -84,7 +84,7 @@ Total: 14 seconds
     - Following SSI Code snippet is a universal web property for using the SSI with the SPA. This needs to be injected with the root of your spa inside the <body></body> tag.
 
 ```html
-<!-- SSI Include Snippet --> 
+<!-- SSI Include Snippet -->
 <!--#include virtual="/.ssi/nav/default.html" -->
 
 ```
