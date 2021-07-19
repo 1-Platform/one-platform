@@ -230,8 +230,8 @@ window.customElements.define( 'op-nav', class extends LitElement {
     <div class="op-menu-drawer__title"><span>Built-in Services</span></div>
     <ul class="op-menu-drawer__app-list">
       ${builtIn.map( app => ( html`
-        <li class="op-menu-drawer__app-list-item ${ app.isActive ? '' : 'inactive' }">
-          <a .href="${ app.link }">
+      <li class="op-menu-drawer__app-list-item ${ app.isActive ? '' : 'inactive' }">
+          <a .href="${ app.path }">
             <div>
               <img .src="${ app.icon || ASSETS_URL + '/rh-hat-logo.svg' }"/>
             </div>
