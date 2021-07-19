@@ -8,8 +8,10 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-07-09 16:18:34
- * Last modified  : 2021-07-09 17:00:31
+ * Last modified  : 2021-07-19 12:22:32
  */
+
+const urls = [ '/user-groups' ].map( link => process.env.LH_HOST + link );
 
 module.exports = {
     ci: {
@@ -22,12 +24,10 @@ module.exports = {
                     '--ignore-certificate-errors'
                 ]
             },
-            url: [
-                'https://one.redhat.com/user-groups'
-            ]
+            url: urls
         },
         assert: {
-            preset: "lighthouse:recommended"
+            preset: 'lighthouse:recommended'
         },
     },
 };

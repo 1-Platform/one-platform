@@ -8,9 +8,9 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-07-09 16:18:34
- * Last modified  : 2021-07-12 14:47:12
+ * Last modified  : 2021-07-19 12:20:18
  */
-
+const urls = [ '/lighthouse' ].map( link => process.env.LH_HOST + link );
 module.exports = {
     ci: {
         collect: {
@@ -22,12 +22,10 @@ module.exports = {
                     '--ignore-certificate-errors'
                 ]
             },
-            url: [
-                'https://one.redhat.com/lighthouse-spa'
-            ]
+            url: urls
         },
         assert: {
-            preset: "lighthouse:recommended"
+            preset: 'lighthouse:recommended'
         },
     },
 };

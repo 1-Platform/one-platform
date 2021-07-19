@@ -8,8 +8,9 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-07-09 16:18:34
- * Last modified  : 2021-07-09 16:54:19
+ * Last modified  : 2021-07-19 12:21:07
  */
+const urls = [ '/search/?query=test' ].map( link => process.env.LH_HOST + link );
 
 module.exports = {
     ci: {
@@ -22,12 +23,10 @@ module.exports = {
                     '--ignore-certificate-errors'
                 ]
             },
-            url: [
-                'https://one.redhat.com/search/?query=test'
-            ]
+            url: urls
         },
         assert: {
-            preset: "lighthouse:recommended"
+            preset: 'lighthouse:recommended'
         },
     },
 };

@@ -8,8 +8,9 @@
  * @author Rigin Oommen <riginoommen@gmail.com>
  *
  * Created at     : 2021-07-09 16:18:34
- * Last modified  : 2021-07-09 16:43:06
+ * Last modified  : 2021-07-19 11:59:12
  */
+const urls = [ '/console' ].map( link => process.env.LH_HOST + link );
 module.exports = {
     ci: {
         collect: {
@@ -21,12 +22,10 @@ module.exports = {
                     '--ignore-certificate-errors'
                 ]
             },
-            url: [
-                'https://one.redhat.com/console'
-            ]
+            url: urls
         },
         assert: {
-            preset: "lighthouse:recommended"
+            preset: 'lighthouse:recommended'
         },
     },
 };
