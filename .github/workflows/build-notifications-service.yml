@@ -8,8 +8,7 @@ on:
   push:
     branches:
       - 'master'
-    tags:
-      - '*'
+      - 'release'
     paths: [ 'packages/notifications-service/**' ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -26,10 +25,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Generate a short tag using GITHUB_SHA
         run: echo "TAGS=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-      - name: Generate QA tag
+      - if: startsWith(github.ref, 'refs/head/master')
+        name: Generate QA tag
         run: echo "TAGS=qa" >> $GITHUB_ENV
-      - name: Generate stable tag
-        if: startsWith(github.ref, 'refs/tags')
+      - if: startsWith(github.ref, 'refs/head/release')
+        name: Generate stable tag
         run: echo "TAGS=$TAGS,stable" >> $GITHUB_ENV
       # Build and publish docker container
       - name: Build and publish to ghcr
