@@ -1,6 +1,6 @@
 {
   "name": "home-spa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {

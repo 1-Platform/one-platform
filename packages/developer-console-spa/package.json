@@ -1,6 +1,6 @@
 {
   "name": "developer-console-spa",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "/console",
   "description": "The place where developers can get started with using One Platform for SPA deployments and integrating with One Platform Microservices.",
   "author": {
