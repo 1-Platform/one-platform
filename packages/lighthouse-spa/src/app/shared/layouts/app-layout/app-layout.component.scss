@@ -2,6 +2,10 @@
   --pf-c-nav__link--m-current--BackgroundColor: #2866cc1a;
 }
 
+.app-layout-container {
+  min-height: 700px;
+}
+
 nav {
   min-width: 256px;
 }
@@ -25,6 +29,8 @@ nav {
 
 .sidebar {
   margin-right: 1px;
+  overflow: hidden;
+  border-right: 1px solid rgb(210, 210, 210);
 }
 
 .icon {

@@ -8,7 +8,22 @@
         <app-loader title="Loading...">
         </app-loader>
     </div>
-    <div class="pf-l-grid pf-m-gutter" *ngIf="!loading">
+    <div class="pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center" *ngIf="!loading && isEmpty">
+        <div class="pf-c-empty-state pf-m-xs">
+            <div class="pf-c-empty-state__content">
+                <i class="fas fa-cubes pf-c-empty-state__icon" aria-hidden="true"></i>
+                <h1 class="pf-c-title pf-m-md">
+                    No data found
+                </h1>
+                <div class="pf-c-empty-state__body">
+                    Contact<a href="mailto:one-portal-devel@redhat.com">
+                        one-portal-devel@redhat.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pf-l-grid pf-m-gutter" *ngIf="!(loading && isEmpty)">
         <div class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-4-col-on-lg pf-m-3-col-on-2xl"
             *ngFor="let property of properties">
             <a [routerLink]="'./'+property.id">
