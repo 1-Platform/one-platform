@@ -28,7 +28,7 @@ class IndexHelper {
             });
     }
 
-    public async index ( body: any ) {
+    public async index ( body: any, retries: number ) {
         const authData: any = await this.auth();
         let headers = new Headers();
         headers.append(`Authorization`, `Bearer ${authData.access_token}`);
@@ -39,7 +39,12 @@ class IndexHelper {
             headers,
             body: JSON.stringify(body),
             agent: process.env.NODE_ENV !== 'production' ? new HttpsProxyAgent(`${process.env.AKAMAI_API}`) : null,
-        } ).then( ( response: SearchResponseCode ) => {
+        } ).then( ( response: any ) => {
+            if ( retries > 0 && !response.ok ) {
+                console.error('Failed response: ', response);
+                retries--;
+                return SearchIndexHelper.index( body, retries );
+            }
             return { 'status': response.status };
         }).catch((err: any) => {
             throw err;
@@ -48,7 +53,7 @@ class IndexHelper {
 
     public async manageIndex ( data: any, mode: string ) {
         if (mode === 'index') {
-            return this.index(data);
+            return this.index(data, 3);
         } else if (mode === 'delete') {
             return this.delete(data);
         }
