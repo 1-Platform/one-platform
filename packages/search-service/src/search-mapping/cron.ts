@@ -35,16 +35,20 @@ export class SearchMapCron {
                         mappedList.push(mappedField);
                     }
                 });
-            });
-            const searchInput = {
-                dataSource: "oneportal",
-                documents: _.uniqBy(mappedList, 'id')
-            };
-            const response = await SearchIndexHelper.index(searchInput);
-            statusList.push({ status: response.status });
-            if (searchMapList.length === configIndex + 1) {
-                console.info('Index Status -', statusList);
-            }
-        });
+            } );
+            const uniqueItems = _.uniqBy( mappedList, 'id' );
+            const chunks = _.chunk( uniqueItems, 100 );
+
+            const searchInputMap = chunks.map( async ( chunk: any, index: any ) => {
+                const searchInput = {
+                    dataSource: "oneportal",
+                    documents: chunk
+                };
+                return SearchIndexHelper.index( searchInput, 3);
+            } );
+
+            const response = await Promise.all( searchInputMap );
+            console.info('Index batch responses: ', response);
+        } );
     }
 }

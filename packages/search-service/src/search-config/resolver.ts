@@ -11,7 +11,7 @@ export const SearchResolver = {
       return SearchIndexHelper.manageIndex( args.input, args.mode );
     },
     createUpdateIndex ( root: any, args: any, ctx: any ) {
-      return SearchIndexHelper.index( args.input );
+      return SearchIndexHelper.index( args.input, 3);
     },
     deleteIndex(root: any, args: any, ctx: any) {
       return SearchIndexHelper.delete( args.input );
