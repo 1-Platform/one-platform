@@ -6,7 +6,6 @@ import * as _ from "lodash";
 export class SearchMapCron {
     public async searchMapTrigger () {
         let mappedList: any = [];
-        let statusList: any = [];
         const searchMapList = await SearchMap.find();
         const apps = await TemplateHelper.listApps();
         await searchMapList.map( async ( searchMap: any, configIndex: any ) => {
