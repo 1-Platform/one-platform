@@ -6,6 +6,7 @@ LABEL Name=one-platform-lighthouse-service \
 # Building the lighthouse microservice
 ADD  . /app
 WORKDIR /app
+USER 1001
 RUN npm install -g @lhci/cli && \
   npm install --silent && \
   npm run build
