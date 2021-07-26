@@ -40,7 +40,7 @@ export class SearchMapCron {
 
             const searchInputMap = chunks.map( async ( chunk: any, index: any ) => {
                 const searchInput = {
-                    dataSource: "oneportal",
+                    dataSource: process.env.SEARCH_DATA_SOURCE,
                     documents: chunk
                 };
                 return SearchIndexHelper.index( searchInput, 3);
