@@ -7,6 +7,7 @@ LABEL Name=one-platform-lighthouse-service \
 ADD  . /app
 WORKDIR /app
 USER 1001
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 RUN npm install -g @lhci/cli && \
   npm install --silent && \
   npm run build
