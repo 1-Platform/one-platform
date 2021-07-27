@@ -6,7 +6,8 @@ LABEL Name=one-platform-lighthouse-service \
 # Building the lighthouse microservice
 ADD  . /app
 WORKDIR /app
-USER 1001
+
+ENV NPM_CONFIG_PREFIX=/app/.npm-global
 RUN npm install -g @lhci/cli && \
   npm install --silent && \
   npm run build
