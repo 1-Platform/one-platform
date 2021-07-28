@@ -15,7 +15,7 @@ context( 'Test devloper console', () => {
         cy.get( '#app-path' ).type( 'e2e test automation' )
         cy.get( '#app-desc' ).type( 'e2e test automation' )
         cy.contains( 'Create App' ).click()
-        cy.contains( 'App Created Succssfully!' ).should( 'be.visible' );
+        cy.contains( 'App Created Successfully!' ).should( 'be.visible' );
     } );
 
     it( 'Test for delete the application', () => {
@@ -23,6 +23,6 @@ context( 'Test devloper console', () => {
        cy.contains('Delete this App').click()
        cy.get( '#delete-app', { timeout: 5000 } ).type( 'e2e test automation' )
        cy.contains( 'I understand the consequences, delete this app' ).click()
-       cy.contains( 'App Deleted Succssfully!' ).should( 'be.visible' )
+       cy.contains( 'App Deleted Successfully!' ).should( 'be.visible' )
     } );
 })
