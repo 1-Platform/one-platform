@@ -28,8 +28,7 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/spaship.yaml"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
