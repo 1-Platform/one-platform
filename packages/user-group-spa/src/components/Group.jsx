@@ -47,6 +47,7 @@ function Group ( props ) {
     ] );
 
     return () => updateCrumbs([]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ cn ] );
 
   useEffect( () => {

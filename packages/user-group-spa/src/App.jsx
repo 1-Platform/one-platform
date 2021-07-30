@@ -29,6 +29,7 @@ function App () {
 
   useEffect( () => {
     breadcrumbs.current.opcHeaderBreadcrumb = crumbs;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ crumbs ] );
 
   useEffect( () => {
@@ -36,9 +37,10 @@ function App () {
       {
         name: "Documentation",
         href: "/get-started/docs/apps/internal/user-groups",
-        icon: 'fa-file'
+        icon: "fa-file",
       },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [] );
 
   useEffect( () => {

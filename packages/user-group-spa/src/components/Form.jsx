@@ -24,9 +24,9 @@ function GroupForm () {
     cn: '',
     _id: undefined,
   } );
-  const [ searchText, setSearchText ] = useState( '' );
-  const [ searching, setSearching ] = useState( false );
-  const [ searchResults, setSearchResults ] = useState( [] );
+  // const [ searchText, setSearchText ] = useState( '' );
+  // const [ searching, setSearching ] = useState( false );
+  // const [ searchResults, setSearchResults ] = useState( [] );
   const [ canSubmit, setCanSubmit ] = useState( false );
   const history = useHistory();
 
@@ -39,11 +39,12 @@ function GroupForm () {
       { name: cn ? "Edit" : "Add Group", href: window.location.href },
     ];
     if ( cn ) {
-      crumbs.unshift( { name: cn, href: 'group/' + cn } );
+      crumbs.unshift( { name: cn, href: "group/" + cn } );
     }
     updateCrumbs( crumbs );
 
-    return () => updateCrumbs([]);
+    return () => updateCrumbs( [] );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ cn ] );
 
   useEffect( () => {
@@ -102,12 +103,12 @@ function GroupForm () {
     if ( value !== group.cn ) {
       setGroup( { ...group, cn: value } );
     }
-    setSearchText( value );
+    // setSearchText( value );
   }
 
-  function selectedGroupMembers () {
-    return searchResults.find( res => res.cn === group.cn )?.members;
-  }
+  // function selectedGroupMembers () {
+  //   return searchResults.find( res => res.cn === group.cn )?.members;
+  // }
 
   function submitForm (event) {
     event.preventDefault();
@@ -180,14 +181,14 @@ function GroupForm () {
           placeholder="Enter the Rover/LDAP common name..."
           value={group.cn}
           onChange={searchGroup}
-          resultsCount={searchResults.length || null}
-          onClear={() => setSearchText("")}
+          // resultsCount={searchResults.length || null}
+          // onClear={() => setSearchText("")}
           onKeyDown={(evt) => {
             if (evt.keyCode === 13) {
               evt.preventDefault();
             }
           }}
-          disabled={searching}
+          // disabled={searching}
         ></SearchInput>
       </FormGroup>
 
