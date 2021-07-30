@@ -45,6 +45,7 @@ function Home ( props ) {
 
   useEffect( () => {
     updateCrumbs( [] );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [] );
 
   useEffect( () => {

@@ -44,7 +44,8 @@ function User ( props ) {
     ] );
 
     return () => updateCrumbs( [] );
-  }, [ cn ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ cn ] );
 
   useEffect( () => {
     setLoading( true );
@@ -59,11 +60,12 @@ function User ( props ) {
       } );
     } else {
       window.OpNotification && window.OpNotification.warning( {
-        subject: `Insufficient permissions to view the details for: ${cn}`
+        subject: `Insufficient permissions to view the details for: ${ cn }`
       } );
       history.replace( `/user/${ authUser.kerberosID }` );
     }
     setLoading( false );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ cn ] );
 
   function EmptyMessage() {

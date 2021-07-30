@@ -18,7 +18,8 @@ function NotFound () {
     ] );
 
     return () => updateCrumbs( [] );
-  }, [ ] );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [] );
 
   return (
     <EmptyState variant="xl" isFullHeight>
