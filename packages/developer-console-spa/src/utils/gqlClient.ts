@@ -31,7 +31,6 @@ export default function gqlClient ( { query, variables }: GQLRequestProps, signa
         console.debug( '[GQLClient]: Request aborted' );
         return;
       }
-      console.error( `[GQLClientError]: ${ err }` );
       throw err;
     } );
 };
