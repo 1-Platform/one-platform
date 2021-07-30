@@ -3,3 +3,4 @@ export * from './app-by-appid';
 export * from './new-app';
 export * from './update-app';
 export * from './delete-app';
+export * from './app-feedback-config';

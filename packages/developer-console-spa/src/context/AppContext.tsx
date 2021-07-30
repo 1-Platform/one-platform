@@ -22,7 +22,7 @@ export default function AppContextProvider ( props: any ) {
   }
 
   return (
-    <AppContext.Provider value={ { app, loading, setApp, forceRefreshApp }}>
+    <AppContext.Provider value={ { appId, app, loading, setApp, forceRefreshApp }}>
       {props.children}
     </AppContext.Provider>
   )
