@@ -3,7 +3,7 @@
  * @param {{query: string, variables: object}} body
  */
 export default function FetchClient ( body ) {
-  return fetch( window.UserGroup?.api, {
+  return fetch( process.env.REACT_APP_API_GATEWAY, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`,
