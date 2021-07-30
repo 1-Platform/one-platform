@@ -37,13 +37,15 @@ There are two ways to test a web property with Lighthouse CI
     Refer [Ci Configuration Guide](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md)
 
 * Lighthouse SPA *(beta)*
-
+    #### Testing
     The webui allows you to test the web property with the assertion standards offered by the lighthouse. It also support uploading the lighthouse report to the CI server.
 
-    1. lighthouse:recommended
-    1. lighthouse:all
-    1. lighthouse:no-pwa
+    1. *lighthouse:recommended*
+    1. *lighthouse:all*
+    1. *lighthouse:no-pwa*
 
+    #### Dashboard
+    Lighthouse SPA also provides the consolidated view of the spa and the scores which results from the audits performed.
 
 ### Quick Start Guide for Developers
 
@@ -102,7 +104,14 @@ export LH_SERVER_URL='http://lighthouse.example.com'
  ```
 
 ### Screenshots
+1. Home Page
 ![Lighthouse Home Page](home.png)
+
+2. Properties View
+![Properties Dashboard](properties.png)
+
+3. Scores View
+![Scores View](scores.png)
 
 ## Developers
 
