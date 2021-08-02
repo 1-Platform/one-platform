@@ -7,7 +7,7 @@
     "config": "ts-node set-env.ts",
     "build:dev": "npm run config -- --environment=dev && ng build --watch --base-href /lighthouse/",
     "build": "npm run config -- --environment=prod && ng build --prod --base-href /lighthouse/",
-    "test": "jest --verbose",
+    "test": "jest --verbose --detect-open-handles",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

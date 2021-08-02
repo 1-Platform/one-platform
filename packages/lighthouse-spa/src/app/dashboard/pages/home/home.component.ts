@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DashboardService } from 'app/dashboard/dashboard.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,6 +10,7 @@ import { DashboardService } from 'app/dashboard/dashboard.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  lighthouseContactMail = environment.LH_CONTACT_MAIL;
   loading = true;
   properties: Properties[] = [];
   isEmpty = false;
@@ -49,7 +51,6 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToReportGeneration() {
-    // this.router.navigateByUrl(`/?site_url=${this.sites}`);
     this.router.navigate(['/playground'], {
       queryParams: {
         siteUrl: this.sites,
