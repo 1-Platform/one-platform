@@ -3,50 +3,14 @@
         Measure performance of your application
     </div>
 
-    <div class="pf-l-flex pf-m-nowrap">
-        <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-align-items-center">
-            <div class="lighthouse-step-dot pf-u-ml-4xl pf-u-mr-4xl">
-                <span>1</span>
-            </div>
-            <div class="pf-u-text-align-center pf-u-font-size-lg pf-m-spacer-xs">
-                Run Tests on your site
-            </div>
-            <div class="pf-u-text-align-center pf-u-color-400 pf-u-w-75">
-                Enter your site's url to see how well it performs across all audits.
-            </div>
-        </div>
+    <app-lhtag-line-steps></app-lhtag-line-steps>
 
-        <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-align-items-center">
-            <div class="lighthouse-step-dot pf-u-ml-4xl pf-u-mr-4xl">
-                <span>2</span>
-            </div>
-            <div class="pf-u-text-align-center pf-u-font-size-lg pf-m-spacer-xs">
-                Look at what matters
-            </div>
-            <div class="pf-u-text-align-center pf-u-color-400 pf-u-w-75">
-                See your site's performance across the areas you care about.
-            </div>
-        </div>
-
-        <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-align-items-center">
-            <div class="lighthouse-step-dot pf-u-ml-4xl pf-u-mr-4xl">
-                <span>3</span>
-            </div>
-            <div class="pf-u-text-align-center pf-u-font-size-lg pf-m-spacer-xs">
-                Get tips for improving
-            </div>
-            <div class="pf-u-text-align-center pf-u-color-400 pf-u-w-75">
-                Each test comes with helpful steps to improve your site's results.
-            </div>
-        </div>
-    </div>
-
-    <div class="pf-u-mt-4xl pf-u-mb-md">
+    <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-nowrap pf-u-mt-4xl pf-u-mb-md">
         <div class="pf-l-bullseye">
             <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
                 <input class="pf-c-form-control pf-m-search lighthouse-search" type="search" id="sites" name="sites"
                     aria-label="Enter webpage url" placeholder="Enter web page url with http/https" [(ngModel)]="sites"
-                    required (ngModelChange)="validateUrl($event)" />
+                    (ngModelChange)="validateUrl($event)" />
             </div>
             <div>
                 <button class="pf-c-button pf-m-progress pf-m-primary" type="button" *ngIf="!loading"
@@ -66,15 +30,16 @@
                 </button>
             </div>
         </div>
+        <div class="pf-l-flex pf-m-justify-content-center pf-u-mt-xl pf-m-align-items-center">
+            <div class="pf-u-font-weight-bold">Presets :</div>
+            <span *ngFor="let preset of presets;index as i">
+                <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset">&nbsp;
+                <label for="preset">{{ preset.name }}</label>&nbsp;&nbsp;
+            </span>
+        </div>
     </div>
 
-    <div class="pf-l-flex pf-m-justify-content-center pf-u-mb-xl pf-m-align-items-center">
-        <div class="pf-u-font-weight-bold">Presets :</div>
-        <span *ngFor="let preset of presets;index as i">
-            <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset">&nbsp;
-            <label for="preset">{{ preset.name }}</label>&nbsp;&nbsp;
-        </span>
-    </div>
+
 
     <div *ngIf="showScore" class="pf-u-mb-xl">
         <div class="pf-l-flex pf-m-align-items-center pf-m-justify-content-center">
@@ -85,7 +50,7 @@
         <app-lhcard-legend align="center"></app-lhcard-legend>
     </div>
 
-    <div class="pf-c-code-block pf-u-pb-md lighthouse-code-container">
+    <div class="pf-c-code-block lighthouse-code-container">
         <div class="pf-c-code-block__header lighthouse-code-header">
             <div class="pf-c-code-block__actions">
                 <div class="pf-c-code-block__actions-item">
