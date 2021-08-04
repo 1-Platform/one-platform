@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'environments/environment';
 import { AppService } from 'app/app.service';
+import { ActivatedRoute } from '@angular/router';
+
 const Ansi = require('ansi-to-html');
 @Component({
   selector: 'app-home',
@@ -69,11 +71,22 @@ export class HomeComponent implements OnInit {
   projects = [];
   projectBranches = [];
   property: any = {};
-  constructor(private appService: AppService) {}
+  constructor(private appService: AppService, private router: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.updateProgress();
     this.fetchProjects();
+    window.OpAuthHelper?.onLogin(() => {
+      this.router.queryParams.subscribe((params) => {
+        const siteUrl = params.siteUrl as string;
+        const preset = params.preset;
+        if (siteUrl && preset) {
+          this.sites = siteUrl;
+          this.selectedPreset = preset;
+          this.auditWebsite();
+        }
+      });
+    });
   }
 
   get user(): any {

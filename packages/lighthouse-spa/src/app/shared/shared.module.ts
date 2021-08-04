@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { OutlinedPieGraphComponent } from './components/outlined-pie-graph/outlined-pie-graph.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LHCardLegendComponent } from './components/lhcard-legend/lhcard-legend.component';
+import { LHTagLineStepsComponent } from './components/lhtag-line-steps/lhtag-line-steps.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { LHCardLegendComponent } from './components/lhcard-legend/lhcard-legend.
     OutlinedPieGraphComponent,
     LoaderComponent,
     LHCardLegendComponent,
+    LHTagLineStepsComponent,
   ],
   imports: [CommonModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -20,6 +22,7 @@ import { LHCardLegendComponent } from './components/lhcard-legend/lhcard-legend.
     OutlinedPieGraphComponent,
     LoaderComponent,
     LHCardLegendComponent,
+    LHTagLineStepsComponent,
   ],
 })
 export class SharedModule {}

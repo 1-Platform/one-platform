@@ -1,0 +1,31 @@
+.lighthouse {
+  &-block {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &-code-container {
+    overflow: hidden;
+  }
+
+  &-code-block {
+    height: 40vh;
+    overflow: auto;
+
+    pre {
+      white-space: pre-line;
+    }
+  }
+  &-code-header {
+    position: sticky;
+  }
+  &-search {
+    background-color: #efefef;
+    border-radius: 20px;
+    border: 0;
+    color: #3c3f42;
+    outline: none;
+  }
+}

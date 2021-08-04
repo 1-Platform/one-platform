@@ -1,0 +1,73 @@
+<div class="pf-l-flex pf-m-justify-content-space-between pf-m-column pf-u-p-lg pf-u-h-100 pf-m-nowrap">
+    <div class="pf-l-flex__item pf-u-text-align-center pf-u-font-size-2xl pf-u-mt-xl pf-u-mb-4xl">
+        Measure performance of your application
+    </div>
+
+    <app-lhtag-line-steps></app-lhtag-line-steps>
+
+    <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-nowrap pf-u-mt-4xl pf-u-mb-md">
+        <div class="pf-l-bullseye">
+            <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
+                <input class="pf-c-form-control pf-m-search lighthouse-search" type="search" id="sites" name="sites"
+                    aria-label="Enter webpage url" placeholder="Enter web page url with http/https" [(ngModel)]="sites"
+                    (ngModelChange)="validateUrl($event)" />
+            </div>
+            <div>
+                <button class="pf-c-button pf-m-progress pf-m-primary" type="button" [disabled]="!validUrl"
+                    (click)="navigateToReportGeneration()">
+                    Generate Report
+                </button>
+            </div>
+        </div>
+        <div class="pf-l-flex pf-m-justify-content-center pf-u-my-xl pf-m-align-items-center">
+            <div class="pf-u-font-weight-bold">Presets :</div>
+            <span *ngFor="let preset of presets;index as i">
+                <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset">&nbsp;
+                <label for="preset">{{ preset.name }}</label>&nbsp;&nbsp;
+            </span>
+        </div>
+    </div>
+
+    <div class="pf-l-flex pf-m-grow pf-m-column">
+
+        <div class="pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center loading-container"
+            *ngIf="loading">
+            <app-loader title="Loading...">
+            </app-loader>
+        </div>
+        <div class="pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center"
+            *ngIf="!loading && isEmpty">
+            <div class="pf-c-empty-state pf-m-xs">
+                <div class="pf-c-empty-state__content">
+                    <i class="fas fa-cubes pf-c-empty-state__icon" aria-hidden="true"></i>
+                    <h1 class="pf-c-title pf-m-md">
+                        No data found
+                    </h1>
+                    <div class="pf-c-empty-state__body">
+                        Contact<a href="mailto:{{lighthouseContactMail}}">
+                            {{lighthouseContactMail}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pf-l-grid pf-m-gutter" *ngIf="!(loading && isEmpty)">
+            <div class="pf-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md pf-m-3-col-on-lg"
+                *ngFor="let property of properties">
+                <a [routerLink]="'./'+property.id">
+                    <app-property-card>
+                        <img src="assets/containers.svg" icon />
+                        <div class="pf-l-flex pf-m-align-center" [title]>
+                            <div class="pf-l-flex__item">
+                                <h1 class="pf-c-title pf-m-md pf-u-font-weight-bold" [title]>{{property.name}}</h1>
+                            </div>
+                            <div class="pf-l-flex__item">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </app-property-card>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
