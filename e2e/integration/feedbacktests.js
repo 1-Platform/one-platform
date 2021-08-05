@@ -1,7 +1,7 @@
 context( 'Test feedback form', () => {
 
     before( () => {
-        cy.visit( Cypress.env( 'QA_HOST' ) );
+        cy.visit( Cypress.env( 'STAGE_HOST' ) );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
@@ -35,7 +35,7 @@ context( 'Test feedback form', () => {
     } );
 
     it( 'Test if feedback and bug counts are visible in view existing feedback section', () => {
-        cy.visit( Cypress.env( 'QA_HOST' ) + 'feedback' );
+        cy.visit( Cypress.env( 'STAGE_HOST' ) + 'feedback' );
         cy.get( '#username', { timeout: 20000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
@@ -56,40 +56,41 @@ context( 'Test feedback form', () => {
             cy.get( '.pf-u-display-flex' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.get( '.feedback-experience' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.get( '.feedback-assignees' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-        })
-    } )
+        } );
+    } );
 
     it( 'Test for expansion of feedback from feedback list', () => {
         cy.get( '.feedback-item' ).should( 'be.visible' ).first().within( () => {
-            cy.get( '.feedback-title' ).should( 'be.visible' ).click()
+            cy.get( '.feedback-title' ).should( 'be.visible' ).click();
             cy.get( '.feedback-description' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.get( '.pf-u-display-flex' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.get( '.pf-u-font-size-sm' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.contains( 'View Details' ).should( 'be.visible' )
-            cy.get( `a[ href *= "${ Cypress.env('JIRA')}"]`).should( 'have.text', 'JIRA Link ' );
-        })
-    } )
+            cy.contains( 'View Details' ).should( 'be.visible' );
+            cy.get( `a[ href *= "${ Cypress.env( 'JIRA' ) }"]` ).should( 'have.text', 'JIRA Link ' );
+        } );
+    } );
 
     it( 'Test for search feedback from feedback list', () => {
         cy.get( '#input-search' ).type( 'test' );
         cy.get( '.feedback-item' ).should( 'be.visible' ).each( () => {
             cy.get( '.feedback-title' ).should( 'include.text', 'test' );
         } );
-    } )
+        cy.get( '#input-search' ).clear();
+    } );
 
     it( 'Test for pagination in feedback list', () => {
         //Go to next page validation
         cy.get( '.feedback-item' ).should( 'be.visible' ).first().invoke( 'text' ).then( ( BeforeNextPage ) => {
             cy.get( 'button[aria-label="Go to next page"]' ).click();
             cy.get( '.feedback-item' ).first().invoke( 'text' ).then( ( AfterNextPage ) => {
-            expect( BeforeNextPage ).not.to.eq( AfterNextPage );
-                } );
+                expect( BeforeNextPage ).not.to.eq( AfterNextPage );
+            } );
         } );
         cy.get( 'button[aria-label="Go to previous page"]' ).click();
         //per Page items division validation
         cy.get( '.feedback-item' ).should( 'be.visible' ).should( 'have.length', 10 );
-        cy.get( '#perPage' ).select('5 per page');
+        cy.get( '#perPage' ).select( '5 per page' );
         cy.get( '.feedback-item' ).should( 'be.visible' ).should( 'have.length', 5 );
-    })
+    } );
 
 } );
