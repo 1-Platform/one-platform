@@ -46,14 +46,13 @@ function AppSettings () {
     updateAppService( editableApp )
       .then( updatedApp => {
         forceRefreshApp( updatedApp );
-        window.OpNotification.success( { subject: 'App Updated Succssfully!' } );
+        window.OpNotification?.success( { subject: 'App Updated Successfully!' } );
       } )
       .catch( err => {
-        window.OpNotification.danger( { subject: 'An error occured when updating the App.', body: 'Please try again later.' } );
+        window.OpNotification?.danger( { subject: 'An error occurred when updating the App.', body: 'Please try again later.' } );
         console.error( err );
       } );
   }
-
 
   const handleAppDeactivateToggle = () => {
     /* TODO: gqlQuery for toggling `isActive` */
@@ -63,11 +62,11 @@ function AppSettings () {
     event.preventDefault();
     deleteAppService( app.id )
       .then( () => {
-        window.OpNotification.success( { subject: 'App Deleted Succssfully!' } );
+        window.OpNotification?.success( { subject: 'App Deleted Successfully!' } );
         history.push( '/' );
       } )
       .catch( err => {
-        window.OpNotification.danger( { subject: 'An error occured when deleting the App.', body: 'Please try again later.' } );
+        window.OpNotification?.danger( { subject: 'An error occurred when deleting the App.', body: 'Please try again later.' } );
         console.error( err );
       } );
   }
