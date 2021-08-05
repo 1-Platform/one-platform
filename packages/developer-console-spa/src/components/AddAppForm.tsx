@@ -39,11 +39,11 @@ export default function AppAppForm () {
     gqlClient( { query: newApp, variables: { app } } )
       .then( res => {
         if ( res?.data?.app ) {
-          window.OpNotification.success( { subject: 'App Created Succssfully!' } );
+          window.OpNotification?.success( { subject: 'App Created Successfully!' } );
           history.push( res.data.app.appId );
         }
       } ).catch( err => {
-        window.OpNotification.danger( { subject: 'An error occured when deleting the App.', body: 'Please try again later.' } );
+        window.OpNotification?.danger( { subject: 'An error occurred when creating the App.', body: 'Please try again later.' } );
         console.error( err );
       });
   }
