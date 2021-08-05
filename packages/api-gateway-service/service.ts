@@ -13,8 +13,11 @@ import cors from 'cors';
 import { validate as uuidValidate } from 'uuid';
 import { stitchedSchemas } from './src/stitch-schema';
 import { verifyAPIKey, verifyJwtToken } from './src/verify-token';
+import path from 'path';
 
-/* Setting port for the server */
+/* Setting base url and port for the server */
+const baseUrl = process.env.BASE_URL ?? '/';
+const subsciptionsBaseUrl = process.env.SUBSCRIPTIONS_BASE_URL ?? path.join( baseUrl, '/subscriptions' );
 const port = process.env.PORT || 4000;
 
 const app = express();
@@ -55,18 +58,13 @@ stitchedSchemas()
   .then( schema => {
     /* Defining the Apollo Server */
     const apollo = new ApolloServer( {
+      subscriptions: {
+        path: subsciptionsBaseUrl,
+      },
       schema,
       context,
       introspection: true,
-      formatError: error => ( {
-        message: error.message,
-        locations: error.locations,
-        path: error.path,
-        ...error.extensions,
-      } ),
-      subscriptions: {
-        path: '/subscriptions',
-      },
+      tracing: process.env.NODE_ENV !== 'production',
       playground: <any>{
         title: 'API Gateway',
         settings: {
@@ -86,11 +84,16 @@ stitchedSchemas()
           }
         }
       ],
-      tracing: process.env.NODE_ENV !== 'production',
+      formatError: error => ( {
+        message: error.message,
+        locations: error.locations,
+        path: error.path,
+        ...error.extensions,
+      } ),
     } );
 
     /* Applying apollo middleware to express server */
-    apollo.applyMiddleware( { app } );
+    apollo.applyMiddleware( { app, path: baseUrl } );
     apollo.installSubscriptionHandlers( server );
   } )
   .catch( err => {

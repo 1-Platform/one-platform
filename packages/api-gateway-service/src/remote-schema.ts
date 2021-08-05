@@ -31,9 +31,6 @@ function getSubscriber ( url: string, serviceName: string ): Subscriber {
         connectionParams: {
           'X-OP-User-ID': context?.uid,
           'From': 'OP-API-GATEWAY',
-        },
-        connectionCallback: ( err, res ) => {
-          console.log( err, res );
         }
       },
       ws
