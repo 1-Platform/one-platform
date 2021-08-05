@@ -27,7 +27,7 @@ export const microservicesDesc = [
 ];
 
 export const microservicesReadmore = [
-    "/get-started/docs/microservices/authorization-service/",
+    "/get-started/docs/microservices/authorization/",
     "/get-started/docs/microservices/feedback-service/",
     "/get-started/docs/microservices/notifications-service/",
     "/get-started/docs/microservices/user-groups-service/",
