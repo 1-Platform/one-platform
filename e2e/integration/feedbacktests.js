@@ -1,7 +1,7 @@
 context( 'Test feedback form', () => {
 
     before( () => {
-        cy.visit( Cypress.env( 'STAGE_HOST' ) );
+        cy.visit( Cypress.env( 'QA_HOST' ) );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
@@ -35,7 +35,7 @@ context( 'Test feedback form', () => {
     } );
 
     it( 'Test if feedback and bug counts are visible in view existing feedback section', () => {
-        cy.visit( Cypress.env( 'STAGE_HOST' ) + 'feedback' );
+        cy.visit( Cypress.env( 'QA_HOST' ) + 'feedback' );
         cy.get( '#username', { timeout: 20000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
