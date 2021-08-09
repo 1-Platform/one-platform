@@ -24,10 +24,18 @@
                 </ol>
             </nav>
         </div>
-        <div class="pf-l-flex pf-m-grow pf-m-align-items-center pf-m-column pf-u-w-100 pf-u-py-md">
-            <div id="apps-score-card" class="pf-l-flex pf-m-column pf-u-w-75" *ngFor="let app of apps">
-                <div class="pf-l-flex__item pf-c-content">
-                    <h3 class="capitialize">{{app.name}}</h3>
+        <div class="pf-l-flex pf-m-grow pf-m-align-items-center pf-m-column pf-u-w-100 pf-u-py-md pf-m-space-items-2xl">
+            <div id="apps-score-card" class="pf-l-flex pf-m-column pf-u-w-75 pf-m-space-items-sm"
+                *ngFor="let app of apps">
+                <div class="pf-l-flex__item pf-l-flex pf-c-content">
+                    <div class="capitialize pf-l-flex__item pf-u-font-size-lg pf-u-color-100">
+                        {{app.name}}
+                    </div>
+                    <div class="pf-l-flex__item pf-m-grow"></div>
+                    <div class="pf-l-flex__item pf-u-font-size-sm pf-u-color-300">
+                        Last Report generated at:{{" "}}{{scoreLoading ?"..." :scores[app.id].data.updatedAt |
+                        date:"MMM dd, YY"}}
+                    </div>
                 </div>
                 <div class="pf-l-flex__item">
                     <div class="pf-c-card score-card">
@@ -41,7 +49,7 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="!scoreLoading">
-                                    <div class="pf-l-flex__item" *ngFor="let score of scores[app.id]">
+                                    <div class="pf-l-flex__item" *ngFor="let score of scores[app.id].scores">
                                         <app-outlined-pie-graph score={{score.score}} name={{score.label}}>
                                         </app-outlined-pie-graph>
                                     </div>

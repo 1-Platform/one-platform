@@ -31,9 +31,23 @@ nav {
   margin-right: 1px;
   overflow: hidden;
   border-right: 1px solid rgb(210, 210, 210);
+
+  .footer {
+    & > div:not(:last-child) {
+      margin-bottom: 12px;
+    }
+    .cursor {
+      cursor: pointer;
+    }
+  }
 }
 
 .icon {
   font-size: 12px;
   margin-left: 12px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }

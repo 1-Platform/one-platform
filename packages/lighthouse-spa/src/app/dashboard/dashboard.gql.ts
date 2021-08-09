@@ -33,6 +33,7 @@ export const ListLHPropertyScores = (
     app${id}:listLHProjectBuilds(projectID:$projectId,branch:"${branch}",limit:1){
       id
       projectId
+      updatedAt
       score{
         pwa
         accessibility

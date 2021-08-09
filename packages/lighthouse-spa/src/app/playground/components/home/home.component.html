@@ -1,54 +1,52 @@
-<section class="lighthouse-block">
-    <div class=" pf-u-text-align-center pf-u-font-size-2xl pf-u-mt-xl pf-u-mb-4xl">
-        Measure performance of your application
-    </div>
-
-    <app-lhtag-line-steps></app-lhtag-line-steps>
-
-    <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-nowrap pf-u-mt-4xl pf-u-mb-md">
-        <div class="pf-l-bullseye">
-            <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
-                <input class="pf-c-form-control pf-m-search lighthouse-search" type="search" id="sites" name="sites"
-                    aria-label="Enter webpage url" placeholder="Enter web page url with http/https" [(ngModel)]="sites"
-                    (ngModelChange)="validateUrl($event)" />
+<section class="pf-l-flex pf-m-column pf-m-nowrap pf-m-justify-content-space-between pf-u-h-100">
+    <div class="pf-l-flex__item pf-l-flex pf-m-grow pf-m-column pf-m-nowrap pf-m-justify-content-space-around">
+        <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-nowrap pf-u-w-100">
+            <div class=" pf-u-text-align-center pf-u-font-size-2xl pf-u-mt-xl pf-u-mb-">
+                Measure performance of your application
             </div>
-            <div>
-                <button class="pf-c-button pf-m-progress pf-m-primary" type="button" *ngIf="!loading"
-                    [disabled]="!validUrl" (click)="auditWebsite()">
-                    Generate Report
-                </button>
+            <div class="pf-l-bullseye">
+                <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
+                    <input class="pf-c-form-control pf-m-search lighthouse-search" type="search" id="sites" name="sites"
+                        aria-label="Enter webpage url" placeholder="Enter web page url with http/https"
+                        [(ngModel)]="sites" (ngModelChange)="validateUrl($event)" />
+                </div>
+                <div>
+                    <button class="pf-c-button pf-m-progress pf-m-primary" type="button" *ngIf="!loading"
+                        [disabled]="!validUrl" (click)="auditWebsite()">
+                        Generate Report
+                    </button>
 
-                <button class="pf-c-button pf-m-progress pf-m-in-progress pf-m-primary" type="button" *ngIf="loading">
-                    <span class="pf-c-button__progress">
-                        <span class="pf-c-spinner pf-m-md" role="progressbar" aria-valuetext="Loading...">
-                            <span class="pf-c-spinner__clipper"></span>
-                            <span class="pf-c-spinner__lead-ball"></span>
-                            <span class="pf-c-spinner__tail-ball"></span>
+                    <button class="pf-c-button pf-m-progress pf-m-in-progress pf-m-primary" type="button"
+                        *ngIf="loading">
+                        <span class="pf-c-button__progress">
+                            <span class="pf-c-spinner pf-m-md" role="progressbar" aria-valuetext="Loading...">
+                                <span class="pf-c-spinner__clipper"></span>
+                                <span class="pf-c-spinner__lead-ball"></span>
+                                <span class="pf-c-spinner__tail-ball"></span>
+                            </span>
                         </span>
-                    </span>
-                    Generating Report
-                </button>
+                        Generating Report
+                    </button>
+                </div>
+            </div>
+            <div class="pf-l-flex pf-m-justify-content-center pf-m-align-items-center">
+                <div class="pf-u-font-weight-bold">Presets :</div>
+                <span *ngFor="let preset of presets;index as i">
+                    <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset">&nbsp;
+                    <label for="preset">{{ preset.name }}</label>&nbsp;&nbsp;
+                </span>
             </div>
         </div>
-        <div class="pf-l-flex pf-m-justify-content-center pf-u-mt-xl pf-m-align-items-center">
-            <div class="pf-u-font-weight-bold">Presets :</div>
-            <span *ngFor="let preset of presets;index as i">
-                <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset">&nbsp;
-                <label for="preset">{{ preset.name }}</label>&nbsp;&nbsp;
-            </span>
+        <div *ngIf="showScore">
+            <div class="pf-l-flex pf-m-align-items-center pf-m-justify-content-center">
+                <app-outlined-pie-graph *ngFor="let report of lhciScores" score={{report.score}} name={{report.name}}
+                    type={{report.class}}>
+                </app-outlined-pie-graph>
+            </div>
+            <app-lhcard-legend align="center"></app-lhcard-legend>
         </div>
     </div>
 
-
-
-    <div *ngIf="showScore" class="pf-u-mb-xl">
-        <div class="pf-l-flex pf-m-align-items-center pf-m-justify-content-center">
-            <app-outlined-pie-graph *ngFor="let report of lhciScores" score={{report.score}} name={{report.name}}
-                type={{report.class}}>
-            </app-outlined-pie-graph>
-        </div>
-        <app-lhcard-legend align="center"></app-lhcard-legend>
-    </div>
 
     <div class="pf-c-code-block lighthouse-code-container">
         <div class="pf-c-code-block__header lighthouse-code-header">
