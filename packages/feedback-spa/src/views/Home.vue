@@ -323,7 +323,7 @@ export default {
         link.setAttribute('href', data)
         link.setAttribute('download', 'Feedback.csv')
         link.click()
-        window.OpNotification.success({ 
+        window.OpNotification?.success({ 
           subject: 'Export sucessfully completed',
         })
       })
