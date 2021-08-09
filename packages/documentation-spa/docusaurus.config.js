@@ -38,7 +38,7 @@ module.exports = {
               href: 'https://mojo.redhat.com/groups/pnt-devops/projects/one-portal',
             },
             {
-              label: 'Weekly Blog',
+              label: 'Monthly Blog',
               to: 'blog',
             },
             {
