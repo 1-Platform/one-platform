@@ -34,11 +34,11 @@ module.exports = {
           title: 'QUICK LINKS',
           items: [
             {
-              label: 'One Platform in Mojo',
-              href: 'https://mojo.redhat.com/groups/pnt-devops/projects/one-portal',
+              label: 'One Platform in Source',
+              href: 'https://source.redhat.com/groups/public/exd-digital-experience-platforms/exd_digital_experience_platforms_dxp_blog/part_i_why_one_platform_to_host_your_applications',
             },
             {
-              label: 'Weekly Blog',
+              label: 'Monthly Blog',
               to: 'blog',
             },
             {
