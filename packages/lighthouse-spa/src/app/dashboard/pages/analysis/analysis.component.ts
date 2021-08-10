@@ -9,7 +9,7 @@ import { DashboardService } from 'app/dashboard/dashboard.service';
 })
 export class AnalysisComponent implements OnInit {
   apps: PropertyApps[] = [];
-  scores: Record<string, CardScore[]> = {};
+  scores: Record<string, Card> = {};
   title = '';
   appListLoading = true;
   scoreLoading = true;
@@ -33,13 +33,17 @@ export class AnalysisComponent implements OnInit {
             .getLHPropertyScores(projectId, apps)
             .valueChanges.subscribe(({ data, loading }) => {
               Object.entries(data).map(([id, appLatestBuild]) => {
+                const updatedAt = appLatestBuild[0].updatedAt;
                 const buildScore = this.getAverageScore(
                   appLatestBuild[0].score
                 );
                 const originalId = id.slice(3);
                 this.scoreLoading = loading;
 
-                this.scores[originalId] = this.scoreFormater(buildScore);
+                this.scores[originalId] = {
+                  data: { updatedAt },
+                  scores: this.scoreFormater(buildScore),
+                };
               });
             });
         });

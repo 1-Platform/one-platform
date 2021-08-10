@@ -22,7 +22,15 @@ type Score = {
 type PropertyBuilds = {
   id: string;
   projectId: string;
+  updatedAt: string;
   score: Score[];
+};
+
+type Card = {
+  data: {
+    updatedAt: string;
+  };
+  scores: CardScore[];
 };
 
 type CardScore = {

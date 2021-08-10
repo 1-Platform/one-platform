@@ -8,6 +8,20 @@ import { environment } from 'environments/environment';
 })
 export class AppLayoutComponent implements OnInit {
   lighthouseServerUrl = environment.LH_SERVER_URL;
+  sidebarFooterLinks = [
+    {
+      href: '/get-started/docs',
+      title: 'Docs',
+    },
+    {
+      href: '/get-started/blog',
+      title: 'Blogs',
+    },
+    {
+      href: '/contact-us',
+      title: 'Contact us',
+    },
+  ];
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
@@ -19,5 +33,9 @@ export class AppLayoutComponent implements OnInit {
         ? this.router.url
         : this.router.url.slice(0, queryParamsIndex);
     return baseUrl === url;
+  }
+
+  handleComingSoon() {
+    window.OpNotification?.info({ subject: 'Coming soon...' });
   }
 }

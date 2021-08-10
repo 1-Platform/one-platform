@@ -1,3 +1,7 @@
 .score-card {
-  transition: all 0.5s linear;
+  transition: all 0.12s linear;
+
+  &:hover {
+    box-shadow: 0 3px 6px #00000029;
+  }
 }

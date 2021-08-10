@@ -1,33 +1,51 @@
 <div class="app-layout-container pf-l-flex pf-m-nowrap pf-m-column pf-m-space-items-none">
     <div class="pf-l-flex__item pf-m-grow">
         <div class="pf-l-grid pf-u-h-100 ">
-            <div class="pf-l-grid__item pf-m-2-col sidebar">
-                <nav class="pf-c-nav pf-m-light" aria-label="Global">
-                    <ul class="pf-c-nav__list">
-                        <li class="pf-c-nav__item">
-                            <a routerLink="/" class="pf-c-nav__link" aria-current="page"
-                                [class.pf-m-current]="isLinkActive('/')">Home</a>
-                        </li>
-                        <li class="pf-c-nav__item">
-                            <a routerLink="/playground" class="pf-c-nav__link"
-                                [class.pf-m-current]="isLinkActive('/playground')">Playground</a>
-                        </li>
+            <div class="pf-l-grid__item pf-m-2-col sidebar pf-l-flex pf-m-nowrap pf-m-column">
+                <div class="pf-l-flex__item">
+                    <nav class="pf-c-nav pf-m-light" aria-label="Global">
+                        <ul class="pf-c-nav__list">
+                            <li class="pf-c-nav__item">
+                                <a routerLink="/" class="pf-c-nav__link" aria-current="page"
+                                    [class.pf-m-current]="isLinkActive('/')">Home</a>
+                            </li>
+                            <li class="pf-c-nav__item">
+                                <a routerLink="/playground" class="pf-c-nav__link"
+                                    [class.pf-m-current]="isLinkActive('/playground')">Playground</a>
+                            </li>
 
-                        <li class=" pf-c-nav__item">
-                            <a [href]="lighthouseServerUrl" class="pf-c-nav__link pf-l-flex pf-m-align-items-center"
-                                routerLinkActive="pf-m-current" target="_blank" rel="noreferrer noopener"
-                                [routerLinkActiveOptions]="{exact:true}">Lighthouse
-                                CI
-                                <i class="fas fa-external-link-alt icon"></i>
-                            </a>
-                        </li>
-                        <li class="pf-c-nav__item">
-                            <a href="/get-started/docs/apps/internal/lighthouse/lighthouse-spa" class="pf-c-nav__link"
-                                target="_blank" rel="noreferrer noopener" aria-current="page"
-                                routerLinkActive="pf-m-current">Documentation</a>
-                        </li>
-                    </ul>
-                </nav>
+                            <li class=" pf-c-nav__item">
+                                <a [href]="lighthouseServerUrl" class="pf-c-nav__link pf-l-flex pf-m-align-items-center"
+                                    routerLinkActive="pf-m-current" target="_blank" rel="noreferrer noopener"
+                                    [routerLinkActiveOptions]="{exact:true}">Lighthouse
+                                    CI
+                                    <i class="fas fa-external-link-alt icon"></i>
+                                </a>
+                            </li>
+                            <li class="pf-c-nav__item">
+                                <a href="/get-started/docs/apps/internal/lighthouse" class="pf-c-nav__link"
+                                    target="_blank" rel="noreferrer noopener" aria-current="page"
+                                    routerLinkActive="pf-m-current">Documentation</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="pf-m-grow"></div>
+                <div
+                    class="pf-l-flex__item pf-l-flex pf-m-nowrap pf-m-column pf-u-font-size-sm pf-u-font-weight-bold pf-u-color-300 pf-u-p-md footer">
+                    <div class="pf-l-flex__item cursor" (click)="handleComingSoon()">
+                        About One Platform
+                    </div>
+                    <div class="pf-l-flex__item pf-l-flex pf-m-nowrap">
+                        <div class="pf-l-flex__item" *ngFor="let links of sidebarFooterLinks">
+                            <a href="{{links.href}}" target="_blank" rel="noreferrer noopener"
+                                aria-current="page">{{links.title}}</a>
+                        </div>
+                    </div>
+                    <div class="pf-u-color-400 pf-u-font-weight-light">
+                        © 2021 RedHat Inc.
+                    </div>
+                </div>
             </div>
             <div class="pf-l-grid__item pf-m-10-col">
                 <ng-content></ng-content>

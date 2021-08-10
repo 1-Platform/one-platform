@@ -10,10 +10,11 @@ const targetPath = isProduction
     : `./src/environments/environment.ts`;
 const environmentFileContent = `
 export const environment = {
-   production: ${ isProduction },
-   API_URL: '${ process.env.API_URL }',
-   WS_URL: '${ process.env.WS_URL }',
-   LH_SERVER_URL: '${process.env.LH_SERVER_URL}'
+   production: ${isProduction},
+   API_URL: '${process.env.API_URL}',
+   WS_URL: '${process.env.WS_URL}',
+   LH_SERVER_URL: '${process.env.LH_SERVER_URL}',
+   LH_CONTACT_MAIL: '${process.env.LH_CONTACT_MAIL}'
 };
 `;
 // write the content to the respective file
