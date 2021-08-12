@@ -10,4 +10,4 @@ function introspectionProvider ( query: any, authorizationToken: string ) {
     body: JSON.stringify({ query: query }),
   }).then((response) => response.json());
 }
-export const GraphqlApiView = () => <Voyager introspection={ introspectionProvider } workerURI={ 'https://unpkg.com/graphql-voyager@1.0.0-rc.31/dist/voyager.worker.js'} />
+export const GraphqlApiView = () => <Voyager introspection={ introspectionProvider } workerURI='https://unpkg.com/graphql-voyager@1.0.0-rc.31/dist/voyager.worker.js' />

@@ -7,7 +7,7 @@ import '@patternfly/react-core/dist/styles/base.css';
 import 'swagger-ui-react/swagger-ui.css';
 import 'graphql-voyager/dist/voyager.css';
 
-if ( !(window as any).OpAuthHelper ) {
+if ( !window.OpAuthHelper ) {
   ReactDOM.render(
     <React.StrictMode>
       <App />
@@ -15,7 +15,7 @@ if ( !(window as any).OpAuthHelper ) {
     document.getElementById( 'root' )
   );
 } else {
-  (window as any).OpAuthHelper.onLogin( () => {
+  window.OpAuthHelper.onLogin( () => {
     ReactDOM.render(
     <React.StrictMode>
       <App />
