@@ -1,0 +1,43 @@
+.code-block--container {
+  --pf-l-stack--m-gutter--MarginBottom: 0.5rem;
+}
+
+.code-block--container pre {
+  white-space: pre;
+}
+
+.code-block {
+  background-color: #fafafa;
+  position: relative;
+  border: 0.5px solid #efefef;
+}
+
+.code-block--content {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.code-block--btn-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  transition: 120ms ease-in-out;
+}
+
+.code-block--content:hover .code-block--btn-container {
+  opacity: 1;
+}
+
+.code-block--copy-btn {
+  margin: 0.75rem;
+  font-size: 1.25rem;
+  --pf-c-button--m-plain--BackgroundColor: #fafaea;
+  --pf-c-button--m-plain--hover--BackgroundColor: #fafafa;
+  --pf-c-button--m-plain--active--BackgroundColor: #fafafa;
+  padding: 0;
+}
+
+.code-block--copy-btn ion-icon {
+  pointer-events: none;
+}
