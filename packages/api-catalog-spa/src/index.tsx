@@ -7,23 +7,15 @@ import '@patternfly/react-core/dist/styles/base.css';
 import 'swagger-ui-react/swagger-ui.css';
 import 'graphql-voyager/dist/voyager.css';
 
-if ( !window.OpAuthHelper ) {
+const renderApp = () => {
   ReactDOM.render(
     <React.StrictMode>
       <App />
     </React.StrictMode>,
-    document.getElementById( 'root' )
+    document.getElementById("root")
   );
-} else {
-  window.OpAuthHelper.onLogin( () => {
-    ReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    document.getElementById( 'root' )
-  );
-  } );
 }
+window.OpAuthHelper ? window.OpAuthHelper.onLogin(renderApp) : renderApp();
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
