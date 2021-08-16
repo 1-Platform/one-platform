@@ -18,6 +18,36 @@ context( 'Test devloper console', () => {
         cy.contains( 'App Created Successfully!' ).should( 'be.visible' );
     } );
 
+    it( 'Test for header section of feedback page', () => {
+        cy.get( '.app-details--sidebar--main-nav' ).within( () => {
+            cy.contains('Feedback').click();
+        } )
+        cy.get( '.container', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
+            cy.get( '.pf-c-card__body' ).should( 'contain.text', 'Configure Feedback')
+        } )
+    } );
+
+    it( 'Test for feedback target header', () => {
+        cy.get( '.pf-c-form' ).within( () => {
+            cy.get( '.pf-c-form__label-text' ).first().should( 'have.text','Feedback Target')
+        } )
+    } )
+
+    it( 'Test for feedback target help circle', () => {
+        cy.get('[name=help-circle-outline]').click()
+        cy.contains( 'The target where the feeback should be submitted as an issue or a ticket.' ).should('be.visible')
+    } )
+
+    it( 'Test for selecting feedback target and save it', () => {
+        cy.get( '.pf-c-form' ).within( () => {
+            cy.contains( 'JIRA' ).click()
+            cy.get( '#projectKey' ).type( 'Test' )
+            cy.get( '#feedbackEmail' ).type( 'Test' )
+            cy.get( '[aria-disabled="true"]' ).should( 'be.visible' );
+            cy.contains( 'Save' ).click()
+        } )
+    })
+
     it( 'Test for update the application', () => {
         cy.contains( 'App Settings' ).click();
         cy.get( '#name' ).clear().type( 'e2e test automation update' );

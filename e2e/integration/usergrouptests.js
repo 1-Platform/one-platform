@@ -10,14 +10,21 @@ context( 'Test for UserGroup', () => {
         return false;
     } );
 
-    it( 'Test for header section', () => {
+    it( 'Test for top header section', () => {
         cy.get( '.app' ).within( () => {
             cy.get( '.opc-header' ).within( () => {
                 cy.get( '.opc-header__top-row--header-name' ).should( 'contain.text', 'User Group SPA' )
-                cy.get( '.opc-header__bottom-row' ).should( 'be.visible' )
                 })
             })
-        } );
+    } );
+
+    it( 'Test for bottom header section', () => {
+        cy.get( '.app' ).within( () => {
+            cy.get( '.opc-header' ).within( () => {
+                cy.get( '.opc-header__bottom-row' ).should( 'be.visible' );
+            } );
+        } )
+    })
 
     it( 'Test for search user group by name', () => {
         cy.get( '#searchText' ).type( 'DSAL Admins' )
@@ -53,28 +60,40 @@ context( 'Test for UserGroup', () => {
         cy.contains( 'Could not create the group').should('be.visible')
     } )
 
-    it( 'Test for my profile', () => {
-        cy.contains( 'My Profile' ).click()
-        cy.get( '.pf-c-toolbar__item' ).should( 'have.text', 'one-portal-test sso-tester' )
-        cy.get( '.pf-c-description-list__group' ).first().within( () => {
-            cy.get('.pf-c-description-list__term').should('have.text','Title')
-        } )
-        cy.get( '.pf-c-description-list__group' ).eq( 1 ).within( () => {
-            cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Email' )
-            cy.get( '.pf-c-description-list__description' ).should( 'have.text', 'one-portal-test@redhat.com' )
+   //Test for my profile
+    it( 'Test for my profile name', () => {
+        cy.contains( 'My Profile' ).click();
+        cy.get( '.pf-c-toolbar__item' ).should( 'have.text', 'one-portal-test sso-tester' );
+    })
+
+    it( 'Test for my profile title', () => {
+            cy.get( '.pf-c-description-list__group' ).first().within( () => {
+                cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Title' );
+            } );
+    } )
+
+    it( 'Test for my profile Email', () => {
+            cy.get( '.pf-c-description-list__group' ).eq( 1 ).within( () => {
+                cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Email' );
+                cy.get( '.pf-c-description-list__description' ).should( 'have.text', 'one-portal-test@redhat.com' );
+            } );
+    } )
+
+        it( 'Test for my profile Kerberos ID', () => {
+            cy.get( '.pf-c-description-list__group' ).eq( 2 ).within( () => {
+                cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Kerberos ID' );
+                cy.get( '.pf-c-description-list__description' ).should( 'have.text', 'one-portal-test' );
+            } );
         } )
 
-        cy.get( '.pf-c-description-list__group' ).eq( 2 ).within( () => {
-            cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Kerberos ID' );
-            cy.get( '.pf-c-description-list__description' ).should( 'have.text', 'one-portal-test' );
-        } )
-
+    it( 'Test for my profile Rover Group', () => {
         cy.get( '.pf-c-description-list__group' ).eq( 3 ).within( () => {
             cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Rover Groups' );
             cy.get( '.pf-c-description-list__description' ).should( 'have.text', 'uma_authorization' );
-        } )
-        cy.get( '.pf-c-accordion' ).should( 'have.text','Authorization & API PermissionsUnder Development')
+        } );
+    } )
 
+    it( 'Test for my profile Authorization Section', () => {
+        cy.get( '.pf-c-accordion' ).should( 'have.text', 'Authorization & API PermissionsUnder Development' );
     })
-
 })
