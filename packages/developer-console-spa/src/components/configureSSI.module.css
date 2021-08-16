@@ -1,0 +1,17 @@
+.ssi-theme--image {
+  transition: 120ms ease-in-out;
+  border: 2px solid #ececec;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.ssi-theme--image[active-theme],
+.ssi-theme--image:hover {
+  border: 3px solid #0066cc;
+}
