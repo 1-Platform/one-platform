@@ -20,20 +20,31 @@ context( 'Test for SSI', () => {
         } );
     } );
 
-    it( 'Test for User Profile Section', () => {
+    //Tests for User Profile Section
+    it( 'Test for User Profile Icon', () => {
         cy.get( '.op-nav-wrapper' ).within( () => {
             cy.get( '.op-menu__item' ).last().click();
         } );
         cy.get( '#op-menu-drawer' ).should( 'be.visible' ).within( () => {
-            //user profile icon
             cy.get( '.op-user-profile-icon' ).should( 'be.visible' );
-            //User profile name
-            cy.get( '.op-menu-drawer__title' ).should( 'contain.text', `${ Cypress.env( 'USERNAME' ) } sso-tester` );
-            //Signout section
-            cy.get( '.op-user-signout-btn' ).should( 'contain.text', 'Sign Out' );
-            //View profile section
-            cy.get( `a[href="/user-groups/user/${ Cypress.env( 'USERNAME' ) }"]` ).should( 'contain.text', 'View Profile' );
+        } );
+    } );
 
+    it( 'Test for User Profile name', () => {
+        cy.get( '#op-menu-drawer' ).should( 'be.visible' ).within( () => {
+            cy.get( '.op-menu-drawer__title' ).should( 'contain.text', `${ Cypress.env( 'USERNAME' ) } sso-tester` );
+        } );
+    } );
+
+    it( 'Test for Signout section', () => {
+        cy.get( '#op-menu-drawer' ).should( 'be.visible' ).within( () => {
+            cy.get( '.op-user-signout-btn' ).should( 'contain.text', 'Sign Out' );
+        } );
+    } );
+
+    it( 'Test for View profile section', () => {
+        cy.get( '#op-menu-drawer' ).should( 'be.visible' ).within( () => {
+            cy.get( `a[href="/user-groups/user/${ Cypress.env( 'USERNAME' ) }"]` ).should( 'contain.text', 'View Profile' );
         } );
     } );
 

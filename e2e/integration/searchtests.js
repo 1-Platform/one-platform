@@ -9,21 +9,56 @@ context( 'Test search', () => {
         return false;
     } );
 
-    it( 'Test for valid search', () => {
+    it( 'Test for valid search count', () => {
         cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'Feedback' );
         cy.get( '.op-search__btn' ).click();
+        cy.get( '.pf-u-mt-xl' ).should( 'include.text','results found')
+    })
+
+    it( 'Test for search result', () => {
         cy.get( '.search-result-section', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
-            cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
-                cy.get( '.search-timestamp', { timeout: 20000 }  ).should( 'be.visible' )
-                cy.get( '.search-title' ).should( 'be.visible' )
-                cy.get( '.search-abstract' ).should( 'be.visible' )
-                cy.get( '.search-tag' ).should( 'be.visible' )
-            })
+            cy.get( '.pf-u-mt-md' ).should( 'be.visible' )
         } )
-        cy.contains( 'results found' ).should( 'be.visible' )
-        cy.contains('Related Searched keywords').should('be.visible')
     } )
 
+    it( 'Test for search timestamp', () => {
+        cy.get( '.search-result-section', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
+            cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
+                cy.get( '.search-timestamp', { timeout: 20000 } ).should( 'be.visible' );
+            } );
+        } );
+    } )
+
+    it( 'Test for search title', () => {
+        cy.get( '.search-result-section', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
+            cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
+                cy.get( '.search-title' ).should( 'be.visible' );
+            } );
+        } );
+    } )
+
+    it( 'Test for search abstract', () => {
+        cy.get( '.search-result-section', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
+            cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
+                cy.get( '.search-abstract' ).should( 'be.visible' );
+            } );
+        } );
+    } )
+
+    it( 'Test for search tag', () => {
+        cy.get( '.search-result-section', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
+            cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
+                cy.get( '.search-tag' ).should( 'be.visible' );
+            } );
+        } );
+    } )
+
+    it( 'Test for Related Searched keywords visibility', () => {
+        cy.get( '.pf-u-mt-md' ).last().within( () => {
+            cy.contains( 'Related Searched keywords' ).should( 'be.visible' );
+            cy.get( '.search-cursor' ).should( 'be.visible' );
+        })
+    })
 
     it( 'Test for select application', () => {
         cy.get( '#select-checkbox-expanded-toggle' ).first().click( { force: true } );

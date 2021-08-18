@@ -10,13 +10,26 @@ context( 'Test homepage', () => {
         return false;
     } );
 
-    it( 'Test for home page header section', () => {
+    it( 'Test for home page header heading', () => {
         cy.get( '.header__content' ).within( () => {
-            cy.get( 'p' ).should( 'contain.text', 'One Platform provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.' );
             cy.get( '.header__content-heading' ).should( 'contain.text', 'One Platform helps you build and deploy internal apps, microservice and website' );
         } );
+    } );
+
+    it( 'Test for home page header content', () => {
+        cy.get( '.header__content' ).within( () => {
+            cy.get( 'p' ).should( 'contain.text', 'One Platform provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.' );
+        } );
+    } );
+
+    it( 'Test for header get started content', () => {
         cy.get( '.header__action-buttons' ).within( () => {
             cy.get( 'a[ href = "/get-started/docs" ]' ).should( 'have.text', 'Get Started' );
+        } );
+    } );
+
+    it( 'Test for header learn more content', () => {
+        cy.get( '.header__action-buttons' ).within( () => {
             cy.get( 'a[ href = "/get-started/" ]' ).should( 'have.text', 'Learn More' );
         } );
     } );
