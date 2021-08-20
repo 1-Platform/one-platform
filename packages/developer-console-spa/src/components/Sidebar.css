@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: column;
   max-width: 300px;
+  position: sticky;
+  top: var(--op-nav__height);
 }
 .app-menu--list {
   margin: .25rem;
@@ -32,11 +34,16 @@
 }
 
 .app-details--sidebar--main-nav {
-  flex: 1 0 auto;
+  flex: 1 0;
+  overflow-y: auto;
 }
 .app-details--sidebar--title {
   margin-top: 1rem;
   margin-bottom: .25rem;
+  position: sticky;
+  top: -.25rem;
+  background: #fff;
+  z-index: 1;
 }
 .app-details--sidebar--settings {
   position: relative;
