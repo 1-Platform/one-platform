@@ -4,3 +4,4 @@
 name: op-notification
 path: /notifications
 single: true
+buildDir: dist

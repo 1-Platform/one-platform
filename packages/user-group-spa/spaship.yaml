@@ -4,3 +4,4 @@
 name: op-user-groups
 path: /user-groups
 single: true
+buildDir: build

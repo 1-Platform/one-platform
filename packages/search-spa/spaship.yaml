@@ -4,3 +4,4 @@
 name: search
 path: /search
 single: true
+buildDir: dist

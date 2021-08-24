@@ -4,3 +4,4 @@
 name: op-documentation
 path: /get-started
 single: true
+buildDir: dist
