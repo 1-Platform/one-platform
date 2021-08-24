@@ -4,3 +4,4 @@
 name: lighthouse-spa
 path: /lighthouse
 single: true
+buildDir: dist

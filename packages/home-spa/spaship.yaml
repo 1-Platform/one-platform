@@ -4,3 +4,4 @@
 name: op-home
 path: /
 single: false
+buildDir: dist

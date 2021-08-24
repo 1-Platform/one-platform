@@ -4,3 +4,4 @@
 name: op-feedback
 path: /feedback
 single: true
+buildDir: dist

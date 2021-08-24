@@ -4,3 +4,4 @@
 name: developer-console
 path: /console
 single: true
+buildDir: build
