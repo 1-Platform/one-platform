@@ -3,17 +3,34 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import gqlClient from '../utils/gqlClient';
 import { newApp } from '../utils/gql-queries';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+interface IAppInput {
+  name: string;
+  path: string;
+  description: string;
+}
+const appSchema = yup.object().shape( {
+  name: yup.string().required(),
+  path: yup.string().required(),
+  description: yup.string(),
+} );
 
 export default function AppAppForm () {
-  const emptyAppObject = {
-    name: '',
-    path: '',
-    description: '',
-  };
-  const [ app, setApp ] = useState<any>(emptyAppObject);
   const [ isOpen, setIsOpen ] = useState<boolean>();
   const location = useLocation();
   const history = useHistory();
+  const { control, handleSubmit, formState: { errors, isValid }, reset } = useForm<IAppInput>( {
+    mode: 'onBlur',
+    resolver: yupResolver( appSchema ),
+    defaultValues: {
+      name: '',
+      path: '',
+      description: '',
+    },
+  });
 
   useEffect( () => {
     const searchParams = new URLSearchParams( location.search );
@@ -25,17 +42,15 @@ export default function AppAppForm () {
   }, [ location ] );
 
   function handleModalClose () {
-    setIsOpen( false );
-    setApp( emptyAppObject );
+    /* Reset the form */
+    reset();
     /* Remove the new=true from the url search params */
     const searchParams = new URLSearchParams( location.search );
     searchParams.delete( 'new' );
     history.push( { search: searchParams.toString() } );
   }
 
-  function handleFormSubmit (event: any) {
-    event.preventDefault();
-    /* TODO: Form validation before submitting */
+  function submitForm ( app: IAppInput ) {
     gqlClient( { query: newApp, variables: { app } } )
       .then( res => {
         if ( res?.data?.app ) {
@@ -56,55 +71,69 @@ export default function AppAppForm () {
       onClose={ handleModalClose }
       showClose={false}>
 
-      <Form noValidate={false} onSubmitCapture={handleFormSubmit}>
+      <Form noValidate={ false } onSubmit={ handleSubmit( submitForm ) } onReset={ handleModalClose }>
         <FormGroup
           label="App Name"
           isRequired
           fieldId="app-name"
-          helperText="Please provide a name for your app">
-          <TextInput
-            isRequired
-            type="text"
-            id="app-name"
-            name="app-name"
-            aria-describedby="app-name-helper"
-            validated="default"
-            placeholder="Enter app name here..."
-            value={ app.name }
-            onChange={ ( name ) => setApp( { ...app, name } ) } />
+          helperText="Please provide a name for your app"
+          helperTextInvalid={ errors.name?.message }
+          validated={errors.name ? 'error': 'default'}>
+          <Controller
+            name="name"
+            control={ control }
+            render={ ( { field } ) => (
+              <TextInput
+                {...field}
+                type="text"
+                id="app-name"
+                aria-describedby="app-name-helper"
+                validated={errors.name ? 'error' : 'default'}
+                placeholder="Enter app name here..."/>
+            )}/>
         </FormGroup>
         <FormGroup
-          label="App Path"
           isRequired
+          label="App Path"
           fieldId="app-path"
-          helperText="Please provide the path/url for your app">
-          <TextInput
-            isRequired
-            type="text"
-            id="app-path"
-            name="app-path"
-            aria-describedby="app-path-helper"
-            validated="default"
-            placeholder="Enter app path here..."
-            value={ app.path }
-            onChange={ ( path ) => setApp( { ...app, path } ) } />
+          helperText="Please provide the path/url for your app"
+          helperTextInvalid={ errors.path?.message }
+          validated={errors.path ? 'error' : 'default'}>
+          <Controller
+            name="path"
+            control={ control }
+            render={ ( { field } ) => (
+              <TextInput
+                { ...field }
+                type="text"
+                id="app-path"
+                aria-describedby="app-path-helper"
+                validated={ errors.path ? 'error' : 'default' }
+                placeholder="Enter app path here..." />
+            ) } />
         </FormGroup>
         <FormGroup
           label="App Description"
           fieldId="app-desc"
-          helperText="Please provide a brief description of your app">
-          <TextArea
-            id="app-desc"
-            name="app-desc"
-            aria-describedby="app-desc-helper"
-            placeholder="Enter app description here..."
-            value={ app.description }
-            onChange={ ( description ) => setApp( { ...app, description } ) } />
+          helperText="Please provide a brief description of your app"
+          helperTextInvalid={ errors.description?.message }
+          validated={ errors.description ? 'error' : 'default' }>
+          <Controller
+            name="description"
+            control={ control }
+            render={ ( { field } ) => (
+              <TextArea
+                { ...field }
+                id="app-desc"
+                aria-describedby="app-desc-helper"
+                validated={ errors.description ? 'error' : 'default' }
+                placeholder="Enter app description here..." />
+            ) } />
         </FormGroup>
 
         <ActionGroup>
-          <Button variant="primary" type="submit">Create App</Button>
-          <Button variant="link" type="reset" onClick={ handleModalClose }>Cancel</Button>
+          <Button variant="primary" type="submit" isDisabled={ !isValid }>Create App</Button>
+          <Button variant="link" type="reset">Cancel</Button>
         </ActionGroup>
       </Form>
     </Modal>
