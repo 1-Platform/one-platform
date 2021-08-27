@@ -110,7 +110,7 @@ npm install --save @one-platform/opc-base
 - Import component
 
 ```js
-import "@one-platform/opc-provider/dist/opc-provider";
+import "@one-platform/opc-base/dist/opc-provider";
 ```
 
 - Add component in html
@@ -125,7 +125,7 @@ import "@one-platform/opc-provider/dist/opc-provider";
 
 ```js
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import "@one-platform/opc-provider/dist/opc-provider";
+import "@one-platform/opc-base/dist/opc-provider";
 
 @NgModule({
   declarations: [AppComponent],
@@ -148,7 +148,7 @@ export class AppModule {}
 - Import the component in App.js
 
 ```js
-import "@one-platform/opc-provider/dist/opc-provider";
+import "@one-platform/opc-base/dist/opc-provider";
 ```
 
 - Add component in any component html render

@@ -28,8 +28,8 @@ To start the development server
 
 ## Docs
 
-1. [opc-base](./docs/opc-base.md)
-1. [opc-provider](./docs/opc-provider.md)
+1. [opc-base](https://github.com/1-Platform/one-platform/tree/master/packages/opc-base/docs/opc-base.md)
+2. [opc-provider](https://github.com/1-Platform/one-platform/tree/master/packages/opc-base/docs/opc-provider.md)
 
 ## Available Scripts
 
