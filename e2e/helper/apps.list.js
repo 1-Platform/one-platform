@@ -65,3 +65,11 @@ export const apps = [
     "/research-repository",
     "/video-library"
 ];
+
+export const gaugechart = [
+    "Performance",
+    "Accessibility",
+    "Best Practices",
+    "SEO",
+    "PWA"
+];
