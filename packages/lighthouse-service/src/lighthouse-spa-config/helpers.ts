@@ -1,5 +1,5 @@
 import fetch, { Headers } from "node-fetch";
-import { PropertyModel } from "./schema";
+import { LHSpaConfigModel } from "./schema";
 
 export const getUserProfile = async (
   rhUUID: string
@@ -26,23 +26,31 @@ export const getUserProfile = async (
     body: body,
   });
   const res = await user.json();
+  if (!res.ok) {
+    throw new Error(res);
+  }
   return res.data["getUsersBy"][0];
 };
 
 /**
  * This helper fn is used to convert mongoose doc to a mutable object
- * And replaced rhUUId created by field with user details
- * @param {PropertyModel} propertyDocument: input property document
+ * And replaced rhUUId created by field with user details from user-group service
+ * @param {LHSpaConfigModel} propertyDocument: input property document
  * @returns {Object}: Mutated document as object
  */
 export const populateMongooseDocWithUser = async (
-  propertyDocument: PropertyModel | null
+  lhSpaConfigDoc: LHSpaConfigModel
 ) => {
-  const property = propertyDocument?.toObject({ virtuals: true });
-  if (!property) return {};
-
-  const user = await getUserProfile(property.createdBy as string);
-  property.createdBy = user;
-  property.updatedBy = user;
-  return property;
+  /**
+   * if the fetch fails inorder to not break the query returning an empty object
+   */
+  try {
+    const user = await getUserProfile(lhSpaConfigDoc.createdBy as string);
+    lhSpaConfigDoc.createdBy = user;
+    lhSpaConfigDoc.updatedBy = user;
+  } catch (error) {
+    lhSpaConfigDoc.createdBy = {};
+    lhSpaConfigDoc.updatedBy = {};
+  }
+  return lhSpaConfigDoc;
 };

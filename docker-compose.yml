@@ -46,6 +46,7 @@ services:
       - user-group-service
       - notifications-service
       - search-service
+      - lighthouse-service
 
   apps-service:
     build: ./packages/apps-service
