@@ -1,0 +1,67 @@
+scalar DateTime
+
+input CreateLHSpaConfigInput {
+  appId: String!
+  projectId: String!
+  branch: String!
+  createdBy: String!
+}
+
+input UpdateLHSpaConfigInput {
+  appId: String
+  projectId: String
+  branch: String
+  updatedBy: String!
+}
+
+type LHSpaConfigProfileType {
+  cn: String
+  uid: String
+  rhatUUID: String
+  mail: String
+}
+
+type LHSpaConfigType {
+  _id: ID
+  appId: String
+  projectId: String
+  branch: String
+  createdBy: LHSpaConfigProfileType
+  createdOn: DateTime
+  updatedBy: LHSpaConfigProfileType
+  updatedOn: DateTime
+}
+
+type Query {
+  """
+  List all lighthouse spa configs
+  """
+  listLHSpaConfigs(
+    limit: Int
+    offset: Int
+    user: String
+  ): [LHSpaConfigType]
+  """
+  To get a particular lighthouse spa config by id
+  """
+  getLHSpaConfigById(id: ID!): LHSpaConfigType
+  """
+  To get a particular lighthouse spa config by appId
+  """
+  getLHSpaConfigByAppId(appId: String!): LHSpaConfigType
+}
+
+type Mutation {
+  """
+  Create a new lighthouse spa config
+  """
+  createLHSpaConfig(lhSpaConfig: CreateLHSpaConfigInput!): LHSpaConfigType
+  """
+  Update a lighthouse spa config
+  """
+  updateLHSpaConfig(id: ID!, data: UpdateLHSpaConfigInput): LHSpaConfigType
+  """
+  Delete a lighthouse spa config
+  """
+  deleteLHSpaConfig(id: ID!): LHSpaConfigType
+}

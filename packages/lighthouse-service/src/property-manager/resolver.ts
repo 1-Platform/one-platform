@@ -17,7 +17,7 @@ export const PropertyResolver = {
         .skip(offset || 0)
         .exec();
 
-      const userQueryCache: Record<string, PropertyUserProfileType> = {};
+      const userQueryCache: Record<string, UserProfileType> = {};
 
       return properties.map(async (mongoosePropertyDoc) => {
         const property = mongoosePropertyDoc.toObject({ virtuals: true });

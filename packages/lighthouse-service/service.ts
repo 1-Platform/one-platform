@@ -8,10 +8,14 @@ import { ApolloServer, mergeSchemas } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import express from 'express';
 import http from 'http';
+
 import { LighthouseAuditResolver } from './src/audit-manager/resolver';
 import { PropertyResolver } from './src/property-manager/resolver';
+import { LHSpaConfigResolver } from './src/lighthouse-spa-config/resolver';
+
 import auditSchema from './src/audit-manager/typedef.graphql';
 import propertySchema from './src/property-manager/typedef.graphql';
+import lhSpaConfigSchema from './src/lighthouse-spa-config/typedef.graphql';
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
@@ -46,8 +50,8 @@ const app = express();
 const apollo = new ApolloServer({
   playground: process.env.NODE_ENV !== "production",
   schema: mergeSchemas({
-    schemas: [auditSchema, propertySchema],
-    resolvers: [LighthouseAuditResolver, PropertyResolver],
+    schemas: [auditSchema, propertySchema, lhSpaConfigSchema],
+    resolvers: [LighthouseAuditResolver, PropertyResolver, LHSpaConfigResolver],
   }),
   resolvers: LighthouseAuditResolver,
   subscriptions: {
