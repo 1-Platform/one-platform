@@ -1,0 +1,32 @@
+type NSNotificationType {
+  _id: ID
+  namespace: NamespaceType
+  subscribers: [ApiUserType]
+  createdOn: DateTime
+  updatedOn: DateTime
+}
+
+input NSNotificationInput {
+  _id: ID
+  namespaceID: ID!
+  subscribers: [ApiUserInput]
+  createdOn: DateTime
+  updatedOn: DateTime
+}
+
+input NSSubscriptionInput {
+  _id: String
+  email: ApiUserInput
+}
+
+type Query {
+  listNSNotificationConfigs: [NSNotificationType]
+  getNSNotificationConfigById(_id: String!): NSNotificationType
+}
+
+type Mutation {
+  createNSNotificationConfig(payload: NSNotificationInput!): NSNotificationType
+  updateNSNotificationConfig(_id: ID!, payload: NSNotificationInput!): NSNotificationType
+  deleteNSNotificationConfig(_id: String!): NSNotificationType
+  createNSSubscription(payload: NSSubscriptionInput): NSNotificationType
+}

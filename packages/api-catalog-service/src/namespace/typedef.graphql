@@ -1,0 +1,76 @@
+enum ApiCategory {
+  REST
+  GRAPHQL
+}
+
+type HeaderType {
+  key: String
+  value: String
+}
+
+input HeaderInput {
+  key: String
+  value: String
+}
+
+type EnvironmentType {
+  name: String
+  hash: String
+  schemaEndpoint: String
+  apiBasePath: String
+  headers: [HeaderType]
+}
+
+input EnvironmentInput {
+  name: String!
+  hash: String
+  schemaEndpoint: String
+  apiBasePath: String!
+  headers: [HeaderInput]
+}
+
+type NamespaceType {
+  _id: ID
+  name: String
+  slug: String
+  description: String
+  category: ApiCategory
+  tags: [String]
+  owners: [ApiUserType]
+  appUrl: String
+  environments: [EnvironmentType]
+  lastCheckedOn: DateTime
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
+}
+
+input NamespaceInput {
+  _id: ID
+  name: String!
+  slug: String
+  description: String
+  hash: String
+  category: ApiCategory!
+  tags: [String]
+  owners: [ApiUserInput]!
+  appUrl: String
+  environments: [EnvironmentInput]!
+  lastCheckedOn: DateTime
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
+}
+
+type Query {
+  listNamespaces: [NamespaceType]
+  getNamespaceById(_id: String!): NamespaceType
+}
+
+type Mutation {
+  createNamespace(payload: NamespaceInput!): NamespaceType
+  updateNamespace(_id:ID!, payload: NamespaceInput!): NamespaceType
+  deleteNamespace(_id: String!): NamespaceType
+}
