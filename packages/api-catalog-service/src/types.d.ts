@@ -5,70 +5,68 @@ declare module '*.json';
  * Types for the API Namespaces
  */
 type Maybe<T> = T | null;
-type Exact<T extends { [ key: string ]: unknown; }> = { [ K in keyof T ]: T[ K ] };
+type Exact<T extends { [ key: string ]: unknown }> = { [ K in keyof T ]: T[ K ] };
 type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [ SubKey in K ]?: Maybe<T[ SubKey ]> };
 type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [ SubKey in K ]: Maybe<T[ SubKey ]> };
 /** All built-in and custom scalars, mapped to their actual values */
-type Scalars = {
+interface Scalars {
     ID: string;
     String: string;
     Boolean: boolean;
     Int: number;
     Float: number;
-    DateTime: any;
-};
+    DateTime: Date;
+}
 
 declare enum ApiCategory {
-    Rest = 'REST',
-    Graphql = 'GRAPHQL'
+    REST = 'REST',
+    GRAPHQL = 'GRAPHQL'
 }
 
 declare enum ApiUserInput {
-    User = 'USER',
-    MailingList = 'MAILING_LIST'
+    USER = 'USER',
+    MAILING_LIST = 'MAILING_LIST'
 }
 
-type ApiUserType = {
-    __typename?: 'ApiUserType';
+interface ApiUserType {
     email?: Maybe<Scalars[ 'String' ]>;
     group?: Maybe<ApiUserInput>;
-};
+}
 
-type NamespaceUserInput = {
+interface NamespaceUserInput {
     email: Scalars[ 'String' ];
     group?: Maybe<ApiUserInput>;
-};
+}
 
-type HeaderType = {
-    __typename?: 'HeaderType';
+interface HeaderType {
     key?: Maybe<Scalars[ 'String' ]>;
     value?: Maybe<Scalars[ 'String' ]>;
-};
+}
 
-type HeaderInput = {
+interface HeaderInput {
     key?: Maybe<Scalars[ 'String' ]>;
     value?: Maybe<Scalars[ 'String' ]>;
-};
+}
 
-type EnvironmentType = {
-    __typename?: 'EnvironmentType';
+interface EnvironmentType {
     name?: Maybe<Scalars[ 'String' ]>;
     hash?: Maybe<Scalars[ 'String' ]>;
     schemaEndpoint?: Maybe<Scalars[ 'String' ]>;
     apiBasePath: Maybe<Scalars[ 'String' ]>;
     headers?: Maybe<Array<Maybe<HeaderType>>>;
-};
+    lastCheckedOn?: Maybe<Scalars[ 'DateTime' ]>;
+}
 
-type EnvironmentInput = {
+interface EnvironmentInput {
     name: Scalars[ 'String' ];
     hash?: Scalars[ 'String' ];
     schemaEndpoint: Scalars[ 'String' ];
     apiBasePath: Scalars[ 'String' ];
     headers?: Maybe<Array<Maybe<HeaderInput>>>;
-};
+    lastCheckedOn?: Maybe<Scalars[ 'DateTime' ]>;
+}
 
-type NamespaceType = {
-    __typename?: 'NamespaceType';
+interface NamespaceType {
     name?: Maybe<Scalars[ 'String' ]>;
     slug?: Maybe<Scalars[ 'String' ]>;
     description?: Maybe<Scalars[ 'String' ]>;
@@ -77,14 +75,13 @@ type NamespaceType = {
     owners?: Maybe<Array<Maybe<ApiUserType>>>;
     appUrl?: Maybe<Scalars[ 'String' ]>;
     environments?: Maybe<Array<Maybe<EnvironmentType>>>;
-    lastCheckedOn?: Maybe<Scalars[ 'DateTime' ]>;
     createdOn?: Maybe<Scalars[ 'DateTime' ]>;
     createdBy?: Maybe<Scalars[ 'String' ]>;
     updatedOn?: Maybe<Scalars[ 'DateTime' ]>;
     updatedBy?: Maybe<Scalars[ 'String' ]>;
-};
+}
 
-type NamespaceInput = {
+interface NamespaceInput {
     _id?: Maybe<Scalars[ 'ID' ]>;
     name: Scalars[ 'String' ];
     slug: Scalars[ 'String' ];
@@ -95,94 +92,90 @@ type NamespaceInput = {
     owners: Array<Maybe<NamespaceUserInput>>;
     appUrl?: Maybe<Scalars[ 'String' ]>;
     environments: Array<Maybe<EnvironmentInput>>;
-    lastCheckedOn?: Maybe<Scalars[ 'DateTime' ]>;
     createdOn?: Maybe<Scalars[ 'DateTime' ]>;
     createdBy?: Maybe<Scalars[ 'String' ]>;
     updatedOn?: Maybe<Scalars[ 'DateTime' ]>;
     updatedBy?: Maybe<Scalars[ 'String' ]>;
-};
+}
 
-type GetNamespaceByIdArgs = {
+interface GetNamespaceByIdArgs {
     _id: Scalars[ 'String' ];
-};
+}
 
-type CreateNamespaceArgs = {
+interface CreateNamespaceArgs {
     payload: NamespaceInput;
-};
+}
 
-type UpdateNamespaceArgs = {
+interface UpdateNamespaceArgs {
     _id: Scalars[ 'ID' ];
     payload: NamespaceInput;
-};
+}
 
-type DeleteNamespaceArgs = {
+interface DeleteNamespaceArgs {
     _id: Scalars[ 'String' ];
-};
+}
 
-type UserType = {
+interface UserType {
     cn?: Scalars[ 'String' ];
     mail?: Scalars[ 'String' ];
     uid?: Scalars[ 'String' ];
     rhatUUID?: Scalars[ 'String' ];
-};
+}
 
 /**
  * Types for the Namespaces Notification Types
  */
-type NsNotificationType = {
-    __typename?: 'NSNotificationType';
+interface NsNotificationType {
     namespaceID?: Maybe<Scalars[ 'ID' ]>;
     namespace?: Maybe<NamespaceType>;
     subscribers?: Maybe<Array<Maybe<ApiUserType>>>;
     createdOn?: Maybe<Scalars[ 'DateTime' ]>;
     updatedOn?: Maybe<Scalars[ 'DateTime' ]>;
-};
+}
 
-type NsNotificationInput = {
+interface NsNotificationInput {
     namespaceID: Scalars[ 'ID' ];
     subscribers?: Maybe<Array<Maybe<NamespaceUserInput>>>;
     createdOn?: Maybe<Scalars[ 'DateTime' ]>;
     updatedOn?: Maybe<Scalars[ 'DateTime' ]>;
-};
+}
 
-type GetNsNotificationConfigByIdArgs = {
+interface GetNsNotificationConfigByIdArgs {
     _id: Scalars[ 'String' ];
-};
+}
 
-type CreateNsNotificationConfigArgs = {
+interface CreateNsNotificationConfigArgs {
     payload: NsNotificationInput;
-};
+}
 
-type UpdateNsNotificationConfigArgs = {
+interface UpdateNsNotificationConfigArgs {
     _id: Scalars[ 'ID' ];
     payload: NsNotificationInput;
-};
+}
 
-type DeleteNsNotificationConfigArgs = {
+interface DeleteNsNotificationConfigArgs {
     _id: Scalars[ 'String' ];
-};
+}
 
-type NsSubscriptionInput = {
+interface NsSubscriptionInput {
     _id?: Maybe<Scalars[ 'String' ]>;
     email?: Maybe<NamespaceUserInput>;
-};
+}
 
-type CreateNsSubscriptionArgs = {
+interface CreateNsSubscriptionArgs {
     payload?: Maybe<NsSubscriptionInput>;
-};
+}
 // Universal Query & Mutation Types for the API Catalog
-type Query = {
-    __typename?: 'Query';
+interface Query {
     // API Namespace Query Types
     listNamespaces?: Maybe<Array<Maybe<NamespaceType>>>;
     getNamespaceById?: Maybe<NamespaceType>;
     // NS Notification Query ypes
     listNSNotificationConfigs?: Maybe<Array<Maybe<NsNotificationType>>>;
     getNSNotificationConfig?: Maybe<NsNotificationType>;
-};
+}
 
-type Mutation = {
-    __typename?: 'Mutation';
+interface Mutation {
     // API Namespace Query Types
     createNamespace?: Maybe<NamespaceType>;
     updateNamespace?: Maybe<NamespaceType>;
@@ -191,4 +184,4 @@ type Mutation = {
     createNSNotificationConfig?: Maybe<NsNotificationType>;
     updateNSNotificationConfig?: Maybe<NsNotificationType>;
     deleteNSNotificationConfig?: Maybe<NsNotificationType>;
-};
+}

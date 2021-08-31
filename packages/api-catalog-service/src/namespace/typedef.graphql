@@ -19,14 +19,15 @@ type EnvironmentType {
   schemaEndpoint: String
   apiBasePath: String
   headers: [HeaderType]
+  lastCheckedOn: DateTime
 }
 
 input EnvironmentInput {
   name: String!
-  hash: String
   schemaEndpoint: String
   apiBasePath: String!
   headers: [HeaderInput]
+  lastCheckedOn: DateTime
 }
 
 type NamespaceType {
@@ -39,7 +40,6 @@ type NamespaceType {
   owners: [ApiUserType]
   appUrl: String
   environments: [EnvironmentType]
-  lastCheckedOn: DateTime
   createdOn: DateTime
   createdBy: String
   updatedOn: DateTime
@@ -51,7 +51,6 @@ input NamespaceInput {
   name: String!
   slug: String
   description: String
-  hash: String
   category: ApiCategory!
   tags: [String]
   owners: [ApiUserInput]!

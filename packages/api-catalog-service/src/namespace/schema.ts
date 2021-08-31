@@ -33,6 +33,10 @@ export const NamespaceSchema: Schema = new Schema( {
         name: {
             type: String
         },
+        lastCheckedOn: {
+            type: Date,
+            default: Date.now
+        },
         hash: {
             type: String
         },
@@ -51,10 +55,6 @@ export const NamespaceSchema: Schema = new Schema( {
             }
         } ]
     } ],
-    lastCheckedOn: {
-        type: Date,
-        default: Date.now
-    },
     createdOn: {
         type: Date,
         default: Date.now
@@ -73,6 +73,6 @@ export const NamespaceSchema: Schema = new Schema( {
 
 interface NamespaceModel extends NamespaceType, Document { }
 
-interface NamespaceModelStatic extends Model<NamespaceModel> { }
+type NamespaceModelStatic = Model<NamespaceModel>;
 
 export const Namespace: Model<NamespaceModel> = model<NamespaceModel, NamespaceModelStatic>( 'Namespace', NamespaceSchema );

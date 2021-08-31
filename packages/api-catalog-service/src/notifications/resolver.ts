@@ -3,18 +3,16 @@ export const NSNotificationResolver = {
     Query: {
         listNSNotificationConfigs ( root: any, args: any, ctx: any ) {
             return NSNotification.find()
-                .populate( "namespaceID" )
+                .populate( 'namespaceID' )
                 .lean()
-                .then( ( NSNotifications: NsNotificationType[] ) => {
-                    return NSNotifications.map( ( data: NsNotificationType ) => {
-                        data.namespace = data.namespaceID as NamespaceType;
-                        return data;
-                    } );
-                } );
+                .then( ( NSNotifications: NsNotificationType[] ) => NSNotifications.map( ( data: NsNotificationType ) => {
+                    data.namespace = data.namespaceID as NamespaceType;
+                    return data;
+                } ) );
         },
         getNSNotificationConfigById ( root: any, { _id }: GetNsNotificationConfigByIdArgs, ctx: any ) {
             return NSNotification.findById( _id )
-                .populate( "namespaceID" )
+                .populate( 'namespaceID' )
                 .lean()
                 .then( ( NSNotification: NsNotificationType | any ) => {
                     NSNotification.namespace = NSNotification.namespaceID as NamespaceType;
@@ -37,14 +35,14 @@ export const NSNotificationResolver = {
             return NSNotification.findByIdAndRemove( _id ).exec();
         },
         createNSSubscription ( root: any, { payload }: CreateNsSubscriptionArgs, ctx: any ) {
-            console.log( payload );
-
             return NSNotification.findByIdAndUpdate(
                 payload?._id,
                 {
                     $push: { subscribers: payload?.email },
                 },
-                { new: true }
+                {
+                    new: true
+                }
             ).exec();
         }
     }

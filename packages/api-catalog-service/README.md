@@ -1,7 +1,9 @@
-ApiCatalog Microservice
+API Catalog Microservice
 =================================================
 
-One platform's server-side ApiCatalog GraphQL microservice.
+API Catalog Microservice consists of APIs required for the API Catalog SPA. Modules associated with the API Catalog microservice is mentioned below
+ 1. Namespace API Manager
+ 1. Notifications Manager
 
 Switch to the working directory
 ------------
@@ -23,3 +25,7 @@ Testing
 ------------
 
   1. Run `npm test` to run default tests.
+
+Contributors
+------------
+👤 **Rigin Oommen** [@riginoommen](https://github.com/riginoommen)

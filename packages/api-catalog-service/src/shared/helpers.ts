@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 const fetch = require( 'node-fetch' );
 import { createTransport } from 'nodemailer';
+import { API_GATEWAY, GATEWAY_AUTH_TOKEN, SMTP_HOST } from '../setup/env';
 ( global as any ).Headers = fetch.Headers;
 
 
@@ -15,7 +16,7 @@ class APICatalogHelper {
     }
 
     buildUserQuery ( userIds: string[] ) {
-        let queryParams = ``;
+        let queryParams = '';
         userIds.map( ( userId: string ) => {
             queryParams = queryParams.concat( `
             rhatUUID_${ ( userId as string ).replace( /-/g, '' ) }:getUsersBy(rhatUUID:"${ userId }") {
@@ -34,12 +35,12 @@ class APICatalogHelper {
     fetchUserProfile ( query: string ) {
         const headers = new Headers();
         headers.set( 'Content-Type', 'application/json' );
-        headers.set( 'Authorization', `${ process.env.GATEWAY_AUTH_TOKEN }` );
-        let body = JSON.stringify( {
+        headers.set( 'Authorization', `${ GATEWAY_AUTH_TOKEN }` );
+        const body = JSON.stringify( {
             query,
             variables: null
         } );
-        return fetch( `${ process.env.API_GATEWAY }`, {
+        return fetch( API_GATEWAY, {
             method: 'POST',
             headers,
             body: body,
@@ -165,7 +166,7 @@ class APICatalogHelper {
 
     emailConfig () {
         return createTransport( {
-            host: process.env.SMTP_HOST,
+            host: SMTP_HOST,
             port: 587,
             secure: false,
             tls: {

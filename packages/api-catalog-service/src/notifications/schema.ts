@@ -27,10 +27,12 @@ export const NSNotificationSchema: Schema = new Schema( {
 
 interface NSNotificationModel extends NsNotificationType, Document { }
 
-interface NSNotificationModelStatic extends Model<NSNotificationModel> { }
+type NSNotificationModelStatic = Model<NSNotificationModel>;
 
 export const NSNotification: Model<NSNotificationModel> = model<NSNotificationModel, NSNotificationModelStatic>( 'NSNotification', NSNotificationSchema );
 
 NSNotification.on( 'index', ( err )  => {
-    if ( err ) console.error( err );
+    if ( err ) {
+        console.error( err );
+    }
 } );
