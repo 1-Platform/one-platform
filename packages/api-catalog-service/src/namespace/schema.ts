@@ -46,6 +46,15 @@ export const NamespaceSchema: Schema = new Schema( {
         schemaEndpoint: {
             type: String
         },
+        subscribers: [ {
+            email: {
+                type: String
+            },
+            group: {
+                type: String,
+                enum: [ 'MAILING_LIST', 'USER' ]
+            },
+        }  ],
         headers: [ {
             key: {
                 type: String

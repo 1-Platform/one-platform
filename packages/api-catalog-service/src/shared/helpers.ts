@@ -40,7 +40,7 @@ class APICatalogHelper {
             query,
             variables: null
         } );
-        return fetch( API_GATEWAY, {
+        return fetch( 'http://user-group-service:8080/graphql' || API_GATEWAY, {
             method: 'POST',
             headers,
             body: body,

@@ -10,12 +10,12 @@ export const NamespaceResolver = {
                     // Fetch user information associated with this records.
                     let userIds: string[] = [];
                     namespaces.map( ( namespace: NamespaceType ) => {
-                        namespace.createdBy ?
-                            userIds.push( namespace.createdBy )
-                            : null;
-                        namespace.updatedBy ?
-                            userIds.push( namespace.updatedBy )
-                            : null;
+                        if ( namespace.createdBy ) {
+                            userIds.push( namespace.createdBy );
+                        }
+                        if ( namespace.updatedBy ) {
+                            userIds.push( namespace.updatedBy );
+                        }
                     } );
                     userIds = uniq( userIds );
                     // Build a single user query for the namespace
@@ -24,11 +24,11 @@ export const NamespaceResolver = {
 
                     // Assign the parsed user information with the fields.
                     return namespaces.map( namespace => {
-                        namespace.createdBy ?
-                            namespace.createdBy = userData.filter( user => user.rhatUUID === namespace.createdBy )[ 0 ].mail
+                        ( namespace.createdBy ) ?
+                            namespace.createdBy = userData.find( user => user?.rhatUUID === namespace?.createdBy )?.mail || null
                             : null;
-                        namespace.updatedBy ?
-                            namespace.updatedBy = userData.filter( user => user.rhatUUID === namespace.updatedBy )[ 0 ].mail
+                        ( namespace.updatedBy ) ?
+                            namespace.updatedBy = userData.find( user => user?.rhatUUID === namespace?.updatedBy )?.mail || null
                             : null;
                         return namespace;
                     } );
@@ -41,25 +41,22 @@ export const NamespaceResolver = {
             let userIds: string[] = [];
             return Namespace.find( { '_id': _id } ).lean().then( async ( namespace: NamespaceType[] ) => {
                 if ( namespace.length ) {
-                    ( namespace[ 0 ].createdBy ) ?
-                        userIds.push( namespace[ 0 ].createdBy )
-                        : null;
-                    ( namespace[ 0 ].updatedBy ) ?
-                        userIds.push( namespace[ 0 ].updatedBy )
-                        : null;
+                    if ( namespace[ 0 ].createdBy ) {
+                        userIds.push( namespace[ 0 ].createdBy );
+                    }
+                    if ( namespace[ 0 ].updatedBy ) {
+                        userIds.push( namespace[ 0 ].updatedBy );
+                    }
                     userIds = uniq( userIds );
-
                     // Build a single user query for the namespace
                     const userQuery = await apiCatalogHelper.buildUserQuery( userIds );
                     const userData: UserType[] = await apiCatalogHelper.fetchUserProfile( userQuery );
                     // Assign the parsed user information with the fields.
                     ( namespace[ 0 ].createdBy ) ?
-                        namespace[ 0 ].createdBy = userData.filter( user =>
-                            user.rhatUUID === namespace[ 0 ].createdBy )[ 0 ].mail
+                        namespace[ 0 ].createdBy = userData.find( user => user?.rhatUUID === namespace[ 0 ]?.createdBy )?.mail || null
                         : null;
-                    ( namespace[ 0 ].updatedBy ) ?
-                        namespace[ 0 ].updatedBy = userData.filter( user =>
-                            user.rhatUUID === namespace[ 0 ].updatedBy )[ 0 ].mail
+                    ( namespace[0].updatedBy ) ?
+                        namespace[ 0 ].updatedBy = userData.find( user => user?.rhatUUID === namespace[ 0 ]?.updatedBy )?.mail || null
                         : null;
                     return namespace[ 0 ];
                 } else {
@@ -94,5 +91,35 @@ export const NamespaceResolver = {
         deleteNamespace ( root: any, { _id }: DeleteNamespaceArgs, ctx: any ) {
             return Namespace.findByIdAndRemove( _id ).exec();
         },
+        async addNamespaceSubscriber ( root: any, { _id, envName, payload }: AddNamespaceSubscriberArgs, ctx: any ) {
+            return await Namespace.findOneAndUpdate(
+                {
+                    "_id": _id,
+                    "environments.name": envName
+                },
+                {
+                    "$push": {
+                        "environments.$.subscribers": payload
+                    }
+                },
+                { upsert: true, new: true }
+            ).exec();
+        },
+        async removeNamespaceSubscriber ( root: any, { _id, envName, payload }: RemoveNamespaceSubscriberArgs, ctx: any ) {
+            return await Namespace.findOneAndUpdate(
+                {
+                    "_id": _id,
+                    "environments.name": envName
+                },
+                {
+                    "$pull": {
+                        "environments.$.subscribers": payload
+                    }
+                },
+                {
+                multi: true
+                }
+            ).exec();
+        }
     }
 };

@@ -13,20 +13,22 @@ input HeaderInput {
   value: String
 }
 
-type EnvironmentType {
+type NSEnvironmentType {
   name: String
   hash: String
   schemaEndpoint: String
   apiBasePath: String
   headers: [HeaderType]
+  subscribers: [ApiUserType]
   lastCheckedOn: DateTime
 }
 
-input EnvironmentInput {
+input NSEnvironmentInput {
   name: String!
   schemaEndpoint: String
   apiBasePath: String!
   headers: [HeaderInput]
+  subscribers: [ApiUserInput]
   lastCheckedOn: DateTime
 }
 
@@ -39,7 +41,7 @@ type NamespaceType {
   tags: [String]
   owners: [ApiUserType]
   appUrl: String
-  environments: [EnvironmentType]
+  environments: [NSEnvironmentType]
   createdOn: DateTime
   createdBy: String
   updatedOn: DateTime
@@ -55,7 +57,7 @@ input NamespaceInput {
   tags: [String]
   owners: [ApiUserInput]!
   appUrl: String
-  environments: [EnvironmentInput]!
+  environments: [NSEnvironmentInput]!
   lastCheckedOn: DateTime
   createdOn: DateTime
   createdBy: String
@@ -65,11 +67,13 @@ input NamespaceInput {
 
 type Query {
   listNamespaces: [NamespaceType]
-  getNamespaceById(_id: String!): NamespaceType
+  getNamespaceById(_id: ID!): NamespaceType
 }
 
 type Mutation {
   createNamespace(payload: NamespaceInput!): NamespaceType
   updateNamespace(_id:ID!, payload: NamespaceInput!): NamespaceType
-  deleteNamespace(_id: String!): NamespaceType
+  deleteNamespace(_id: ID!): NamespaceType
+  addNamespaceSubscriber(_id: ID!, envName: String! , payload: ApiUserInput!): NamespaceType,
+  removeNamespaceSubscriber(_id: ID!, envName: String! , payload: ApiUserInput!): NamespaceType
 }

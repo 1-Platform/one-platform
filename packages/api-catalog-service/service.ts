@@ -10,11 +10,10 @@ import { mergeSchemas } from 'graphql-tools';
 import http from 'http';
 import { NamespaceResolver } from './src/namespace/resolver';
 import NamespaceSchema from './src/namespace/typedef.graphql';
-import { NSNotificationResolver } from './src/notifications/resolver';
-import NSNotificationSchema from './src/notifications/typedef.graphql';
 import SharedSchema from './src/shared/typedef.graphql';
 import cookieParser = require( 'cookie-parser' );
 import database from './src/setup/database';
+import initializeAgenda from './src/shared/cron';
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
@@ -27,6 +26,8 @@ app.use(cookieParser());
 ( async function () {
     /* Setup database connection */
     await database();
+
+    await initializeAgenda();
 } )();
 
 
@@ -36,11 +37,9 @@ const apollo = new ApolloServer({
         schemas: [
             SharedSchema,
             NamespaceSchema,
-            NSNotificationSchema
         ],
         resolvers: [
-            NamespaceResolver,
-            NSNotificationResolver
+            NamespaceResolver
         ]
     } ),
     subscriptions: {
