@@ -74,6 +74,7 @@
     "@spaship/cli": "0.14.0"
   },
   "directories": {
+    "path": "packages/",
     "spa": "-spa"
   },
   "main": "platform.js"
