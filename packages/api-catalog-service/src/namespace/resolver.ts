@@ -24,12 +24,12 @@ export const NamespaceResolver = {
 
                     // Assign the parsed user information with the fields.
                     return namespaces.map( namespace => {
-                        ( namespace.createdBy ) ?
-                            namespace.createdBy = userData.find( user => user?.rhatUUID === namespace?.createdBy )?.mail || null
-                            : null;
-                        ( namespace.updatedBy ) ?
-                            namespace.updatedBy = userData.find( user => user?.rhatUUID === namespace?.updatedBy )?.mail || null
-                            : null;
+                        if ( namespace.createdBy ) {
+                            namespace.createdBy = userData.find( user => user?.rhatUUID === namespace?.createdBy )?.mail;
+                        }
+                        if ( namespace.updatedBy ) {
+                            namespace.updatedBy = userData.find( user => user?.rhatUUID === namespace?.updatedBy )?.mail;
+                        }
                         return namespace;
                     } );
                 } else {
@@ -52,12 +52,12 @@ export const NamespaceResolver = {
                     const userQuery = await apiCatalogHelper.buildUserQuery( userIds );
                     const userData: UserType[] = await apiCatalogHelper.fetchUserProfile( userQuery );
                     // Assign the parsed user information with the fields.
-                    ( namespace[ 0 ].createdBy ) ?
-                        namespace[ 0 ].createdBy = userData.find( user => user?.rhatUUID === namespace[ 0 ]?.createdBy )?.mail || null
-                        : null;
-                    ( namespace[0].updatedBy ) ?
-                        namespace[ 0 ].updatedBy = userData.find( user => user?.rhatUUID === namespace[ 0 ]?.updatedBy )?.mail || null
-                        : null;
+                    if ( namespace[ 0 ].createdBy ) {
+                        namespace[ 0 ].createdBy = userData.find( user => user?.rhatUUID === namespace[ 0 ]?.createdBy )?.mail;
+                    }
+                    if ( namespace[ 0 ].updatedBy ) {
+                        namespace[ 0 ].updatedBy = userData.find( user => user?.rhatUUID === namespace[ 0 ]?.updatedBy )?.mail;
+                    }
                     return namespace[ 0 ];
                 } else {
                     return namespace;
