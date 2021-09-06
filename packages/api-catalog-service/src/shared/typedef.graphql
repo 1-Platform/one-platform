@@ -1,0 +1,16 @@
+scalar DateTime
+
+enum ApiEmailGroup {
+  USER
+  MAILING_LIST
+}
+
+type ApiUserType {
+  email: String
+  group: ApiEmailGroup
+}
+
+input ApiUserInput {
+  email: String!
+  group: ApiEmailGroup
+}

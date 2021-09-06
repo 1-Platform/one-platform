@@ -1,0 +1,79 @@
+enum ApiCategory {
+  REST
+  GRAPHQL
+}
+
+type HeaderType {
+  key: String
+  value: String
+}
+
+input HeaderInput {
+  key: String
+  value: String
+}
+
+type NSEnvironmentType {
+  name: String
+  hash: String
+  schemaEndpoint: String
+  apiBasePath: String
+  headers: [HeaderType]
+  subscribers: [ApiUserType]
+  lastCheckedOn: DateTime
+}
+
+input NSEnvironmentInput {
+  name: String!
+  schemaEndpoint: String
+  apiBasePath: String!
+  headers: [HeaderInput]
+  subscribers: [ApiUserInput]
+  lastCheckedOn: DateTime
+}
+
+type NamespaceType {
+  _id: ID
+  name: String
+  slug: String
+  description: String
+  category: ApiCategory
+  tags: [String]
+  owners: [ApiUserType]
+  appUrl: String
+  environments: [NSEnvironmentType]
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
+}
+
+input NamespaceInput {
+  _id: ID
+  name: String!
+  slug: String
+  description: String
+  category: ApiCategory!
+  tags: [String]
+  owners: [ApiUserInput]!
+  appUrl: String
+  environments: [NSEnvironmentInput]!
+  lastCheckedOn: DateTime
+  createdOn: DateTime
+  createdBy: String
+  updatedOn: DateTime
+  updatedBy: String
+}
+
+type Query {
+  listNamespaces: [NamespaceType]
+  getNamespaceById(_id: ID!): NamespaceType
+}
+
+type Mutation {
+  createNamespace(payload: NamespaceInput!): NamespaceType
+  updateNamespace(_id:ID!, payload: NamespaceInput!): NamespaceType
+  deleteNamespace(_id: ID!): NamespaceType
+  addNamespaceSubscriber(_id: ID!, envName: String! , payload: ApiUserInput!): NamespaceType,
+  removeNamespaceSubscriber(_id: ID!, envName: String! , payload: ApiUserInput!): NamespaceType
+}
