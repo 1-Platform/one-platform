@@ -1,6 +1,6 @@
 {
   "name": "@one-platform/opc-base",
-  "version": "1.0.0",
+  "version": "1.0-beta",
   "description": "It contains shared components like layout, authentication provider for one platform",
   "main": "dist/opc-base.js",
   "module": "dist/opc-base.js",
