@@ -1,6 +1,6 @@
-import { Namespace } from './schema';
-import { apiCatalogHelper } from '../shared/helpers';
 import { uniq } from 'lodash';
+import { apiCatalogHelper } from '../shared/helpers';
+import { Namespace } from './schema';
 
 export const NamespaceResolver = {
     Query: {
@@ -63,7 +63,10 @@ export const NamespaceResolver = {
                     return namespace;
                 }
             } );
-        }
+        },
+        async fetchAPISchema ( root: any, { category, environment }: FetchAPISchemaArgs, ctx: any ) {
+            return await apiCatalogHelper.fetchSchema( category as ApiCategory, environment as NSEnvironmentType )
+        },
     },
     Mutation: {
         async createNamespace ( root: any, { payload }: CreateNamespaceArgs, ctx: any ) {

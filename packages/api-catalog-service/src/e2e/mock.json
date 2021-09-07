@@ -1,4 +1,34 @@
 {
-   "message": "Define your test mocks in this file and remove this key value pair if not required"
+  "_id": "6136f6ef8c28a003e2f808e5",
+  "name": "Petstore",
+  "slug": "petstore",
+  "description": "Petstore",
+  "category": "REST",
+  "tags": [
+    "rest",
+    "one"
+  ],
+  "owners": [
+    {
+      "email": "oommachan@redhat.com",
+      "group": "USER"
+    },
+    {
+      "email": "rigin@redhat.com",
+      "group": "USER"
+    }
+  ],
+  "appUrl": "https://petstore.redhat.com",
+  "environments": [
+    {
+      "name": "production",
+      "schemaEndpoint": "https://petstore.swagger.io/v2/swagger.json",
+      "apiBasePath": "https://petstore.swagger.io/v2/swagger.json",
+      "headers": {
+        "key": "Content-Type",
+        "value": "application/json"
+      }
+    }
+  ],
+  "createdBy": "7ab20a62-0d75-11e7-ae22-28d244ea5a6d"
 }
-

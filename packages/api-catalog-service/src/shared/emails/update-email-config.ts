@@ -1,6 +1,6 @@
 import { SPA_URL } from '../../setup/env';
 
-export async function updateEmailConfig ( namespace: NamespaceType, environment: EnvironmentType ) {
+export async function updateEmailConfig ( namespace: NamespaceType, environment: NSEnvironmentType ) {
 
     const message = `
 Hi,<br/><br/>

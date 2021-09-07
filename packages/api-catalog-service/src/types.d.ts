@@ -48,7 +48,7 @@ interface HeaderInput {
     value?: Maybe<Scalars[ 'String' ]>;
 }
 
-interface EnvironmentType {
+interface NSEnvironmentType {
     name?: Maybe<Scalars[ 'String' ]>;
     hash?: Maybe<Scalars[ 'String' ]>;
     schemaEndpoint?: Maybe<Scalars[ 'String' ]>;
@@ -58,7 +58,7 @@ interface EnvironmentType {
     lastCheckedOn?: Maybe<Scalars[ 'DateTime' ]>;
 }
 
-interface EnvironmentInput {
+interface NSEnvironmentInput {
     name: Scalars[ 'String' ];
     hash?: Scalars[ 'String' ];
     schemaEndpoint: Scalars[ 'String' ];
@@ -76,7 +76,7 @@ interface NamespaceType {
     tags?: Maybe<Array<Maybe<Scalars[ 'String' ]>>>;
     owners?: Maybe<Array<Maybe<ApiUserType>>>;
     appUrl?: Maybe<Scalars[ 'String' ]>;
-    environments?: Maybe<Array<Maybe<EnvironmentType>>>;
+    environments?: Maybe<Array<Maybe<NSEnvironmentType>>>;
     createdOn?: Maybe<Scalars[ 'DateTime' ]>;
     createdBy?: Maybe<Scalars[ 'String' ]>;
     updatedOn?: Maybe<Scalars[ 'DateTime' ]>;
@@ -93,7 +93,7 @@ interface NamespaceInput {
     tags?: Maybe<Array<Maybe<Scalars[ 'String' ]>>>;
     owners: Array<Maybe<NamespaceUserInput>>;
     appUrl?: Maybe<Scalars[ 'String' ]>;
-    environments: Array<Maybe<EnvironmentInput>>;
+    environments: Array<Maybe<NSEnvironmentInput>>;
     createdOn?: Maybe<Scalars[ 'DateTime' ]>;
     createdBy?: Maybe<Scalars[ 'String' ]>;
     updatedOn?: Maybe<Scalars[ 'DateTime' ]>;
@@ -128,6 +128,11 @@ interface RemoveNamespaceSubscriberArgs {
     payload: ApiUserInput;
 }
 
+interface FetchAPISchemaArgs {
+  category?: Maybe<ApiCategory>;
+  environment?: Maybe<NSEnvironmentType>;
+}
+
 interface UserType {
     cn?: Scalars[ 'String' ];
     mail?: Scalars[ 'String' ];
@@ -140,6 +145,7 @@ interface Query {
     // API Namespace Query Types
     listNamespaces?: Maybe<Array<Maybe<NamespaceType>>>;
     getNamespaceById?: Maybe<NamespaceType>;
+    fetchAPISchema?: String;
 }
 
 interface Mutation {
@@ -148,4 +154,5 @@ interface Mutation {
     updateNamespace?: Maybe<NamespaceType>;
     deleteNamespace?: Maybe<NamespaceType>;
     addNamespaceSubscriber?: Maybe<NamespaceType>;
+    removeNamespaceSubscriber?: Maybe<NamespaceType>;
 }

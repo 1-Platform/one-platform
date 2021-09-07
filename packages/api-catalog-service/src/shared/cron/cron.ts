@@ -8,7 +8,7 @@ export async function checkAPIHash () {
     const namespaces: NamespaceType[] = await Namespace.find().lean();
     namespaces.map( ( namespace: any ) => {
         const category = namespace.category as ApiCategory;
-        namespace.environments?.map( async ( environment: EnvironmentType ) => {
+        namespace.environments?.map( async ( environment: NSEnvironmentType ) => {
             environment.lastCheckedOn = new Date();
             const hash = await apiCatalogHelper.manageApiHash( category, environment );
             if ( hash === environment.hash ) {
