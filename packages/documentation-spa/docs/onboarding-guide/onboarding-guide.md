@@ -8,11 +8,11 @@ slug: /onboarding-guide
 
 
 ## **PURPOSE**
-The purpose of this Guide is to help new developers to get started with One Platform. This will cover various aspects such as -  Overview of One Platform, Its Architecture, Services etc. So let’s get started. Happy Reading!!
+The purpose of this guide is to help new developers to get started with One Platform. This will cover various aspects such as -  Overview of One Platform, Its Architecture, Services etc. So let’s get started. Happy Reading!!
 
 
 ## **OVERVIEW**
- One Platform is a single place solution for teams within Red Hat to deploy their applications, websites and Microservices. The Stakeholders can easily deploy their applications without even being bothered about building and managing the Infrastructure hussles.
+ One Platform is a single stop solution for teams within Red Hat to deploy their applications, websites and Microservices. The stakeholders can easily deploy their applications without even being bothered about building and managing the Infrastructure hassels.
 
 
 ## **ARCHITECTURE**
@@ -24,15 +24,15 @@ The purpose of this Guide is to help new developers to get started with One Plat
 
 
 ## **CORE SERVICES**
-Along with Helper Functions that are directly injected in the browser window object when the OpNav is inserted into the DOM. So any SPA which has the OpNav included can use the provided features>
+Along with helper Functions that are directly injected in the browser window object when the OpNav is inserted into the DOM. So any SPA which has the OpNav included can use the provided features.
 
 
 ### **Authentication**
-One platform has different strategies for authentication. At the Client-side, internal auth is supported (auth.redhat.com) and at the API gateway, JWT token from Internal auth. The API key is supported. SPAs are authenticated by default through SSI authentication support.
+One platform has different strategies for authentication. At the client-side, internal auth is supported (auth.redhat.com) and at the API gateway, JWT token from Internal auth. The API key is supported. SPAs are authenticated by default through SSI authentication support.
 
 **Tools/Integrations:** [auth.redhat.com](https://auth.redhat.com/)
 
-**OpAuthHelper** A Javascript object that provides some methods for getting the JWT Token, and   User Info.
+**OpAuthHelper** A Javascript object that provides some methods for getting the JWT Token, and user information.
 
 **Available methods**
 * onLogin(cb: (user) => void): void \
@@ -100,7 +100,7 @@ The simplest microservice is a wrapper over _Rover_ that uses LDAP to authorize 
 
 The goal of feedback microservice is to let users submit feedback in 3 easy steps i.e. Select_ App_, select _Experience_, and _Describe a problem_ to help developers and the Platform team (in case of core services) build context for better decisions. The feedback services integrated with the ticketing system (_Jira_ & _GitLab_) so developers can follow up with end-users and record satisfaction. This provides complete transparency as data is visible to all visitors and helps to increase the value of the applications. 
 
-**Tools/Integrations:** Jira, GitLab, Github, SNOW(future), User Group microservice
+**Tools/Integrations:** Jira, GitLab, GitHub, ServiceNow(future), User Group microservice
 
 **Feedback Microservice** - One platform's Feedback GraphQL microservice supports managing the feedback with the JIRA/Github/Gitlab.
 
@@ -137,14 +137,8 @@ It is the core communication microservice of the platform for native(inbuilt) an
 
 **Notifications Microservice** - Notifications Microservice provides the essential GraphQL APIs required for the Notifications Framework. It provides graphql queries for configuring notifications, triggering notifications, listening for notifications, etc.
 
-** Local Development**
-
-
-    1. Switch to the working directory
-
-
-
-1. Switch to the working directory cd home-service
+**Local Development**
+1. Switch to the working directory cd notifications-service
 2. Copy the `.env.example` to the `.env`
 3. Change the values as needed, keeping the unneeded values as undefined
     * Start Microservice
@@ -245,7 +239,7 @@ One Platform has been configured to use _MongoDB_ with and for native apps to sa
     11. (*)Run Lighthouse CI
 
 
-#### [Quick deploying a One Platform SPAship Instance to MPaaS](https://docs.google.com/document/d/1P4uM1fjOXUq0Ni5fz1OZ2o1Hm1-f4ZT9WOLNof5vchg/edit#heading=h.jjv3mfsaqnxa)
+#### [Quick deploy a One Platform SPAship instance to MPaaS](https://docs.google.com/document/d/1P4uM1fjOXUq0Ni5fz1OZ2o1Hm1-f4ZT9WOLNof5vchg/edit#heading=h.jjv3mfsaqnxa)
 #### [Steps for deploying a SPA to One Platform via SPAship](https://docs.google.com/document/d/18UkX3KtiC-tqm381qARBm0DSWjK0aMbQxfBya94QQ0U/edit#heading=h.rrt0yafrpwfb)
 
 
