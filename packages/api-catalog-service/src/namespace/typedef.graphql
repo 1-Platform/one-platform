@@ -24,9 +24,9 @@ type NSEnvironmentType {
 }
 
 input NSEnvironmentInput {
-  name: String!
-  schemaEndpoint: String
-  apiBasePath: String!
+  name: String
+  schemaEndpoint: String!
+  apiBasePath: String
   headers: [HeaderInput]
   subscribers: [ApiUserInput]
   lastCheckedOn: DateTime
@@ -68,12 +68,21 @@ input NamespaceInput {
 type Query {
   listNamespaces: [NamespaceType]
   getNamespaceById(_id: ID!): NamespaceType
+  fetchAPISchema(category: ApiCategory, environment:NSEnvironmentInput): String
 }
 
 type Mutation {
   createNamespace(payload: NamespaceInput!): NamespaceType
-  updateNamespace(_id:ID!, payload: NamespaceInput!): NamespaceType
+  updateNamespace(_id: ID!, payload: NamespaceInput!): NamespaceType
   deleteNamespace(_id: ID!): NamespaceType
-  addNamespaceSubscriber(_id: ID!, envName: String! , payload: ApiUserInput!): NamespaceType,
-  removeNamespaceSubscriber(_id: ID!, envName: String! , payload: ApiUserInput!): NamespaceType
+  addNamespaceSubscriber(
+    _id: ID!
+    envName: String!
+    payload: ApiUserInput!
+  ): NamespaceType
+  removeNamespaceSubscriber(
+    _id: ID!
+    envName: String!
+    payload: ApiUserInput!
+  ): NamespaceType
 }

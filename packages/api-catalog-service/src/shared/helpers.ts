@@ -40,7 +40,7 @@ class APICatalogHelper {
             query,
             variables: null
         } );
-        return fetch( 'http://user-group-service:8080/graphql' || API_GATEWAY, {
+        return fetch( API_GATEWAY, {
             method: 'POST',
             headers,
             body: body,
@@ -144,7 +144,7 @@ class APICatalogHelper {
             }`;
     }
 
-    async fetchSchema ( category: ApiCategory, environment: EnvironmentType ) {
+    async fetchSchema ( category: ApiCategory, environment: NSEnvironmentType ) {
         const headers = environment.headers?.reduce( ( obj, item ) => Object.assign( obj, { [ ( item as any ).key ]: ( item as any ).value } ), {} ) || {};
         return await fetch( environment.schemaEndpoint, {
             method: ( category === 'GRAPHQL' ) ? 'POST' : 'GET',
@@ -154,7 +154,7 @@ class APICatalogHelper {
             .catch( ( err: Error ) => err );
     }
 
-    async manageApiHash ( category: ApiCategory, environment: EnvironmentType ) {
+    async manageApiHash ( category: ApiCategory, environment: NSEnvironmentType ) {
         let apiSchemaResult = await this.fetchSchema( category, environment );
         let parsedGQLSchema;
         if ( category === 'GRAPHQL' ) {

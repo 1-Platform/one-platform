@@ -8,138 +8,176 @@ import supertest from 'supertest';
 
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
-  query List {
-    list {
-      message
+fragment namespaceType on NamespaceType {
+  _id
+  createdOn
+  createdBy
+  updatedOn
+  updatedBy
+  environments {
+    hash
+    subscribers {
+      email
+      group
+    }
+    lastCheckedOn
+    name
+    schemaEndpoint
+    apiBasePath
+    headers {
+      key
+      value
     }
   }
-  query Get($id: String!) {
-    get(id: $id) {
-      message
-    }
+  name
+  description
+  category
+  tags
+  owners {
+    email
+    group
   }
-  mutation Create($input: ApiCatalogInput) {
-    create(input: $input) {
-      message
-    }
+  appUrl
+}
+
+query ListNamespaces {
+  listNamespaces {
+    ...namespaceType
   }
-  mutation Update($input: ApiCatalogInput) {
-    update(input: $input) {
-      message
-    }
+}
+
+query GetNamespaceById($_id: ID!) {
+  getNamespaceById(_id: $_id) {
+    ...namespaceType
   }
-  mutation Delete($id: String!) {
-    delete(id: $id) {
-      message
+}
+
+mutation CreateNamespace($payload: NamespaceInput!) {
+    createNamespace(payload:$payload) {
+        ...namespaceType
     }
-  }
+}
+
+mutation UpdateNamespace($_id: ID!, $payload: NamespaceInput!) {
+    updateNamespace(_id:$_id, payload:$payload) {
+        ...namespaceType
+    }
+}
+
+mutation DeleteNamespace($_id: ID!) {
+    deleteNamespace(_id:$_id) {
+        ...namespaceType
+    }
+}
 `;
 
-beforeAll(() => {
-    request = supertest.agent(ApiCatalog);
-});
-afterAll(done => ApiCatalog.close(done));
+beforeAll( () => {
+    request = supertest.agent( ApiCatalog );
+} );
+afterAll( done => ApiCatalog.close( done ) );
 
-describe('ApiCatalog microservice API Test', () => {
-    it('List should return all documents', done => {
+describe( 'API Catalog Microservice API Tests', () => {
+    it( 'ListNamespaces should return all namespaces', done => {
         request
-            .post('/graphql')
-            .send({
+            .post( '/graphql' )
+            .send( {
                 query: query,
-                operationName: 'List'
-            })
-            .expect(res => {
-                expect(res.body).not.toHaveProperty('errors');
-                expect(res.body).toHaveProperty('data');
+                operationName: 'ListNamespaces'
+            } )
+            .expect( res => {
+                expect( res.body ).not.toHaveProperty( 'errors' );
+                expect( res.body ).toHaveProperty( 'data' );
+                expect( res.body ).toHaveProperty( 'data.listNamespaces' );
+            } )
+            .end( ( err, res ) => {
+                done( err );
+            } );
+    } );
 
-                expect(res.body.data.list[0].message).toEqual('GET API for ApiCatalog microservice');
-            })
-            .end((err, res) => {
-                done(err);
-            });
-    });
-
-    it('Get should return a single matched document', done => {
+    it( 'GetNamespaceById should return a single API namespace', done => {
         request
-            .post('/graphql')
-            .send({
+            .post( '/graphql' )
+            .send( {
                 query: query,
-                operationName: 'Get',
-                variables: { id: 'mock_id' }
-
-            })
-            .expect(res => {
-                expect(res.body).not.toHaveProperty('errors');
-                expect(res.body).toHaveProperty('data');
-
-                expect(res.body.data.get.message).toEqual('GET by ID API for ApiCatalog microservice');
-            })
-            .end((err, res) => {
-                done(err);
-            });
-    });
-
-    it('Create should create a document', done => {
-        request
-            .post('/graphql')
-            .send({
-                query: query,
-                operationName: 'Create',
+                operationName: 'GetNamespaceById',
                 variables: {
-                    input: mock
+                    _id: mock._id
                 }
-            })
-            .expect(res => {
-                expect(res.body).not.toHaveProperty('errors');
-                expect(res.body).toHaveProperty('data');
+            } )
+            .expect( res => {
+                expect( res.body ).not.toHaveProperty( 'errors' );
+                expect( res.body ).toHaveProperty( 'data' );
+            } )
+            .end( ( err, res ) => {
+                done( err );
+            } );
+    } );
 
-                expect(res.body.data).toHaveProperty('create');
-                expect(res.body.data.create).toMatchObject({'message': 'POST API for ApiCatalog microservice'});
-            })
-            .end((err, res) => {
-                done(err);
-            });
-    });
-
-    it('Update should update a document', done => {
+    it( 'CreateNamespace should create an API namespace', done => {
         request
-            .post('/graphql')
-            .send({
+            .post( '/graphql' )
+            .send( {
                 query: query,
-                operationName: 'Update',
+                operationName: 'CreateNamespace',
                 variables: {
-                    input: mock
+                    payload: mock
                 }
-            })
-            .expect(res => {
-                expect(res.body).not.toHaveProperty('errors');
-                expect(res.body).toHaveProperty('data');
+            } )
+            .expect( res => {
+                expect( res.body ).not.toHaveProperty( 'errors' );
+                expect( res.body ).toHaveProperty( 'data' );
+                expect( res.body.data ).toHaveProperty( 'createNamespace' );
+                expect( res.body.data.createNamespace ).toHaveProperty( '_id', mock._id );
+                expect( res.body.data.createNamespace ).toHaveProperty( 'name', mock.name );
+                expect( res.body.data.createNamespace ).toHaveProperty( 'description', mock.description );
+            } )
+            .end( ( err, res ) => {
+                done( err );
+            } );
+    } );
 
-                expect(res.body.data).toHaveProperty('update');
-                expect(res.body.data.update).toMatchObject({message: 'PUT API for ApiCatalog microservice'});
-            })
-            .end((err, res) => {
-                done(err);
-            });
-    });
-
-    it('Delete should delete a document', done => {
+    it( 'UpdateNamespace should update an API namespace', done => {
         request
-            .post('/graphql')
-            .send({
+            .post( '/graphql' )
+            .send( {
                 query: query,
-                operationName: 'Delete',
-                variables: { id: 'mock_id' }
-            })
-            .expect(res => {
-                expect(res.body).not.toHaveProperty('errors');
-                expect(res.body).toHaveProperty('data');
+                operationName: 'UpdateNamespace',
+                variables: {
+                    _id: mock._id,
+                    payload: mock
+                }
+            } )
+            .expect( res => {
+                expect( res.body ).not.toHaveProperty( 'errors' );
+                expect( res.body ).toHaveProperty( 'data' );
+                expect( res.body.data ).toHaveProperty( 'updateNamespace' );
+                expect( res.body.data.updateNamespace ).toHaveProperty( '_id', mock._id );
+                expect( res.body.data.updateNamespace ).toHaveProperty( 'name', mock.name );
+                expect( res.body.data.updateNamespace ).toHaveProperty( 'description', mock.description );
+            } )
+            .end( ( err, res ) => {
+                done( err );
+            } );
+    } );
 
-                expect(res.body.data).toHaveProperty('delete');
-                expect(res.body.data.delete).toMatchObject({message: 'DELETE API for ApiCatalog microservice'});
-            })
-            .end((err, res) => {
-                done(err);
-            });
-    });
-});
+    it( 'DeleteNamespace should delete a namespace', done => {
+        request
+            .post( '/graphql' )
+            .send( {
+                query: query,
+                operationName: 'DeleteNamespace',
+                variables: {
+                    _id: mock._id
+                }
+            } )
+            .expect( res => {
+                expect( res.body ).not.toHaveProperty( 'errors' );
+                expect( res.body ).toHaveProperty( 'data' );
+
+                expect( res.body.data ).toHaveProperty( 'deleteNamespace' );
+            } )
+            .end( ( err, res ) => {
+                done( err );
+            } );
+    } );
+} );
