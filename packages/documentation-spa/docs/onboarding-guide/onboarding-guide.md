@@ -62,7 +62,7 @@ One Platform provides global components, including a Navigation bar, Feedback ac
     ```
 
 
-2. Add the following import in the your html files (preferably in the `&lt;body>` tag before any other application javascript code/script tags)
+2. Add the following import in the your html files (preferably in the `<body>` tag before any other application javascript code/script tags)
 
     ```
     <body>
