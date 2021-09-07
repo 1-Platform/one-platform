@@ -1,6 +1,7 @@
 module.exports = {
   someSidebar: [
     'getting-started/getting-started',
+    'onboarding-guide/onboarding-guide',
     {
       type: 'category',
       label: 'Applications',
