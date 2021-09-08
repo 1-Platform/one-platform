@@ -1,5 +1,5 @@
 import { Button, ContextSelector, ContextSelectorFooter, ContextSelectorItem, Flex, FlexItem, Form, FormGroup, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
   getLHProjects,
@@ -18,7 +18,7 @@ type formValues = {
 
 const LinkProjectForm = ( props: any ) => {
     const [ isPrimaryLoading, setIsPrimaryLoading ] = useState( false );
-    const { control, handleSubmit, formState: { errors }, reset, setValue } = useForm<formValues>();
+    const { control, handleSubmit, setValue } = useForm<formValues>();
 
     //For branch select
     const [ branches, setBranches ] = useState( Array<string>() );

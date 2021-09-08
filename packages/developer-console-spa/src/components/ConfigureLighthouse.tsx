@@ -22,7 +22,7 @@ import {
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import SettingsIcon from '@patternfly/react-icons/dist/esm/icons/cog-icon';
 import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Header from './Header';
 import lhIllustration from "../assets/lighthouse_illust.png";
 import CreateProjectForm from './lighthouse/CreateProjectForm';
