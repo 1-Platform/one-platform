@@ -9,6 +9,7 @@ import NotFound from './components/NotFound';
 import AddAppForm from './components/AddAppForm';
 import UnderDevelopment from './components/UnderDevelopment';
 import ConfigureFeedback from './components/ConfigureFeedback';
+import ConfigureLighthouse from './components/ConfigureLighthouse';
 import ConfigureSSI from './components/ConfigureSSI';
 import ConfigureDatabase from './components/ConfigureDatabase';
 import AppSettings from './components/AppSettings';
@@ -27,6 +28,7 @@ function App() {
               <Route path="/:appId/ssi" component={ ConfigureSSI } exact />
               <Route path="/:appId/database" component={ ConfigureDatabase } exact />
               <Route path="/:appId/feedback" component={ ConfigureFeedback } exact />
+              <Route path="/:appId/lighthouse" component={ ConfigureLighthouse } exact />
               <Route path="/:appId/search" component={ UnderDevelopment } exact />
               <Route path="/:appId/notifications" component={ UnderDevelopment } exact />
               <Route path="/:appId/user-groups" component={ UnderDevelopment } exact />

@@ -13,7 +13,7 @@ export const updateFeedbackConfigService = async ( id: string, feedback: any ) =
   } )
     .then( res => {
       if ( res.errors && !res?.data?.updateApp ) {
-        const errMessage = res.erors.map( ( err: any ) => err.message ).join( ', ' );
+        const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
         throw new Error( errMessage );
       }
       return res.data.updateApp;

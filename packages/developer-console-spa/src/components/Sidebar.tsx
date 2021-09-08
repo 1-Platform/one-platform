@@ -34,7 +34,8 @@ function Sidebar () {
     { name: 'Database', path: 'database', },
     { name: 'Feedback', path: 'feedback', },
     { name: 'Search', path: 'search', },
-    { name: 'Notifications', path: 'notifications', },
+    { name: 'Notifications', path: 'notifications' },
+    { name: 'Lighthouse', path: 'lighthouse' },
   ];
 
   function isNavItemActive ( path: string ) {

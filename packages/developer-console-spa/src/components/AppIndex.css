@@ -63,3 +63,15 @@
   top: .5rem;
   right: .5rem;
 }
+.lighthouse-projectList--filled {
+  width: 100%;
+}
+.lighthouse-projectForm--marginTop {
+  margin-top: 1rem;
+}
+.success-header-fontSize {
+  font-size: var(--pf-global--icon--FontSize--lg);
+}
+.success-header-fontColor {
+  color: var(--pf-global--success-color--200);
+}
