@@ -57,10 +57,12 @@ export const LHSpaConfigResolver = {
       const user = await getUserProfile(lhSpaConfig.createdBy);
       lhSpaConfig.updatedBy = user.rhatUUID;
       // save to db
-      const lhSpaDoc = new LHSpaConfig(lhSpaConfig);
-      const savedLhSpaDoc = await lhSpaDoc.save();
-
-      return populateMongooseDocWithUser(savedLhSpaDoc);
+      const doc = { $set: lhSpaConfig };
+      const options = { upsert: true };
+      const savedLhSpaDoc = await LHSpaConfig.updateOne( { appId: lhSpaConfig.appId }, doc, options ).then( () => {
+        return LHSpaConfig.find( { appId: lhSpaConfig.appId } ).lean().exec();
+      } );
+      return populateMongooseDocWithUser(savedLhSpaDoc[0]);
     },
     async updateLHSpaConfig(root: any, args: any, ctx: any) {
       const { id, data } = args;

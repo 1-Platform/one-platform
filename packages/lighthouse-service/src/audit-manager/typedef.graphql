@@ -26,6 +26,7 @@ type LighthouseProjectType {
   slug: String
   externalUrl: String
   token: ID
+  adminToken: ID
   baseBranch: String
   createdAt: DateTime
   updatedAt: DateTime
