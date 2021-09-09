@@ -7,7 +7,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./playground/playground.module').then((m) => m.PlaygroundModule),
   },
-
+  {
+    path: 'leaderboard',
+    loadChildren: () =>
+      import('./leaderboard/leaderboard.module').then(
+        (m) => m.LeaderboardModule
+      ),
+  },
   {
     path: '',
     loadChildren: () =>

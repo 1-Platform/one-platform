@@ -1,36 +1,37 @@
 import { gql } from 'apollo-angular';
 
-export const ListLHProperties = gql`
-  query ListLHProperties {
-    listLHProperties {
-      id
-      name
-    }
-  }
-`;
-
-export const GetLHPropertyById = gql`
-  query GetLHPropertyById($propertyId: ID!) {
-    getLHPropertyById(id: $propertyId) {
-      projectId
-      name
-      apps {
+export const ListLHProjects = gql`
+  query ListLHProjects($limit: Int!) {
+    listLHProjects(limit: $limit) {
+      count
+      rows {
         id
-        branch
         name
       }
     }
   }
 `;
 
-export const ListLHPropertyScores = (
+export const ListLHProjectBranches = gql`
+  query ListLHProjectBranches($projectId: String!) {
+    listLHProjectBranches(projectId: $projectId) {
+      count
+      rows {
+        branch
+      }
+    }
+  }
+`;
+
+export const ListLHProjectScores = (
   projectId: string,
-  apps: PropertyApps[]
+  branches: string[],
+  limit = 10
 ) => {
   let queryAliasBuilder = '';
-  apps.map(({ branch, id }) => {
+  branches.map((branch, index) => {
     queryAliasBuilder += `
-    app${id}:listLHProjectBuilds(projectID:$projectId,branch:"${branch}",limit:1){
+    branch${index}:listLHProjectBuilds(projectId:$projectId,branch:"${branch}",limit:${limit}){
       id
       projectId
       updatedAt

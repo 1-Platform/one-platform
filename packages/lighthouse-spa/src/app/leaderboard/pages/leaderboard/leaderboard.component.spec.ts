@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LHTagLineStepsComponent } from './lhtag-line-steps.component';
+import { LeaderboardComponent } from './leaderboard.component';
 
-describe('LHTagLineStepsComponent', () => {
-  let component: LHTagLineStepsComponent;
-  let fixture: ComponentFixture<LHTagLineStepsComponent>;
+describe('LeaderboardComponent', () => {
+  let component: LeaderboardComponent;
+  let fixture: ComponentFixture<LeaderboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LHTagLineStepsComponent ]
+      declarations: [ LeaderboardComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LHTagLineStepsComponent);
+    fixture = TestBed.createComponent(LeaderboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

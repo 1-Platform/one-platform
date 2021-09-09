@@ -1,53 +1,53 @@
-<section class="pf-l-flex pf-m-column pf-m-nowrap pf-m-justify-content-space-between pf-u-h-100">
-    <div class="pf-l-flex__item pf-l-flex pf-m-grow pf-m-column pf-m-nowrap pf-m-justify-content-space-around">
-        <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-nowrap pf-u-w-100">
-            <div class=" pf-u-text-align-center pf-u-font-size-2xl pf-u-mt-xl pf-u-mb-">
+<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-m-light">
+    <form class="pf-u-w-100 pf-c-form pf-m-horizontal" #SearchForm="ngForm"
+        (ngSubmit)="SearchForm.form.valid && auditWebsite()">
+        <div class="pf-c-page__main-body pf-l-stack pf-m-gutter">
+            <div class="pf-l-stack__item pf-u-text-align-center pf-u-font-size-2xl pf-u-mt-xl">
                 Measure performance of your application
             </div>
-            <div class="pf-l-bullseye">
+            <div class="pf-l-stack__item pf-l-flex pf-m-nowrap pf-m-justify-content-center">
                 <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
                     <input class="pf-c-form-control pf-m-search lighthouse-search" type="search" id="sites" name="sites"
                         aria-label="Enter webpage url" placeholder="Enter web page url with http/https"
-                        [(ngModel)]="sites" (ngModelChange)="validateUrl($event)" />
+                        [(ngModel)]="sites" pattern="^https?:\/\/(.*)" required />
                 </div>
                 <div>
-                    <button class="pf-c-button pf-m-progress pf-m-primary" type="button" *ngIf="!loading"
-                        [disabled]="!validUrl" (click)="auditWebsite()">
+                    <button class="pf-c-button pf-m-progress pf-m-primary" type="submit"
+                        [disabled]="!SearchForm.form.valid || loading" [ngClass]="{'pf-m-in-progress':loading}">
                         Generate Report
-                    </button>
-
-                    <button class="pf-c-button pf-m-progress pf-m-in-progress pf-m-primary" type="button"
-                        *ngIf="loading">
-                        <span class="pf-c-button__progress">
+                        <span class="pf-c-button__progress" *ngIf="loading">
                             <span class="pf-c-spinner pf-m-md" role="progressbar" aria-valuetext="Loading...">
                                 <span class="pf-c-spinner__clipper"></span>
                                 <span class="pf-c-spinner__lead-ball"></span>
                                 <span class="pf-c-spinner__tail-ball"></span>
                             </span>
                         </span>
-                        Generating Report
                     </button>
                 </div>
             </div>
-            <div class="pf-l-flex pf-m-justify-content-center pf-m-align-items-center">
-                <div class="pf-u-font-weight-bold">Presets :</div>
-                <span *ngFor="let preset of presets;index as i">
-                    <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset">&nbsp;
-                    <label for="preset">{{ preset.name }}</label>&nbsp;&nbsp;
-                </span>
+            <div class="pf-l-stack__item pf-u-w-100">
+                <div class="pf-l-flex pf-m-justify-content-center pf-m-align-items-center">
+                    <div class="pf-u-font-weight-bold">Presets :</div>
+                    <div *ngFor="let preset of presets;index as i" class="pf-c-radio">
+                        <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset"
+                            class="pf-c-radio__input">
+                        <label for="preset" class="pf-c-radio__label">{{ preset.name }}</label>
+                    </div>
+                </div>
             </div>
         </div>
-        <div *ngIf="showScore">
-            <div class="pf-l-flex pf-m-align-items-center pf-m-justify-content-center">
-                <app-outlined-pie-graph *ngFor="let report of lhciScores" score={{report.score}} name={{report.name}}
-                    type={{report.class}}>
-                </app-outlined-pie-graph>
-            </div>
-            <app-lhcard-legend align="center"></app-lhcard-legend>
+    </form>
+</section>
+<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-m-light pf-u-my-md" *ngIf="showScore">
+    <div class="pf-l-flex pf-m-align-items-center pf-m-justify-content-center">
+        <div class="pf-l-flex__item lighthouse-score" *ngFor="let report of lhciScores">
+            <app-outlined-pie-graph [score]="report.score" name={{report.name}}>
+            </app-outlined-pie-graph>
         </div>
     </div>
-
-
+    <app-lhcard-legend align="center"></app-lhcard-legend>
+</section>
+<section>
     <div class="pf-c-code-block lighthouse-code-container">
         <div class="pf-c-code-block__header lighthouse-code-header">
             <div class="pf-c-code-block__actions">
@@ -65,59 +65,56 @@
             </pre>
         </div>
     </div>
+</section>
 
-    <!-- Upload Modal -->
-    <div class="pf-c-backdrop" *ngIf="toggleModal">
-        <div class="pf-l-bullseye">
-            <div class="pf-c-modal-box pf-u-w-50" role="dialog" aria-modal="true" aria-labelledby="upload-results-title"
-                aria-describedby="upload-results-description">
-                <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" (click)="toggleModal = false">
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
-                <header class="pf-c-modal-box__header">
-                    <h1 class="pf-c-modal-box__title" id="upload-results-title">Upload results to Lighthouse CI
-                        Server
-                    </h1>
-                </header>
-                <div class="pf-c-modal-box__body">
-                    <div class="pf-l-grid pf-m-gutter">
-                        <div class="pf-l-grid__item pf-m-6-col">
-                            <label for="project-select">Project</label>
-                            <select class="pf-c-form-control pf-m-placeholder" id="project-select" name="project-select"
-                                aria-label="project select" [(ngModel)]="projectID" required>
-                                <option value disabled selected>Select Project</option>
-                                <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="pf-l-grid__item pf-m-6-col">
-                            <label for="project-branch">Branch</label>
-                            <select class="pf-c-form-control pf-m-placeholder" id="project-branch" name="project-branch"
-                                aria-label="project branch" [(ngModel)]="property.currentBranch"
-                                (click)="validUploadConfig=false;fetchProjectBranches();fetchProjectDetails();"
-                                required>
-                                <option value disabled selected>Select Branch</option>
-                                <option *ngFor="let project of projectBranches" [value]="project.branch">{{
-                                        project.branch }}</option>
-                            </select>
-                        </div>
-
-                        <div class="pf-l-grid__item pf-m-12-col">
-                            <label for="build-token">Build Token</label>
-                            <input class="pf-c-form-control" type="text" [(ngModel)]="property.buildToken"
-                                id="buildToken" aria-label="Build Token" placeholder="Enter Build Token"
-                                name="buildToken" (blur)="fetchProjectDetails()" required />
-                        </div>
+<div class="pf-c-backdrop" *ngIf="toggleModal">
+    <div class="pf-l-bullseye">
+        <div class="pf-c-modal-box pf-u-w-50" role="dialog" aria-modal="true" aria-labelledby="upload-results-title"
+            aria-describedby="upload-results-description">
+            <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" (click)="toggleModal = false">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <header class="pf-c-modal-box__header">
+                <h1 class="pf-c-modal-box__title" id="upload-results-title">Upload results to Lighthouse CI
+                    Server
+                </h1>
+            </header>
+            <div class="pf-c-modal-box__body">
+                <div class="pf-l-grid pf-m-gutter">
+                    <div class="pf-l-grid__item pf-m-6-col">
+                        <label for="project-select">Project</label>
+                        <select class="pf-c-form-control pf-m-placeholder" id="project-select" name="project-select"
+                            aria-label="project select" [(ngModel)]="projectID" required>
+                            <option value disabled selected>Select Project</option>
+                            <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}
+                            </option>
+                        </select>
                     </div>
 
+                    <div class="pf-l-grid__item pf-m-6-col">
+                        <label for="project-branch">Branch</label>
+                        <select class="pf-c-form-control pf-m-placeholder" id="project-branch" name="project-branch"
+                            aria-label="project branch" [(ngModel)]="property.currentBranch"
+                            (click)="validUploadConfig=false;fetchProjectBranches();fetchProjectDetails();" required>
+                            <option value disabled selected>Select Branch</option>
+                            <option *ngFor="let project of projectBranches" [value]="project.branch">{{
+                                            project.branch }}</option>
+                        </select>
+                    </div>
+
+                    <div class="pf-l-grid__item pf-m-12-col">
+                        <label for="build-token">Build Token</label>
+                        <input class="pf-c-form-control" type="text" [(ngModel)]="property.buildToken" id="buildToken"
+                            aria-label="Build Token" placeholder="Enter Build Token" name="buildToken"
+                            (blur)="fetchProjectDetails()" required />
+                    </div>
                 </div>
-                <footer class="pf-c-modal-box__footer">
-                    <button class="pf-c-button pf-m-primary" (click)="upload(property)"
-                        [disabled]="!validUploadConfig">Upload</button>
-                </footer>
+
             </div>
+            <footer class="pf-c-modal-box__footer">
+                <button class="pf-c-button pf-m-primary" (click)="upload(property)"
+                    [disabled]="!validUploadConfig">Upload</button>
+            </footer>
         </div>
     </div>
-
-</section>
+</div>

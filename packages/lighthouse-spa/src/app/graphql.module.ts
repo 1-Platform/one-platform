@@ -3,14 +3,14 @@ import { APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../environments/environment';
+import { createHttpLink, split } from '@apollo/client/core';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { split } from 'apollo-link';
+import { setContext } from '@apollo/client/link/context';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { RetryLink } from 'apollo-link-retry';
-import { HttpHeaders } from '@angular/common/http';
 import { onError } from 'apollo-link-error';
 
-export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+export function createApollo(): ApolloClientOptions<any> {
   const wsClient = new WebSocketLink({
     uri: environment.WS_URL,
     options: {
@@ -21,15 +21,23 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
         Authorization: `Bearer ${window.OpAuthHelper.jwtToken}`,
       },
     },
-  }) as any;
+  });
 
-  const httpClient = httpLink.create({
+  const httpLink = createHttpLink({
     uri: environment.API_URL,
-    headers: new HttpHeaders().append(
-      'Authorization',
-      `Bearer ${window.OpAuthHelper.jwtToken}`
-    ),
-  }) as any;
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = window.OpAuthHelper.jwtToken;
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  });
 
   const splitLink = split(
     ({ query }) => {
@@ -40,7 +48,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
       );
     },
     wsClient,
-    httpClient
+    authLink.concat(httpLink)
   );
   const retry = new RetryLink({
     delay: {

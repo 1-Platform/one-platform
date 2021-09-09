@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" attr.width="{{size}}px"
+    attr.height="{{size}}px" attr.viewBox="0 0 {{size}} {{size}}" version="1.1">
+    <circle attr.fill="{{this.fill}}" attr.width="{{size}}px" attr.height="{{size}}px" [attr.cx]="size/2"
+        [attr.cy]="size/2" [attr.r]="size/2"></circle>
+
+    <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" attr.font-size="{{size*0.4}}"
+        font-weight="normal" dy=".1em" dominant-baseline="middle"
+        fill="#eee">{{text.charAt(0).toLocaleUpperCase()}}</text>
+</svg>

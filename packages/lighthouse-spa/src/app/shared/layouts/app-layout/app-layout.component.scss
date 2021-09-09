@@ -4,6 +4,10 @@
 
 .app-layout-container {
   height: calc(100% - 56px);
+
+  .sidebar {
+    border-right: 0.5px solid #d2d2d2;
+  }
 }
 
 nav {
@@ -19,27 +23,8 @@ nav {
   font-weight: 600;
 }
 
-.box-shadow {
-  box-shadow: 1px 0 #00000029;
-}
-
 .content {
   overflow-y: auto;
-}
-
-.sidebar {
-  margin-right: 1px;
-  overflow: hidden;
-  border-right: 1px solid rgb(210, 210, 210);
-
-  .footer {
-    & > div:not(:last-child) {
-      margin-bottom: 12px;
-    }
-    .cursor {
-      cursor: pointer;
-    }
-  }
 }
 
 .icon {
