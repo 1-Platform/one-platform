@@ -3,19 +3,16 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { createLightHouseProjects } from '../../services/lighthouse';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
+import { CreateProjectFormValues, CreateProjectProps, ProjectType } from 'types';
 
-const CreateProjectForm = ( props: any ) => {
-    const [ isPrimaryLoading, setIsPrimaryLoading ] = useState( false );
-    type FormValues = {
-        projectName: string;
-        repoUrl: string;
-        baseBranch: string;
-    };
-    const { handleSubmit, control, formState: { errors } } = useForm<FormValues>( {
+const CreateProjectForm = ( props: CreateProjectProps ) => {
+    const [ isPrimaryLoading, setIsPrimaryLoading ] = useState<boolean>( false );
+
+    const { handleSubmit, control, formState: { errors } } = useForm<CreateProjectFormValues>( {
         mode: 'onBlur'
     } );
 
-    const createProject = (data: FormValues) => {
+    const createProject = (data: CreateProjectFormValues) => {
         setIsPrimaryLoading( true );
         let project = {
             name: data.projectName,

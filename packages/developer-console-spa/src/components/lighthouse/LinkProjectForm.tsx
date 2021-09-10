@@ -10,15 +10,11 @@ import {
 import { AppContext } from '../../context/AppContext';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
 import TrashIcon from '@patternfly/react-icons/dist/esm/icons/trash-icon';
+import { LinkProjectFormValues, LinkProjectProps } from 'types';
 
-type formValues = {
-    project: string,
-    branch: string
-}
-
-const LinkProjectForm = ( props: any ) => {
+const LinkProjectForm = ( props: LinkProjectProps ) => {
     const [ isPrimaryLoading, setIsPrimaryLoading ] = useState( false );
-    const { control, handleSubmit, setValue } = useForm<formValues>();
+    const { control, handleSubmit, setValue } = useForm<LinkProjectFormValues>();
 
     //For branch select
     const [ branches, setBranches ] = useState( Array<string>() );
@@ -38,7 +34,7 @@ const LinkProjectForm = ( props: any ) => {
             let project;
             if ( editMode ) {
                 project = res.filter( ( projectObj: any ) => {
-                    return projectObj.id === props.lighthouseConfig.projectId;
+                    return projectObj.id === props.lighthouseConfig?.projectId;
                 } )[ 0 ];
                 setValue( 'project', project.name, { shouldDirty: true } );
 
@@ -46,14 +42,14 @@ const LinkProjectForm = ( props: any ) => {
             else {
                 project = res[ 0 ];
             }
-            props.setSelectedProject( project );
+            props.setSelectedProject && props.setSelectedProject( project );
             getLHProjectBranches( project.id )
             .then( ( brancheArr: any ) => {
                 const arr = brancheArr.map( ( branchObj: any ) => branchObj.branch );
                 // Edit mode logic to polpulate the branch select
                 if ( editMode ) {
-                    const pos = arr.indexOf( props.lighthouseConfig.branch );
-                    let branch = arr[ pos ] || props.lighthouseConfig.branch;
+                    const pos = arr.indexOf( props.lighthouseConfig?.branch );
+                    let branch = arr[ pos ] || props.lighthouseConfig?.branch;
                     setValue( 'branch', branch, { shouldDirty: true } );
                     if ( pos === -1 ) {
                         arr.push( branch );
@@ -63,7 +59,7 @@ const LinkProjectForm = ( props: any ) => {
             } );
             setFilteredProjects( res );
         });
-    }, [ props.branchVariant, editMode ] );
+    }, [ props, props.branchVariant, editMode ] );
     const onBranchToggle = (isOpen: any) => {
         setIsBranchListOpen((isOpen: boolean) => !isOpen);
     };
@@ -98,7 +94,7 @@ const LinkProjectForm = ( props: any ) => {
         setFilteredProjects(filteredProjects);
     };
 
-    const linkProject = (data: formValues) => {
+    const linkProject = (data: LinkProjectFormValues) => {
         setIsPrimaryLoading( true );
         const config = {
             appId: app.id,
@@ -114,8 +110,8 @@ const LinkProjectForm = ( props: any ) => {
         });
     }
     const removeLHSpaConfig = () => {
-        deleteLHSpaConfig( props.lighthouseConfig._id ).then( (res: any) => {
-            props.setLighthouseConfig( {appId: null} );
+        deleteLHSpaConfig( props.lighthouseConfig?._id ).then( (res: any) => {
+            props.setLighthouseConfig( {appId: null, _id: null} );
             window.OpNotification?.success( { subject: 'SPA configuration deleted successfully!' } );
             props.setIsModalOpen(false);
         });
@@ -148,7 +144,7 @@ const LinkProjectForm = ( props: any ) => {
                                     const selProject: any = projects.filter( ( project: any ) => {
                                         return project.name === selection;
                                     } );
-                                    props.setSelectedProject( selProject[ 0 ] );
+                                    props.setSelectedProject && props.setSelectedProject( selProject[ 0 ] );
                                     getLHProjectBranches( selProject[ 0 ].id )
                                     .then( ( brancheArr: any ) => {
                                         const arr = brancheArr.map( ( branchObj: any ) => branchObj.branch );
@@ -161,7 +157,7 @@ const LinkProjectForm = ( props: any ) => {
                                 screenReaderLabel="Selected Project"
                                 footer={
                                     <ContextSelectorFooter>
-                                        <Button variant="link" isInline onClick={ () => props.setActiveTabKey( 0 ) }>
+                                        <Button variant="link" isInline onClick={ () => props.setActiveTabKey && props.setActiveTabKey( 0 ) }>
                                             Create a project
                                         </Button>
                                     </ContextSelectorFooter>

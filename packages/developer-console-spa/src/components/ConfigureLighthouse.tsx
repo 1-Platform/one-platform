@@ -232,9 +232,9 @@ const ConfigureLighthouse = ( props: any ) => {
             <br/>
             <LinkProjectForm
               selectedProject={ selectedProject }
+              branchVariant={ true }
               setLighthouseConfig={ setLighthouseConfig }
-              setIsModalOpen={ setIsModalOpen }
-              branchVariant={ true } />
+              setIsModalOpen={ setIsModalOpen } />
           </>
         }
         </Modal>

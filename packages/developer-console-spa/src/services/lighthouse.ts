@@ -81,7 +81,10 @@ export const createLHSpaConfig = async (config: any) => {
       throw err;
     } );
 }
-export const deleteLHSpaConfig = async (id: string) => {
+export const deleteLHSpaConfig = async ( id: string | null | undefined) => {
+    if ( id === ( null ||  undefined )) {
+      throw Error('Id can not be null');
+    }
     return gqlClient({
         query: deleteLHSPAConfig,
         variables: {
