@@ -57,7 +57,7 @@ export const createLHProject = ( project: any ) => {
     myHeaders.append("Content-Type", "application/json");
     const raw = JSON.stringify(project);
 
-    return fetch( `${process.env.LHCI_SERVER_URL}`, {
+    return fetch( `${process.env.SERVER_BASE_URL}/v1/projects`, {
       method: 'POST',
       headers: myHeaders,
       body: raw
