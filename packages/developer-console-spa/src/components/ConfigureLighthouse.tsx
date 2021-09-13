@@ -116,8 +116,8 @@ const ConfigureLighthouse = ( props: any ) => {
                     Manage Lighthouse Config &nbsp;<SettingsIcon />
                   </Button>
                 </CardActions>
-                <CardTitle className="success-header-fontSize success-header-fontColor">
-                  <CheckCircleIcon /> You are all set!
+                <CardTitle className="success-header-fontSize">
+                  <CheckCircleIcon className="success-header-fontColor" /> You are all set!
                 </CardTitle>
               </CardHeader>
                 <CardBody>
