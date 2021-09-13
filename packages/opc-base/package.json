@@ -20,7 +20,13 @@
     "README.md",
     "tsconfig.json"
   ],
-  "author": "Akhil Mohan",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "akhilmhdh",
+    "email": "akhilmhdh@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.15.0",
