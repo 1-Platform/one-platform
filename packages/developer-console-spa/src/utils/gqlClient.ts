@@ -25,6 +25,12 @@ export default function gqlClient ( { query, variables }: GQLRequestProps, signa
     } ),
     signal,
   } )
+    .then( ( res: any ) => {
+      if ( !res.ok ) {
+      console.debug( '[GQLClient]:' + res.statusText );
+      }
+      return res;
+    } )
     .then( res => res.json() )
     .catch( ( err: Error ) => {
       if ( err.name === 'AbortError' ) {
