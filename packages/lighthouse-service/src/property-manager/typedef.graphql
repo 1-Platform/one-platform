@@ -57,6 +57,22 @@ type LHPropertyType {
   updatedBy: LHPropertyUserProfileType
   updatedOn: DateTime
 }
+type LHProjectType {
+  id: ID
+  name: String
+  externalUrl: String
+  baseBranch: String
+  slug: String
+  adminToken: String
+  token: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+input AddLHProjectInput {
+  name: String!
+  externalUrl: String
+  baseBranch: String
+}
 
 type Query {
   """
@@ -79,6 +95,10 @@ type Mutation {
   Create a new lighthouse property
   """
   createLHProperty(property: AddLHPropertyInput!): LHPropertyType
+  """
+  Create a new lighthouse property
+  """
+  createLHProject(project: AddLHProjectInput!): LHProjectType
   """
   Update a lighthouse property
   """

@@ -46,3 +46,26 @@ export const populateMongooseDocWithUser = async (
   property.updatedBy = user;
   return property;
 };
+
+/**
+ * Helper function to create LH Project
+ * @param {PropertyModel} $project: input project document
+ * @returns {Object}: Mutated document as object
+ */
+export const createLHProject = ( project: any ) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify(project);
+
+    return fetch( `${process.env.SERVER_BASE_URL}/v1/projects`, {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw
+    })
+      .then( (response: any) => {
+        return response.json();
+      } )
+      .catch( (error: Error) => {
+        console.error( 'error', error );
+      } );
+};

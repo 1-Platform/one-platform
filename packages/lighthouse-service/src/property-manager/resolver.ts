@@ -1,5 +1,5 @@
 import { FilterQuery } from "mongoose";
-import { getUserProfile, populateMongooseDocWithUser } from "./helpers";
+import { getUserProfile, populateMongooseDocWithUser, createLHProject } from "./helpers";
 import { Property } from "./schema";
 
 export const PropertyResolver = {
@@ -53,6 +53,14 @@ export const PropertyResolver = {
       const mongoosePropertyDoc = new Property(property);
       const savedProperty = await mongoosePropertyDoc.save();
       return populateMongooseDocWithUser(savedProperty);
+    },
+    async createLHProject(root: any, args: any, ctx: any) {
+      const project = {
+        name: args.project.name,
+        baseBranch: args.project.baseBranch,
+        externalUrl: args.project.externalUrl
+      };
+      return createLHProject(project);
     },
     async updateLHProperty(root: any, args: any, ctx: any) {
       const { id, data } = args;
