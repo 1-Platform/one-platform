@@ -1,6 +1,6 @@
 {
   "extends": ["config:base", ":semanticCommits"],
-  "schedule": "first day of the month",
+  "schedule": "on the first day of the month",
   "packageRules": [
     {
       "updateTypes": ["minor", "patch", "pin", "digest"],
