@@ -47,6 +47,7 @@ services:
       - notifications-service
       - search-service
       - lighthouse-service
+      - api-catalog-service
 
   apps-service:
     build: ./packages/apps-service
@@ -133,6 +134,21 @@ services:
       - ./packages/lighthouse-service:/app
     ports:
       - 8086:8080
+    depends_on:
+      - mongo
+      - redis
+
+  api-catalog-service:
+    build: ./packages/api-catalog-service
+    command: npm start
+    env_file: ./packages/api-catalog-service/.env
+    environment:
+      DB_PATH: mongo
+      REDIS_SERVICE_HOST: redis
+    volumes:
+      - ./packages/api-catalog-service:/app
+    ports:
+      - 8087:8080
     depends_on:
       - mongo
       - redis

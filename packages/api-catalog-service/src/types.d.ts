@@ -5,7 +5,7 @@ declare module '*.json';
  * Types for the API Namespaces
  */
 type Maybe<T> = T | null;
-type Exact<T extends { [ key: string ]: unknown; }> = { [ K in keyof T ]: T[ K ] };
+type Exact<T extends { [ key: string ]: unknown }> = { [ K in keyof T ]: T[ K ] };
 type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [ SubKey in K ]?: Maybe<T[ SubKey ]> };
 type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [ SubKey in K ]: Maybe<T[ SubKey ]> };
 /** All built-in and custom scalars, mapped to their actual values */
@@ -100,6 +100,10 @@ interface NamespaceInput {
     updatedBy?: Maybe<Scalars[ 'String' ]>;
 }
 
+interface ListNamespacesArgs {
+    limit?: Maybe<Scalars['Int']>;
+    offset?: Maybe<Scalars['Int']>;
+}
 interface GetNamespaceByIdArgs {
     _id: Scalars[ 'ID' ];
 }
@@ -129,8 +133,8 @@ interface RemoveNamespaceSubscriberArgs {
 }
 
 interface FetchAPISchemaArgs {
-  category?: Maybe<ApiCategory>;
-  environment?: Maybe<NSEnvironmentType>;
+    category?: Maybe<ApiCategory>;
+    environment?: Maybe<NSEnvironmentType>;
 }
 
 interface UserType {
@@ -145,7 +149,7 @@ interface Query {
     // API Namespace Query Types
     listNamespaces?: Maybe<Array<Maybe<NamespaceType>>>;
     getNamespaceById?: Maybe<NamespaceType>;
-    fetchAPISchema?: String;
+    fetchAPISchema?: string;
 }
 
 interface Mutation {

@@ -66,20 +66,44 @@ input NamespaceInput {
 }
 
 type Query {
-  listNamespaces: [NamespaceType]
+  """
+  List all API namespaces
+  """
+  listNamespaces(limit: Int, offset: Int): [NamespaceType]
+  """
+  To get a particular namespace by id
+  """
   getNamespaceById(_id: ID!): NamespaceType
+  """
+  Fetch the API Schema
+  """
   fetchAPISchema(category: ApiCategory, environment:NSEnvironmentInput): String
 }
 
 type Mutation {
+  """
+  Create an API namespace record
+  """
   createNamespace(payload: NamespaceInput!): NamespaceType
+  """
+  Update an API namespace record
+  """
   updateNamespace(_id: ID!, payload: NamespaceInput!): NamespaceType
+  """
+  Delete an API namespace record
+  """
   deleteNamespace(_id: ID!): NamespaceType
+  """
+  Add subscriber to the namespace environments
+  """
   addNamespaceSubscriber(
     _id: ID!
     envName: String!
     payload: ApiUserInput!
   ): NamespaceType
+  """
+  Remove subscriber from namespace environments.
+  """
   removeNamespaceSubscriber(
     _id: ID!
     envName: String!

@@ -4,8 +4,8 @@ import { Namespace } from './schema';
 
 export const NamespaceResolver = {
     Query: {
-        listNamespaces ( root: any, args: any, ctx: any ) {
-            return Namespace.find().lean().then( async ( namespaces: NamespaceType[] ) => {
+        listNamespaces ( root: any, { limit, offset }: ListNamespacesArgs, ctx: any ) {
+            return Namespace.find().limit(limit || 10).skip(offset || 0).lean().then( async ( namespaces: NamespaceType[] ) => {
                 if ( namespaces.length ) {
                     // Fetch user information associated with this records.
                     let userIds: string[] = [];
@@ -65,7 +65,7 @@ export const NamespaceResolver = {
             } );
         },
         async fetchAPISchema ( root: any, { category, environment }: FetchAPISchemaArgs, ctx: any ) {
-            return await apiCatalogHelper.fetchSchema( category as ApiCategory, environment as NSEnvironmentType )
+            return await apiCatalogHelper.fetchSchema( category as ApiCategory, environment as NSEnvironmentType );
         },
     },
     Mutation: {
@@ -97,12 +97,12 @@ export const NamespaceResolver = {
         async addNamespaceSubscriber ( root: any, { _id, envName, payload }: AddNamespaceSubscriberArgs, ctx: any ) {
             return await Namespace.findOneAndUpdate(
                 {
-                    "_id": _id,
-                    "environments.name": envName
+                    '_id': _id,
+                    'environments.name': envName
                 },
                 {
-                    "$push": {
-                        "environments.$.subscribers": payload
+                    '$push': {
+                        'environments.$.subscribers': payload
                     }
                 },
                 { upsert: true, new: true }
@@ -111,16 +111,16 @@ export const NamespaceResolver = {
         async removeNamespaceSubscriber ( root: any, { _id, envName, payload }: RemoveNamespaceSubscriberArgs, ctx: any ) {
             return await Namespace.findOneAndUpdate(
                 {
-                    "_id": _id,
-                    "environments.name": envName
+                    '_id': _id,
+                    'environments.name': envName
                 },
                 {
-                    "$pull": {
-                        "environments.$.subscribers": payload
+                    '$pull': {
+                        'environments.$.subscribers': payload
                     }
                 },
                 {
-                multi: true
+                    multi: true
                 }
             ).exec();
         }
