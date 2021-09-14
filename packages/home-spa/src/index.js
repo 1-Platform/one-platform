@@ -34,17 +34,20 @@ opcFooter.addEventListener( 'opc-footer-link:click', () => {
 document.addEventListener( 'DOMContentLoaded', () => {
   document.querySelector( 'body' ).style.visibility = 'visible'
 } );
-window.OpAuthHelper.onLogin( () => {
-  getData(getHomeTypeBySPA)
-    .then((result) => {
-      const apps = result.data.apps ? result.data.apps : [];
-      renderSPAList(apps);
-      applicationCards(apps);
-      localStorage.setItem("spaList", JSON.stringify(apps));
-      microserviceCards();
+
+microserviceCards();
+applicationCards();
+// window.OpAuthHelper.onLogin( () => {
+  // getData(getHomeTypeBySPA)
+  //   .then((result) => {
+  //     const apps = result.data.apps ? result.data.apps : [];
+      // renderSPAList(apps);
+  //     applicationCards(apps);
+  //     localStorage.setItem("spaList", JSON.stringify(apps));
+      
       contactUsTeamBlock();
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-} );
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
+// } );

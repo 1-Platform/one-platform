@@ -24,7 +24,7 @@
       "name": "User Group",
       "description": "A prebuilt integration with LDAP to authenticate, authorize and get user information.",
       "link": "/get-started/docs/microservices/user-groups-service/",
-      "icon": "res/img/user.svg",
+      "icon": "res/img/user_group.svg",
       "imgBgColor": "#FDF7E7"
     },
     {
