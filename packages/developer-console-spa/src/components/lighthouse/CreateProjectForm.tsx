@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { createLightHouseProjects } from '../../services/lighthouse';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import { CreateProjectFormValues, CreateProjectProps, ProjectType } from 'types';
+import { CreateProjectFormValues, CreateProjectProps } from 'types';
 
 const CreateProjectForm = ( props: CreateProjectProps ) => {
     const [ isPrimaryLoading, setIsPrimaryLoading ] = useState<boolean>( false );
