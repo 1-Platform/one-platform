@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'environments/environment';
-import { AppService } from 'app/app.service';
 import { ActivatedRoute } from '@angular/router';
+import { PlaygroundService } from 'app/playground/playground.service';
 
 const Ansi = require('ansi-to-html');
 @Component({
@@ -71,7 +71,10 @@ export class HomeComponent implements OnInit {
   projects = [];
   projectBranches = [];
   property: any = {};
-  constructor(private appService: AppService, private router: ActivatedRoute) {}
+  constructor(
+    private appService: PlaygroundService,
+    private router: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.updateProgress();
@@ -213,20 +216,16 @@ export class HomeComponent implements OnInit {
   };
 
   fetchProjects = () => {
-    this.appService
-      .fetchProjects(environment.LH_SERVER_URL)
-      .then((responses) => {
-        this.projects = responses.listLHProjects;
-      });
+    this.appService.fetchProjects().then((responses) => {
+      this.projects = responses.listLHProjects.rows;
+    });
   };
 
   fetchProjectBranches = () => {
     if (this.projectID) {
-      this.appService
-        .fetchProjectBranches(environment.LH_SERVER_URL, this.projectID)
-        .then((responses) => {
-          this.projectBranches = responses.listLHProjectBranches;
-        });
+      this.appService.fetchProjectBranches(this.projectID).then((responses) => {
+        this.projectBranches = responses.listLHProjectBranches.rows;
+      });
     }
   };
 

@@ -1,0 +1,7 @@
+export enum LeaderboardCategory {
+  PWA = 'PWA',
+  SEO = 'SEO',
+  BEST_PRACTICES = 'BEST_PRACTICES',
+  ACCESSIBILITY = 'ACCESSIBILITY',
+  PERFORMANCE = 'PERFORMANCE',
+}

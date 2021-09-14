@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { GraphQLModule } from 'app/graphql.module';
 import {
-  ListLHProperties,
-  GetLHPropertyById,
-  ListLHPropertyScores,
+  ListLHProjects,
+  ListLHProjectBranches,
+  ListLHProjectScores,
 } from './dashboard.gql';
 
 @Injectable({
@@ -15,24 +15,29 @@ export class DashboardService extends GraphQLModule {
     super();
   }
 
-  listLHProperties() {
-    return this.apollo.watchQuery<{ listLHProperties: Properties[] }>({
-      query: ListLHProperties,
-    });
-  }
-
-  getLHPropertyById(propertyId: string) {
-    return this.apollo.watchQuery<{ getLHPropertyById: Properties }>({
-      query: GetLHPropertyById,
+  listLHProjects() {
+    return this.apollo.watchQuery<{ listLHProjects: Pagination<LHProject[]> }>({
+      query: ListLHProjects,
       variables: {
-        propertyId,
+        limit: 10000,
       },
     });
   }
 
-  getLHPropertyScores(projectId: string, apps: PropertyApps[]) {
-    return this.apollo.watchQuery<Record<string, PropertyBuilds[]>>({
-      query: ListLHPropertyScores(projectId, apps),
+  listLHProjectBranches(projectId: string) {
+    return this.apollo.watchQuery<{
+      listLHProjectBranches: Pagination<{ branch: string }[]>;
+    }>({
+      query: ListLHProjectBranches,
+      variables: {
+        projectId,
+      },
+    });
+  }
+
+  ListLHProjectScores(projectId: string, branches: string[], limit = 10) {
+    return this.apollo.watchQuery<Record<string, ProjectBranch[]>>({
+      query: ListLHProjectScores(projectId, branches, limit),
       variables: {
         projectId,
       },

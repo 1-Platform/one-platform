@@ -4,15 +4,18 @@ import { GraphQLModule } from 'app/graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { PropertyCardComponent } from './components/property-card/property-card.component';
 import { AnalysisComponent } from './pages/analysis/analysis.component';
-
 import { SharedModule } from 'app/shared/shared.module';
+import { TimelineScoreFormaterPipe } from './pipes/timeline-score-formater.pipe';
 
 @NgModule({
-  declarations: [HomeComponent, PropertyCardComponent, AnalysisComponent],
+  declarations: [HomeComponent, PropertyCardComponent, AnalysisComponent, TimelineScoreFormaterPipe],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -20,6 +23,8 @@ import { SharedModule } from 'app/shared/shared.module';
     FormsModule,
     HttpClientModule,
     SharedModule,
+    NgxChartsModule,
+    InfiniteScrollModule,
   ],
 })
 export class DashboardModule {}

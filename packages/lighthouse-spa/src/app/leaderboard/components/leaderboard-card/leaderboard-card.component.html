@@ -1,0 +1,24 @@
+<div class="pf-c-card">
+    <div class="pf-c-card__body pf-u-p-md">
+        <div
+            class="pf-l-flex pf-no-wrap pf-m-align-items-center pf-m-space-items-xl pf-u-font-size-xl pf-u-font-weight-bold">
+            <div class="pf-l-flex__item leaderboard--card-rank pf-u-px-md">
+                {{rank.toString().padStart(2,"0")}}
+            </div>
+            <div class="pf-l-flex pf-no-wrap pf-m-align-items-center pf-m-grow">
+                <div class="pf-l-flex__item avatar-icon">
+                    <app-avatar [text]="projectName" [size]="40"></app-avatar>
+                </div>
+                <div class="pf-l-flex__item">
+                    <span class="uppercase">{{projectName}}</span>
+                    <div class="pf-u-font-size-sm pf-u-m-0 pf-u-font-weight-light">Branch:
+                        <span>{{projectBranch}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pf-l-flex__item leaderboard--card-rank pf-u-px-md">
+                {{score.toString().padStart(2,"0")}}
+            </div>
+        </div>
+    </div>
+</div>

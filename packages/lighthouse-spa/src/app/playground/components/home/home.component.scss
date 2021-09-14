@@ -1,4 +1,14 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .lighthouse {
+  &-score {
+    width: 120px;
+  }
   &-code-container {
     overflow: hidden;
   }

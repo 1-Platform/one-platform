@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.leaderboard {
+  &--card {
+    max-width: 780px;
+  }
+}
+
+.leaderboard--header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}

@@ -5,7 +5,10 @@ import { RouterModule } from '@angular/router';
 import { OutlinedPieGraphComponent } from './components/outlined-pie-graph/outlined-pie-graph.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LHCardLegendComponent } from './components/lhcard-legend/lhcard-legend.component';
-import { LHTagLineStepsComponent } from './components/lhtag-line-steps/lhtag-line-steps.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
+import { EmptyStateComponent } from './components/empty-state/empty-state.component';
+import { LHScoreLabelFormaterPipe } from './pipes/lhscore-label-formater.pipe';
+import { FilterListPipe } from './pipes/filter-list.pipe';
 
 @NgModule({
   declarations: [
@@ -13,7 +16,10 @@ import { LHTagLineStepsComponent } from './components/lhtag-line-steps/lhtag-lin
     OutlinedPieGraphComponent,
     LoaderComponent,
     LHCardLegendComponent,
-    LHTagLineStepsComponent,
+    AvatarComponent,
+    EmptyStateComponent,
+    LHScoreLabelFormaterPipe,
+    FilterListPipe,
   ],
   imports: [CommonModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -22,7 +28,10 @@ import { LHTagLineStepsComponent } from './components/lhtag-line-steps/lhtag-lin
     OutlinedPieGraphComponent,
     LoaderComponent,
     LHCardLegendComponent,
-    LHTagLineStepsComponent,
+    AvatarComponent,
+    EmptyStateComponent,
+    LHScoreLabelFormaterPipe,
+    FilterListPipe,
   ],
 })
 export class SharedModule {}
