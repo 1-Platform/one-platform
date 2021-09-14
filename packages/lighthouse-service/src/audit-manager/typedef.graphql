@@ -1,5 +1,18 @@
 scalar DateTime
 
+enum Sort {
+  ASC
+  DESC
+}
+
+enum LHLeaderBoardCategory {
+  PWA
+  SEO
+  BEST_PRACTICES
+  ACCESSIBILITY
+  PERFORMANCE
+}
+
 input LighthouseInput {
   sites: String
   auditId: String
@@ -37,7 +50,7 @@ type LighthouseBuildType {
   projectId: ID
   branch: String
   runAt: DateTime
-  score: [LighthouseScoreType]
+  score: LighthouseScoreType
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -46,19 +59,46 @@ type LighthouseBranchType {
   branch: String
 }
 
+type LighthouseLeaderBoardBuildType {
+  id: ID
+  projectId: ID
+  branch: String
+  runAt: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type LighthouseLeaderBoardType {
+  score: Int
+  rank: Int
+  build: LighthouseLeaderBoardBuildType
+  project: LighthouseProjectType
+}
+
+type ListLHProjects {
+  count: Int
+  rows: [LighthouseProjectType]
+}
+
+type ListLHProjectBranches {
+  count: Int
+  rows: [LighthouseBranchType]
+}
+
+type ListLHLeaderBoard {
+  count: Int
+  rows: [LighthouseLeaderBoardType]
+}
+
 type Query {
   """
   List all projects registered in lighthouse server
   """
-  listLHProjects(serverBaseUrl: String): [LighthouseProjectType]
+  listLHProjects(limit: Int, offset: Int, search: String): ListLHProjects
   """
   Fetch lighthouse report(lhr) from server.
   """
-  listProjectLHReport(
-    serverBaseUrl: String
-    projectID: String!
-    buildID: String!
-  ): [LighthouseScoreType]
+  listProjectLHReport(projectId: String!, buildId: String!): LighthouseScoreType
   """
   Fetch & Verify Project details of valid project
   """
@@ -70,8 +110,7 @@ type Query {
   Fetch Builds of the project by branch name and project id
   """
   listLHProjectBuilds(
-    serverBaseUrl: String
-    projectID: String!
+    projectId: String!
     branch: String!
     limit: Int!
   ): [LighthouseBuildType]
@@ -79,13 +118,24 @@ type Query {
   Fetch the branches of a project.
   """
   listLHProjectBranches(
-    serverBaseUrl: String
-    projectID: String!
-  ): [LighthouseBranchType]
+    projectId: String!
+    limit: Int
+    offset: Int
+    search: String
+  ): ListLHProjectBranches
   """
   Fetch the scores of a webproperty locally.
   """
   listLHScore(auditId: String!): [LighthouseScoreType]
+  """
+  Fetch the leaderboard showcasing project with highest scores
+  """
+  listLHLeaderboard(
+    type: LHLeaderBoardCategory!
+    limit: Int
+    offset: Int
+    sort: Sort
+  ): ListLHLeaderBoard
 }
 
 type Mutation {

@@ -13,11 +13,11 @@ type LighthouseType = {
 };
 
 type LighthouseScoreType = {
-  performance: string;
-  accessibility: string;
-  bestPractices: string;
-  seo: string;
-  pwa: string;
+  performance: number;
+  accessibility: number;
+  bestPractices: number;
+  seo: number;
+  pwa: number;
 };
 
 type LighthouseProjectType = {
@@ -27,6 +27,15 @@ type LighthouseProjectType = {
   externalUrl: string;
   token: string;
   baseBranch: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type LighthouseBuildType = {
+  id: string;
+  projectId: string;
+  branch: string;
+  runAt: string;
   createdAt: string;
   updatedAt: string;
 };
