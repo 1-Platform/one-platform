@@ -8,13 +8,6 @@
     },
     {
       "applicationType": "BUILTIN",
-      "name": "Home",
-      "icon": null,
-      "isActive": true,
-      "path": "/"
-    },
-    {
-      "applicationType": "BUILTIN",
       "name": "Documentation",
       "icon": null,
       "isActive": true,

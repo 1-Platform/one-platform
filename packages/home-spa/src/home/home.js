@@ -1,5 +1,4 @@
 import * as microservices from '../res/static/microservices.json';
-import * as spas from '../res/static/applications.json';
 import * as page from '../res/static/page-text.json';
 
 export const microserviceCards = () => {
@@ -37,11 +36,10 @@ export const microserviceCards = () => {
     }
 };
 
-export const applicationCards = () => {
-    const spaInfo = spas.default;
+export const applicationCards = (apps) => {
     const spaHTMLObject = document.querySelector("#apps");
     if (spaHTMLObject !== null) {
-        spaHTMLObject.innerHTML = spaInfo
+        spaHTMLObject.innerHTML = apps
         .slice(0, 12)
         .map(
             (spa) => {
@@ -73,7 +71,7 @@ export const renderSidebar = () => {
         </p>
         <div class="sidebar__cta">
             <button class="quick-deploy" onclick="toggleDeployModal('block')">Quick Deploy</button>
-            <a rel="noopener" href="/get-started/docs/" class="get-started">Get Started</a>
+            <a rel="noopener" href="/get-started/docs/onboarding-guide" class="get-started">Get Started</a>
         </div>
         <a class="sidebar__dev-console" href="/console">Learn more about Developer Console</a>`;
     }
@@ -100,7 +98,7 @@ export const renderMain = () => {
 
 window.openAppDrawer = () => {
     try {
-      document.querySelector("body > op-nav").toggleDrawer('app');
+      document.querySelector('opc-menu-drawer').open();
     } catch(err) {
       return err;
     }

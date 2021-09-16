@@ -1,6 +1,6 @@
 {
   "name": "home-spa",
-  "version": "1.0.1",
+  "version": "3.0.0",
   "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {
@@ -46,7 +46,7 @@
     "@babel/plugin-proposal-object-rest-spread": "7.15.6"
   },
   "dependencies": {
-    "@one-platform/opc-footer": "0.0.3-prerelease",
+    "@one-platform/opc-footer": "0.0.4-prerelease",
     "@patternfly/pfe-card": "^1.1.1",
     "@patternfly/pfe-cta": "^1.1.1",
     "@patternfly/pfe-tabs": "^1.1.1",

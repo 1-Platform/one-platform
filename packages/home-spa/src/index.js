@@ -1,7 +1,7 @@
 // @ts-nocheck
 // SCSS imports
 import './index.scss';
-// NPM lib imports
+// Webcomponents
 import '@one-platform/opc-footer/dist/opc-footer';
 // Local javascript imports
 // import './home/home.js';
@@ -12,7 +12,7 @@ import { microserviceCards, applicationCards, renderSidebar, renderMain } from '
 // Service function import
 import { getData, getHomeTypeBySPA }  from './service/service';
 
-// Common HTML -> Footer start
+// #region footer
 const footer = document.querySelector('footer');
 if (footer !== null) {
   footer.innerHTML = `
@@ -30,26 +30,25 @@ opcFooter.opcLinkCategories = links;
 opcFooter.addEventListener( 'opc-footer-link:click', () => {
   document.querySelector('opc-feedback').toggle();
 }, false);
-// Footer end
+// #endregion footer
+
 document.addEventListener( 'DOMContentLoaded', () => {
   document.querySelector( 'body' ).style.visibility = 'visible'
 } );
 
-microserviceCards();
-applicationCards();
-renderSidebar();
-renderMain();
-// window.OpAuthHelper.onLogin( () => {
-  // getData(getHomeTypeBySPA)
-  //   .then((result) => {
-  //     const apps = result.data.apps ? result.data.apps : [];
-      // renderSPAList(apps);
-  //     applicationCards(apps);
-  //     localStorage.setItem("spaList", JSON.stringify(apps));
-      
+window.OpAuthHelper.onLogin(() => {
+  getData(getHomeTypeBySPA)
+    .then((result) => {
+      const apps = result.data.apps ? result.data.apps : [];
+      localStorage.setItem("spaList", JSON.stringify(apps));
+      microserviceCards();
+      renderMain();
+      applicationCards(apps);
+      renderSPAList(apps);
+      renderSidebar();
       contactUsTeamBlock();
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
-// } );
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
