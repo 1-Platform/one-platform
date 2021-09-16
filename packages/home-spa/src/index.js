@@ -8,7 +8,7 @@ import '@one-platform/opc-footer/dist/opc-footer';
 import * as FooterLinks from '../../common/footer.json';
 import { renderSPAList } from './404/404';
 import { contactUsTeamBlock } from './contact-us/contact-us';
-import { microserviceCards, applicationCards } from './home/home';
+import { microserviceCards, applicationCards, renderSidebar, renderMain } from './home/home';
 // Service function import
 import { getData, getHomeTypeBySPA }  from './service/service';
 
@@ -37,6 +37,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 microserviceCards();
 applicationCards();
+renderSidebar();
+renderMain();
 // window.OpAuthHelper.onLogin( () => {
   // getData(getHomeTypeBySPA)
   //   .then((result) => {

@@ -1,5 +1,5 @@
 // variables
-$node-x-translate: 16rem;
+$node-x-translate: 13rem;
 // mixin
 @mixin cards {
   margin-top: 2rem;
@@ -29,7 +29,7 @@ $node-x-translate: 16rem;
   position: fixed;
   width: 30vw;
   &__info {
-    margin-top: -10rem;
+    margin-top: -15rem;
     max-width: toRem(450);
     h3 {
       color: #FFFFFF;
@@ -66,21 +66,21 @@ $node-x-translate: 16rem;
   }
   &__illustration {
     margin-top: 10rem;
-    max-width: 15rem;
+    max-width: 13rem;
     height: 31.25rem;
     transform: translate(20px, -10rem);
     .transform-node {
       &-app {
-        transform: translate($node-x-translate, -6rem);
+        transform: translate($node-x-translate, -5rem);
       }
       &-spaship {
-        transform: translate($node-x-translate, -10rem);
+        transform: translate($node-x-translate, -9rem);
       }
       &-gateway {
-        transform: translate($node-x-translate, -15rem);
+        transform: translate($node-x-translate, -14rem);
       }
       &-core {
-        transform: translate($node-x-translate, -25rem);
+        transform: translate($node-x-translate, -24rem);
       }
     }
     &-connector {
@@ -91,6 +91,7 @@ $node-x-translate: 16rem;
       & > span {
         color: #A0A0A0;
         margin-left: 0.5rem;
+        font-size: toRem(12);
       }
     }
     &-node {
@@ -102,13 +103,13 @@ $node-x-translate: 16rem;
         border-right: 1px solid #A0A0A0;
         width: toRem(30);
         &.medium {
-          height: toRem(68);
+          height: toRem(54);
         }
         &.small {
-          height: toRem(24);
+          height: toRem(20);
         }
         &.large {
-          height: toRem(70);
+          height: toRem(60);
         }
       }
       &-end {
@@ -125,7 +126,7 @@ $node-x-translate: 16rem;
     &-cubes {
       transform: translate(0px, 2rem);
       transition: all 320ms ease-in-out;
-      @include moveLayers('moveCubes', 7.5rem, 2rem); 
+      @include moveLayers('moveCubes', 5rem, 2rem); 
       z-index: 3;
     }
     &-spaship {
@@ -135,15 +136,15 @@ $node-x-translate: 16rem;
       @include moveLayers('spaship', -2em, -4rem);
   }    
     &-gateway {
-      transform: translate(0px, -8.5rem);
+      transform: translate(0px, -8.9rem);
       transition: all 320ms ease-in-out;
       z-index: 1;
-      @include moveLayers('gateway', -11.5rem, -8.5rem);
+      @include moveLayers('gateway', -10rem, -8.9rem);
   }
     &-core {
       transform: translate(0px, -15.5rem);
       transition: all 320ms ease-in-out;
-      @include moveLayers('core', -22rem, -15.5rem);
+      @include moveLayers('core', -18rem, -15.5rem);
   }
     
   }
@@ -165,6 +166,9 @@ body {
   display: grid;
   grid-template-columns: 1.3fr 3fr;
   &__content {
+    header {
+      margin-bottom: 8rem;
+    }
     grid-column: 2;
     background-color: #FFFFFF;
     max-width: toRem(1400);
@@ -175,8 +179,18 @@ body {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      h3 {
-        font-size: toRem(28);
+      &__title {
+        max-width: 50%;
+        h3 {
+          font-size: 2.5rem;
+          span {
+            color: #c00;
+            font-style: italic;
+          }
+        }
+        p {
+          margin-top: 1.5rem;
+        }
       }
       &__illustration {
         margin-left: 2rem;
@@ -188,6 +202,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 6rem;
+    margin-top: 2rem;
     &-card {
       border: 1px solid #D2D2D2;
       border-radius: 5px;
@@ -210,8 +225,8 @@ body {
 }
 
 .applications {
+  margin-bottom: 8rem;
   &__view-more {
-    margin-bottom: 8rem;
     text-align: center;
     button {
       background-color: #0066CC1A;
@@ -272,9 +287,12 @@ body {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      .img {
+        width: 10rem;
+      }
       .text {
         max-width: toRem(300);
-        margin-right: toRem(55);
+        margin-right: 10rem;
         margin-left: 0;
         h3 {
           font-size: toRem(24);
@@ -285,9 +303,9 @@ body {
           margin-bottom: 1rem;
         }
       }
-      .text:nth-child(2) {
+      .text:nth-child(2n) {
         margin-right: 0;
-        margin-left: toRem(55);
+        margin-left: 10rem;
       }
     }
   }
@@ -295,12 +313,88 @@ body {
 
 
 // Media queries 
-@media (max-width: toRem(965)) {
+@media (max-width: toRem(1120)) {
   .main {
     display: block;
+    &__stats {
+      display: none;
+    }
+    .hero {
+      flex-direction: column-reverse;
+      padding-top: 2rem;
+      align-items: center;
+    }
   }
   .sidebar {
     position: static;
     width: 100%;
   }
 }
+@media (max-width: toRem(650)) {
+  .services {
+    &__microservices {
+      &-card {
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+        .img {
+          width: 20rem;
+        }
+        .text {
+          margin: 0;
+          margin-top: 1.5rem;
+          &:nth-child(2n) {
+            margin: 0;
+            margin-top: 1.5rem;
+          }
+        }
+        &:nth-child(2n) {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  .apps {
+    .app {
+      width: 100%;
+    }
+  }
+}
+
+// #region quick deploy modal
+#deploy-spa-modal {
+  display: none;
+}
+#deploy-submit {
+  display: flex;
+  align-items: center;
+  color: #C9190B;
+  background-color: #FAEAE8;
+  &:disabled {
+    color: #333333;
+    background-color: #F5F5F5;
+    cursor: no-drop;
+  }
+  span {
+    margin-right: .5rem;
+  }
+}
+#app-path-label {
+  i {
+    position: relative;
+    color: #888888;
+  }
+  i[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    width: 25ch;
+    bottom: 30px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 1px 2px 4px #a0a0a0;
+    border-radius: 10px;
+    color: #7b7b7b;
+    right: -100px;
+  }
+}
+// #endregion quick deploy modal

@@ -1,5 +1,10 @@
-[
-    {
-        "title": "Application Hub provides unified platform to deploy & host internal apps and search app content."
+{
+    "sidebar": {
+        "title": "Develop • Deploy • Deliver",
+        "paragraph": "One Platform provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation."
+    },
+    "main": {
+        "title": "We connect users to <span>an experience</span>",
+        "paragraph": "Application Hub is a platform that brings together all application to increase collaboration, improve execution and accelerate deployment and delivery speed."
     }
-]
+}

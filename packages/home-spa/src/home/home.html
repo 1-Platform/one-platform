@@ -48,32 +48,12 @@
           <span class="sidebar__illustration-connector-text">One Platform Core</span>
         </div>
       </div>
-      <div class="sidebar__info">
-        <h3>
-          Develop • Deploy • Deliver
-        </h3>
-        <p>
-          Application Hub is a platform that brings together all application to increase collaboration, 
-          improve execution and accelerate deployment and delivery speed.
-        </p>
-        <div class="sidebar__cta">
-          <button class="quick-deploy">Quick Deploy</button>
-          <a rel="noopener" href="/get-started/docs/" class="get-started">Get Started</a>
-        </div>
-        <a class="sidebar__dev-console" href="/console">Learn more about Developer Console</a>
-      </div>
+      <div class="sidebar__info" id="sidebar-info"></div>
     </div>
     <div class="main__content">
       <header>
-        <div class="hero">
-          <h3>
-            Application Hub connecting users to an experience.
-          </h3>
-          <div class="hero__illustration">
-            <img src="../res/img/user.svg" alt="">
-          </div>
-        </div>
-        <div class="main__stats">
+        <div class="hero" id="hero"></div>
+        <div class="main__stats" id="stat-cards">
           <div class="main__stats-card">
             <span>
               Apps deployed
@@ -109,7 +89,7 @@
         <h2>Applications</h2>
         <div class="apps" id="apps"></div>
         <div class="applications__view-more">
-          <button>View more</button>
+          <button onclick="openAppDrawer()">View more</button>
         </div>
       </section>
 
@@ -121,5 +101,6 @@
       </footer>
     </div>
   </main>
+<div id="quick-deploy-modal"></div>
 </body>
 </html>
