@@ -4,7 +4,6 @@ import './index.scss';
 // Webcomponents
 import '@one-platform/opc-footer/dist/opc-footer';
 // Local javascript imports
-// import './home/home.js';
 import * as FooterLinks from '../../common/footer.json';
 import { renderSPAList } from './404/404';
 import { contactUsTeamBlock } from './contact-us/contact-us';

@@ -8,7 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const htmlWebpackPluginMinify = {
   collapseWhitespace: true,
-  removeComments: false,
+  removeComments: true,
   removeRedundantAttributes: true,
   removeScriptTypeAttributes: true,
   removeStyleLinkTypeAttributes: true,
