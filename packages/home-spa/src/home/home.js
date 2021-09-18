@@ -94,6 +94,20 @@ export const renderMain = () => {
             <img src="../res/img/user.svg" alt="">
         </div>`;
     }
+    const statCardsHTMLObject = document.querySelector('#stat-cards');
+    if (statCardsHTMLObject !== null) {
+      statCardsHTMLObject.innerHTML = pageText.main.stats.map(
+        stat => `
+        <div class="main__stats-card">
+          <span>
+            ${stat.title}
+          </span>
+          <h3>
+            ${stat.value}
+          </h3>
+       </div>`
+      ).join('');
+    }
 }
 
 window.openAppDrawer = () => {
@@ -106,164 +120,164 @@ window.openAppDrawer = () => {
 
 // #region quick deploy modal functions
 window.onload = () => {
-    const modalHTMLObject = document.querySelector('#quick-deploy-modal');
-    if (modalHTMLObject !== null) {
-        modalHTMLObject.innerHTML = `
-        <div class="pf-c-backdrop" id="deploy-spa-modal">
-        <div class="pf-l-bullseye">
-          <div class="pf-c-modal-box pf-m-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
-            <button class="pf-c-button pf-m-plain" onclick="toggleDeployModal('none')" type="button" aria-label="Close dialog">
-              <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-            <header class="pf-c-modal-box__header">
-              <h1 class="pf-c-modal-box__title" id="modal-title">Deploy to One Platform</h1>
-            </header>
-            <div class="pf-c-modal-box__body" id="modal-description">
-              <form class="pf-c-form" id="deploy-form" onsubmit="submitForm(); return false;">
-                <div class="pf-c-form__group">
-                  <div class="pf-c-form__group-label">
-                    <label class="pf-c-form__label" for="app-name">
-                      <span class="pf-c-form__label-text">Application Name</span>
-                      <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
-                    </label>
-                  </div>
-                  <div class="pf-c-form__group-control">
-                    <input
-                      class="pf-c-form-control"
-                      type="text"
-                      id="app-name"
-                      name="app-name"
-                      aria-invalid="false"
-                      oninput="checkAppName()"
-                      aria-describedby="app-name-helper"
-                      placeholder="app-name"
-                      required="true"
-                    />
-                    <p
-                      class="pf-c-form__helper-text"
-                      id="app-name-helper"
-                      aria-live="polite"
-                    >Enter the Application/SPA name</p>
-                  </div>
+  const modalHTMLObject = document.querySelector('#quick-deploy-modal');
+  if (modalHTMLObject !== null) {
+      modalHTMLObject.innerHTML = `
+      <div class="pf-c-backdrop" id="deploy-spa-modal">
+      <div class="pf-l-bullseye">
+        <div class="pf-c-modal-box pf-m-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+          <button class="pf-c-button pf-m-plain" onclick="toggleDeployModal('none')" type="button" aria-label="Close dialog">
+            <i class="fas fa-times" aria-hidden="true"></i>
+          </button>
+          <header class="pf-c-modal-box__header">
+            <h1 class="pf-c-modal-box__title" id="modal-title">Deploy to One Platform</h1>
+          </header>
+          <div class="pf-c-modal-box__body" id="modal-description">
+            <form class="pf-c-form" id="deploy-form" onsubmit="submitForm(); return false;">
+              <div class="pf-c-form__group">
+                <div class="pf-c-form__group-label">
+                  <label class="pf-c-form__label" for="app-name">
+                    <span class="pf-c-form__label-text">Application Name</span>
+                    <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                  </label>
                 </div>
-                <div class="pf-l-grid pf-m-gutter">
-                  <div class="pf-c-form__group pf-m-9-col">
-                    <div class="pf-c-form__group-label">
-                      <label class="pf-c-form__label" id="app-path-label" for="app-path">
-                        <span class="pf-c-form__label-text">Application Path</span>
-                        <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
-                        <i 
-                          title="App name should be lowercase, without space starting with a forward slash(/). Example -  /app-path"
-                          class="pficon pf-icon-help" 
-                          aria-hidden="true">
-                        </i>
-                      </label>
-                    </div>
-                    <div class="pf-c-form__group-control">
-                      <div class="pf-c-input-group">
-                        <input
-                          class="pf-c-form-control"
-                          type="text"
-                          id="app-path"
-                          name="app-path"
-                          oninput="checkAppPath()"
-                          pattern="^\/[-a-z]+$"
-                          aria-describedby="app-path-helper"
-                          placeholder="/app-path"
-                          required="true"
-                        />
-                      </div>
-                      <p
-                        class="pf-c-form__helper-text"
-                        id="app-path-helper"
-                        aria-live="polite"
-                      >Enter the path on which you would to deploy your SPA.</p>
-                    </div>
-                  </div>
-                  <div class="pf-c-form__group pf-m-3-col">
-                    <div class="pf-c-form__group-label">
-                      <label class="pf-c-form__label" for="app-ref">
-                        <span class="pf-c-form__label-text">Version</span>
-                      </label>
-                    </div>
-                    <div class="pf-c-form__group-control">
-                      <div class="pf-c-input-group">
-                        <input
-                          class="pf-c-form-control"
-                          type="text"
-                          id="app-ref"
-                          name="app-ref"
-                          aria-describedby="app-ref-helper"
-                          placeholder="1.0.0"
-                        />
-                      </div>
-                      <p
-                        class="pf-c-form__helper-text"
-                        id="app-ref-helper"
-                        aria-live="polite"
-                      >Version number.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="pf-c-form__group">
-                  <div class="pf-c-form__group-label">
-                    <label class="pf-c-form__label" for="app-description">
-                      <span class="pf-c-form__label-text">Application Description</span>
-                    </label>
-                  </div>
-                  <div class="pf-c-form__group-control">
-                    <textarea
+                <div class="pf-c-form__group-control">
+                  <input
                     class="pf-c-form-control"
                     type="text"
-                    id="app-description"
-                    name="description"
-                    aria-label="description"
-                    placeholder="description"
-                  ></textarea>
-                  </div>
+                    id="app-name"
+                    name="app-name"
+                    aria-invalid="false"
+                    oninput="checkAppName()"
+                    aria-describedby="app-name-helper"
+                    placeholder="app-name"
+                    required="true"
+                  />
+                  <p
+                    class="pf-c-form__helper-text"
+                    id="app-name-helper"
+                    aria-live="polite"
+                  >Enter the Application/SPA name</p>
                 </div>
-                <div class="pf-c-form__group">
+              </div>
+              <div class="pf-l-grid pf-m-gutter">
+                <div class="pf-c-form__group pf-m-9-col">
                   <div class="pf-c-form__group-label">
-                    <label class="pf-c-form__label" for="app-file">
-                      <span class="pf-c-form__label-text">Archive file</span>
+                    <label class="pf-c-form__label" id="app-path-label" for="app-path">
+                      <span class="pf-c-form__label-text">Application Path</span>
                       <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                      <i 
+                        title="App name should be lowercase, without space starting with a forward slash(/). Example -  /app-path"
+                        class="pficon pf-icon-help" 
+                        aria-hidden="true">
+                      </i>
                     </label>
                   </div>
                   <div class="pf-c-form__group-control">
-                    <input
-                      type="file"
-                      class="pf-c-form-control"
-                      id="app-file"
-                      name="app-file"
-                      aria-invalid="false"
-                      accept=".gz,.tar,.zip"
-                      aria-describedby="app-file-helper"
-                      placeholder="app-file"
-                      required
-                    />
+                    <div class="pf-c-input-group">
+                      <input
+                        class="pf-c-form-control"
+                        type="text"
+                        id="app-path"
+                        name="app-path"
+                        oninput="checkAppPath()"
+                        pattern="^\/[-a-z]+$"
+                        aria-describedby="app-path-helper"
+                        placeholder="/app-path"
+                        required="true"
+                      />
+                    </div>
                     <p
                       class="pf-c-form__helper-text"
-                      id="app-file-helper"
+                      id="app-path-helper"
                       aria-live="polite"
-                    >Select the archive file you wish to upload</p>
+                    >Enter the path on which you would to deploy your SPA.</p>
                   </div>
                 </div>
-                <div class="pf-c-form__group pf-m-action">
-                  <div class="pf-c-form__actions">
-                    <button class="pf-c-button" type="submit" id="deploy-submit">
-                      Deploy
-                    </button>
-                    <button class="pf-c-button" onclick="toggleDeployModal('none')" type="reset">
-                      Close
-                    </button>
+                <div class="pf-c-form__group pf-m-3-col">
+                  <div class="pf-c-form__group-label">
+                    <label class="pf-c-form__label" for="app-ref">
+                      <span class="pf-c-form__label-text">Version</span>
+                    </label>
+                  </div>
+                  <div class="pf-c-form__group-control">
+                    <div class="pf-c-input-group">
+                      <input
+                        class="pf-c-form-control"
+                        type="text"
+                        id="app-ref"
+                        name="app-ref"
+                        aria-describedby="app-ref-helper"
+                        placeholder="1.0.0"
+                      />
+                    </div>
+                    <p
+                      class="pf-c-form__helper-text"
+                      id="app-ref-helper"
+                      aria-live="polite"
+                    >Version number.</p>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+              <div class="pf-c-form__group">
+                <div class="pf-c-form__group-label">
+                  <label class="pf-c-form__label" for="app-description">
+                    <span class="pf-c-form__label-text">Application Description</span>
+                  </label>
+                </div>
+                <div class="pf-c-form__group-control">
+                  <textarea
+                  class="pf-c-form-control"
+                  type="text"
+                  id="app-description"
+                  name="description"
+                  aria-label="description"
+                  placeholder="description"
+                ></textarea>
+                </div>
+              </div>
+              <div class="pf-c-form__group">
+                <div class="pf-c-form__group-label">
+                  <label class="pf-c-form__label" for="app-file">
+                    <span class="pf-c-form__label-text">Archive file</span>
+                    <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                  </label>
+                </div>
+                <div class="pf-c-form__group-control">
+                  <input
+                    type="file"
+                    class="pf-c-form-control"
+                    id="app-file"
+                    name="app-file"
+                    aria-invalid="false"
+                    accept=".gz,.tar,.zip"
+                    aria-describedby="app-file-helper"
+                    placeholder="app-file"
+                    required
+                  />
+                  <p
+                    class="pf-c-form__helper-text"
+                    id="app-file-helper"
+                    aria-live="polite"
+                  >Select the archive file you wish to upload</p>
+                </div>
+              </div>
+              <div class="pf-c-form__group pf-m-action">
+                <div class="pf-c-form__actions">
+                  <button class="pf-c-button" type="submit" id="deploy-submit">
+                    Deploy
+                  </button>
+                  <button class="pf-c-button" onclick="toggleDeployModal('none')" type="reset">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      </div>`;
-    }
+      </div>
+    </div>`;
+  }
 }
 window.toggleDeployModal = (state) => {
     const modal = document.querySelector('#deploy-spa-modal');
@@ -367,4 +381,3 @@ window.submitForm = () => {
 };
 
 // #endregion quick deploy modal functions
-

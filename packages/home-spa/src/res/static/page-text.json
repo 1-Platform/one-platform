@@ -5,6 +5,24 @@
     },
     "main": {
         "title": "We connect users to <span>an experience</span>",
-        "paragraph": "Application Hub is a platform that brings together all application to increase collaboration, improve execution and accelerate deployment and delivery speed."
+        "paragraph": "Application Hub is a platform that brings together all application to increase collaboration, improve execution and accelerate deployment and delivery speed.",
+        "stats": [
+            {
+                "title": "Apps Deployed",
+                "value": "164+"
+            },
+            {
+                "title": "Deployments/month",
+                "value": "624+"
+            },
+            {
+                "title": "Avg. time to deploy",
+                "value": "3min"
+            },
+            {
+                "title": "Avg. time saved",
+                "value": "9hours 38min"
+            }
+        ]
     }
 }
