@@ -1,10 +1,12 @@
 export const listLHProjects = /* GraphQL */`
- {
-  listLHProjects {
-    name
-    token
-    id
-    adminToken
+ query ListLHProjects($limit: Int!) {
+  listLHProjects(limit: $limit) {
+    rows {
+      name
+      token
+      id
+      adminToken
+    }
   }
 }
 `;

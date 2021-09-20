@@ -9,14 +9,14 @@ import { LHSpaConfigByAppId } from '../utils/gql-queries/lh-spa-config-by-appId'
 export const getLHProjects = async () => {
     return gqlClient({
         query: listLHProjects,
-        variables: {}
+        variables: { limit: 9999 }
     } )
     .then( res => {
-      if ( res.errors && !res?.data?.listLHProjects ) {
+      if ( res.errors && !res?.data?.listLHProjects?.rows ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
         throw new Error( errMessage );
       }
-      return res.data.listLHProjects;
+      return res.data.listLHProjects.rows;
     } )
     .catch( err => {
       console.error( err );
@@ -43,19 +43,19 @@ export const createLightHouseProjects = async (project: any) => {
       throw err;
     } );
 }
-export const getLHProjectBranches = async (projectID: any) => {
+export const getLHProjectBranches = async (projectId: any) => {
     return gqlClient({
         query: listLHProjectBranches,
         variables: {
-            projectID
+            projectId
         }
     } )
     .then( res => {
-      if ( res.errors && !res?.data?.listLHProjectBranches ) {
+      if ( res.errors && !res?.data?.listLHProjectBranches?.rows ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
         throw new Error( errMessage );
       }
-      return res.data.listLHProjectBranches;
+      return res.data.listLHProjectBranches.rows;
     } )
     .catch( err => {
       console.error( err );
