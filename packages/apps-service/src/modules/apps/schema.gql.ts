@@ -14,6 +14,7 @@ type Mutation {
 
   createAppDatabase(id: ID!, databaseName: String!): App
   deleteAppDatabase(id: ID!, databaseName: String!): App
+  manageAppDatabase(id: ID!, databaseName: String!, permissions: AppDatabasePermissionsInput!): AppDatabasePermissionsResponse
 }
 
 type App {
@@ -157,8 +158,16 @@ type AppDatabasePermissions {
   admins: [String]
   users: [String]
 }
-input AppDatabaseConfig {
+type AppDatabaseConfig {
   isEnabled: Boolean
   databases: [String]
+}
+input AppDatabasePermissionsInput {
+  admins: [String!]
+  users: [String!]
+}
+
+type AppDatabasePermissionsResponse {
+  ok: Boolean
 }
 `;

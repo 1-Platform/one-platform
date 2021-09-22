@@ -1,4 +1,4 @@
-import fetch, { Headers } from 'node-fetch';
+import fetch, { Headers } from 'cross-fetch';
 import { API_GATEWAY, GATEWAY_AUTH_TOKEN, SEARCH_DATA_SOURCE } from '../setup/env';
 
 class AppsHelper {

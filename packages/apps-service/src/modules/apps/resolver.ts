@@ -4,7 +4,7 @@ import { IResolvers } from 'apollo-server';
 import { Apps } from '.';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 import AppsHelper from '../../utils/apps-helper';
-import { createDatabase, deleteDatabase } from '../../services/couchdb';
+import { createDatabase, deleteDatabase, setDatabasePermissions } from '../../services/couchdb';
 
 export default <IResolvers<App, IAppsContext>>{
   Query: {
@@ -105,6 +105,9 @@ export default <IResolvers<App, IAppsContext>>{
       try {
         /* Create the database on couchdb */
         await createDatabase( databaseName );
+        /* Set the default permissions */
+        /* TODO: Add default users from the app permission model */
+        await setDatabasePermissions( databaseName, { admins: [ 'user:' + app.ownerId ], users: [ 'user:' + app.ownerId, 'op-users' ] } );
       } catch ( err ) {
         console.error( '[CouchDB Error]:', JSON.stringify( err ) );
         throw new Error( 'Database could not be created: ' + JSON.stringify(err) );
@@ -117,7 +120,7 @@ export default <IResolvers<App, IAppsContext>>{
           databaseName
         ],
       };
-      return await app.updateOne( { database: databaseConfig }, { new: true } ).exec();
+      return await app.updateOne( { database: databaseConfig }, { new: true, } ).exec();
     },
     deleteAppDatabase: async ( parent, { id, databaseName }, { rhatUUID } ) => {
       if ( !Apps.isAuthorized( id, rhatUUID ) ) {
@@ -140,6 +143,22 @@ export default <IResolvers<App, IAppsContext>>{
       const databaseConfig = app.database;
       databaseConfig.databases = databaseConfig.databases.filter( db => db !== databaseName );
       return await app.updateOne( { database: databaseConfig }, { new: true } ).exec();
+    },
+    manageAppDatabase: async ( parent, { id, databaseName, permissions }, { rhatUUID } ) => {
+      if ( !Apps.isAuthorized( id, rhatUUID ) ) {
+        throw new Error( 'User unauthorized to manage the database' );
+      }
+
+      const app = await Apps.findById( id );
+      if ( !app ) {
+        throw new Error( 'App not found' );
+      }
+
+      if ( !app.database.databases.includes( databaseName ) ) {
+        throw new Error( `The app does not contain the database "${ databaseName }"` );
+      }
+
+      return setDatabasePermissions( databaseName, permissions );
     }
   }
 }

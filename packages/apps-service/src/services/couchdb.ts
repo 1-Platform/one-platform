@@ -1,4 +1,4 @@
-import fetch, { Response } from 'node-fetch';
+import fetch from 'cross-fetch';
 import { COUCHDB_ADMIN_TOKEN, COUCHDB_ENDPOINT } from '../setup/env';
 
 const headers = {
@@ -28,7 +28,7 @@ interface ICouchDBPermissions {
   admins: string[];
   users: string[];
 }
-export async function setDefaultSecurity ( databaseName: string, { admins, users }: ICouchDBPermissions ) {
+export async function setDatabasePermissions ( databaseName: string, { admins, users }: ICouchDBPermissions ) {
   return await fetch( COUCHDB_ENDPOINT + '/' + databaseName + '/_security', {
     method: 'PUT',
     headers,
@@ -36,13 +36,13 @@ export async function setDefaultSecurity ( databaseName: string, { admins, users
       admins: {
         roles: [
           '_admin',
-          ...admins
+          ...admins.filter((uid, index, arr) => arr.indexOf(uid) === index && uid !== '_admin')
         ],
       },
       users: {
         roles: [
           '_admin',
-          ...users
+          ...users.filter( ( uid, index, arr ) => arr.indexOf( uid ) === index && uid !== '_admin' )
         ]
       }
     } )
