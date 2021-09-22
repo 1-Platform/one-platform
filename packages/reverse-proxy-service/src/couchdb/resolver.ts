@@ -9,7 +9,11 @@ export default function resolver ( req: Request, res: Response, next: NextFuncti
   const { uid, role, rhatUUID } = res.locals.user;
 
   /* Adding additional roles */
-  role.push( uid, rhatUUID, 'op-user' );
+  role.push(
+    'user:' + uid,
+    'user:' + rhatUUID,
+    'op-users'
+  );
 
   const token = createHmac( 'sha1', COUCHDB_SECRET as string ).update( uid ).digest( 'hex' );
 
