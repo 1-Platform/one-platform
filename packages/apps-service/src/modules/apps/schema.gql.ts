@@ -11,6 +11,10 @@ type Mutation {
   createApp(app: CreateAppInput!): App
   updateApp(id: ID!, app: UpdateAppInput!): App
   deleteApp(id: ID!): App
+
+  createAppDatabase(id: ID!, databaseName: String!): App
+  deleteAppDatabase(id: ID!, databaseName: String!): App
+  manageAppDatabase(id: ID!, databaseName: String!, permissions: AppDatabasePermissionsInput!): AppDatabasePermissionsResponse
 }
 
 type App {
@@ -30,6 +34,7 @@ type App {
   feedback: AppFeedbackConfig
   search: AppMicroserviceConfig
   notifications: AppMicroserviceConfig
+  database: AppDatabaseConfig
   createdBy: String
   createdOn: ISODate
   updatedBy: String
@@ -139,5 +144,30 @@ type HeaderType {
 input HeaderTypeInput {
   key: String
   value: String
+}
+
+type AppDatabaseConfig {
+  isEnabled: Boolean
+  databases: [AppDatabaseDetails]
+}
+type AppDatabaseDetails {
+  name: String
+  permissions: AppDatabasePermissions
+}
+type AppDatabasePermissions {
+  admins: [String]
+  users: [String]
+}
+type AppDatabaseConfig {
+  isEnabled: Boolean
+  databases: [String]
+}
+input AppDatabasePermissionsInput {
+  admins: [String!]
+  users: [String!]
+}
+
+type AppDatabasePermissionsResponse {
+  ok: Boolean
 }
 `;

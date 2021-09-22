@@ -36,6 +36,10 @@ type App = {
   notifications: {
     isEnabled: boolean
   }
+  database: {
+    isEnabled: boolean
+    databases: Array<string>
+  }
   createdBy: string
   createdOn: Date
   updatedBy: string

@@ -2,6 +2,11 @@
 
 Apps Microservice provides the essential GraphQL APIs required for the Developer Console. It provides graphql queries for creating and managing apps.
 
+## Features
+
+- Allows creation of apps/projects
+- Allows configuration of databases (Requires a couchdb instance)
+
 ## Local Development
 
 ### 1. Switch to the working directory
