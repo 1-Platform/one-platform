@@ -4,6 +4,7 @@ import { IResolvers } from 'apollo-server';
 import { Apps } from '.';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 import AppsHelper from '../../utils/apps-helper';
+import { createDatabase, deleteDatabase } from '../../services/couchdb';
 
 export default <IResolvers<App, IAppsContext>>{
   Query: {
@@ -36,55 +37,109 @@ export default <IResolvers<App, IAppsContext>>{
     },
   },
   Mutation: {
-    createApp: ( parent, { app }, ctx ) => {
+    createApp: async ( parent, { app }, ctx ) => {
       if ( !ctx.rhatUUID ) {
         throw new Error( 'Anonymous user unauthorized to create new app' );
       }
-      return new Apps( {
+      const newApp = await new Apps( {
         ...app,
         ownerId: ctx.rhatUUID,
         createdBy: ctx.rhatUUID,
         updatedBy: ctx.rhatUUID,
-      } ).save()
-        .then( ( res: any ) => {
-          const transformedData = AppsHelper.formatSearchInput( res );
-          AppsHelper.manageSearchIndex(transformedData, 'index');
-          return res;
-        });
+      } ).save();
+
+      if ( newApp ) {
+        const transformedData = AppsHelper.formatSearchInput( newApp );
+        AppsHelper.manageSearchIndex( transformedData, 'index' );
+      }
+
+      return newApp;
     },
-    updateApp: ( parent, { id, app }, ctx ) => {
+    updateApp: async ( parent, { id, app }, ctx ) => {
       if ( !Apps.isAuthorized( id, ctx.rhatUUID ) ) {
         throw new Error( 'User unauthorized to update the app' );
       }
       if ( app.path ) {
         app.appId = uniqueIdFromPath( app.path );
       }
-      return Apps.findByIdAndUpdate( id, {
+      const updatedApp = await Apps.findByIdAndUpdate( id, {
         ...app,
         updatedBy: ctx.rhatUUID,
         updatedOn: new Date(),
       }, { new: true } )
-        .exec()
-        .then( ( res: any ) => {
-          const transformedData = AppsHelper.formatSearchInput( res );
-          AppsHelper.manageSearchIndex(transformedData, 'index');
-          return res;
-        });
+        .exec();
+
+      if ( updatedApp ) {
+        const transformedData = AppsHelper.formatSearchInput( updatedApp );
+        AppsHelper.manageSearchIndex( transformedData, 'index' );
+      }
+
+      return updatedApp;
     },
-    deleteApp: ( parent, { id }, ctx ) => {
+    deleteApp: async ( parent, { id }, ctx ) => {
       if ( !Apps.isAuthorized( id, ctx.rhatUUID ) ) {
         throw new Error( 'User unauthorized to delete the app' );
       }
-      return Apps.findByIdAndRemove( id )
-        .exec()
-        .then( ( res: any ) => {
-          const input = {
-            dataSource: "oneportal",
-            documents: [ { 'id': res._id } ]
-          };
-          AppsHelper.manageSearchIndex(input, 'delete');
-          return res;
-        });;
+      const app = await Apps.findByIdAndRemove( id ).exec();
+
+      if ( app ) {
+        const input = {
+          dataSource: "oneportal",
+          documents: [ { 'id': app._id } ]
+        };
+        AppsHelper.manageSearchIndex( input, 'delete' );
+      }
+
+      return app;;
+    },
+    createAppDatabase: async ( parent, { id, databaseName }, { rhatUUID } ) => {
+      if ( !Apps.isAuthorized( id, rhatUUID ) ) {
+        throw new Error( 'User unauthorized to create database for the app' );
+      }
+
+      const app = await Apps.findById( id );
+      if ( !app ) {
+        throw new Error( 'App not found' );
+      }
+
+      try {
+        /* Create the database on couchdb */
+        await createDatabase( databaseName );
+      } catch ( err ) {
+        console.error( '[CouchDB Error]:', JSON.stringify( err ) );
+        throw new Error( 'Database could not be created: ' + JSON.stringify(err) );
+      }
+
+      const databaseConfig = {
+        isEnabled: app.database.isEnabled,
+        databases: [
+          ...app.database.databases.filter( db => db !== databaseName ),
+          databaseName
+        ],
+      };
+      return await app.updateOne( { database: databaseConfig }, { new: true } ).exec();
+    },
+    deleteAppDatabase: async ( parent, { id, databaseName }, { rhatUUID } ) => {
+      if ( !Apps.isAuthorized( id, rhatUUID ) ) {
+        throw new Error( 'User unauthorized to delete database from the app' );
+      }
+
+      const app = await Apps.findById( id );
+      if ( !app ) {
+        throw new Error( 'App not found' );
+      }
+
+      try {
+        /* Delete the database from couchdb */
+        await deleteDatabase( databaseName );
+      } catch ( err ) {
+        console.error( '[CouchDB Error]:', JSON.stringify( err ) );
+        throw new Error( 'Database could not be deleted: ' + JSON.stringify( err ) );
+      }
+
+      const databaseConfig = app.database;
+      databaseConfig.databases = databaseConfig.databases.filter( db => db !== databaseName );
+      return await app.updateOne( { database: databaseConfig }, { new: true } ).exec();
     }
   }
 }

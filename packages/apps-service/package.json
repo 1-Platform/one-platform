@@ -29,6 +29,7 @@
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "devDependencies": {
     "@types/dotenv-safe": "8.1.1",
+    "@types/lodash": "^4.14.173",
     "@types/node": "14.14.30",
     "@typescript-eslint/eslint-plugin": "4.15.1",
     "@typescript-eslint/parser": "4.15.1",
@@ -43,7 +44,9 @@
     "apollo-server": "^2.21.0",
     "dotenv-safe": "^8.2.0",
     "graphql": "^15.5.0",
+    "lodash": "^4.17.21",
     "mongoose": "^5.11.17",
+    "node-fetch": "^3.0.0",
     "rimraf": "^3.0.2"
   }
 }

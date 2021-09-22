@@ -1,5 +1,5 @@
-const fetch = require( 'node-fetch' );
-(global as any).Headers = fetch.Headers;
+import fetch, { Headers } from 'node-fetch';
+import { API_GATEWAY, GATEWAY_AUTH_TOKEN, SEARCH_DATA_SOURCE } from '../setup/env';
 
 class AppsHelper {
     private static FeedbackHelperInstance: AppsHelper;
@@ -13,7 +13,7 @@ class AppsHelper {
     public formatSearchInput ( data: any ) {
         return {
             'input': {
-                'dataSource': process.env.SEARCH_DATA_SOURCE,
+                'dataSource': SEARCH_DATA_SOURCE,
                 'documents': {
                     'id': data._id,
                     'title': data.name,
@@ -41,9 +41,9 @@ class AppsHelper {
                 }
             `;
         let headers = new Headers();
-        headers.append( `Authorization`, `${ process.env.GATEWAY_AUTH_TOKEN }` );
+        headers.append( `Authorization`, GATEWAY_AUTH_TOKEN );
         headers.append( `Content-Type`, `application/json` );
-        return fetch( `${ process.env.API_GATEWAY }`, {
+        return fetch( API_GATEWAY, {
             method: `POST`,
             headers,
             body: JSON.stringify({

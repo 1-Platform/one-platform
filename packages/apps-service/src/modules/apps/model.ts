@@ -63,6 +63,7 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   },
   database: {
     isEnabled: { type: Boolean, default: false, },
+    databases: { type: [ String ], default: [] },
   },
   lighthouse: {
     isEnabled: { type: Boolean, default: false, },
