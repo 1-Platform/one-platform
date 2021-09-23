@@ -1,36 +1,37 @@
-import { SearchMap } from "./schema";
-import { SearchMapCron } from "./cron";
+import { agenda } from '../scripts';
+import { SearchMaps } from './schema';
 
 export const SearchMapResolver = {
   Query: {
-    listSearchMap(root: any, args: any, ctx: any) {
-      return SearchMap.find()
-        .exec()
-        .then((res: SearchMapMode[]) => res);
+    listSearchMap ( root: any, args: any, ctx: any ) {
+      return SearchMaps
+        .find()
+        .exec();
     },
-    getSearchMap(root: any, args: any, ctx: any) {
-      return SearchMap.findById(args._id).exec();
+    getSearchMap ( root: any, args: any, ctx: any ) {
+      return SearchMaps
+        .findById( args._id )
+        .exec();
     },
-    triggerSearchMap(root: any, args: any, ctx: any): string {
-      const searchMapCron = new SearchMapCron();
-      searchMapCron.searchMapTrigger();
-      return "Indexing Search Maps has been triggered.";
-    },
+    async triggerSearchMap ( root: any, args: any, ctx: any ) {
+      await agenda.now( 'indexing script', {} );
+      return 'Indexing Search Maps has been triggered.';
+    }
   },
   Mutation: {
-    async createSearchMap(root: any, args: any, ctx: any) {
-      const data = new SearchMap(args.input);
-      return data.save();
+    async createSearchMap ( root: any, args: any, ctx: any ) {
+      return new SearchMaps( args.input )
+        .save();
     },
-    updateSearchMap(root: any, args: any, ctx: any) {
-      return SearchMap.findByIdAndUpdate(args.input._id, args.input, {
-        new: true,
-      }).exec();
+    updateSearchMap ( root: any, args: any, ctx: any ) {
+      return SearchMaps
+        .findByIdAndUpdate( args.input._id, args.input, { new: true } )
+        .exec();
     },
-    deleteSearchMap(root: any, args: any, ctx: any) {
-      return SearchMap.findByIdAndRemove(args._id)
-        .then((response: any) => response)
-        .catch((error: Error) => error);
+    deleteSearchMap ( root: any, args: any, ctx: any ) {
+      return SearchMaps
+        .findByIdAndRemove( args._id )
+        .exec();
     },
-  },
+  }
 };
