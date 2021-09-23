@@ -195,9 +195,10 @@ export const FeedbackResolver = {
       let apiResponse: any = {};
       let userQuery = `query GetUsersBy {
         rhatUUID_${(args.input.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${args.input.createdBy}") {
-          name
           uid
           rhatUUID
+          cn
+          mail
         }
       }`;
       let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
