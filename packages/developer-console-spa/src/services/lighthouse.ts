@@ -5,6 +5,7 @@ import { addLHSpaConfig } from '../utils/gql-queries/create-lh-spa-config';
 import { deleteLHSPAConfig } from '../utils/gql-queries/delete-lh-spa-config';
 import gqlClient from '../utils/gqlClient';
 import { LHSpaConfigByAppId } from '../utils/gql-queries/lh-spa-config-by-appId';
+import { LHConfigType } from 'types';
 
 export const getLHProjects = async () => {
     return gqlClient({
@@ -43,7 +44,7 @@ export const createLightHouseProjects = async (project: any) => {
       throw err;
     } );
 }
-export const getLHProjectBranches = async (projectId: any) => {
+export const getLHProjectBranches = async (projectId: string) => {
     return gqlClient({
         query: listLHProjectBranches,
         variables: {
@@ -62,7 +63,7 @@ export const getLHProjectBranches = async (projectId: any) => {
       throw err;
     } );
 }
-export const createLHSpaConfig = async (config: any) => {
+export const createLHSpaConfig = async (config: LHConfigType) => {
     return gqlClient({
         query: addLHSpaConfig,
         variables: {
