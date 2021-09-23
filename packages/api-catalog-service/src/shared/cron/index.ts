@@ -13,7 +13,7 @@ export default function initializeAgenda () {
         defaultConcurrency: 1
     } );
 
-    agenda.define( 'api sync hash', async (job: any ) => {
+    agenda.define( 'api-sync-hash', async ( job: any ) => {
         await checkAPIHash();
     } );
 
@@ -21,7 +21,7 @@ export default function initializeAgenda () {
         /* Start the agenda */
         agenda.start();
         /* Schedule the jobs */
-        agenda.every( '6 hours', 'api sync hash' );
+        agenda.every( '6 hours', 'api-sync-hash' );
     } );
 }
 

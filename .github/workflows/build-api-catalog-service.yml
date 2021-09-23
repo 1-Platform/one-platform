@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - 'master'
-      - 'release'
+      - 'rc/api-catalog-service'
     paths: [ 'packages/api-catalog-service/**' ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -33,7 +33,7 @@ jobs:
       - if: github.event.inputs.tags == '' && startsWith(github.ref, 'refs/heads/master')
         name: Generate QA tag
         run: echo "TAGS=latest,qa" >> $GITHUB_ENV
-      - if: github.event.inputs.tags == '' && startsWith(github.ref, 'refs/heads/release')
+      - if: github.event.inputs.tags == '' && startsWith(github.ref, 'refs/heads/rc/api-catalog-service')
         name: Generate stable tag
         run: echo "TAGS=stable" >> $GITHUB_ENV
       # Build and publish docker container

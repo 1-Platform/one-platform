@@ -5,7 +5,7 @@
     "className": "ApiCatalog",
     "serviceName": "api-catalog"
   },
-  "version": "",
+  "version": "0.2.0",
   "keywords": [
     "web-components",
     "html"

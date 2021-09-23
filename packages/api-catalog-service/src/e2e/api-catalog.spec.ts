@@ -9,25 +9,25 @@ import supertest from 'supertest';
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
 fragment namespaceType on NamespaceType {
-  _id
+  id
   createdOn
   createdBy
   updatedOn
   updatedBy
+  hash
+  subscribers {
+    email
+    group
+  }
+  lastCheckedOn
+  schemaEndpoint
+  headers {
+    key
+    value
+  }
   environments {
-    hash
-    subscribers {
-      email
-      group
-    }
-    lastCheckedOn
     name
-    schemaEndpoint
     apiBasePath
-    headers {
-      key
-      value
-    }
   }
   name
   description
@@ -46,28 +46,28 @@ query ListNamespaces {
   }
 }
 
-query GetNamespaceById($_id: ID!) {
-  getNamespaceById(_id: $_id) {
+query GetNamespaceById($id: ID!) {
+  getNamespaceById(id: $id) {
     ...namespaceType
   }
 }
 
 mutation CreateNamespace($payload: NamespaceInput!) {
-    createNamespace(payload:$payload) {
-        ...namespaceType
-    }
+  createNamespace(payload: $payload) {
+    ...namespaceType
+  }
 }
 
-mutation UpdateNamespace($_id: ID!, $payload: NamespaceInput!) {
-    updateNamespace(_id:$_id, payload:$payload) {
-        ...namespaceType
-    }
+mutation UpdateNamespace($id: ID!, $payload: NamespaceInput!) {
+  updateNamespace(id: $id, payload: $payload) {
+    ...namespaceType
+  }
 }
 
-mutation DeleteNamespace($_id: ID!) {
-    deleteNamespace(_id:$_id) {
-        ...namespaceType
-    }
+mutation DeleteNamespace($id: ID!) {
+  deleteNamespace(id: $id) {
+    ...namespaceType
+  }
 }
 `;
 
@@ -101,7 +101,7 @@ describe( 'API Catalog Microservice API Tests', () => {
                 query: query,
                 operationName: 'GetNamespaceById',
                 variables: {
-                    _id: mock._id
+                    id: mock.id
                 }
             } )
             .expect( res => {
@@ -127,7 +127,7 @@ describe( 'API Catalog Microservice API Tests', () => {
                 expect( res.body ).not.toHaveProperty( 'errors' );
                 expect( res.body ).toHaveProperty( 'data' );
                 expect( res.body.data ).toHaveProperty( 'createNamespace' );
-                expect( res.body.data.createNamespace ).toHaveProperty( '_id', mock._id );
+                expect( res.body.data.createNamespace ).toHaveProperty( 'id', mock.id );
                 expect( res.body.data.createNamespace ).toHaveProperty( 'name', mock.name );
                 expect( res.body.data.createNamespace ).toHaveProperty( 'description', mock.description );
             } )
@@ -143,7 +143,7 @@ describe( 'API Catalog Microservice API Tests', () => {
                 query: query,
                 operationName: 'UpdateNamespace',
                 variables: {
-                    _id: mock._id,
+                    id: mock.id,
                     payload: mock
                 }
             } )
@@ -151,7 +151,7 @@ describe( 'API Catalog Microservice API Tests', () => {
                 expect( res.body ).not.toHaveProperty( 'errors' );
                 expect( res.body ).toHaveProperty( 'data' );
                 expect( res.body.data ).toHaveProperty( 'updateNamespace' );
-                expect( res.body.data.updateNamespace ).toHaveProperty( '_id', mock._id );
+                expect( res.body.data.updateNamespace ).toHaveProperty( 'id', mock.id );
                 expect( res.body.data.updateNamespace ).toHaveProperty( 'name', mock.name );
                 expect( res.body.data.updateNamespace ).toHaveProperty( 'description', mock.description );
             } )
@@ -167,7 +167,7 @@ describe( 'API Catalog Microservice API Tests', () => {
                 query: query,
                 operationName: 'DeleteNamespace',
                 variables: {
-                    _id: mock._id
+                    id: mock.id
                 }
             } )
             .expect( res => {

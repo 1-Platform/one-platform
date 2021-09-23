@@ -1,84 +1,92 @@
 import { Document, Model, model, Schema } from 'mongoose';
 
-export const NamespaceSchema: Schema = new Schema( {
+export const NamespaceSchema: Schema = new Schema({
     name: {
         type: String,
-        unique: true
+        unique: true,
     },
     slug: {
         type: String,
-        unique: true
+        unique: true,
     },
     description: {
-        type: String
+        type: String,
     },
     category: {
         type: String,
-        enum: [ 'REST', 'GRAPHQL' ]
+        enum: ['REST', 'GRAPHQL'],
     },
-    tags: [ String ],
-    owners: [ {
-        email: {
-            type: String
-        },
-        group: {
-            type: String,
-            enum: [ 'MAILING_LIST', 'USER' ]
-        },
-    } ],
-    appUrl: {
-        type: String
-    },
-    environments: [ {
-        name: {
-            type: String
-        },
-        lastCheckedOn: {
-            type: Date,
-            default: Date.now
-        },
-        hash: {
-            type: String
-        },
-        apiBasePath: {
-            type: String
-        },
-        schemaEndpoint: {
-            type: String
-        },
-        subscribers: [ {
+    tags: [String],
+    owners: [
+        {
             email: {
-                type: String
+                type: String,
             },
             group: {
                 type: String,
-                enum: [ 'MAILING_LIST', 'USER' ]
+                enum: ['MAILING_LIST', 'USER'],
             },
-        }  ],
-        headers: [ {
+        },
+    ],
+    appUrl: {
+        type: String,
+    },
+    schemaEndpoint: {
+        type: String,
+    },
+    lastCheckedOn: {
+        type: Date,
+        default: Date.now,
+    },
+    hash: {
+        type: String,
+    },
+    subscribers: [
+        {
+            email: {
+                type: String,
+            },
+            group: {
+                type: String,
+                enum: ['MAILING_LIST', 'USER'],
+            },
+        },
+    ],
+    headers: [
+        {
             key: {
-                type: String
+                type: String,
             },
             value: {
-                type: String
+                type: String,
+            },
+        },
+    ],
+    environments: [
+        {
+            name: {
+                type: String,
+            },
+            apiBasePath: {
+                type: String,
             }
-        } ]
-    } ],
+        },
+    ],
     createdOn: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     createdBy: {
-        type: String
+        type: String,
     },
     updatedOn: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     updatedBy: {
-        type: String
+        type: String,
     },
-} );
+});
 
 interface NamespaceModel extends NamespaceType, Document { }
 
