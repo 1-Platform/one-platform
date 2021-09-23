@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-const fetch = require( 'node-fetch' );
+const fetch = require('node-fetch');
 import { createTransport } from 'nodemailer';
 import { API_GATEWAY, GATEWAY_AUTH_TOKEN, SMTP_HOST } from '../setup/env';
 ( global as any ).Headers = fetch.Headers;
@@ -26,32 +26,35 @@ class APICatalogHelper {
                   rhatUUID
                 }
             `);
-        } );
+        });
         return `query GetUserBy {
-            ${ queryParams }
+            ${queryParams}
         }`;
     }
 
     fetchUserProfile ( query: string ) {
         const headers = new Headers();
-        headers.set( 'Content-Type', 'application/json' );
-        headers.set( 'Authorization', `${ GATEWAY_AUTH_TOKEN }` );
-        const body = JSON.stringify( {
+        headers.set('Content-Type', 'application/json');
+        headers.set('Authorization', `${GATEWAY_AUTH_TOKEN}`);
+        const body = JSON.stringify({
             query,
-            variables: null
-        } );
-        return fetch( API_GATEWAY, {
+            variables: null,
+        });
+        return fetch(API_GATEWAY, {
             method: 'POST',
             headers,
             body: body,
-        } ).then( ( response: any ) => response.json() )
-            .then( ( result: any ) => Object.keys( result.data ).map( key => result.data[ key ][ 0 ] ) )
-            .catch( ( err: Error ) => {
+        })
+            .then((response: any) => response.json())
+            .then((result: any) =>
+                Object.keys(result.data).map((key) => result.data[key][0])
+            )
+            .catch((err: Error) => {
                 throw err;
-            } );
+            });
     }
 
-    introspectionQuery () {
+    introspectionQuery() {
         return `
             query IntrospectionQuery {
             __schema {
@@ -144,9 +147,13 @@ class APICatalogHelper {
             }`;
     }
 
-    async fetchSchema ( category: ApiCategory, environment: NSEnvironmentType ) {
-        const headers = environment.headers?.reduce( ( obj, item ) => Object.assign( obj, { [ ( item as any ).key ]: ( item as any ).value } ), {} ) || {};
-        return await fetch( environment.schemaEndpoint, {
+    async fetchSchema ( category: ApiCategory, schemaEndpoint: string, apiHeaders: HeaderType[] ) {
+        const headers = apiHeaders?.reduce(
+            (obj, item) =>
+                Object.assign(obj, { [(item as any).key]: (item as any).value }),
+            {}
+        ) || {};
+        return await fetch( schemaEndpoint, {
             method: ( category === 'GRAPHQL' ) ? 'POST' : 'GET',
             headers,
             body: ( category === 'GRAPHQL' ) ? JSON.stringify( { query: this.introspectionQuery() } ) : null,
@@ -154,28 +161,29 @@ class APICatalogHelper {
             .catch( ( err: Error ) => err );
     }
 
-    async manageApiHash ( category: ApiCategory, environment: NSEnvironmentType ) {
-        let apiSchemaResult = await this.fetchSchema( category, environment );
+    async manageApiHash(namespace: NamespaceType) {
+        let apiSchemaResult = await this.fetchSchema(namespace.category as ApiCategory, namespace.schemaEndpoint as string, namespace.headers as HeaderType[]);
         let parsedGQLSchema;
-        if ( category === 'GRAPHQL' ) {
-            parsedGQLSchema = JSON.parse( apiSchemaResult );
-            ( parsedGQLSchema.extensions ) ? apiSchemaResult = delete parsedGQLSchema.extensions : null;
+        if (namespace.category === 'GRAPHQL') {
+            parsedGQLSchema = JSON.parse(apiSchemaResult);
+            parsedGQLSchema.extensions
+                ? (apiSchemaResult = delete parsedGQLSchema.extensions)
+                : null;
         }
         return await createHash( 'sha256' ).update( apiSchemaResult ).digest( 'base64' ) || null;
     }
 
-    emailConfig () {
-        return createTransport( {
+    emailConfig() {
+        return createTransport({
             host: SMTP_HOST,
             port: 587,
             secure: false,
             tls: {
-                rejectUnauthorized: false
+                rejectUnauthorized: false,
             },
             logger: true,
-            debug: false
-        } );
+            debug: false,
+        });
     }
-
 }
 export const apiCatalogHelper = APICatalogHelper.apiCatalogHelper();

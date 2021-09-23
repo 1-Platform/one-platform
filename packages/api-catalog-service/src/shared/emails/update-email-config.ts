@@ -1,11 +1,12 @@
 import { SPA_URL } from '../../setup/env';
 
-export async function updateEmailConfig ( namespace: NamespaceType, environment: NSEnvironmentType ) {
+export async function updateEmailConfig ( namespace: NamespaceType) {
 
     const message = `
 Hi,<br/><br/>
 
-There are new updates for ${ namespace.name } APIs in ${ environment.name } environment.<br/>
+There are new updates for ${ namespace.name } APIs.
+<br/>
 Please visit <a href="${ SPA_URL }/details/${ namespace.slug }" target="_blank">API Catalog</a> for more information.
 
 
@@ -13,8 +14,8 @@ Please visit <a href="${ SPA_URL }/details/${ namespace.slug }" target="_blank">
 `;
     const emailConfig: any = {
         from: 'One Platform | API Catalog<no-reply@redhat.com>',
-        bcc: environment.subscribers?.map( subscriber => subscriber?.email )?.toString(),
-        subject: `API updates available for ${ namespace.name } in ${ environment.name } environment`,
+        bcc: namespace.subscribers?.map( subscriber => subscriber?.email )?.toString(),
+        subject: `API updates available for ${ namespace.name }.`,
         html: message
     };
     return emailConfig;
