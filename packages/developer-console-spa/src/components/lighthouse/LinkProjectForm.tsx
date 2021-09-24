@@ -25,7 +25,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
     const [ filteredProjects, setFilteredProjects ] = useState( [] );
     const { app } = useContext( AppContext );
 
-    const editMode = props.lighthouseConfig && !!props.lighthouseConfig.projectId;
+    const editMode = Boolean(props.lighthouseConfig?.projectId);
 
     useEffect( () => {
        !props.branchVariant && getLHProjects()
@@ -59,7 +59,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
             } );
             setFilteredProjects( res );
         });
-    }, [ props, props.branchVariant, editMode ] );
+    }, [ props.branchVariant, editMode ] );
     const onBranchToggle = (isOpen: any) => {
         setIsBranchListOpen((isOpen: boolean) => !isOpen);
     };

@@ -16,10 +16,11 @@ export type ProjectType = {
     token: string
 }
 export type LHConfigType = {
-    _id: string | null,
+    _id?: string | null,
     appId: string | null,
     branch?: string,
-    projectId?: string
+    projectId?: string,
+    createdBy?: string
 }
 export type LinkProjectProps = {
     selectedProject: ProjectType,
