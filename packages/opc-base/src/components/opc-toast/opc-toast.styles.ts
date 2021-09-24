@@ -90,6 +90,7 @@ export default css`
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.24);
     border-radius: 0.25rem;
     overflow: hidden;
+    font-family: "Red Hat Text";
     transition: var(--op-transition--default);
     --pfe-toast--Top: 0;
     --pfe-toast--Right: 0.5rem;

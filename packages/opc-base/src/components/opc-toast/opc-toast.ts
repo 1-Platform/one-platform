@@ -1,8 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
-import "@patternfly/pfe-toast/dist/pfe-toast.min.js";
-
 import style from "./opc-toast.styles";
 import dayjs from "dayjs";
 import { Notification, ToastOptions } from "./types";

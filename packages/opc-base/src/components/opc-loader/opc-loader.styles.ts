@@ -12,6 +12,12 @@ export default css`
     background-color: rgba(255, 255, 255, 0.95);
     z-index: 999;
   }
+  opc-loader__container[hidden="true"] {
+    display: grid;
+  }
+  opc-loader__container[hidden="false"] {
+    display: none;
+  }
   .opc-loader {
     display: block;
     font-size: 48px;
