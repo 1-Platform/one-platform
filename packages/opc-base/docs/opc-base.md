@@ -1,6 +1,6 @@
 # opc-base
 
-![Version](https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-1.0.1.beta-blue.svg?cacheSeconds=2592000)
 ![Build Status](https://travis-ci.org/dwyl/esta.svg?branch=master)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/1-Platform/one-platform/graphs/commit-activity)
 
@@ -8,30 +8,32 @@ opc-base is the core component that contains the shared logic between the compon
 
 ## Usage
 
-### Install opc-base
+### Universal Module Definition (UMD)
+
+On using as UMD `opc-base` is injected as global variable. Copy and paste this snippet to top of your html file.
+
+```html
+<script src="https://unpkg.com/@one-platform/opc-base@1.0.1-beta/dist/umd/opc-base.js"></script>
+<script>
+  opcBase.configure({
+    apiBasePath: "<api base for fetching app list>",
+    subscriptionsPath: "<subscriptions base url for notifications>",
+    keycloakUrl: "<keycloak url>",
+    keycloakClientId: "<keycloak client id>",
+    keycloakRealm: "<keycloak clock realm>",
+  });
+</script>
+```
+
+### ES
+
+#### Install opc-base
 
 ```sh
 npm install --save @one-platform/opc-base
 ```
 
-## Universal Module Definition (UMD)
-
-On using as UMD `opc-base` is injected as global variable.
-
-```js
-<script src="@one-platform/opc-base/umd/opc-base.js"></script>
-<script>
-opcBase.configure( {
-    apiBasePath: '<api base for fetching app list>',
-    subscriptionsPath: '<subscriptions base url for notifications>',
-    keycloakUrl: '<keycloak url>',
-    keycloakClientId: '<keycloak client id>',
-    keycloakRealm: '<keycloak clock realm>',
-} );
-</script>
-```
-
-### ES
+#### Import and initialize opc-base
 
 ```js
 import opcBase from "@one-platform/opc-base";
