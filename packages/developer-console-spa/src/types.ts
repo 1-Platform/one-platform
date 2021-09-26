@@ -42,3 +42,31 @@ export type CreateProjectProps = {
     setSelectedProject: Dispatch<SetStateAction<ProjectType>>,
     setShowConfirmation: Dispatch<SetStateAction<boolean>>
 }
+
+export type CreateDBProps = {
+    isCreateDBFormOpen?: boolean,
+    appId: string,
+    appUniqueId: string,
+    setIsCreateDBFormOpen: Dispatch<SetStateAction<boolean>>,
+    forceRefreshApp: Dispatch<SetStateAction<App>>
+}
+
+export type AppDBType = {
+    isEnabled: boolean,
+    databases: [string]
+}
+
+export type App = {
+    id: string,
+    appId: string,
+    name: string,
+    path: string
+    description: string
+    ownerId: string,
+    isActive: boolean,
+    createdOn: string,
+    createdBy: string,
+    updatedOn: string,
+    updatedBy: string,
+    database : AppDBType
+}
