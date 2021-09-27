@@ -38,7 +38,7 @@ type App = {
   }
   database: {
     isEnabled: boolean
-    databases: Array<string>
+    databases: Array<App.Database>
   }
   createdBy: string
   createdOn: Date
@@ -64,5 +64,14 @@ namespace App {
     GITHUB = 'GITHUB',
     GITLAB = 'GITLAB',
     EMAIL = 'EMAIL',
+  }
+  type Database = {
+    name: string
+    description?: string
+    permissions: Array<DatabasePermissions>
+  }
+  type DatabasePermissions = {
+    admins: Array<string>
+    users: Array<string>
   }
 }

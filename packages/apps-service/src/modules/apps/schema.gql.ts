@@ -12,9 +12,9 @@ type Mutation {
   updateApp(id: ID!, app: UpdateAppInput!): App
   deleteApp(id: ID!): App
 
-  createAppDatabase(id: ID!, databaseName: String!): App
+  createAppDatabase(id: ID!, databaseName: String! description: String, permissions: AppDatabasePermissionsInput): App
   deleteAppDatabase(id: ID!, databaseName: String!): App
-  manageAppDatabase(id: ID!, databaseName: String!, permissions: AppDatabasePermissionsInput!): AppDatabasePermissionsResponse
+  manageAppDatabase(id: ID!, databaseName: String!, description: String, permissions: AppDatabasePermissionsInput): App
 }
 
 type App {
@@ -54,7 +54,7 @@ input CreateAppInput {
   isActive: Boolean
   name: String!
   description: String
-  path: String!
+  path: String
   icon: String
   colorScheme: String
   videoUrl: String
@@ -152,22 +152,15 @@ type AppDatabaseConfig {
 }
 type AppDatabaseDetails {
   name: String
+  description: String
   permissions: AppDatabasePermissions
 }
 type AppDatabasePermissions {
   admins: [String]
   users: [String]
 }
-type AppDatabaseConfig {
-  isEnabled: Boolean
-  databases: [String]
-}
 input AppDatabasePermissionsInput {
   admins: [String!]
   users: [String!]
-}
-
-type AppDatabasePermissionsResponse {
-  ok: Boolean
 }
 `;

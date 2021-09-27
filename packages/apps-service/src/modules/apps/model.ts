@@ -7,7 +7,7 @@ import uniqueIdFromPath from '../../utils/unique-id-from-path';
 export interface AppModel extends Document, App { }
 
 interface AppModelStatic extends Model<AppModel> {
-  isAuthorized( appId: any, userId: string ): Promise<boolean>;
+  isAuthorized ( appId: any, userId: string ): Promise<boolean>;
 }
 
 const AppSchema = new Schema<AppModel, AppModelStatic>( {
@@ -38,7 +38,7 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   contacts: {
     developers: { type: [ String ], },
     qe: { type: [ String ], },
-    stakeholders: { type: [String], },
+    stakeholders: { type: [ String ], },
   },
   feedback: {
     isEnabled: { type: Boolean, default: false, },
@@ -63,7 +63,11 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   },
   database: {
     isEnabled: { type: Boolean, default: false, },
-    databases: { type: [ String ], default: [] },
+    databases: [ {
+      name: { type: String, required: true, },
+      description: { type: String },
+      permissions: { admins: [ String ], users: [ String ] },
+    } ],
   },
   lighthouse: {
     isEnabled: { type: Boolean, default: false, },
