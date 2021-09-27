@@ -1,6 +1,7 @@
 /* GraphQL resolver implementations */
 
 import { IResolvers } from 'apollo-server';
+import { isEmpty } from 'lodash';
 import { Apps } from '.';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 import AppsHelper from '../../utils/apps-helper';
@@ -92,7 +93,7 @@ export default <IResolvers<App, IAppsContext>>{
 
       return app;;
     },
-    createAppDatabase: async ( parent, { id, databaseName }, { rhatUUID } ) => {
+    createAppDatabase: async ( parent, { id, databaseName, description, permissions }, { rhatUUID } ) => {
       if ( !Apps.isAuthorized( id, rhatUUID ) ) {
         throw new Error( 'User unauthorized to create database for the app' );
       }
@@ -101,13 +102,22 @@ export default <IResolvers<App, IAppsContext>>{
       if ( !app ) {
         throw new Error( 'App not found' );
       }
+      const database = {
+        name: databaseName,
+        description,
+        permissions,
+      };
+
+      if ( isEmpty( database.permissions ) ) {
+        /* TODO: Add default users from the app permission model */
+        database.permissions = { admins: [ 'user:' + app.ownerId ], users: [ 'user:' + app.ownerId, 'op-users' ] }
+      }
 
       try {
         /* Create the database on couchdb */
-        await createDatabase( databaseName );
+        await createDatabase( database.name );
         /* Set the default permissions */
-        /* TODO: Add default users from the app permission model */
-        await setDatabasePermissions( databaseName, { admins: [ 'user:' + app.ownerId ], users: [ 'user:' + app.ownerId, 'op-users' ] } );
+        await setDatabasePermissions( database.name, database.permissions );
       } catch ( err ) {
         console.error( '[CouchDB Error]:', JSON.stringify( err ) );
         throw new Error( 'Database could not be created: ' + JSON.stringify(err) );
@@ -116,11 +126,11 @@ export default <IResolvers<App, IAppsContext>>{
       const databaseConfig = {
         isEnabled: app.database.isEnabled,
         databases: [
-          ...app.database.databases.filter( db => db !== databaseName ),
-          databaseName
+          ...app.database.databases.filter( db => db.name !== databaseName ),
+          database,
         ],
       };
-      return await app.updateOne( { database: databaseConfig }, { new: true, } ).exec();
+      return await Apps.findByIdAndUpdate( app.id, { database: databaseConfig }, { new: true, } ).exec();
     },
     deleteAppDatabase: async ( parent, { id, databaseName }, { rhatUUID } ) => {
       if ( !Apps.isAuthorized( id, rhatUUID ) ) {
@@ -141,12 +151,16 @@ export default <IResolvers<App, IAppsContext>>{
       }
 
       const databaseConfig = app.database;
-      databaseConfig.databases = databaseConfig.databases.filter( db => db !== databaseName );
-      return await app.updateOne( { database: databaseConfig }, { new: true } ).exec();
+      databaseConfig.databases = databaseConfig.databases.filter( db => db.name !== databaseName );
+      return await Apps.findByIdAndUpdate( app.id, { database: databaseConfig }, { new: true } ).exec();
     },
-    manageAppDatabase: async ( parent, { id, databaseName, permissions }, { rhatUUID } ) => {
+    manageAppDatabase: async ( parent, { id, databaseName, description, permissions }, { rhatUUID } ) => {
       if ( !Apps.isAuthorized( id, rhatUUID ) ) {
         throw new Error( 'User unauthorized to manage the database' );
+      }
+
+      if ( !description && isEmpty( permissions ) ) {
+        throw new Error( 'Provie at least one field: "description" or "permissions"' );
       }
 
       const app = await Apps.findById( id );
@@ -154,11 +168,20 @@ export default <IResolvers<App, IAppsContext>>{
         throw new Error( 'App not found' );
       }
 
-      if ( !app.database.databases.includes( databaseName ) ) {
-        throw new Error( `The app does not contain the database "${ databaseName }"` );
+      const databaseConfig = app.database;
+      const dbIndex = app.database.databases.findIndex( db => db.name === databaseName );
+      if ( dbIndex === -1 ) {
+        throw new Error( `The database "${ databaseName }" does not exist for the given app` );
       }
 
-      return setDatabasePermissions( databaseName, permissions );
+      if ( permissions ) {
+        await setDatabasePermissions( databaseConfig.databases[dbIndex].name, permissions );
+      }
+      if ( description ) {
+        databaseConfig.databases[dbIndex].description = description;
+      }
+
+      return Apps.findByIdAndUpdate( app.id, { database: databaseConfig }, { new: true } ).exec();
     }
   }
 }
