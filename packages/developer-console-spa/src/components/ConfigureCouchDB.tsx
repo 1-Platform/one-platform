@@ -13,8 +13,6 @@ function ConfigureCouchDB ( props: any ) {
   const [ isCreateDBFormOpen, setIsCreateDBFormOpen ] = useState( false );
   const [ expandedMenuCardId, setExpandedMenuCardId ] = useState( '' );
   const [ searchTerm, setSearchTerm ] = useState( '' );
-  const history = useHistory();
-  const location = useLocation();
 
   const onCardMenuSelect = (event: any) => {
     setExpandedMenuCardId( '' );
