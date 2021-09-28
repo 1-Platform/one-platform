@@ -55,13 +55,13 @@
     <ng-container *ngIf="!isProjectListLoading">
         <hr class="pf-c-divider" />
         <div class="pf-l-flex pf-l-split pf-u-w-100 pf-u-p-xl pf-m-align-items-center">
-            <div class="pf-l-split__item pf-m-fill">
+            <div class="pf-l-split__item">
                 <h1 class="pf-c-title pf-m-2xl">Projects</h1>
             </div>
-            <div class="pf-l-split__item pf-u-font-size-sm">
+            <div class="pf-l-split__item pf-u-font-size-sm pf-m-fill pf-u-pt-xs">
                 {{projects.count}} projects deployed
             </div>
-            <div class="pf-l-split__item">
+            <div class="pf-l-split__item pf-u-w-33">
                 <div class="pf-c-search-input">
                     <div class="pf-c-search-input__bar">
                         <span class="pf-c-search-input__text">
@@ -93,15 +93,14 @@
             </div>
         </div>
     </div>
-    <div class="pf-l-flex pf-l-split pf-m-gutter pf-m-wrap pf-m-justify-content-center pf-u-pl-md">
-        <div class="pf-l-split__item pf-u-mb-md"
-            *ngFor="let project of projects.rows | filterList: debouncedSearchProject : 'name'">
+    <div class="pf-u-w-100 cards pf-u-pl-md pf-u-pr-sm">
+        <div *ngFor="let project of projects.rows | filterList: debouncedSearchProject : 'name'">
             <a [routerLink]="'./'+project.id" [queryParams]="{name: project.name}">
                 <app-property-card>
                     <img src="assets/containers.svg" icon />
                     <div class="pf-l-flex pf-m-align-center pf-m-nowrap" [title]>
                         <div class="pf-l-flex__item">
-                            <h6 class="pf-c-title pf-m-md pf-u-font-weight-bold whitespace-nowrap" [title]>
+                            <h6 class="pf-c-title pf-m-md pf-u-font-weight-bold" [title]>
                                 {{project.name | titlecase}}
                             </h6>
                         </div>
