@@ -31,6 +31,7 @@ function Sidebar () {
 
   const integrations = [
     { name: 'SSI Header', path: 'ssi', },
+    { name: 'Couch DB', path: 'couchdb', },
     { name: 'Database', path: 'database', },
     { name: 'Feedback', path: 'feedback', },
     { name: 'Search', path: 'search', },

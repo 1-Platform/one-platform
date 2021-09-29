@@ -10,3 +10,4 @@ export * from './lh-spa-config-by-appId';
 export * from './list-lh-projects-branches';
 export * from './list-lh-projects';
 export * from './delete-lh-spa-config';
+export * from './create-app-database';
