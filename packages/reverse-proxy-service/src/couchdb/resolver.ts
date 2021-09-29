@@ -5,7 +5,7 @@ import { COUCHDB_HOST, COUCHDB_SECRET } from '../config/env';
 
 const useSecureSSL = process.env.NODE_TLS_REJECT_UNAUTHORIZED !== '0';
 
-export default function resolver ( req: Request, res: Response, next: NextFunction ) {
+export default function resolver ( req: Request, res: Response, next: NextFunction ): void  {
   const { uid, role, rhatUUID } = res.locals.user;
 
   /* Adding additional roles */

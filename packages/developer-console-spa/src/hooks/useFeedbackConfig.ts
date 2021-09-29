@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { appFeedbackConfig } from '../utils/gql-queries';
 import gqlClient from '../utils/gqlClient';
 
-export default function useFeedbackConfig ( appId: string ) {
+export default function useFeedbackConfig ( appId: string ): {feedbackConfig: error;
+setFeedbackConfig: error;
+loading: error;
+}  {
   const [ feedbackConfig, setFeedbackConfig ] = useState<any>( {} );
   const [ loading, setLoading ] = useState( true );
 

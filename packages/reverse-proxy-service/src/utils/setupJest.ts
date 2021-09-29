@@ -9,7 +9,7 @@ export function startServer () {
   return server;
 }
 
-export function stopServer () {
+export function stopServer (): void  {
   if ( server ) {
     server.close();
   }

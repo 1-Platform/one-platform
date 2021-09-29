@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit {
     } );
   }
 
-  generateAppFilter = () => {
+  generateAppFilter = (): void  => {
     this.appsStats = [];
     this.searchResults?.response?.docs?.map( res => {
       this.appsStats.push( res.content_type );
@@ -82,7 +82,7 @@ export class SearchComponent implements OnInit {
     await this.generateAppFilter();
   }
 
-  selectedApps = () => {
+  selectedApps = (): void  => {
     this.filteredApps = _.compact( this.appsList.map( app => {
       if ( app.selected ) {
         return app.content_type;
@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit {
     } ) );
   }
 
-  orderFilter = ( orderType: string, orderName: string ) => {
+  orderFilter = ( orderType: string, orderName: string ): void  => {
     this.selectedOrderName = orderName;
     if ( orderType === 'desc' ) {
       this.sortOrder = '-createdDate';
@@ -99,7 +99,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  openFeedbackPanel = () => {
+  openFeedbackPanel = (): void  => {
     ( document as any ).querySelector( 'opc-feedback' ).toggle();
   }
 }

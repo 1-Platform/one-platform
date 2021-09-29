@@ -4,7 +4,7 @@ import { MONGO_URL } from '../../setup/env';
 import { checkAPIHash } from './cron';
 export let agenda: Agenda;
 
-export default function initializeAgenda () {
+export default function initializeAgenda (): void  {
     console.info( 'SETUP - Agenda for cron scripts..' );
     agenda = new Agenda( {
         db: {

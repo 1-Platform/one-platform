@@ -25,7 +25,7 @@ export class SpaNotificationsListComponent implements OnInit {
     });
   }
 
-  deleteConfig(config) {
+  deleteConfig(config): void  {
     this.appService.deleteNotificationConfig(config?.id).subscribe(data => {
       this.notificationInformation = {
         ...this.notificationInformation,
@@ -35,7 +35,7 @@ export class SpaNotificationsListComponent implements OnInit {
     });
   }
 
-  viewMore(index) {
+  viewMore(index): void  {
     if (this.visibleIndex === index) {
       this.visibleIndex = -1;
     } else {

@@ -8,7 +8,9 @@ import { environment } from 'src/environments/environment';
 
 const uri = environment.API_URL;
 
-export function provideApollo(httpLink: HttpLink) {
+export function provideApollo(httpLink: HttpLink): {link: error;
+cache: error;
+}  {
   const basic = setContext((operation, context) => ({
     headers: {
       Accept: 'charset=utf-8'

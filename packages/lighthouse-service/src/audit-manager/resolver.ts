@@ -102,7 +102,7 @@ export const LighthouseAuditResolver = {
     },
   },
   Mutation: {
-    auditWebsite(root: any, args: any, ctx: any) {
+    auditWebsite(root: any, args: any, ctx: any): string  {
       const LHCI_BUILD_CONTEXT__CURRENT_HASH = new Date()
         .getTime()
         .toString(16)

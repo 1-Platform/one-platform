@@ -89,7 +89,7 @@ export const APIKeysResolver = {
     }
   },
   APIKeyOwner: {
-    __resolveType ( owner: any ) {
+    __resolveType ( owner: any ): string | string  {
       /* WKRD: Find a better identifier to differentiate UserType and Group */
       if ( !owner.rhatUUID ) {
         return 'Group';

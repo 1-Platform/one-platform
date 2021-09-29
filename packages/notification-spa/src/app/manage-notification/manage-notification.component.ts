@@ -47,7 +47,7 @@ export class ManageNotificationComponent implements OnInit {
    * This is a on Submit handler to create or update notification config
    * @param formData Form data
    */
-  onSubmit(formData) {
+  onSubmit(formData): void  {
     this.notificationFormData = {
       source: this.applicationName,
       channel: formData.channel,
@@ -89,17 +89,17 @@ export class ManageNotificationComponent implements OnInit {
     }
   }
 
-  addRoverGroup(roverGroup) {
+  addRoverGroup(roverGroup): void  {
     if (roverGroup !== '') {
       this.targets.push(roverGroup.trim().replace(/ /g, '-'));
     }
   }
 
-  removeTarget(roverGroup) {
+  removeTarget(roverGroup): void  {
     this.targets = this.targets.filter(group => group !== roverGroup);
   }
 
-  editConfig(id) {
+  editConfig(id): void  {
     this.appService.getNotificationConfigBy({ id }).then((data: NotificationConfig[]) => {
       this.notificationID = data[0].id;
       this.channel = data[0].channel;
