@@ -66,7 +66,7 @@ export class OpKeycloakAuthProvider {
    *
    * @param {(user) => void} callback
    */
-  onLogin(callback: UserInfoFn): void  {
+  onLogin(callback: UserInfoFn): void {
     /* If the user is already authenticated, then call the callback immediately */
     if (this.isAuthenticated) {
       callback(this.getUserInfo());
@@ -78,7 +78,7 @@ export class OpKeycloakAuthProvider {
   /**
    * Logs the user out, and removes all user and token data from the localStorage and cookies
    */
-  logout(): void  {
+  logout(): void {
     this._keycloak.logout();
   }
 
@@ -89,7 +89,7 @@ export class OpKeycloakAuthProvider {
     return this._keycloak.authenticated;
   }
 
-  saveTokens(): void  {
+  saveTokens(): void {
     localStorage.setItem(
       LocalStorageCreds.LoginToken,
       this._keycloak.token || ""
@@ -143,7 +143,7 @@ export class OpKeycloakAuthProvider {
   /**
    * Removes any garbage hashes from the page URL
    */
-  _removeHashes(): void  {
+  _removeHashes(): void {
     window.location.hash = window.location.hash.replace(
       "#not-before-policy=0",
       ""

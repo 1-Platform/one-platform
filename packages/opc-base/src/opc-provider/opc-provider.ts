@@ -341,7 +341,7 @@ export class OpcProvider extends LitElement {
   showToast(
     notification: Notification,
     options: ToastOptions = { variant: "info" }
-  ): void  {
+  ): void {
     if (!notification.sentOn) {
       notification.sentOn = dayjs().toISOString();
     }
@@ -453,7 +453,7 @@ export class OpcProvider extends LitElement {
    * Will update is used for derived propery calculation
    * notification -> app count is recomputed on notification state change
    */
-  willUpdate(changedProperties: any): void  {
+  willUpdate(changedProperties: any): void {
     // only need to check changed properties for an expensive computation.
     if (
       changedProperties.has("notifications") ||

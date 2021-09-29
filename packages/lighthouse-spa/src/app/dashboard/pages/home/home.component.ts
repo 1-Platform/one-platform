@@ -78,15 +78,15 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  ngOnDestroy(): void  {
+  ngOnDestroy(): void {
     this.searchControl.unsubscribe();
   }
 
-  validateUrl(url: string): void  {
+  validateUrl(url: string): void {
     this.validUrl = url.indexOf('http://') == 0 || url.indexOf('https://') == 0;
   }
 
-  navigateToReportGeneration(): void  {
+  navigateToReportGeneration(): void {
     this.router.navigate(['/playground'], {
       queryParams: {
         siteUrl: this.sites,
@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSearchChange(event: Event): void  {
+  onSearchChange(event: Event): void {
     const searchTerm = (event.target as HTMLInputElement).value;
     this.searchProject = searchTerm;
     this.searchControl.next(searchTerm);
