@@ -24,7 +24,7 @@ module.exports = {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -94,7 +94,7 @@ module.exports = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: "jest-preset-angular",
+  preset: 'jest-preset-angular',
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -130,7 +130,7 @@ module.exports = {
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   setupFilesAfterEnv: [
-    "<rootDir>/src/setup-jest.ts"
+    '<rootDir>/src/setup-jest.ts'
   ],
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
@@ -153,7 +153,7 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
-    "/node_modules/"
+    '/node_modules/'
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
@@ -176,7 +176,7 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   transformIgnorePatterns: [
-    "node_modules/(?!angular2-datetimepicker|ng-circle-progress)"
+    'node_modules/(?!angular2-datetimepicker|ng-circle-progress)'
   ]
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
@@ -190,4 +190,4 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}

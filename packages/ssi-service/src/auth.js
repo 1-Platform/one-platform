@@ -1,4 +1,4 @@
-import Keycloak from 'keycloak-js';
+import Keycloak from 'keycloak-js'
 
 /**
  * Helper class for Red Hat's Internal SSO Authentication
@@ -8,19 +8,19 @@ class OpAuth {
     this.keycloakOptions = {
       clientId: process.env.KEYCLOAK_CLIENT_ID,
       realm: process.env.KEYCLOAK_REALM,
-      url: process.env.KEYCLOAK_IDP_URL,
-    };
+      url: process.env.KEYCLOAK_IDP_URL
+    }
     this.keycloakInitOptions = {
       onLoad: 'login-required',
-      checkLoginIframe: false,
-    };
+      checkLoginIframe: false
+    }
 
-    this._keycloak = new Keycloak(this.keycloakOptions);
-    this._keycloak.onTokenExpired = ( e ) => {
-      this._keycloak.updateToken( 30 ).catch(console.error);
-    };
+    this._keycloak = new Keycloak(this.keycloakOptions)
+    this._keycloak.onTokenExpired = (e) => {
+      this._keycloak.updateToken(30).catch(console.error)
+    }
 
-    this._postLoginCallbacks = [];
+    this._postLoginCallbacks = []
   }
 
   /**
@@ -28,16 +28,16 @@ class OpAuth {
    */
   async init () {
     try {
-      const authenticated = await this._keycloak.init( this.keycloakInitOptions );
-      if ( !authenticated ) {
-        await this._keycloak.login();
+      const authenticated = await this._keycloak.init(this.keycloakInitOptions)
+      if (!authenticated) {
+        await this._keycloak.login()
       }
-      this._postLoginCallbacks.map( fn => {
-        fn( this.getUserInfo() );
-      } );
-      this._removeHashes();
-    } catch ( err ) {
-      console.error( err );
+      this._postLoginCallbacks.map(fn => {
+        fn(this.getUserInfo())
+      })
+      this._removeHashes()
+    } catch (err) {
+      console.error(err)
     };
   }
 
@@ -46,12 +46,12 @@ class OpAuth {
    *
    * @param {(user) => void} callback
    */
-  onLogin ( callback ) {
-    this._postLoginCallbacks.push( callback );
+  onLogin (callback) {
+    this._postLoginCallbacks.push(callback)
 
     /* If the user is already authenticated, then call the callback immediately */
-    if ( this.isAuthenticated ) {
-      callback( this.getUserInfo() );
+    if (this.isAuthenticated) {
+      callback(this.getUserInfo())
     }
   }
 
@@ -59,23 +59,23 @@ class OpAuth {
    * Logs the user out, and removes all user and token data from the localStorage and cookies
    */
   logout () {
-    this._keycloak.logout();
+    this._keycloak.logout()
   }
 
   /**
    * Checks if the user is already Authenticated
    */
   get isAuthenticated () {
-    return this._keycloak.authenticated;
+    return this._keycloak.authenticated
   }
 
   /**
    * Returns the details of the logged in user
    */
   getUserInfo () {
-    const token = this._keycloak.tokenParsed;
-    if ( !token ) {
-      return null;
+    const token = this._keycloak.tokenParsed
+    if (!token) {
+      return null
     }
     return {
       fullName: token.cn,
@@ -95,8 +95,8 @@ class OpAuth {
       rhatCostCenterDesc: token.rhatCostCenterDesc,
       mobile: token.mobile,
       country: token.c,
-      roles: this._keycloak.realmAccess?.roles || [],
-    };
+      roles: this._keycloak.realmAccess?.roles || []
+    }
   }
 
   /**
@@ -105,16 +105,16 @@ class OpAuth {
    * Can be used as a Bearer token in any fetch queries for auth.
    */
   get jwtToken () {
-    return this._keycloak.token;
+    return this._keycloak.token
   }
 
   /**
    * Removes any garbage hashes from the page URL
    */
   _removeHashes () {
-    window.location.hash = window.location.hash.replace( '#not-before-policy=0', '' );
+    window.location.hash = window.location.hash.replace('#not-before-policy=0', '')
   }
 }
 
-export const OpAuthHelper = new OpAuth();
-window.OpAuthHelper = OpAuthHelper;
+export const OpAuthHelper = new OpAuth()
+window.OpAuthHelper = OpAuthHelper

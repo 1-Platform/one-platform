@@ -1,15 +1,15 @@
-const nodeExternals = require( 'webpack-node-externals' );
-const path = require( 'path' );
-const Dotenv = require( 'dotenv-webpack' );
-const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
-const NodemonPlugin = require( 'nodemon-webpack-plugin' );
+const nodeExternals = require('webpack-node-externals')
+const path = require('path')
+const Dotenv = require('dotenv-webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const NodemonPlugin = require('nodemon-webpack-plugin')
 
-let envPath;
+let envPath
 
-if ( !process.env.NODE_ENV || process.env.NODE_ENV === 'local' ) {
-  envPath = '.env';
-} else if ( process.env.NODE_ENV === 'test' ) {
-  envPath = 'e2e/.test.env';
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'local') {
+  envPath = '.env'
+} else if (process.env.NODE_ENV === 'test') {
+  envPath = 'e2e/.test.env'
 }
 
 module.exports = {
@@ -24,28 +24,28 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-    ],
+        exclude: /node_modules/
+      }
+    ]
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: ['.tsx', '.ts', '.js']
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve( __dirname, 'dist' ),
+    path: path.resolve(__dirname, 'dist')
   },
   target: 'node',
-  externals: [ nodeExternals() ],
+  externals: [nodeExternals()],
   plugins: [
     new CleanWebpackPlugin(),
-    new Dotenv( {
+    new Dotenv({
       path: envPath
-    } ),
-    new NodemonPlugin( {
-      watch: path.resolve( './dist' ),
+    }),
+    new NodemonPlugin({
+      watch: path.resolve('./dist'),
       script: './dist/bundle.js',
-      ext: 'js,ts,json',
-    } ),
-  ],
-};
+      ext: 'js,ts,json'
+    })
+  ]
+}

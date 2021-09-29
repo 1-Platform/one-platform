@@ -1,20 +1,20 @@
-const path = require( 'path' );
-const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
-const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
-const CopyPlugin = require( 'copy-webpack-plugin' );
-const Dotenv = require( 'dotenv-webpack' );
-require( 'dotenv' ).config();
+const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HtmlWebPackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
+require('dotenv').config()
 
-module.exports = ( _, { mode } ) => {
+module.exports = (_, { mode }) => {
   const config = {
     mode: mode || 'development',
     entry: {
-      'op-auth': path.join( __dirname, 'src', 'auth' ),
-      'op-nav': path.join( __dirname, 'src', 'nav', 'nav' ),
-      'op-feedback-api': path.join( __dirname, 'src', 'feedback-panel', 'api' )
+      'op-auth': path.join(__dirname, 'src', 'auth'),
+      'op-nav': path.join(__dirname, 'src', 'nav', 'nav'),
+      'op-feedback-api': path.join(__dirname, 'src', 'feedback-panel', 'api')
     },
     output: {
-      path: path.join( __dirname, 'dist' ),
+      path: path.join(__dirname, 'dist'),
       publicPath: '/dist/',
       filename: '[name].js',
       chunkFilename: '[name].[id].js'
@@ -24,28 +24,28 @@ module.exports = ( _, { mode } ) => {
         {
           test: /\.jsx?$/,
           include: [
-            path.resolve( __dirname, 'src' )
+            path.resolve(__dirname, 'src')
           ],
           exclude: [
-            path.resolve( __dirname, 'node_modules' )
+            path.resolve(__dirname, 'node_modules')
           ],
-          loader: 'babel-loader',
+          loader: 'babel-loader'
         },
         {
           test: /\.css$/i,
-          use: [ 'css-loader' ]
+          use: ['css-loader']
         }
       ]
     },
     resolve: {
-      extensions: [ '.json', '.js', '.jsx', '.html', '.css' ]
+      extensions: ['.json', '.js', '.jsx', '.html', '.css']
     },
     plugins: [
       new Dotenv(),
-      new CleanWebpackPlugin( {
-        cleanOnceBeforeBuildPatterns: [ '*/' ]
-      } ),
-      new HtmlWebPackPlugin( {
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: ['*/']
+      }),
+      new HtmlWebPackPlugin({
         template: './src/default.html',
         filename: 'default.html',
         inject: false,
@@ -53,11 +53,11 @@ module.exports = ( _, { mode } ) => {
         minify: {
           collapseWhitespace: true,
           minifyCSS: true,
-          minifyJS: true,
+          minifyJS: true
         },
-        cache: false,
-      } ),
-      new HtmlWebPackPlugin( {
+        cache: false
+      }),
+      new HtmlWebPackPlugin({
         template: './src/feedback.slim.html',
         filename: 'feedback.slim.html',
         inject: false,
@@ -66,18 +66,18 @@ module.exports = ( _, { mode } ) => {
         minify: {
           collapseWhitespace: true,
           minifyCSS: true,
-          minifyJS: true,
+          minifyJS: true
         },
-        cache: false,
-      } ),
-      new CopyPlugin( {
+        cache: false
+      }),
+      new CopyPlugin({
         patterns: [
-          { from: './src/assets', to: './assets/' },
-        ],
-      } ),
+          { from: './src/assets', to: './assets/' }
+        ]
+      })
     ],
-    devtool: mode !== 'production' ? 'source-map' : undefined,
-  };
+    devtool: mode !== 'production' ? 'source-map' : undefined
+  }
 
-  return config;
-};
+  return config
+}

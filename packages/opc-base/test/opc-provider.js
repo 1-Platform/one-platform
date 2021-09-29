@@ -1,11 +1,11 @@
-const opcBase = require("../dist/cjs/opc-base");
+const opcBase = require('../dist/cjs/opc-base')
 
 opcBase.configure({
-  apiBasePath: "",
-  subscriptionsPath: "",
-  keycloakUrl: "",
-  keycloakRealm: "",
-  keycloakClientId: "",
-});
+  apiBasePath: '',
+  subscriptionsPath: '',
+  keycloakUrl: '',
+  keycloakRealm: '',
+  keycloakClientId: ''
+})
 
-require("../dist/cjs/opc-provider");
+require('../dist/cjs/opc-provider')

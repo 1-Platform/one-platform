@@ -16,8 +16,8 @@ module.exports = {
     // },
     prism: {
       defaultLanguage: 'javascript',
-      theme: require( 'prism-react-renderer/themes/github' ),
-      darkTheme: require( 'prism-react-renderer/themes/dracula' ),
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula')
     },
     colorMode: {
       // "light" | "dark"
@@ -25,7 +25,7 @@ module.exports = {
 
       // Hides the switch in the navbar
       // Useful if you want to support a single color mode
-      disableSwitch: true,
+      disableSwitch: true
     },
     footer: {
       style: 'dark',
@@ -35,51 +35,51 @@ module.exports = {
           items: [
             {
               label: 'One Platform in Source',
-              href: 'https://source.redhat.com/groups/public/exd-digital-experience-platforms/exd_digital_experience_platforms_dxp_blog/part_i_why_one_platform_to_host_your_applications',
+              href: 'https://source.redhat.com/groups/public/exd-digital-experience-platforms/exd_digital_experience_platforms_dxp_blog/part_i_why_one_platform_to_host_your_applications'
             },
             {
               label: 'Monthly Blog',
-              to: 'blog',
+              to: 'blog'
             },
             {
               label: 'Contact Us',
-              href: 'https://beta.one.redhat.com/contact-us.html',
-            },
-          ],
+              href: 'https://beta.one.redhat.com/contact-us.html'
+            }
+          ]
         },
         {
           title: 'RELATED SITES',
           items: [
             {
               label: 'Red Hat Access',
-              href: 'https://access.redhat.com',
+              href: 'https://access.redhat.com'
             },
             {
               label: 'Catalog',
-              href: 'https://catalog.redhat.com',
+              href: 'https://catalog.redhat.com'
             },
             {
               label: 'Connect',
-              href: 'https://connect.redhat.com',
-            },
-          ],
+              href: 'https://connect.redhat.com'
+            }
+          ]
         },
         {
           title: 'HELP',
           items: [
             {
               label: 'Report an Issue',
-              href: 'https://beta.one.redhat.com/feedback',
+              href: 'https://beta.one.redhat.com/feedback'
             },
             {
               label: 'FAQs',
-              to: 'docs/faqs',
-            },
-          ],
-        },
+              to: 'docs/faqs'
+            }
+          ]
+        }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Red Hat, Inc.`,
-    },
+      copyright: `Copyright © ${new Date().getFullYear()} Red Hat, Inc.`
+    }
   },
   presets: [
     [
@@ -88,17 +88,17 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/',
+            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/'
         },
         blog: {
           showReadingTime: true,
           editUrl:
-            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/blog/',
+            'https://github.com/1-platform/one-platform/edit/master/packages/documentation-spa/blog/'
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
-      },
-    ],
-  ],
-};
+          customCss: require.resolve('./src/css/custom.css')
+        }
+      }
+    ]
+  ]
+}

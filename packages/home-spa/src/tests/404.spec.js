@@ -1,29 +1,29 @@
 // @ts-nocheck
-const path = require('path');
-const fs = require('fs');
-const html = fs.readFileSync(path.resolve(__dirname, '../../dist/404/index.html'), 'utf8');
+const path = require('path')
+const fs = require('fs')
+const html = fs.readFileSync(path.resolve(__dirname, '../../dist/404/index.html'), 'utf8')
 
-jest.dontMock('fs');
+jest.dontMock('fs')
 
 describe('404 page', () => {
   beforeAll(() => {
-    document.documentElement.innerHTML = html.toString();
-  });
+    document.documentElement.innerHTML = html.toString()
+  })
 
   it('text exists', () => {
-    expect(document.querySelector("body > div.banner > div.banner__text-block--medium > h1")).toBeTruthy();
-    expect(document.querySelector("body > div.banner > div.banner__text-block--normal")).toBeTruthy();
-  });
+    expect(document.querySelector('body > div.banner > div.banner__text-block--medium > h1')).toBeTruthy()
+    expect(document.querySelector('body > div.banner > div.banner__text-block--normal')).toBeTruthy()
+  })
 
   it('anchor exists', () => {
-    expect(document.querySelector("body > div.banner > a")).toBeTruthy();
-  });
+    expect(document.querySelector('body > div.banner > a')).toBeTruthy()
+  })
 
   it('links exists', () => {
-    expect(document.querySelector("#banner-links")).toBeTruthy();
-  });
+    expect(document.querySelector('#banner-links')).toBeTruthy()
+  })
 
   it('footer exists', () => {
-    expect(document.querySelector("body > footer")).toBeTruthy();
-  });
-});
+    expect(document.querySelector('body > footer')).toBeTruthy()
+  })
+})

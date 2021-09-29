@@ -16,41 +16,41 @@
  */
 
 sendFeedback = (feedbackInput) => {
-    let body = JSON.stringify({
-        query: `mutation CreateFeedback($input: FeedbackInput!) {
+  const body = JSON.stringify({
+    query: `mutation CreateFeedback($input: FeedbackInput!) {
         createFeedback(input: $input) {
             _id
             ticketUrl
             }
         }`,
-        variables: {
-            "input": feedbackInput
-        }
-    });
-    return fetch( process.env.OP_API_GATEWAY_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${(window.OpAuthHelper?.jwtToken) ? `Bearer ${window.OpAuthHelper?.jwtToken}` : null}`
-        },
-        body: body
+    variables: {
+      input: feedbackInput
+    }
+  })
+  return fetch(process.env.OP_API_GATEWAY_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${(window.OpAuthHelper?.jwtToken) ? `Bearer ${window.OpAuthHelper?.jwtToken}` : null}`
+    },
+    body: body
+  })
+    .then(res => {
+      if (!res) {
+        (window.OpNotification) ? window.OpNotification.danger({ subject: 'Error in Feedback Submission', body: 'The Server returned an empty response.' }) : alert('Error in Feedback Submission')
+        throw new Error('The Server returned an empty response.')
+      }
+      return res.json()
     })
-        .then(res => {
-            if (!res) {
-                (window.OpNotification) ? window.OpNotification.danger({ subject: `Error in Feedback Submission`, body: `The Server returned an empty response.` }) : alert('Error in Feedback Submission');
-                throw new Error('The Server returned an empty response.');
-            }
-            return res.json();
-        })
-        .then( res => {
-            if(res.data.createFeedback) {
-                (window.OpNotification) ? window.OpNotification.success({ subject: `Submitted Feedback`, link: response?.data?.createFeedback?.ticketUrl || null }) : alert('Submitted Feedback');
-            } else {
-                ( window.OpNotification ) ? window.OpNotification.danger( { subject: `Error in Feedback Submission` } ) : alert( 'Error in Feedback Submission' );
-                throw new Error( 'There were some errors in the query' + JSON.stringify( res.errors ) );
-            }
-            return res.data;
-        });
+    .then(res => {
+      if (res.data.createFeedback) {
+        (window.OpNotification) ? window.OpNotification.success({ subject: 'Submitted Feedback', link: response?.data?.createFeedback?.ticketUrl || null }) : alert('Submitted Feedback')
+      } else {
+        (window.OpNotification) ? window.OpNotification.danger({ subject: 'Error in Feedback Submission' }) : alert('Error in Feedback Submission')
+        throw new Error('There were some errors in the query' + JSON.stringify(res.errors))
+      }
+      return res.data
+    })
 }
 
-module.exports.sendFeedback = sendFeedback;
+module.exports.sendFeedback = sendFeedback

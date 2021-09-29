@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useParams, useHistory } from 'react-router-dom'
 import {
   Badge,
   Button,
@@ -21,74 +21,74 @@ import {
   Title,
   Toolbar,
   ToolbarContent,
-  ToolbarItem,
-} from '@patternfly/react-core';
-import GroupsAPI from '../services/GroupsAPI';
-import { BreadcrumbContext } from '../context/BreadcrumbContext';
+  ToolbarItem
+} from '@patternfly/react-core'
+import GroupsAPI from '../services/GroupsAPI'
+import { BreadcrumbContext } from '../context/BreadcrumbContext'
 
-function Group ( props ) {
-  const { cn } = useParams();
-  const history = useHistory();
+function Group (props) {
+  const { cn } = useParams()
+  const history = useHistory()
 
-  const [ group, setGroup ] = useState( {
+  const [group, setGroup] = useState({
     _id: '',
     name: cn,
     cn: cn,
     createdOn: null,
-    updatedOn: null,
-  } );
-  const [ members, setMembers ] = useState( [] );
-  const [ loading, setLoading ] = useState( true );
-  const { updateCrumbs } = useContext( BreadcrumbContext );
+    updatedOn: null
+  })
+  const [members, setMembers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const { updateCrumbs } = useContext(BreadcrumbContext)
 
-  useEffect( () => {
-    updateCrumbs( [
+  useEffect(() => {
+    updateCrumbs([
       { name: cn, href: window.location.href }
-    ] );
+    ])
 
-    return () => updateCrumbs([]);
+    return () => updateCrumbs([])
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ cn ] );
+  }, [cn])
 
-  useEffect( () => {
-    setLoading( true );
-    let abort = false;
-    if ( cn ) {
-      GroupsAPI.getGroupDetailsByCn( cn )
-        .then( res => {
-          if ( abort ) {
-            return;
+  useEffect(() => {
+    setLoading(true)
+    let abort = false
+    if (cn) {
+      GroupsAPI.getGroupDetailsByCn(cn)
+        .then(res => {
+          if (abort) {
+            return
           }
-          if ( !res ) {
-            throw new Error( 'Group not found' );
+          if (!res) {
+            throw new Error('Group not found')
           }
-          setMembers( res.group.members );
-          delete res.group.members;
-          setGroup( res.group );
-          setLoading( false );
-        } )
-        .catch( err => {
-          console.error( err );
+          setMembers(res.group.members)
+          delete res.group.members
+          setGroup(res.group)
+          setLoading(false)
+        })
+        .catch(err => {
+          console.error(err)
           window.OpNotification && window.OpNotification.danger({
             subject: err.message,
-            body: `There was some problem fetching the information for: ${cn}. For more details, see the console.`,
-          } );
-          history.replace( '/' );
-        } );
+            body: `There was some problem fetching the information for: ${cn}. For more details, see the console.`
+          })
+          history.replace('/')
+        })
     }
-    return () => abort = true;
-  }, [ cn, history ] );
+    return () => abort = true
+  }, [cn, history])
 
   function EmptyMessage () {
     return (
       <EmptyState>
         <EmptyStateIcon
-          variant="container"
+          variant='container'
           component={Spinner}
-        ></EmptyStateIcon>
+        />
         <Text>Loading...</Text>
       </EmptyState>
-    );
+    )
   }
 
   return (
@@ -96,14 +96,14 @@ function Group ( props ) {
       <Toolbar>
         <ToolbarContent>
           <ToolbarItem>
-            <Title size="2xl" headingLevel="h2">
+            <Title size='2xl' headingLevel='h2'>
               {group.name}
             </Title>
           </ToolbarItem>
 
-          <ToolbarItem alignment={{ default: "alignRight" }}>
+          <ToolbarItem alignment={{ default: 'alignRight' }}>
             <Button
-              variant="secondary"
+              variant='secondary'
               component={Link}
               to={`/group/edit/${cn}`}
             >
@@ -120,7 +120,7 @@ function Group ( props ) {
       {!loading && (
         <Page>
           <PageSection variant={PageSectionVariants.light}>
-            <DescriptionList columnModifier={{ default: "2Col" }}>
+            <DescriptionList columnModifier={{ default: '2Col' }}>
               <DescriptionListGroup>
                 <DescriptionListTerm>
                   LDAP/Rover Common Name
@@ -135,7 +135,7 @@ function Group ( props ) {
                 <DescriptionListDescription>
                   <ChipGroup>
                     <Chip isReadOnly>
-                      <ion-icon name="person-circle-outline"></ion-icon> Group
+                      <ion-icon name='person-circle-outline' /> Group
                       Owner
                     </Chip>
                   </ChipGroup>
@@ -151,10 +151,10 @@ function Group ( props ) {
                   Members <Badge isRead>{members.length}</Badge>
                 </DescriptionListTerm>
                 <DescriptionListDescription>
-                  <ChipGroup defaultIsOpen={true}>
+                  <ChipGroup defaultIsOpen>
                     {members.map((member) => (
                       <Chip isReadOnly key={member.uid}>
-                        <ion-icon name="person-circle-outline"></ion-icon>{" "}
+                        <ion-icon name='person-circle-outline' />{' '}
                         {member.cn}
                       </Chip>
                     ))}
@@ -169,13 +169,13 @@ function Group ( props ) {
               <DescriptionListGroup>
                 <DescriptionListTerm>Managed Services:</DescriptionListTerm>
                 <DescriptionListDescription>
-                  <EmptyState variant="small">
+                  <EmptyState variant='small'>
                     <EmptyStateIcon
-                      variant="container"
+                      variant='container'
                       component={() => (
-                        <ion-icon name="construct-outline"></ion-icon>
+                        <ion-icon name='construct-outline' />
                       )}
-                    ></EmptyStateIcon>
+                    />
                     <EmptyStateBody>Under Development</EmptyStateBody>
                   </EmptyState>
                 </DescriptionListDescription>
@@ -185,7 +185,7 @@ function Group ( props ) {
         </Page>
       )}
     </>
-  );
+  )
 }
 
-export default Group;
+export default Group
