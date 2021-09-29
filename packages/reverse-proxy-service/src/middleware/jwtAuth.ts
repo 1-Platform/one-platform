@@ -1,6 +1,7 @@
+import { NextFunction, Request, Response } from 'express';
 import { verifyJwtToken } from '../utils/verifyJwtToken';
 
-const jwtAuth = ( req: any, res: any, next: any ) => {
+const jwtAuth = ( req: Request, res: Response, next: NextFunction ) => {
   try {
     if ( !req.headers?.authorization ) {
       throw new Error( 'Request is not authenticated' );
@@ -10,7 +11,6 @@ const jwtAuth = ( req: any, res: any, next: any ) => {
     if ( authType === 'Bearer' ) {
       verifyJwtToken( token, ( err: any, tokenParsed: any ) => {
         if ( err ) {
-          console.warn( err );
           throw new Error( err.message );
         }
         res.locals.user = tokenParsed;
