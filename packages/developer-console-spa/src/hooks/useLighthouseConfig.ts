@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getLHSpaConfigByAppId } from '../services/lighthouse';
 
-export default function useLighthouseConfig ( id: string ) {
+export default function useLighthouseConfig ( id: string ): {lighthouseConfig: error;
+setLighthouseConfig: error;
+loading: error;
+}  {
   const [ lighthouseConfig, setLighthouseConfig ] = useState<any>( {} );
   const [ loading, setLoading ] = useState( true );
 

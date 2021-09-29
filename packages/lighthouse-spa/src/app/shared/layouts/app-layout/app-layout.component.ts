@@ -35,7 +35,7 @@ export class AppLayoutComponent implements OnInit {
     return baseUrl === url;
   }
 
-  handleComingSoon() {
+  handleComingSoon(): void  {
     window.OpNotification?.info({ subject: 'Coming soon...' });
   }
 }

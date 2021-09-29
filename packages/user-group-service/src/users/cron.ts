@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash';
  * @class UserSyncCron
  */
 export class UserSyncCron {
-  public syncUsers() {
+  public syncUsers(): void  {
     Users.find().then((userInfo: any) => {
       if ( userInfo.length ) {
         const rhatUuids = userInfo.map( ( user: any ) => user.rhatUuid );

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { verifyJwtToken } from '../utils/verifyJwtToken';
 
-const jwtAuth = ( req: Request, res: Response, next: NextFunction ) => {
+const jwtAuth = ( req: Request, res: Response, next: NextFunction ): void  => {
   try {
     if ( !req.headers?.authorization ) {
       throw new Error( 'Request is not authenticated' );

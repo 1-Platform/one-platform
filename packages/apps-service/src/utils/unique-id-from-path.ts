@@ -1,4 +1,4 @@
-export default function uniqueIdFromPath ( path: string ) {
+export default function uniqueIdFromPath ( path: string ): string  {
   return path.toLowerCase()
     /* Replace any special characters with `-` */
     .replace( /[\ \-\/\:\@\[\]\`\{\~\.]+/g, '-' )

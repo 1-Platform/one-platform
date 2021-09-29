@@ -20,15 +20,15 @@ export class ContextSelectorComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onToggle() {
+  onToggle(): void  {
     this.onToggleEvent.emit(!this.isOpen);
   }
 
-  onSearchButtonClick() {
+  onSearchButtonClick(): void  {
     this.onSearchButtonClickEvent.emit(this.searchInputValue);
   }
 
-  onSearchInputChange(event: Event) {
+  onSearchInputChange(event: Event): void  {
     const inputElementValue = (event.target as HTMLInputElement).value;
     this.onSearchInputChangeEvent.emit(inputElementValue);
   }

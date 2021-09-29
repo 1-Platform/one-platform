@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { appByAppId } from '../utils/gql-queries/app-by-appid';
 import gqlClient from '../utils/gqlClient';
 
-export default function useAppAPI ( appId: string ) {
+export default function useAppAPI ( appId: string ): {app: error;
+loading: error;
+setApp: error;
+}  {
   const [ app, setApp ] = useState<any>( {} );
   const [ loading, setLoading ] = useState<boolean>( true );
 
