@@ -11,7 +11,7 @@ export class OutlinedPieGraphComponent implements OnInit {
   @Input() name = '';
   ngOnInit(): void {}
 
-  getType(): string | string | string  {
+  getType(): string | string | string {
     if (this.score >= 0 && this.score <= 49) {
       return 'low';
     } else if (this.score >= 50 && this.score <= 89) {

@@ -38,7 +38,7 @@ export class LeaderboardComponent implements OnInit {
     this.fetchLHLeaderboard();
   }
 
-  fetchLHLeaderboard(): void  {
+  fetchLHLeaderboard(): void {
     this.isPageLoading = true;
 
     try {
@@ -62,7 +62,7 @@ export class LeaderboardComponent implements OnInit {
     }
   }
 
-  handleLeaderboardOptionChange(type: LeaderboardCategory): void  {
+  handleLeaderboardOptionChange(type: LeaderboardCategory): void {
     if (!this.isPageLoading) {
       this.pageOffset = 0;
       this.leaderbooardSelectedCategory = type;
@@ -70,32 +70,32 @@ export class LeaderboardComponent implements OnInit {
     }
   }
 
-  handleToggleOption(): void  {
+  handleToggleOption(): void {
     this.isPageLimitOptionOpen = !this.isPageLimitOptionOpen;
   }
 
-  handleToggleSortOption(): void  {
+  handleToggleSortOption(): void {
     this.isPageSortOptionOpen = !this.isPageSortOptionOpen;
   }
 
-  handlePageLimitChange(limit: number): void  {
+  handlePageLimitChange(limit: number): void {
     this.pageLimit = limit;
     this.pageOffset = 0;
     this.fetchLHLeaderboard();
     this.handleToggleOption();
   }
 
-  handleNextPageClick(): void  {
+  handleNextPageClick(): void {
     this.pageOffset += this.pageLimit;
     this.fetchLHLeaderboard();
   }
 
-  handlePrevPageClick(): void  {
+  handlePrevPageClick(): void {
     this.pageOffset -= this.pageLimit;
     this.fetchLHLeaderboard();
   }
 
-  handleSortDirChange(dir: Sort): void  {
+  handleSortDirChange(dir: Sort): void {
     this.pageOffset = 0;
     this.leaderboardSelectedSortOrder = dir;
     this.fetchLHLeaderboard();
