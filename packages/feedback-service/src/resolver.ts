@@ -195,9 +195,10 @@ export const FeedbackResolver = {
       let apiResponse: any = {};
       let userQuery = `query GetUsersBy {
         rhatUUID_${(args.input.createdBy as string).replace(/-/g, '')}:getUsersBy(rhatUUID:"${args.input.createdBy}") {
-          name
           uid
           rhatUUID
+          cn
+          mail
         }
       }`;
       let userData = await FeedbackIntegrationHelper.getUserProfiles(userQuery);
@@ -212,18 +213,10 @@ export const FeedbackResolver = {
         apps = await FeedbackIntegrationHelper.getApp(appParam);
       }
       let descriptionTemplate = `
-${(args.input?.error) ? `<br/>Error: ${args.input?.error}` : ``}
-${(args.input?.experience) ? `<br/>Experience: ${args.input?.experience}` : ``}
 ${(args.input?.description) ? `<br/>Description: ${args.input?.description}` : ``}
-${(args.input?.stackInfo?.stack || args.input?.stackInfo?.path) ? `<br/><br/>
-Browser Information<br/>
-___________________<br/>
-`: ``}
 ${(args.input?.stackInfo?.stack) ? `Stack - ${args.input?.stackInfo?.stack}<br/>` : ``}
 ${(args.input?.stackInfo?.path) ? `URL - ${args.input?.stackInfo?.path}<br/><br/>` : ``}
-Reported by <br/>
-Name - ${(apps.feedback.sourceType === 'JIRA') ? `[~${userData[0].uid}]` :
-          (apps.feedback.sourceType !== 'JIRA') ? `${userData[0].cn} (${userData[0].uid})` : ''}
+Reported by - ${userData[0].cn} (${userData[0].mail}) :}
 `;
       if (!args.input.description) {
         args.input.description = descriptionTemplate;
@@ -295,24 +288,7 @@ Name - ${(apps.feedback.sourceType === 'JIRA') ? `[~${userData[0].uid}]` :
             ...args.input
           };
       }
-      const emailBody = `
-Hi ${userData[0].cn},<br/><br/>
-Please find the details of the feedback we recieved as below:<br/><br/>
-Summary: ${apiResponse.summary}<br/><br/>
-Description: ${apiResponse.description}<br/><br/>
-You can track updates for your feedback at: ${apiResponse.ticketUrl}<br/><br/>
-
-Thanks<br/><br/>
-
-P.S.: This is an automated email. Please do not reply.
-`;
-      const emailData = {
-        from: `no-reply@redhat.com`,
-        cc: userData[0].mail,
-        to: apps.feedback.feedbackEmail,
-        subject: `Thanks for submitting the ${apiResponse.category} ${(apps.name) ? `for ${apps.name}` : ''}.`,
-        body: emailBody
-      };
+      const emailData = FeedbackIntegrationHelper.createEmailTemplate( userData, apiResponse, apps );
       FeedbackIntegrationHelper.sendEmail(emailData);
       apiResponse.description = apiResponse.description.replace(/(<([^>]+)>)/ig, '');
       return new Feedback(apiResponse).save()

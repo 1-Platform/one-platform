@@ -373,6 +373,28 @@ class FeedbackHelper {
                 throw err;
             });
     }
+  public createEmailTemplate ( userInfo: any, feedback: FeedbackType, app: any ) {
+          const emailBody = `
+Hi ${userInfo[0].cn},<br/><br/>
+We have received the ${feedback.category.toLowerCase()} for the ${app.name}<br/><br/>
+
+Summary: ${feedback.summary}<br/><br/>
+URL: ${new URL( process.env.FEEDBACK_CLIENT as string ).origin}${(feedback.stackInfo as any).path}<br/><br/>
+A ticket has opened for the reported ${feedback.category.toLowerCase()} and you can track the progress at ${feedback.ticketUrl }<br/><br/>
+
+Thanks<br/><br/>
+
+P.S.: This is an automated email. Please do not reply.
+`;
+          const emailData = {
+            from: `no-reply@redhat.com`,
+            cc: app.feedback.feedbackEmail,
+            to: userInfo[0].mail,
+            subject: `${ feedback.error ? feedback.error : feedback.experience } - ${ feedback.category.charAt(0) + feedback.category.substring(1).toLowerCase() } reported for ${app.name}.`,
+            body: emailBody,
+          };
+    return emailData;
+    }
 }
 
 export const transporter = nodemailer.createTransport({
