@@ -12,16 +12,16 @@
  * Created at     : 2021-07-09 16:18:34
  * Last modified  : 2021-07-19 11:55:54
  */
-module.exports = async ( browser ) => {
-  console.info('Puppeteer script execution started');
-  const page = await browser.newPage();
-  const navigationPromise = page.waitForNavigation();
-  await page.goto( process.env.LH_HOST, {
-    waitUntil: 'networkidle2',
-  } );
-  await page.type('#username', process.env.SSO_USERNAME);
-  await page.type( '#password', process.env.SSO_PASSWORD);
-  await page.click('[type="submit"]');
-  await navigationPromise;
-  console.info('Puppeteer script execution completed');
-};
+module.exports = async (browser) => {
+  console.info('Puppeteer script execution started')
+  const page = await browser.newPage()
+  const navigationPromise = page.waitForNavigation()
+  await page.goto(process.env.LH_HOST, {
+    waitUntil: 'networkidle2'
+  })
+  await page.type('#username', process.env.SSO_USERNAME)
+  await page.type('#password', process.env.SSO_PASSWORD)
+  await page.click('[type="submit"]')
+  await navigationPromise
+  console.info('Puppeteer script execution completed')
+}

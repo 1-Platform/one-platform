@@ -4,9 +4,9 @@
  * Not included in build
  */
 const config = {
-  apiBasePath: "",
-  subscriptionsPath: "",
-  keycloakUrl: "",
-  keycloakClientId: "",
-  keycloakRealm: "",
-};
+  apiBasePath: '',
+  subscriptionsPath: '',
+  keycloakUrl: '',
+  keycloakClientId: '',
+  keycloakRealm: ''
+}

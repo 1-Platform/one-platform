@@ -1,21 +1,21 @@
-import path from "path";
-import dts from "rollup-plugin-dts";
+import path from 'path'
+import dts from 'rollup-plugin-dts'
 
-import resolve from "@rollup/plugin-node-resolve";
-import typescript from "@rollup/plugin-typescript";
-import { terser } from "rollup-plugin-terser";
-import minifyHTML from "rollup-plugin-minify-html-literals";
-import copy from "rollup-plugin-copy";
-import commonjs from "@rollup/plugin-commonjs";
-import replace from "rollup-plugin-replace";
-import image from "@rollup/plugin-image";
+import resolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { terser } from 'rollup-plugin-terser'
+import minifyHTML from 'rollup-plugin-minify-html-literals'
+import copy from 'rollup-plugin-copy'
+import commonjs from '@rollup/plugin-commonjs'
+import replace from 'rollup-plugin-replace'
+import image from '@rollup/plugin-image'
 
-const production = !process.env.ROLLUP_WATCH;
+const production = !process.env.ROLLUP_WATCH
 
 // Static assets will vary depending on the application
 const copyConfig = {
-  targets: [],
-};
+  targets: []
+}
 
 const generalPlugins = [
   typescript(),
@@ -25,96 +25,96 @@ const generalPlugins = [
   resolve({ browser: true }),
   commonjs(),
   replace({
-    "process.env.NODE_ENV": JSON.stringify("development"),
+    'process.env.NODE_ENV': JSON.stringify('development')
   }),
-  production && terser(),
-];
+  production && terser()
+]
 
 const opcBaseExternalModule = path.resolve(
   __dirname,
-  "src/opc-base/opc-base.ts"
-);
+  'src/opc-base/opc-base.ts'
+)
 
 const opcProviderBundle = [
   {
-    input: "src/opc-provider/opc-provider.ts",
+    input: 'src/opc-provider/opc-provider.ts',
     external: [opcBaseExternalModule],
     output: [
       {
-        file: "./dist/umd/opc-provider.js",
-        name: "opcProvider",
-        format: "umd",
+        file: './dist/umd/opc-provider.js',
+        name: 'opcProvider',
+        format: 'umd',
         sourcemap: true,
         globals: {
-          [opcBaseExternalModule]: "opcBase",
-        },
-      },
+          [opcBaseExternalModule]: 'opcBase'
+        }
+      }
     ],
-    plugins: generalPlugins,
+    plugins: generalPlugins
   },
   {
-    input: "src/opc-provider/opc-provider.ts",
+    input: 'src/opc-provider/opc-provider.ts',
     external: [opcBaseExternalModule],
     output: [
       {
-        file: "./dist/cjs/opc-provider.js",
-        format: "cjs",
+        file: './dist/cjs/opc-provider.js',
+        format: 'cjs',
         sourcemap: true,
         paths: {
-          [opcBaseExternalModule]: "./opc-base.js",
-        },
+          [opcBaseExternalModule]: './opc-base.js'
+        }
       },
       {
-        file: "./dist/opc-provider.js",
-        format: "es",
+        file: './dist/opc-provider.js',
+        format: 'es',
         sourcemap: true,
         paths: {
-          [opcBaseExternalModule]: "./opc-base.js",
-        },
-      },
+          [opcBaseExternalModule]: './opc-base.js'
+        }
+      }
     ],
-    plugins: generalPlugins,
-  },
-];
+    plugins: generalPlugins
+  }
+]
 
 const opcBaseBundle = [
   {
-    input: "src/opc-base/opc-base.ts",
+    input: 'src/opc-base/opc-base.ts',
     output: [
       {
-        file: "dist/umd/opc-base.js",
+        file: 'dist/umd/opc-base.js',
         sourcemap: true,
-        format: "umd",
-        name: "opcBase",
-        exports: "auto",
-      },
+        format: 'umd',
+        name: 'opcBase',
+        exports: 'auto'
+      }
     ],
-    plugins: generalPlugins,
+    plugins: generalPlugins
   },
   {
-    input: "src/opc-base/opc-base.ts",
+    input: 'src/opc-base/opc-base.ts',
     output: [
       {
-        file: "dist/cjs/opc-base.js",
+        file: 'dist/cjs/opc-base.js',
         sourcemap: true,
-        format: "cjs",
+        format: 'cjs'
       },
       {
-        file: "dist/opc-base.js",
+        file: 'dist/opc-base.js',
         sourcemap: true,
-        format: "es",
-      },
+        format: 'es'
+      }
     ],
-    plugins: generalPlugins,
+    plugins: generalPlugins
   },
   {
-    input: ["src/opc-provider/opc-provider.ts", "src/opc-base/opc-base.ts"],
+    input: ['src/opc-provider/opc-provider.ts', 'src/opc-base/opc-base.ts'],
     plugins: [dts()],
     output: {
-      dir: "./dist",
-      format: "es",
-    },
-  },
-];
+      dir: './dist',
+      format: 'es'
+    }
+  }
+]
 
-export default [...opcBaseBundle, ...opcProviderBundle];
+export default [...opcBaseBundle, ...opcProviderBundle]
