@@ -69,7 +69,7 @@
         <p class="search-timestamp">
           {{ (result?.lastModifiedDate || result?.createdDate) | date:'fullDate' }}
         </p>
-        <a href="{{ result?.uri }}" target="_blank">
+        <a href="{{ result?.uri }}" target="_blank" rel="noopener noreferrer">
           <p class="search-title">{{ result?.title }}</p>
         </a>
         <p class="search-abstract">
