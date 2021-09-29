@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './pages/home/home.component';
@@ -15,7 +14,12 @@ import { SharedModule } from 'app/shared/shared.module';
 import { TimelineScoreFormaterPipe } from './pipes/timeline-score-formater.pipe';
 
 @NgModule({
-  declarations: [HomeComponent, PropertyCardComponent, AnalysisComponent, TimelineScoreFormaterPipe],
+  declarations: [
+    HomeComponent,
+    PropertyCardComponent,
+    AnalysisComponent,
+    TimelineScoreFormaterPipe,
+  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -24,7 +28,6 @@ import { TimelineScoreFormaterPipe } from './pipes/timeline-score-formater.pipe'
     HttpClientModule,
     SharedModule,
     NgxChartsModule,
-    InfiniteScrollModule,
   ],
 })
 export class DashboardModule {}

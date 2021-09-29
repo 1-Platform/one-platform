@@ -1,0 +1,27 @@
+<div class="pf-c-context-selector pf-m-expanded">
+    <button class="pf-c-context-selector__toggle pf-m-text pf-m-plain" attr.aria-expanded="{{isOpen}}"
+        aria-labelledby="context-selector-plain-with-text-expanded-example-label" (click)="onToggle()">
+        <span class="pf-c-context-selector__toggle-text">{{toggleText}}</span>
+        <span class="pf-c-context-selector__toggle-icon">
+            <i class="fas fa-caret-down" attr.aria-hidden="{{!isOpen}}"></i>
+        </span>
+    </button>
+    <div class="pf-c-context-selector__menu" [hidden]="!isOpen">
+        <div class="pf-c-context-selector__menu-search">
+            <div class="pf-c-input-group">
+                <input class="pf-c-form-control" type="search" placeholder="Search" id="context-input"
+                    name="context-input"
+                    aria-labelledby="context-selector-plain-with-text-expanded-example-search-button"
+                    [value]="searchInputValue" (input)="onSearchInputChange($event)" />
+                <button class="pf-c-button pf-m-control" type="button" (click)="onSearchButtonClick()"
+                    id="context-selector-plain-with-text-expanded-example-search-button" aria-label="Search menu items"
+                    *ngIf="!isSearchIconHidden">
+                    <i class="fas fa-search" attr.aria-hidden="{{!isOpen}}"></i>
+                </button>
+            </div>
+        </div>
+        <ul class="pf-c-context-selector__menu-list">
+            <ng-content select="li"></ng-content>
+        </ul>
+    </div>
+</div>

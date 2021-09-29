@@ -1,4 +1,4 @@
-<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center">
+<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center leaderboard--title-container">
     <div class="pf-c-page__main-body pf-l-stack pf-m-gutter">
         <div class="pf-l-stack__item">
             <h1 class="pf-c-title pf-m-3xl">Leaderboard</h1>
@@ -6,7 +6,7 @@
         <div class="pf-l-stack__item">
             <div class="pf-l-split">
                 <div class="pf-l-split__item pf-m-fill">
-                    <div class="pf-c-toggle-group pf-m-compact">
+                    <div class="pf-c-toggle-group">
                         <div class="pf-c-toggle-group__item" *ngFor="let type of leaderboardTypes">
                             <button class="pf-c-toggle-group__button" type="button"
                                 (click)="handleLeaderboardOptionChange(type)"
@@ -25,7 +25,8 @@
                             <i class="fas" aria-hidden="true"
                                 [ngClass]="leaderboardSelectedSortOrder==='ASC'?'fa-sort-amount-up':'fa-sort-amount-down'"></i>
                         </button>
-                        <ul class="pf-c-options-menu__menu" aria-labelledby="options-menu-plain-expanded-example-toggle"
+                        <ul class="pf-c-options-menu__menu leaderboard--pagination-options"
+                            aria-labelledby="options-menu-plain-expanded-example-toggle"
                             [hidden]="!isPageSortOptionOpen">
                             <li *ngFor="let sortOption of leaderboardSortDir">
                                 <button class="pf-c-options-menu__menu-item" type="button"
@@ -112,9 +113,11 @@
             </div>
         </div>
         <ng-container *ngIf="!isPageLoading">
-            <div class="pf-l-stack__item" *ngFor="let leader of lighthouseLeaderboard">
+            <div class="pf-l-stack__item" *ngFor="let leader of lighthouseLeaderboard;let i = index">
                 <app-leaderboard-card [projectName]="leader.project.name" [projectBranch]="leader.build.branch"
-                    [rank]="leader.rank" [score]="leader.score"></app-leaderboard-card>
+                    [rank]="leaderboardSelectedSortOrder==='ASC' ? (totalCount-pageOffset-i) : (pageOffset+i+1)"
+                    [score]="leader.score">
+                </app-leaderboard-card>
             </div>
         </ng-container>
     </div>
