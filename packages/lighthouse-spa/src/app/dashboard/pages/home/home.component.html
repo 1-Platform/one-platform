@@ -1,115 +1,176 @@
-<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-u-p-lg">
-    <div class="pf-l-flex__item pf-u-text-align-center pf-u-font-size-2xl pf-u-mt-xl pf-u-mb-4xl">
-        Measure performance of your application
-    </div>
+<section
+  class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-u-p-lg"
+>
+  <div
+    class="
+      pf-l-flex__item
+      pf-u-text-align-center pf-u-font-size-2xl pf-u-mt-xl pf-u-mb-4xl
+    "
+  >
+    Measure performance of your application
+  </div>
 
-    <div class="pf-l-flex pf-m-nowrap pf-m-justify-content-center">
-        <div class="pf-l-flex__item pf-l-flex pf-m-column pf-m-align-items-center"
-            *ngFor="let tagline of taglines;index as i">
-            <div class="step-dot pf-u-ml-4xl pf-u-mr-4xl">
-                <span>{{i+1}}</span>
-            </div>
-            <div class="pf-u-text-align-center pf-u-font-size-lg pf-m-spacer-xs">
-                {{tagline.title}}
-            </div>
-            <div class="pf-u-text-align-center pf-u-color-400 pf-u-w-75">
-                {{tagline.subtitle}}
-            </div>
+  <div class="pf-l-flex pf-m-nowrap pf-m-justify-content-center">
+    <div
+      class="pf-l-flex__item pf-l-flex pf-m-column pf-m-align-items-center"
+      *ngFor="let tagline of taglines; index as i"
+    >
+      <div class="step-dot pf-u-ml-4xl pf-u-mr-4xl">
+        <span>{{ i + 1 }}</span>
+      </div>
+      <div class="pf-u-text-align-center pf-u-font-size-lg pf-m-spacer-xs">
+        {{ tagline.title }}
+      </div>
+      <div class="pf-u-text-align-center pf-u-color-400 pf-u-w-75">
+        {{ tagline.subtitle }}
+      </div>
+    </div>
+  </div>
+  <div class="pf-c-page__main-body pf-l-stack pf-m-gutter pf-u-mt-4xl">
+    <form
+      class="pf-u-w-100 pf-c-form pf-m-horizontal"
+      #SearchForm="ngForm"
+      (ngSubmit)="SearchForm.form.valid && navigateToReportGeneration()"
+    >
+      <div
+        class="
+          pf-l-stack__item
+          pf-l-flex pf-m-nowrap pf-m-justify-content-center
+        "
+      >
+        <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
+          <input
+            class="pf-c-form-control pf-m-search lighthouse-search"
+            type="search"
+            id="sites"
+            name="sites"
+            aria-label="Enter webpage url"
+            placeholder="Enter web page url with http/https"
+            [(ngModel)]="sites"
+            pattern="^https?:\/\/(.*)"
+            required
+          />
         </div>
-    </div>
-    <div class="pf-c-page__main-body pf-l-stack pf-m-gutter pf-u-mt-4xl">
-        <form class="pf-u-w-100 pf-c-form pf-m-horizontal" #SearchForm="ngForm"
-            (ngSubmit)="SearchForm.form.valid && navigateToReportGeneration()">
-            <div class="pf-l-stack__item pf-l-flex pf-m-nowrap pf-m-justify-content-center">
-                <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
-                    <input class="pf-c-form-control pf-m-search lighthouse-search" type="search" id="sites" name="sites"
-                        aria-label="Enter webpage url" placeholder="Enter web page url with http/https"
-                        [(ngModel)]="sites" pattern="^https?:\/\/(.*)" required />
-                </div>
-                <div>
-                    <button class="pf-c-button pf-m-progress pf-m-primary" type="submit"
-                        [disabled]="!SearchForm.form.valid">
-                        Generate Report
-                    </button>
-                </div>
-            </div>
-            <div class="pf-l-stack__item pf-u-w-100">
-                <div class="pf-l-flex pf-m-justify-content-center pf-m-align-items-center">
-                    <div class="pf-u-font-weight-bold">Presets :</div>
-                    <div *ngFor="let preset of presets;index as i" class="pf-c-radio">
-                        <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset"
-                            class="pf-c-radio__input">
-                        <label for="preset" class="pf-c-radio__label">{{ preset.name }}</label>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+        <div>
+          <button
+            class="pf-c-button pf-m-progress pf-m-primary"
+            type="submit"
+            [disabled]="!SearchForm.form.valid"
+          >
+            Generate Report
+          </button>
+        </div>
+      </div>
+      <div class="pf-l-stack__item pf-u-w-100">
+        <div
+          class="pf-l-flex pf-m-justify-content-center pf-m-align-items-center"
+        >
+          <div class="pf-u-font-weight-bold">Presets :</div>
+          <div *ngFor="let preset of presets; index as i" class="pf-c-radio">
+            <input
+              type="radio"
+              name="preset"
+              value="{{ preset.value }}"
+              [(ngModel)]="selectedPreset"
+              class="pf-c-radio__input"
+            />
+            <label for="preset" class="pf-c-radio__label">{{
+              preset.name
+            }}</label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </section>
-<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-u-pb-lg">
-    <div class="pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center loading-container"
-        *ngIf="isProjectListLoading">
-        <app-loader title="Loading...">
-        </app-loader>
-    </div>
-    <ng-container *ngIf="!isProjectListLoading">
-        <hr class="pf-c-divider" />
-        <div class="pf-l-flex pf-l-split pf-u-w-100 pf-u-p-xl pf-m-align-items-center">
-            <div class="pf-l-split__item">
-                <h1 class="pf-c-title pf-m-2xl">Projects</h1>
-            </div>
-            <div class="pf-l-split__item pf-u-font-size-sm pf-m-fill pf-u-pt-xs">
-                {{projects.count}} projects deployed
-            </div>
-            <div class="pf-l-split__item pf-u-w-33">
-                <div class="pf-c-search-input">
-                    <div class="pf-c-search-input__bar">
-                        <span class="pf-c-search-input__text">
-                            <span class="pf-c-search-input__icon">
-                                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                            </span>
-                            <input class="pf-c-search-input__text-input" type="text" id="project-search-form"
-                                name="search-project" type="search" placeholder="Find by project"
-                                [value]="searchProject" (input)="onSearchChange($event)" />
-                        </span>
-                    </div>
-                </div>
-            </div>
+<section
+  class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-u-pb-lg"
+>
+  <div
+    class="
+      pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center
+      loading-container
+    "
+    *ngIf="isProjectListLoading"
+  >
+    <app-loader title="Loading..."> </app-loader>
+  </div>
+  <ng-container *ngIf="!isProjectListLoading">
+    <hr class="pf-c-divider" />
+    <div
+      class="pf-l-flex pf-l-split pf-u-w-100 pf-u-p-xl pf-m-align-items-center"
+    >
+      <div class="pf-l-split__item">
+        <h1 class="pf-c-title pf-m-2xl">Projects</h1>
+      </div>
+      <div class="pf-l-split__item pf-u-font-size-sm pf-m-fill pf-u-pt-xs">
+        {{ projects.count }} projects deployed
+      </div>
+      <div class="pf-l-split__item pf-u-w-33">
+        <div class="pf-c-search-input">
+          <div class="pf-c-search-input__bar">
+            <span class="pf-c-search-input__text">
+              <span class="pf-c-search-input__icon">
+                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+              </span>
+              <input
+                class="pf-c-search-input__text-input"
+                type="text"
+                id="project-search-form"
+                name="search-project"
+                type="search"
+                placeholder="Find by project"
+                [value]="searchProject"
+                (input)="onSearchChange($event)"
+              />
+            </span>
+          </div>
         </div>
-    </ng-container>
-    <div class="pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center"
-        *ngIf="!isProjectListLoading && isEmpty">
-        <div class="pf-c-empty-state pf-m-xs">
-            <div class="pf-c-empty-state__content">
-                <i class="fas fa-cubes pf-c-empty-state__icon" aria-hidden="true"></i>
-                <h1 class="pf-c-title pf-m-md">
-                    No data found
-                </h1>
-                <div class="pf-c-empty-state__body">
-                    Contact<a href="mailto:{{lighthouseContactMail}}">
-                        {{lighthouseContactMail}}
-                    </a>
-                </div>
+      </div>
+    </div>
+  </ng-container>
+  <div
+    class="
+      pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center
+    "
+    *ngIf="!isProjectListLoading && isEmpty"
+  >
+    <div class="pf-c-empty-state pf-m-xs">
+      <div class="pf-c-empty-state__content">
+        <i class="fas fa-cubes pf-c-empty-state__icon" aria-hidden="true"></i>
+        <h1 class="pf-c-title pf-m-md">No data found</h1>
+        <div class="pf-c-empty-state__body">
+          Contact<a href="mailto:{{ lighthouseContactMail }}">
+            {{ lighthouseContactMail }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pf-u-w-100 cards pf-u-pl-md pf-u-pr-sm">
+    <div
+      *ngFor="
+        let project of projects.rows | filterList: debouncedSearchProject:'name'
+      "
+    >
+      <a
+        [routerLink]="'./' + project.id"
+        [queryParams]="{ name: project.name }"
+      >
+        <app-property-card>
+          <img src="assets/containers.svg" icon />
+          <div class="pf-l-flex pf-m-align-center pf-m-nowrap" [title]>
+            <div class="pf-l-flex__item">
+              <h6 class="pf-c-title pf-m-md pf-u-font-weight-bold" [title]>
+                {{ project.name | titlecase }}
+              </h6>
             </div>
-        </div>
+            <div class="pf-l-flex__item">
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        </app-property-card>
+      </a>
     </div>
-    <div class="pf-u-w-100 cards pf-u-pl-md pf-u-pr-sm">
-        <div *ngFor="let project of projects.rows | filterList: debouncedSearchProject : 'name'">
-            <a [routerLink]="'./'+project.id" [queryParams]="{name: project.name}">
-                <app-property-card>
-                    <img src="assets/containers.svg" icon />
-                    <div class="pf-l-flex pf-m-align-center pf-m-nowrap" [title]>
-                        <div class="pf-l-flex__item">
-                            <h6 class="pf-c-title pf-m-md pf-u-font-weight-bold" [title]>
-                                {{project.name | titlecase}}
-                            </h6>
-                        </div>
-                        <div class="pf-l-flex__item">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </div>
-                </app-property-card>
-            </a>
-        </div>
-    </div>
+  </div>
 </section>

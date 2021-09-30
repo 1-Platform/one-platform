@@ -8,9 +8,8 @@ describe('ContextSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ContextSelectorComponent ]
-    })
-    .compileComponents();
+      declarations: [ContextSelectorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
