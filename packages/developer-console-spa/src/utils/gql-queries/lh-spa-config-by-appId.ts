@@ -1,4 +1,4 @@
-export const LHSpaConfigByAppId = /* GraphQL */`
+export const LHSpaConfigByAppId = /* GraphQL */ `
   query GetLHSpaConfigByAppId($appId: String!) {
     getLHSpaConfigByAppId(appId: $appId) {
       _id
@@ -6,4 +6,5 @@ export const LHSpaConfigByAppId = /* GraphQL */`
       branch
       projectId
     }
-}`;
+  }
+`;

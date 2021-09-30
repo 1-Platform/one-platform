@@ -1,1 +1,1 @@
-declare module '@patternfly/react-icons/dist/esm/icons/*';
+declare module "@patternfly/react-icons/dist/esm/icons/*";

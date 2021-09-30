@@ -1,131 +1,209 @@
-<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center leaderboard--title-container">
-    <div class="pf-c-page__main-body pf-l-stack pf-m-gutter">
-        <div class="pf-l-stack__item">
-            <h1 class="pf-c-title pf-m-3xl">Leaderboard</h1>
-        </div>
-        <div class="pf-l-stack__item">
-            <div class="pf-l-split">
-                <div class="pf-l-split__item pf-m-fill">
-                    <div class="pf-c-toggle-group">
-                        <div class="pf-c-toggle-group__item" *ngFor="let type of leaderboardTypes">
-                            <button class="pf-c-toggle-group__button" type="button"
-                                (click)="handleLeaderboardOptionChange(type)"
-                                [class.pf-m-selected]="type === leaderbooardSelectedCategory">
-                                <span class="pf-c-toggle-group__text">{{type | leaderboardLabelFormater}}</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="pf-l-split__item">
-                    <div class="pf-c-options-menu" [class.pf-m-expanded]="isPageSortOptionOpen">
-                        <button class="pf-c-options-menu__toggle pf-m-plain" type="button"
-                            id="options-menu-plain-expanded-example-toggle" aria-haspopup="listbox"
-                            [attr.aria-expanded]="isPageSortOptionOpen" aria-label="Sort by"
-                            (click)="handleToggleSortOption()">
-                            <i class="fas" aria-hidden="true"
-                                [ngClass]="leaderboardSelectedSortOrder==='ASC'?'fa-sort-amount-up':'fa-sort-amount-down'"></i>
-                        </button>
-                        <ul class="pf-c-options-menu__menu leaderboard--pagination-options"
-                            aria-labelledby="options-menu-plain-expanded-example-toggle"
-                            [hidden]="!isPageSortOptionOpen">
-                            <li *ngFor="let sortOption of leaderboardSortDir">
-                                <button class="pf-c-options-menu__menu-item" type="button"
-                                    (click)="handleSortDirChange(sortOption)">
-                                    {{sortOption==='ASC'?"From bottom":"From Top"}}
-                                    <div class="pf-c-options-menu__menu-item-icon"
-                                        *ngIf="sortOption===leaderboardSelectedSortOrder">
-                                        <i class="fas fa-check" aria-hidden="true"></i>
-                                    </div>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="pf-l-split__item">
-                    <div class="pf-c-pagination pf-m-compact">
-                        <div class="pf-c-options-menu">
-                            <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
-                                <span class="pf-c-options-menu__toggle-text">
-                                    <b>{{pageOffset+1}} - {{pageOffset+pageLimit}}</b>&nbsp;of&nbsp;
-                                    <b>{{totalCount}}</b>
-                                </span>
-                                <button class="pf-c-options-menu__toggle-button"
-                                    id="pagination-options-menu-top-expanded-example-toggle" aria-haspopup="listbox"
-                                    (click)="handleToggleOption()" aria-expanded="false" aria-label="Items per page">
-                                    <span class="pf-c-options-menu__toggle-button-icon">
-                                        <i class="fas fa-caret-down" aria-hidden="true"></i>
-                                    </span>
-                                </button>
-                            </div>
-                            <ul class="pf-c-options-menu__menu"
-                                aria-labelledby="pagination-options-menu-top-expanded-example-toggle"
-                                *ngIf="isPageLimitOptionOpen">
-                                <li *ngFor="let optionLimit of pageLimitOptions">
-                                    <button class="pf-c-options-menu__menu-item" type="button"
-                                        (click)="handlePageLimitChange(optionLimit)">
-                                        {{optionLimit}} per page
-                                        <div class="pf-c-options-menu__menu-item-icon"
-                                            *ngIf="optionLimit === pageLimit">
-                                            <i class="fas fa-check" aria-hidden="true"></i>
-                                        </div>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <nav class="pf-c-pagination__nav" aria-label="Pagination">
-                            <div class="pf-c-pagination__nav-control pf-m-prev">
-                                <button class="pf-c-button pf-m-plain" type="button" [disabled]="pageOffset<=0"
-                                    aria-label="Go to previous page" (click)="handlePrevPageClick()">
-                                    <i class="fas fa-angle-left" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="pf-c-pagination__nav-control pf-m-next">
-                                <button class="pf-c-button pf-m-plain" type="button" aria-label="Go to next page"
-                                    [disabled]="pageOffset+pageLimit>=totalCount" (click)="handleNextPageClick()">
-                                    <i class="fas fa-angle-right" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section
+  class="
+    pf-c-page__main-section
+    pf-m-limit-width pf-m-align-center
+    leaderboard--title-container
+  "
+>
+  <div class="pf-c-page__main-body pf-l-stack pf-m-gutter">
+    <div class="pf-l-stack__item">
+      <h1 class="pf-c-title pf-m-3xl">Leaderboard</h1>
     </div>
+    <div class="pf-l-stack__item">
+      <div class="pf-l-split">
+        <div class="pf-l-split__item pf-m-fill">
+          <div class="pf-c-toggle-group">
+            <div
+              class="pf-c-toggle-group__item"
+              *ngFor="let type of leaderboardTypes"
+            >
+              <button
+                class="pf-c-toggle-group__button"
+                type="button"
+                (click)="handleLeaderboardOptionChange(type)"
+                [class.pf-m-selected]="type === leaderbooardSelectedCategory"
+              >
+                <span class="pf-c-toggle-group__text">{{
+                  type | leaderboardLabelFormater
+                }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="pf-l-split__item">
+          <div
+            class="pf-c-options-menu"
+            [class.pf-m-expanded]="isPageSortOptionOpen"
+          >
+            <button
+              class="pf-c-options-menu__toggle pf-m-plain"
+              type="button"
+              id="options-menu-plain-expanded-example-toggle"
+              aria-haspopup="listbox"
+              [attr.aria-expanded]="isPageSortOptionOpen"
+              aria-label="Sort by"
+              (click)="handleToggleSortOption()"
+            >
+              <i
+                class="fas"
+                aria-hidden="true"
+                [ngClass]="
+                  leaderboardSelectedSortOrder === 'ASC'
+                    ? 'fa-sort-amount-up'
+                    : 'fa-sort-amount-down'
+                "
+              ></i>
+            </button>
+            <ul
+              class="pf-c-options-menu__menu leaderboard--pagination-options"
+              aria-labelledby="options-menu-plain-expanded-example-toggle"
+              [hidden]="!isPageSortOptionOpen"
+            >
+              <li *ngFor="let sortOption of leaderboardSortDir">
+                <button
+                  class="pf-c-options-menu__menu-item"
+                  type="button"
+                  (click)="handleSortDirChange(sortOption)"
+                >
+                  {{ sortOption === "ASC" ? "From bottom" : "From Top" }}
+                  <div
+                    class="pf-c-options-menu__menu-item-icon"
+                    *ngIf="sortOption === leaderboardSelectedSortOrder"
+                  >
+                    <i class="fas fa-check" aria-hidden="true"></i>
+                  </div>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="pf-l-split__item">
+          <div class="pf-c-pagination pf-m-compact">
+            <div class="pf-c-options-menu">
+              <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
+                <span class="pf-c-options-menu__toggle-text">
+                  <b>{{ pageOffset + 1 }} - {{ pageOffset + pageLimit }}</b
+                  >&nbsp;of&nbsp;
+                  <b>{{ totalCount }}</b>
+                </span>
+                <button
+                  class="pf-c-options-menu__toggle-button"
+                  id="pagination-options-menu-top-expanded-example-toggle"
+                  aria-haspopup="listbox"
+                  (click)="handleToggleOption()"
+                  aria-expanded="false"
+                  aria-label="Items per page"
+                >
+                  <span class="pf-c-options-menu__toggle-button-icon">
+                    <i class="fas fa-caret-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <ul
+                class="pf-c-options-menu__menu"
+                aria-labelledby="pagination-options-menu-top-expanded-example-toggle"
+                *ngIf="isPageLimitOptionOpen"
+              >
+                <li *ngFor="let optionLimit of pageLimitOptions">
+                  <button
+                    class="pf-c-options-menu__menu-item"
+                    type="button"
+                    (click)="handlePageLimitChange(optionLimit)"
+                  >
+                    {{ optionLimit }} per page
+                    <div
+                      class="pf-c-options-menu__menu-item-icon"
+                      *ngIf="optionLimit === pageLimit"
+                    >
+                      <i class="fas fa-check" aria-hidden="true"></i>
+                    </div>
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <nav class="pf-c-pagination__nav" aria-label="Pagination">
+              <div class="pf-c-pagination__nav-control pf-m-prev">
+                <button
+                  class="pf-c-button pf-m-plain"
+                  type="button"
+                  [disabled]="pageOffset <= 0"
+                  aria-label="Go to previous page"
+                  (click)="handlePrevPageClick()"
+                >
+                  <i class="fas fa-angle-left" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="pf-c-pagination__nav-control pf-m-next">
+                <button
+                  class="pf-c-button pf-m-plain"
+                  type="button"
+                  aria-label="Go to next page"
+                  [disabled]="pageOffset + pageLimit >= totalCount"
+                  (click)="handleNextPageClick()"
+                >
+                  <i class="fas fa-angle-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-<section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-u-p-md">
-    <div class="pf-l-stack pf-m-gutter pf-u-w-100 leaderboard--card">
-        <div class="pf-l-stack__item leaderboard--header">
-            <div class="pf-c-card">
-                <div class="pf-c-card__body pf-u-p-md">
-                    <div class="pf-l-flex pf-no-wrap pf-m-align-items-center">
-                        <div class="pf-l-flex__item leaderboard--card-rank pf-u-px-md">
-                            <h3 class="pf-c-title pf-m-lg pf-u-m-0 pf-u-font-weight-light">Rank</h3>
-                        </div>
-                        <div class="pf-l-flex pf-no-wrap pf-m-align-items-center pf-m-grow">
-                            <h3 class="pf-c-title pf-m-lg pf-u-m-0 pf-u-font-weight-light">Project</h3>
-                        </div>
-                        <div class="pf-l-flex__item leaderboard--card-rank pf-u-px-md">
-                            <h3 class="pf-c-title pf-m-lg pf-u-m-0 pf-u-font-weight-light">Score</h3>
-
-                        </div>
-                    </div>
-                </div>
+<section
+  class="pf-c-page__main-section pf-m-limit-width pf-m-align-center pf-u-p-md"
+>
+  <div class="pf-l-stack pf-m-gutter pf-u-w-100 leaderboard--card">
+    <div class="pf-l-stack__item leaderboard--header">
+      <div class="pf-c-card">
+        <div class="pf-c-card__body pf-u-p-md">
+          <div class="pf-l-flex pf-no-wrap pf-m-align-items-center">
+            <div class="pf-l-flex__item leaderboard--card-rank pf-u-px-md">
+              <h3 class="pf-c-title pf-m-lg pf-u-m-0 pf-u-font-weight-light">
+                Rank
+              </h3>
             </div>
+            <div class="pf-l-flex pf-no-wrap pf-m-align-items-center pf-m-grow">
+              <h3 class="pf-c-title pf-m-lg pf-u-m-0 pf-u-font-weight-light">
+                Project
+              </h3>
+            </div>
+            <div class="pf-l-flex__item leaderboard--card-rank pf-u-px-md">
+              <h3 class="pf-c-title pf-m-lg pf-u-m-0 pf-u-font-weight-light">
+                Score
+              </h3>
+            </div>
+          </div>
         </div>
-        <ng-container *ngIf="!isPageLoading">
-            <div class="pf-l-stack__item" *ngFor="let leader of lighthouseLeaderboard;let i = index">
-                <app-leaderboard-card [projectName]="leader.project.name" [projectBranch]="leader.build.branch"
-                    [rank]="leaderboardSelectedSortOrder==='ASC' ? (totalCount-pageOffset-i) : (pageOffset+i+1)"
-                    [score]="leader.score">
-                </app-leaderboard-card>
-            </div>
-        </ng-container>
+      </div>
     </div>
+    <ng-container *ngIf="!isPageLoading">
+      <div
+        class="pf-l-stack__item"
+        *ngFor="let leader of lighthouseLeaderboard; let i = index"
+      >
+        <app-leaderboard-card
+          [projectName]="leader.project.name"
+          [projectBranch]="leader.build.branch"
+          [rank]="
+            leaderboardSelectedSortOrder === 'ASC'
+              ? totalCount - pageOffset - i
+              : pageOffset + i + 1
+          "
+          [score]="leader.score"
+        >
+        </app-leaderboard-card>
+      </div>
+    </ng-container>
+  </div>
 </section>
 <section *ngIf="isPageLoading" class="pf-l-bullseye">
-    <app-loader></app-loader>
+  <app-loader></app-loader>
 </section>
-<section *ngIf="!isPageLoading && lighthouseLeaderboard.length === 0" class="pf-l-bullseye">
-    <app-empty-state title="No data found">
-    </app-empty-state>
+<section
+  *ngIf="!isPageLoading && lighthouseLeaderboard.length === 0"
+  class="pf-l-bullseye"
+>
+  <app-empty-state title="No data found"> </app-empty-state>
 </section>

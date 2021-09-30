@@ -1,100 +1,179 @@
 <section class="pf-l-flex pf-m-column pf-m-nowrap pf-u-p-lg pf-u-h-100">
-    <div class="pf-l-flex__item">
-        <div class="pf-l-split">
-            <div class="pf-l-split__item  pf-m-fill">
-                <nav class="pf-c-breadcrumb" aria-label="breadcrumb">
-                    <ol class="pf-c-breadcrumb__list">
-                        <li class="pf-c-breadcrumb__item">
-                            <span class="pf-c-breadcrumb__item-divider">
-                                <i class="fas fa-angle-right" aria-hidden="true"></i>
-                            </span>
-                            <a routerLink="/" class="pf-c-breadcrumb__link">Home</a>
-                        </li>
-                        <li class="pf-c-breadcrumb__item">
-                            <span class="pf-c-breadcrumb__item-divider">
-                                <i class="fas fa-angle-right" aria-hidden="true"></i>
-                            </span>
-                            <span class="pf-c-breadcrumb__link pf-m-current" aria-current="page">
-                                {{title}}
-                            </span>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+  <div class="pf-l-flex__item">
+    <div class="pf-l-split">
+      <div class="pf-l-split__item pf-m-fill">
+        <nav class="pf-c-breadcrumb" aria-label="breadcrumb">
+          <ol class="pf-c-breadcrumb__list">
+            <li class="pf-c-breadcrumb__item">
+              <span class="pf-c-breadcrumb__item-divider">
+                <i class="fas fa-angle-right" aria-hidden="true"></i>
+              </span>
+              <a routerLink="/" class="pf-c-breadcrumb__link">Home</a>
+            </li>
+            <li class="pf-c-breadcrumb__item">
+              <span class="pf-c-breadcrumb__item-divider">
+                <i class="fas fa-angle-right" aria-hidden="true"></i>
+              </span>
+              <span
+                class="pf-c-breadcrumb__link pf-m-current"
+                aria-current="page"
+              >
+                {{ title }}
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </div>
     </div>
-    <div class="pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center" *ngIf="isPageLoading">
-        <app-loader title="Loading...">
-        </app-loader>
-    </div>
-    <section *ngIf="!isPageLoading && branches.length ===0" class="pf-l-bullseye">
-        <app-empty-state title="No branch found">
-        </app-empty-state>
-    </section>
-    <section *ngIf="!isPageLoading" class="pf-c-page__main-section pf-m-limit-width pf-m-align-center">
-        <div class="pf-l-flex pf-m-grow pf-m-align-items-center pf-m-column pf-u-w-100 pf-u-py-md pf-m-space-items-2xl">
-            <div id="apps-score-card" class="pf-l-flex pf-m-column pf-m-space-items-sm">
-                <div class="pf-l-flex__item pf-l-flex">
-                    <div class="pf-l-flex__item pf-u-font-size-lg pf-u-color-100">
-                        <app-context-selector [toggleText]="selectedBranch | titlecase"
-                            [searchInputValue]="branchContextSelectorSearchValue" [isOpen]="isBranchContextSelectorOpen"
-                            (onToggle)="onToggleBranchSelector($event)"
-                            (onSearchInputChange)="onBranchSelectorSearchChange($event)">
-                            <li *ngFor="let branch of branches | filterList: branchContextSelectorSearchValue">
-                                <button class="pf-c-context-selector__menu-list-item capitalize" type="button"
-                                    (click)="onBranchSelect(branch)">{{branch}}</button>
-                            </li>
-                        </app-context-selector>
-                    </div>
-                    <div class="pf-l-flex__item pf-m-grow"></div>
-                    <div class="pf-l-flex__item pf-u-font-size-sm pf-u-color-300">
-                        Last Report generated at:{{" "}}
-                        {{ buildScores.hasOwnProperty(selectedBranch) ?
-                        (buildScores[selectedBranch][0].updatedAt | date:"MMM dd, YY"): ('...')}}
-                    </div>
-                </div>
-                <div class="pf-l-flex__item">
-                    <div class="pf-l-grid pf-m-gutter">
-                        <div class="pf-l-grid__item pf-m-12-col pf-c-card score-card">
-                            <div class="pf-c-card__body">
-                                <div class="pf-u-p-2xl pf-l-flex pf-m-nowrap pf-m-justify-content-center score-loader-container"
-                                    *ngIf="isBranchLoading">
-                                    <app-loader></app-loader>
-                                </div>
-
-                                <div *ngIf="!isBranchLoading"
-                                    class="pf-l-flex pf-m-nowrap pf-m-justify-content-space-around pf-m-space-items-xl">
-                                    <div class="pf-l-flex__item score"
-                                        *ngFor="let score of buildScores[selectedBranch][0].score | keyvalue">
-                                        <app-outlined-pie-graph [score]="score.value"
-                                            [name]="score.key | lHScoreLabelFormater">
-                                        </app-outlined-pie-graph>
-                                    </div>
-                                </div>
-                                <app-lhcard-legend></app-lhcard-legend>
-
-                            </div>
-                        </div>
-                        <div class="pf-l-grid__item pf-m-12-col pf-c-card score-card">
-                            <div class="pf-c-card__body">
-                                <div class="pf-u-p-2xl pf-l-flex pf-m-nowrap pf-m-justify-content-center score-loader-container"
-                                    *ngIf="isBranchLoading">
-                                    <app-loader></app-loader>
-                                </div>
-                                <ngx-charts-line-chart *ngIf="!isBranchLoading" [view]="[800, 350]"
-                                    [scheme]="timelineColorSchema" [timeline]="true"
-                                    [results]="buildScores[selectedBranch] | timelineScoreFormater" [legend]="legend"
-                                    [xAxis]="xAxis" [yAxis]="yAxis" [timeline]="timeline"
-                                    [referenceLines]="referenceLines" [showRefLines]="showRefLines"
-                                    [yScaleMax]='yScaleMax' [yScaleMin]='yScaleMin' [legendTitle]="legendTitle"
-                                    [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                                    [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel">
-                                </ngx-charts-line-chart>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  </div>
+  <div
+    class="
+      pf-l-flex pf-m-grow pf-m-justify-content-center pf-m-align-items-center
+    "
+    *ngIf="isPageLoading"
+  >
+    <app-loader title="Loading..."> </app-loader>
+  </div>
+  <section
+    *ngIf="!isPageLoading && branches.length === 0"
+    class="pf-l-bullseye"
+  >
+    <app-empty-state title="No branch found"> </app-empty-state>
+  </section>
+  <section
+    *ngIf="!isPageLoading"
+    class="pf-c-page__main-section pf-m-limit-width pf-m-align-center"
+  >
+    <div
+      class="
+        pf-l-flex
+        pf-m-grow
+        pf-m-align-items-center
+        pf-m-column
+        pf-u-w-100
+        pf-u-py-md
+        pf-m-space-items-2xl
+      "
+    >
+      <div
+        id="apps-score-card"
+        class="pf-l-flex pf-m-column pf-m-space-items-sm"
+      >
+        <div class="pf-l-flex__item pf-l-flex">
+          <div class="pf-l-flex__item pf-u-font-size-lg pf-u-color-100">
+            <app-context-selector
+              [toggleText]="selectedBranch | titlecase"
+              [searchInputValue]="branchContextSelectorSearchValue"
+              [isOpen]="isBranchContextSelectorOpen"
+              (onToggle)="onToggleBranchSelector($event)"
+              (onSearchInputChange)="onBranchSelectorSearchChange($event)"
+            >
+              <li
+                *ngFor="
+                  let branch of branches
+                    | filterList: branchContextSelectorSearchValue
+                "
+              >
+                <button
+                  class="pf-c-context-selector__menu-list-item capitalize"
+                  type="button"
+                  (click)="onBranchSelect(branch)"
+                >
+                  {{ branch }}
+                </button>
+              </li>
+            </app-context-selector>
+          </div>
+          <div class="pf-l-flex__item pf-m-grow"></div>
+          <div class="pf-l-flex__item pf-u-font-size-sm pf-u-color-300">
+            Last Report generated at:{{ " " }}
+            {{
+              buildScores.hasOwnProperty(selectedBranch)
+                ? (buildScores[selectedBranch][0].updatedAt
+                  | date: "MMM dd, YY")
+                : "..."
+            }}
+          </div>
         </div>
-    </section>
+        <div class="pf-l-flex__item">
+          <div class="pf-l-grid pf-m-gutter">
+            <div class="pf-l-grid__item pf-m-12-col pf-c-card score-card">
+              <div class="pf-c-card__body">
+                <div
+                  class="
+                    pf-u-p-2xl pf-l-flex pf-m-nowrap pf-m-justify-content-center
+                    score-loader-container
+                  "
+                  *ngIf="isBranchLoading"
+                >
+                  <app-loader></app-loader>
+                </div>
+
+                <div
+                  *ngIf="!isBranchLoading"
+                  class="
+                    pf-l-flex
+                    pf-m-nowrap
+                    pf-m-justify-content-space-around
+                    pf-m-space-items-xl
+                  "
+                >
+                  <div
+                    class="pf-l-flex__item score"
+                    *ngFor="
+                      let score of buildScores[selectedBranch][0].score
+                        | keyvalue
+                    "
+                  >
+                    <app-outlined-pie-graph
+                      [score]="score.value"
+                      [name]="score.key | lHScoreLabelFormater"
+                    >
+                    </app-outlined-pie-graph>
+                  </div>
+                </div>
+                <app-lhcard-legend></app-lhcard-legend>
+              </div>
+            </div>
+            <div class="pf-l-grid__item pf-m-12-col pf-c-card score-card">
+              <div class="pf-c-card__body">
+                <div
+                  class="
+                    pf-u-p-2xl pf-l-flex pf-m-nowrap pf-m-justify-content-center
+                    score-loader-container
+                  "
+                  *ngIf="isBranchLoading"
+                >
+                  <app-loader></app-loader>
+                </div>
+                <ngx-charts-line-chart
+                  *ngIf="!isBranchLoading"
+                  [view]="[800, 350]"
+                  [scheme]="timelineColorSchema"
+                  [timeline]="true"
+                  [results]="
+                    buildScores[selectedBranch] | timelineScoreFormater
+                  "
+                  [legend]="legend"
+                  [xAxis]="xAxis"
+                  [yAxis]="yAxis"
+                  [timeline]="timeline"
+                  [referenceLines]="referenceLines"
+                  [showRefLines]="showRefLines"
+                  [yScaleMax]="yScaleMax"
+                  [yScaleMin]="yScaleMin"
+                  [legendTitle]="legendTitle"
+                  [xAxisLabel]="xAxisLabel"
+                  [yAxisLabel]="yAxisLabel"
+                  [showXAxisLabel]="showXAxisLabel"
+                  [showYAxisLabel]="showYAxisLabel"
+                >
+                </ngx-charts-line-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </section>

@@ -1,6 +1,6 @@
 .app-card .pf-c-dropdown__toggle {
-  --pf-c-dropdown__toggle--PaddingRight: .5rem !important;
-  --pf-c-dropdown__toggle--PaddingLeft: .5rem !important;
+  --pf-c-dropdown__toggle--PaddingRight: 0.5rem !important;
+  --pf-c-dropdown__toggle--PaddingLeft: 0.5rem !important;
 }
 
 .new-app--card {
@@ -8,7 +8,8 @@
   border-color: #ddd;
   background-color: #fff;
 }
-.new-app--card:hover, .new-app--card:focus {
+.new-app--card:hover,
+.new-app--card:focus {
   border-color: var(--color-active);
   font-weight: bold;
 }
@@ -25,8 +26,8 @@
 .app-card--body > p {
   --line-height: 1.25rem;
   --max-lines: 2;
-  color: rgba(0,0,0,.75);
-  margin-top: .5rem;
+  color: rgba(0, 0, 0, 0.75);
+  margin-top: 0.5rem;
   line-height: var(--line-height);
   max-height: calc(var(--line-height) * var(--max-lines));
   overflow: hidden;
@@ -47,21 +48,21 @@
   background: white;
 }
 .app-card--footer {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   border-top: 1px solid #eee;
 }
 .app-card--footer a {
   font-weight: bold;
 }
 .app-card--footer a > .ion-icon {
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 .app-card--dropdown {
   padding: 0;
   position: absolute;
-  top: .5rem;
-  right: .5rem;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 .lighthouse-projectList--filled {
   width: 100%;
