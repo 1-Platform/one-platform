@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { AppService } from '../app.service';
-import { UserProfile } from '../helper';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { AppService } from "../app.service";
+import { UserProfile } from "../helper";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'op-manage-notification',
-  templateUrl: './manage-notification.component.html',
-  styleUrls: ['./manage-notification.component.scss']
+  selector: "op-manage-notification",
+  templateUrl: "./manage-notification.component.html",
+  styleUrls: ["./manage-notification.component.scss"],
 })
 export class ManageNotificationComponent implements OnInit {
   user = UserProfile;
@@ -26,9 +26,9 @@ export class ManageNotificationComponent implements OnInit {
   constructor(
     private appService: AppService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {
-    this.route.params.subscribe(res => {
+    this.route.params.subscribe((res) => {
       // If editID is available then the form is in edit state or else it is in create state
       if (res?.id) {
         this.editConfig(res.id);
@@ -38,16 +38,17 @@ export class ManageNotificationComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.applications = await this.appService.getHomeTypeByUser(this.user?.rhatUUID)
-    .then(result => result.filter(spa => spa.entityType === 'spa'))
-    .catch(err => err);
+    this.applications = await this.appService
+      .getHomeTypeByUser(this.user?.rhatUUID)
+      .then((result) => result.filter((spa) => spa.entityType === "spa"))
+      .catch((err) => err);
   }
 
   /**
    * This is a on Submit handler to create or update notification config
    * @param formData Form data
    */
-  onSubmit(formData) {
+  onSubmit(formData): void {
     this.notificationFormData = {
       source: this.applicationName,
       channel: formData.channel,
@@ -64,50 +65,64 @@ export class ManageNotificationComponent implements OnInit {
         createdBy: this.user?.rhatUUID,
         createdOn: new Date().toUTCString(),
       };
-      this.appService.createNotificationConfig(this.notificationFormData).subscribe((result) => {
-        if (result) {
-          window.OpNotification.success({subject: 'Notification successfully created'});
-        }
-      },
-      (err) => {
-        window.OpNotification.danger({subject: 'Error', body: err});
-      });
+      this.appService
+        .createNotificationConfig(this.notificationFormData)
+        .subscribe(
+          (result) => {
+            if (result) {
+              window.OpNotification.success({
+                subject: "Notification successfully created",
+              });
+            }
+          },
+          (err) => {
+            window.OpNotification.danger({ subject: "Error", body: err });
+          }
+        );
     } else {
       this.notificationFormData = {
         ...this.notificationFormData,
         updatedBy: UserProfile.rhatUUID,
         updatedOn: new Date().toUTCString(),
       };
-      this.appService.updateNotificationConfig(this.notificationFormData).subscribe(result => {
-        if (result) {
-          window.OpNotification.success({subject: 'Notification successfully created'});
-        }
-      },
-      (err) => {
-        window.OpNotification.danger({subject: 'Error', body: err});
+      this.appService
+        .updateNotificationConfig(this.notificationFormData)
+        .subscribe(
+          (result) => {
+            if (result) {
+              window.OpNotification.success({
+                subject: "Notification successfully created",
+              });
+            }
+          },
+          (err) => {
+            window.OpNotification.danger({ subject: "Error", body: err });
+          }
+        );
+    }
+  }
+
+  addRoverGroup(roverGroup): void {
+    if (roverGroup !== "") {
+      this.targets.push(roverGroup.trim().replace(/ /g, "-"));
+    }
+  }
+
+  removeTarget(roverGroup): void {
+    this.targets = this.targets.filter((group) => group !== roverGroup);
+  }
+
+  editConfig(id): void {
+    this.appService
+      .getNotificationConfigBy({ id })
+      .then((data: NotificationConfig[]) => {
+        this.notificationID = data[0].id;
+        this.channel = data[0].channel;
+        this.type = data[0].type;
+        this.targets = data[0].targets;
+        this.createdBy = data[0].createdBy;
+        this.applicationName = (data[0].source as any).name;
+        return data;
       });
-    }
-  }
-
-  addRoverGroup(roverGroup) {
-    if (roverGroup !== '') {
-      this.targets.push(roverGroup.trim().replace(/ /g, '-'));
-    }
-  }
-
-  removeTarget(roverGroup) {
-    this.targets = this.targets.filter(group => group !== roverGroup);
-  }
-
-  editConfig(id) {
-    this.appService.getNotificationConfigBy({ id }).then((data: NotificationConfig[]) => {
-      this.notificationID = data[0].id;
-      this.channel = data[0].channel;
-      this.type = data[0].type;
-      this.targets = data[0].targets;
-      this.createdBy = data[0].createdBy;
-      this.applicationName = (data[0].source as any).name;
-      return data;
-    });
   }
 }

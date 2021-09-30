@@ -124,15 +124,15 @@ export class AnalysisComponent implements OnInit {
   }
 
   // context selector functions
-  onToggleBranchSelector(isOpen: boolean) {
+  onToggleBranchSelector(isOpen: boolean): void {
     this.isBranchContextSelectorOpen = isOpen;
   }
 
-  onBranchSelectorSearchChange(searchValue: string) {
+  onBranchSelectorSearchChange(searchValue: string): void {
     this.branchContextSelectorSearchValue = searchValue;
   }
 
-  onBranchSelect(branch: string) {
+  onBranchSelect(branch: string): void {
     this.selectedBranch = branch;
     this.isBranchContextSelectorOpen = false;
     this.branchContextSelectorSearchValue = '';

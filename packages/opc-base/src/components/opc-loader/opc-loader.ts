@@ -10,7 +10,7 @@ export class OpcLoader extends LitElement {
   @property({ type: Boolean }) hidden = false;
 
   // to avoid overflow scroll
-  willUpdate(changedProperties: Map<string, unknown>) {
+  willUpdate(changedProperties: Map<string, unknown>): void {
     if (changedProperties.has("hidden")) {
       document.body.style.overflowY = this.hidden ? "auto" : "hidden";
     }

@@ -96,17 +96,17 @@ export class HomeComponent implements OnInit {
     return window?.OpAuthHelper?.getUserInfo();
   }
 
-  scrollBottom = () => {
+  scrollBottom = (): void => {
     document
       .querySelector('#codeBlock')
       .scrollTo(0, document.querySelector('#codeBlock').scrollHeight);
   };
 
-  validateUrl = (url: string) => {
+  validateUrl = (url: string): void => {
     this.validUrl = url.indexOf('http://') == 0 || url.indexOf('https://') == 0;
   };
 
-  fetchProjectDetails = () => {
+  fetchProjectDetails = (): void => {
     if (this.property.buildToken) {
       this.appService
         .fetchProjectDetails(
@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  updateProgress = () => {
+  updateProgress = (): void => {
     this.appService.autorun().subscribe((progress: string) => {
       if (progress.substr(0, this.auditId.length) === this.auditId) {
         if (progress.replace(this.auditId, '')) {
@@ -167,7 +167,7 @@ export class HomeComponent implements OnInit {
     return replacedText;
   };
 
-  auditWebsite = () => {
+  auditWebsite = (): void => {
     this.auditProgress = ``;
     this.loading = true;
     this.showScore = false;
@@ -183,7 +183,7 @@ export class HomeComponent implements OnInit {
     });
   };
 
-  fetchScore = (auditId) => {
+  fetchScore = (auditId): void => {
     this.appService.fetchScore(auditId).then((responses) => {
       this.showScore = true;
       const scores = responses.reduce((acc, val) => {
@@ -215,13 +215,13 @@ export class HomeComponent implements OnInit {
     });
   };
 
-  fetchProjects = () => {
+  fetchProjects = (): void => {
     this.appService.fetchProjects().then((responses) => {
       this.projects = responses.listLHProjects.rows;
     });
   };
 
-  fetchProjectBranches = () => {
+  fetchProjectBranches = (): void => {
     if (this.projectID) {
       this.appService.fetchProjectBranches(this.projectID).then((responses) => {
         this.projectBranches = responses.listLHProjectBranches.rows;
@@ -229,7 +229,7 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  upload = (property) => {
+  upload = (property): void => {
     const uploadProperty = {
       auditId: this.auditId,
       serverBaseUrl: environment.LH_SERVER_URL,
