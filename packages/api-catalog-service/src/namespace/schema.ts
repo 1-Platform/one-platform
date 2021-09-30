@@ -1,95 +1,98 @@
-import { Document, Model, model, Schema } from 'mongoose';
+import { Document, Model, model, Schema } from "mongoose";
 
 export const NamespaceSchema: Schema = new Schema({
-    name: {
+  name: {
+    type: String,
+    unique: true,
+  },
+  slug: {
+    type: String,
+    unique: true,
+  },
+  description: {
+    type: String,
+  },
+  category: {
+    type: String,
+    enum: ["REST", "GRAPHQL"],
+  },
+  tags: [String],
+  owners: [
+    {
+      email: {
         type: String,
-        unique: true,
-    },
-    slug: {
+      },
+      group: {
         type: String,
-        unique: true,
+        enum: ["MAILING_LIST", "USER"],
+      },
     },
-    description: {
+  ],
+  appUrl: {
+    type: String,
+  },
+  schemaEndpoint: {
+    type: String,
+  },
+  lastCheckedOn: {
+    type: Date,
+    default: Date.now,
+  },
+  hash: {
+    type: String,
+  },
+  subscribers: [
+    {
+      email: {
         type: String,
-    },
-    category: {
+      },
+      group: {
         type: String,
-        enum: ['REST', 'GRAPHQL'],
+        enum: ["MAILING_LIST", "USER"],
+      },
     },
-    tags: [String],
-    owners: [
-        {
-            email: {
-                type: String,
-            },
-            group: {
-                type: String,
-                enum: ['MAILING_LIST', 'USER'],
-            },
-        },
-    ],
-    appUrl: {
+  ],
+  headers: [
+    {
+      key: {
         type: String,
-    },
-    schemaEndpoint: {
+      },
+      value: {
         type: String,
+      },
     },
-    lastCheckedOn: {
-        type: Date,
-        default: Date.now,
-    },
-    hash: {
+  ],
+  environments: [
+    {
+      name: {
         type: String,
-    },
-    subscribers: [
-        {
-            email: {
-                type: String,
-            },
-            group: {
-                type: String,
-                enum: ['MAILING_LIST', 'USER'],
-            },
-        },
-    ],
-    headers: [
-        {
-            key: {
-                type: String,
-            },
-            value: {
-                type: String,
-            },
-        },
-    ],
-    environments: [
-        {
-            name: {
-                type: String,
-            },
-            apiBasePath: {
-                type: String,
-            }
-        },
-    ],
-    createdOn: {
-        type: Date,
-        default: Date.now,
-    },
-    createdBy: {
+      },
+      apiBasePath: {
         type: String,
+      },
     },
-    updatedOn: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedBy: {
-        type: String,
-    },
+  ],
+  createdOn: {
+    type: Date,
+    default: Date.now,
+  },
+  createdBy: {
+    type: String,
+  },
+  updatedOn: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedBy: {
+    type: String,
+  },
 });
 
-interface NamespaceModel extends NamespaceType, Document { }
+interface NamespaceModel extends NamespaceType, Document {}
 
 type NamespaceModelStatic = Model<NamespaceModel>;
 
-export const Namespace: Model<NamespaceModel> = model<NamespaceModel, NamespaceModelStatic>( 'Namespace', NamespaceSchema );
+export const Namespace: Model<NamespaceModel> = model<
+  NamespaceModel,
+  NamespaceModelStatic
+>("Namespace", NamespaceSchema);

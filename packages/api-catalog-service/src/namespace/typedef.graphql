@@ -76,7 +76,11 @@ type Query {
   """
   Fetch the API Schema
   """
-  fetchAPISchema(category: ApiCategory, schemaEndpoint: String, headers:[HeaderInput]): String
+  fetchAPISchema(
+    category: ApiCategory
+    schemaEndpoint: String
+    headers: [HeaderInput]
+  ): String
 }
 
 type Mutation {
@@ -95,15 +99,9 @@ type Mutation {
   """
   Add subscriber to the namespace environments
   """
-  addNamespaceSubscriber(
-    id: ID!
-    payload: ApiUserInput!
-  ): NamespaceType
+  addNamespaceSubscriber(id: ID!, payload: ApiUserInput!): NamespaceType
   """
   Remove subscriber from namespace environments.
   """
-  removeNamespaceSubscriber(
-    id: ID!
-    payload: ApiUserInput!
-  ): NamespaceType
+  removeNamespaceSubscriber(id: ID!, payload: ApiUserInput!): NamespaceType
 }
