@@ -136,7 +136,7 @@ export const FeedbackResolver = {
               ${timestampQuery}
             }`;
             userData = await FeedbackIntegrationHelper.getUserProfiles(timestampQuery);
-            queryList.map(async (queries: any) => {
+            queryList.forEach(async (queries: any) => {
               if (queries.source === 'GITLAB') {
                 const gitlabPromise = new Promise(async (resolve, reject) => {
                   const gitlabResponse: Array<object> = await FeedbackIntegrationHelper.listGitlabIssues(queries);
