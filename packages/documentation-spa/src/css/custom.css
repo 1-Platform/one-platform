@@ -54,7 +54,7 @@
 }
 
 .footer.footer--dark {
-  background-image: url('/img/op_footer_cubes_illustration_ltr.svg'), url('/img/op_footer_cubes_illustration_rtl.svg');
+  background-image: url('/get-started/img/op_footer_cubes_illustration_ltr.svg'), url('/get-started/img/op_footer_cubes_illustration_rtl.svg');
   background-repeat: no-repeat;
   background-position: left, right;
   background-color: #000000;
