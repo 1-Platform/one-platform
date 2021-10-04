@@ -53,7 +53,7 @@ export type CreateDBProps = {
 
 export type AppDBType = {
     isEnabled: boolean,
-    databases: [string]
+    databases: [Database]
 }
 
 export type App = {
@@ -69,4 +69,14 @@ export type App = {
     updatedOn: string,
     updatedBy: string,
     database : AppDBType
+}
+
+export type Database = {
+    name: string
+    description?: string
+    permissions: Array<DatabasePermissions>
+  }
+export type DatabasePermissions = {
+    admins: Array<string>
+    users: Array<string>
 }

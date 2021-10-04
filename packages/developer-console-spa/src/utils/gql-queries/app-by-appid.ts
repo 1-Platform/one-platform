@@ -14,7 +14,14 @@ query App($appId: String!) {
     updatedBy
     database {
       isEnabled
-      databases
+      databases {
+        name
+        description
+        permissions {
+          admins
+          users
+        }
+      }
     }
   }
 }
