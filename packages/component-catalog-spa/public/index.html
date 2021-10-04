@@ -14,7 +14,7 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <base href="/component-catalog/">
+    <base href="%PUBLIC_URL%/">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -27,6 +27,28 @@
     <title>Component Catalogue</title>
   </head>
   <body>
+      <script src="https://unpkg.com/@one-platform/opc-nav@0.0.1-prerelease/dist/opc-nav.js"></script>
+      <script src="https://unpkg.com/@one-platform/opc-menu-drawer@0.0.1-prerelease/dist/opc-menu-drawer.js"></script>
+      <script src="https://unpkg.com/@one-platform/opc-feedback@0.0.7-prerelease/dist/opc-feedback.js"></script>
+      <script
+        src="https://unpkg.com/@one-platform/opc-notification-drawer@0.0.1-prerelease/dist/opc-notification-drawer.js"></script>
+      <script src="https://unpkg.com/@one-platform/opc-base@1.0.0-beta/dist/umd/opc-base.js"></script>
+      <script src="https://unpkg.com/@one-platform/opc-base@1.0.0-beta/dist/umd/opc-provider.js"></script>
+      <script>
+      opcBase.configure( {
+        apiBasePath: "%REACT_APP_API_URL%",
+        subscriptionsPath: "%REACT_APP_OP_SUBSCRIPTIONS_URL%",
+        keycloakUrl: "%REACT_APP_KEYCLOAK_IDP_URL%",
+        keycloakClientId: "%REACT_APP_KEYCLOAK_CLIENT_ID%",
+        keycloakRealm: "%REACT_APP_KEYCLOAK_REALM%",
+      } );
+      </script>
+      <opc-provider>
+        <opc-nav></opc-nav>
+        <opc-menu-drawer></opc-menu-drawer>
+        <opc-notification-drawer></opc-notification-drawer>
+        <opc-feedback></opc-feedback>
+      </opc-provider>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>

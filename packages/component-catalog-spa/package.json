@@ -1,8 +1,8 @@
 {
   "name": "component-catalog",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "homepage": "/component-catalog/",
+  "homepage": "/components",
   "dependencies": {
     "@one-platform/opc-base": "^1.0.1-beta",
     "@one-platform/opc-feedback": "0.0.9-prerelease",

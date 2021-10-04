@@ -5,7 +5,8 @@ import { Libraries } from '../assets/component-libraries';
 const Main = () => {
     return (
         <div className="Main">
-            {Libraries.map((lib) => <Card theme="dark" link={lib.link} key={lib.id} name={lib.title} logo={lib.logo} description={lib.description} /> )}
+        { Libraries.map(
+          ( lib ) => <Card theme="light" link={ lib.link } key={ lib.id } name={ lib.title } logo={ lib.logo } description={ lib.description } /> ) }
         </div>
     );
 }
