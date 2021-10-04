@@ -1,0 +1,50 @@
+{
+  "name": "component-catalog",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "/component-catalog/",
+  "dependencies": {
+    "@one-platform/opc-base": "^1.0.1-beta",
+    "@one-platform/opc-feedback": "0.0.9-prerelease",
+    "@one-platform/opc-footer": "0.0.4-prerelease",
+    "@one-platform/opc-menu-drawer": "^0.1.1-prerelease",
+    "@one-platform/opc-nav": "0.0.2-prerelease",
+    "@one-platform/opc-notification-drawer": "^0.1.1-prerelease",
+    "@patternfly/patternfly": "^4.135.2",
+    "@patternfly/react-core": "^4.157.3",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "PORT=4200 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "sass": "^1.42.1"
+  }
+}
