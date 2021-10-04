@@ -19,19 +19,19 @@ opcBase.configure({
   keycloakUrl: process.env.REACT_APP_KEYCLOAK_IDP_URL,
   keycloakClientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
   keycloakRealm: process.env.REACT_APP_KEYCLOAK_REALM,
-}); 
+});
 
 opcFooter.opcLinkCatagories = footer;
 
 function App() {
   return (
     <div className="App">
-      {/* <opc-provider>
+      <opc-provider>
         <opc-nav></opc-nav>
         <opc-menu-drawer></opc-menu-drawer>
         <opc-notification-drawer></opc-notification-drawer>
         <opc-feedback></opc-feedback>
-      </opc-provider> */}
+      </opc-provider>
       <div className="breadcrumbs">
         <Breadcrumb>
           <BreadcrumbItem to="/">Home</BreadcrumbItem>
@@ -40,7 +40,7 @@ function App() {
       </div>
       <h3>Components Catalog</h3>
       <p>
-        A Unified interface to access components from Chapeaux, Patternfly elements and One Platform components, 
+        A Unified interface to access components from Chapeaux, Patternfly elements and One Platform components,
         which allows in increase of collaboration and helps to improve component quality and development & delivery speed.
       </p>
       <main>
