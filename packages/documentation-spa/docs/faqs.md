@@ -12,6 +12,12 @@ slug: /faqs
 
 ## Applications FAQs
 
+* **Will users be able to access applications outside Red Hat VPN?**
+    Yes
+
+* **How do I know my application is secured if it's accessible outside VPN?**
+    Your application is required to be authenticated by Red Hat SSO. The network security layer filters the incoming request that secures the application.
+
 ### Hosted Apps
 
 1. [Research Repository](/docs/apps/hosted/research-repository#faqs)
