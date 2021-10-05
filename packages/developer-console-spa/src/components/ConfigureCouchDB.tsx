@@ -31,9 +31,8 @@ function ConfigureCouchDB ( props: any ) {
   const escapeString = (string: string) => {
     return string.replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
   };
-  const regex = new RegExp( escapeString( searchTerm.trim() ), "i" );
 
-  const filteredDBs = app.database?.databases.filter( ( db: Database ) => regex.test( db.name ) );
+  const filteredDBs = app.database?.databases.filter( ( db: Database ) => db.name.includes(escapeString( searchTerm.trim() )) );
 
   const openCreateDBForm = () => {
     setIsCreateDBFormOpen( true );
