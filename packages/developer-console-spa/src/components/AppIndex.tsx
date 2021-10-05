@@ -4,7 +4,6 @@ import useMyAppsAPI from '../hooks/useMyAppsAPI';
 import AppCard from './AppCard';
 import Loader from './Loader';
 import './AppIndex.css'
-import { App } from "types";
 
 function AppIndex () {
   const { apps, loading } = useMyAppsAPI();
@@ -47,7 +46,7 @@ function AppIndex () {
             : <StackItem isFilled>
               <Grid hasGutter span={ 4 }>
                 <GridItem><NewAppButton/></GridItem>
-                { apps.map( (app: App) =>
+                { apps.map( app =>
                   <GridItem key={app.id}>
                     <AppCard
                       app={app}

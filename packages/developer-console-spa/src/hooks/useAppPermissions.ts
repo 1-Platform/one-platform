@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { appFeedbackConfig } from '../utils/gql-queries';
-import gqlClient from '../utils/gqlClient';
+import { appPermissionsQuery } from 'utils/gql-queries';
+import gqlClient from 'utils/gqlClient';
 
-export default function useFeedbackConfig ( appId: string ) {
-  const [ feedbackConfig, setFeedbackConfig ] = useState<any>( {} );
+export default function useAppPermissions ( appId: string ) {
+  const [ appPermissions, setAppPermissions ] = useState<App.Permission[]>( [] );
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {
@@ -15,24 +15,25 @@ export default function useFeedbackConfig ( appId: string ) {
 
     setLoading( true );
 
-    gqlClient( { query: appFeedbackConfig, variables: { appId } }, signal )
+    gqlClient( { query: appPermissionsQuery, variables: { appId } }, signal )
       .then( res => {
-        if ( !res || !res.data ) {
+        if ( !res?.data ) {
           setLoading( false );
           return;
         }
-        setFeedbackConfig( res.data.app?.feedback ?? {} );
+        setAppPermissions( res.data?.app?.permissions ?? [] );
         setLoading( false );
       } )
       .catch( err => {
+        console.debug( err );
         window.OpNotification?.danger( {
-          subject: 'There was some error fetching feedback configuration.',
+          subject: 'There was some error fetching permissions.',
           body: 'Please try again later.'
         } );
-      });
+      } );
 
     return () => abortController.abort();
   }, [ appId ] );
 
-  return { feedbackConfig, setFeedbackConfig, loading };
+  return { appPermissions, setAppPermissions, loading };
 }

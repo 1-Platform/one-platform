@@ -50,33 +50,3 @@ export type CreateDBProps = {
     setIsCreateDBFormOpen: Dispatch<SetStateAction<boolean>>,
     forceRefreshApp: Dispatch<SetStateAction<App>>
 }
-
-export type AppDBType = {
-    isEnabled: boolean,
-    databases: [Database]
-}
-
-export type App = {
-    id: string,
-    appId: string,
-    name: string,
-    path: string
-    description: string
-    ownerId: string,
-    isActive: boolean,
-    createdOn: string,
-    createdBy: string,
-    updatedOn: string,
-    updatedBy: string,
-    database : AppDBType
-}
-
-export type Database = {
-    name: string
-    description?: string
-    permissions: Array<DatabasePermissions>
-  }
-export type DatabasePermissions = {
-    admins: Array<string>
-    users: Array<string>
-}

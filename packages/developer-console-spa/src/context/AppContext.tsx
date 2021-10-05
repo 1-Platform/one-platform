@@ -3,10 +3,10 @@ import { useHistory, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import useAppAPI from '../hooks/useAppAPI';
 
-export const AppContext = createContext<any>( {} );
+export const AppContext = createContext<IAppContext>( {} as IAppContext );
 
 export default function AppContextProvider ( props: any ) {
-  const { appId } = useParams<any>();
+  const { appId } = useParams<RouteParams>();
   const router = useHistory();
   const location = useLocation();
 
@@ -17,7 +17,7 @@ export default function AppContextProvider ( props: any ) {
     router.push( newPath );
   }
 
-  const forceRefreshApp = ( newApp: any ) => {
+  const forceRefreshApp = ( newApp: App ) => {
     setOriginalApp( { ...app, ...newApp} );
   }
 

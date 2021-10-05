@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { appFeedbackConfig } from '../utils/gql-queries';
-import gqlClient from '../utils/gqlClient';
+import { appDatabaseConfig } from 'utils/gql-queries';
+import gqlClient from 'utils/gqlClient';
 
-export default function useFeedbackConfig ( appId: string ) {
-  const [ feedbackConfig, setFeedbackConfig ] = useState<any>( {} );
+export default function useDatabaseConfig (appId: string) {
+  const [ databaseConfig, setDatabaseConfig ] = useState<any>( {} );
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {
@@ -15,24 +15,25 @@ export default function useFeedbackConfig ( appId: string ) {
 
     setLoading( true );
 
-    gqlClient( { query: appFeedbackConfig, variables: { appId } }, signal )
+    gqlClient( { query: appDatabaseConfig, variables: { appId } }, signal )
       .then( res => {
-        if ( !res || !res.data ) {
+        if ( !res?.data ) {
           setLoading( false );
           return;
         }
-        setFeedbackConfig( res.data.app?.feedback ?? {} );
+        setDatabaseConfig( res.data?.app?.database ?? {} );
         setLoading( false );
       } )
       .catch( err => {
+        console.debug( err );
         window.OpNotification?.danger( {
-          subject: 'There was some error fetching feedback configuration.',
+          subject: 'There was some error fetching database configuration.',
           body: 'Please try again later.'
         } );
-      });
+      } );
 
     return () => abortController.abort();
   }, [ appId ] );
 
-  return { feedbackConfig, setFeedbackConfig, loading };
+  return { databaseConfig, setDatabaseConfig, loading };
 }

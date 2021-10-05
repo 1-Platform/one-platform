@@ -11,3 +11,7 @@ export * from './list-lh-projects-branches';
 export * from './list-lh-projects';
 export * from './delete-lh-spa-config';
 export * from './create-app-database';
+export * from './app-database-config';
+export * from './app-permissions-query';
+export * from './search-users';
+export * from './upadte-app-permissions';

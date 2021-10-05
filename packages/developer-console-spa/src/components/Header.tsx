@@ -1,6 +1,10 @@
 import { Card, CardBody, Title } from '@patternfly/react-core';
 
-function Header ( props: any ) {
+interface IHeaderProps {
+  title: string
+}
+
+export default function Header ( props: IHeaderProps ) {
   return (
     <>
       <header>
@@ -13,5 +17,3 @@ function Header ( props: any ) {
     </>
   );
 }
-
-export default Header;

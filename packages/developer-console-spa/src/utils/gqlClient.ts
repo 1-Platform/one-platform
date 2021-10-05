@@ -17,7 +17,7 @@ export default function gqlClient ( { query, variables }: GQLRequestProps, signa
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.OpAuthHelper?.jwtToken}`
+      Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`,
     },
     body: JSON.stringify( {
       query,

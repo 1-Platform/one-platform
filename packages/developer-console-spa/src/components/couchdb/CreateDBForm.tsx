@@ -34,7 +34,8 @@ const  CreateDBForm = (props: CreateDBProps) => {
 
   function submitForm ( db: IDBInput ) {
     gqlClient( {
-      query: createAppDatabase, variables: {
+      query: createAppDatabase,
+      variables: {
         databaseName: db.dbname,
         id: props.appUniqueId,
         description: db.description
