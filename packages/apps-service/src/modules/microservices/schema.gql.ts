@@ -22,17 +22,20 @@ type Service {
   isActive: Boolean
   docsUrl: String
   ownerId: String
-  permissions: [AppPermissions]
+  permissions: [ServicePermissions]
   serviceType: ServiceType
   createdBy: String
   createdOn: ISODate
   updatedBy: String
   updatedOn: ISODate
 }
-type AppPermissions {
+type ServicePermissions {
+  name: String
+  email: String
   refId: String
-  refType: AppPermissionRefType
+  refType: ServicePermissionRefType
   role: String
+  customRoles: [String]
 }
 
 input FindServicesInput {
@@ -48,7 +51,7 @@ input CreateServiceInput {
   description: String!
   isActive: Boolean
   docsUrl: String
-  permissions: [AppPermissionsInput]
+  permissions: [ServicePermissionsInput]
   serviceType: ServiceType!
 }
 input UpdateServiceInput {
@@ -57,20 +60,23 @@ input UpdateServiceInput {
   isActive: Boolean
   docsUrl: String
   ownerId: String
-  permissions: [AppPermissionsInput]
+  permissions: [ServicePermissionsInput]
   serviceType: ServiceType
 }
-input AppPermissionsInput {
-  refId: String
-  refType: AppPermissionRefType
-  role: String
+input ServicePermissionsInput {
+  name: String!
+  email: String
+  refId: String!
+  refType: AppPermissionsRefType!
+  role: String!
+  customRoles: [String]
 }
 
 enum ServiceType {
   BUILTIN
   HOSTED
 }
-enum AppPermissionRefType {
+enum ServicePermissionRefType {
   User
   Group
 }

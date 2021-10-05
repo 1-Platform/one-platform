@@ -96,14 +96,20 @@ input AppContactsInput {
   stakeholders: [String]
 }
 type AppPermissions {
+  name: String
+  email: String
   refId: String
   refType: AppPermissionsRefType
   role: String
+  customRoles: [String]
 }
 input AppPermissionsInput {
+  name: String!
+  email: String
   refId: String!
   refType: AppPermissionsRefType!
   role: String!
+  customRoles: [String]
 }
 enum AppPermissionsRefType {
   User
