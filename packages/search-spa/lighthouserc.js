@@ -10,23 +10,23 @@
  * Created at     : 2021-07-09 16:18:34
  * Last modified  : 2021-07-19 12:21:07
  */
-const urls = [ '/search/?query=test' ].map( link => process.env.LH_HOST + link );
+const urls = ['/search/?query=test'].map(link => process.env.LH_HOST + link)
 
 module.exports = {
-    ci: {
-        collect: {
-            numberOfRuns: 3,
-            puppeteerScript: '../../puppeteerScript.js',
-            puppeteerLaunchOptions: {
-                args: [
-                    '--no-sandbox',
-                    '--ignore-certificate-errors'
-                ]
-            },
-            url: urls
-        },
-        assert: {
-            preset: 'lighthouse:recommended'
-        },
+  ci: {
+    collect: {
+      numberOfRuns: 3,
+      puppeteerScript: '../../puppeteerScript.js',
+      puppeteerLaunchOptions: {
+        args: [
+          '--no-sandbox',
+          '--ignore-certificate-errors'
+        ]
+      },
+      url: urls
     },
-};
+    assert: {
+      preset: 'lighthouse:recommended'
+    }
+  }
+}

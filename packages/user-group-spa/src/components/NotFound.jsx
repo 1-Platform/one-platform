@@ -1,47 +1,47 @@
-import React, { useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Button,
   EmptyState,
   EmptyStateIcon,
   EmptyStatePrimary,
-  Title,
-} from '@patternfly/react-core';
-import { BreadcrumbContext } from '../context/BreadcrumbContext';
+  Title
+} from '@patternfly/react-core'
+import { BreadcrumbContext } from '../context/BreadcrumbContext'
 
 function NotFound () {
-  const { updateCrumbs } = useContext( BreadcrumbContext );
+  const { updateCrumbs } = useContext(BreadcrumbContext)
 
-  useEffect( () => {
-    updateCrumbs( [
+  useEffect(() => {
+    updateCrumbs([
       { name: '404', href: window.location.href }
-    ] );
+    ])
 
-    return () => updateCrumbs( [] );
+    return () => updateCrumbs([])
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [] );
+  }, [])
 
   return (
-    <EmptyState variant="xl" isFullHeight>
+    <EmptyState variant='xl' isFullHeight>
       <EmptyStateIcon
-        variant="container"
-        component={() => <ion-icon name="trail-sign-outline"></ion-icon>}
-      ></EmptyStateIcon>
-      <Title size="2xl" headingLevel="h2">
+        variant='container'
+        component={() => <ion-icon name='trail-sign-outline' />}
+      />
+      <Title size='2xl' headingLevel='h2'>
         Page Not Found
       </Title>
       <EmptyStatePrimary>
         <Button
-          variant="link"
-          component={ Link }
-          to="/"
-          icon={ <ion-icon name="arrow-back-outline"></ion-icon> }
+          variant='link'
+          component={Link}
+          to='/'
+          icon={<ion-icon name='arrow-back-outline' />}
         >
           User Group Home
         </Button>
       </EmptyStatePrimary>
     </EmptyState>
-  );
+  )
 }
 
-export default NotFound;
+export default NotFound

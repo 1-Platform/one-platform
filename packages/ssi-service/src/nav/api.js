@@ -1,39 +1,39 @@
-import { ApolloClient } from 'apollo-client';
-import { WebSocketLink } from 'apollo-link-ws';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { split } from 'apollo-link';
+import { ApolloClient } from 'apollo-client'
+import { WebSocketLink } from 'apollo-link-ws'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { HttpLink } from 'apollo-link-http'
+import { split } from 'apollo-link'
 
 /**
  * Helper Class for making API Calls to the One Platform API Gateway
  */
 export class APIService {
   constructor () {
-    this._apiBasePath = process.env.OP_API_GATEWAY_URL;
-    this._subscriptionsPath = process.env.OP_SUBSCRIPTIONS_URL;
+    this._apiBasePath = process.env.OP_API_GATEWAY_URL
+    this._subscriptionsPath = process.env.OP_SUBSCRIPTIONS_URL
 
-    this._wsLink = new WebSocketLink( {
+    this._wsLink = new WebSocketLink({
       uri: this._subscriptionsPath,
       options: {
         reconnect: true,
         connectionParams: () => ({ ...this._headers })
-        },
-    } );
+      }
+    })
   }
 
   get apollo () {
     const link = split(
       () => true,
       this._wsLink,
-      new HttpLink( {
+      new HttpLink({
         uri: this._apiBasePath,
         headers: this._headers
-      } ),
-    );
-    return new ApolloClient( {
+      })
+    )
+    return new ApolloClient({
       link,
-      cache: new InMemoryCache(),
-    } );
+      cache: new InMemoryCache()
+    })
   }
 
   /**
@@ -44,8 +44,8 @@ export class APIService {
       'Content-Type': 'application/json',
       Authorization: window.OpAuthHelper?.jwtToken
         ? 'Bearer ' + window.OpAuthHelper.jwtToken
-        : '',
-    };
+        : ''
+    }
   }
 
   /**
@@ -53,30 +53,30 @@ export class APIService {
    * @param {string} query
    * @param {any} variables
    */
-  query ( query, variables = undefined ) {
-    return fetch( this._apiBasePath, {
+  query (query, variables = undefined) {
+    return fetch(this._apiBasePath, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify( {
+      body: JSON.stringify({
         query,
-        variables,
-      } ),
-    } )
-      .then( res => {
-        if ( !res ) {
-          throw new Error( 'The Server returned an empty response.' );
+        variables
+      })
+    })
+      .then(res => {
+        if (!res) {
+          throw new Error('The Server returned an empty response.')
         }
-        return res.json();
-      } )
-      .then( res => {
-        if ( res.errors ) {
-          console.error( 'Error executing query: ', res.errors );
+        return res.json()
+      })
+      .then(res => {
+        if (res.errors) {
+          console.error('Error executing query: ', res.errors)
         }
-        if ( !res.data ) {
-          throw new Error( 'There were some errors in the query' + JSON.stringify( res.errors ) );
+        if (!res.data) {
+          throw new Error('There were some errors in the query' + JSON.stringify(res.errors))
         }
-        return res.data;
-      } );
+        return res.data
+      })
   }
 
   /**
@@ -101,13 +101,13 @@ export class APIService {
           sentOn
         }
       }
-    `;
-    return this.query( query, { targets } );
+    `
+    return this.query(query, { targets })
   }
 }
 
 /**
  * GraphQL API helper
  */
-const APIServiceInstance = new APIService();
-export default APIServiceInstance;
+const APIServiceInstance = new APIService()
+export default APIServiceInstance

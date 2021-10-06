@@ -27,7 +27,7 @@ module.exports = {
             'apps/internal/user-groups/user-groups-spa',
             'apps/internal/ssi-service/ssi-service'
           ]
-        },
+        }
       ]
     },
     {
@@ -46,11 +46,11 @@ module.exports = {
           label: 'Notifications',
           items: [
             'microservices/notifications/notifications-service',
-            'microservices/notifications/notifications-get-started',
+            'microservices/notifications/notifications-get-started'
           ]
         },
         'microservices/user-groups/user-groups-service',
-        'microservices/search/search-service',
+        'microservices/search/search-service'
       ]
     },
     {
@@ -58,10 +58,10 @@ module.exports = {
       label: 'Component Library',
       items: [
         'components/component-library',
-        'documentation/styleguide',
-      ],
+        'documentation/styleguide'
+      ]
     },
     'cli/op-cli',
-    'faqs',
-  ],
-};
+    'faqs'
+  ]
+}

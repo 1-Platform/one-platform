@@ -6,7 +6,7 @@ export const addGroup = /* GraphQL */`
       cn
     }
   }
-`;
+`
 
 export const getGroupsBy = /* GraphQL */`
   query GetGroupsBy( $selector: GetGroupInput! ) {
@@ -18,7 +18,7 @@ export const getGroupsBy = /* GraphQL */`
       updatedOn
     }
   }
-`;
+`
 
 export const getGroupDetailsByCn = /* GraphQL */ `
   query GetGroupDetailsBy($cn: String!) {
@@ -34,7 +34,7 @@ export const getGroupDetailsByCn = /* GraphQL */ `
       }
     }
   }
-`;
+`
 
 export const listGroups = /* GraphQL */`
   query ListGroups {
@@ -46,7 +46,7 @@ export const listGroups = /* GraphQL */`
       updatedOn
     }
   }
-`;
+`
 
 export const updateGroup = /* GraphQL */`
   mutation UpdateGroup($id: ID!, $group: UpdateGroupInput!) {
@@ -58,7 +58,7 @@ export const updateGroup = /* GraphQL */`
       updatedOn
     }
   }
-`;
+`
 
 export const deleteGroup = /* GraphQL */`
   mutation DeleteGroup($id: ID!) {
@@ -68,4 +68,4 @@ export const deleteGroup = /* GraphQL */`
       cn
     }
   }
-`;
+`

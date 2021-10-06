@@ -1,10 +1,10 @@
-const fs = require( "fs" );
+const fs = require('fs')
 
-let rawReport = fs.readFileSync( `e2e/reports/output.json` );
-let report = JSON.parse( rawReport );
+const rawReport = fs.readFileSync('e2e/reports/output.json')
+const report = JSON.parse(rawReport)
 
-function buildHtml ( req ) {
-    return `
+function buildHtml (req) {
+  return `
         <!DOCTYPE html>
         <html>
             <head>
@@ -28,28 +28,28 @@ function buildHtml ( req ) {
                 <table>
                     <tr>
                         <th>Total no. of tests</th>
-                        <td>${ report.stats.tests }</td>
+                        <td>${report.stats.tests}</td>
                     </tr>
                     <tr>
                         <th>Passed</th>
-                        <td>${ report.stats.passes }</td>
+                        <td>${report.stats.passes}</td>
                     </tr>
                     <tr>
                         <th>Failed</th>
-                        <td>${ report.stats.failures }</td>
+                        <td>${report.stats.failures}</td>
                     </tr>
                     <tr>
                         <th>Skipped</th>
-                        <td>${ report.stats.skipped }</td>
+                        <td>${report.stats.skipped}</td>
                     </tr>
                 </table>
             </body>
-        </html>`;
+        </html>`
 };
-let fileName = "e2e/reports/summary.html";
-let stream = fs.createWriteStream( fileName );
+const fileName = 'e2e/reports/summary.html'
+const stream = fs.createWriteStream(fileName)
 
-stream.once( "open", function ( fd ) {
-    let html = buildHtml();
-    stream.end( html );
-} );
+stream.once('open', function (fd) {
+  const html = buildHtml()
+  stream.end(html)
+})

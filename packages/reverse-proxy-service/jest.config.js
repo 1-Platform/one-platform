@@ -6,5 +6,5 @@ module.exports = {
     '<rootDir>/dist/',
     '<rootDir>/node_modules/'
   ],
-  verbose: true,
-};
+  verbose: true
+}
