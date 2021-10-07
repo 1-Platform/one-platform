@@ -5,7 +5,14 @@ export const createAppDatabase = /* GraphQL */`
     name
     database{
       isEnabled
-      databases
+      databases {
+        name
+        description
+        permissions {
+          admins
+          users
+        }
+      }
     }
   }
 }
