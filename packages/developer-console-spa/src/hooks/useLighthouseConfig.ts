@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { LHConfigType } from 'types';
 import { getLHSpaConfigByAppId } from "../services/lighthouse";
 
 export default function useLighthouseConfig(id: string): {
-  lighthouseConfig: error;
-  setLighthouseConfig: error;
-  loading: error;
+  lighthouseConfig: LHConfigType;
+  setLighthouseConfig: Dispatch<SetStateAction<LHConfigType>>;
+  loading: boolean;
 } {
   const [lighthouseConfig, setLighthouseConfig] = useState<any>({});
   const [loading, setLoading] = useState(true);

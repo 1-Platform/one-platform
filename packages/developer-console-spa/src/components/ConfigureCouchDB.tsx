@@ -42,8 +42,8 @@ function ConfigureCouchDB ( props: any ) {
     setIsCreateDBFormOpen( false );
   }
 
-  const openFauxtonGUI = (db: string) => {
-    window.open(`${process.env.REACT_APP_FAUXTON_URL}/${db}/_all_docs`, '_blank' );
+  const openFauxtonGUI = (name: string) => {
+    window.open(`${process.env.REACT_APP_FAUXTON_URL}/${name}/_all_docs`, '_blank' );
   }
 
   const getEmptyState = () => {

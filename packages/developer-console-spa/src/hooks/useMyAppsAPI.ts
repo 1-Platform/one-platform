@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { myApps } from "../utils/gql-queries";
 import gqlClient from "../utils/gqlClient";
+import { App } from "types";
 
-export default function useMyAppsAPI(): { apps: error; loading: error } {
-  const [apps, setApps] = useState<any[]>([]);
+export default function useMyAppsAPI(): { apps: App[]; loading: boolean } {
+  const [apps, setApps] = useState<App[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

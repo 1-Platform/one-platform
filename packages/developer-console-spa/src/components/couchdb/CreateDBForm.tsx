@@ -33,7 +33,13 @@ const  CreateDBForm = (props: CreateDBProps) => {
   }
 
   function submitForm ( db: IDBInput ) {
-    gqlClient( { query: createAppDatabase, variables: { databaseName: db.dbname, id: props.appUniqueId } } )
+    gqlClient( {
+      query: createAppDatabase, variables: {
+        databaseName: db.dbname,
+        id: props.appUniqueId,
+        description: db.description
+      }
+    } )
       .then( (res: any) => {
         if ( res?.data?.createAppDatabase ) {
           window.OpNotification?.success( { subject: 'Database Created Successfully!' } );

@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { appByAppId } from "../utils/gql-queries/app-by-appid";
 import gqlClient from "../utils/gqlClient";
+import { App } from "types";
 
 export default function useAppAPI(appId: string): {
-  app: error;
-  loading: error;
-  setApp: error;
+  app: App;
+  loading: boolean;
+  setApp: Dispatch<SetStateAction<any>>;
 } {
   const [app, setApp] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
