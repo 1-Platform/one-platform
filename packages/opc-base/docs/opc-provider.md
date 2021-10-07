@@ -10,10 +10,16 @@ opc-provider is a container component that injects business logic of one-platfor
 
 opc-provider needs access to keylock configuration. Thus opcBase must be imported initialized before this component is used.
 
+opc-provider is a webcomponent. Use the web component polyfill for proper browser support from IE onwards.
+
+```html
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
+```
+
 ### Umd
 
 ```js
-<script src="https://unpkg.com/@one-platform/opc-base@1.0.1-beta/dist/umd/opc-base.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-base@1.0.2-beta/dist/umd/opc-base.js"></script>
 <script>
 opcBase.configure( {
     apiBasePath: '<api base for fetching app list>',
@@ -63,8 +69,8 @@ The following snippets will enable you to setup opc-provider theme components fa
 <script src="https://unpkg.com/@one-platform/opc-menu-drawer@0.1.1-prerelease/dist/opc-menu-drawer.js"></script>
 <script src="https://unpkg.com/@one-platform/opc-notification-drawer@0.1.1-prerelease/dist/opc-notification-drawer.js"></script>
 <script src="https://unpkg.com/@one-platform/opc-feedback@0.0.9-prerelease/dist/opc-feedback.js"></script>
-<script src="https://unpkg.com/@one-platform/opc-base@1.0.1-beta/dist/umd/opc-base.js"></script>
-<script src="https://unpkg.com/@one-platform/opc-base@1.0.1-beta/dist/umd/opc-provider.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-base@1.0.2-beta/dist/umd/opc-base.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-base@1.0.2-beta/dist/umd/opc-provider.js"></script>
 <script>
   opcBase.configure({
     apiBasePath: "<api base for fetching app list>",

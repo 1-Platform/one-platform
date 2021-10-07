@@ -74,6 +74,15 @@ export class OpcProvider extends LitElement {
     const urlParams = new URLSearchParams(queryString);
     this.searchValue =
       (window.location.pathname === "/search" && urlParams.get("query")) || "";
+  }
+
+  /**
+   * Inside constructor accessing template node may get failed because
+   * constructor is called as soon as element is in html dom and the nested nodes may not have rendered yet
+   * Using firstUpdated lifecycle this can be avoided as this function is only executed
+   * after the entire template has been created, giving access to inside template nodes
+   */
+  firstUpdated() {
     opcBase.auth?.onLogin(async (user) => {
       const config = opcBase.config;
 
