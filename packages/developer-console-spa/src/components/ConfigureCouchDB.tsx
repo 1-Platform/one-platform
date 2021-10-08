@@ -42,9 +42,13 @@ function ConfigureCouchDB ( props: any ) {
     setIsCreateDBFormOpen( false );
   }
 
+  /**
+   *
+   * @param name This function will be uncommented once we have Fauxton UI is available
+
   const openFauxtonGUI = (name: string) => {
     window.open(`${process.env.REACT_APP_FAUXTON_URL}/${name}/_all_docs`, '_blank' );
-  }
+  }*/
 
   const getEmptyState = () => {
     const noSearchResults = searchTerm && filteredDBs.length === 0;
@@ -131,7 +135,7 @@ function ConfigureCouchDB ( props: any ) {
                               </CardHeader>
                               <CardBody>{ db.description || 'No description' }</CardBody>
                               <CardFooter>
-                                <Button variant="link" onClick={ () => openFauxtonGUI( db.name ) }>Open Fauxton GUI &nbsp; <ExternalLinkAltIcon/></Button>
+                                <Button variant="link">Open Fauxton GUI &nbsp; <ExternalLinkAltIcon/></Button>
                               </CardFooter>
                             </Card>
                           </GalleryItem>

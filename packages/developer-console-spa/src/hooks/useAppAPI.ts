@@ -4,11 +4,11 @@ import gqlClient from "../utils/gqlClient";
 import { App } from "types";
 
 export default function useAppAPI(appId: string): {
-  app: App;
+  app: App | {};
   loading: boolean;
   setApp: Dispatch<SetStateAction<any>>;
 } {
-  const [app, setApp] = useState<any>({});
+  const [ app, setApp ] = useState <App | {}>({});
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
