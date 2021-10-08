@@ -29,7 +29,7 @@ export const Libraries = [
     id: 4,
     title: 'PatternFly React Components',
     logo: pf,
-    description: 'PatternFly is an open source design system created to enable consistency and usability across a wide range of applications and use cases. PatternFly provides clear standards, guidance, and tools that help designers and developers work together more efficiently and build better user experiences.',
+    description: 'PatternFly is an open source design system created to enable consistency and usability across a wide range of applications and use cases.',
     link: 'https://github.com/patternfly/patternfly-react',
   },
 ];

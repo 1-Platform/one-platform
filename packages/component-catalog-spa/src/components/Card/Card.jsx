@@ -10,13 +10,13 @@ const Card = ({logo, name, description, link }) => {
     <pfe-card color="lightest" border>
       <div>
         <img src={logo} alt="logo" />
+        <h3>
+          {name}
+        </h3>
+        <p>
+          {description}
+        </p>
       </div>
-      <h3>
-        {name}
-      </h3>
-      <p>
-        {description}
-      </p>
       <div slot="pfe-card--footer">
         <pfe-cta><a target="_blank" rel="noreferrer" href={link}>View on Github</a></pfe-cta>
       </div>

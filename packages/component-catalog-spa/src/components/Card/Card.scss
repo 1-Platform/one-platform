@@ -2,11 +2,20 @@ pfe-card {
   max-width: 520px;
   border-radius: 5px;
   margin: .5rem;
-  h3 {
-    font-size: 22px;
-    color: #000000;
-  }
-  p {
-    color: #3C3F42;
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    img {
+      width: 48px;
+      height: 48px;
+    }
+    h3 {
+      font-size: 22px;
+      color: #000000;
+    }
+    p {
+      color: #3C3F42;
+    }
   }
 }
