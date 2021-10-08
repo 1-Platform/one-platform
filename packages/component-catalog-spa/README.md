@@ -7,6 +7,7 @@
 ### A one stop shop for Red Hat components
 
 ## Development
+
 ### `npm start`
 
 Runs the app in the development mode.\
