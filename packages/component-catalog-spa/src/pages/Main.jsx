@@ -1,7 +1,16 @@
 import './Main.scss';
 import { 
   Brand, 
-  Card, CardBody, CardFooter, CardHeader, Title, Gallery, GalleryItem, Flex, FlexItem } from '@patternfly/react-core';
+  Card, 
+  CardBody, 
+  CardFooter, 
+  CardHeader, 
+  Title, 
+  Gallery, 
+  GalleryItem, 
+  Flex, 
+  FlexItem,
+} from '@patternfly/react-core';
 import { Libraries } from '../assets/component-libraries';
 
 const Main = () => {
