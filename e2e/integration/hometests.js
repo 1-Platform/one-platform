@@ -1,4 +1,5 @@
-import { deployment, deployDesc, microservicesHeader, microservicesDesc, microservicesReadmore, inBuiltApps } from "../helper/apps.list";
+/*import { deployment, deployDesc, microservicesHeader, microservicesDesc, microservicesReadmore, inBuiltApps } from "../helper/apps.list";
+
 context( 'Test homepage', () => {
     before( () => {
         cy.visit( Cypress.env( 'STAGE_HOST' ) );
@@ -90,4 +91,4 @@ context( 'Test homepage', () => {
             cy.get( 'a[ href = "/contact-us" ]' ).should( 'have.text', 'Contact Us' );
         } );
     } );
-} );
+} );*/
