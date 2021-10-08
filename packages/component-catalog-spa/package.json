@@ -11,6 +11,8 @@
     "@one-platform/opc-nav": "0.0.2-prerelease",
     "@one-platform/opc-notification-drawer": "^0.1.1-prerelease",
     "@patternfly/patternfly": "^4.135.2",
+    "@patternfly/pfe-card": "^1.11.2",
+    "@patternfly/pfe-cta": "^1.11.2",
     "@patternfly/react-core": "^4.157.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",

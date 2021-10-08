@@ -1,68 +1,12 @@
-@mixin card {
+pfe-card {
   max-width: 520px;
-  max-height: 300px;
   border-radius: 5px;
-  overflow: hidden;
   margin: .5rem;
-  background-size: cover;
-  &__content {
-    width: 65%;
-    margin-left: 40px;
-    margin-top: 3.5rem;
-    &-header {
-        font-size: 22px;
-    }
-    &-information {
-        margin-top: .5rem;
-    }
+  h3 {
+    font-size: 22px;
+    color: #000000;
   }
-  &__footer {
-    margin: 1.5rem 0;
-    display: flex;
-    align-items: center;
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      > img {
-        background-color: #000000;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-      }
-      > label {
-        margin-left: .5rem;
-        cursor: pointer;
-      }
-    }
-  }
-  &:hover {
-    box-shadow: 2px 3px 5px #d2d2d2;
-  }
-}
-
-.card-light {
-  @include card;
-  color: #000000;
-  border: 1px solid #D2D2D2;
-  &__content-information {
+  p {
     color: #3C3F42;
-  }
-  &__footer {
-    a {
-      color: #000000;
-    }
-  }
-}
-
-.card-dark {
-  background-image: url('../../assets/images/card-bg.svg');
-  color: #ffffff;
-  @include card;
-  &__footer {
-    a {
-      color: #ffffff;
-    }
   }
 }
