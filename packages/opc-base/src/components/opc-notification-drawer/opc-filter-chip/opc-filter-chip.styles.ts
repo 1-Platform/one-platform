@@ -13,7 +13,6 @@ export default css`
     text-transform: uppercase;
     padding: 4px 8px;
     border-radius: 15px;
-    margin-top: 1rem;
     color: #002952;
   }
 

@@ -2,6 +2,7 @@ import { LitElement, html, TemplateResult, render } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { ref, Ref, createRef } from "lit/directives/ref.js";
 import dayjs from "dayjs";
+import PfeToast from "@patternfly/pfe-toast/dist/pfe-toast.min.js";
 
 import styles from "./opc-provider.styles";
 
@@ -62,6 +63,8 @@ export class OpcProvider extends LitElement {
 
   constructor() {
     super();
+    // register patternfly toast component
+    new PfeToast();
     /**
      * obtain search value if seen in url
      * eg: /search?query="search"
@@ -71,81 +74,49 @@ export class OpcProvider extends LitElement {
     const urlParams = new URLSearchParams(queryString);
     this.searchValue =
       (window.location.pathname === "/search" && urlParams.get("query")) || "";
+  }
+
+  /**
+   * Inside constructor accessing template node may get failed because
+   * constructor is called as soon as element is in html dom and the nested nodes may not have rendered yet
+   * Using firstUpdated lifecycle this can be avoided as this function is only executed
+   * after the entire template has been created, giving access to inside template nodes
+   */
+  firstUpdated() {
     opcBase.auth?.onLogin(async (user) => {
       const config = opcBase.config;
 
       if (!user) throw Error("user not found");
 
-      this.api = new APIService({
-        apiBasePath: config.apiBasePath,
-        subscriptionsPath: config.subscriptionsPath,
-        cachePolicy:config.cachePolicy
-      });
+      // get the references to each component inside the opc-provider
+      this.opcNavBar = this.querySelector("opc-nav");
+      this.opcMenuDrawer = this.querySelector("opc-menu-drawer");
+      this.opcNotificationDrawer = this.querySelector(
+        "opc-notification-drawer"
+      );
 
       const userDetails = [user.kerberosID, user.email, ...user.role];
 
-      try {
-        // get app and notifications from server
-        const res = await this.api.apollo.query<GetAppList>({
-          query: GET_APP_LIST,
-          variables: {
-            targets: userDetails,
-          },
-        });
-        this.isLoading = res.loading;
+      // inject business logic for all the components needed
+      this.injectNav();
+      this.injectOpcProviderFn();
+      this.injectMenuDrawer();
+      this.injectNotificationDrawer();
+      this.injectFeedback();
+      this.isLoading = false;
 
-        // get the references to vari
-        this.opcNavBar = this.querySelector("opc-nav");
-        this.opcMenuDrawer = this.querySelector("opc-menu-drawer");
-        this.opcNotificationDrawer = this.querySelector(
-          "opc-notification-drawer"
-        );
+      this.api = new APIService({
+        apiBasePath: config.apiBasePath,
+        subscriptionsPath: config.subscriptionsPath,
+        cachePolicy: config.cachePolicy,
+      });
 
-        this.injectOpcProviderFn();
-
-        this.apps =
-          res.data.appsList
-            ?.slice()
-            .sort((prev, next) =>
-              prev.name?.toLowerCase() <= next.name?.toLowerCase() ? -1 : 1
-            ) || [];
-        this.notifications = res.data.notificationsList.map((notification) => ({
-          ...notification,
-          app: notification.config.source.name,
-        }));
-
-        // inject business logic for all the components needed
-        this.renderNav();
-        this.renderMenuDrawer();
-        this.renderNotificationDrawer();
-        this.renderFeedBack();
-
-        // initialize subscription to notification service
-        if (this._notificationsSubscription) {
-          this._notificationsSubscription.unsubscribe();
-        }
-
-        this._notificationsSubscription = this.api.apollo
-          .subscribe<SubscribeNotification>({
-            query: SUBSCRIBE_NOTIFICATION,
-            variables: {
-              targets: userDetails,
-            },
-          })
-          .subscribe((res) => {
-            if (res.errors) {
-              throw res.errors;
-            }
-            if (res?.data?.notification) {
-              this.showToast(res.data.notification, {
-                addToDrawer: true,
-                variant: "info",
-              });
-            }
-          });
-      } catch (error) {
-        console.error(error);
-      }
+      // load the app list and notificatins for the user
+      this.getAppListAndNotifications(userDetails).finally(() => {
+        this.loadDrawerAppList(this.apps);
+      });
+      // subscribe to notifications
+      this.handleNotificationSubscription(userDetails);
     });
   }
 
@@ -176,10 +147,10 @@ export class OpcProvider extends LitElement {
     opcBase.feedback = { sendFeedback: window.sendFeedback };
   }
 
-  private renderNav() {
+  private injectNav() {
     // check
     if (!this.opcNavBar) {
-      this.isWarningHidden && console.warn("nav bar not found");
+      !this.isWarningHidden && console.warn("nav bar not found");
       return;
     }
     // links in navbar
@@ -196,33 +167,16 @@ export class OpcProvider extends LitElement {
 
     // adding event listeners to nav button clicks
     this.opcNavBar.addEventListener("opc-nav-btn-menu:click", () => {
-      this.opcMenuDrawer.toggle();
+      this.opcMenuDrawer.open();
       this.opcNavBar.activeButton = "menu";
     });
     this.opcNavBar.addEventListener("opc-nav-btn-notification:click", () => {
-      this.opcNotificationDrawer.toggle();
+      this.opcNotificationDrawer.open();
       this.opcNavBar.activeButton = "notification";
     });
-    /**
-     * Injecting css-var to make navbar on top to drawer
-     */
+
     render(
-      html` <style>
-          opc-nav {
-            --opc-nav-container__z-index: 15;
-          }
-
-          opc-menu-drawer {
-            --opc-menu-drawer__top: 60px;
-            --opc-menu-drawer__z-index: 10;
-          }
-
-          opc-notification-drawer {
-            --opc-notification-drawer__top: 60px;
-            --opc-notification-drawer__z-index: 10;
-          }
-        </style>
-        <opc-nav-search
+      html` <opc-nav-search
           slot="opc-nav-search"
           value=${this.searchValue}
           @opc-nav-search:change=${(evt: any) =>
@@ -235,71 +189,44 @@ export class OpcProvider extends LitElement {
     );
   }
 
-  private renderMenuDrawer() {
+  private injectMenuDrawer() {
     // check
     if (!this.opcMenuDrawer) {
-      this.isWarningHidden && console.warn("menu drawer not found");
+      !this.isWarningHidden && console.warn("menu drawer not found");
       return;
     }
-    this.opcMenuDrawer.headerTitle = this.userInfo?.fullName;
+    this.opcMenuDrawer.menuTitle = this.userInfo?.fullName;
 
-    // adding event listener
-    this.opcMenuDrawer.addEventListener("opc-menu-drawer:open", () =>
-      this.opcNotificationDrawer.close()
-    );
     this.opcMenuDrawer.addEventListener("opc-menu-drawer:close", () => {
-      if (!this.opcNotificationDrawer.isOpen) {
-        this.opcNavBar.activeButton = "";
-      }
+      this.opcNavBar.activeButton = "";
     });
-
-    // app links for the drawer
-    this.opcMenuDrawer.links = [
-      {
-        title: "Built In Services",
-        links: this.apps
-          .filter(({ applicationType }) => applicationType === "BUILTIN")
-          .map(({ name, path }) => ({ name, href: path })),
-      },
-      {
-        title: "Applications",
-        links: this.apps
-          .filter(({ applicationType }) => applicationType === "HOSTED")
-          .map(({ name, path }) => ({ name, href: path })),
-      },
-    ];
 
     // rendering avatar and footer for the drawer
     render(
-      html` <opc-avatar slot="avatar">
+      html`
+        <opc-avatar slot="avatar">
           ${this.userInfo?.firstName.charAt(0)}
           ${this.userInfo?.lastName.charAt(0)}
         </opc-avatar>
         <button slot="menu" onclick="window.OpAuthHelper.logout()">
           Log Out
         </button>
-        <opc-drawer-footer slot="footer"></opc-drawer-footer>`,
+      `,
       this.opcMenuDrawer
     );
   }
 
-  private renderNotificationDrawer() {
+  private injectNotificationDrawer() {
     // check
     if (!this.opcNotificationDrawer) {
-      this.isWarningHidden && console.warn("notification drawer not found");
+      !this.isWarningHidden && console.warn("notification drawer not found");
       return;
     }
-    // adding notification drawer event listeners
-    this.opcNotificationDrawer.addEventListener(
-      "opc-notification-drawer:open",
-      () => this.opcMenuDrawer.close()
-    );
+
     this.opcNotificationDrawer.addEventListener(
       "opc-notification-drawer:close",
       () => {
-        if (!this.opcMenuDrawer.isOpen) {
-          this.opcNavBar.activeButton = "";
-        }
+        this.opcNavBar.activeButton = "";
       }
     );
 
@@ -307,41 +234,37 @@ export class OpcProvider extends LitElement {
     render(
       html`
         <style>
-          .opc-notification-drawer-header {
-            display: flex;
-            padding: 1rem;
-            flex-direction: column;
-            border-bottom: 0.5px solid #6a6e73;
-            color: #6a6e73;
-          }
-
-          .opc-notification-drawer__header-title {
-            font: 400 12px
-              var(--opc-global--Heading--Font-Family, "Red Hat Display");
-            text-transform: uppercase;
-            margin: 0;
-          }
           .p-4 {
             padding: 1rem;
           }
+          .opc-notification-drawer__header-chip-group {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+          }
+          .opc-notification-drawer__header-chip-group
+            opc-filter-chip:not(:last-child) {
+            margin-right: 4px;
+          }
         </style>
-        <div slot="header" class="opc-notification-drawer-header">
-          <div>
-            <h6 class="opc-notification-drawer__header-title">NOTIFICATIONS</h6>
-          </div>
-          <div class="opc-notification-drawer__header-chip-group"></div>
+        <div
+          slot="header-body"
+          class="opc-notification-drawer__header-chip-group"
+        ></div>
+        <div class="opc-notification-item"></div>
+        <div class="p-4" slot="footer">
+          <opc-drawer-footer></opc-drawer-footer>
         </div>
-        <div class="p-4" slot="footer"><opc-drawer-footer></opc-drawer-footer></div>
       `,
       this.opcNotificationDrawer
     );
   }
 
-  private renderFeedBack() {
+  private injectFeedback() {
     // check
     const feedback = this.querySelector("opc-feedback");
     if (!feedback) {
-      this.isWarningHidden && console.warn("feedback component not found");
+      !this.isWarningHidden && console.warn("feedback component not found");
       return;
     }
     // adding event listeners on feedback component
@@ -352,10 +275,82 @@ export class OpcProvider extends LitElement {
     });
   }
 
+  private async getAppListAndNotifications(userDetails: string[]) {
+    try {
+      // get app and notifications from server
+      const res = await this.api.apollo.query<GetAppList>({
+        query: GET_APP_LIST,
+        variables: {
+          targets: userDetails,
+        },
+      });
+
+      this.apps =
+        res.data.appsList
+          ?.slice()
+          .sort((prev, next) =>
+            prev.name?.toLowerCase() <= next.name?.toLowerCase() ? -1 : 1
+          ) || [];
+      this.notifications = res.data.notificationsList.map((notification) => ({
+        ...notification,
+        app: notification.config.source.name,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  private loadDrawerAppList(apps: Apps[]) {
+    this.opcMenuDrawer.links = [
+      {
+        title: "Applications",
+        isSearchable: true,
+        links: apps
+          .filter(({ applicationType }) => applicationType === "HOSTED")
+          .map(({ name, path }) => ({ name, href: path })),
+      },
+      {
+        title: "Built In Services",
+        links: apps
+          .filter(({ applicationType }) => applicationType === "BUILTIN")
+          .map(({ name, path }) => ({ name, href: path })),
+      },
+    ];
+  }
+
+  private async handleNotificationSubscription(userDetails: string[]) {
+    try {
+      if (this._notificationsSubscription) {
+        this._notificationsSubscription.unsubscribe();
+      }
+
+      this._notificationsSubscription = this.api.apollo
+        .subscribe<SubscribeNotification>({
+          query: SUBSCRIBE_NOTIFICATION,
+          variables: {
+            targets: userDetails,
+          },
+        })
+        .subscribe((res) => {
+          if (res.errors) {
+            throw res.errors;
+          }
+          if (res?.data?.notification) {
+            this.showToast(res.data.notification, {
+              addToDrawer: true,
+              variant: "info",
+            });
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   showToast(
     notification: Notification,
     options: ToastOptions = { variant: "info" }
-  ) {
+  ): void {
     if (!notification.sentOn) {
       notification.sentOn = dayjs().toISOString();
     }
@@ -465,9 +460,9 @@ export class OpcProvider extends LitElement {
 
   /**
    * Will update is used for derived propery calculation
-   * notification - app count is recomputed on notification state change
+   * notification -> app count is recomputed on notification state change
    */
-  willUpdate(changedProperties: any) {
+  willUpdate(changedProperties: any): void {
     // only need to check changed properties for an expensive computation.
     if (
       changedProperties.has("notifications") ||
@@ -477,9 +472,7 @@ export class OpcProvider extends LitElement {
       const chipContainer: any = this.querySelector(
         ".opc-notification-drawer__header-chip-group"
       );
-      const headerContainer: any = this.querySelector(
-        ".opc-notification-drawer-header"
-      );
+      const headerContainer: any = this.querySelector(".opc-notification-item");
       if (chipContainer) {
         render(
           html`
@@ -502,6 +495,7 @@ export class OpcProvider extends LitElement {
           chipContainer
         );
       }
+      // to render the chips for filtering in notification drawer
       if (headerContainer) {
         render(
           html`${this.notifications
@@ -539,11 +533,8 @@ export class OpcProvider extends LitElement {
   }
 
   render() {
-    if (this.isLoading) {
-      return html`<opc-loader></opc-loader>`;
-    }
-
     return html`
+      <opc-loader ?hidden=${!this.isLoading}></opc-loader>
       <slot></slot>
       <div class="opc-toast-container"></div>
     `;

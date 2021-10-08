@@ -14,6 +14,7 @@ function AppOverview () {
     { id: 'database', name: 'Database', path: 'database', isActive: false, disabled: true },
     { id: 'feedback', name: 'Feedback', path: 'feedback', isActive: false, disabled: true },
     { id: 'search', name: 'Search', path: 'search', isActive: false, disabled: true },
+    { id: 'couchdb', name: 'Couch DB', path: 'couchdb', isActive: false, disabled: true },
     { id: 'notifications', name: 'Notifications', path: 'notifications', isActive: false, disabled: true },
   ] );
 

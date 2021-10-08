@@ -5,7 +5,7 @@
     "className": "Feedback",
     "serviceName": "feedback"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [
     "feedback",
     "microservice",
@@ -68,7 +68,7 @@
     "@types/cors": "2.8.8",
     "@types/dotenv-safe": "8.1.1",
     "@types/ejs": "3.0.6",
-    "@types/errorhandler": "0.0.32",
+    "@types/errorhandler": "1.5.0",
     "@types/express": "4.17.11",
     "@types/jest": "26.0.20",
     "@types/jira-client": "6.13.1",

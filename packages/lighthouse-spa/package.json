@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-spa",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -15,9 +15,6 @@
   "author": {
     "name": "Rigin Oommen",
     "email": "riginoommen@gmail.com"
-  },
-  "scarfSettings": {
-    "enabled": false
   },
   "dependencies": {
     "@angular/animations": "~11.2.0",
@@ -41,7 +38,6 @@
     "graphql": "^15.0.0",
     "jest": "26.6.3",
     "jest-preset-angular": "8.3.2",
-    "ngx-infinite-scroll": "^10.0.1",
     "rxjs": "~6.6.0",
     "subscriptions-transport-ws": "^0.10.0",
     "tslib": "^2.0.0",

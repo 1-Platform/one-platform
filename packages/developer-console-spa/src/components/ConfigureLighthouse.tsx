@@ -180,7 +180,7 @@ const ConfigureLighthouse = ( props: any ) => {
         <Modal
           title={ title }
             variant={ ModalVariant.small }
-            titleIconVariant={ showConfirmation? CheckCircleIcon : null }
+            titleIconVariant={ showConfirmation? CheckCircleIcon : undefined }
             isOpen={isModalOpen}
             onClose={handleModalToggle}
             onEscapePress={handleModalToggle}

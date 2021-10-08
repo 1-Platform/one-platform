@@ -35,11 +35,13 @@ export class DashboardService extends GraphQLModule {
     });
   }
 
-  ListLHProjectScores(projectId: string, branches: string[], limit = 10) {
-    return this.apollo.watchQuery<Record<string, ProjectBranch[]>>({
-      query: ListLHProjectScores(projectId, branches, limit),
+  ListLHProjectScores(projectId: string, branch: string, limit = 10) {
+    return this.apollo.watchQuery<{ listLHProjectBuilds: ProjectBranch[] }>({
+      query: ListLHProjectScores,
       variables: {
         projectId,
+        branch,
+        limit,
       },
     });
   }

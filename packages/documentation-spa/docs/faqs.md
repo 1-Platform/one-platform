@@ -4,13 +4,20 @@ title: One Platform FAQs
 sidebar_label: One Platform FAQs
 slug: /faqs
 ---
-***
+
+---
 
 ## Documentation FAQs
 
 1. [Documentation Style Guide](/docs/component-library/style-guide)
 
 ## Applications FAQs
+
+- **Will users be able to access applications outside Red Hat VPN?**
+  Yes
+
+- **How do I know my application is secured if it's accessible outside VPN?**
+  Your application is required to be authenticated by Red Hat SSO. The network security layer filters the incoming request that secures the application.
 
 ### Hosted Apps
 

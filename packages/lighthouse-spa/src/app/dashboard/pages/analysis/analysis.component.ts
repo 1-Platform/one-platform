@@ -1,7 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DashboardService } from 'app/dashboard/dashboard.service';
 
 @Component({
@@ -11,18 +9,18 @@ import { DashboardService } from 'app/dashboard/dashboard.service';
 })
 export class AnalysisComponent implements OnInit {
   projectId = '';
-  apps: { branch: string; data: ProjectBranch[] }[] = [];
   branches: string[] = [];
+  buildScores: Record<string, ProjectBranch[]> = {};
 
-  search = ''; // input search state
-  searchControl: Subject<string> = new Subject<string>(); // search input debounce
-
-  // pagination states
-  BRANCHES_LOADED = 5;
-  isNextPageLoading = false;
+  selectedBranch = '';
 
   title = '';
   isPageLoading = true;
+  isBranchLoading = true;
+
+  // context selector options
+  isBranchContextSelectorOpen = false;
+  branchContextSelectorSearchValue = '';
 
   // timeline chart options
   legend: boolean = true;
@@ -60,12 +58,6 @@ export class AnalysisComponent implements OnInit {
       this.title = params.name as string;
     });
     // setting debounce subscription
-    this.searchControl
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe({
-        next: (searchTerm: string) =>
-          this.handleDebounceSearchCallback(searchTerm),
-      });
 
     this.router.params.subscribe((params) => {
       this.projectId = params.id;
@@ -75,8 +67,11 @@ export class AnalysisComponent implements OnInit {
           .valueChanges.subscribe(({ data }) => {
             const { rows } = data.listLHProjectBranches;
             this.branches = this.handlePriorityOrderBranch(rows);
-
-            this.fetchBranchScore(this.initialSetBranches);
+            this.isPageLoading = false;
+            if (this.branches.length > 0) {
+              this.selectedBranch = this.branches[0];
+              this.fetchBranchScore(this.branches[0]);
+            }
           });
       } catch (error) {
         window.OpNotification.danger({
@@ -85,19 +80,6 @@ export class AnalysisComponent implements OnInit {
         });
       }
     });
-  }
-
-  ngOnDestroy() {
-    // cleaning up subscriptions
-    this.searchControl.unsubscribe();
-  }
-
-  get isSearchEmpty() {
-    return Boolean(this.search);
-  }
-
-  get initialSetBranches() {
-    return this.branches.slice(0, this.BRANCHES_LOADED);
   }
 
   /**
@@ -118,26 +100,21 @@ export class AnalysisComponent implements OnInit {
     return priorityBranch;
   }
 
-  async fetchBranchScore(branches: string[]) {
+  async fetchBranchScore(branch: string) {
     // to avoid error on dynamic query builder
-    if (branches.length === 0) {
-      this.apps = [];
-      this.isPageLoading = false;
-      this.isNextPageLoading = false;
-      return;
-    }
     try {
-      this.dashboardService
-        .ListLHProjectScores(this.projectId, branches)
-        .valueChanges.subscribe(({ data, loading }) => {
-          const fetchedBranchData = branches.map((branch, index) => ({
-            branch,
-            data: data[`branch${index}`],
-          }));
-          this.apps = [...this.apps, ...fetchedBranchData];
-          this.isPageLoading = loading;
-          this.isNextPageLoading = loading;
-        });
+      if (!this.buildScores?.[branch]) {
+        this.isBranchLoading = true;
+        this.dashboardService
+          .ListLHProjectScores(this.projectId, branch)
+          .valueChanges.subscribe(({ data, loading }) => {
+            this.isBranchLoading = false;
+            this.buildScores = {
+              ...this.buildScores,
+              [branch]: data.listLHProjectBuilds,
+            };
+          });
+      }
     } catch (error) {
       window.OpNotification.danger({
         subject: 'Error on fetching scores',
@@ -146,45 +123,19 @@ export class AnalysisComponent implements OnInit {
     }
   }
 
-  handleDebounceSearchCallback(searchTerm: string) {
-    this.isPageLoading = true;
-    this.apps = [];
-    if (this.isSearchEmpty) {
-      // on search we fetch top 5 results only
-      const results = this.branches
-        .filter((branch) => branch.includes(searchTerm))
-        .slice(0, 5);
-      this.fetchBranchScore(results);
-    } else {
-      this.fetchBranchScore(this.initialSetBranches);
-    }
+  // context selector functions
+  onToggleBranchSelector(isOpen: boolean): void {
+    this.isBranchContextSelectorOpen = isOpen;
   }
 
-  onScroll() {
-    const presentIndex = this.apps.length;
-    const totalBranches = this.branches.length;
-    if (totalBranches > presentIndex && !this.isSearchEmpty) {
-      this.isNextPageLoading = true;
-      try {
-        this.fetchBranchScore(
-          this.branches.slice(
-            presentIndex,
-            presentIndex + this.BRANCHES_LOADED - 1
-          )
-        );
-      } catch (error) {
-        window.OpNotification.danger({
-          subject: 'Error on fetching scores',
-          body: error.message,
-        });
-      }
-    }
+  onBranchSelectorSearchChange(searchValue: string): void {
+    this.branchContextSelectorSearchValue = searchValue;
   }
 
-  onSearch(event: Event) {
-    const searchTerm = (event.target as HTMLInputElement).value;
-    this.search = searchTerm;
-    // propagate input change to get debounced result
-    this.searchControl.next(searchTerm);
+  onBranchSelect(branch: string): void {
+    this.selectedBranch = branch;
+    this.isBranchContextSelectorOpen = false;
+    this.branchContextSelectorSearchValue = '';
+    this.fetchBranchScore(branch);
   }
 }

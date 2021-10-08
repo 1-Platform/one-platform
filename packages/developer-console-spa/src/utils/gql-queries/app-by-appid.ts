@@ -3,6 +3,7 @@ query App($appId: String!) {
   app ( appId: $appId ) {
     id
     name
+    appId
     path
     description
     ownerId
@@ -11,6 +12,17 @@ query App($appId: String!) {
     createdBy
     updatedOn
     updatedBy
+    database {
+      isEnabled
+      databases {
+        name
+        description
+        permissions {
+          admins
+          users
+        }
+      }
+    }
   }
 }
 `;

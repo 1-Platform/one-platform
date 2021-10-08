@@ -15,25 +15,16 @@ input HeaderInput {
 
 type NSEnvironmentType {
   name: String
-  hash: String
-  schemaEndpoint: String
   apiBasePath: String
-  headers: [HeaderType]
-  subscribers: [ApiUserType]
-  lastCheckedOn: DateTime
 }
 
 input NSEnvironmentInput {
   name: String
-  schemaEndpoint: String!
   apiBasePath: String
-  headers: [HeaderInput]
-  subscribers: [ApiUserInput]
-  lastCheckedOn: DateTime
 }
 
 type NamespaceType {
-  _id: ID
+  id: ID
   name: String
   slug: String
   description: String
@@ -42,6 +33,11 @@ type NamespaceType {
   owners: [ApiUserType]
   appUrl: String
   environments: [NSEnvironmentType]
+  hash: String
+  schemaEndpoint: String
+  headers: [HeaderType]
+  subscribers: [ApiUserType]
+  lastCheckedOn: DateTime
   createdOn: DateTime
   createdBy: String
   updatedOn: DateTime
@@ -49,7 +45,7 @@ type NamespaceType {
 }
 
 input NamespaceInput {
-  _id: ID
+  id: ID
   name: String!
   slug: String
   description: String
@@ -58,6 +54,9 @@ input NamespaceInput {
   owners: [ApiUserInput]!
   appUrl: String
   environments: [NSEnvironmentInput]!
+  schemaEndpoint: String!
+  headers: [HeaderInput]
+  subscribers: [ApiUserInput]
   lastCheckedOn: DateTime
   createdOn: DateTime
   createdBy: String
@@ -66,23 +65,45 @@ input NamespaceInput {
 }
 
 type Query {
-  listNamespaces: [NamespaceType]
-  getNamespaceById(_id: ID!): NamespaceType
-  fetchAPISchema(category: ApiCategory, environment:NSEnvironmentInput): String
+  """
+  List all API namespaces
+  """
+  listNamespaces(limit: Int, offset: Int): [NamespaceType]
+  """
+  To get a particular namespace by id
+  """
+  getNamespaceById(id: ID!): NamespaceType
+  """
+  Fetch the API Schema
+  """
+  fetchAPISchema(category: ApiCategory, schemaEndpoint: String, headers:[HeaderInput]): String
 }
 
 type Mutation {
+  """
+  Create an API namespace record
+  """
   createNamespace(payload: NamespaceInput!): NamespaceType
-  updateNamespace(_id: ID!, payload: NamespaceInput!): NamespaceType
-  deleteNamespace(_id: ID!): NamespaceType
+  """
+  Update an API namespace record
+  """
+  updateNamespace(id: ID!, payload: NamespaceInput!): NamespaceType
+  """
+  Delete an API namespace record
+  """
+  deleteNamespace(id: ID!): NamespaceType
+  """
+  Add subscriber to the namespace environments
+  """
   addNamespaceSubscriber(
-    _id: ID!
-    envName: String!
+    id: ID!
     payload: ApiUserInput!
   ): NamespaceType
+  """
+  Remove subscriber from namespace environments.
+  """
   removeNamespaceSubscriber(
-    _id: ID!
-    envName: String!
+    id: ID!
     payload: ApiUserInput!
   ): NamespaceType
 }

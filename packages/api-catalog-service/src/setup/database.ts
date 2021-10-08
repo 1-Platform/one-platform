@@ -17,16 +17,14 @@ mongoose.connection.on( 'error', error => {
 } );
 
 /* Retry connection */
-const connectWithRetry = async () => {
-    return await mongoose.connect(
-        MONGO_URL,
-        {
-            useNewUrlParser: true,
-            useCreateIndex: true,
-            useUnifiedTopology: true,
-            useFindAndModify: false,
-        }
-    );
-};
+const connectWithRetry = async () => await mongoose.connect(
+    MONGO_URL,
+    {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+    }
+);
 
 export { mongoose };

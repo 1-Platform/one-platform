@@ -23,19 +23,17 @@ export const ListLHProjectBranches = gql`
   }
 `;
 
-export const ListLHProjectScores = (
-  projectId: string,
-  branches: string[],
-  limit = 10
-) => {
-  let queryAliasBuilder = '';
-  branches.map((branch, index) => {
-    queryAliasBuilder += `
-    branch${index}:listLHProjectBuilds(projectId:$projectId,branch:"${branch}",limit:${limit}){
+export const ListLHProjectScores = gql`
+  query ListLHPropertyScores(
+    $projectId: String!
+    $branch: String!
+    $limit: Int!
+  ) {
+    listLHProjectBuilds(projectId: $projectId, branch: $branch, limit: $limit) {
       id
       projectId
       updatedAt
-      score{
+      score {
         pwa
         accessibility
         seo
@@ -43,11 +41,5 @@ export const ListLHProjectScores = (
         performance
       }
     }
-    `;
-  });
-  return gql`
-  query ListLHPropertyScores($projectId: String!) {
-    ${queryAliasBuilder}
   }
-  `;
-};
+`;

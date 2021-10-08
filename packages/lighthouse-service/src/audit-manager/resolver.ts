@@ -1,16 +1,16 @@
-import { spawn } from 'child_process';
-import { pubsub, lhci } from '../helpers';
-import * as fs from 'fs';
-import { camelCase } from 'lodash';
-import { lhDbManager } from '../lighthouse-db-manager';
+import { spawn } from "child_process";
+import { pubsub, lhci } from "../helpers";
+import * as fs from "fs";
+import { camelCase } from "lodash";
+import { lhDbManager } from "../lighthouse-db-manager";
 
 export const LighthouseAuditResolver = {
   LHLeaderBoardCategory: {
-    PWA: 'category_pwa_median',
-    SEO: 'category_seo_median',
-    BEST_PRACTICES: 'category_performance_median',
-    ACCESSIBILITY: 'category_accessibility_median',
-    PERFORMANCE: 'category_best-practices_median',
+    PWA: "category_pwa_median",
+    SEO: "category_seo_median",
+    BEST_PRACTICES: "category_performance_median",
+    ACCESSIBILITY: "category_accessibility_median",
+    PERFORMANCE: "category_best-practices_median",
   },
   Query: {
     async listLHProjects(root: any, args: any, ctx: any) {
@@ -57,7 +57,7 @@ export const LighthouseAuditResolver = {
       const fileListPromise = new Promise(async (resolve, reject) => {
         fs.readdir(`/tmp/${args.auditId}/.lighthouseci`, (err, files) => {
           files.map((file, index) => {
-            if (file.startsWith('lhr-') && file.endsWith('.json')) {
+            if (file.startsWith("lhr-") && file.endsWith(".json")) {
               filePaths.push(`/tmp/${args.auditId}/.lighthouseci/${file}`);
             }
             if (files.length - 1 === index) {
@@ -75,7 +75,7 @@ export const LighthouseAuditResolver = {
       )) as any;
       const fileDataPromise = await new Promise(async (resolve, reject) => {
         paths.forEach((path, index) => {
-          fs.readFile(path, 'utf8', (err, data) => {
+          fs.readFile(path, "utf8", (err, data) => {
             lhrReports.push(data);
             if (index === paths.length - 1) {
               resolve(lhrReports);
@@ -102,13 +102,13 @@ export const LighthouseAuditResolver = {
     },
   },
   Mutation: {
-    auditWebsite(root: any, args: any, ctx: any) {
+    auditWebsite(root: any, args: any, ctx: any): string {
       const LHCI_BUILD_CONTEXT__CURRENT_HASH = new Date()
         .getTime()
         .toString(16)
-        .split('')
+        .split("")
         .reverse()
-        .join('');
+        .join("");
       const lhciScript = spawn(
         ` cd /tmp && mkdir ${LHCI_BUILD_CONTEXT__CURRENT_HASH} && cd ${LHCI_BUILD_CONTEXT__CURRENT_HASH} &&
       lhci healthcheck && lhci collect --settings.chromeFlags='--no-sandbox --ignore-certificate-errors' --url=${
@@ -120,28 +120,28 @@ export const LighthouseAuditResolver = {
           shell: true,
         }
       );
-      lhciScript.stdout.on('data', async (data) => {
+      lhciScript.stdout.on("data", async (data) => {
         console.log(data.toString());
         pubsub
-          .publish('AUTORUN', {
+          .publish("AUTORUN", {
             autorun: LHCI_BUILD_CONTEXT__CURRENT_HASH + data.toString(),
           })
           .catch((err) => console.error(err));
       });
 
-      lhciScript.stderr.on('data', (data) => {
+      lhciScript.stderr.on("data", (data) => {
         console.error(data.toString());
         pubsub
-          .publish('AUTORUN', {
+          .publish("AUTORUN", {
             autorun: LHCI_BUILD_CONTEXT__CURRENT_HASH + data.toString(),
           })
           .catch((err) => console.error(err));
       });
 
-      lhciScript.on('exit', (code) => {
+      lhciScript.on("exit", (code) => {
         console.log(`Process exited with code ${code}`);
         pubsub
-          .publish('AUTORUN', {
+          .publish("AUTORUN", {
             autorun: LHCI_BUILD_CONTEXT__CURRENT_HASH + code,
           })
           .catch((err) => console.error(err));
@@ -173,28 +173,28 @@ export const LighthouseAuditResolver = {
           shell: true,
         }
       );
-      lhciScript.stdout.on('data', async (data) => {
+      lhciScript.stdout.on("data", async (data) => {
         console.log(data.toString());
         pubsub
-          .publish('AUTORUN', {
+          .publish("AUTORUN", {
             autorun: args.property.auditId + data.toString(),
           })
           .catch((err) => console.error(err));
       });
 
-      lhciScript.stderr.on('data', (data) => {
+      lhciScript.stderr.on("data", (data) => {
         console.error(data.toString());
         pubsub
-          .publish('AUTORUN', {
+          .publish("AUTORUN", {
             autorun: args.property.auditId + data.toString(),
           })
           .catch((err) => console.error(err));
       });
 
-      lhciScript.on('exit', (code) => {
+      lhciScript.on("exit", (code) => {
         console.log(`Process exited with code ${code}`);
         pubsub
-          .publish('AUTORUN', { autorun: args.property.auditId + code })
+          .publish("AUTORUN", { autorun: args.property.auditId + code })
           .catch((err) => console.error(err));
       });
       return args.property.auditId;
@@ -202,7 +202,7 @@ export const LighthouseAuditResolver = {
   },
   Subscription: {
     autorun: {
-      subscribe: () => pubsub.asyncIterator('AUTORUN'),
+      subscribe: () => pubsub.asyncIterator("AUTORUN"),
     },
   },
 };

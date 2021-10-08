@@ -7,7 +7,7 @@ import uniqueIdFromPath from '../../utils/unique-id-from-path';
 export interface AppModel extends Document, App { }
 
 interface AppModelStatic extends Model<AppModel> {
-  isAuthorized( appId: any, userId: string ): Promise<boolean>;
+  isAuthorized ( appId: any, userId: string ): Promise<boolean>;
 }
 
 const AppSchema = new Schema<AppModel, AppModelStatic>( {
@@ -16,7 +16,7 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
     unique: true,
     default: function ( this: App ) { return uniqueIdFromPath( this.path ) || uniqueIdFromPath( this.name ); },
   },
-  isActive: { type: Boolean, default: false, },
+  isActive: { type: Boolean, default: true, },
   name: { type: String, unique: true, },
   description: { type: String, },
   path: { type: String, required: true, },
@@ -25,9 +25,12 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   videoUrl: { type: String, },
   ownerId: { type: String, },
   permissions: [ {
-    refId: { type: String, },
-    refType: { type: String, enum: [ 'User', 'Group' ] },
-    role: { type: String, required: true, },
+    name: { type: String , required: true, },
+    email: { type: String },
+    refId: { type: String, required: true },
+    refType: { type: String, enum: [ 'User', 'Group' ], default: 'User', required: true, },
+    role: { type: String, enum: [ 'Editor', 'Viewer' ], default: 'Viewer', required: true, },
+    customRoles: { type: [ String ] },
   } ],
   applicationType: {
     type: String,
@@ -38,7 +41,7 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   contacts: {
     developers: { type: [ String ], },
     qe: { type: [ String ], },
-    stakeholders: { type: [String], },
+    stakeholders: { type: [ String ], },
   },
   feedback: {
     isEnabled: { type: Boolean, default: false, },
@@ -63,7 +66,11 @@ const AppSchema = new Schema<AppModel, AppModelStatic>( {
   },
   database: {
     isEnabled: { type: Boolean, default: false, },
-    databases: { type: [ String ], default: [] },
+    databases: [ {
+      name: { type: String, required: true, },
+      description: { type: String },
+      permissions: { admins: [ String ], users: [ String ] },
+    } ],
   },
   lighthouse: {
     isEnabled: { type: Boolean, default: false, },

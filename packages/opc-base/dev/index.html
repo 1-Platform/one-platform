@@ -6,15 +6,14 @@
         <meta charset="utf-8" />
         <title>SSI Layout</title>
         <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
+        <script src="../dist/umd/opc-base.js"></script>
+        <script src="../dist/umd/opc-provider.js"></script>
         <script src="../node_modules/@one-platform/opc-nav/dist/opc-nav.js"></script>
         <script src="../node_modules/@one-platform/opc-menu-drawer/dist/opc-menu-drawer.js"></script>
         <script src="../node_modules/@one-platform/opc-notification-drawer/dist/opc-notification-drawer.js"></script>
-        <script src="../dist/umd/opc-base.js"></script>
-        <script src="./config.js"></script>
-        <script>
-            opcBase.configure( config );
-        </script>
-        <script src="../dist/umd/opc-provider.js"></script>
+        <script src="../node_modules/@one-platform/opc-feedback/dist/opc-feedback.js"></script>
+        <script src="dev/config.js"></script>
+        <script>opcBase.configure( config )</script>
     </head>
 
     <body>
@@ -25,12 +24,21 @@
                 padding: 0;
             }
 
+            .content {
+                height: 200vh;
+                background-color: #efef;
+            }
+
         </style>
         <opc-provider>
             <opc-nav></opc-nav>
             <opc-menu-drawer></opc-menu-drawer>
             <opc-notification-drawer></opc-notification-drawer>
+            <opc-feedback></opc-feedback>
         </opc-provider>
+        <div class="content">
+            This is content
+        </div>
     </body>
 
 </html>
