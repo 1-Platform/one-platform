@@ -188,7 +188,7 @@ export class HomeComponent implements OnInit {
       this.showScore = true;
       const scores = responses.reduce((acc, val) => {
         Object.keys(val).map((prop: any) => {
-          if (Object.prototype.hasOwnProperty.call(acc, prop)) {
+          if (prop in acc) {
             acc[prop] += val[prop];
           } else {
             acc[prop] = val[prop];
