@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { LHConfigType } from 'types';
+import { LHConfigType } from "types";
 import { getLHSpaConfigByAppId } from "../services/lighthouse";
 
 export default function useLighthouseConfig(id: string): {

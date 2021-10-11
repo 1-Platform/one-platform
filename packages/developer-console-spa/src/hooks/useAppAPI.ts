@@ -8,7 +8,7 @@ export default function useAppAPI(appId: string): {
   loading: boolean;
   setApp: Dispatch<SetStateAction<any>>;
 } {
-  const [ app, setApp ] = useState <App | {}>({});
+  const [app, setApp] = useState<App | {}>({});
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
