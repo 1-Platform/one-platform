@@ -14,6 +14,7 @@ import { validate as uuidValidate } from 'uuid';
 import { stitchedSchemas } from './src/stitch-schema';
 import { verifyAPIKey, verifyJwtToken } from './src/verify-token';
 import path from 'path';
+import helmet from 'helmet';
 
 /* Setting base url and port for the server */
 const baseUrl = process.env.BASE_URL ?? '/';
@@ -24,6 +25,9 @@ const app = express();
 
 /* include cors middleware */
 app.use( cors() );
+
+/* Include helmet middleware */
+app.use( helmet() );
 
 const context = ({ req, connection }: any) => {
   const authorizationHeader = req?.headers?.authorization || connection?.context?.Authorization;
