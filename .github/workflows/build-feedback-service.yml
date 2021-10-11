@@ -38,7 +38,7 @@ jobs:
         run: echo "TAGS=stable" >> $GITHUB_ENV
       # Build and publish docker container
       - name: Build and publish to ghcr
-        uses: elgohr/Publish-Docker-Github-Action@3.02
+        uses: elgohr/Publish-Docker-Github-Action@3.04
         with:
           name: 1-Platform/feedback-service
           username: ${{ secrets.CR_ACTOR }}

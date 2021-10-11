@@ -1,8 +1,24 @@
 <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
-<script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.0/ionicons/ionicons.esm.js"></script>
-<script nomodule="" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.3.0/ionicons/ionicons.js"></script>
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly/patternfly.css" crossorigin="anonymous" />
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly/patternfly-addons.css" crossorigin="anonymous" />
+<script
+  type="module"
+  src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.3/ionicons/ionicons.esm.js"
+></script>
+<script
+  nomodule=""
+  src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.3/ionicons/ionicons.js"
+></script>
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="https://unpkg.com/@patternfly/patternfly/patternfly.css"
+  crossorigin="anonymous"
+/>
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="https://unpkg.com/@patternfly/patternfly/patternfly-addons.css"
+  crossorigin="anonymous"
+/>
 <script src="https://unpkg.com/@one-platform/opc-feedback@latest/dist/opc-feedback.js"></script>
 
 <script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-auth.js"></script>
@@ -10,7 +26,7 @@
 <script src="<%= htmlWebpackPlugin.options.ssiHostname %>/op-feedback-api.js"></script>
 
 <script defer>
-  ( function () {
+  (function () {
     const styles = `
   .op-loader__container {
     position: absolute;
@@ -57,35 +73,38 @@
   }`;
 
     function main() {
-      document.write( '<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>' ); // lgtm [js/eval-like-call]
+      document.write(
+        '<div id="op-loader__global" class="op-loader__container"><span class="op-loader">L &nbsp; ading</span></div>'
+      ); // lgtm [js/eval-like-call]
 
-      const styleTag = document.createElement( 'style' );
+      const styleTag = document.createElement("style");
       styleTag.innerHTML = styles;
-      document.head.appendChild( styleTag );
+      document.head.appendChild(styleTag);
 
       window.OpAuthHelper.init();
-      window.OpAuthHelper.onLogin( () => {
-        const loader = document.getElementById( 'op-loader__global' );
-        if ( loader ) {
+      window.OpAuthHelper.onLogin(() => {
+        const loader = document.getElementById("op-loader__global");
+        if (loader) {
           loader.remove();
         }
         styleTag.remove();
-        document.body.prepend( opfNav );
-        document.body.append( opcFeedback );
-      } );
+        document.body.prepend(opfNav);
+        document.body.append(opcFeedback);
+      });
     }
 
-    const opfNav = document.createElement( "op-nav" );
+    const opfNav = document.createElement("op-nav");
     const opcFeedback = document.createElement("opc-feedback");
     opcFeedback.addEventListener("opc-feedback:submit", (event) => {
-      event.detail.data.createdBy = window.OpAuthHelper?.getUserInfo()?.rhatUUID;
-      window.sendFeedback( event.detail.data);
-    } );
+      event.detail.data.createdBy =
+        window.OpAuthHelper?.getUserInfo()?.rhatUUID;
+      window.sendFeedback(event.detail.data);
+    });
 
-    if ( !document.body ) {
-      window.addEventListener( 'load', main );
+    if (!document.body) {
+      window.addEventListener("load", main);
     } else {
       main();
     }
-  } )();
+  })();
 </script>
