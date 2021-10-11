@@ -17,13 +17,13 @@ function Sidebar () {
   const [ appsListOpen, setAppsListOpen ] = useState<boolean>();
 
   useEffect( () => {
-    setAppMenuOptions( apps.map( (tapp: App) => (
+    setAppMenuOptions( apps.map( (app: App) => (
       <OptionsMenuItem
-        key={ tapp.id }
-        id={ tapp.id }
-        isSelected={ tapp.appId === appId }
-        onSelect={ () => {setApp( tapp.appId ); setAppsListOpen( false )} }>
-        { tapp.name }
+        key={ app.id }
+        id={ app.id }
+        isSelected={ app.appId === appId }
+        onSelect={ () => {setApp( app.appId ); setAppsListOpen( false )} }>
+        { app.name }
       </OptionsMenuItem>
     ) ) );
   }, [ apps, appId, setApp, setAppsListOpen ] );
