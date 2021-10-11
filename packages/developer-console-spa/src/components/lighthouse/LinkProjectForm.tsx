@@ -40,7 +40,12 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
 
             }
             else {
-                project = res[ 0 ];
+                project = res[ 0 ] || {
+                                            name: '',
+                                            id: '',
+                                            adminToken: '',
+                                            token: ''
+                                    };
             }
             props.setSelectedProject && props.setSelectedProject( project );
             getLHProjectBranches( project.id )

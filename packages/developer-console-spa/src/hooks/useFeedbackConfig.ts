@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { appFeedbackConfig } from "../utils/gql-queries";
 import gqlClient from "../utils/gqlClient";
 
 export default function useFeedbackConfig(appId: string): {
-  feedbackConfig: error;
-  setFeedbackConfig: error;
-  loading: error;
+  feedbackConfig: any;
+  setFeedbackConfig: Dispatch<SetStateAction<any>>;
+  loading: boolean;
 } {
   const [feedbackConfig, setFeedbackConfig] = useState<any>({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!appId) {

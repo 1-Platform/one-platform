@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import useMyAppsAPI from '../hooks/useMyAppsAPI';
+import { App } from "types";
 import './Sidebar.css';
 
 function Sidebar () {
@@ -16,13 +17,13 @@ function Sidebar () {
   const [ appsListOpen, setAppsListOpen ] = useState<boolean>();
 
   useEffect( () => {
-    setAppMenuOptions( apps.map( tapp => (
+    setAppMenuOptions( apps.map( (app: App) => (
       <OptionsMenuItem
-        key={ tapp.id }
-        id={ tapp.id }
-        isSelected={ tapp.appId === appId }
-        onSelect={ () => {setApp( tapp.appId ); setAppsListOpen( false )} }>
-        { tapp.name }
+        key={ app.id }
+        id={ app.id }
+        isSelected={ app.appId === appId }
+        onSelect={ () => {setApp( app.appId ); setAppsListOpen( false )} }>
+        { app.name }
       </OptionsMenuItem>
     ) ) );
   }, [ apps, appId, setApp, setAppsListOpen ] );
