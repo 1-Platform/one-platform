@@ -4,7 +4,7 @@ type GQLRequestProps = {
   operationName?: any;
 };
 
-export default function gqlClient ( { query, variables }: GQLRequestProps, signal?: any ) {
+export default function gqlClient ( { query, variables }: GQLRequestProps, signal?: AbortSignal ) {
   if ( !signal ) {
     const abortController = new AbortController();
     signal = abortController.signal;

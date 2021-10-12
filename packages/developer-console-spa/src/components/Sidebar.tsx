@@ -18,16 +18,16 @@ function Sidebar () {
   const handleSelect = useCallback( ( appId: string ) => {
     setApp( appId );
     setAppsListOpen( false );
-  }, [setApp] );
+  }, [ setApp ] );
 
   useEffect( () => {
-    setAppMenuOptions( apps.map( tapp => (
+    setAppMenuOptions( apps.map( ({ id, name, appId: appSlug }) => (
       <OptionsMenuItem
-        key={ tapp.id }
-        id={ tapp.id }
-        isSelected={ tapp.appId === appId }
-        onSelect={ () => handleSelect( tapp.appId ) }>
-        { tapp.name }
+        key={ id }
+        id={ id }
+        isSelected={ appSlug === appId }
+        onSelect={ () => handleSelect( appSlug ) }>
+        { name }
       </OptionsMenuItem>
     ) ) );
   }, [apps, appId, handleSelect] );

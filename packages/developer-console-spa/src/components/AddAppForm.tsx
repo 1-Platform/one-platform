@@ -1,6 +1,6 @@
 import { ActionGroup, Button, Form, FormGroup, Modal, TextArea, TextInput } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import gqlClient from '../utils/gqlClient';
 import { newApp } from '../utils/gql-queries';
 import { Controller, useForm } from 'react-hook-form';

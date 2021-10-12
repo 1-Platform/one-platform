@@ -4,9 +4,7 @@ import gqlClient from 'utils/gqlClient';
 export async function findUsers ( uid: string, signal: AbortSignal ) {
   return gqlClient( {
     query: searchUsers,
-    variables: {
-      uid
-    }
+    variables: { uid },
   }, signal )
     .then( res => {
       if ( res.errors && !res?.data?.users ) {

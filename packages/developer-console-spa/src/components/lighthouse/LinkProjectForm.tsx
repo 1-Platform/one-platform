@@ -1,5 +1,5 @@
 import { Button, ContextSelector, ContextSelectorFooter, ContextSelectorItem, Flex, FlexItem, Form, FormGroup, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
   getLHProjects,
@@ -8,14 +8,26 @@ import {
   deleteLHSpaConfig
 } from "../../services/lighthouse";
 import { AppContext } from '../../context/AppContext';
-import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import TrashIcon from '@patternfly/react-icons/dist/esm/icons/trash-icon';
-import { LinkProjectFormValues, LinkProjectProps } from 'types';
+
+type LinkProjectFormInput = {
+  project: string;
+  branch: string;
+};
+
+interface LinkProjectProps {
+  selectedProject: Lighthouse.Project,
+  lighthouseConfig?: Lighthouse.Config,
+  branchVariant?: boolean,
+  setActiveTabKey?: Dispatch<SetStateAction<number>>,
+  setLighthouseConfig: Dispatch<SetStateAction<Lighthouse.Config>>,
+  setSelectedProject?: Dispatch<SetStateAction<Lighthouse.Project>>,
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+}
 
 const LinkProjectForm = ( props: LinkProjectProps ) => {
   const { branchVariant, selectedProject, setSelectedProject, lighthouseConfig, setLighthouseConfig, setIsModalOpen, setActiveTabKey } = props;
   const [ isPrimaryLoading, setIsPrimaryLoading ] = useState( false );
-  const { control, handleSubmit, setValue } = useForm<LinkProjectFormValues>();
+  const { control, handleSubmit, setValue } = useForm<LinkProjectFormInput>();
 
   //For branch select
   const [ branches, setBranches ] = useState( Array<string>() );
@@ -100,7 +112,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
     setFilteredProjects( filteredProjects );
   };
 
-  const linkProject = ( data: LinkProjectFormValues ) => {
+  const linkProject = ( data: LinkProjectFormInput ) => {
     setIsPrimaryLoading( true );
     const config = {
       appId: app.id,
@@ -116,7 +128,10 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
     } );
   };
   const removeLHSpaConfig = () => {
-    deleteLHSpaConfig( lighthouseConfig?._id ).then( ( res: any ) => {
+    if ( !lighthouseConfig?._id ) {
+      return;
+    }
+    deleteLHSpaConfig( lighthouseConfig._id ).then( ( res: any ) => {
       setLighthouseConfig( { appId: null, _id: null } );
       window.OpNotification?.success( { subject: 'SPA configuration deleted successfully!' } );
       setIsModalOpen( false );
@@ -135,7 +150,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
               fieldId=""
               label="Project Name"
               helperTextInvalid="Project is mandatory field"
-              helperTextInvalidIcon={ <ExclamationCircleIcon /> }
+              helperTextInvalidIcon={ <ion-icon name="alert-circle-outline"></ion-icon> }
               validated={ errors.project ? "error" : "default" }
               helperText="Select a project to link your app with the project."
             ><ContextSelector
@@ -189,7 +204,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
                 fieldId=""
                 label="Select a branch"
                 helperTextInvalid="Branch is mandatory field"
-                helperTextInvalidIcon={ <ExclamationCircleIcon /> }
+                helperTextInvalidIcon={ <ion-icon name="alert-circle-outline"></ion-icon> }
                 validated={ errors.branch ? "error" : "default" }
                 helperText="Start typing in the field to find a branch or create one if it does not exists."
               >
@@ -228,6 +243,17 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
       <FormGroup fieldId="">
 
         <Flex>
+          { editMode && (
+            <FlexItem>
+              <Button
+                variant="plain"
+                className="pf-u-danger-color-100"
+                onClick={ removeLHSpaConfig }
+              >
+                Delete Project
+              </Button>
+            </FlexItem>
+          ) }
           <FlexItem align={ { default: 'alignRight' } }>
             <Button
               key="Confirm"
@@ -239,15 +265,6 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
               Link Project
             </Button>
           </FlexItem>
-          { editMode && <FlexItem>
-            <Button
-              variant="link"
-              onClick={ removeLHSpaConfig }
-            >
-              <TrashIcon />
-            </Button>
-          </FlexItem>
-          }
         </Flex>
       </FormGroup>
     </Form>

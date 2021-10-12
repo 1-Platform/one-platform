@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { FormEventHandler, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   Card, CardTitle, CardBody, CardFooter,
   Form, FormGroup,
@@ -89,7 +89,7 @@ export default function General ( { app }: IGeneralSettings ) {
     /* TODO: gqlQuery for toggling ownership transfer */
   };
 
-  const handleDeleteApp = ( event: any ) => {
+  const handleDeleteApp: FormEventHandler = ( event ) => {
     event.preventDefault();
     deleteAppService( app.id )
       .then( () => {

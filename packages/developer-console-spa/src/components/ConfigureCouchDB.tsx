@@ -5,7 +5,6 @@ import CreateDBForm from './couchdb/CreateDBForm';
 import Header from './Header';
 import Loader from './Loader';
 import { ReactComponent as StorageIcon } from '../assets/storage_black_24dp.svg';
-import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 
 function ConfigureCouchDB ( props: any ) {
   const { app, loading: appLoading, forceRefreshApp } = useContext( AppContext );
@@ -114,8 +113,8 @@ function ConfigureCouchDB ( props: any ) {
                     } }>
                     {
                         filteredDBs
-                          .map( (db, index) => {
-                          return <GalleryItem key={ index }>
+                          .map( db => {
+                          return <GalleryItem key={ db.name }>
                             <Card className="couch-db--card">
                               <CardHeader>
                                 <CardActions>
@@ -134,7 +133,12 @@ function ConfigureCouchDB ( props: any ) {
                               </CardHeader>
                               <CardBody>{ 'No description' }</CardBody>
                               <CardFooter>
-                                <Button variant="link">Open Fauxton GUI &nbsp; <ExternalLinkAltIcon/></Button>
+                                <Button
+                                  variant="link"
+                                  icon={ <ion-icon name="open-outline"></ion-icon> }
+                                  iconPosition="right">
+                                  Open Fauxton GUI
+                                </Button>
                               </CardFooter>
                             </Card>
                           </GalleryItem>

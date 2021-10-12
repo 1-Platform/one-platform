@@ -3,7 +3,7 @@ import { appDatabaseConfig } from 'utils/gql-queries';
 import gqlClient from 'utils/gqlClient';
 
 export default function useDatabaseConfig (appId: string) {
-  const [ databaseConfig, setDatabaseConfig ] = useState<any>( {} );
+  const [ databaseConfig, setDatabaseConfig ] = useState<App.DatabaseConfig>( {} as App.DatabaseConfig );
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {

@@ -7,7 +7,7 @@ import { updateFeedbackConfigService } from '../services/feedbackConfig';
 import Header from './Header';
 import Loader from './Loader';
 
-function ConfigureFeedback ( props: any ) {
+function ConfigureFeedback () {
   const { appId, app, loading: appLoading } = useContext( AppContext );
   const { feedbackConfig, setFeedbackConfig, loading: feedbackConfigLoading } = useFeedbackConfig( appId );
   const [ editableFeedbackConfig, setEditableFeedbackConfig ] = useState( feedbackConfig );
@@ -28,7 +28,7 @@ function ConfigureFeedback ( props: any ) {
     setCanSubmit(
       !!editableFeedbackConfig.sourceType
       && !!editableFeedbackConfig.sourceApiUrl
-      && editableFeedbackConfig.feedbackEmail
+      && !!editableFeedbackConfig.feedbackEmail
       && isSourceEnabled( editableFeedbackConfig.sourceType )
       && isFeedbackConfigChanged()
     );

@@ -25,7 +25,7 @@ export default function AppSettings () {
     { key: 'api-keys', title: 'API Keys', component: APIKeys },
   ], []);
 
-  const handleTabChange = ( event: any, tab: string | number ) => {
+  const handleTabChange = ( event: React.MouseEvent<HTMLElement, MouseEvent>, tab: string | number ) => {
     const search = searchParams;
     search.set( 'tab', tab.toString() );
     history.push( { search: search.toString() } );

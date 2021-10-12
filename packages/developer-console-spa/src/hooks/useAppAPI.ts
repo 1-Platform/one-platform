@@ -3,7 +3,7 @@ import { appByAppId } from '../utils/gql-queries/app-by-appid';
 import gqlClient from '../utils/gqlClient';
 
 export default function useAppAPI ( appId: string ) {
-  const [ app, setApp ] = useState<any>( {} );
+  const [ app, setApp ] = useState<App>( {} as App );
   const [ loading, setLoading ] = useState<boolean>( true );
 
   useEffect( () => {

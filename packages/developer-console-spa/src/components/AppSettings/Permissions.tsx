@@ -6,7 +6,7 @@ import { updateAppPermissionsService } from 'services/app';
 import AddMemberForm from './AddMemberForm';
 
 interface IPermissionsProps {
-  app: any;
+  app: App;
 }
 
 export default function Permissions ( { app }: IPermissionsProps ) {
@@ -15,10 +15,15 @@ export default function Permissions ( { app }: IPermissionsProps ) {
   const [ isFormOpen, setFormOpen ] = useState( false );
 
   const searchResults = useMemo( () => {
-    return appPermissions.filter( member => member.name.includes( searchText ) );
+    const query = searchText.toLowerCase();
+    return appPermissions.filter( member => (
+      member.name.toLowerCase().includes( query )
+      || member.email.toLowerCase().includes( query )
+      || member.role.toLowerCase().includes( query )
+    ) );
   }, [ searchText, appPermissions ] );
 
-  const handleSearchInput = ( value: any ) => {
+  const handleSearchInput = ( value: string ) => {
     setSearchText( value ?? '' );
   }
 
@@ -59,7 +64,7 @@ export default function Permissions ( { app }: IPermissionsProps ) {
                     value={ searchText }
                     onChange={ handleSearchInput }
                     onClear={ () => handleSearchInput( '' ) }
-                    resultsCount={searchResults.length}
+                    resultsCount={ searchResults.length.toString() }
                   />
                 </SplitItem>
                 <SplitItem>
@@ -93,9 +98,17 @@ export default function Permissions ( { app }: IPermissionsProps ) {
 
               { !loading && appPermissions.length > 0 && searchResults.length === 0 && (
                 <EmptyState variant="xs">
-                  <>
+                  <p>
                     No users found for search term: { searchText }
-                  </>
+                  </p>
+                  <Button
+                    variant="link"
+                    type="reset"
+                    iconPosition="right"
+                    icon={ <ion-icon style={{ marginBottom: '-2px' } } name="backspace-outline"></ion-icon> }
+                    onClick={ () => handleSearchInput( '' ) }>
+                    Clear Search
+                  </Button>
                 </EmptyState>
               ) }
 

@@ -1,7 +1,7 @@
 import { deleteApp, updateApp, updateAppPermissions } from '../utils/gql-queries';
 import gqlClient from '../utils/gqlClient';
 
-export const updateAppService = async ( id: string, app: any ) => {
+export const updateAppService = async ( id: string, app: Partial<App> ) => {
   try {
     const res = await gqlClient( { query: updateApp, variables: { id, app } } );
     if ( res.errors && !res?.data?.updateApp ) {

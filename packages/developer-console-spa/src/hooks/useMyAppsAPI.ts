@@ -3,7 +3,7 @@ import { myApps } from '../utils/gql-queries';
 import gqlClient from '../utils/gqlClient';
 
 export default function useMyAppsAPI () {
-  const [ apps, setApps ] = useState<any[]>( [] );
+  const [ apps, setApps ] = useState<App[]>( [] );
   const [ loading, setLoading ] = useState<boolean>( true );
 
   useEffect( () => {
