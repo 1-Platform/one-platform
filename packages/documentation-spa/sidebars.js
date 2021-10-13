@@ -1,7 +1,7 @@
 module.exports = {
   someSidebar: [
-    'getting-started/getting-started',
-    'onboarding-guide/onboarding-guide',
+    'get-started/get-started',
+    'spaship/spaship',
     {
       type: 'category',
       label: 'Applications',
@@ -61,7 +61,14 @@ module.exports = {
         'documentation/styleguide',
       ],
     },
-    'cli/op-cli',
+    {
+      type: 'category',
+      label: 'Advanced',
+      items: [
+        'cli/op-cli',
+        'onboarding-guide/onboarding-guide',
+      ]
+    },
     'faqs',
   ],
 };

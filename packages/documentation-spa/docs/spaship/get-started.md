@@ -1,8 +1,8 @@
 ---
-id: getting-started
-title: Getting Started with One Platform
-sidebar_label: Getting Started
-slug: /
+id: spaship
+title: Getting Started with SPAship
+sidebar_label: SPAship
+slug: /spaship
 ---
 * * *
 
@@ -15,7 +15,7 @@ slug: /
 ### Deploying to One Platform
   #### Setting up the SPAship CLI.
 - SPAship is an open source platform for deploying, integrating, and managing single-page apps (SPAs).
-- SPAship have a CLI client which enables to push the SPA to the specified environments.
+- SPAship has a CLI client which enables SPA deployments to the any specific environment.
 
 ```sh
 npm install -g @spaship/cli
