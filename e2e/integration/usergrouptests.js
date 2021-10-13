@@ -89,7 +89,7 @@ context( 'Test for UserGroup', () => {
     it( 'Test for my profile Rover Group', () => {
         cy.get( '.pf-c-description-list__group' ).eq( 3 ).within( () => {
             cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Rover Groups' );
-            cy.get( '.pf-c-description-list__description' ).should( 'have.text', 'uma_authorization' );
+            cy.get( '.pf-c-description-list__description' ).should( 'include.text', 'uma_authorization' );
         } );
     } )
 

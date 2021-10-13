@@ -17,6 +17,7 @@ context( 'Test for Innovation Hub', () => {
         cy.get( '[aria-label="Options menu"]' ).click();
         cy.contains( 'automation' ).click( { force: true } );
         cy.contains( 'Post my idea!' ).click();
+        cy.wait( 5000 );
         cy.get( '.pf-c-card__body' ).first().should( 'contain.text', 'e2e test automation' );
     } );
 
@@ -32,18 +33,20 @@ context( 'Test for Innovation Hub', () => {
             cy.get( '.pf-l-stack__item' ).first().click();
         } );
         cy.get( '#comment' ).type( 'test' );
-        cy.get( '#comment' ).type( '{enter}' );
-        cy.get( '[aria-label="comment-content"]' ).should( 'be.visible' );
+        cy.get( '.pf-c-form__actions' ).within( () => {
+            cy.contains( 'Submit' ).click();
+        })
+        cy.get( '[aria-label="comment-content"]',{ timeout: 10000 } ).should( 'be.visible' );
     } );
 
     it( 'Test for liking the comment', () => {
         cy.contains( 'Like' ).click();
-        cy.contains( 'Unlike' ).should( 'be.visible' );
+        cy.contains( 'Unlike', { timeout: 10000 } ).should( 'be.visible' );
     } );
 
     it( 'Test for voting an idea', () => {
         cy.contains( 'VOTE' ).click();
-        cy.contains( 'VOTED' ).should( 'be.visible' );
+        cy.contains( 'VOTED', { timeout: 10000 } ).should( 'be.visible' );
     } )
 
     it( 'Test for recent ideas table', () => {
