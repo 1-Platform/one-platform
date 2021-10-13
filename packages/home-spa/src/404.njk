@@ -1,0 +1,38 @@
+---
+title: 404
+layout: 'layout/base.njk'
+---
+<script>
+const renderSPAList = (homeList) => {
+    const spaListForFourZeroFour = document.querySelector('#banner-links');
+    if (spaListForFourZeroFour !== null) {
+      spaListForFourZeroFour.innerHTML = homeList.map(spa =>
+        {
+          if (spa) {
+            return `<a href="${spa.link}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
+          }
+        }
+      ).splice(0,10).join('');
+    }
+};
+</script>
+<div class="banner">
+  <div class="banner__404">
+    <img src="/static/img/404.svg" alt="404">
+  </div>
+  <div class="banner__text-block--medium">
+    <h1>Whoops! There is nothing here</h1>
+  </div>
+  <div class="banner__text-block--normal">
+    Couldn't find what you were looking for?
+  </div>
+  <a class="button--primary" href="/">
+    Go to homepage
+    <i class="fa fa-arrow-right"></i>
+  </a>
+  <p class="banner__links-below">
+    Here are some links that might help
+  </p>
+  <div id="banner-links" class="banner__links">
+  </div>
+</div>

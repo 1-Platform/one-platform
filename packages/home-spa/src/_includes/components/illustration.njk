@@ -1,0 +1,159 @@
+<style>
+.sidebar__illustration {
+  max-width: 13rem;
+  height: 5rem;
+  transform: translate(20px, -10rem);
+  position: relative;
+  top: 12rem;
+  left: 8rem;
+}
+.sidebar__illustration .transform-node-app {
+  transform: translate(13rem, -5rem);
+}
+.sidebar__illustration .transform-node-spaship {
+  transform: translate(13rem, -9rem);
+}
+.sidebar__illustration .transform-node-gateway {
+  transform: translate(13rem, -14rem);
+}
+.sidebar__illustration .transform-node-core {
+  transform: translate(13rem, -24rem);
+}
+.sidebar__illustration-connector {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  animation: nodetext 3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+.sidebar__illustration-connector > span {
+  color: #A0A0A0;
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+}
+.sidebar__illustration-node {
+  display: flex;
+  align-items: center;
+}
+.sidebar__illustration-node-start {
+  border-top: 1px solid #A0A0A0;
+  border-bottom: 1px solid #A0A0A0;
+  border-right: 1px solid #A0A0A0;
+  width: 1.875rem;
+}
+.sidebar__illustration-node-start.medium {
+  height: 3.375rem;
+}
+.sidebar__illustration-node-start.small {
+  height: 1.25rem;
+}
+.sidebar__illustration-node-start.large {
+  height: 3.75rem;
+}
+.sidebar__illustration-node-end {
+  height: 1px;
+  width: 1.875rem;
+  background: #A0A0A0;
+}
+.sidebar__illustration img {
+  position: relative;
+  width: 100%;
+}
+.sidebar__illustration-cubes {
+  transform: translate(0px, 2rem);
+  transition: all 320ms ease-in-out;
+  animation: moveCubes 3s ease-in-out;
+  z-index: 3;
+}
+@keyframes moveCubes {
+  0% {
+    transform: translateY(5rem);
+  }
+  100% {
+    transform: translateY(2rem);
+  }
+}
+.sidebar__illustration-spaship {
+  transform: translate(0px, -4rem);
+  transition: all 320ms ease-in-out;
+  z-index: 2;
+  animation: spaship 3s ease-in-out;
+}
+@keyframes spaship {
+  0% {
+    transform: translateY(-2em);
+  }
+  100% {
+    transform: translateY(-4rem);
+  }
+}
+.sidebar__illustration-gateway {
+  transform: translate(0px, -8.9rem);
+  transition: all 320ms ease-in-out;
+  z-index: 1;
+  animation: gateway 3s ease-in-out;
+}
+@keyframes gateway {
+  0% {
+    transform: translateY(-10rem);
+  }
+  100% {
+    transform: translateY(-8.9rem);
+  }
+}
+.sidebar__illustration-core {
+  transform: translate(0px, -15.5rem);
+  transition: all 320ms ease-in-out;
+  animation: core 3s ease-in-out;
+}
+@keyframes core {
+  0% {
+    transform: translateY(-18rem);
+  }
+  100% {
+    transform: translateY(-15.5rem);
+  }
+}
+
+@keyframes nodetext {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style>
+<div class="sidebar__illustration">
+  <img class="sidebar__illustration-cubes" src="/static/img/appCubes.svg" alt="app cubes">
+  <div class="sidebar__illustration-connector transform-node-app">
+    <div class="sidebar__illustration-node">
+      <div class="sidebar__illustration-node-start medium"></div>
+      <div class="sidebar__illustration-node-end"></div>
+    </div>
+    <span class="sidebar__illustration-app-node-text">Your apps</span>
+  </div>
+  <img class="sidebar__illustration-spaship" src="/static/img/spaship.svg" alt="SPAship">
+  <div class="sidebar__illustration-connector transform-node-spaship">
+    <div class="sidebar__illustration-node">
+      <div class="sidebar__illustration-node-start small"></div>
+      <div class="sidebar__illustration-node-end"></div>
+    </div>
+    <span class="sidebar__illustration-spaship-node-text">SPAship</span>
+  </div>
+  <img class="sidebar__illustration-gateway" src="/static/img/gateway.svg" alt="api gateway">
+  <div class="sidebar__illustration-connector transform-node-gateway">
+    <div class="sidebar__illustration-node">
+      <div class="sidebar__illustration-node-start small"></div>
+      <div class="sidebar__illustration-node-end"></div>
+    </div>
+    <span class="sidebar__illustration-gateway-node-text">API Gateway</span>
+  </div>
+  <img class="sidebar__illustration-core" src="/static/img/opCore.svg" alt="one platform core">
+  <div class="sidebar__illustration-connector transform-node-core">
+    <div class="sidebar__illustration-node">
+      <div class="sidebar__illustration-node-start large"></div>
+      <div class="sidebar__illustration-node-end"></div>
+    </div>
+    <span class="sidebar__illustration-connector-text">One Platform Core</span>
+  </div>
+</div>

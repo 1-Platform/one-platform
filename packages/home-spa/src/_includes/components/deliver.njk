@@ -1,0 +1,21 @@
+<section class="deliver container">
+  {% include "components/illustration.njk" %}
+  <aside class="deliver__analytics">
+    <h3 class="deliver__analytics-title">{{ pageText.main.title }}</h3>
+    <p class="deliver__analytics-description">{{ pageText.main.paragraph }}</p>
+    <a class="deliver__analytics-console-link" href="/console">Get Started</a>
+    <div class="deliver__analytics-cards">
+      {% for card in pageText.main.stats %}
+        <div class="deliver__analytics-card">
+          <span> 
+            {{ card.title }}
+          </span>
+          <h3>
+            {{ card.value }}
+          </h3>
+        </div>
+      {% endfor %}
+    </div>
+    <a class="deliver__analytics-view-more" href="/console">View more Analytics</a>
+  </aside>
+</section>
