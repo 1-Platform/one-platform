@@ -186,28 +186,6 @@
   }
 }
 
-.deploy {
-  background-color: #F0F0F0;
-  height: toRem(300);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &__info {
-    margin-right: 3rem;
-    &-title {
-      font-size: toRem(42);
-    }
-  }
-  &__get-started {
-    margin-top: 1.5rem;
-    margin-left: 3rem;
-    padding: 1rem 1.5rem;
-    background-color: #c00;
-    color: #ffffff;
-    border-radius: 3px;
-  }
-}
-
 @media (max-width: toRem(1150)) {
   .deliver {
     display: flex;
