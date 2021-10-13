@@ -45,7 +45,7 @@ function getData(query) {
     .then( ( res ) => res.json() )
     .catch( ( err ) => { 
       console.error( err );
-      window.OpNotification.danger({ subject: err });
+      window.OpNotification.danger({ subject: err.message });
     } );
 }
 </script>

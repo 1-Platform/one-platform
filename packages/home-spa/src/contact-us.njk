@@ -22,7 +22,7 @@ const contactUsTeamBlock = () => {
         .join("");
     } ).catch( ( err ) => {
       console.error( err );
-      window.OpNotification.danger({ subject: err });
+      window.OpNotification.danger({ subject: err.message });
     })
   }
 }
