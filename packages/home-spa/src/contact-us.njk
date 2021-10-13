@@ -25,6 +25,9 @@ const contactUsTeamBlock = () => {
     })
   }
 }
+window.OpAuthHelper.onLogin(() => {
+  contactUsTeamBlock();
+});
 </script>
 <div class="container margin-auto">
   <div class="contact-block">
@@ -62,6 +65,11 @@ const contactUsTeamBlock = () => {
   <div class="team-block">
     <h2>TEAM</h2>
     <div class="team-block__list" id="team-block">
+      <span class="pf-c-spinner" role="progressbar" aria-label="Loading...">
+        <span class="pf-c-spinner__clipper"></span>
+        <span class="pf-c-spinner__lead-ball"></span>
+        <span class="pf-c-spinner__tail-ball"></span>
+      </span>
     </div>
   </div>
 </div>

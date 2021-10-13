@@ -9,12 +9,22 @@ const renderSPAList = (homeList) => {
       spaListForFourZeroFour.innerHTML = homeList.map(spa =>
         {
           if (spa) {
-            return `<a href="${spa.link}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
+            return `<a href="/${spa.path}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
           }
         }
-      ).splice(0,10).join('');
+      ).splice(0,5).join('');
     }
 };
+window.OpAuthHelper.onLogin(() => {
+  getData(getHomeTypeBySPA)
+    .then((result) => {
+      const apps = result.data.apps ? result.data.apps : [];
+      renderSPAList(apps)
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
 </script>
 <div class="banner">
   <div class="banner__404">
@@ -34,5 +44,10 @@ const renderSPAList = (homeList) => {
     Here are some links that might help
   </p>
   <div id="banner-links" class="banner__links">
+    <span class="pf-c-spinner pf-m-lg" role="progressbar" aria-label="Loading...">
+      <span class="pf-c-spinner__clipper"></span>
+      <span class="pf-c-spinner__lead-ball"></span>
+      <span class="pf-c-spinner__tail-ball"></span>
+    </span>
   </div>
 </div>
