@@ -51,3 +51,6 @@ dist/
 # track these files, if they exist
 !.gitignore
 !.editorconfig
+
+# mac os files
+.DS_Store
