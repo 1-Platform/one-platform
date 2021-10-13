@@ -7,6 +7,7 @@ window.OpAuthHelper.onLogin(() => {
     })
     .catch((err) => {
       console.error(err);
+      window.OpNotification.danger({ subject: err });
     });
 });
 

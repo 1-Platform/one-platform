@@ -43,6 +43,9 @@ function getData(query) {
   return fetch( '{{ env.API_URL }}', fetchOptions )
     .then( handleError )
     .then( ( res ) => res.json() )
-    .catch( ( err ) => { console.error( err ); } );
+    .catch( ( err ) => { 
+      console.error( err );
+      window.OpNotification.danger({ subject: err });
+    } );
 }
 </script>
