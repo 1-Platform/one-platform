@@ -1,10 +1,9 @@
 /* Mock */
-import mock from './mock.json';
-
+import supertest from 'supertest';
+import mock from './mock';
 import ApiCatalog from '../../service';
 
 /* Supertest */
-import supertest from 'supertest';
 
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
@@ -71,113 +70,113 @@ mutation DeleteNamespace($id: ID!) {
 }
 `;
 
-beforeAll( () => {
-    request = supertest.agent( ApiCatalog );
-} );
-afterAll( done => ApiCatalog.close( done ) );
+beforeAll(() => {
+  request = supertest.agent(ApiCatalog);
+});
+afterAll((done) => ApiCatalog.close(done));
 
-describe( 'API Catalog Microservice API Tests', () => {
-    it( 'ListNamespaces should return all namespaces', done => {
-        request
-            .post( '/graphql' )
-            .send( {
-                query: query,
-                operationName: 'ListNamespaces'
-            } )
-            .expect( res => {
-                expect( res.body ).not.toHaveProperty( 'errors' );
-                expect( res.body ).toHaveProperty( 'data' );
-                expect( res.body ).toHaveProperty( 'data.listNamespaces' );
-            } )
-            .end( ( err, res ) => {
-                done( err );
-            } );
-    } );
+describe('API Catalog Microservice API Tests', () => {
+  it('ListNamespaces should return all namespaces', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'ListNamespaces',
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body).toHaveProperty('data.listNamespaces');
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
 
-    it( 'GetNamespaceById should return a single API namespace', done => {
-        request
-            .post( '/graphql' )
-            .send( {
-                query: query,
-                operationName: 'GetNamespaceById',
-                variables: {
-                    id: mock.id
-                }
-            } )
-            .expect( res => {
-                expect( res.body ).not.toHaveProperty( 'errors' );
-                expect( res.body ).toHaveProperty( 'data' );
-            } )
-            .end( ( err, res ) => {
-                done( err );
-            } );
-    } );
+  it('GetNamespaceById should return a single API namespace', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'GetNamespaceById',
+        variables: {
+          id: mock.id,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
 
-    it( 'CreateNamespace should create an API namespace', done => {
-        request
-            .post( '/graphql' )
-            .send( {
-                query: query,
-                operationName: 'CreateNamespace',
-                variables: {
-                    payload: mock
-                }
-            } )
-            .expect( res => {
-                expect( res.body ).not.toHaveProperty( 'errors' );
-                expect( res.body ).toHaveProperty( 'data' );
-                expect( res.body.data ).toHaveProperty( 'createNamespace' );
-                expect( res.body.data.createNamespace ).toHaveProperty( 'id', mock.id );
-                expect( res.body.data.createNamespace ).toHaveProperty( 'name', mock.name );
-                expect( res.body.data.createNamespace ).toHaveProperty( 'description', mock.description );
-            } )
-            .end( ( err, res ) => {
-                done( err );
-            } );
-    } );
+  it('CreateNamespace should create an API namespace', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'CreateNamespace',
+        variables: {
+          payload: mock,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('createNamespace');
+        expect(res.body.data.createNamespace).toHaveProperty('id', mock.id);
+        expect(res.body.data.createNamespace).toHaveProperty('name', mock.name);
+        expect(res.body.data.createNamespace).toHaveProperty('description', mock.description);
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
 
-    it( 'UpdateNamespace should update an API namespace', done => {
-        request
-            .post( '/graphql' )
-            .send( {
-                query: query,
-                operationName: 'UpdateNamespace',
-                variables: {
-                    id: mock.id,
-                    payload: mock
-                }
-            } )
-            .expect( res => {
-                expect( res.body ).not.toHaveProperty( 'errors' );
-                expect( res.body ).toHaveProperty( 'data' );
-                expect( res.body.data ).toHaveProperty( 'updateNamespace' );
-                expect( res.body.data.updateNamespace ).toHaveProperty( 'id', mock.id );
-                expect( res.body.data.updateNamespace ).toHaveProperty( 'name', mock.name );
-                expect( res.body.data.updateNamespace ).toHaveProperty( 'description', mock.description );
-            } )
-            .end( ( err, res ) => {
-                done( err );
-            } );
-    } );
+  it('UpdateNamespace should update an API namespace', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'UpdateNamespace',
+        variables: {
+          id: mock.id,
+          payload: mock,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('updateNamespace');
+        expect(res.body.data.updateNamespace).toHaveProperty('id', mock.id);
+        expect(res.body.data.updateNamespace).toHaveProperty('name', mock.name);
+        expect(res.body.data.updateNamespace).toHaveProperty('description', mock.description);
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
 
-    it( 'DeleteNamespace should delete a namespace', done => {
-        request
-            .post( '/graphql' )
-            .send( {
-                query: query,
-                operationName: 'DeleteNamespace',
-                variables: {
-                    id: mock.id
-                }
-            } )
-            .expect( res => {
-                expect( res.body ).not.toHaveProperty( 'errors' );
-                expect( res.body ).toHaveProperty( 'data' );
+  it('DeleteNamespace should delete a namespace', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'DeleteNamespace',
+        variables: {
+          id: mock.id,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
 
-                expect( res.body.data ).toHaveProperty( 'deleteNamespace' );
-            } )
-            .end( ( err, res ) => {
-                done( err );
-            } );
-    } );
-} );
+        expect(res.body.data).toHaveProperty('deleteNamespace');
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
+});
