@@ -1,29 +1,31 @@
 <style>
+:root {
+  --xValue: 15.5rem;
+}
 .sidebar__illustration {
-  max-width: 13rem;
-  height: 5rem;
-  transform: translate(20px, -10rem);
-  position: relative;
+  max-width: 15rem;
+  height: 24rem;
+  margin: auto;
   top: 12rem;
   left: 8rem;
 }
 .sidebar__illustration .transform-node-app {
-  transform: translate(13rem, -5rem);
+  transform: translate(var(--xValue), -5rem);
 }
 .sidebar__illustration .transform-node-spaship {
-  transform: translate(13rem, -9rem);
+  transform: translate(var(--xValue), -9rem);
 }
 .sidebar__illustration .transform-node-gateway {
-  transform: translate(13rem, -14rem);
+  transform: translate(var(--xValue), -14rem);
 }
 .sidebar__illustration .transform-node-core {
-  transform: translate(13rem, -24rem);
+  transform: translate(var(--xValue), -24rem);
 }
 .sidebar__illustration-connector {
   position: absolute;
   display: flex;
   align-items: center;
-  animation: nodetext 3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  animation: nodetext 5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
 }
 .sidebar__illustration-connector > span {
   color: #A0A0A0;

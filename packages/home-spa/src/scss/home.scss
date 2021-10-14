@@ -147,7 +147,7 @@
     box-shadow: 0px 3px 6px #00000029;
     padding: 1.5rem;
     border-radius: toRem(20);
-    width: toRem(584);
+    max-width: toRem(584);
     &-console-link {
       padding: .5rem;
       color: #FFFFFF;
@@ -168,6 +168,7 @@
     &-cards {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
     }
     &-card {
       border: 1px solid #D2D2D2;
@@ -186,11 +187,10 @@
   }
 }
 
-@media (max-width: toRem(1150)) {
+@media (max-width: toRem(1110)) {
   .deliver {
     display: flex;
-  }
-  .sidebar__illustration {
-    display: none;
+    flex-direction: column-reverse;
+    align-items: center;
   }
 }
