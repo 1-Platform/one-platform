@@ -1,0 +1,76 @@
+---
+title: Contact Us
+layout: 'layout/base.njk'
+---
+<script>
+const contactUsTeamBlock = () => {
+  const teamBlock = document.querySelector('#team-block');
+  if ( teamBlock !== null ) {
+    getData( getContactUsTeamDetails ).then( ( result ) => {
+        const teamMembers = result.data.group.members.sort((a, b) =>
+          a.cn.localeCompare(b.cn)
+        );
+      teamBlock.innerHTML = teamMembers
+        .map((member) => {
+          return `
+      <div class="team-block__list--item">
+          <img src="/res/img/avatar.svg" alt="">
+          <span class="name">${member.cn}</span>
+          <span class="title">${member.rhatJobTitle}</span>
+      </div>`;
+        })
+        .join("");
+    } ).catch( ( err ) => {
+      console.error( err );
+      window.OpNotification.danger({ subject: err.message });
+    })
+  }
+}
+window.OpAuthHelper.onLogin(() => {
+  contactUsTeamBlock();
+});
+</script>
+<div class="container margin-auto">
+  <div class="contact-block">
+    <div class="contact-block__left">
+      <div class="contact-block__left--header">
+        CONTACT US
+      </div>
+      <div class="contact-block__mail-list">
+        <div class="contact-block__mail-list--block">
+          <span>PUBLIC LIST</span>
+          <a href="mailto:one-portal@redhat.com">one-portal@redhat.com</a>
+        </div>
+        <div class="contact-block__mail-list--block">
+          <span>STAKEHOLDERS</span>
+          <a href="mailto:one-portal-stakeholders@redhat.com">one-portal-stakeholders@redhat.com</a>
+        </div>
+        <div class="contact-block__mail-list--block">
+          <span>DEVELOPERS LIST</span>
+          <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>
+        </div>
+        <div class="contact-block__mail-list--block">
+          <span>CHAMPIONS LIST</span>
+          <a href="mailto:one-portal-champions@redhat.com">one-portal-champions@redhat.com</a>
+        </div>
+        <div class="contact-block__mail-list--block">
+          <span>PRODUCT OWNER</span>
+          <a href="mailto:npatil@redhat.com">npatil@redhat.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="contact-block__right">
+      <img src="../static/img/co-working.svg" alt="co-working">
+    </div>
+  </div>
+  <div class="team-block">
+    <h2>TEAM</h2>
+    <div class="team-block__list" id="team-block">
+      <span class="pf-c-spinner" role="progressbar" aria-label="Loading...">
+        <span class="pf-c-spinner__clipper"></span>
+        <span class="pf-c-spinner__lead-ball"></span>
+        <span class="pf-c-spinner__tail-ball"></span>
+      </span>
+    </div>
+  </div>
+</div>

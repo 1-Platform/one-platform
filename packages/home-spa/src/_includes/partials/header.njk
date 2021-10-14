@@ -1,0 +1,21 @@
+<script src="https://unpkg.com/@one-platform/opc-nav@0.0.2-prerelease/dist/opc-nav.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-menu-drawer@0.1.1-prerelease/dist/opc-menu-drawer.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-feedback@0.0.9-prerelease/dist/opc-feedback.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-notification-drawer@0.1.1-prerelease/dist/opc-notification-drawer.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-base@1.0.2-beta/dist/umd/opc-base.js"></script>
+<script src="https://unpkg.com/@one-platform/opc-base@1.0.2-beta/dist/umd/opc-provider.js"></script>
+<script>
+  opcBase.configure({
+    apiBasePath: '{{ env.API_URL }}',
+    subscriptionsPath: '{{ env.OP_SUBSCRIPTIONS_URL }}',
+    keycloakUrl: '{{ env.KEYCLOAK_IDP_URL }}',
+    keycloakClientId: '{{ env.KEYCLOAK_CLIENT_ID }}',
+    keycloakRealm: '{{ env.KEYCLOAK_REALM }}',
+  })
+</script>
+<opc-provider>
+  <opc-nav></opc-nav>
+  <opc-menu-drawer></opc-menu-drawer>
+  <opc-notification-drawer></opc-notification-drawer>
+  <opc-feedback theme="blue"></opc-feedback>
+</opc-provider>

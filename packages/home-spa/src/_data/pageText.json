@@ -1,0 +1,24 @@
+{
+  "main": {
+      "title": "Develop • Deploy • Deliver",
+      "paragraph": "One Platform provides a fast way to develop, deploy and deliver application to your users.",
+      "stats": [
+          {
+              "title": "Apps Deployed",
+              "value": "164+"
+          },
+          {
+              "title": "Deployments/month",
+              "value": "624+"
+          },
+          {
+              "title": "Avg. time to deploy",
+              "value": "3min"
+          },
+          {
+              "title": "Avg. time saved",
+              "value": "9hours 38min"
+          }
+      ]
+  }
+}

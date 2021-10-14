@@ -1,0 +1,20 @@
+<section class="services">
+  {%- for microservice in microservices -%}
+    <div class="services__service">
+      <div class="services__service-img">
+        <img src="{{ microservice.icon }}" alt="microservice-image" />
+      </div>
+      <div class="services__service-text">
+        <div class="services__service-info">
+          <h3 class="services__service-title">
+            {{ microservice.name }}
+          </h3>
+          <p class="services__service-description">
+            {{ microservice.description }}
+          </p>
+          <a href="{{ microservice.link }}">Learn more</a>
+        </div>
+      </div>
+   </div>
+  {%- endfor -%}
+</section>

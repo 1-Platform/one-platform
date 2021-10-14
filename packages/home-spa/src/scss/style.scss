@@ -1,0 +1,24 @@
+@import './404.scss';
+@import './contact-us.scss';
+@import './home.scss';
+@import url('https://fonts.googleapis.com/css?family=Red+Hat+Text&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Red Hat Text', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1250px;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+

@@ -1,0 +1,51 @@
+<script>
+  const getHomeTypeBySPA = `
+  query HomePageQuery {
+    apps {
+      id
+      applicationType
+      name
+      icon
+      isActive
+      path
+    }
+  }`;
+
+const getContactUsTeamDetails = `
+query ContactUsQuery{
+  group (cn:"one-portal-devel") {
+    members {
+      cn
+      rhatJobTitle
+    }
+  }
+}
+`;
+
+function handleError ( response ) {
+   if (!response.ok) {
+     throw Error(response.statusText);
+   }
+   return response;
+}
+
+function getData(query) {
+  const fetchOptions = {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${window.OpAuthHelper?.jwtToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  };
+  return fetch( '{{ env.API_URL }}', fetchOptions )
+    .then( handleError )
+    .then( ( res ) => res.json() )
+    .catch( ( err ) => { 
+      console.error( err );
+      window.OpNotification.danger({ subject: err.message });
+    } );
+}
+</script>
