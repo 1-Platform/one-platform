@@ -13,8 +13,8 @@ window.OpAuthHelper.onLogin(() => {
 
 window.openAppDrawer = () => {
   try {
-    document.querySelector('opc-menu-drawer').open();
-  } catch(err) {
+    document.querySelector("opc-menu-drawer").open();
+  } catch (err) {
     return err;
   }
 };
@@ -22,11 +22,10 @@ window.openAppDrawer = () => {
 const applicationCards = (apps) => {
   const spaHTMLObject = document.querySelector("#apps");
   if (spaHTMLObject !== null) {
-      spaHTMLObject.innerHTML = apps
+    spaHTMLObject.innerHTML = apps
       .slice(0, 12)
-      .map(
-          (spa) => {
-              return `<a rel="noopener" class="app" href="${spa.path}">
+      .map((spa) => {
+        return `<a rel="noopener" class="app" href="${spa.path}">
               <div class="app__logo">
                 <img src="/static/img/app-cube-white.svg" alt="cube">
               </div>
@@ -35,8 +34,7 @@ const applicationCards = (apps) => {
                <span>${spa.applicationType.toLowerCase()}</span>
               </div>
              </a>`;
-          }
-      ).join('')
+      })
+      .join("");
   }
-}
-
+};

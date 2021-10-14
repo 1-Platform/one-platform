@@ -1,4 +1,4 @@
-const dotenv = require('dotenv-safe');
+const dotenv = require("dotenv-safe");
 dotenv.config();
 
 module.exports.API_URL = process.env.API_URL;

@@ -15,7 +15,7 @@
     color: #000000;
     > span {
       font-style: italic;
-      color: #EE0000;
+      color: #ee0000;
     }
   }
   &__description {
@@ -39,8 +39,8 @@
       background-color: #ffffff;
       border: none;
       margin: auto;
-      color: #0066CC;
-      padding: .5rem 1rem;
+      color: #0066cc;
+      padding: 0.5rem 1rem;
     }
   }
   .apps {
@@ -49,9 +49,9 @@
     flex-wrap: wrap;
     justify-content: center;
     .app {
-      margin: .5rem;
+      margin: 0.5rem;
       display: flex;
-      border: 1px solid #DDDDDD;
+      border: 1px solid #dddddd;
       border-radius: 5px;
       padding: 0.8rem 1.5rem 0.6rem 1rem;
       width: toRem(260);
@@ -70,10 +70,10 @@
         h3 {
           color: #000000;
           font-size: toRem(18);
-          line-height: .9;
+          line-height: 0.9;
         }
         span {
-          color: #6A6E73;
+          color: #6a6e73;
           font-size: toRem(12);
           text-transform: capitalize;
         }
@@ -124,7 +124,7 @@
     &-img {
       display: grid;
       place-items: center;
-      background-color: #F0F0F0;
+      background-color: #f0f0f0;
       border-radius: toRem(20);
       width: 25rem;
       height: 18rem;
@@ -149,17 +149,17 @@
     border-radius: toRem(20);
     max-width: toRem(584);
     &-console-link {
-      padding: .5rem;
-      color: #FFFFFF;
-      background-color: #0066CC;
-      margin: .5rem;
+      padding: 0.5rem;
+      color: #ffffff;
+      background-color: #0066cc;
+      margin: 0.5rem;
     }
     &-view-more {
-      margin: .5rem;
+      margin: 0.5rem;
     }
     &-title {
       font-size: toRem(28);
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
     }
     &-description {
       text-align: center;
@@ -171,10 +171,10 @@
       justify-content: center;
     }
     &-card {
-      border: 1px solid #D2D2D2;
+      border: 1px solid #d2d2d2;
       border-radius: 5px;
       width: 15rem;
-      margin: .5rem;
+      margin: 0.5rem;
       padding: 1rem;
       span {
         font-size: toRem(12);

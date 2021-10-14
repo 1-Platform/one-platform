@@ -1,71 +1,71 @@
 .banner {
-    text-align: center;
-    margin-top: 8rem;
-    margin-bottom: 8rem;
-    &__404 {
-        img {
-            height: 11rem;
-        }
-        margin-bottom: 2rem;
+  text-align: center;
+  margin-top: 8rem;
+  margin-bottom: 8rem;
+  &__404 {
+    img {
+      height: 11rem;
     }
-    &__text-block--medium {
-        h1 {
-            font-size: 2.5rem;
-            margin: 0 0 2rem 0;
-            color: #151515;
-        }
+    margin-bottom: 2rem;
+  }
+  &__text-block--medium {
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 2rem 0;
+      color: #151515;
     }
-    &__text-block--normal {
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-        color: #151515;
+  }
+  &__text-block--normal {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #151515;
+  }
+  &__links-below {
+    font-size: 1.4rem;
+    color: #151515;
+    margin: 2rem 0 1rem 0;
+  }
+  & > a {
+    display: inline-block;
+    i {
+      margin-left: 0.5rem;
+      transition: all 320ms ease-in-out;
     }
-    &__links-below {
-        font-size: 1.4rem;
-        color: #151515;
-        margin: 2rem 0 1rem 0;
+    &:hover {
+      i {
+        transform: translateX(3px);
+      }
     }
-    &>a {
-        display: inline-block;
-        i {
-            margin-left: 0.5rem;
-            transition: all 320ms ease-in-out;
-        }
-        &:hover {
-            i {
-                transform: translateX(3px);
-            }
-        }
+  }
+  &__links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 20px;
+    a {
+      text-decoration: none;
+      color: #151515;
+      margin: 0 1rem;
+      position: relative;
+      padding: 0.6rem 0.6rem;
+      i {
+        margin-right: 0.5rem;
+      }
     }
-    &__links {
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        font-size: 20px;
-        a {
-            text-decoration: none;
-            color: #151515;
-            margin: 0 1rem;
-            position: relative;
-            padding: 0.6rem 0.6rem;
-            i {
-                margin-right: 0.5rem;
-            }
-        }
-        a::before {
-            content: '';
-            background-color: #151515;
-            height: 1px;
-            width: 0;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            transition: all 320ms ease-in-out;
-        }
-        a:hover::before {
-            left: 0;
-            width: 100%;
-        }
+    a::before {
+      content: "";
+      background-color: #151515;
+      height: 1px;
+      width: 0;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      transition: all 320ms ease-in-out;
     }
+    a:hover::before {
+      left: 0;
+      width: 100%;
+    }
+  }
 }
