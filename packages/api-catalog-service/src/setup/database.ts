@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { MONGO_URL } from './env';
+import Logger from '../lib/logger';
 
 /* Retry connection */
 const connectWithRetry = async () => mongoose.connect(
@@ -14,16 +15,16 @@ const connectWithRetry = async () => mongoose.connect(
 
 /* Connect database */
 export default async () => {
-  process.stdout.write('Database connection initiated.\n');
+  Logger.info('Database connection initiated.\n');
   await connectWithRetry();
-  process.stdout.write('Database connected.\n');
+  Logger.info('Database connected.\n');
 };
 
 /* Handle connection error */
 mongoose.connection.on('error', (error) => {
-  process.stdout.write(`ERROR - Connection failed: ${error.message}\n`);
+  Logger.info(`ERROR - Connection failed: ${error.message}\n`);
   setTimeout(async () => {
-    process.stdout.write('SETUP - Connecting database.. retrying..\n');
+    Logger.info('SETUP - Connecting database.. retrying..\n');
     await connectWithRetry();
   }, 5000);
 });

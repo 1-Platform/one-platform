@@ -1,10 +1,11 @@
 import { Agenda } from 'agenda';
+import Logger from '../../lib/logger';
 import database from '../../setup/database';
 import { MONGO_URL } from '../../setup/env';
 import checkAPIHash from './cron';
 
 export default function initializeAgenda(): void {
-  process.stdout.write('SETUP - Agenda for cron scripts..\n');
+  Logger.info('SETUP - Agenda for cron scripts..\n');
   const agenda = new Agenda({
     db: {
       address: MONGO_URL,

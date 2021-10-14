@@ -1,16 +1,17 @@
 import dotenv from 'dotenv-safe';
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
-import { mergeSchemas } from 'graphql-tools';
-import http from 'http';
+import { mergeSchemas } from '@graphql-tools/schema';
 import cookieParser = require('cookie-parser');
 import NamespaceResolver from './src/namespace/resolver';
 import NamespaceSchema from './src/namespace/typedef.graphql';
 import SharedSchema from './src/shared/typedef.graphql';
 import database from './src/setup/database';
 import initializeAgenda from './src/shared/cron';
+import Logger from './src/lib/logger';
+import { NODE_ENV } from './src/setup/env';
 
-if (process.env.NODE_ENV === 'test') {
+if (NODE_ENV === 'test') {
   dotenv.config({ path: '.test.env' });
 } else {
   dotenv.config();
@@ -32,19 +33,11 @@ app.use(cookieParser());
 }());
 
 /* Defining the Apollo Server */
-const apollo = new ApolloServer({
+const apolloServer = new ApolloServer({
   schema: mergeSchemas({
-    schemas: [
-      SharedSchema,
-      NamespaceSchema,
-    ],
-    resolvers: [
-      NamespaceResolver,
-    ],
+    typeDefs: [SharedSchema, NamespaceSchema],
+    resolvers: [NamespaceResolver],
   }),
-  subscriptions: {
-    path: '/subscriptions',
-  },
   formatError: (error) => ({
     message: error.message,
     locations: error.locations,
@@ -53,16 +46,10 @@ const apollo = new ApolloServer({
   }),
 });
 
-/* Applying apollo middleware to express server */
-apollo.applyMiddleware({ app });
+apolloServer.start().then(() => {
+  apolloServer.applyMiddleware({ app });
+});
 
-/*  Creating the server based on the environment */
-const server = http.createServer(app);
-
-// Installing the apollo ws subscription handlers
-apollo.installSubscriptionHandlers(server);
-
-// Api Catalog Microservice
-export default server.listen({ port }, () => {
-  process.stdout.write(`API Catalog Microservice running on ${process.env.NODE_ENV} at ${port}${apollo.graphqlPath}\n`);
+export default app.listen({ port }, () => {
+  Logger.info(`API Catalog Microservice running on ${NODE_ENV} at ${port}\n`);
 });

@@ -73,7 +73,7 @@ mutation DeleteNamespace($id: ID!) {
 beforeAll(() => {
   request = supertest.agent(ApiCatalog);
 });
-afterAll((done) => ApiCatalog.close(done));
+afterAll(() => ApiCatalog.close());
 
 describe('API Catalog Microservice API Tests', () => {
   it('ListNamespaces should return all namespaces', (done) => {
