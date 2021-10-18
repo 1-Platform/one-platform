@@ -66,10 +66,14 @@ const NamespaceResolver = {
               const userData: UserType[] = await APICatalogHelper.fetchUserProfile(userQuery);
               // Assign the parsed user information with the fields.
               if (namespace.createdBy) {
-                nsRecord.createdBy = userData.find((user) => user?.rhatUUID === namespace?.createdBy)?.mail;
+                nsRecord.createdBy = userData.find(
+                  (user) => user?.rhatUUID === namespace?.createdBy,
+                )?.mail;
               }
               if (namespace.updatedBy) {
-                nsRecord.updatedBy = userData.find((user) => user?.rhatUUID === namespace?.updatedBy)?.mail;
+                nsRecord.updatedBy = userData.find(
+                  (user) => user?.rhatUUID === namespace?.updatedBy,
+                )?.mail;
               }
               return nsRecord;
             }
@@ -78,12 +82,24 @@ const NamespaceResolver = {
       }
       throw new Error('Please provide valid id');
     },
-    async fetchAPISchema(root: any, { category, schemaEndpoint, headers }: FetchApiSchemaArgs, ctx: any) {
-      return APICatalogHelper.fetchSchema(category as ApiCategory, schemaEndpoint as string, headers as HeaderType[]);
+    async fetchAPISchema(
+      root: any,
+      { category, schemaEndpoint, headers }: FetchApiSchemaArgs,
+      ctx: any,
+    ) {
+      return APICatalogHelper.fetchSchema(
+        category as ApiCategory,
+        schemaEndpoint as string,
+        headers as HeaderType[],
+      );
     },
   },
   Mutation: {
-    async createNamespace(root: any, { payload }: CreateNamespaceArgs, ctx: any) {
+    async createNamespace(
+      root: any,
+      { payload }: CreateNamespaceArgs,
+      ctx: any,
+    ) {
       const namespace = payload;
       if (!payload?.createdOn) {
         namespace.createdOn = new Date();
@@ -107,7 +123,11 @@ const NamespaceResolver = {
     deleteNamespace(root: any, { id }: DeleteNamespaceArgs, ctx: any) {
       return Namespace.findByIdAndRemove(id).exec();
     },
-    async addNamespaceSubscriber(root: any, { id, payload }: AddNamespaceSubscriberArgs, ctx: any) {
+    async addNamespaceSubscriber(
+      root: any,
+      { id, payload }: AddNamespaceSubscriberArgs,
+      ctx: any,
+    ) {
       return Namespace.findOneAndUpdate(
         {
           _id: id,
@@ -120,7 +140,11 @@ const NamespaceResolver = {
         { upsert: true, new: true },
       ).exec();
     },
-    async removeNamespaceSubscriber(root: any, { id, payload }: RemoveNamespaceSubscriberArgs, ctx: any) {
+    async removeNamespaceSubscriber(
+      root: any,
+      { id, payload }: RemoveNamespaceSubscriberArgs,
+      ctx: any,
+    ) {
       return Namespace.findOneAndUpdate(
         {
           _id: id,
