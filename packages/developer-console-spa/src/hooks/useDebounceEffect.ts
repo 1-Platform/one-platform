@@ -1,17 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-export default function useDebounceEffect (effect: () => any, deps: any[], delay = 1000) {
-  useEffect( () => {
+export default function useDebounceEffect(
+  effect: () => any,
+  deps: any[],
+  delay = 1000
+) {
+  useEffect(() => {
     let cleanup: any;
 
-    const handler = setTimeout( () => {
+    const handler = setTimeout(() => {
       cleanup = effect();
-    }, delay );
+    }, delay);
 
     return () => {
-      clearTimeout( handler );
+      clearTimeout(handler);
       return cleanup;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [...deps, delay])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...deps, delay]);
 }

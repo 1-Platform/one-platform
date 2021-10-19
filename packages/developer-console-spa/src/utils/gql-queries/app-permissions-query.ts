@@ -1,6 +1,6 @@
-export const appPermissionsQuery = /* GraphQL */`
+export const appPermissionsQuery = /* GraphQL */ `
   query ($appId: String!) {
-    app (appId: $appId) {
+    app(appId: $appId) {
       appId
       permissions {
         name

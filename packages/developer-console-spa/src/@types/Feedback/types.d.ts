@@ -1,22 +1,22 @@
 declare namespace App {
   declare type FeedbackConfig = {
-    isEnabled: boolean
-    sourceType: FeedbackSource
-    sourceApiUrl: string
-    sourceHeaders: FeedbackSourceHeader[]
-    projectKey: string
-    feedbackEmail: string
-  }
+    isEnabled: boolean;
+    sourceType: FeedbackSource;
+    sourceApiUrl: string;
+    sourceHeaders: FeedbackSourceHeader[];
+    projectKey: string;
+    feedbackEmail: string;
+  };
 
   type FeedbackSourceHeader = {
-    key: string
-    value: string
-  }
+    key: string;
+    value: string;
+  };
 
   declare const enum FeedbackSource {
-    JIRA = 'JIRA',
-    GITHUB = 'GITHUB',
-    GITLAB = 'GITLAB',
-    EMAIL = 'EMAIL'
+    JIRA = "JIRA",
+    GITHUB = "GITHUB",
+    GITLAB = "GITLAB",
+    EMAIL = "EMAIL",
   }
 }

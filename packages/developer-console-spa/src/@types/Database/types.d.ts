@@ -10,5 +10,5 @@ declare namespace App {
       admins: string[];
       users: string[];
     };
-  }
+  };
 }

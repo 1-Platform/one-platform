@@ -1,4 +1,4 @@
-export const appDatabaseConfig = /* GraphQL */`
+export const appDatabaseConfig = /* GraphQL */ `
   query ($appId: String!) {
     app(appId: $appId) {
       appId
