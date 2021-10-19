@@ -12,7 +12,8 @@
     "target": "es2015",
     "module": "es2020",
     "lib": ["es2018", "dom", "esnext.asynciterable"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
