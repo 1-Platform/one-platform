@@ -14,7 +14,13 @@ export const environment = {
    API_URL: '${process.env.API_URL}',
    WS_URL: '${process.env.WS_URL}',
    LH_SERVER_URL: '${process.env.LH_SERVER_URL}',
-   LH_CONTACT_MAIL: '${process.env.LH_CONTACT_MAIL}'
+   LH_CONTACT_MAIL: '${process.env.LH_CONTACT_MAIL}',
+   OPCBASE_API_BASE_PATH: '${process.env.OPCBASE_API_BASE_PATH}',
+   OPCBASE_SUBSCRIPTION_BASE_PATH: '${process.env.OPCBASE_SUBSCRIPTION_BASE_PATH}',
+   OPCBASE_KEYCLOAK_URL: '${process.env.OPCBASE_KEYCLOAK_URL}',
+   OPCBASE_KEYCLOAK_CLIENT_ID: '${process.env.OPCBASE_KEYCLOAK_CLIENT_ID}' ,
+   OPCBASE_KEYCLOAK_REALM: '${process.env.OPCBASE_KEYCLOAK_REALM}',
+
 };
 `;
 // write the content to the respective file

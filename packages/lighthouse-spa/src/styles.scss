@@ -3,6 +3,10 @@
   color: var(--pf-global--palette--red-100);
 }
 
+opc-feedback {
+  --op-feedback__z-index: 8;
+}
+
 .pf-c-nav__link.pf-m-current {
   --pf-c-nav__link--m-current--Color: #2866cc;
   --pf-c-nav__link--m-current--BackgroundColor: #2866cc1a;
