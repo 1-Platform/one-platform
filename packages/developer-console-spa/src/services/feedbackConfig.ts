@@ -1,7 +1,7 @@
 import { updateApp } from '../utils/gql-queries';
 import gqlClient from '../utils/gqlClient';
 
-export const updateFeedbackConfigService = async ( id: string, feedback: any ) => {
+export const updateFeedbackConfigService = async ( id: string, feedback: Partial<App.FeedbackConfig> ) => {
   return gqlClient( {
     query: updateApp,
     variables: {

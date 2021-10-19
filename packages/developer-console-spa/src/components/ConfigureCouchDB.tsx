@@ -5,8 +5,6 @@ import CreateDBForm from './couchdb/CreateDBForm';
 import Header from './Header';
 import Loader from './Loader';
 import { ReactComponent as StorageIcon } from '../assets/storage_black_24dp.svg';
-import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
-import { Database } from '../types';
 
 function ConfigureCouchDB ( props: any ) {
   const { app, loading: appLoading, forceRefreshApp } = useContext( AppContext );
@@ -32,7 +30,7 @@ function ConfigureCouchDB ( props: any ) {
     return string.replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
   };
 
-  const filteredDBs = app.database?.databases.filter( ( db: Database ) => db.name.includes(escapeString( searchTerm.trim() )) );
+  const filteredDBs = app.database.databases.filter( db => db.name.includes(escapeString( searchTerm.trim() )) );
 
   const openCreateDBForm = () => {
     setIsCreateDBFormOpen( true );
@@ -115,27 +113,32 @@ function ConfigureCouchDB ( props: any ) {
                     } }>
                     {
                         filteredDBs
-                          .map( ( db: Database ) => {
+                          .map( db => {
                           return <GalleryItem key={ db.name }>
                             <Card className="couch-db--card">
                               <CardHeader>
                                 <CardActions>
                                   <Dropdown
                                     onSelect={ onCardMenuSelect }
-                                    toggle={ <KebabToggle className="" onToggle={ () => { onCardMenuToggle( db.name ) } } /> }
+                                    toggle={ <KebabToggle onToggle={ () => { onCardMenuToggle( db.name ); } } /> }
                                     isOpen={ expandedMenuCardId ===  db.name }
                                     isPlain
-                                    dropdownItems={ dropdownItems(db) }
+                                    dropdownItems={ dropdownItems( db.name ) }
                                     position={'right'}
                                   />
                                 </CardActions>
                                 <CardTitle>
-                                  { db.name }
+                                  { db }
                                 </CardTitle>
                               </CardHeader>
-                              <CardBody>{ db.description || 'No description' }</CardBody>
+                              <CardBody>{ 'No description' }</CardBody>
                               <CardFooter>
-                                <Button variant="link">Open Fauxton GUI &nbsp; <ExternalLinkAltIcon/></Button>
+                                <Button
+                                  variant="link"
+                                  icon={ <ion-icon name="open-outline"></ion-icon> }
+                                  iconPosition="right">
+                                  Open Fauxton GUI
+                                </Button>
                               </CardFooter>
                             </Card>
                           </GalleryItem>

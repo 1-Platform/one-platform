@@ -4,7 +4,7 @@ type GQLRequestProps = {
   operationName?: any;
 };
 
-export default function gqlClient ( { query, variables }: GQLRequestProps, signal?: any ) {
+export default function gqlClient ( { query, variables }: GQLRequestProps, signal?: AbortSignal ) {
   if ( !signal ) {
     const abortController = new AbortController();
     signal = abortController.signal;
@@ -17,7 +17,7 @@ export default function gqlClient ( { query, variables }: GQLRequestProps, signa
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${window.OpAuthHelper?.jwtToken}`
+      Authorization: `Bearer ${ window.OpAuthHelper?.jwtToken }`,
     },
     body: JSON.stringify( {
       query,

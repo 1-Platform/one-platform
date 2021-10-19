@@ -34,7 +34,7 @@ function App() {
               <Route path="/:appId/couchdb" component={ ConfigureCouchDB } exact />
               <Route path="/:appId/notifications" component={ UnderDevelopment } exact />
               <Route path="/:appId/user-groups" component={ UnderDevelopment } exact />
-              <Route path="/:appId/settings" component={ AppSettings } exact />
+              <Route path="/:appId/settings" component={ AppSettings } />
               <Route path="*" component={ NotFound } />
             </Switch>
           </AppConsoleShell>

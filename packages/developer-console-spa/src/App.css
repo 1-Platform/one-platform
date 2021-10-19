@@ -27,3 +27,7 @@
 a {
   text-decoration: none;
 }
+
+ion-icon {
+  margin-bottom: -3px;
+}

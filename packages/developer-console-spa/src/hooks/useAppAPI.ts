@@ -1,35 +1,29 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { appByAppId } from "../utils/gql-queries/app-by-appid";
-import gqlClient from "../utils/gqlClient";
-import { App } from "types";
+import { useEffect, useState } from 'react';
+import { appByAppId } from '../utils/gql-queries/app-by-appid';
+import gqlClient from '../utils/gqlClient';
 
-export default function useAppAPI(appId: string): {
-  app: App | {};
-  loading: boolean;
-  setApp: Dispatch<SetStateAction<any>>;
-} {
-  const [ app, setApp ] = useState <App | {}>({});
-  const [loading, setLoading] = useState<boolean>(true);
+export default function useAppAPI ( appId: string ) {
+  const [ app, setApp ] = useState<App>( {} as App );
+  const [ loading, setLoading ] = useState<boolean>( true );
 
-  useEffect(() => {
+  useEffect( () => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    setLoading(true);
+    setLoading( true );
 
-    gqlClient({ query: appByAppId, variables: { appId } }, signal).then(
-      (res) => {
-        if (!res?.data?.app) {
-          setLoading(false);
+    gqlClient( { query: appByAppId, variables: { appId } }, signal )
+      .then( res => {
+        if ( !res?.data?.app ) {
+          setLoading( false );
           return;
         }
-        setApp(res.data.app);
-        setLoading(false);
-      }
-    );
+        setApp( res.data.app );
+        setLoading( false );
+      } );
 
     return () => abortController.abort();
-  }, [appId]);
+  }, [ appId ] );
 
   return { app, loading, setApp };
 }

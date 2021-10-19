@@ -1,9 +1,8 @@
 import { Button, Nav, NavItem, NavList, OptionsMenu, OptionsMenuItem, OptionsMenuToggle, Title } from '@patternfly/react-core';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import useMyAppsAPI from '../hooks/useMyAppsAPI';
-import { App } from "types";
 import './Sidebar.css';
 
 function Sidebar () {
@@ -16,17 +15,22 @@ function Sidebar () {
 
   const [ appsListOpen, setAppsListOpen ] = useState<boolean>();
 
+  const handleSelect = useCallback( ( appId: string ) => {
+    setApp( appId );
+    setAppsListOpen( false );
+  }, [ setApp ] );
+
   useEffect( () => {
-    setAppMenuOptions( apps.map( (app: App) => (
+    setAppMenuOptions( apps.map( ({ id, name, appId: appSlug }) => (
       <OptionsMenuItem
-        key={ app.id }
-        id={ app.id }
-        isSelected={ app.appId === appId }
-        onSelect={ () => {setApp( app.appId ); setAppsListOpen( false )} }>
-        { app.name }
+        key={ id }
+        id={ id }
+        isSelected={ appSlug === appId }
+        onSelect={ () => handleSelect( appSlug ) }>
+        { name }
       </OptionsMenuItem>
     ) ) );
-  }, [ apps, appId, setApp, setAppsListOpen ] );
+  }, [apps, appId, handleSelect] );
 
   const appsMenuToggle = <OptionsMenuToggle onToggle={ () => {setAppsListOpen( !appsListOpen )} } toggleTemplate={ loading ? 'Loading...' : app?.name }></OptionsMenuToggle>;
 

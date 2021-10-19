@@ -1,11 +1,9 @@
-import { pick } from 'lodash';
-import { deleteApp, updateApp } from '../utils/gql-queries';
+import { deleteApp, updateApp, updateAppPermissions } from '../utils/gql-queries';
 import gqlClient from '../utils/gqlClient';
 
-export const updateAppService = async ( updatedApp: any ) => {
+export const updateAppService = async ( id: string, app: Partial<App> ) => {
   try {
-    const app = pick( updatedApp, [ 'name', 'path', 'description' ] );
-    const res = await gqlClient( { query: updateApp, variables: { id: updatedApp.id, app } } );
+    const res = await gqlClient( { query: updateApp, variables: { id, app } } );
     if ( res.errors && !res?.data?.updateApp ) {
       const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
       throw new Error( errMessage );
@@ -24,6 +22,19 @@ export const deleteAppService = async ( id: string ) => {
       throw new Error( errMessage );
     }
     return res.data.deleteApp;
+  } catch ( err ) {
+    throw err;
+  }
+}
+
+export const updateAppPermissionsService = async ( id: string, permissions: App.Permission[] ) => {
+  try {
+    const res = await gqlClient( { query: updateAppPermissions, variables: { id, permissions } } );
+    if ( res.errors && !res?.data?.updateApp ) {
+      const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
+      throw new Error( errMessage );
+    }
+    return res.data.updateApp;
   } catch ( err ) {
     throw err;
   }

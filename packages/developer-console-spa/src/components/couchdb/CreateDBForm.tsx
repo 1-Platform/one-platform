@@ -4,7 +4,7 @@ import { appByAppId, createAppDatabase } from '../../utils/gql-queries';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { CreateDBProps } from 'types';
+import { Dispatch, SetStateAction } from 'react';
 
 interface IDBInput {
   dbname: string;
@@ -15,6 +15,14 @@ const appSchema = yup.object().shape( {
   dbname: yup.string().required(),
   description: yup.string(),
 } );
+
+interface CreateDBProps {
+  isCreateDBFormOpen?: boolean,
+  appId: string,
+  appUniqueId: string,
+  setIsCreateDBFormOpen: Dispatch<SetStateAction<boolean>>,
+  forceRefreshApp: Dispatch<SetStateAction<App>>;
+}
 
 const  CreateDBForm = (props: CreateDBProps) => {
   const { control, handleSubmit, formState: { errors, isValid }, reset } = useForm<IDBInput>( {
@@ -34,7 +42,8 @@ const  CreateDBForm = (props: CreateDBProps) => {
 
   function submitForm ( db: IDBInput ) {
     gqlClient( {
-      query: createAppDatabase, variables: {
+      query: createAppDatabase,
+      variables: {
         databaseName: db.dbname,
         id: props.appUniqueId,
         description: db.description

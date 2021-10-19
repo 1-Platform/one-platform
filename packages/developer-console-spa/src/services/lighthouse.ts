@@ -1,17 +1,16 @@
+import gqlClient from '../utils/gqlClient';
 import { listLHProjects } from '../utils/gql-queries/list-lh-projects';
 import { createLHProject } from '../utils/gql-queries/create-lh-projects';
 import { listLHProjectBranches } from '../utils/gql-queries/list-lh-projects-branches';
 import { addLHSpaConfig } from '../utils/gql-queries/create-lh-spa-config';
 import { deleteLHSPAConfig } from '../utils/gql-queries/delete-lh-spa-config';
-import gqlClient from '../utils/gqlClient';
 import { LHSpaConfigByAppId } from '../utils/gql-queries/lh-spa-config-by-appId';
-import { LHConfigType } from 'types';
 
 export const getLHProjects = async () => {
-    return gqlClient({
-        query: listLHProjects,
-        variables: { limit: 9999 }
-    } )
+  return gqlClient( {
+    query: listLHProjects,
+    variables: { limit: 9999 },
+  } )
     .then( res => {
       if ( res.errors && !res?.data?.listLHProjects?.rows ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
@@ -23,15 +22,15 @@ export const getLHProjects = async () => {
       console.error( err );
       throw err;
     } );
-}
+};
 
-export const createLightHouseProjects = async (project: any) => {
-    return gqlClient({
-        query: createLHProject,
-        variables: {
-            project: project
-        }
-    } )
+export const createLightHouseProjects = async ( project: Partial<Lighthouse.Project> ) => {
+  return gqlClient( {
+    query: createLHProject,
+    variables: {
+      project: project,
+    }
+  } )
     .then( res => {
       if ( res.errors && !res?.data?.createLHProject ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
@@ -43,14 +42,12 @@ export const createLightHouseProjects = async (project: any) => {
       console.error( err );
       throw err;
     } );
-}
-export const getLHProjectBranches = async (projectId: string) => {
-    return gqlClient({
-        query: listLHProjectBranches,
-        variables: {
-            projectId
-        }
-    } )
+};
+export const getLHProjectBranches = async ( projectId: string ) => {
+  return gqlClient( {
+    query: listLHProjectBranches,
+    variables: { projectId },
+  } )
     .then( res => {
       if ( res.errors && !res?.data?.listLHProjectBranches?.rows ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
@@ -62,14 +59,14 @@ export const getLHProjectBranches = async (projectId: string) => {
       console.error( err );
       throw err;
     } );
-}
-export const createLHSpaConfig = async (config: LHConfigType) => {
-    return gqlClient({
-        query: addLHSpaConfig,
-        variables: {
-            lhSpaConfig: config
-        }
-    } )
+};
+export const createLHSpaConfig = async ( config: Lighthouse.Config ) => {
+  return gqlClient( {
+    query: addLHSpaConfig,
+    variables: {
+      lhSpaConfig: config
+    },
+  } )
     .then( res => {
       if ( res.errors && !res?.data?.createLHSpaConfig ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
@@ -81,17 +78,15 @@ export const createLHSpaConfig = async (config: LHConfigType) => {
       console.error( err );
       throw err;
     } );
-}
-export const deleteLHSpaConfig = async ( id: string | null | undefined) => {
-    if ( id === ( null ||  undefined )) {
-      throw Error('Id can not be null');
-    }
-    return gqlClient({
-        query: deleteLHSPAConfig,
-        variables: {
-            id
-        }
-    } )
+};
+export const deleteLHSpaConfig = async ( id: string ) => {
+  if ( id === ( null || undefined ) ) {
+    throw Error( 'Id can not be null' );
+  }
+  return gqlClient( {
+    query: deleteLHSPAConfig,
+    variables: { id },
+  } )
     .then( res => {
       if ( res.errors && !res?.data?.deleteLHSpaConfig ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
@@ -103,15 +98,13 @@ export const deleteLHSpaConfig = async ( id: string | null | undefined) => {
       console.error( err );
       throw err;
     } );
-}
+};
 
-export const getLHSpaConfigByAppId = async (appId: any, signal: any) => {
-    return gqlClient({
-        query: LHSpaConfigByAppId,
-        variables: {
-            appId
-        }
-    }, signal )
+export const getLHSpaConfigByAppId = async ( appId: string, signal: AbortSignal ) => {
+  return gqlClient( {
+    query: LHSpaConfigByAppId,
+    variables: { appId },
+  }, signal )
     .then( res => {
       if ( res.errors && !res?.data?.getLHSpaConfigByAppId ) {
         const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
@@ -123,4 +116,4 @@ export const getLHSpaConfigByAppId = async (appId: any, signal: any) => {
       console.error( err );
       throw err;
     } );
-}
+};
