@@ -3,6 +3,7 @@
 export default /* GraphQL */`
 type Query {
   apps: [App]
+  allApps: [App]
   myApps: [App]
   findApps(selectors: FindAppInput!): [App]
   app(id: ID, appId: String): App
@@ -31,6 +32,7 @@ type App {
   applicationType: AppType
   contacts: AppContacts
   permissions: [AppPermissions]
+  hosting: AppHostingConfig
   feedback: AppFeedbackConfig
   search: AppMicroserviceConfig
   notifications: AppMicroserviceConfig
@@ -61,6 +63,7 @@ input CreateAppInput {
   applicationType: AppType
   contacts: AppContactsInput
   permissions: [AppPermissionsInput]
+  hosting: AppHostingConfigInput
   feedback: AppFeedbackConfigInput
   search: AppMicroserviceConfigInput
   notifications: AppMicroserviceConfigInput
@@ -77,6 +80,7 @@ input UpdateAppInput {
   applicationType: AppType
   contacts: AppContactsInput
   permissions: [AppPermissionsInput]
+  hosting: AppHostingConfigInput
   feedback: AppFeedbackConfigInput
   search: AppMicroserviceConfigInput
   notifications: AppMicroserviceConfigInput
@@ -114,6 +118,16 @@ input AppPermissionsInput {
 enum AppPermissionsRefType {
   User
   Group
+}
+type AppHostingConfig {
+  isEnabled: Boolean
+  path: String
+  refId: String
+}
+input AppHostingConfigInput {
+  isEnabled: Boolean
+  path: String!
+  refId: String!
 }
 type AppFeedbackConfig {
   isEnabled: Boolean
