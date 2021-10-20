@@ -29,6 +29,6 @@ export default css`
     --opc-app-layout__avatar-color: #316dc1;
     --opc-app-layout__nav-zIndex: 950;
     --opc-app-layout__drawer-zIndex: 975;
-    --opc-app-layout__feedback-zIndex:950;
+    --opc-app-layout__feedback-zIndex: 950;
   }
 `;
