@@ -1,4 +1,10 @@
+
 export const environment = {
-   API_URL: process.env.API_URL,
    production: false,
+   API_URL:'',
+   OPCBASE_API_BASE_PATH:'',
+   OPCBASE_SUBSCRIPTION_BASE_PATH:'',
+   OPCBASE_KEYCLOAK_URL:'',
+   OPCBASE_KEYCLOAK_CLIENT_ID: '',
+   OPCBASE_KEYCLOAK_REALM:''
 };
