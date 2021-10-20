@@ -2,49 +2,46 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <base href="%PUBLIC_URL%/">
+    <base href="%PUBLIC_URL%/" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="User Group SPA for the One Platform"
-    />
+    <meta name="description" content="User Group SPA for the One Platform" />
 
     <script defer>
-      ( function () {
-        const script = document.createElement( "script" );
+      (function () {
+        const script = document.createElement("script");
         script.type = "text/javascript";
         script.src = "%PUBLIC_URL%/config.js?timestamp=" + new Date().getTime();
-        document.write( script.outerHTML );
-      } )();
+        document.write(script.outerHTML);
+      })();
     </script>
     <title>User and Groups</title>
   </head>
   <body>
-     <!-- #region NavBar -->
-     <script src="https://unpkg.com/@one-platform/opc-nav@latest/dist/opc-nav.js"></script>
-     <script src="https://unpkg.com/@one-platform/opc-menu-drawer@latest/dist/opc-menu-drawer.js"></script>
-     <script src="https://unpkg.com/@one-platform/opc-feedback@latest/dist/opc-feedback.js"></script>
-     <script src="https://unpkg.com/@one-platform/opc-notification-drawer@latest/dist/opc-notification-drawer.js"></script>
-     <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-base.js"></script>
-     <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-provider.js"></script>
-     <script>
-       opcBase.configure( {
-         apiBasePath: "%REACT_APP_API_URL%",
-         subscriptionsPath: "%REACT_APP_OP_SUBSCRIPTIONS_URL%",
-         keycloakUrl: "%REACT_APP_KEYCLOAK_IDP_URL%",
-         keycloakClientId: "%REACT_APP_KEYCLOAK_CLIENT_ID%",
-         keycloakRealm: "%REACT_APP_KEYCLOAK_REALM%",
-       } );
-     </script>
-     <opc-provider>
-       <opc-nav></opc-nav>
-       <opc-menu-drawer></opc-menu-drawer>
-       <opc-notification-drawer></opc-notification-drawer>
-       <opc-feedback theme="blue"></opc-feedback>
-     </opc-provider>
-     <!-- #endregion NavBar -->
+    <!-- #region NavBar -->
+    <script src="https://unpkg.com/@one-platform/opc-nav@latest/dist/opc-nav.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-menu-drawer@latest/dist/opc-menu-drawer.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-feedback@latest/dist/opc-feedback.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-notification-drawer@latest/dist/opc-notification-drawer.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-base.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-provider.js"></script>
+    <script>
+      opcBase.configure({
+        apiBasePath: "%REACT_APP_API_URL%",
+        subscriptionsPath: "%REACT_APP_OP_SUBSCRIPTIONS_URL%",
+        keycloakUrl: "%REACT_APP_KEYCLOAK_IDP_URL%",
+        keycloakClientId: "%REACT_APP_KEYCLOAK_CLIENT_ID%",
+        keycloakRealm: "%REACT_APP_KEYCLOAK_REALM%",
+      });
+    </script>
+    <opc-provider>
+      <opc-nav></opc-nav>
+      <opc-menu-drawer></opc-menu-drawer>
+      <opc-notification-drawer></opc-notification-drawer>
+      <opc-feedback theme="blue"></opc-feedback>
+    </opc-provider>
+    <!-- #endregion NavBar -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 
