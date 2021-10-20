@@ -1,22 +1,17 @@
 {
   "name": "feedback-spa",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "PORT=4200 vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@one-platform/opc-base": "^1.0.2-beta",
-    "@one-platform/opc-feedback": "^0.0.9-prerelease",
     "@one-platform/opc-footer": "0.0.3-prerelease",
     "@one-platform/opc-header": "0.0.2-prerelease",
-    "@one-platform/opc-menu-drawer": "^0.1.1-prerelease",
-    "@one-platform/opc-nav": "^0.0.2-prerelease",
-    "@one-platform/opc-notification-drawer": "^0.1.1-prerelease",
     "apollo-link": "1.2.14",
     "core-js": "3.18.1",
     "jsonexport": "3.2.0",
