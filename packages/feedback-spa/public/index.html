@@ -29,13 +29,13 @@
     <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-base.js"></script>
     <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-provider.js"></script>
     <script>
-      opcBase.configure( {
+      opcBase.configure({
         apiBasePath: "<%= VUE_APP_GRAPHQL_HTTP %>",
         subscriptionsPath: "<%= VUE_APP_OPCBASE_SUBSCRIPTION_BASE_PATH %>",
         keycloakUrl: "<%= VUE_APP_KEYCLOAK_IDP_URL %>",
         keycloakClientId: "<%= VUE_APP_KEYCLOAK_CLIENT_ID %>",
         keycloakRealm: "<%= VUE_APP_KEYCLOAK_REALM %>",
-      } )
+      });
     </script>
     <opc-provider>
       <opc-nav></opc-nav>
