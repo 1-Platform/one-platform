@@ -162,6 +162,16 @@ Feedback only design consists of only the feedback button.
 <opc-provider isWarningHidden> </opc-provider>
 ```
 
+## CSS Variables
+
+| CSS Variable name                    | Value     |
+| ------------------------------------ | --------- |
+| `--opc-app-layout__avatar-bgx`       | #316dc11a |
+| `--opc-app-layout__avatar-color`     | #316dc1   |
+| ` --opc-app-layout__nav-zIndex`      | 950       |
+| ` --opc-app-layout__drawer-zIndex`   | 975       |
+| ` --opc-app-layout__feedback-zIndex` | 950       |
+
 ## Usage
 
 ### Install opc-provider
