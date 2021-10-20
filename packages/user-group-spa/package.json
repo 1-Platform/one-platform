@@ -1,6 +1,6 @@
 {
   "name": "user-group-spa",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "This package contains the react app for the One Platform User Group SPA",
   "keywords": [
@@ -36,7 +36,7 @@
     "react-scripts": "4.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=4200 react-scripts start",
     "build": "react-scripts build",
     "watch": "NODE_ENV=local npm-watch build",
     "test": "react-scripts test",
