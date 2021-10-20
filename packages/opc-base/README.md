@@ -4,7 +4,7 @@ Opc-Base is an npm package that provides authentication, toast notification, inj
 
 ## Getting Started
 
-Copy the `config.example.json` fil in `dev folder`, rename it as `config.json` and provide the configuration values needed to load the variables.
+Copy the `config.example.json` file in `dev folder`, rename it as `config.json` and provide the configuration values needed to load the variables.
 
 ### Installation
 
