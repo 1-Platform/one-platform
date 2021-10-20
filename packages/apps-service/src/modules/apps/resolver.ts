@@ -10,6 +10,9 @@ import { createDatabase, deleteDatabase, setDatabasePermissions } from '../../se
 export default <IResolvers<App, IAppsContext>>{
   Query: {
     apps: ( parent, args, ctx, info ) => {
+      return Apps.find( { isActive: true } ).exec();
+    },
+    allApps: ( parent, args, ctx, info ) => {
       return Apps.find().exec();
     },
     myApps: ( parent, args, { rhatUUID } ) => {
@@ -160,7 +163,7 @@ export default <IResolvers<App, IAppsContext>>{
       }
 
       if ( !description && isEmpty( permissions ) ) {
-        throw new Error( 'Provie at least one field: "description" or "permissions"' );
+        throw new Error( 'Provide at least one field: "description" or "permissions".' );
       }
 
       const app = await Apps.findById( id );
@@ -171,14 +174,16 @@ export default <IResolvers<App, IAppsContext>>{
       const databaseConfig = app.database;
       const dbIndex = app.database.databases.findIndex( db => db.name === databaseName );
       if ( dbIndex === -1 ) {
-        throw new Error( `The database "${ databaseName }" does not exist for the given app` );
+        throw new Error( `The database "${ databaseName }" does not exist for the given app.` );
+      }
+
+      if ( description ) {
+        databaseConfig.databases[ dbIndex ].description = description;
       }
 
       if ( permissions ) {
-        await setDatabasePermissions( databaseConfig.databases[dbIndex].name, permissions );
-      }
-      if ( description ) {
-        databaseConfig.databases[dbIndex].description = description;
+        await setDatabasePermissions( databaseConfig.databases[ dbIndex ].name, permissions );
+        databaseConfig.databases[ dbIndex ].permissions = permissions;
       }
 
       return Apps.findByIdAndUpdate( app.id, { database: databaseConfig }, { new: true } ).exec();
