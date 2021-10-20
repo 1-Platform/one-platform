@@ -176,7 +176,23 @@ export class OpcProvider extends LitElement {
     });
 
     render(
-      html` <opc-nav-search
+      html` <style>
+          opc-nav {
+            --opc-nav-container__z-index: var(--opc-app-layout__nav-zIndex);
+          }
+          opc-menu-drawer {
+            --opc-menu-drawer__z-index: var(--opc-app-layout__drawer-zIndex);
+          }
+          opc-notification-drawer {
+            --opc-notification-drawer__z-index: var(
+              --opc-app-layout__drawer-zIndex
+            );
+          }
+          opc-feedback {
+            --op-feedback__z-index: var(--opc-app-layout__feedback-zIndex);
+          }
+        </style>
+        <opc-nav-search
           slot="opc-nav-search"
           value=${this.searchValue}
           @opc-nav-search:change=${(evt: any) =>
@@ -307,13 +323,21 @@ export class OpcProvider extends LitElement {
         isSearchable: true,
         links: apps
           .filter(({ applicationType }) => applicationType === "HOSTED")
-          .map(({ name, path }) => ({ name, href: path })),
+          .map(({ name, path, isActive }) => ({
+            name,
+            href: path,
+            isDisabled: !(isActive && Boolean(path)),
+          })),
       },
       {
         title: "Built In Services",
         links: apps
           .filter(({ applicationType }) => applicationType === "BUILTIN")
-          .map(({ name, path }) => ({ name, href: path })),
+          .map(({ name, path, isActive }) => ({
+            name,
+            href: path,
+            isDisabled: !(isActive && Boolean(path)),
+          })),
       },
     ];
   }

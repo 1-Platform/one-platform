@@ -21,11 +21,14 @@ export default css`
     top: var(--op-nav-height);
     height: auto;
     max-height: 100vh;
-    z-index: 1;
+    z-index: 250;
   }
 
   :host {
     --opc-app-layout__avatar-bg: #316dc11a;
     --opc-app-layout__avatar-color: #316dc1;
+    --opc-app-layout__nav-zIndex: 950;
+    --opc-app-layout__drawer-zIndex: 975;
+    --opc-app-layout__feedback-zIndex:950;
   }
 `;
