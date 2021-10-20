@@ -14,39 +14,45 @@ Feedback SPA provides the consolidated view of user experience which has shared 
 2. ```yarn``` is the package manager used.
 
 ### Setting environment variables
-```VUE_APP_GRAPHQL_HTTP``` is the environment variable used to set the api endpoint for Feedback SPA
-
-eg. ```export VUE_APP_GRAPHQL_HTTP=http://localhost:4000```
+```
+eg.
+```sh
+export VUE_APP_GRAPHQL_HTTP=<API endpoint of Feedback SPA>
+export VUE_APP_OPCBASE_API_BASE_PATH=<API endpoint for opc-base library>
+export VUE_APP_OPCBASE_SUBSCRIPTION_BASE_PATH=<subscription endpoint for opc-base library>
+export VUE_APP_OPCBASE_KEYCLOAK_URL=<SSO Keycloak URL for auth>
+export VUE_APP_OPCBASE_KEYCLOAK_CLIENT_ID=<SSO Keycload Real>
+```
 
 Set the environment variable before building/serving the app.
 
 ### Installation of dependencies
-```
+```sh
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
-```
+```sh
 yarn serve
 ```
 
 ### Compiles and minifies for production
-```
+```sh
 yarn build
 ```
 
 ### Run your unit tests
-```
+```sh
 yarn test:unit
 ```
 
 ### Run your end-to-end tests
-```
+```sh
 yarn test:e2e
 ```
 
 ### Lints and fixes files
-```
+```sh
 yarn lint
 ```
 
