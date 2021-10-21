@@ -7,7 +7,6 @@
   height: calc(100vh - var(--op-nav__height, 0px));
   overflow: hidden;
   grid-template-columns: 17.5rem 1fr;
-  z-index: 990;
   align-items: stretch;
   position: relative;
 }
