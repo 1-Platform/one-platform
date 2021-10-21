@@ -1,6 +1,6 @@
 {
   "name": "search-spa",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "config": "ts-node set-env.ts",
     "ng": "ng",
@@ -47,6 +47,7 @@
     "ngx-pipes": "2.7.5",
     "rxjs": "6.6.3",
     "tslib": "^2.0.0",
+    "yargs": "^17.2.1",
     "zone.js": "0.11.4"
   },
   "devDependencies": {
