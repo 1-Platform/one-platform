@@ -1,24 +1,29 @@
 import { SendMailOptions } from 'nodemailer';
 import { Namespace } from '../../namespace/schema';
-import { updateEmailConfig } from '../emails/update-email-config';
+import updateEmailConfig from '../emails/update-email-config';
 
-import { apiCatalogHelper } from '../helpers';
+import APICatalogHelper from '../helpers';
+import Logger from '../../lib/logger';
 
-export async function checkAPIHash () {
-    const namespaces: NamespaceType[] = await Namespace.find().lean();
-    namespaces.map( async ( namespace: NamespaceType ) => {
-        namespace.lastCheckedOn = new Date();
-        const hash = await apiCatalogHelper.manageApiHash(namespace);
-        if ( hash === namespace.hash ) {
-            console.info( '\x1b[35m', `No API updates for ${ namespace.name }\n` );
-        } else if ( hash !== namespace.hash ) {
-            console.info( '\x1b[31m', `Active API updates for ${ namespace.name }\n` );
-            const emailConfig: SendMailOptions = await updateEmailConfig( namespace );
-            apiCatalogHelper.emailConfig().sendMail( emailConfig );
-        }
-        namespace.hash = hash;
-        await Namespace.findByIdAndUpdate( (namespace as any).id, namespace, { new: true } ).exec().then( () => {
-            console.info( '\x1b[32m', `Database Updated Successfully for ${ namespace.name } APIs` );
-        } );
-    } );
-}
+const checkAPIHash = async function checkAPIHash() {
+  const namespaces: NamespaceType[] = await Namespace.find().lean();
+  namespaces.map(async (namespace: NamespaceType) => {
+    const nsRecord = namespace;
+    nsRecord.lastCheckedOn = new Date();
+    const hash = await APICatalogHelper.manageApiHash(nsRecord);
+    if (hash === nsRecord.hash) {
+      Logger.info(`No API updates for ${nsRecord.name}\n`);
+    } else if (hash !== nsRecord.hash) {
+      Logger.info(`Active API updates for ${nsRecord.name}\n`);
+      const emailConfig: SendMailOptions = await updateEmailConfig(nsRecord);
+      APICatalogHelper.emailConfig().sendMail(emailConfig);
+    }
+    nsRecord.hash = hash as string;
+    await Namespace.findByIdAndUpdate((nsRecord as any).id, nsRecord,
+      { new: true }).exec().then(() => {
+      Logger.info(`Database Updated Successfully for ${nsRecord.name} APIs\n`);
+    });
+  });
+};
+
+export { checkAPIHash as default };

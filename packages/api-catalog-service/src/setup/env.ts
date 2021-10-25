@@ -6,8 +6,8 @@ export const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/api
 
 export const API_GATEWAY = process.env.API_GATEWAY || 'http://localhost:8080/graphql';
 
-export const GATEWAY_AUTH_TOKEN = process.env.GATEWAY_AUTH_TOKEN;
+export const { GATEWAY_AUTH_TOKEN } = process.env;
 
-export const SPA_URL = process.env.SPA_URL;
+export const { SPA_URL } = process.env;
 
-export const SMTP_HOST = process.env.SMTP_HOST;
+export const { SMTP_HOST } = process.env;

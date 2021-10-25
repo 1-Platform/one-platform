@@ -1,27 +1,27 @@
-import { Agenda } from "agenda";
-import database from "../../setup/database";
-import { MONGO_URL } from "../../setup/env";
-import { checkAPIHash } from "./cron";
-export let agenda: Agenda;
+import { Agenda } from 'agenda';
+import Logger from '../../lib/logger';
+import database from '../../setup/database';
+import { MONGO_URL } from '../../setup/env';
+import checkAPIHash from './cron';
 
 export default function initializeAgenda(): void {
-  console.info("SETUP - Agenda for cron scripts..");
-  agenda = new Agenda({
+  Logger.info('SETUP - Agenda for cron scripts..\n');
+  const agenda = new Agenda({
     db: {
       address: MONGO_URL,
     },
     defaultConcurrency: 1,
   });
 
-  agenda.define("api-sync-hash", async (job: any) => {
+  agenda.define('api-sync-hash', async () => {
     await checkAPIHash();
   });
 
-  agenda.on("ready", () => {
+  agenda.on('ready', () => {
     /* Start the agenda */
     agenda.start();
     /* Schedule the jobs */
-    agenda.every("6 hours", "api-sync-hash");
+    agenda.every('6 hours', 'api-sync-hash');
   });
 }
 

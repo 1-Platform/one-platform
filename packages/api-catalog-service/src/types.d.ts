@@ -1,150 +1,142 @@
 declare module '*.graphql';
 declare module '*.json';
 
-type Maybe<T> = T | null;
-type Exact<T extends { [key: string]: unknown }> = {
-    [K in keyof T]: T[K];
-};
-type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-{ [SubKey in K]?: Maybe<T[SubKey]> };
-type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-{ [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
-interface UserType {
-    cn?: string;
-    mail?: string;
-    uid?: string;
-    rhatUUID?: string;
-}
+type UserType = {
+  cn?: string;
+  mail?: string;
+  uid?: string;
+  rhatUUID?: string;
+};
 
-interface Query {
-    listNamespaces?: Maybe<Array<Maybe<NamespaceType>>>;
-    getNamespaceById?: Maybe<NamespaceType>;
-    fetchAPISchema?: Maybe<string>;
-}
+type Query = {
+  listNamespaces?: Array<NamespaceType>;
+  getNamespaceById?: NamespaceType;
+  fetchAPISchema?: string;
+};
 
-interface ListNamespacesArgs {
-    limit?: Maybe<number>;
-    offset?: Maybe<number>;
-}
+type ListNamespacesArgs = {
+  limit?: number;
+  offset?: number;
+};
 
-interface GetNamespaceByIdArgs {
-    id: string;
-}
+type GetNamespaceByIdArgs = {
+  id: string;
+};
 
-interface FetchApiSchemaArgs {
-    category?: Maybe<ApiCategory>;
-    schemaEndpoint?: string;
-    headers: Maybe<Array<Maybe<HeaderType>>>;
-}
+type FetchApiSchemaArgs = {
+  category?: ApiCategory;
+  schemaEndpoint?: string;
+  headers: Array<HeaderType>;
+};
 
-interface NamespaceType {
-    name?: Maybe<string>;
-    slug?: Maybe<string>;
-    description?: Maybe<string>;
-    category?: Maybe<ApiCategory>;
-    tags?: Maybe<Array<Maybe<string>>>;
-    owners?: Maybe<Array<Maybe<ApiUserType>>>;
-    appUrl?: Maybe<string>;
-    environments?: Maybe<Array<Maybe<NsEnvironmentType>>>;
-    hash?: Maybe<string>;
-    schemaEndpoint?: Maybe<string>;
-    headers?: Maybe<Array<Maybe<HeaderType>>>;
-    subscribers?: Maybe<Array<Maybe<ApiUserType>>>;
-    lastCheckedOn?: Maybe<Date>;
-    createdOn?: Maybe<Date>;
-    createdBy?: Maybe<string>;
-    updatedOn?: Maybe<Date>;
-    updatedBy?: Maybe<string>;
-}
+type NamespaceType = {
+  name?: string;
+  slug?: string;
+  description?: string;
+  category?: ApiCategory;
+  tags?: Array<string>;
+  owners?: Array<ApiUserType>;
+  appUrl?: string;
+  environments?: Array<NsEnvironmentType>;
+  hash?: string;
+  schemaEndpoint?: string;
+  headers?: Array<HeaderType>;
+  subscribers?: Array<ApiUserType>;
+  lastCheckedOn?: Date;
+  createdOn?: Date;
+  createdBy?: string;
+  updatedOn?: Date;
+  updatedBy?: string;
+};
 
 declare enum ApiCategory {
-    REST = 'REST',
-    GRAPHQL = 'GRAPHQL',
+  REST = 'REST',
+  GRAPHQL = 'GRAPHQL',
 }
 
-interface ApiUserType {
-    email?: Maybe<string>;
-    group?: Maybe<ApiEmailGroup>;
-}
+type ApiUserType = {
+  email?: string;
+  group?: ApiEmailGroup;
+};
 
 declare enum ApiEmailGroup {
-    USER = 'USER',
-    MAILING_LIST = 'MAILING_LIST',
+  USER = 'USER',
+  MAILING_LIST = 'MAILING_LIST',
 }
 
-interface NsEnvironmentType {
-    name?: Maybe<string>;
-    apiBasePath?: Maybe<string>;
-}
+type NsEnvironmentType = {
+  name?: string;
+  apiBasePath?: string;
+};
 
-interface HeaderType {
-    key?: Maybe<string>;
-    value?: Maybe<string>;
-}
+type HeaderType = {
+  key?: string;
+  value?: string;
+};
 
-interface NsEnvironmentInput {
-    name?: Maybe<string>;
-    apiBasePath?: Maybe<string>;
-}
+type NsEnvironmentInput = {
+  name?: string;
+  apiBasePath?: string;
+};
 
-interface Mutation {
-    createNamespace?: Maybe<NamespaceType>;
-    updateNamespace?: Maybe<NamespaceType>;
-    deleteNamespace?: Maybe<NamespaceType>;
-    addNamespaceSubscriber?: Maybe<NamespaceType>;
-    removeNamespaceSubscriber?: Maybe<NamespaceType>;
-}
+type Mutation = {
+  createNamespace?: NamespaceType;
+  updateNamespace?: NamespaceType;
+  deleteNamespace?: NamespaceType;
+  addNamespaceSubscriber?: NamespaceType;
+  removeNamespaceSubscriber?: NamespaceType;
+};
 
-interface CreateNamespaceArgs {
-    payload: NamespaceInput;
-}
+type CreateNamespaceArgs = {
+  payload: NamespaceInput;
+};
 
-interface UpdateNamespaceArgs {
-    id: string;
-    payload: NamespaceInput;
-}
+type UpdateNamespaceArgs = {
+  id: string;
+  payload: NamespaceInput;
+};
 
-interface DeleteNamespaceArgs {
-    id: string;
-}
+type DeleteNamespaceArgs = {
+  id: string;
+};
 
-interface AddNamespaceSubscriberArgs {
-    id: string;
-    payload: ApiUserInput;
-}
+type AddNamespaceSubscriberArgs = {
+  id: string;
+  payload: ApiUserInput;
+};
 
-interface RemoveNamespaceSubscriberArgs {
-    id: string;
-    payload: ApiUserInput;
-}
+type RemoveNamespaceSubscriberArgs = {
+  id: string;
+  payload: ApiUserInput;
+};
 
-interface NamespaceInput {
-    id?: Maybe<string>;
-    name: string;
-    slug?: Maybe<string>;
-    description?: Maybe<string>;
-    category: ApiCategory;
-    tags?: Maybe<Array<Maybe<string>>>;
-    owners: Array<Maybe<ApiUserInput>>;
-    appUrl?: Maybe<string>;
-    environments: Array<Maybe<NsEnvironmentInput>>;
-    schemaEndpoint: string;
-    headers?: Maybe<Array<Maybe<HeaderInput>>>;
-    subscribers?: Maybe<Array<Maybe<ApiUserInput>>>;
-    lastCheckedOn?: Maybe<Date>;
-    createdOn?: Maybe<Date>;
-    createdBy?: Maybe<string>;
-    updatedOn?: Maybe<Date>;
-    updatedBy?: Maybe<string>;
-}
+type NamespaceInput = {
+  id?: string;
+  name: string;
+  slug?: string;
+  description?: string;
+  category: ApiCategory;
+  tags?: Array<string>;
+  owners: Array<ApiUserInput>;
+  appUrl?: string;
+  environments: Array<NsEnvironmentInput>;
+  schemaEndpoint: string;
+  headers?: Array<HeaderInput>;
+  subscribers?: Array<ApiUserInput>;
+  lastCheckedOn?: Date;
+  createdOn?: Date;
+  createdBy?: string;
+  updatedOn?: Date;
+  updatedBy?: string;
+};
 
-interface ApiUserInput {
-    email: string;
-    group?: Maybe<ApiEmailGroup>;
-}
+type ApiUserInput = {
+  email: string;
+  group?: ApiEmailGroup;
+};
 
-interface HeaderInput {
-    key?: Maybe<string>;
-    value?: Maybe<string>;
-}
+type HeaderInput = {
+  key?: string;
+  value?: string;
+};
