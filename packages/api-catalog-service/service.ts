@@ -4,12 +4,6 @@ import express from 'express';
 import { mergeSchemas } from '@graphql-tools/schema';
 import cookieParser = require('cookie-parser');
 import { json } from 'body-parser';
-/*
- * Enable the following import if are using subscriptions in the application
- */
-// import { SubscriptionServer } from 'subscriptions-transport-ws';
-// import { execute, subscribe } from 'graphql';
-// import { createServer } from 'http';
 import morgan from 'morgan';
 import NamespaceResolver from './src/namespace/resolver';
 import NamespaceSchema from './src/namespace/typedef.graphql';
@@ -29,11 +23,6 @@ if (NODE_ENV === 'test') {
 const port = process.env.PORT || 8080;
 
 const app = express();
-
-/*
- * Enable the httpserver if you are using the subscriptions
- */
-// const httpServer = createServer(app);
 
 // Mount cookie parser
 app.use(cookieParser());
@@ -78,19 +67,11 @@ const apolloServer = new ApolloServer({
     },
   ],
 });
-/*
- * Enable the following import if are using subscriptions in the application
- */
-// SubscriptionServer.create(
-//   { schema, execute, subscribe },
-//   { server: httpServer, path: '/subscriptions' },
-// );
 
 apolloServer.start().then(() => {
   apolloServer.applyMiddleware({ app });
 });
 
-// Change the app to httpServer variable for Subscriptions.
 export default app.listen({ port }, () => {
   Logger.info(`API Catalog Microservice running on ${NODE_ENV} at Port ${port} in ${apolloServer.graphqlPath}\n`);
 });
