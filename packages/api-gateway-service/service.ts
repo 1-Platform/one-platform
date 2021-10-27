@@ -23,11 +23,20 @@ const port = process.env.PORT || 4000;
 
 const app = express();
 
+/* Include helmet middleware */
+app.use( helmet( {
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      'default-src': [ "'self'", 'https:' ],
+      'script-src': [ "'self'", "'unsafe-inline'", 'cdn.jsdelivr.net' ],
+      'img-src': [ "'self'", 'cdn.jsdelivr.net' ],
+    },
+  }
+}) );
+
 /* include cors middleware */
 app.use( cors() );
-
-/* Include helmet middleware */
-app.use( helmet() );
 
 const context = ({ req, connection }: any) => {
   const authorizationHeader = req?.headers?.authorization || connection?.context?.Authorization;

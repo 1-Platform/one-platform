@@ -1,11 +1,11 @@
 FROM node:12-alpine
 LABEL Name=one-platform-api-gateway-service \
-  Version=0.1.0 \
+  Version=0.1.2 \
   maintainer="mdeshmuk@redhat.com"
 
 # Building the user-group microservice
-ADD  . /app
-WORKDIR /app
+ADD  . /usr/src
+WORKDIR /usr/src
 RUN npm install --silent && \
   npm run build
 
