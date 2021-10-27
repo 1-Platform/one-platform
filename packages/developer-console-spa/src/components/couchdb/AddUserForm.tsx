@@ -1,0 +1,171 @@
+import {
+  ActionGroup,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  LabelGroup,
+  TextInput,
+} from '@patternfly/react-core';
+import gqlClient from '../../utils/gqlClient';
+import { getUsersBy, manageAppDatabase } from '../../utils/gql-queries';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import React, { useState } from 'react';
+
+interface IUserInput {
+  user: string;
+  permission: string;
+}
+type AddUserProps = {
+  setIsAddUserFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  admin: boolean;
+  db: any;
+  appId: string;
+  forceRefreshApp: React.FC;
+};
+
+const appSchema = yup.object().shape({
+  user: yup.string().required(),
+  permission: yup.string(),
+});
+
+const AddUserForm = (props: AddUserProps) => {
+  const [isAddingDB, setIsAddingDB] = useState<boolean>(false);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<IUserInput>({
+    mode: 'onBlur',
+    resolver: yupResolver(appSchema),
+    defaultValues: {
+      user: '',
+      permission: '',
+    },
+  });
+
+  function handleModalClose() {
+    /* Reset the form */
+    reset();
+    props.setIsAddUserFormOpen(false);
+  }
+
+  const getUserInfo = (uid: string) => {
+    return gqlClient({
+      query: getUsersBy,
+      variables: { uid },
+    }).then((res: any) => {
+      return res.data.getUsersBy[0].rhatUUID;
+    });
+  };
+
+  const submitForm = async (values: IUserInput) => {
+    setIsAddingDB(true);
+    const rhatUUID = await getUserInfo(values.user);
+    props.db.permissions[`${props.admin ? 'admins' : 'users'}`].push(
+      `user:${rhatUUID}`
+    );
+    gqlClient({
+      query: manageAppDatabase,
+      variables: {
+        id: props.appId,
+        databaseName: props.db.name,
+        permissions: props.db.permissions,
+      },
+    })
+      .then((res: any) => {
+        window.OpNotification?.success({
+          subject: 'Member permission added successfully!',
+        });
+        setIsAddingDB(false);
+        props.forceRefreshApp(res.data.manageAppDatabase);
+        handleModalClose();
+      })
+      .catch((res) => {
+        window.OpNotification?.danger({
+          subject: 'An error occurred when updating member permissions',
+          body: 'Please try again later.',
+        });
+      });
+  };
+  const getPermissionField = (isAdmin: boolean) => {
+    let labels = (
+      <Label color="blue" isTruncated name="permission">
+        Read
+      </Label>
+    );
+    if (isAdmin) {
+      labels = (
+        <LabelGroup>
+          <Label color="blue">Read</Label>
+          <Label color="blue">Write</Label>
+        </LabelGroup>
+      );
+    }
+
+    return labels;
+  };
+
+  return (
+    <>
+      <Form
+        noValidate={false}
+        onSubmit={handleSubmit(submitForm)}
+        onReset={handleModalClose}
+      >
+        <FormGroup
+          label="Enter Kerberos name for the member"
+          isRequired
+          fieldId="user"
+          helperText="Please provide Kerberos name for the member"
+          helperTextInvalid={errors.user?.message}
+          validated={errors.user ? 'error' : 'default'}
+        >
+          <Controller
+            name="user"
+            control={control}
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="text"
+                id="user"
+                aria-describedby="user-helper"
+                validated={errors.user ? 'error' : 'default'}
+                placeholder="Enter Kerberos name for the member"
+              />
+            )}
+          />
+        </FormGroup>
+        <FormGroup
+          label="Permission"
+          fieldId="permission"
+          helperTextInvalid={errors.permission?.message}
+          validated={errors.permission ? 'error' : 'default'}
+        >
+          <Controller
+            name="permission"
+            control={control}
+            render={({ field }) => getPermissionField(props.admin)}
+          />
+        </FormGroup>
+        <ActionGroup>
+          <Button
+            variant="primary"
+            type="submit"
+            isLoading={isAddingDB}
+            isDisabled={!isValid}
+          >
+            Add {props.admin ? 'Admin' : 'Member'}
+          </Button>
+          <Button variant="link" type="reset">
+            Cancel
+          </Button>
+        </ActionGroup>
+      </Form>
+    </>
+  );
+};
+export default AddUserForm;

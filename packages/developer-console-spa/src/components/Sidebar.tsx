@@ -45,7 +45,7 @@ function Sidebar () {
   ];
 
   function isNavItemActive ( path: string ) {
-    return location.pathname.endsWith(path);
+    return location.pathname.includes(path);
   }
 
   return (
@@ -74,7 +74,7 @@ function Sidebar () {
 
           { integrations.map( ( { name, path }, index ) => (
             <NavItem key={index} isActive={isNavItemActive( path )}>
-              <Link to={path}>{ name }</Link>
+              <Link to={`/${appId}/${path}`}>{ name }</Link>
             </NavItem>
           ))}
         </NavList>

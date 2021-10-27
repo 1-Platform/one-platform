@@ -5,7 +5,7 @@ declare namespace App {
   };
   declare type Database = {
     name: string;
-    descriptions: string;
+    description: string;
     permissions: {
       admins: string[];
       users: string[];
