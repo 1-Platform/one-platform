@@ -5,36 +5,43 @@ sidebar_label: Lighthouse Service
 slug: /microservices/lighthouse-service
 ---
 
-## Developers
-
-1. Akhil Mohan - [akmohan@redhat.com](mailto:akmohan@redhat.com) - [akhilmhdh (Akhil Mohan) · GitHub](https://github.com/akhilmhdh)
-2. Rigin Oommen - [roommen@redhat.com](mailto:roommen@redhat.com) - [riginoommen (Rigin Oommen) · GitHub](https://github.com/riginoommen)
-
 ## Getting Started
+
 Lighthouse microservice provides the ecosystem to perform the CI operations to test a website with [@lhci/ci](https://www.npmjs.com/package/@lhci/ci) also it consists of APIs which is integrated with [@lhci/server](https://www.npmjs.com/package/@lhci/server)
+
+[Lighthouse SPA](/docs/apps/internal/lighthouse) connects with lighthouse microservice to provide a sleek interface for testing and viewing lighthouse scores.
 
 ## Usage
 
 ### Introduction
 
-Lighthouse microservice is built using NodeJS v14.16.0 which has mongodb integration as database support. This microservice serves as the backend for the Lighthouse SPA. This microservices consists of two parts
+Lighthouse microservice is built using NodeJS v14.16.0 which has a direct integration with Lighthouse Server Postgres. This microservice serves as the backend for the Lighthouse SPA. Some of the queries are made via Lighthouse Server API while some are directly fetched from Lighthouse Server Postgres instance to speed up the queries. All the lighthouse database operations are read and its made from `lighthouse db manager` . This microservices consists of mainly
 
 1. Audit Manager
-    * Configurations associated with the CI environment.
-2. Property Manager
-    * Configurations associated with lighthouse dashboard.
+   - Configurations associated with the CI environment.
+2. Lighthouse SPA Config
+   - Used by developer console to set mapping between developer console SPA and Lighthouse Projects
+3. Lighthouse DB Manager
+   - Handles communication with lighthouse ci directly.
 
 ### Supported Features
 
 1. Audit a website with Lighthouse and upload the results to server.
 2. APIs for the Lighthouse Server & Dashboard
+3. API for the leaderboard ranking Lighthouse scores on various categories like
+    - Progressive Web App (PWA)
+    - Best Practices
+    - SEO
+    - Performance
+    - Accessibility
+4. APIs for developer console to setup Lighthouse properties
 
 ### Quick Start Guide
 
 #### Prerequisites
 
-1. **NodeJS** should be installed (_version >= __v14.16.0__ )
-2. **NPM** should be installed _(version >= __6.14.11__ )_
+1. **NodeJS** should be installed (\_version >= **v14.16.0** )
+2. **NPM** should be installed _(version >= **6.14.11** )_
 3. Version control system required. Preferably **git**.
 
 #### Steps
@@ -57,6 +64,8 @@ cd one-platform/packages/lighthouse-service
 npm i
 ```
 
+3. Set the environment variables by copying the `.env.example` to `.env`
+
 ### Start
 
 1. Run npm start:dev to run your microservice for dev env and npm start for production env.
@@ -78,372 +87,410 @@ eg: http://localhost:8080/graphql
 ```graphql
 npm run test
 ```
+
 ## API References
+
 In the GraphQL GET Operations are defined as Queries and POST/PUT/PATCH operations are defined as Mutations.
 
 ### Audit Manager
 
 #### Queries
+
 ##### List all projects registered in lighthouse server,
+
 - Operation Name - ListLHProjects
-- Supported Query Variables - `serverBaseUrl`
+- Supported Query Variables - `limit`,`offset`,`search`
+- Fetched from Lighthouse Database
 
 ```graphql
-query ListLHProjects($serverBaseUrl: String) {
-    listLHProjects(serverBaseUrl: $serverBaseUrl) {
-        _id
-        name
-        slug
-        externalUrl
-        token
-        baseBranch
-        createdAt
-        updatedAt
-    }
+query ListLHProjects($limit: Int, $offset: Int, $search: String) {
+  listLHProjects(limit: $limit, offset: $offset, search: $search) {
+    _id
+    name
+    slug
+    externalUrl
+    token
+    baseBranch
+    createdAt
+    updatedAt
+  }
 }
 ```
 
 ##### Fetch lighthouse report from server.
+
 - Operation Name - ListProjectLHReport
-- Supported Query Variables - `serverBaseUrl`,`projectID`,`buildID`
+- Supported Query Variables - `projectID`,`buildID`
+- Fetched from Lighthouse Database
 
 ```graphql
-query ListProjectLHReport($serverBaseUrl: String, $projectID: String!, $buildID: String!) {
-    listProjectLHReport(serverBaseUrl: $serverBaseUrl, projectID: $projectID, buildID: $buildID) {
-        performance
-        accessibility
-        bestPractices
-        seo
-        pwa
-    }
+query ListProjectLHReport($projectID: String!, $buildID: String!) {
+  listProjectLHReport(projectID: $projectID, buildID: $buildID) {
+    performance
+    accessibility
+    bestPractices
+    seo
+    pwa
+  }
 }
 ```
 
 ##### Fetch & Verify Build Token of a project.
+
 - Operation Name - VerifyLHProjectDetails
 - Supported Query Variables - `serverBaseUrl`,`buildToken`
+- Fetched from Lighthouse API
 
 ```graphql
 query VerifyLHProjectDetails($serverBaseUrl: String, $buildToken: String!) {
-    verifyLHProjectDetails(serverBaseUrl: $serverBaseUrl, buildToken: $buildToken) {
-        _id
-        name
-        slug
-        externalUrl
-        token
-        baseBranch
-        createdAt
-        updatedAt
-    }
+  verifyLHProjectDetails(
+    serverBaseUrl: $serverBaseUrl
+    buildToken: $buildToken
+  ) {
+    _id
+    name
+    slug
+    externalUrl
+    token
+    baseBranch
+    createdAt
+    updatedAt
+  }
 }
 ```
 
 ##### Fetch Builds of the project by branch name and project id.
+
 - Operation Name - ListLHProjectBuilds
 - Supported Query Variables - `serverBaseUrl`,`projectID`, `branch`, `limit`
+- Fetched from Lighthouse Database
 
 ```graphql
-query ListLHProjectBuilds($serverBaseUrl: String, $projectID: String!, $branch: String!, $limit: Int!) {
-    listLHProjectBuilds(serverBaseUrl: $serverBaseUrl, projectID: $projectID, branch: $branch, limit: $limit) {
-        id
-        projectId
-        branch
-        runAt
-        score {
-            performance
-            accessibility
-            bestPractices
-            seo
-            pwa
-        }
-        createdAt
-        updatedAt
+query ListLHProjectBuilds($projectID: String!, $branch: String!, $limit: Int!) {
+  listLHProjectBuilds(projectID: $projectID, branch: $branch, limit: $limit) {
+    id
+    projectId
+    branch
+    runAt
+    score {
+      performance
+      accessibility
+      bestPractices
+      seo
+      pwa
     }
+    createdAt
+    updatedAt
+  }
 }
 ```
 
 ##### Fetch the branches of a project.
+
 - Operation Name - ListLHProjectBranches
-- Supported Query Variables - `serverBaseUrl`,`projectID`
+- Supported Query Variables - `projectID`,`limit`,`offset`,`search`
+- Fetched from Lighthouse Database
 
 ```graphql
-query ListLHProjectBranches($serverBaseUrl: String, $projectID: String!) {
-    listLHProjectBranches(serverBaseUrl: $serverBaseUrl, projectID: $projectID) {
-        branch
-}
+query ListLHProjectBranches(
+  $projectID: String!
+  $limit: Int
+  $offset: Int
+  $search: String
+) {
+  listLHProjectBranches(
+    projectID: $projectID
+    limit: $limit
+    offset: $offset
+    search: $search
+  ) {
+    branch
+  }
 }
 ```
 
 ##### Fetch the scores of the tests executed with lighthouse microservice.
+
 - Operation Name - ListLHScore
 - Supported Query Variables - `auditId`
+- Fetched from Lighthouse Database
 
 ```graphql
 query ListLHScore($auditId: String!) {
-    listLHScore(auditId: $auditId) {
-        performance
-        accessibility
-        bestPractices
-        seo
-        pwa
-        }
+  listLHScore(auditId: $auditId) {
+    performance
+    accessibility
+    bestPractices
+    seo
+    pwa
+  }
+}
+```
+
+##### Fetch the leaderboard ranked based on build scores of each category
+
+- Operation Name - listLHLeaderboard
+- Supported Query Variables - `LHLeaderBoardCategory`, `limit`, `offset`, `Sort`
+- Fetched from Lighthouse Database
+
+```graphql
+query ListLHLeaderboard(
+  $type: LHLeaderBoardCategory!
+  $limit: limit
+  $offset: offset
+  $sort: Sort
+) {
+  listLHLeaderboard(type: $type, limit: $limit, offset: $offset, sort: $sort) {
+    count
+    rows {
+      score
+      rank
+      build {
+        id
+        projectId
+        branch
+        runAt
+        createdAt
+        updatedAt
+      }
+      project {
+        id
+        name
+        slug
+        externalUrl
+        token
+        adminToken
+        baseBranch
+        createdAt
+        updatedAt
+      }
+    }
+  }
 }
 ```
 
 #### Mutations
+
+##### Create a project in Lighthouse Server
+
+- Operation Name - createLHProject
+- Requried Mutation variables type - `project`
+
+```graphql
+mutation CreateLHProject($project: AddLHProjectInput) {
+  createLHProject(project: $project)
+}
+```
+
 ##### Audit the website
+
 - Operation Name - AuditWebsite
 - Required Mutation variables type - `LighthouseInput`
 
 ```graphql
 mutation AuditWebsite($property: LighthouseInput) {
-    auditWebsite(property: $property)
+  auditWebsite(property: $property)
 }
 ```
+
 ##### Upload the result to lighthouse server
+
 - Operation Name - UploadLHReport
 - Required Mutation variables type - `LighthouseInput`
 
 ```graphql
 mutation UploadLHReport($property: LighthouseInput) {
-    uploadLHReport(property: $property)
+  uploadLHReport(property: $property)
 }
 ```
 
-### Property Manager
+### LH SPA Config
 
 #### Queries
-##### List all properties for dashboard
-- Operation Name - ListLHProperties
-- Supported Query Variables - `limit`, `offset`, `search`,`user`
+
+##### List all SPA configurations
+
+- Operation Name - ListLHSpaConfigs
+- Supported Query Variables - `limit`, `offset`,`user`
 
 ```graphql
-query ListLHProperties($limit: Int, $offset: Int, $search: String, $user: String) {
-    listLHProperties(limit: $limit, offset: $offset, search: $search, user: $user) {
-        _id
-        name
-        description
-        projectId
-        apps {
-            id
-            name
-            branch
-        }
-        createdBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        createdOn
-        updatedBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        updatedOn
+query ListLHSpaConfigs($limit: Int, $offset: Int, $user: String) {
+  listLHSpaConfigs(limit: $limit, offset: $offset, user: $user) {
+    _id
+    appId
+    projectId
+    branch
+    createdBy {
+      cn
+      uid
+      rhatUUID
+      mail
     }
+    createdOn
+    updatedBy {
+      cn
+      uid
+      rhatUUID
+      mail
+    }
+    updatedOn
+  }
 }
 ```
 
-##### List property by id
-- Operation Name - GetLHPropertyById
+##### Get a Lighthouse SPA Config by id
+
+- Operation Name - GetLHSpaConfigById
 - Supported Query Variables - `id`
 
 ```graphql
-query GetLHPropertyById($id: ID!) {
-    getLHPropertyById(id: $id) {
-        _id
-        name
-        description
-        projectId
-        apps {
-            id
-            name
-            branch
-        }
-        createdBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        createdOn
-        updatedBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        updatedOn
+query GetLHSpaConfigById($id: ID!) {
+  getLHSpaConfigById(id: $id) {
+    _id
+    appId
+    projectId
+    branch
+    createdBy {
+      cn
+      uid
+      rhatUUID
+      mail
     }
+    createdOn
+    updatedBy {
+      cn
+      uid
+      rhatUUID
+      mail
+    }
+    updatedOn
+  }
+}
+```
+
+##### Get a Lighthouse SPA Config by App Id
+
+- Operation Name - GetLHSpaConfigByAppId
+- Supported Query Variables - `appId`
+
+```graphql
+query GetLHSpaConfigByAppId($id: String!) {
+  getLHSpaConfigByAppId(appId: $appId) {
+    _id
+    appId
+    projectId
+    branch
+    createdBy {
+      cn
+      uid
+      rhatUUID
+      mail
+    }
+    createdOn
+    updatedBy {
+      cn
+      uid
+      rhatUUID
+      mail
+    }
+    updatedOn
+  }
 }
 ```
 
 #### Mutations
-##### Create new property in dashboard.
-- Operation Name - CreateLHProperty
+
+##### Create new lighthouse spa config.
+
+- Operation Name - CreateLHSpaConfig
 - Required Mutation variables type - `AddLHPropertyInput`
 
 ```graphql
-mutation CreateLHProperty($property: AddLHPropertyInput!) {
-    createLHProperty(property: $property) {
-        _id
-        name
-        description
-        projectId
-        apps {
-            id
-            name
-            branch
-        }
-        createdBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        createdOn
-        updatedBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        updatedOn
+mutation CreateLHSpaConfig($lhSpaConfig: CreateLHSpaConfigInput!) {
+  createLHSpaConfig(lhSpaConfig: $lhSpaConfig) {
+    _id
+    appId
+    projectId
+    branch
+    createdBy {
+      cn
+      uid
+      rhatUUID
+      mail
     }
+    createdOn
+    updatedBy {
+      cn
+      uid
+      rhatUUID
+      mail
+    }
+    updatedOn
+  }
 }
 ```
 
-##### Update property in dashboard.
-- Operation Name - UpdateLHProperty
-- Required Mutation variables type - `UpdateLHPropertyInput`
+##### Update a lighthouse spa config by id.
+
+- Operation Name - UpdateLHSpaConfig
+- Required Mutation variables type - `UpdateLHSpaConfigInput`,`id`
 
 ```graphql
-mutation UpdateLHProperty(id:ID! ,$data: UpdateLHPropertyInput) {
-    updateLHProperty(id:$id, data: $data) {
-        _id
-        name
-        description
-        projectId
-        apps {
-            id
-            name
-            branch
-        }
-        createdBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        createdOn
-        updatedBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        updatedOn
+mutation UpdateLHSpaConfig($id: ID!, $data: UpdateLHSpaConfigInput) {
+  updateLHSpaConfig(id: $id, data: $data) {
+    _id
+    appId
+    projectId
+    branch
+    createdBy {
+      cn
+      uid
+      rhatUUID
+      mail
     }
+    createdOn
+    updatedBy {
+      cn
+      uid
+      rhatUUID
+      mail
+    }
+    updatedOn
+  }
 }
 ```
 
-##### Delete property in dashboard.
-- Operation Name - DeleteProperty
+##### Delete a lighthouse SPA config.
+
+- Operation Name - DeleteLHSpaConfig
 - Required Mutation variables type - `id`
 
 ```graphql
-mutation DeleteLHProperty(id:ID!) {
-    deleteLHProperty(id:$id) {
-        _id
-        name
+mutation DeleteLHSpaConfig($id: ID!) {
+  deleteLHSpaConfig(id: $id) {
+    _id
+    appId
+    projectId
+    branch
+    createdBy {
+      cn
+      uid
+      rhatUUID
+      mail
     }
+    createdOn
+    updatedBy {
+      cn
+      uid
+      rhatUUID
+      mail
+    }
+    updatedOn
+  }
 }
 ```
 
-##### Create new mapping of app in property.
-- Operation Name - CreateLHApp
-- Required Mutation variables type - `propertyId`,`AddLHPropertyAppInput`
+## Developers
 
-```graphql
-mutation CreateLHApp($propertyId: ID!, appData: AddLHPropertyAppInput!) {
-    createLHApp(propertyId: $propertyId, appData: $appData) {
-        _id
-        name
-        description
-        projectId
-        apps {
-            id
-            name
-            branch
-        }
-        createdBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        createdOn
-        updatedBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        updatedOn
-    }
-}
-```
-
-##### Update mapping of app in property.
-- Operation Name - UpdateLHApp
-- Required Mutation variables type - `appId`,`LHPropertyAppInput`
-
-```graphql
-mutation UpdateLHApp($appId: ID!, appData: LHPropertyAppInput!) {
-    updateLHApp(propertyId: $propertyId, appData: $appData) {
-        _id
-        name
-        description
-        projectId
-        apps {
-            id
-            name
-            branch
-        }
-        createdBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        createdOn
-        updatedBy {
-            cn
-            uid
-            rhatUUID
-            mail
-        }
-        updatedOn
-    }
-}
-```
-
-##### Delete mapping of app from property.
-- Operation Name - DeleteLHApp
-- Required Mutation variables type - `appId`
-
-```graphql
-mutation DeleteLHApp($appId: ID!) {
-    deleteLHApp(appId: $appId) {
-        _id
-        apps {
-            id
-            name
-            branch
-        }
-    }
-}
-```
+1. Akhil Mohan - [akmohan@redhat.com](mailto:akmohan@redhat.com) - [akhilmhdh (Akhil Mohan) · GitHub](https://github.com/akhilmhdh)
+2. Rigin Oommen - [roommen@redhat.com](mailto:roommen@redhat.com) - [riginoommen (Rigin Oommen) · GitHub](https://github.com/riginoommen)
