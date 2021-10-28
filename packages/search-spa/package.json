@@ -40,7 +40,7 @@
     "apollo-link": "1.2.14",
     "apollo-link-context": "1.0.20",
     "dotenv": "8.2.0",
-    "graphql": "14.7.0",
+    "graphql": "15.7.2",
     "graphql-tag": "2.12.5",
     "jest": "26.6.1",
     "jest-preset-angular": "8.3.2",

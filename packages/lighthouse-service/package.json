@@ -44,7 +44,7 @@
     "ejs": "3.1.6",
     "errorhandler": "1.5.1",
     "express": "4.17.1",
-    "graphql": "14.7.0",
+    "graphql": "15.7.2",
     "graphql-redis-subscriptions": "2.3.1",
     "graphql-tools": "6.2.6",
     "https-proxy-agent": "5.0.0",
