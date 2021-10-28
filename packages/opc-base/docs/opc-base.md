@@ -62,7 +62,7 @@ Object properties
 - keycloakUrl: keycloak url
 - keycloakClientId: keycloak client id
 - keycloakRealm: keycloak clock realm
-- cachePolicy (optional): The fetch policy strategy followed by the apollo instance used in opc-base. By default `cache-first`
+- cachePolicy (optional): The fetch policy strategy followed by the graphql instance([urql](https://formidable.com/open-source/urql/)) used in opc-base. By default `cache-first`
 
 ###### opcBase.auth
 
@@ -80,7 +80,7 @@ For detailed information ref [type definitiation](../src/keycloakAuthProvider/ke
 
 ###### opcBase.api
 
-opcBase.api contains the apollo client instance with the `apiBasepath` and `subscriptionsPath` set.
+opcBase.api contains the graphql client([urql](https://formidable.com/open-source/urql/)) instance with the `apiBasepath` and `subscriptionsPath` set.
 
 ###### opcBase.toast
 

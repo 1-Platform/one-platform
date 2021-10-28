@@ -2,11 +2,7 @@ import { CreateFeedbackVariable, FeedbackReturn } from "../gql/types";
 import { OpKeycloakAuthProvider } from "../keycloakAuthProvider/keycloakAuthProvider";
 import { ToastOptions } from "../components/opc-toast/types";
 import { Notification } from "../opc-provider/types";
-import {
-  ApolloClient,
-  FetchPolicy,
-  NormalizedCacheObject,
-} from "@apollo/client/core";
+import { Client, RequestPolicy } from '@urql/core';
 
 export type KeycloakConfig = {
   keycloakUrl: string;
@@ -17,7 +13,7 @@ export type KeycloakConfig = {
 export type Config = {
   apiBasePath: string;
   subscriptionsPath: string;
-  cachePolicy?: FetchPolicy;
+  cachePolicy?: RequestPolicy;
 } & KeycloakConfig;
 
 export type Feedback = {
@@ -36,5 +32,5 @@ export type OpcBase = {
   auth?: OpKeycloakAuthProvider;
   toast?: Toast;
   feedback?: Feedback;
-  api?: ApolloClient<NormalizedCacheObject>;
+  api?: Client;
 };

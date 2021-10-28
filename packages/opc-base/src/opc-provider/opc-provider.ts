@@ -1,5 +1,6 @@
 import { LitElement, html, TemplateResult, render } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { pipe, subscribe } from "wonka";
 import { ref, Ref, createRef } from "lit/directives/ref.js";
 import dayjs from "dayjs";
 import PfeToast from "@patternfly/pfe-toast/dist/pfe-toast.min.js";
@@ -25,8 +26,8 @@ import {
   CreateFeedback,
   CreateFeedbackVariable,
   GetAppList,
-  SubscribeNotification,
 } from "../gql/types";
+import { subscriptionT } from 'wonka/dist/types/src/Wonka_types.gen';
 
 import { APIService } from "../config/graphql";
 
@@ -57,7 +58,7 @@ export class OpcProvider extends LitElement {
   @state() private selectedAppsForNotificationFilter: string[] = [];
   @state() private notificationAppCount: Record<string, number> = {};
 
-  private _notificationsSubscription: ZenObservable.Subscription | null = null;
+  private _notificationsSubscription: subscriptionT | null = null;
 
   api!: APIService;
 
@@ -296,12 +297,13 @@ export class OpcProvider extends LitElement {
   private async getAppListAndNotifications(userDetails: string[]) {
     try {
       // get app and notifications from server
-      const res = await this.api.apollo.query<GetAppList>({
-        query: GET_APP_LIST,
-        variables: {
+      const res = await this.api.gqlClient
+        .query<GetAppList>(GET_APP_LIST, {
           targets: userDetails,
-        },
-      });
+        })
+        .toPromise();
+
+      if ( !res?.data ) return;
 
       this.apps =
         res.data.appsList
@@ -350,16 +352,11 @@ export class OpcProvider extends LitElement {
         this._notificationsSubscription.unsubscribe();
       }
 
-      this._notificationsSubscription = this.api.apollo
-        .subscribe<SubscribeNotification>({
-          query: SUBSCRIBE_NOTIFICATION,
-          variables: {
-            targets: userDetails,
-          },
-        })
-        .subscribe((res) => {
-          if (res.errors) {
-            throw res.errors;
+      this._notificationsSubscription = pipe(
+        this.api.gqlClient.subscription(SUBSCRIBE_NOTIFICATION),
+        subscribe((res) => {
+          if (res.error) {
+            throw res.error;
           }
           if (res?.data?.notification) {
             this.showToast(res.data.notification, {
@@ -367,7 +364,8 @@ export class OpcProvider extends LitElement {
               variant: "info",
             });
           }
-        });
+        })
+      );
     } catch (error) {
       console.error(error);
     }
@@ -412,15 +410,11 @@ export class OpcProvider extends LitElement {
 
   async sendFeedback(feedbackInput: CreateFeedbackVariable["input"]) {
     try {
-      const res = await this.api.apollo.mutate<
-        CreateFeedback,
-        CreateFeedbackVariable
-      >({
-        mutation: CREATE_FEEDBACK,
-        variables: {
+      const res = await this.api.gqlClient
+        .mutation<CreateFeedback, CreateFeedbackVariable>(CREATE_FEEDBACK, {
           input: feedbackInput,
-        },
-      });
+        })
+        .toPromise();
       if (res?.data?.createFeedback) {
         window.OpNotification
           ? window.OpNotification.success({
@@ -435,7 +429,7 @@ export class OpcProvider extends LitElement {
             })
           : alert("Error in Feedback Submission");
         throw new Error(
-          "There were some errors in the query" + JSON.stringify(res.errors)
+          "There were some errors in the query" + JSON.stringify(res.error)
         );
       }
       return res.data;
