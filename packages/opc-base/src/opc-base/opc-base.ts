@@ -1,4 +1,4 @@
-import { ApolloClient, NormalizedCacheObject } from "@apollo/client/core";
+import { Client } from '@urql/core';
 import { OpKeycloakAuthProvider } from "../keycloakAuthProvider/keycloakAuthProvider";
 import { OpcBase as OpcBaseType, Config, Toast, Feedback } from "./types";
 
@@ -57,7 +57,7 @@ class OpcBase {
     return this._app.feedback;
   }
 
-  set api(api: ApolloClient<NormalizedCacheObject>) {
+  set api(api: Client) {
     if (this._app.api) {
       throw new Error("Cannot set feedback");
     }
@@ -65,7 +65,7 @@ class OpcBase {
   }
 
   get api() {
-    if (!this._app.api) throw Error("Apollo instanace is not set");
+    if (!this._app.api) throw Error("Graphql instanace is not set");
     return this._app.api;
   }
 }

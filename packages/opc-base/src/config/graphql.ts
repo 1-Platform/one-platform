@@ -1,14 +1,6 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink,
-  split,
-  NormalizedCacheObject,
-  FetchPolicy,
-} from "@apollo/client/core";
-import { setContext } from "@apollo/client/link/context";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { WebSocketLink } from "@apollo/client/link/ws";
+import { Client, defaultExchanges, RequestPolicy, subscriptionExchange } from "@urql/core";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+
 
 import { GraphqlConfig } from "./types";
 
@@ -18,57 +10,34 @@ import { GraphqlConfig } from "./types";
 export class APIService {
   _apiBasePath: string;
   _subscriptionsPath: string;
-  _wsLink: WebSocketLink;
-  // ref to apollo-cache: https://www.apollographql.com/docs/react/api/core/ApolloClient/#apolloclient-functions
-  _fetchPolicy: FetchPolicy = "cache-first";
+  _wsLink: SubscriptionClient;
+  // ref to urql-cache: https://formidable.com/open-source/urql/docs/graphcache/
+  _fetchPolicy: RequestPolicy = "cache-first";
 
-  apollo: ApolloClient<NormalizedCacheObject>;
+  gqlClient: Client;
   constructor(config: GraphqlConfig) {
     this._apiBasePath = config.apiBasePath;
     this._subscriptionsPath = config.subscriptionsPath;
     this._fetchPolicy = config.cachePolicy || "cache-first";
-    this._wsLink = new WebSocketLink({
-      uri: this._subscriptionsPath,
-      options: {
-        reconnect: true,
-        connectionParams: () => ({ ...this._headers }),
-      },
+
+    this._wsLink = new SubscriptionClient(this._subscriptionsPath, {
+      reconnect: true,
+      connectionParams: () => ({ ...this._headers }),
     });
-    this.apollo = this.apolloInit();
+    this.gqlClient = this.gqlInit();
   }
 
-  private apolloInit() {
-    const httpLink = createHttpLink({
-      uri: this._apiBasePath,
-    });
-    const authLink = setContext((_, { headers }) => {
-      return {
-        headers: {
-          ...headers,
-          ...this._headers,
-        },
-      };
-    });
-
-    const link = split(
-      ({ query }) => {
-        const definition = getMainDefinition(query);
-        return (
-          definition.kind === "OperationDefinition" &&
-          definition.operation === "subscription"
-        );
-      },
-      this._wsLink,
-      authLink.concat(httpLink)
-    );
-    return new ApolloClient({
-      link,
-      cache: new InMemoryCache(),
-      defaultOptions: {
-        query: {
-          fetchPolicy: this._fetchPolicy,
-        },
-      },
+  private gqlInit() {
+    return new Client({
+      url: this._apiBasePath,
+      fetchOptions: () => ({ headers: this._headers }),
+      exchanges: [
+        ...defaultExchanges,
+        subscriptionExchange({
+          forwardSubscription: (operation) =>
+            this._wsLink.request(operation) as any,
+        }),
+      ],
     });
   }
 

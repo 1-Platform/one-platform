@@ -1,10 +1,15 @@
 {
   "name": "@one-platform/opc-base",
-  "version": "1.0.5-beta",
+  "version": "1.1.0-beta",
   "description": "It contains shared components like layout, authentication provider for one platform",
   "main": "dist/opc-base.js",
   "module": "dist/opc-base.js",
   "typings": "dist/opc-base.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1-platform/one-platform.git",
+    "directory": "packages/opc-base"
+  },
   "sideEffects": [
     "dist/opc-provider.js"
   ],
@@ -62,12 +67,13 @@
     "typescript": "4.3.4"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.21",
     "@patternfly/pfe-toast": "^1.10.1",
+    "@urql/core": "^2.3.3",
     "dayjs": "^1.10.6",
     "graphql": "^15.5.1",
     "keycloak-js": "^14.0.0",
     "lit": "^2.0.0-rc.2",
-    "subscriptions-transport-ws": "^0.9.19"
+    "subscriptions-transport-ws": "^0.9.19",
+    "wonka": "^4.0.15"
   }
 }
