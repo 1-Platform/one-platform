@@ -15,3 +15,5 @@ export * from './app-database-config';
 export * from './app-permissions-query';
 export * from './search-users';
 export * from './upadte-app-permissions';
+export * from './get-user-by';
+export * from './manage-app-database';

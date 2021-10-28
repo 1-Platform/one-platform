@@ -1,6 +1,6 @@
-export const createAppDatabase = /* GraphQL */`
- mutation CreateAppDatabase($id: ID!, $databaseName: String!, $description: String) {
-  createAppDatabase(id: $id, databaseName: $databaseName, description: $description) {
+export const manageAppDatabase = /* GraphQL */`
+mutation ManageAppDatabase($id: ID!, $databaseName: String!, $description: String, $permissions: AppDatabasePermissionsInput) {
+  manageAppDatabase(id: $id, databaseName: $databaseName, description: $description, permissions: $permissions) {
     id
     name
     appId

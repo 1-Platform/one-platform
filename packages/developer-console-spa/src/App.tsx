@@ -31,7 +31,7 @@ function App() {
               <Route path="/:appId/feedback" component={ ConfigureFeedback } exact />
               <Route path="/:appId/lighthouse" component={ ConfigureLighthouse } exact />
               <Route path="/:appId/search" component={ UnderDevelopment } exact />
-              <Route path="/:appId/couchdb" component={ ConfigureCouchDB } exact />
+              <Route path="/:appId/couchdb" component={ ConfigureCouchDB } />
               <Route path="/:appId/notifications" component={ UnderDevelopment } exact />
               <Route path="/:appId/user-groups" component={ UnderDevelopment } exact />
               <Route path="/:appId/settings" component={ AppSettings } />
