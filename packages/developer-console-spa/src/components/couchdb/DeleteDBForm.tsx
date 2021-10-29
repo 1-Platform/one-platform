@@ -52,14 +52,14 @@ const DeleteDBForm = (props: DeleteDBProps) => {
   });
 
   const handleModalToggle = () => {
-    setIsModalOpen((isModalOpen) => !isModalOpen);
+    setIsModalOpen( ( isModalOpen ) => !isModalOpen );
+    setIsDeletingDB( false );
   };
 
   const showConfirmation = (db: DeleteDBInput) => {
     setIsModalOpen(true);
   };
   const DeleteDBInstance = () => {
-
     setIsDeletingDB(true);
     gqlClient({
       query: deleteAppDatabase,
@@ -68,18 +68,22 @@ const DeleteDBForm = (props: DeleteDBProps) => {
         id: props.appUniqueId,
       },
     })
-      .then((res: any) => {
+      .then( ( res: any ) => {
+        setIsModalOpen( false );
+        setIsDeletingDB( false );
+        if ( res?.errors ) {
+          throw res.errors;
+        }
         window.OpNotification?.success({
           subject: `Database ${props.dbname} deleted successfully!`,
         });
         history.push( `/${ props.appId }/couchdb` );
         forceRefreshApp( res.data.deleteAppDatabase );
-        setIsModalOpen(false);
       })
       .catch((err: any) => {
         window.OpNotification?.danger({
           subject: 'An error occurred when deleting the Database.',
-          body: 'Please try again later.',
+          body: err[0].message,
         });
         console.error(err);
       });

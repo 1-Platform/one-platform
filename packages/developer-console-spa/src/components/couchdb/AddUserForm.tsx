@@ -50,7 +50,8 @@ const AddUserForm = (props: AddUserProps) => {
   function handleModalClose() {
     /* Reset the form */
     reset();
-    props.setIsAddUserFormOpen(false);
+    props.setIsAddUserFormOpen( false );
+    setIsAddingDB(false);
   }
 
   const getUserInfo = (uid: string) => {
@@ -76,18 +77,20 @@ const AddUserForm = (props: AddUserProps) => {
         permissions: props.db.permissions,
       },
     })
-      .then((res: any) => {
+      .then( ( res: any ) => {
+        if ( res?.errors ) {
+          throw res.errors;
+        }
         window.OpNotification?.success({
           subject: 'Member permission added successfully!',
         });
-        setIsAddingDB(false);
         props.forceRefreshApp(res.data.manageAppDatabase);
         handleModalClose();
       })
-      .catch((res) => {
+      .catch((err: any) => {
         window.OpNotification?.danger({
           subject: 'An error occurred when updating member permissions',
-          body: 'Please try again later.',
+          body: err[0].message,
         });
       });
   };

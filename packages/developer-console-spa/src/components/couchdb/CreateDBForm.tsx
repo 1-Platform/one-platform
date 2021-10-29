@@ -73,7 +73,7 @@ const CreateDBForm = (props: CreateDBProps) => {
           props.setIsCreateDBFormOpen(false);
           forceRefreshApp(res.data.createAppDatabase);
         }
-        if (res.errors) {
+        if (res?.errors) {
           window.OpNotification?.danger({
             subject: 'An error occurred when creating the Database.',
             body: res.errors[0].message,
