@@ -27,7 +27,11 @@ interface DeleteDBProps {
   appId: string;
 }
 
-const DeleteDBForm = (props: DeleteDBProps) => {
+const DeleteDBForm = ( {
+  dbname,
+  appUniqueId,
+  appId
+}: DeleteDBProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [ isDeletingDB, setIsDeletingDB ] = useState<boolean>( false );
   const { forceRefreshApp } = useContext(AppContext);
@@ -36,8 +40,8 @@ const DeleteDBForm = (props: DeleteDBProps) => {
       .string()
       .required()
       .matches(
-        new RegExp(props.dbname),
-        `dbname must match the following: ${props.dbname}`
+        new RegExp(dbname),
+        `dbname must match the following: ${dbname}`
       ),
   } );
   let history = useHistory();
@@ -52,34 +56,38 @@ const DeleteDBForm = (props: DeleteDBProps) => {
   });
 
   const handleModalToggle = () => {
-    setIsModalOpen((isModalOpen) => !isModalOpen);
+    setIsModalOpen( ( isModalOpen ) => !isModalOpen );
+    setIsDeletingDB( false );
   };
 
   const showConfirmation = (db: DeleteDBInput) => {
     setIsModalOpen(true);
   };
   const DeleteDBInstance = () => {
-
     setIsDeletingDB(true);
     gqlClient({
       query: deleteAppDatabase,
       variables: {
-        databaseName: props.dbname,
-        id: props.appUniqueId,
+        databaseName: dbname,
+        id: appUniqueId,
       },
     })
-      .then((res: any) => {
+      .then( ( res: any ) => {
+        setIsModalOpen( false );
+        setIsDeletingDB( false );
+        if ( res?.errors ) {
+          throw res.errors;
+        }
         window.OpNotification?.success({
-          subject: `Database ${props.dbname} deleted successfully!`,
+          subject: `Database ${dbname} deleted successfully!`,
         });
-        history.push( `/${ props.appId }/couchdb` );
+        history.push( `/${ appId }/couchdb` );
         forceRefreshApp( res.data.deleteAppDatabase );
-        setIsModalOpen(false);
       })
       .catch((err: any) => {
         window.OpNotification?.danger({
           subject: 'An error occurred when deleting the Database.',
-          body: 'Please try again later.',
+          body: err[0].message,
         });
         console.error(err);
       });
@@ -89,7 +97,7 @@ const DeleteDBForm = (props: DeleteDBProps) => {
     <>
       <Form onSubmit={handleSubmit(showConfirmation)}>
         <FormGroup
-          label={`Please type "${props.dbname}" to confirm`}
+          label={`Please type "${dbname}" to confirm`}
           fieldId="delete-app"
           helperText="Please type the DB name to cofirm database delete"
           helperTextInvalid={errors.dbname?.message}
@@ -104,7 +112,7 @@ const DeleteDBForm = (props: DeleteDBProps) => {
                 id="delete-app"
                 aria-describedby="delete-app-helper"
                 validated={
-                  errors.dbname || props.dbname !== field.value
+                  errors.dbname || dbname !== field.value
                     ? 'error'
                     : 'default'
                 }
@@ -126,7 +134,7 @@ const DeleteDBForm = (props: DeleteDBProps) => {
       </Form>
       <Modal
         variant={ModalVariant.small}
-        title={`Are you sure to delete ${props.dbname}?`}
+        title={`Are you sure to delete ${dbname}?`}
         titleIconVariant="danger"
         isOpen={isModalOpen}
         onClose={handleModalToggle}

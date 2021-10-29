@@ -31,7 +31,13 @@ const appSchema = yup.object().shape({
   permission: yup.string(),
 });
 
-const AddUserForm = (props: AddUserProps) => {
+const AddUserForm = ( {
+  db,
+  admin,
+  appId,
+  setIsAddUserFormOpen,
+  forceRefreshApp
+}: AddUserProps ) => {
   const [isAddingDB, setIsAddingDB] = useState<boolean>(false);
   const {
     control,
@@ -50,7 +56,8 @@ const AddUserForm = (props: AddUserProps) => {
   function handleModalClose() {
     /* Reset the form */
     reset();
-    props.setIsAddUserFormOpen(false);
+    setIsAddUserFormOpen( false );
+    setIsAddingDB(false);
   }
 
   const getUserInfo = (uid: string) => {
@@ -65,29 +72,31 @@ const AddUserForm = (props: AddUserProps) => {
   const submitForm = async (values: IUserInput) => {
     setIsAddingDB(true);
     const rhatUUID = await getUserInfo(values.user);
-    props.db.permissions[`${props.admin ? 'admins' : 'users'}`].push(
+    db.permissions[`${admin ? 'admins' : 'users'}`].push(
       `user:${rhatUUID}`
     );
     gqlClient({
       query: manageAppDatabase,
       variables: {
-        id: props.appId,
-        databaseName: props.db.name,
-        permissions: props.db.permissions,
+        id: appId,
+        databaseName: db.name,
+        permissions: db.permissions,
       },
     })
-      .then((res: any) => {
+      .then( ( res: any ) => {
+        if ( res?.errors ) {
+          throw res.errors;
+        }
         window.OpNotification?.success({
           subject: 'Member permission added successfully!',
         });
-        setIsAddingDB(false);
-        props.forceRefreshApp(res.data.manageAppDatabase);
+        forceRefreshApp(res.data.manageAppDatabase);
         handleModalClose();
       })
-      .catch((res) => {
+      .catch((err: any) => {
         window.OpNotification?.danger({
           subject: 'An error occurred when updating member permissions',
-          body: 'Please try again later.',
+          body: err[0].message,
         });
       });
   };
@@ -148,7 +157,7 @@ const AddUserForm = (props: AddUserProps) => {
           <Controller
             name="permission"
             control={control}
-            render={({ field }) => getPermissionField(props.admin)}
+            render={({ field }) => getPermissionField(admin)}
           />
         </FormGroup>
         <ActionGroup>
@@ -158,7 +167,7 @@ const AddUserForm = (props: AddUserProps) => {
             isLoading={isAddingDB}
             isDisabled={!isValid}
           >
-            Add {props.admin ? 'Admin' : 'Member'}
+            Add {admin ? 'Admin' : 'Member'}
           </Button>
           <Button variant="link" type="reset">
             Cancel

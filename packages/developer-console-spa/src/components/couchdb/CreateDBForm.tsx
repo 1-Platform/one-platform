@@ -30,7 +30,12 @@ interface CreateDBProps {
   setIsCreateDBFormOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateDBForm = (props: CreateDBProps) => {
+const CreateDBForm = ( {
+  isCreateDBFormOpen,
+  appId,
+  appUniqueId,
+  setIsCreateDBFormOpen
+}: CreateDBProps ) => {
   const [ isCreatingDB, setIsCreatingDB ] = useState<boolean>( false );
   const { forceRefreshApp } = useContext(AppContext);
 
@@ -51,7 +56,7 @@ const CreateDBForm = (props: CreateDBProps) => {
   function handleModalClose() {
     /* Reset the form */
     reset();
-    props.setIsCreateDBFormOpen(false);
+    setIsCreateDBFormOpen(false);
   }
 
   function submitForm(db: IDBInput) {
@@ -60,7 +65,7 @@ const CreateDBForm = (props: CreateDBProps) => {
       query: createAppDatabase,
       variables: {
         databaseName: db.dbname,
-        id: props.appUniqueId,
+        id: appUniqueId,
         description: db.description,
       },
     })
@@ -70,10 +75,10 @@ const CreateDBForm = (props: CreateDBProps) => {
           window.OpNotification?.success({
             subject: `Database ${db.dbname} created successfully!`,
           } );
-          props.setIsCreateDBFormOpen(false);
+          setIsCreateDBFormOpen(false);
           forceRefreshApp(res.data.createAppDatabase);
         }
-        if (res.errors) {
+        if (res?.errors) {
           window.OpNotification?.danger({
             subject: 'An error occurred when creating the Database.',
             body: res.errors[0].message,
