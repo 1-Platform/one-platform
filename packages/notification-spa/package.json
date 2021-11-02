@@ -25,7 +25,7 @@
     "@one-platform/opc-header": "0.0.2-prerelease",
     "@patternfly/pfe-accordion": "1.11.2",
     "@patternfly/pfe-select": "1.11.2",
-    "@types/jest": "26.0.24",
+    "@types/jest": "27.0.2",
     "apollo-angular": "2.6.0",
     "apollo-angular-link-http": "1.11.0",
     "apollo-cache-inmemory": "1.6.6",
