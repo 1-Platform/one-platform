@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-redeclare */
 type App = {
   appId: string
   isActive: boolean
@@ -44,7 +46,7 @@ type App = {
   createdOn: Date
   updatedBy: string
   updatedOn: Date
-}
+};
 
 namespace App {
   declare const enum EntityType {
@@ -69,9 +71,9 @@ namespace App {
     name: string
     description?: string
     permissions: Array<DatabasePermissions>
-  }
+  };
   type DatabasePermissions = {
     admins: Array<string>
     users: Array<string>
-  }
+  };
 }

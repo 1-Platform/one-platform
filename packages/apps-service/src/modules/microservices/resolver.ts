@@ -1,69 +1,73 @@
 /* GraphQL Resolver implementation */
 
-import { IResolvers } from 'apollo-server';
+import { IResolvers } from '@graphql-tools/utils';
+// eslint-disable-next-line import/no-cycle
 import { Microservices } from '.';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 
-export default <IResolvers<Microservice, IAppsContext>>{
+const MicroservicesResolver = <IResolvers<Microservice, IAppsContext>>{
   Query: {
-    services: () => {
-      return Microservices.find().exec();
-    },
-    myServices: ( parent, args, { rhatUUID } ) => {
-      if ( !rhatUUID ) {
-        throw new Error( 'Cannot fetch myServices. Unauthenticated request.' );
+    services: () => Microservices.find().exec(),
+    myServices: (parent, args, { rhatUUID }) => {
+      if (!rhatUUID) {
+        throw new Error('Cannot fetch myServices. Unauthenticated request.');
       }
-      return Microservices.find( { ownerId: rhatUUID } ).exec();
+      return Microservices.find({ ownerId: rhatUUID }).exec();
     },
-    findServices: ( parent, { selectors }, ctx ) => {
-      const _id = selectors.id;
-      delete selectors.id;
+    findServices: (parent, { selectors }) => {
+      const serviceSelector = selectors;
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      const _id = serviceSelector.id;
+      delete serviceSelector.id;
 
-      return Microservices.find( {
-        ...selectors,
-        ...( _id && { _id } ),
-      } ).exec();
+      return Microservices.find({
+        ...serviceSelector,
+        ...(_id && { _id }),
+      }).exec();
     },
-    service: ( parent, { id, serviceId }, { rhatUUID } ) => {
-      if ( !id && !serviceId ) {
-        throw new Error( 'Please provide atleast one argument for id or serviceId' );
+    service: (parent, { id, serviceId }) => {
+      if (!id && !serviceId) {
+        throw new Error('Please provide atleast one argument for id or serviceId');
       }
-      return Microservices.findOne( {
-        ...( serviceId && { serviceId } ),
-        ...( id && { _id: id } ),
-      } ).exec();
+      return Microservices.findOne({
+        ...(serviceId && { serviceId }),
+        ...(id && { _id: id }),
+      }).exec();
     },
   },
   Mutation: {
-    createService: ( parent, { service }, { rhatUUID } ) => {
-      if ( !rhatUUID ) {
-        throw new Error( 'Cannot create new service. Unauthenticated request.' );
+    createService: (parent, { service }, { rhatUUID }) => {
+      if (!rhatUUID) {
+        throw new Error('Cannot create new service. Unauthenticated request.');
       }
-      return new Microservices( {
+      return new Microservices({
         ...service,
         ownerId: rhatUUID,
         createdBy: rhatUUID,
         updatedBy: rhatUUID,
-      } ).save();
+      }).save();
     },
-    updateService: ( parent, { id, service }, { rhatUUID } ) => {
-      if ( !Microservices.isAuthorized( id, rhatUUID ) ) {
-        throw new Error( 'User not authorized to update the service' );
+    updateService: (parent, { id, service }, { rhatUUID }) => {
+      const serviceInfo = service;
+      if (!Microservices.isAuthorized(id, rhatUUID)) {
+        throw new Error('User not authorized to update the service');
       }
-      if ( service.name ) {
-        service.serviceId = uniqueIdFromPath( service.name );
+      if (serviceInfo.name) {
+        serviceInfo.serviceId = uniqueIdFromPath(service.name);
       }
-      return Microservices.findByIdAndUpdate( id, {
+      return Microservices.findByIdAndUpdate(id, {
         ...service,
         updatedBy: rhatUUID,
         updatedOn: new Date(),
-      }, { new: true } ).exec();
+      }, { new: true }).exec();
     },
-    deleteService: ( parent, { id }, { rhatUUID } ) => {
-      if ( !Microservices.isAuthorized( id, rhatUUID ) ) {
-        throw new Error( 'User not authorized to delete the service' );
+    deleteService: (parent, { id }, { rhatUUID }) => {
+      if (!Microservices.isAuthorized(id, rhatUUID)) {
+        throw new Error('User not authorized to delete the service');
       }
-      return Microservices.findByIdAndRemove( id ).exec();
+      return Microservices.findByIdAndRemove(id).exec();
     },
   },
-}
+};
+
+export { MicroservicesResolver as default };

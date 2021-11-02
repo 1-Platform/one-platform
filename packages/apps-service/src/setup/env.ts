@@ -8,7 +8,8 @@
  */
 
 import dotenv from 'dotenv-safe';
-dotenv.config( { path: '.env' } );
+
+dotenv.config({ path: '.env' });
 
 export const NODE_ENV = process.env.NODE_ENV || 'local';
 
