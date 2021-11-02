@@ -77,13 +77,11 @@ context( 'Test dsal', () => {
     } )*/
 
     it( 'Confirm the project request', () => {
-        cy.wait( 150 );
-        cy.on( "window:alert", ( str ) => {
-            expect( str ).to.get( ".modal-footer" );
-            cy.get( '.modal-footer' ).within( () => {
-                cy.contains( ' Confirm Request ' ).click( {force: true} );
-            } );
+        cy.wait( 250 );
+        cy.get( 'aside[ id = "preview-modal" ] button.op-btn-primary').click({force: true})
+            //cy.get( '.modal-footer' ).within( () => {
+            //    cy.contains( 'Confirm Request' ).click( {force: true} );
+          //  } );
             cy.contains( 'Project Requested Successfully' ).should( 'be.visible' );
         } );
     })
-})
