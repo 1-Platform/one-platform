@@ -1,5 +1,5 @@
-declare module "*.graphql";
-declare module "*.json";
+declare module '*.graphql';
+declare module '*.json';
 
 type LighthouseType = {
   sites: string;

@@ -1,8 +1,9 @@
-import fetch, { Headers } from "node-fetch";
-import { PropertyModel } from "./schema";
+import fetch, { Headers } from 'node-fetch';
+import Logger from '../lib/logger';
+import { PropertyModel } from './schema';
 
 export const getUserProfile = async (
-  rhUUID: string
+  rhUUID: string,
 ): Promise<UserProfileType> => {
   const userQuery = `query GetUsers{
       getUsersBy(rhatUUID:"${rhUUID}") {
@@ -18,15 +19,15 @@ export const getUserProfile = async (
     query: userQuery,
     variables: null,
   });
-  headers.append(`Authorization`, `${process.env.GATEWAY_AUTH_TOKEN}`);
-  headers.append(`Content-Type`, `application/json`);
+  headers.append('Authorization', `${process.env.GATEWAY_AUTH_TOKEN}`);
+  headers.append('Content-Type', 'application/json');
   const user = await fetch(`${process.env.API_GATEWAY}`, {
-    method: `POST`,
+    method: 'POST',
     headers,
-    body: body,
+    body,
   });
   const res = await user.json();
-  return res.data["getUsersBy"][0];
+  return res.data.getUsersBy[0];
 };
 
 /**
@@ -36,7 +37,7 @@ export const getUserProfile = async (
  * @returns {Object}: Mutated document as object
  */
 export const populateMongooseDocWithUser = async (
-  propertyDocument: PropertyModel | null
+  propertyDocument: PropertyModel | null,
 ) => {
   const property = propertyDocument?.toObject({ virtuals: true });
   if (!property) return {};
@@ -52,20 +53,18 @@ export const populateMongooseDocWithUser = async (
  * @param {PropertyModel} $project: input project document
  * @returns {Object}: Mutated document as object
  */
-export const createLHProject = ( project: any ) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    const raw = JSON.stringify(project);
+export const createLHProject = (project: any) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  const raw = JSON.stringify(project);
 
-    return fetch( `${process.env.SERVER_BASE_URL}/v1/projects`, {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw
-    })
-      .then( (response: any) => {
-        return response.json();
-      } )
-      .catch( (error: Error) => {
-        console.error( 'error', error );
-      } );
+  return fetch(`${process.env.SERVER_BASE_URL}/v1/projects`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+  })
+    .then((response: any) => response.json())
+    .catch((error: Error) => {
+      Logger.error(error);
+    });
 };

@@ -1,8 +1,8 @@
-import fetch, { Headers } from "node-fetch";
-import { LHSpaConfigModel } from "./schema";
+import fetch, { Headers } from 'node-fetch';
+import { LHSpaConfigModel } from './schema';
 
 export const getUserProfile = async (
-  rhUUID: string
+  rhUUID: string,
 ): Promise<UserProfileType> => {
   const userQuery = `query GetUsers{
       getUsersBy(rhatUUID:"${rhUUID}") {
@@ -18,18 +18,18 @@ export const getUserProfile = async (
     query: userQuery,
     variables: null,
   });
-  headers.append(`Authorization`, `${process.env.GATEWAY_AUTH_TOKEN}`);
-  headers.append(`Content-Type`, `application/json`);
+  headers.append('Authorization', `${process.env.GATEWAY_AUTH_TOKEN}`);
+  headers.append('Content-Type', 'application/json');
   const user = await fetch(`${process.env.API_GATEWAY}`, {
-    method: `POST`,
+    method: 'POST',
     headers,
-    body: body,
+    body,
   });
   const res = await user.json();
   if (!res.ok) {
     throw new Error(res);
   }
-  return res.data["getUsersBy"][0];
+  return res.data.getUsersBy[0];
 };
 
 /**
@@ -39,7 +39,7 @@ export const getUserProfile = async (
  * @returns {Object}: Mutated document as object
  */
 export const populateMongooseDocWithUser = async (
-  lhSpaConfigDoc: LHSpaConfigModel
+  lhSpaConfigDoc: LHSpaConfigModel,
 ) => {
   /**
    * if the fetch fails inorder to not break the query returning an empty object

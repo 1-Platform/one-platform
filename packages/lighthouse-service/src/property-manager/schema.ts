@@ -1,4 +1,6 @@
-import { Document, Model, model, Schema } from "mongoose";
+import {
+  Document, Model, model, Schema,
+} from 'mongoose';
 
 export const PropertySchema: Schema = new Schema({
   name: String,
@@ -16,6 +18,6 @@ export interface PropertyModel extends PropertyType, Document {}
 interface PropertyModelStatic extends Model<PropertyModel> {}
 
 export const Property: Model<PropertyModel> = model<
-  PropertyModel,
-  PropertyModelStatic
->("Property", PropertySchema);
+PropertyModel,
+PropertyModelStatic
+>('Property', PropertySchema);

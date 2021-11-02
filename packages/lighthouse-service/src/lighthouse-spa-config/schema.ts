@@ -1,4 +1,6 @@
-import { Document, Model, model, Schema } from "mongoose";
+import {
+  Document, Model, model, Schema,
+} from 'mongoose';
 
 export const LHSpaConfigSchema: Schema = new Schema({
   appId: {
@@ -18,6 +20,6 @@ export interface LHSpaConfigModel extends LHSpaConfigType, Document {}
 interface LHSpaConfigModelStatic extends Model<LHSpaConfigModel> {}
 
 export const LHSpaConfig: Model<LHSpaConfigModel> = model<
-  LHSpaConfigModel,
-  LHSpaConfigModelStatic
->("LHSpaConfig", LHSpaConfigSchema);
+LHSpaConfigModel,
+LHSpaConfigModelStatic
+>('LHSpaConfig', LHSpaConfigSchema);

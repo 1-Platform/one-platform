@@ -80,7 +80,7 @@ const apolloServer = new ApolloServer({
         const query = requestContext.request.query?.replace(/\s+/g, ' ').trim();
         const variables = JSON.stringify(requestContext.request.variables);
         Logger.http(
-          `${new Date().toISOString()}- [Request Started] { query: ${query}, variables: ${variables}, operationName: ${
+          `- [Request Started] { query: ${query}, variables: ${variables}, operationName: ${
             requestContext.request.operationName
           } }`,
         );
