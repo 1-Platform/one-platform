@@ -103,7 +103,7 @@ class LHCIHelper {
                 throw new Error( error );
             } );
     }
-    
+
     fetchProjectBranches ( serverBaseUrl: string, projectID: string) {
         let headers = new Headers();
         headers.append( `Content-Type`, `application/json` );

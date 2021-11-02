@@ -1,6 +1,7 @@
 # Development files
 node_modules
 *.env
+.DS_Store
 
 # ignore dist
 dist

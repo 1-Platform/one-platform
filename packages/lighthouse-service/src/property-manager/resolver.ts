@@ -12,7 +12,7 @@ export const PropertyResolver = {
       };
       if (user) filters.createdBy = user;
 
-      const properties = await Property.find(filters)
+      const properties = await Property.find(filters as any)
         .limit(limit || 100)
         .skip(offset || 0)
         .exec();
@@ -113,7 +113,7 @@ export const PropertyResolver = {
         { "apps._id": appId },
         {
           $pull: {
-            apps: { _id: appId },
+            apps: { _id: appId } as any,
           },
         },
         {

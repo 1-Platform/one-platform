@@ -1,12 +1,7 @@
-import dotenv from 'dotenv';
-/* Mock */
-import mock from './mock.json';
-import path from 'path';
-
-import Lighthouse from '../../service';
-
-/* Supertest */
 import supertest from 'supertest';
+import Lighthouse from '../../service';
+import mock from './mock.json';
+
 
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
@@ -32,9 +27,7 @@ query FetchProjectDetails($buildToken: String!){
 beforeAll(() => {
   request = supertest.agent(Lighthouse);
 });
-afterAll(done => {
-  return Lighthouse.close(done);
-});
+afterAll(() =>  Lighthouse.close());
 
 describe('Lighthouse audit manager API Test', () => {
   it('List should fetch the score of lighthouse result', done => {
@@ -57,7 +50,7 @@ describe('Lighthouse audit manager API Test', () => {
         expect( res.body.data.fetchScore[ 0 ] ).toHaveProperty( 'seo' );
         expect( res.body.data.fetchScore[ 0 ] ).toHaveProperty( 'pwa' );
       })
-      .end((err, res) => {
+      .end((err) => {
         done(err);
       });
   } );
@@ -79,7 +72,7 @@ describe('Lighthouse audit manager API Test', () => {
         expect( res.body.data.fetchProjectDetails ).toHaveProperty( 'token' );
         expect( res.body.data.fetchProjectDetails ).toHaveProperty( 'name' );
       } )
-      .end( ( err, res ) => {
+      .end( ( err ) => {
         done( err );
       } );
   } );
