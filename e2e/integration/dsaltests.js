@@ -79,9 +79,6 @@ context( 'Test dsal', () => {
     it( 'Confirm the project request', () => {
         cy.wait( 250 );
         cy.get( 'aside[ id = "preview-modal" ] button.op-btn-primary').click({force: true})
-            //cy.get( '.modal-footer' ).within( () => {
-            //    cy.contains( 'Confirm Request' ).click( {force: true} );
-          //  } );
-            cy.contains( 'Project Requested Successfully' ).should( 'be.visible' );
+        cy.contains( 'Project Requested Successfully' ).should( 'be.visible' );
         } );
     })
