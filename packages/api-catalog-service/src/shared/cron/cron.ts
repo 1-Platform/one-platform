@@ -6,8 +6,8 @@ import APICatalogHelper from '../helpers';
 import Logger from '../../lib/logger';
 
 const checkAPIHash = async function checkAPIHash() {
-  const namespaces: NamespaceType[] = await Namespace.find().lean();
-  namespaces.map(async (namespace: NamespaceType) => {
+  const namespaces: NamespaceDoc[] = await Namespace.find().lean();
+  namespaces.map(async (namespace: NamespaceDoc) => {
     const nsRecord = namespace;
     nsRecord.lastCheckedOn = new Date();
     const hash = await APICatalogHelper.manageApiHash(nsRecord);

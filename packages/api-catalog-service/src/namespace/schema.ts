@@ -6,6 +6,7 @@ export const NamespaceSchema: Schema = new Schema({
   name: {
     type: String,
     unique: true,
+
   },
   slug: {
     type: String,
@@ -21,7 +22,7 @@ export const NamespaceSchema: Schema = new Schema({
   tags: [String],
   owners: [
     {
-      email: {
+      mid: {
         type: String,
       },
       group: {
@@ -90,7 +91,7 @@ export const NamespaceSchema: Schema = new Schema({
   },
 });
 
-interface NamespaceModel extends NamespaceType, Document { }
+export interface NamespaceModel extends NamespaceDoc, Document { }
 
 type NamespaceModelStatic = Model<NamespaceModel>;
 

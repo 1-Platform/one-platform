@@ -1,6 +1,6 @@
 import { SPA_URL } from '../../setup/env';
 
-export default async function updateEmailConfig(namespace: NamespaceType) {
+export default async function updateEmailConfig(namespace: Omit<NamespaceType, 'owners'>) {
   const message = `
 Hi,<br/><br/>
 

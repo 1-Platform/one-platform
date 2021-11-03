@@ -7,6 +7,12 @@ type UserType = {
   mail?: string;
   uid?: string;
   rhatUUID?: string;
+  rhatJobTitle?: string;
+};
+
+type Pagination<T extends unknown> = {
+  count: number;
+  data: T;
 };
 
 type Query = {
@@ -18,10 +24,24 @@ type Query = {
 type ListNamespacesArgs = {
   limit?: number;
   offset?: number;
+  search?: string;
+  sort?: 'createdOn' | 'updatedOn';
+  mid?: string;
+  apiCategory?:ApiCategory
 };
 
 type GetNamespaceByIdArgs = {
   id: string;
+};
+
+type GetNamespaceCountArgs = {
+  search?: string;
+  mid?: string;
+};
+
+type GetNamespaceSubscriberStatusArgs = {
+  id: string;
+  email: string;
 };
 
 type FetchApiSchemaArgs = {
@@ -36,29 +56,43 @@ type NamespaceType = {
   description?: string;
   category?: ApiCategory;
   tags?: Array<string>;
-  owners?: Array<ApiUserType>;
+  owners?: Array<ApiOwnerType>;
   appUrl?: string;
   environments?: Array<NsEnvironmentType>;
   hash?: string;
   schemaEndpoint?: string;
   headers?: Array<HeaderType>;
-  subscribers?: Array<ApiUserType>;
+  subscribers?: Array<ApiSubscribeType>;
   lastCheckedOn?: Date;
   createdOn?: Date;
-  createdBy?: string;
+  createdBy?: UserType | string;
   updatedOn?: Date;
-  updatedBy?: string;
+  updatedBy?: UserType | string;
 };
+
+type NamespaceDoc = Omit<NamespaceType, 'owners'> & { owners: Array<ApiOwnerInput> };
 
 declare enum ApiCategory {
   REST = 'REST',
   GRAPHQL = 'GRAPHQL',
 }
 
-type ApiUserType = {
+type ApiSubscribeType = {
   email?: string;
   group?: ApiEmailGroup;
 };
+
+type OwnerUserType = {
+  user: UserType;
+  group: ApiEmailGroup.USER;
+};
+
+type OwnerMailingType = {
+  email: string;
+  group: ApiEmailGroup.MAILING_LIST;
+};
+
+type ApiOwnerType = OwnerUserType | OwnerMailingType;
 
 declare enum ApiEmailGroup {
   USER = 'USER',
@@ -103,12 +137,12 @@ type DeleteNamespaceArgs = {
 
 type AddNamespaceSubscriberArgs = {
   id: string;
-  payload: ApiUserInput;
+  payload: ApiSubscriberInput;
 };
 
 type RemoveNamespaceSubscriberArgs = {
   id: string;
-  payload: ApiUserInput;
+  payload: ApiSubscriberInput;
 };
 
 type NamespaceInput = {
@@ -118,12 +152,12 @@ type NamespaceInput = {
   description?: string;
   category: ApiCategory;
   tags?: Array<string>;
-  owners: Array<ApiUserInput>;
+  owners: Array<ApiOwnerInput>;
   appUrl?: string;
   environments: Array<NsEnvironmentInput>;
   schemaEndpoint: string;
   headers?: Array<HeaderInput>;
-  subscribers?: Array<ApiUserInput>;
+  subscribers?: Array<ApiSubscriberInput>;
   lastCheckedOn?: Date;
   createdOn?: Date;
   createdBy?: string;
@@ -131,8 +165,13 @@ type NamespaceInput = {
   updatedBy?: string;
 };
 
-type ApiUserInput = {
+type ApiSubscriberInput = {
   email: string;
+  group?: ApiEmailGroup;
+};
+
+type ApiOwnerInput = {
+  mid: string;
   group?: ApiEmailGroup;
 };
 
