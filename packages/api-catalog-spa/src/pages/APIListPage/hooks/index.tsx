@@ -1,0 +1,1 @@
+export { useGetNamespaceList } from './useGetNamespaceList';

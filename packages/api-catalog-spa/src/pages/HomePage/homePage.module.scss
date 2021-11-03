@@ -1,0 +1,32 @@
+.header {
+  background: #000;
+  color: white;
+  &-explore-button {
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+  }
+}
+
+.add-api-section {
+  background: #0066cc;
+  color: white;
+  border-radius: 8px;
+
+  &--container {
+    background: white;
+    padding: 60px 0 !important;
+  }
+}
+
+.catalog-search {
+  &-container {
+    position: relative;
+  }
+
+  &-menu {
+    position: absolute;
+    top: 56px;
+    width: 75%;
+  }
+}

@@ -1,0 +1,1 @@
+export { ApiTypeCard } from './ApiTypeCard';

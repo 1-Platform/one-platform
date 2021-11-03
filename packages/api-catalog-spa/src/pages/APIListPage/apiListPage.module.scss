@@ -1,0 +1,24 @@
+.api-list {
+  &--table-filter {
+    &--container {
+      --pf-l-split--m-gutter--MarginRight: 2rem;
+    }
+  }
+
+  &--toggle-group button[aria-pressed='true'] {
+    --pf-c-toggle-group__button--m-selected--BackgroundColor: var(--pf-global--primary-color--100);
+    color: white;
+  }
+
+  &--stat-card {
+    display: flex;
+
+    &[type='graphql'] {
+      justify-content: center;
+    }
+
+    &[type='rest'] {
+      justify-content: flex-end;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+<svg id="rest_logo" data-name="rest logo" xmlns="http://www.w3.org/2000/svg" width="56" height="32" viewBox="0 0 56 32">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #06c;
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        fill: #fff;
+        font-size: 16px;
+        font-family: RedHatText-Bold, Red Hat Text;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <rect id="Rectangle_26" data-name="Rectangle 26" class="cls-1" width="56" height="32" rx="8"/>
+  <g id="Text" transform="translate(7 3)">
+    <rect id="Rectangle" class="cls-2" width="43" height="24"/>
+    <text id="_API_" data-name="{API}" class="cls-3" transform="translate(0 18)"><tspan x="0" y="0">{API}</tspan></text>
+  </g>
+</svg>

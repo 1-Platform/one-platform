@@ -1,0 +1,1 @@
+export { CatalogBigButton } from './CatalogBigButton';

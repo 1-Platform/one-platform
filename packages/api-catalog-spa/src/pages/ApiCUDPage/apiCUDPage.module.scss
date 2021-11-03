@@ -1,0 +1,16 @@
+.data-source {
+  &--form {
+    --pf-c-form--m-limit-width--MaxWidth: 50rem;
+    --pf-c-form__field-group-body--PaddingTop: 0;
+    --pf-c-form__field-group__field-group--PaddingBottom: 0.5rem;
+    --pf-c-form__field-group__field-group__field-group-header--PaddingTop: 1rem;
+    --pf-c-form__field-group__field-group__field-group-toggle--PaddingTop: 1rem;
+    --pf-c-form__field-group__field-group__field-group-header--PaddingBottom: 1rem;
+  }
+
+  &--container {
+    padding: 1.5rem;
+    background-color: white;
+    box-shadow: 0 3px 6px #00000029;
+  }
+}
