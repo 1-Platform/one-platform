@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="53.303" height="61.335" viewBox="0 0 53.303 61.335">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(0,102,204,0.8);
+        opacity: 0.75;
+      }
+    </style>
+  </defs>
+  <g id="container-grey-5" transform="translate(0 0)">
+    <path id="Path" class="cls-1" d="M44.384,46.393l-.061-30.872L17.714.237V30.961Z" transform="translate(8.918 -0.116)"/>
+    <path id="Path-2" data-name="Path" class="cls-1" d="M.194,15.53.133,46.124l26.384-15.18L26.492.272Z" transform="translate(-0.116 -0.151)"/>
+    <path id="Path-3" data-name="Path" class="cls-1" d="M.255,35.7l26.2-14.971L53.119,36.178,26.483,51.219Z" transform="translate(-0.055 10.064)"/>
+    <path id="Shape" d="M.92,10.81l24.675,14.2.148,30.047L.894,40.675V11.8Zm-.8-.391V41.126L26.549,56.419l-.156-31.913L1.736,10.42Z" transform="translate(-0.122 4.916)"/>
+    <path id="Shape-2" data-name="Shape" d="M26.549,1.128l24.944,14.4L26.419,29.665,1.727,15.527l24.822-14.4Zm0-.92L.122,15.527l26.3,15.058L53.107,15.527,26.549.191Z" transform="translate(-0.122 -0.191)"/>
+  </g>
+</svg>

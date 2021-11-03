@@ -2,4 +2,79 @@
   '@patternfly/react-styles/css/utilities/Text/text.css',
   '@patternfly/react-styles/css/utilities/Alignment/alignment.css',
   '@patternfly/react-styles/css/utilities/Sizing/sizing.css',
+  '@patternfly/react-styles/css/utilities/Flex/flex.css',
   '@patternfly/react-styles/css/utilities/Display/display.css';
+
+html,
+body,
+#root {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.pf-c-page {
+  --pf-c-page--BackgroundColor: #fff;
+  height: calc(100vh - 60px);
+}
+
+.pf-c-page__sidebar-body {
+  height: 100% !important;
+}
+
+opc-feedback {
+  --op-feedback__z-index: 8;
+}
+
+table tr > th {
+  background-color: #fafafa;
+}
+
+table tr {
+  --pf-c-table--BorderColor: #eeeeee;
+}
+
+table tr > td:first-child {
+  --pf-c-table--cell--FontWeight: 700;
+}
+
+table tr > td:not(:first-child) {
+  --pf-c-table--cell--Color: rgba(0, 0, 0, 0.75);
+}
+
+.catalog-card-flat {
+  border: 1px solid #dddddd;
+  box-shadow: none;
+}
+
+.catalog-card-hover-effect {
+  box-sizing: border-box;
+  box-shadow: var(--pf-global--BoxShadow--sm);
+  transition: all 150ms ease-in-out;
+
+  &:hover {
+    box-shadow: 0 3px 6px #01142729;
+  }
+}
+
+.catalog-card-select-effect {
+  border: 2px solid #0066cc;
+  background: #0066cc1a 0% 0% no-repeat padding-box;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.catalog-nav-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.rounded {
+  border-radius: 4px;
+}

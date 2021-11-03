@@ -1,0 +1,25 @@
+.app-layout {
+  --pf-c-page__main-breadcrumb--PaddingBottom: 1rem;
+
+  main {
+    --pf-c-page__main--ZIndex: 5;
+  }
+
+  &--sidebar {
+    --pf-c-page__sidebar--BoxShadow: none;
+    border-right: 1px solid #dbdbdb;
+    --pf-c-page__sidebar--ZIndex: 5;
+
+    nav a {
+      padding: 0.75rem 1.5rem;
+      --pf-c-nav__link--m-current--BackgroundColor: #e9effa;
+      --pf-c-nav__link--m-current--Color: var(--pf-global--primary-color--dark-100);
+    }
+  }
+
+  &--content {
+    flex: 1 1 auto;
+    height: inherit;
+    position: relative;
+  }
+}

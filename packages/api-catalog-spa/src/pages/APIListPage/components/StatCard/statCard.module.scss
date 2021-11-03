@@ -1,0 +1,17 @@
+.stat-card {
+  filter: grayscale(1);
+  border-bottom: 2px solid #dee1e4;
+  transition: all 50ms ease-in-out;
+  border-radius: 2px 2px 0 0;
+  width: 100%;
+  max-width: 320px;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  color: #6a6e73;
+
+  &-selected {
+    border-bottom: 2px solid #0066cc;
+    filter: grayscale(0);
+    color: inherit;
+  }
+}

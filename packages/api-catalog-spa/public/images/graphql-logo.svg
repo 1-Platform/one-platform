@@ -1,0 +1,60 @@
+<svg id="GraphQL_Logo" xmlns="http://www.w3.org/2000/svg" width="53.452" height="60.059" viewBox="0 0 53.452 60.059">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #e535ab;
+      }
+    </style>
+  </defs>
+  <g id="Group_3894" data-name="Group 3894" transform="translate(2.661 1.96)">
+    <g id="Group_3893" data-name="Group 3893" transform="translate(0 0)">
+      <rect id="Rectangle_15" data-name="Rectangle 15" class="cls-1" width="2.546" height="49.124" transform="matrix(-0.866, -0.5, 0.5, -0.866, 2.205, 43.814)"/>
+    </g>
+  </g>
+  <g id="Group_3896" data-name="Group 3896" transform="translate(2.156 41.102)">
+    <g id="Group_3895" data-name="Group 3895">
+      <rect id="Rectangle_16" data-name="Rectangle 16" class="cls-1" width="49.124" height="2.546"/>
+    </g>
+  </g>
+  <g id="Group_3898" data-name="Group 3898" transform="translate(3.128 40.328)">
+    <g id="Group_3897" data-name="Group 3897" transform="translate(0 0)">
+      <rect id="Rectangle_17" data-name="Rectangle 17" class="cls-1" width="28.373" height="2.546" transform="matrix(-0.866, -0.5, 0.5, -0.866, 24.571, 16.391)"/>
+    </g>
+  </g>
+  <g id="Group_3900" data-name="Group 3900" transform="translate(24.473 3.354)">
+    <g id="Group_3899" data-name="Group 3899" transform="translate(0 0)">
+      <rect id="Rectangle_18" data-name="Rectangle 18" class="cls-1" width="28.373" height="2.546" transform="matrix(-0.866, -0.5, 0.5, -0.866, 24.571, 16.391)"/>
+    </g>
+  </g>
+  <g id="Group_3902" data-name="Group 3902" transform="translate(3.135 3.345)">
+    <g id="Group_3901" data-name="Group 3901" transform="translate(0 0)">
+      <rect id="Rectangle_19" data-name="Rectangle 19" class="cls-1" width="2.546" height="28.373" transform="matrix(-0.5, -0.866, 0.866, -0.5, 1.273, 16.391)"/>
+    </g>
+  </g>
+  <g id="Group_3904" data-name="Group 3904" transform="translate(24.029 1.961)">
+    <g id="Group_3903" data-name="Group 3903" transform="translate(0 0)">
+      <rect id="Rectangle_20" data-name="Rectangle 20" class="cls-1" width="49.124" height="2.546" transform="matrix(-0.5, -0.866, 0.866, -0.5, 24.562, 43.814)"/>
+    </g>
+  </g>
+  <g id="Group_3906" data-name="Group 3906" transform="translate(4.104 15.843)">
+    <g id="Group_3905" data-name="Group 3905" transform="translate(0)">
+      <rect id="Rectangle_21" data-name="Rectangle 21" class="cls-1" width="2.546" height="28.373"/>
+    </g>
+  </g>
+  <g id="Group_3908" data-name="Group 3908" transform="translate(46.802 15.843)">
+    <g id="Group_3907" data-name="Group 3907" transform="translate(0)">
+      <rect id="Rectangle_22" data-name="Rectangle 22" class="cls-1" width="2.546" height="28.373"/>
+    </g>
+  </g>
+  <g id="Group_3910" data-name="Group 3910" transform="translate(26.154 41.377)">
+    <g id="Group_3909" data-name="Group 3909" transform="translate(0 0)">
+      <rect id="Rectangle_23" data-name="Rectangle 23" class="cls-1" width="2.224" height="24.677" transform="matrix(-0.5, -0.866, 0.866, -0.5, 1.112, 14.264)"/>
+    </g>
+  </g>
+  <path id="Path_1561" data-name="Path 1561" class="cls-1" d="M314.333,253.57a5.356,5.356,0,1,1-1.963-7.316,5.361,5.361,0,0,1,1.963,7.316" transform="translate(-261.612 -208.526)"/>
+  <path id="Path_1562" data-name="Path 1562" class="cls-1" d="M35.733,92.67a5.356,5.356,0,1,1-1.963-7.316,5.361,5.361,0,0,1,1.963,7.316" transform="translate(-25.74 -72.303)"/>
+  <path id="Path_1563" data-name="Path 1563" class="cls-1" d="M26.555,253.57a5.356,5.356,0,1,1,7.316,1.963,5.364,5.364,0,0,1-7.316-1.963" transform="translate(-25.825 -208.526)"/>
+  <path id="Path_1564" data-name="Path 1564" class="cls-1" d="M305.155,92.67a5.356,5.356,0,1,1,7.316,1.963,5.364,5.364,0,0,1-7.316-1.963" transform="translate(-261.697 -72.303)"/>
+  <path id="Path_1565" data-name="Path 1565" class="cls-1" d="M170.453,336.705a5.353,5.353,0,1,1,5.353-5.352,5.348,5.348,0,0,1-5.353,5.352" transform="translate(-143.727 -276.646)"/>
+  <path id="Path_1566" data-name="Path 1566" class="cls-1" d="M170.453,14.905a5.353,5.353,0,1,1,5.353-5.353,5.348,5.348,0,0,1-5.353,5.353" transform="translate(-143.727 -4.2)"/>
+</svg>

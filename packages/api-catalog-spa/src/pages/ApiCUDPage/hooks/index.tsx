@@ -1,0 +1,1 @@
+export { useGetANamespace } from './useGetANamespace';

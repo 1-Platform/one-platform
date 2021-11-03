@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f3f3f3;
+      }
+
+      .cls-2 {
+        fill: #e535ab;
+      }
+    </style>
+  </defs>
+  <g id="logo" transform="translate(-352 -200)">
+    <rect id="Rectangle_1538" data-name="Rectangle 1538" class="cls-1" width="48" height="48" rx="4" transform="translate(352 200)"/>
+    <g id="GraphQL_Logo" transform="translate(359.359 205.302)">
+      <g id="Group_3894" data-name="Group 3894" transform="translate(1.657 1.22)">
+        <g id="Group_3893" data-name="Group 3893" transform="translate(0 0)">
+          <rect id="Rectangle_15" data-name="Rectangle 15" class="cls-2" width="1.585" height="30.588" transform="matrix(-0.866, -0.5, 0.5, -0.866, 1.373, 27.282)"/>
+        </g>
+      </g>
+      <g id="Group_3896" data-name="Group 3896" transform="translate(1.343 25.593)">
+        <g id="Group_3895" data-name="Group 3895">
+          <rect id="Rectangle_16" data-name="Rectangle 16" class="cls-2" width="30.588" height="1.585"/>
+        </g>
+      </g>
+      <g id="Group_3898" data-name="Group 3898" transform="translate(1.948 25.111)">
+        <g id="Group_3897" data-name="Group 3897" transform="translate(0 0)">
+          <rect id="Rectangle_17" data-name="Rectangle 17" class="cls-2" width="17.667" height="1.585" transform="matrix(-0.866, -0.5, 0.5, -0.866, 15.3, 10.206)"/>
+        </g>
+      </g>
+      <g id="Group_3900" data-name="Group 3900" transform="translate(15.239 2.089)">
+        <g id="Group_3899" data-name="Group 3899" transform="translate(0 0)">
+          <rect id="Rectangle_18" data-name="Rectangle 18" class="cls-2" width="17.667" height="1.585" transform="matrix(-0.866, -0.5, 0.5, -0.866, 15.3, 10.206)"/>
+        </g>
+      </g>
+      <g id="Group_3902" data-name="Group 3902" transform="translate(1.952 2.083)">
+        <g id="Group_3901" data-name="Group 3901" transform="translate(0 0)">
+          <rect id="Rectangle_19" data-name="Rectangle 19" class="cls-2" width="1.585" height="17.667" transform="matrix(-0.5, -0.866, 0.866, -0.5, 0.793, 10.206)"/>
+        </g>
+      </g>
+      <g id="Group_3904" data-name="Group 3904" transform="translate(14.962 1.221)">
+        <g id="Group_3903" data-name="Group 3903" transform="translate(0 0)">
+          <rect id="Rectangle_20" data-name="Rectangle 20" class="cls-2" width="30.588" height="1.585" transform="matrix(-0.5, -0.866, 0.866, -0.5, 15.294, 27.282)"/>
+        </g>
+      </g>
+      <g id="Group_3906" data-name="Group 3906" transform="translate(2.556 9.865)">
+        <g id="Group_3905" data-name="Group 3905" transform="translate(0)">
+          <rect id="Rectangle_21" data-name="Rectangle 21" class="cls-2" width="1.585" height="17.667"/>
+        </g>
+      </g>
+      <g id="Group_3908" data-name="Group 3908" transform="translate(29.142 9.865)">
+        <g id="Group_3907" data-name="Group 3907" transform="translate(0)">
+          <rect id="Rectangle_22" data-name="Rectangle 22" class="cls-2" width="1.585" height="17.667"/>
+        </g>
+      </g>
+      <g id="Group_3910" data-name="Group 3910" transform="translate(16.285 25.765)">
+        <g id="Group_3909" data-name="Group 3909" transform="translate(0 0)">
+          <rect id="Rectangle_23" data-name="Rectangle 23" class="cls-2" width="1.385" height="15.366" transform="matrix(-0.5, -0.866, 0.866, -0.5, 0.692, 8.882)"/>
+        </g>
+      </g>
+      <path id="Path_1561" data-name="Path 1561" class="cls-2" d="M310.563,250.54a3.335,3.335,0,1,1-1.222-4.555,3.338,3.338,0,0,1,1.222,4.555" transform="translate(-277.734 -222.492)"/>
+      <path id="Path_1562" data-name="Path 1562" class="cls-2" d="M31.963,89.64a3.335,3.335,0,1,1-1.222-4.555,3.338,3.338,0,0,1,1.222,4.555" transform="translate(-25.74 -76.958)"/>
+      <path id="Path_1563" data-name="Path 1563" class="cls-2" d="M26.285,250.54a3.335,3.335,0,1,1,4.555,1.222,3.34,3.34,0,0,1-4.555-1.222" transform="translate(-25.83 -222.492)"/>
+      <path id="Path_1564" data-name="Path 1564" class="cls-2" d="M304.885,89.64a3.335,3.335,0,1,1,4.555,1.222,3.34,3.34,0,0,1-4.555-1.222" transform="translate(-277.825 -76.958)"/>
+      <path id="Path_1565" data-name="Path 1565" class="cls-2" d="M168.433,332.666a3.333,3.333,0,1,1,3.333-3.333,3.33,3.33,0,0,1-3.333,3.333" transform="translate(-151.791 -295.269)"/>
+      <path id="Path_1566" data-name="Path 1566" class="cls-2" d="M168.433,10.866a3.333,3.333,0,1,1,3.333-3.333,3.33,3.33,0,0,1-3.333,3.333" transform="translate(-151.791 -4.2)"/>
+    </g>
+  </g>
+</svg>
