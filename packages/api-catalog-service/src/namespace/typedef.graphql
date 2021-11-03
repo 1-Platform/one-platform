@@ -3,6 +3,11 @@ enum ApiCategory {
   GRAPHQL
 }
 
+enum ApiSortType {
+  CREATED_AT
+  UPDATED_AT
+}
+
 type HeaderType {
   key: String
   value: String
@@ -30,18 +35,33 @@ type NamespaceType {
   description: String
   category: ApiCategory
   tags: [String]
-  owners: [ApiUserType]
+  owners: [ApiOwnerType]
   appUrl: String
   environments: [NSEnvironmentType]
   hash: String
   schemaEndpoint: String
   headers: [HeaderType]
-  subscribers: [ApiUserType]
+  subscribers: [ApiSubscriberType]
   lastCheckedOn: DateTime
   createdOn: DateTime
-  createdBy: String
+  createdBy: UserType
   updatedOn: DateTime
-  updatedBy: String
+  updatedBy: UserType
+}
+
+type NamespaceCount {
+  all: Int
+  graphql: Int
+  rest: Int
+}
+
+type NamespaceSubscriberStatusType {
+  subscribed: Boolean
+}
+
+type PaginatedNamespaceType {
+  count: Int
+  data: [NamespaceType]
 }
 
 input NamespaceInput {
@@ -51,12 +71,12 @@ input NamespaceInput {
   description: String
   category: ApiCategory!
   tags: [String]
-  owners: [ApiUserInput]!
+  owners: [ApiOwnerInput]!
   appUrl: String
   environments: [NSEnvironmentInput]!
   schemaEndpoint: String!
   headers: [HeaderInput]
-  subscribers: [ApiUserInput]
+  subscribers: [ApiSubscriberInput]
   lastCheckedOn: DateTime
   createdOn: DateTime
   createdBy: String
@@ -68,15 +88,34 @@ type Query {
   """
   List all API namespaces
   """
-  listNamespaces(limit: Int, offset: Int): [NamespaceType]
+  listNamespaces(
+    search: String
+    limit: Int
+    offset: Int
+    sortBy: ApiSortType
+    mid: String
+    apiCategory: ApiCategory
+  ): PaginatedNamespaceType
   """
   To get a particular namespace by id
   """
   getNamespaceById(id: ID!): NamespaceType
   """
+  To get count of namespaces of type REST and GRAPHQL
+  """
+  getNamespaceCount(search:String,mid:String): NamespaceCount
+  """
+  To know whether particular email has been subscribed to a namespace
+  """
+  getNamespaceSubscriberStatus(id: ID!, email: String!): NamespaceSubscriberStatusType
+  """
   Fetch the API Schema
   """
-  fetchAPISchema(category: ApiCategory, schemaEndpoint: String, headers:[HeaderInput]): String
+  fetchAPISchema(
+    category: ApiCategory
+    schemaEndpoint: String
+    headers: [HeaderInput]
+  ): String
 }
 
 type Mutation {
@@ -95,15 +134,12 @@ type Mutation {
   """
   Add subscriber to the namespace environments
   """
-  addNamespaceSubscriber(
-    id: ID!
-    payload: ApiUserInput!
-  ): NamespaceType
+  addNamespaceSubscriber(id: ID!, payload: ApiSubscriberInput!): NamespaceType
   """
   Remove subscriber from namespace environments.
   """
   removeNamespaceSubscriber(
     id: ID!
-    payload: ApiUserInput!
+    payload: ApiSubscriberInput!
   ): NamespaceType
 }

@@ -5,12 +5,37 @@ enum ApiEmailGroup {
   MAILING_LIST
 }
 
-type ApiUserType {
+type UserType {
+  cn: String
+  uid: String
+  rhatUUID: String
+  rhatJobTitle:String
+  mail: String
+}
+
+type OwnerMailingType {
   email: String
   group: ApiEmailGroup
 }
 
-input ApiUserInput {
+type OwnerUserType {
+  user:UserType
+  group: ApiEmailGroup
+}
+
+union ApiOwnerType = OwnerMailingType | OwnerUserType
+
+type ApiSubscriberType {
+  email: String
+  group: ApiEmailGroup
+}
+
+input ApiSubscriberInput {
   email: String!
+  group: ApiEmailGroup
+}
+
+input ApiOwnerInput {
+  mid: String!
   group: ApiEmailGroup
 }

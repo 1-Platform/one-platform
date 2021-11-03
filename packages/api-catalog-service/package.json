@@ -5,7 +5,7 @@
     "className": "ApiCatalog",
     "serviceName": "api-catalog"
   },
-  "version": "0.3.0",
+  "version": "0.4.0",
   "keywords": [
     "web-components",
     "html"
@@ -27,7 +27,7 @@
     "build:dev": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack --watch --config webpack.dev.js",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts --fix"
   },
   "author": {
     "name": "Rigin Oommen",

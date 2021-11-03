@@ -1,86 +1,84 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { uniq } from 'lodash';
 import APICatalogHelper from '../shared/helpers';
 import { Namespace } from './schema';
 
 const NamespaceResolver = {
+  ApiSortType: {
+    CREATED_AT: 'createdOn',
+    UPDATED_AT: 'updatedOn',
+  },
+  ApiOwnerType: {
+    // eslint-disable-next-line no-underscore-dangle
+    __resolveType(obj:ApiOwnerType, context:any, info:any) {
+      if (obj.group === 'USER') {
+        return 'OwnerUserType';
+      }
+      return 'OwnerMailingType';
+    },
+  },
   Query: {
-    listNamespaces(root: any, { limit, offset }: ListNamespacesArgs, ctx: any) {
-      return Namespace.find()
-        .limit(limit || 10)
-        .skip(offset || 0)
-        .exec()
-        .then(async (namespaces: NamespaceType[]) => {
-          if (namespaces.length) {
-            // Fetch user information associated with this records.
-            let userIds: string[] = [];
-            namespaces.forEach((namespace: NamespaceType) => {
-              if (namespace.createdBy) {
-                userIds.push(namespace.createdBy);
-              }
-              if (namespace.updatedBy) {
-                userIds.push(namespace.updatedBy);
-              }
-            });
-            userIds = uniq(userIds);
-            // Build a single user query for the namespace
-            const userQuery = await APICatalogHelper.buildUserQuery(userIds);
-            const userData: UserType[] = await APICatalogHelper.fetchUserProfile(userQuery);
-
-            // Assign the parsed user information with the fields.
-            return namespaces.map((namespace) => {
-              const nsRecord = namespace;
-              if (namespace.createdBy) {
-                nsRecord.createdBy = userData.find(
-                  (user) => user?.rhatUUID === namespace?.createdBy,
-                )?.mail;
-              }
-              if (namespace.updatedBy) {
-                nsRecord.updatedBy = userData.find(
-                  (user) => user?.rhatUUID === namespace?.updatedBy,
-                )?.mail;
-              }
-              return nsRecord;
-            });
-          }
-          return namespaces;
-        });
+    async listNamespaces(root: any, {
+      limit = 10, offset = 0, search, sort = 'createdOn', mid, apiCategory,
+    }: ListNamespacesArgs, ctx: any) {
+      // conditional filters
+      const match: Record<string, unknown> = {};
+      if (search) match.name = { $regex: search, $options: 'i' };
+      if (mid) match.$or = [{ createdBy: mid }, { 'owners.mid': mid }];
+      if (apiCategory) match.category = apiCategory;
+      const paginatedNamespace = await Namespace.aggregate([
+        { $match: match },
+        { $sort: { [sort]: -1 } },
+        {
+          $facet: {
+            data: [{ $skip: offset }, { $limit: limit }],
+            total: [{ $count: 'total' }],
+          },
+        },
+      ]).exec();
+      const namespaceRecords = paginatedNamespace[0].data.map((doc: NamespaceDoc) => Namespace.hydrate(doc));
+      const count = paginatedNamespace[0].total[0]?.total || 0;
+      return {
+        count,
+        data: APICatalogHelper.formatNamespaceDoc(namespaceRecords),
+      };
     },
     getNamespaceById(root: any, { id }: GetNamespaceByIdArgs, ctx: any) {
-      let userIds: string[] = [];
       if (id.match(/^[0-9a-fA-F]{24}$/)) {
         return Namespace.findById(id)
           .exec()
           .then(async (namespace) => {
             if (namespace) {
-              const nsRecord = namespace;
-              if (namespace.createdBy) {
-                userIds.push(namespace.createdBy);
-              }
-              if (namespace.updatedBy) {
-                userIds.push(namespace.updatedBy);
-              }
-              userIds = uniq(userIds);
-              // Build a single user query for the namespace
-              const userQuery = await APICatalogHelper.buildUserQuery(userIds);
-              const userData: UserType[] = await APICatalogHelper.fetchUserProfile(userQuery);
-              // Assign the parsed user information with the fields.
-              if (namespace.createdBy) {
-                nsRecord.createdBy = userData.find(
-                  (user) => user?.rhatUUID === namespace?.createdBy,
-                )?.mail;
-              }
-              if (namespace.updatedBy) {
-                nsRecord.updatedBy = userData.find(
-                  (user) => user?.rhatUUID === namespace?.updatedBy,
-                )?.mail;
-              }
-              return nsRecord;
+              const formatedNamespace = await APICatalogHelper.formatNamespaceDoc([namespace]);
+              return formatedNamespace[0];
             }
             return null;
           });
       }
       throw new Error('Please provide valid id');
+    },
+    async getNamespaceCount(root: any, { search, mid }: GetNamespaceCountArgs, ctx: any) {
+      // conditional filters
+      const match: Record<string, unknown> = {};
+      if (search) match.name = { $regex: search, $options: 'i' };
+      if (mid) match.$or = [{ createdBy: mid }, { 'owners.mid': mid }];
+
+      const namespaceCount = await Namespace.aggregate([
+        { $match: match },
+        {
+          $facet: {
+            rest: [{ $match: { category: 'REST' } }, { $count: 'rest' }],
+            graphql: [{ $match: { category: 'GRAPHQL' } }, { $count: 'graphql' }],
+          },
+        },
+      ]).exec();
+      const rest = namespaceCount[0].rest[0]?.rest || 0;
+      const graphql = namespaceCount[0].graphql[0]?.graphql || 0;
+      return { all: rest + graphql, rest, graphql };
+    },
+    async getNamespaceSubscriberStatus(root: any, { id, email }: GetNamespaceSubscriberStatusArgs, ctx: any) {
+      const nsDoc = await Namespace.find({ _id: id, 'subscribers.email': email }).select('-subscribers').lean().exec();
+      const isSubscribed = nsDoc.length > 0;
+      return { subscribed: isSubscribed };
     },
     async fetchAPISchema(
       root: any,
@@ -101,36 +99,43 @@ const NamespaceResolver = {
       ctx: any,
     ) {
       const namespace = payload;
-      if (!payload?.createdOn) {
-        namespace.createdOn = new Date();
-      }
-      if (payload?.id) {
-        // eslint-disable-next-line no-underscore-dangle
-        (namespace as any)._id = payload?.id;
-      }
+      if (!payload?.createdOn) namespace.createdOn = new Date();
+      // eslint-disable-next-line no-underscore-dangle
+      if (payload?.id) (namespace as any)._id = payload?.id;
       (namespace as any).hash = await APICatalogHelper.manageApiHash(payload);
-      return new Namespace(namespace).save();
+      const nsDoc = await new Namespace(namespace).save();
+
+      const formatedDoc = await APICatalogHelper.formatNamespaceDoc([nsDoc]);
+      return formatedDoc[0];
     },
-    updateNamespace(root: any, { id, payload }: UpdateNamespaceArgs, ctx: any) {
+    async updateNamespace(root: any, { id, payload }: UpdateNamespaceArgs, ctx: any) {
       const namespace = payload;
-      if (!payload?.updatedOn) {
-        namespace.updatedOn = new Date();
-      }
-      return Namespace.findByIdAndUpdate(id, namespace, {
+      if (!payload?.updatedOn) namespace.updatedOn = new Date();
+
+      const nsDoc = await Namespace.findByIdAndUpdate(id, namespace, {
         new: true,
       }).exec();
+
+      if (!nsDoc) return null;
+      const formatedDoc = await APICatalogHelper.formatNamespaceDoc([nsDoc]);
+      return formatedDoc[0];
     },
-    deleteNamespace(root: any, { id }: DeleteNamespaceArgs, ctx: any) {
-      return Namespace.findByIdAndRemove(id).exec();
+    async deleteNamespace(root: any, { id }: DeleteNamespaceArgs, ctx: any) {
+      const nsDoc = await Namespace.findByIdAndRemove(id).exec();
+
+      if (!nsDoc) return null;
+      const formatedDoc = await APICatalogHelper.formatNamespaceDoc([nsDoc]);
+      return formatedDoc[0];
     },
     async addNamespaceSubscriber(
       root: any,
       { id, payload }: AddNamespaceSubscriberArgs,
       ctx: any,
     ) {
-      return Namespace.findOneAndUpdate(
+      const nsDoc = await Namespace.findOneAndUpdate(
         {
           _id: id,
+          'subscribers.email': { $ne: payload.email },
         },
         {
           $push: {
@@ -139,13 +144,17 @@ const NamespaceResolver = {
         },
         { upsert: true, new: true },
       ).exec();
+
+      if (!nsDoc) return null;
+      const formatedDoc = await APICatalogHelper.formatNamespaceDoc([nsDoc]);
+      return formatedDoc[0];
     },
     async removeNamespaceSubscriber(
       root: any,
       { id, payload }: RemoveNamespaceSubscriberArgs,
       ctx: any,
     ) {
-      return Namespace.findOneAndUpdate(
+      const nsDoc = await Namespace.findOneAndUpdate(
         {
           _id: id,
         },
@@ -156,6 +165,10 @@ const NamespaceResolver = {
         },
         { multi: true, new: true },
       ).exec();
+
+      if (!nsDoc) return null;
+      const formatedDoc = await APICatalogHelper.formatNamespaceDoc([nsDoc]);
+      return formatedDoc[0];
     },
   },
 };
