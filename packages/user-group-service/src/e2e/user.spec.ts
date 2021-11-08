@@ -49,9 +49,7 @@ const query = `
 beforeAll( () => {
   request = supertest.agent( UserGroup );
 } );
-afterAll( done => {
-  return UserGroup.close( done );
-} );
+afterAll( () => UserGroup.close() );
 
 describe( 'User-Group Microservice API Test', () => {
   it( 'should create a new User', done => {
@@ -71,7 +69,6 @@ describe( 'User-Group Microservice API Test', () => {
         expect( res.body.data.addUser ).toHaveProperty( '_id', mock._id );
         expect( res.body.data.addUser ).toHaveProperty( 'uid', mock.uid );
         expect( res.body.data.addUser ).toHaveProperty( 'name', mock.name );
-        expect( res.body.data.addUser ).toHaveProperty( 'title', mock.title );
       } )
       .end( ( err, res ) => {
         done( err );
@@ -96,7 +93,6 @@ describe( 'User-Group Microservice API Test', () => {
         expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( '_id' );
         expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( 'uid' );
         expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( 'name' );
-        expect( res.body.data.getUsersBy[ 0 ] ).toHaveProperty( 'title' );
       } )
       .end( ( err, res ) => {
         done( err );
@@ -121,7 +117,6 @@ describe( 'User-Group Microservice API Test', () => {
         expect( res.body.data.listUsers[ 0 ] ).toHaveProperty( '_id' );
         expect( res.body.data.listUsers[ 0 ] ).toHaveProperty( 'uid' );
         expect( res.body.data.listUsers[ 0 ] ).toHaveProperty( 'name' );
-        expect( res.body.data.listUsers[ 0 ] ).toHaveProperty( 'title' );
       } )
       .end( ( err, res ) => {
         done( err );
@@ -146,7 +141,6 @@ describe( 'User-Group Microservice API Test', () => {
         expect( res.body.data.updateUser ).toHaveProperty( '_id', mock._id );
         expect( res.body.data.updateUser ).toHaveProperty( 'uid', mock.uid );
         expect( res.body.data.updateUser ).toHaveProperty( 'name', mock.name );
-        expect( res.body.data.updateUser ).toHaveProperty( 'title', mock.title );
       } )
       .end( ( err, res ) => {
         done( err );
@@ -171,7 +165,6 @@ describe( 'User-Group Microservice API Test', () => {
         expect( res.body.data.deleteUser ).toHaveProperty( '_id', mock._id );
         expect( res.body.data.deleteUser ).toHaveProperty( 'uid', mock.uid );
         expect( res.body.data.deleteUser ).toHaveProperty( 'name', mock.name );
-        expect( res.body.data.deleteUser ).toHaveProperty( 'title', mock.title );
       } )
       .end( ( err, res ) => {
         done( err );
