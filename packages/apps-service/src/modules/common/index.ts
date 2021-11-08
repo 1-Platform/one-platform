@@ -1,3 +1,5 @@
 import commonSchema from './schema.gql';
 
-export const CommonSchema = commonSchema;
+const CommonSchema = commonSchema;
+
+export default CommonSchema;

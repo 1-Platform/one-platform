@@ -1,6 +1,6 @@
 /* GraphQL Schema Definition */
 
-export default /* GraphQL */`
+const MicroservicesSchema = /* GraphQL */`
 type Query {
   services: [Service]
   myServices: [Service]
@@ -81,3 +81,5 @@ enum ServicePermissionRefType {
   Group
 }
 `;
+
+export { MicroservicesSchema as default };

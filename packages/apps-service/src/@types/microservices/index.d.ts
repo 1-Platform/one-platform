@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-redeclare */
 type Microservice = {
   serviceId: string
   name: string
@@ -11,17 +13,17 @@ type Microservice = {
   createdOn: Date
   updatedBy: string
   updatedOn: Date
-}
+};
 
 namespace Microservice {
   type Permissions = {
     refId: string
     refType: PermissionsRefTypeEnum
     role: string
-  }
+  };
   declare const enum PermissionsRefTypeEnum {
     User = 'User',
-    Group = 'Group'
+    Group = 'Group',
   }
   declare const enum Type {
     BUILTIN = 'BUILTIN',

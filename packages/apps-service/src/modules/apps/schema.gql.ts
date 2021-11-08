@@ -1,6 +1,6 @@
 /* GraphQL schema definition */
 
-export default /* GraphQL */`
+const AppsSchema = /* GraphQL */`
 type Query {
   apps: [App]
   allApps: [App]
@@ -184,3 +184,5 @@ input AppDatabasePermissionsInput {
   users: [String!]
 }
 `;
+
+export { AppsSchema as default };

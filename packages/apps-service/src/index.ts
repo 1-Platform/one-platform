@@ -1,65 +1,50 @@
-import { ApolloServer, mergeSchemas } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import setupDatabase from './setup/database';
 import { PORT } from './setup/env';
-import { CommonSchema } from './modules/common';
-import { AppsResolver, AppsSchema } from './modules/apps';
-import { MicroservicesResolver, MicroservicesSchema } from './modules/microservices';
+import CommonSchema from './modules/common';
+import AppsSchema from './modules/apps/schema.gql';
+import AppsResolver from './modules/apps/resolver';
+import MicroservicesSchema from './modules/microservices/schema.gql';
+import Logger from './lib/logger';
+import MicroservicesResolver from './modules/microservices/resolver';
 
-( async () => {
+(async () => {
   /* Initialize database connection */
   await setupDatabase();
 
   /* Create the GraphQL Server */
-  const server = new ApolloServer( {
-    onHealthCheck: ( req ) => {
-      /* TODO: Add health checks */
-      return Promise.resolve( req );
-    },
-    schema: mergeSchemas( {
-      schemas: [
-        CommonSchema,
-        AppsSchema,
-        MicroservicesSchema,
-      ],
-      resolvers: [
-        AppsResolver,
-        MicroservicesResolver,
-      ]
-    } ),
+  const server = new ApolloServer({
+    onHealthCheck: (req) => Promise.resolve(req),
+    schema: makeExecutableSchema({
+      typeDefs: [CommonSchema, AppsSchema, MicroservicesSchema],
+      resolvers: [AppsResolver, MicroservicesResolver],
+    }),
     plugins: [
       {
-        requestDidStart: ( requestContext ) => {
-          if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
+        requestDidStart: (requestContext): any => {
+          if (requestContext.request.http?.headers.has('x-apollo-tracing')) {
             return;
           }
-          const query = requestContext.request.query?.replace( /\s+/g, ' ' ).trim();
-          const variables = JSON.stringify( requestContext.request.variables );
-          console.log( new Date().toISOString(), `- [AppsService] { query: ${ query }, variables: ${ variables }, operationName: ${ requestContext.request.operationName }}` );
-          return;
+          const query = requestContext.request.query
+            ?.replace(/\s+/g, ' ')
+            .trim();
+          const variables = JSON.stringify(requestContext.request.variables);
+          Logger.http(
+            `- [Request Started] { query: ${query}, variables: ${variables}, operationName: ${requestContext.request.operationName} }`,
+          );
         },
       },
     ],
-    subscriptions: '/subscriptions',
-    context: ( { req, connection } ) => {
-      if ( req ) {
-        return {
-          rhatUUID: req.header( 'X-OP-User-ID' )
-        };
-      }
-
-      if ( connection ) {
-        return {
-          ...connection.context,
-          rhatUUID: connection.context[ 'X-OP-User-ID' ]
-        };
-      }
-    },
-  } );
+    context: ({ req }) => ({
+      rhatUUID: req.header('X-OP-User-ID'),
+    }),
+  });
 
   /* Start the Server */
   server
-    .listen( PORT )
-    .then( ( { url } ) => {
-      console.log( `Server ready at ${ url }` );
-    } );
-} )();
+    .listen(PORT)
+    .then(({ url }) => {
+      Logger.info(`Server ready at ${url}`);
+    });
+})();
