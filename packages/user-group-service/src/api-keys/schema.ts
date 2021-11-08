@@ -1,11 +1,11 @@
 import { Document, model, Schema } from 'mongoose';
-import { hash } from './util';
+import hash from './util';
 
 export interface APIKeyModel extends APIKey, Document { }
 
-export const APIKeySchema = new Schema<APIKeyModel>( {
+export const APIKeySchema = new Schema<APIKeyModel>({
   accessToken: { type: String },
-  hashKey: { type: String, default: function ( this: APIKeyModel ) { return hash( this.accessToken ); } },
+  hashKey: { type: String, default(this: APIKeyModel) { return hash(this.accessToken); } },
   expiresOn: { type: Date },
   owner: {
     type: String,
@@ -13,21 +13,23 @@ export const APIKeySchema = new Schema<APIKeyModel>( {
   },
   ownerType: {
     type: String,
-    enum: [ 'User', 'Group' ],
+    enum: ['User', 'Group'],
     required: true,
   },
-  access: [ {
+  access: [{
     role: { type: String },
     microservice: { type: String },
-  } ],
+  }],
   createdOn: { type: Date, default: Date.now() },
   createdBy: { type: String },
   updatedOn: { type: Date, default: Date.now() },
   updatedBy: { type: String },
-} );
+});
 
-APIKeySchema.virtual( 'shortKey' ).get( function ( this: APIKeyModel ) {
-  return this.accessToken.substr( 0, 7 );
-} );
+APIKeySchema.virtual('shortKey').get(function generateShortKey(this: APIKeyModel) {
+  return this.accessToken.substr(0, 7);
+});
 
-export const APIKeys = model<APIKeyModel>( 'APIKey', APIKeySchema );
+const APIKeys = model<APIKeyModel>('APIKey', APIKeySchema);
+
+export { APIKeys as default };
