@@ -7,8 +7,8 @@ if ( process.env.NODE_ENV === 'test' ) {
 }
 
 import express from 'express';
-import { ApolloServer, mergeSchemas } from 'apollo-server-express';
-import http from 'http';
+import { ApolloServer } from 'apollo-server-express';
+import { mergeSchemas } from '@graphql-tools/schema';
 import mongoose from 'mongoose';
 import * as schedule from 'node-schedule';
 /* User Schema and Resolvers */
@@ -47,56 +47,29 @@ mongoose.connect( dbConnection, { useNewUrlParser: true, useCreateIndex: true } 
 mongoose.connection.on( 'error', error => {
   console.error( error );
 } );
-
+const schema = mergeSchemas({
+  typeDefs: [UserSchema, GroupSchema, APIKeySchema],
+  resolvers: [UserResolver, GroupResolver, APIKeysResolver],
+});
 /* Defining the Apollo Server */
-const apollo = new ApolloServer( {
-  playground: process.env.NODE_ENV !== 'production',
-  schema: mergeSchemas( {
-    schemas: [
-      UserSchema,
-      GroupSchema,
-      APIKeySchema,
-    ],
-    resolvers: [
-      UserResolver,
-      GroupResolver,
-      APIKeysResolver,
-    ]
-  } ),
-  subscriptions: {
-    path: '/subscriptions',
-  },
-  formatError: error => ( {
+const apolloServer = new ApolloServer({
+  schema,
+  formatError: (error) => ({
     message: error.message,
     locations: error.locations,
     path: error.path,
     ...error.extensions,
-  } ),
-  plugins: [
-    {
-      requestDidStart: ( requestContext ) => {
-        if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
-          return;
-        }
-        const query = requestContext.request.query?.replace( /\s+/g, ' ' ).trim();
-        const variables = JSON.stringify( requestContext.request.variables );
-        console.log( new Date().toISOString(), `- [Request Started] { query: ${ query }, variables: ${ variables }, operationName: ${ requestContext.request.operationName } }` );
-        return;
-      },
-    },
-  ]
-} );
+  }),
+});
 
 /* Applying apollo middleware to express server */
-apollo.applyMiddleware( { app } );
-
-/*  Creating the server based on the environment */
-const server = http.createServer( app );
+apolloServer.start().then(() => {
+  apolloServer.applyMiddleware({ app });
+});
 
 // Installing the apollo ws subscription handlers
-apollo.installSubscriptionHandlers( server );
-export default server.listen( { port: port }, () => {
-  console.log( `🚀 Microservice running on ${ process.env.NODE_ENV } at ${ port }${ apollo.graphqlPath }` );
+export default app.listen( { port: port }, () => {
+  console.log( `🚀 Microservice running on ${ process.env.NODE_ENV } at ${ port }${ apolloServer.graphqlPath }` );
 } );
 
 /**
