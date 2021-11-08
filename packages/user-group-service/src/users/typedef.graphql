@@ -90,7 +90,6 @@ type GroupType {
   inclusionUids: [String]
   exclusionUids: [String]
   notes: String
-  membershipInfo: String
   userDefinedRoleList: [String]
   objectClass: String,
   membershipInfo: MembershipType
