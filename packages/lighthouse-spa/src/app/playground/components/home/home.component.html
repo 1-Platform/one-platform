@@ -7,9 +7,9 @@
             </div>
             <div class="pf-l-stack__item pf-l-flex pf-m-nowrap pf-m-justify-content-center">
                 <div class="pf-c-input-group pf-u-w-33 pf-u-mr-md">
-                    <input class="pf-c-form-control pf-m-search lighthouse-search" type="search" id="sites" name="sites"
+                    <input class="pf-c-form-control pf-m-search lighthouse-search" type="url" id="sites" name="sites"
                         aria-label="Enter webpage url" placeholder="Enter web page url with http/https"
-                        [(ngModel)]="sites" pattern="^https?:\/\/(.*)" required />
+                        [(ngModel)]="sites" required urlValidator />
                 </div>
                 <div>
                     <button class="pf-c-button pf-m-progress pf-m-primary" type="submit"
