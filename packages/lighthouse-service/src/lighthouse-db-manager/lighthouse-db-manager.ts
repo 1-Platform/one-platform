@@ -1,5 +1,7 @@
 import { Order, WhereOptions } from 'sequelize/types';
-import { Op, fn, col, literal } from 'sequelize';
+import {
+  Op, fn, col, literal,
+} from 'sequelize';
 import groupBy from 'lodash/groupBy';
 import { sequelize } from './sequelize';
 
@@ -14,6 +16,7 @@ import {
   LeadboardStatistic,
   LeaderBoardOptions,
 } from './types';
+import Logger from '../lib/logger';
 
 /**
  * These keys represent the statistic database values for corresponding LH Scores
@@ -38,7 +41,7 @@ class LighthouseDbManager {
   ];
 
   constructor() {
-    sequelize.authenticate().catch(console.error);
+    sequelize.authenticate().catch((err:Error) => Logger.error(err));
   }
 
   async getAllProjects(options?: Pagination) {
@@ -46,7 +49,7 @@ class LighthouseDbManager {
     // sequelize filter
     const where: WhereOptions<ProjectAttributes> = {};
     if (options?.search) {
-      where['name'] = { [Op.iLike]: `%${options.search}%` };
+      where.name = { [Op.iLike]: `%${options.search}%` };
     }
 
     return Project.findAndCountAll({
@@ -73,7 +76,7 @@ class LighthouseDbManager {
     // sequelize filter
     const where: WhereOptions<BuildAttributes> = { projectId };
     if (options?.search) {
-      where['branch'] = { [Op.iLike]: `%${options.search}%` };
+      where.branch = { [Op.iLike]: `%${options.search}%` };
     }
     // findAllAncCount won't work on groupBy clause
     const count = await Build.count({
@@ -103,8 +106,7 @@ class LighthouseDbManager {
      * On passing multiple builds the filter from
      * checking as pk is changed to sql in operator
      */
-    const buildFilter =
-      buildIds.length <= 1 ? buildIds[0] : { [Op.in]: buildIds };
+    const buildFilter = buildIds.length <= 1 ? buildIds[0] : { [Op.in]: buildIds };
 
     /**
      * scores are fetched with

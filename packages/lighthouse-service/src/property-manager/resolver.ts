@@ -1,18 +1,20 @@
-import { FilterQuery } from "mongoose";
-import { getUserProfile, populateMongooseDocWithUser, createLHProject } from "./helpers";
-import { Property } from "./schema";
+import { FilterQuery } from 'mongoose';
+import { getUserProfile, populateMongooseDocWithUser, createLHProject } from './helpers';
+import { Property } from './schema';
 
 export const PropertyResolver = {
   Query: {
     async listLHProperties(root: any, args: any, ctx: any) {
-      const { limit, offset, search, user } = args;
+      const {
+        limit, offset, search, user,
+      } = args;
 
       const filters: FilterQuery<PropertyType> = {
-        name: { $regex: search || "" },
+        name: { $regex: search || '' },
       };
       if (user) filters.createdBy = user;
 
-      const properties = await Property.find(filters)
+      const properties = await Property.find(filters as any)
         .limit(limit || 100)
         .skip(offset || 0)
         .exec();
@@ -58,19 +60,18 @@ export const PropertyResolver = {
       const project = {
         name: args.project.name,
         baseBranch: args.project.baseBranch,
-        externalUrl: args.project.externalUrl
+        externalUrl: args.project.externalUrl,
       };
       return createLHProject(project);
     },
     async updateLHProperty(root: any, args: any, ctx: any) {
       const { id, data } = args;
       const mongoosePropertyDoc = await Property.findById(id).exec();
-      if (data.updatedBy !== mongoosePropertyDoc?.createdBy)
-        throw Error("Unauthorised access");
+      if (data.updatedBy !== mongoosePropertyDoc?.createdBy) throw Error('Unauthorised access');
       const updatedDoc = await Property.findByIdAndUpdate(
         mongoosePropertyDoc?.id,
         data,
-        { new: true }
+        { new: true },
       ).exec();
       return populateMongooseDocWithUser(updatedDoc);
     },
@@ -86,7 +87,7 @@ export const PropertyResolver = {
         {
           $push: { apps: appData },
         },
-        { new: true }
+        { new: true },
       ).exec();
     },
     async updateLHApp(root: any, args: any, ctx: any) {
@@ -101,24 +102,24 @@ export const PropertyResolver = {
           query[`apps.$.${type}`] = value;
           return query;
         },
-        {}
+        {},
       );
-      return Property.findOneAndUpdate({ "apps._id": appId }, appPatchQuery, {
+      return Property.findOneAndUpdate({ 'apps._id': appId }, appPatchQuery, {
         new: true,
       }).exec();
     },
     async deleteLHApp(root: any, args: any, ctx: any) {
       const { appId } = args;
       return Property.findOneAndUpdate(
-        { "apps._id": appId },
+        { 'apps._id': appId },
         {
           $pull: {
-            apps: { _id: appId },
+            apps: { _id: appId } as any,
           },
         },
         {
           new: true,
-        }
+        },
       ).exec();
     },
   },

@@ -1,34 +1,47 @@
+import { mergeSchemas } from '@graphql-tools/schema';
+import { ApolloServer } from 'apollo-server-express';
+import { json } from 'body-parser';
 import dotenv from 'dotenv-safe';
-if ( process.env.NODE_ENV === 'test' ) {
-  dotenv.config( { path: '.test.env' } );
+import express from 'express';
+import { execute, subscribe } from 'graphql';
+import { createServer } from 'http';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { LighthouseAuditResolver } from './src/audit-manager/resolver';
+import auditSchema from './src/audit-manager/typedef.graphql';
+import Logger from './src/lib/logger';
+import { LHSpaConfigResolver } from './src/lighthouse-spa-config/resolver';
+import lhSpaConfigSchema from './src/lighthouse-spa-config/typedef.graphql';
+import { PropertyResolver } from './src/property-manager/resolver';
+import propertySchema from './src/property-manager/typedef.graphql';
+
+if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: '.test.env' });
 } else {
   dotenv.config();
 }
-import { ApolloServer, mergeSchemas } from 'apollo-server-express';
-import mongoose from 'mongoose';
-import express from 'express';
-import http from 'http';
 
-import { LighthouseAuditResolver } from './src/audit-manager/resolver';
-import { PropertyResolver } from './src/property-manager/resolver';
-import { LHSpaConfigResolver } from './src/lighthouse-spa-config/resolver';
+const app = express();
+const httpServer = createServer(app);
 
-import auditSchema from './src/audit-manager/typedef.graphql';
-import propertySchema from './src/property-manager/typedef.graphql';
-import lhSpaConfigSchema from './src/lighthouse-spa-config/typedef.graphql';
+app.use(json());
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
 /* Configuring Mongoose */
 mongoose.plugin((schema: any) => {
-  schema.options.usePushEach = true;
+  const schemaConfig = schema;
+  schemaConfig.options.usePushEach = true;
+  return schemaConfig;
 });
 
 /* Establishing mongodb connection */
-const dbCredentials =
-  process.env.DB_USER && process.env.DB_PASSWORD
-    ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
-    : "";
+const dbCredentials = process.env.DB_USER && process.env.DB_PASSWORD
+  ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
+  : '';
 const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
 
 mongoose
@@ -38,26 +51,21 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  .catch(console.error);
+  .catch((err: Error) => Logger.error(err));
 
-mongoose.connection.on("error", (error) => {
-  console.error(error);
+mongoose.connection.on('error', (error) => {
+  Logger.error(error);
 });
 
-const app = express();
+const schema = mergeSchemas({
+  typeDefs: [auditSchema, propertySchema, lhSpaConfigSchema],
+  resolvers: [LighthouseAuditResolver, PropertyResolver, LHSpaConfigResolver],
+});
 
 /* Defining the Apollo Server */
-const apollo = new ApolloServer({
-  playground: process.env.NODE_ENV !== "production",
-  schema: mergeSchemas({
-    schemas: [auditSchema, propertySchema, lhSpaConfigSchema],
-    resolvers: [LighthouseAuditResolver, PropertyResolver, LHSpaConfigResolver],
-  }),
-  resolvers: LighthouseAuditResolver,
-  subscriptions: {
-    path: '/subscriptions',
-  },
-  formatError: error => ({
+const apolloServer = new ApolloServer({
+  schema,
+  formatError: (error) => ({
     message: error.message,
     locations: error.locations,
     path: error.path,
@@ -65,28 +73,31 @@ const apollo = new ApolloServer({
   }),
   plugins: [
     {
-      requestDidStart: ( requestContext ) => {
-        if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
+      requestDidStart: (requestContext):any => {
+        if (requestContext.request.http?.headers.has('x-apollo-tracing')) {
           return;
         }
-        const query = requestContext.request.query?.replace( /\s+/g, ' ' ).trim();
-        const variables = JSON.stringify( requestContext.request.variables );
-        console.log( new Date().toISOString(), `- [Request Started] { query: ${ query }, variables: ${ variables }, operationName: ${ requestContext.request.operationName } }` );
-        return;
+        const query = requestContext.request.query?.replace(/\s+/g, ' ').trim();
+        const variables = JSON.stringify(requestContext.request.variables);
+        Logger.http(
+          `- [Request Started] { query: ${query}, variables: ${variables}, operationName: ${
+            requestContext.request.operationName
+          } }`,
+        );
       },
     },
-  ]
+  ],
 });
 
-/* Applying apollo middleware to express server */
-apollo.applyMiddleware({ app });
+SubscriptionServer.create(
+  { schema, execute, subscribe } as any,
+  { server: httpServer, path: '/subscriptions' },
+);
 
-/*  Creating the server based on the environment */
-const server =  http.createServer(app);
+apolloServer.start().then(() => {
+  apolloServer.applyMiddleware({ app });
+});
 
-// Installing the apollo ws subscription handlers
-apollo.installSubscriptionHandlers(server);
-// Lighthouse
-export default server.listen({ port: port }, () => {
-  console.log(`Lighthouse Microservice running on ${process.env.NODE_ENV} at ${port}${apollo.graphqlPath}`);
+export default httpServer.listen({ port }, () => {
+  Logger.info(`Lighthouse Microservice running on ${process.env.NODE_ENV} at Port ${port} in ${apolloServer.graphqlPath}\n`);
 });

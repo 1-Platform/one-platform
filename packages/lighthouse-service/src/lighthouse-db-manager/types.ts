@@ -15,7 +15,7 @@ export type ProjectAttributes = {
 export type ProjectCreationModel = Optional<ProjectAttributes, 'id'>;
 
 export type ProjectInstance = Model<ProjectAttributes, ProjectCreationModel> &
-  ProjectAttributes;
+ProjectAttributes;
 
 export type BuildAttributes = {
   id: string;
@@ -38,7 +38,7 @@ export type BuildAttributes = {
 export type BuildCreationModel = Optional<BuildAttributes, 'id'>;
 
 export type BuildInstance = Model<BuildAttributes, BuildCreationModel> &
-  BuildAttributes;
+BuildAttributes;
 
 export type StatisticAttributes = {
   id: string;
@@ -55,10 +55,10 @@ export type StatisticAttributes = {
 export type StatisticCreationModel = Optional<StatisticAttributes, 'id'>;
 
 export type StatisticInstance = Model<
-  StatisticAttributes,
-  StatisticCreationModel
+StatisticAttributes,
+StatisticCreationModel
 > &
-  StatisticAttributes;
+StatisticAttributes;
 
 export type Pagination = {
   limit?: number;
@@ -80,6 +80,6 @@ export type LeadboardStatistic = {
 };
 
 export type LeaderBoardOptions = Omit<Pagination, 'search'> &
-  Optional<Sort, 'sort'> & {
-    type?: string;
-  };
+Optional<Sort, 'sort'> & {
+  type?: string;
+};

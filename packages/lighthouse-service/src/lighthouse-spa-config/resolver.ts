@@ -1,7 +1,8 @@
 import { FilterQuery } from 'mongoose';
+import Logger from '../lib/logger';
 import { getUserProfile } from '../property-manager/helpers';
-import { populateMongooseDocWithUser } from "./helpers";
-import { LHSpaConfig } from "./schema";
+import { populateMongooseDocWithUser } from './helpers';
+import { LHSpaConfig } from './schema';
 
 export const LHSpaConfigResolver = {
   Query: {
@@ -11,7 +12,7 @@ export const LHSpaConfigResolver = {
       const filters: FilterQuery<LHSpaConfigType> = {};
       if (user) filters.createdBy = user;
 
-      const lhSpaConfigs = await LHSpaConfig.find(filters)
+      const lhSpaConfigs = await LHSpaConfig.find(filters as any)
         .limit(limit || 100)
         .skip(offset || 0).lean()
         .exec() as LHSpaConfigType[];
@@ -22,12 +23,12 @@ export const LHSpaConfigResolver = {
         const rhUUID = lhSpaConfig.createdBy as string;
         // if not saved in queryCache fetch it from user service api
         if (!userQueryCache?.[rhUUID]) {
-         try {
+          try {
             const user = await getUserProfile(rhUUID);
             userQueryCache[rhUUID] = user;
-         } catch (error) {
-           console.error( error );
-         }
+          } catch (error) {
+            Logger.error(error);
+          }
         }
         lhSpaConfig.createdBy = userQueryCache[rhUUID];
         lhSpaConfig.updatedBy = userQueryCache[rhUUID];
@@ -42,13 +43,13 @@ export const LHSpaConfigResolver = {
        * populate object user field with user data from user-group service
        * if the fetch fails inorder to not break the query returning an empty object
        */
-      return populateMongooseDocWithUser(property);
+      return populateMongooseDocWithUser(property as any);
     },
     async getLHSpaConfigByAppId(root: any, args: any, ctx: any) {
       const { appId } = args;
       const property = await LHSpaConfig.findOne({ appId }).lean().exec();
       if (!property) return {};
-      return populateMongooseDocWithUser(property);
+      return populateMongooseDocWithUser(property as any);
     },
   },
   Mutation: {
@@ -59,33 +60,30 @@ export const LHSpaConfigResolver = {
       // save to db
       const doc = { $set: lhSpaConfig };
       const options = { upsert: true };
-      const savedLhSpaDoc = await LHSpaConfig.updateOne( { appId: lhSpaConfig.appId }, doc, options ).then( () => {
-        return LHSpaConfig.find( { appId: lhSpaConfig.appId } ).lean().exec();
-      } );
-      return populateMongooseDocWithUser(savedLhSpaDoc[0]);
+      const savedLhSpaDoc = await LHSpaConfig.updateOne({ appId: lhSpaConfig.appId }, doc, options).then(() => LHSpaConfig.find({ appId: lhSpaConfig.appId }).lean().exec());
+      return populateMongooseDocWithUser(savedLhSpaDoc[0] as any);
     },
     async updateLHSpaConfig(root: any, args: any, ctx: any) {
       const { id, data } = args;
       const mongoosePropertyDoc = await LHSpaConfig.findById(id).lean().exec();
 
-      if (data.updatedBy !== mongoosePropertyDoc?.createdBy)
-        throw Error("Unauthorised access");
+      if (data.updatedBy !== mongoosePropertyDoc?.createdBy) throw Error('Unauthorised access');
 
       const updatedDoc = await LHSpaConfig.findByIdAndUpdate(
         mongoosePropertyDoc?._id,
         data,
-        { new: true }
+        { new: true },
       )
         .lean()
         .exec();
-      return populateMongooseDocWithUser(updatedDoc);
+      return populateMongooseDocWithUser(updatedDoc as any);
     },
     async deleteLHSpaConfig(root: any, args: any, ctx: any) {
       const { id } = args;
       const mongoosePropertyDoc = await LHSpaConfig.findByIdAndDelete(id)
         .lean()
         .exec();
-      return populateMongooseDocWithUser(mongoosePropertyDoc);
+      return populateMongooseDocWithUser(mongoosePropertyDoc as any);
     },
   },
 };
