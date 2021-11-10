@@ -1,8 +1,7 @@
 /* GraphQL Resolver implementation */
 
 import { IResolvers } from '@graphql-tools/utils';
-// eslint-disable-next-line import/no-cycle
-import { Microservices } from '.';
+import Microservices from './model';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 
 const MicroservicesResolver = <IResolvers<Microservice, IAppsContext>>{

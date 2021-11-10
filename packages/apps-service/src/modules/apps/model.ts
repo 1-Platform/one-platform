@@ -3,7 +3,6 @@
 import {
   Document, Model, model, Schema,
 } from 'mongoose';
-import { Apps } from '.';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 
 export interface AppModel extends Document, App {}
@@ -108,6 +107,12 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
   updatedOn: { type: Date, default: Date.now },
 });
 
-AppSchema.static('isAuthorized', (appId: any, userId: string) => Apps.exists({ _id: appId, ownerId: userId }));
+AppSchema.static('isAuthorized', function isAuthorized(appId: any, userId: string) {
+  return this.exists({
+    _id: appId, ownerId: userId,
+  });
+});
 
-export default model<AppModel, AppModelStatic>('App', AppSchema);
+const Apps = model<AppModel, AppModelStatic>('App', AppSchema);
+
+export { Apps as default };

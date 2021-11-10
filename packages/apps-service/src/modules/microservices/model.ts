@@ -1,8 +1,6 @@
-/* eslint-disable import/no-cycle */
 import {
   Document, model, Model, Schema,
 } from 'mongoose';
-import { Microservices } from '.';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 
 export interface MicroserviceModel extends Microservice, Document { }
@@ -39,6 +37,13 @@ const MicroserviceSchema = new Schema<MicroserviceModel, MicroserviceModelStatic
   updatedOn: { type: Date, default: Date.now },
 });
 
-MicroserviceSchema.static('isAuthorized', (microserviceId: any, userId: string) => Microservices.exists({ _id: microserviceId, ownerId: userId }));
+MicroserviceSchema.static('isAuthorized', function isAuthorized(microserviceId: any, userId: string) {
+  return this.exists({
+    _id: microserviceId,
+    ownerId: userId,
+  });
+});
 
-export default model<MicroserviceModel, MicroserviceModelStatic>('Micorservice', MicroserviceSchema);
+const Microservices = model<MicroserviceModel, MicroserviceModelStatic>('Micorservice', MicroserviceSchema);
+
+export { Microservices as default };
