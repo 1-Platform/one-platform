@@ -46,7 +46,6 @@ export class APIService {
    */
   get _headers() {
     return {
-      "Content-Type": "application/json",
       Authorization: window.OpAuthHelper?.jwtToken
         ? "Bearer " + window.OpAuthHelper.jwtToken
         : "",

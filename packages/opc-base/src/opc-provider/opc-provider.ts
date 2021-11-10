@@ -26,8 +26,9 @@ import {
   CreateFeedback,
   CreateFeedbackVariable,
   GetAppList,
+  SubscribeNotification,
 } from "../gql/types";
-import { subscriptionT } from 'wonka/dist/types/src/Wonka_types.gen';
+import { subscriptionT } from "wonka/dist/types/src/Wonka_types.gen";
 
 import { APIService } from "../config/graphql";
 
@@ -303,7 +304,7 @@ export class OpcProvider extends LitElement {
         })
         .toPromise();
 
-      if ( !res?.data ) return;
+      if (!res?.data) return;
 
       this.apps =
         res.data.appsList
@@ -353,7 +354,10 @@ export class OpcProvider extends LitElement {
       }
 
       this._notificationsSubscription = pipe(
-        this.api.gqlClient.subscription(SUBSCRIBE_NOTIFICATION),
+        this.api.gqlClient.subscription<
+          SubscribeNotification,
+          { targets: string[] }
+        >(SUBSCRIBE_NOTIFICATION, { targets: userDetails }),
         subscribe((res) => {
           if (res.error) {
             throw res.error;
