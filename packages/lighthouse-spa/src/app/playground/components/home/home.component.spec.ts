@@ -6,7 +6,7 @@ import { ApolloTestingModule } from 'apollo-angular/testing';
 import { SharedModule } from 'app/shared/shared.module';
 import { Apollo } from 'apollo-angular';
 import { of } from 'rxjs';
-import { AppService } from 'app/app.service';
+import { PlaygroundService } from 'app/playground/playground.service';
 
 import { HomeComponent } from './home.component';
 
@@ -29,7 +29,7 @@ describe('HomeComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: AppService, useValue: appService },
+        { provide: PlaygroundService, useValue: appService },
         { provide: 'Window', useValue: window },
         Apollo,
       ],

@@ -91,7 +91,7 @@ export function createApollo(): ApolloClientOptions<any> {
     }),
     defaultOptions: {
       watchQuery: {
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'cache-and-network',
         errorPolicy: 'all',
       },
     },

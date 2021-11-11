@@ -1,0 +1,10 @@
+<ng-container *ngIf="control.invalid && control.errors && (control.dirty || control.touched)">
+    <p class="pf-c-form__helper-text pf-m-error" id="form-help-text-address-helper" aria-live="polite"
+        *ngIf="control.hasError('required') && control.errors['required']">
+        This field is required
+    </p>
+    <p class="pf-c-form__helper-text pf-m-error" id="form-help-text-address-helper" aria-live="polite"
+        *ngIf="!control.hasError('required') && control.hasError('whitespace') && control.errors['whitespace']">
+        This field is required
+    </p>
+</ng-container>

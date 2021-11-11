@@ -80,41 +80,80 @@
                 </h1>
             </header>
             <div class="pf-c-modal-box__body">
-                <div class="pf-l-grid pf-m-gutter">
-                    <div class="pf-l-grid__item pf-m-6-col">
-                        <label for="project-select">Project</label>
-                        <select class="pf-c-form-control pf-m-placeholder" id="project-select" name="project-select"
-                            aria-label="project select" [(ngModel)]="projectID" required>
-                            <option value disabled selected>Select Project</option>
-                            <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}
-                            </option>
-                        </select>
+                <form [formGroup]="auditUploadForm" (ngSubmit)="upload()" class="pf-c-form">
+                    <div class="pf-l-grid pf-m-gutter">
+                        <div class="pf-l-grid__item pf-m-6-col">
+                            <div class="pf-c-form__group">
+                                <div class="pf-c-form__group-label">
+                                    <label class="pf-c-form__label" for="project-select">
+                                        <span class="pf-c-form__label-text">Project</span>
+                                        <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                                    </label>
+                                </div>
+                                <div class="pf-c-form__group-control">
+                                    <select class="pf-c-form-control pf-m-placeholder" id="project-select"
+                                        name="project-select" aria-label="project select" formControlName="project">
+                                        <option value disabled selected>
+                                            {{isFetchingProjects?"Loading...":projects.length===0?"Empty Projects": "Select Project"}}
+                                        </option>
+                                        <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}
+                                        </option>
+                                    </select>
+                                    <app-form-error-message [control]="auditUploadForm.get('project')">
+                                    </app-form-error-message>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pf-l-grid__item pf-m-6-col">
+                            <div class="pf-c-form__group">
+                                <div class="pf-c-form__group-label">
+                                    <label class="pf-c-form__label" for="form-help-text-name">
+                                        <span class="pf-c-form__label-text">Branch</span>
+                                        <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                                    </label>
+                                </div>
+                                <div class="pf-c-form__group-control">
+                                    <select class="pf-c-form-control pf-m-placeholder" id="project-branch"
+                                        name="project-branch" aria-label="project branch" formControlName="branch">
+                                        <option value disabled selected>
+                                            {{isFetchingBranches?"Loading...":projectBranches.length===0?"Empty Branch": "Select Branch"}}
+                                        </option>
+                                        <option *ngFor="let project of projectBranches" [value]="project.branch">{{
+                                                            project.branch }}</option>
+                                    </select>
+                                    <app-form-error-message [control]="auditUploadForm.get('branch')">
+                                    </app-form-error-message>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pf-l-grid__item pf-m-12-col">
+                            <div class="pf-c-form__group">
+                                <div class="pf-c-form__group-label">
+                                    <label class="pf-c-form__label" for="form-help-text-name">
+                                        <span class="pf-c-form__label-text">Build Token</span>
+                                        <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                                    </label>
+                                </div>
+                                <div class="pf-c-form__group-control">
+                                    <input class="pf-c-form-control" type="text" formControlName="buildToken"
+                                        id="buildToken" aria-label="Build Token" placeholder="Enter Build Token"
+                                        name="buildToken" />
+                                    <app-form-error-message [control]="auditUploadForm.get('buildToken')">
+                                    </app-form-error-message>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="pf-c-form__group pf-m-action">
+                        <div class="pf-c-form__actions">
+                            <button class="pf-c-button pf-m-primary" type="submit"
+                                [disabled]="!auditUploadForm.valid">Upload</button>
+                        </div>
                     </div>
 
-                    <div class="pf-l-grid__item pf-m-6-col">
-                        <label for="project-branch">Branch</label>
-                        <select class="pf-c-form-control pf-m-placeholder" id="project-branch" name="project-branch"
-                            aria-label="project branch" [(ngModel)]="property.currentBranch"
-                            (click)="validUploadConfig=false;fetchProjectBranches();fetchProjectDetails();" required>
-                            <option value disabled selected>Select Branch</option>
-                            <option *ngFor="let project of projectBranches" [value]="project.branch">{{
-                                            project.branch }}</option>
-                        </select>
-                    </div>
-
-                    <div class="pf-l-grid__item pf-m-12-col">
-                        <label for="build-token">Build Token</label>
-                        <input class="pf-c-form-control" type="text" [(ngModel)]="property.buildToken" id="buildToken"
-                            aria-label="Build Token" placeholder="Enter Build Token" name="buildToken"
-                            (blur)="fetchProjectDetails()" required />
-                    </div>
-                </div>
-
+                </form>
             </div>
-            <footer class="pf-c-modal-box__footer">
-                <button class="pf-c-button pf-m-primary" (click)="upload(property)"
-                    [disabled]="!validUploadConfig">Upload</button>
-            </footer>
         </div>
     </div>
 </div>
