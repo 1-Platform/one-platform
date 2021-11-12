@@ -1,12 +1,11 @@
 import { FilterQuery } from 'mongoose';
 import Logger from '../lib/logger';
-import { getUserProfile } from '../property-manager/helpers';
-import { populateMongooseDocWithUser } from './helpers';
+import { populateMongooseDocWithUser, getUserProfile } from './helpers';
 import { LHSpaConfig } from './schema';
 
 export const LHSpaConfigResolver = {
   Query: {
-    async listLHSpaConfigs(root: any, args: any, ctx: any) {
+    async listLHSpaConfigs(root: any, args: any) {
       const { limit, offset, user } = args;
 
       const filters: FilterQuery<LHSpaConfigType> = {};
@@ -19,13 +18,14 @@ export const LHSpaConfigResolver = {
 
       const userQueryCache: Record<string, UserProfileType> = {};
 
-      return lhSpaConfigs.map(async (lhSpaConfig) => {
+      return lhSpaConfigs.map(async (config) => {
+        const lhSpaConfig = { ...config };
         const rhUUID = lhSpaConfig.createdBy as string;
         // if not saved in queryCache fetch it from user service api
         if (!userQueryCache?.[rhUUID]) {
           try {
-            const user = await getUserProfile(rhUUID);
-            userQueryCache[rhUUID] = user;
+            const userData = await getUserProfile(rhUUID);
+            userQueryCache[rhUUID] = userData;
           } catch (error) {
             Logger.error(error);
           }
@@ -35,7 +35,7 @@ export const LHSpaConfigResolver = {
         return lhSpaConfig;
       });
     },
-    async getLHSpaConfigById(root: any, args: any, ctx: any) {
+    async getLHSpaConfigById(root: any, args: any) {
       const { id } = args;
       const property = await LHSpaConfig.findById(id).lean().exec();
       if (!property) return {};
@@ -45,7 +45,7 @@ export const LHSpaConfigResolver = {
        */
       return populateMongooseDocWithUser(property as any);
     },
-    async getLHSpaConfigByAppId(root: any, args: any, ctx: any) {
+    async getLHSpaConfigByAppId(root: any, args: any) {
       const { appId } = args;
       const property = await LHSpaConfig.findOne({ appId }).lean().exec();
       if (!property) return {};
@@ -53,23 +53,27 @@ export const LHSpaConfigResolver = {
     },
   },
   Mutation: {
-    async createLHSpaConfig(root: any, args: any, ctx: any) {
+    async createLHSpaConfig(root: any, args: any) {
       const { lhSpaConfig } = args;
       const user = await getUserProfile(lhSpaConfig.createdBy);
       lhSpaConfig.updatedBy = user.rhatUUID;
       // save to db
       const doc = { $set: lhSpaConfig };
       const options = { upsert: true };
-      const savedLhSpaDoc = await LHSpaConfig.updateOne({ appId: lhSpaConfig.appId }, doc, options).then(() => LHSpaConfig.find({ appId: lhSpaConfig.appId }).lean().exec());
+      const savedLhSpaDoc = await LHSpaConfig
+        .updateOne({ appId: lhSpaConfig.appId }, doc, options)
+        .then(() => LHSpaConfig.find({ appId: lhSpaConfig.appId })
+          .lean().exec());
       return populateMongooseDocWithUser(savedLhSpaDoc[0] as any);
     },
-    async updateLHSpaConfig(root: any, args: any, ctx: any) {
+    async updateLHSpaConfig(root: any, args: any) {
       const { id, data } = args;
       const mongoosePropertyDoc = await LHSpaConfig.findById(id).lean().exec();
 
       if (data.updatedBy !== mongoosePropertyDoc?.createdBy) throw Error('Unauthorised access');
 
       const updatedDoc = await LHSpaConfig.findByIdAndUpdate(
+        // eslint-disable-next-line no-underscore-dangle
         mongoosePropertyDoc?._id,
         data,
         { new: true },
@@ -78,7 +82,7 @@ export const LHSpaConfigResolver = {
         .exec();
       return populateMongooseDocWithUser(updatedDoc as any);
     },
-    async deleteLHSpaConfig(root: any, args: any, ctx: any) {
+    async deleteLHSpaConfig(root: any, args: any) {
       const { id } = args;
       const mongoosePropertyDoc = await LHSpaConfig.findByIdAndDelete(id)
         .lean()

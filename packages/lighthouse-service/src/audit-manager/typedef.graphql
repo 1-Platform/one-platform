@@ -25,6 +25,12 @@ input LighthouseInput {
   preset: String
 }
 
+input AddLHProjectInput {
+  name: String!
+  externalUrl: String
+  baseBranch: String
+}
+
 type LighthouseScoreType {
   performance: Float
   accessibility: Float
@@ -139,6 +145,10 @@ type Query {
 }
 
 type Mutation {
+  """
+  Create a new lighthouse property
+  """
+  createLHProject(project: AddLHProjectInput!): LighthouseProjectType
   """
   Audit Website with Lighthouse CI
   """

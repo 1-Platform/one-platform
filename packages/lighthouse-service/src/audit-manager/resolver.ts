@@ -14,22 +14,22 @@ export const LighthouseAuditResolver = {
     PERFORMANCE: 'category_best-practices_median',
   },
   Query: {
-    async listLHProjects(root: any, args: any, ctx: any) {
+    async listLHProjects(root: any, args: any) {
       return lhDbManager.getAllProjects(args);
     },
-    async listProjectLHReport(root: any, args: any, ctx: any) {
+    async listProjectLHReport(root: any, args: any) {
       const buildScores = await lhDbManager.getLHScores(args.projectID, [
         args.buildID,
       ]);
       return buildScores[args.buildID];
     },
-    async verifyLHProjectDetails(root: any, args: any, ctx: any) {
+    async verifyLHProjectDetails(root: any, args: any) {
       return lhci.fetchProjectDetails(
         args.serverBaseUrl || process.env.SERVER_BASE_URL,
         args.buildToken,
       );
     },
-    async listLHProjectBuilds(root: any, args: any, ctx: any) {
+    async listLHProjectBuilds(root: any, args: any) {
       const projectBuilds = await lhDbManager.getAllBuilds(
         args.projectId,
         args.branch,
@@ -40,24 +40,25 @@ export const LighthouseAuditResolver = {
         projectBuilds.map(({ id }: any) => id),
       );
 
-      projectBuilds.forEach((build: any) => (build.score = lhScore[build.id]));
+      // eslint-disable-next-line no-param-reassign
+      projectBuilds.forEach((build: any) => { build.score = lhScore[build.id]; });
       return projectBuilds;
     },
-    async listLHProjectBranches(root: any, args: any, ctx: any) {
+    async listLHProjectBranches(root: any, args: any) {
       return lhDbManager.getAllBranches(args.projectId, args);
     },
-    async listLHLeaderboard(root: any, args: any, ctx: any) {
+    async listLHLeaderboard(root: any, args: any) {
       return lhDbManager.getLeaderBoard(args);
     },
-    async listLHScore(root: any, args: any, ctx: any) {
+    async listLHScore(root: any, args: any) {
       const directoryPromises: any = [];
       const filePromises: any = [];
       const filePaths: any = [];
       const lhrReports: any = [];
       const scores: LighthouseScoreType[] = [];
-      const fileListPromise = new Promise(async (resolve, reject) => {
+      const fileListPromise = new Promise((resolve, reject) => {
         fs.readdir(`/tmp/${args.auditId}/.lighthouseci`, (err, files) => {
-          files.map((file, index) => {
+          files.forEach((file, index) => {
             if (file.startsWith('lhr-') && file.endsWith('.json')) {
               filePaths.push(`/tmp/${args.auditId}/.lighthouseci/${file}`);
             }
@@ -74,7 +75,7 @@ export const LighthouseAuditResolver = {
       const paths: any[] = (await Promise.all(directoryPromises).then(
         (values) => values[0],
       )) as any;
-      const fileDataPromise = await new Promise(async (resolve, reject) => {
+      const fileDataPromise = await new Promise((resolve, reject) => {
         paths.forEach((path, index) => {
           fs.readFile(path, 'utf8', (err, data) => {
             lhrReports.push(data);
@@ -91,10 +92,10 @@ export const LighthouseAuditResolver = {
       const reports: any[] = (await Promise.all(filePromises).then(
         (values) => values[0],
       )) as any;
-      reports.map((value: any) => {
+      reports.forEach((value: any) => {
         const lhr = JSON.parse(value);
         const data: any = {};
-        Object.keys(lhr.categories).map((category: any) => {
+        Object.keys(lhr.categories).forEach((category: any) => {
           data[camelCase(category)] = lhr.categories[category].score;
         });
         scores.push(data);
@@ -103,15 +104,23 @@ export const LighthouseAuditResolver = {
     },
   },
   Mutation: {
-    auditWebsite(root: any, args: any, ctx: any): string {
-      const LHCI_BUILD_CONTEXT__CURRENT_HASH = new Date()
+    async createLHProject(root: any, args: any) {
+      const project = {
+        name: args.project.name,
+        baseBranch: args.project.baseBranch,
+        externalUrl: args.project.externalUrl,
+      };
+      return lhci.createLHProject(project);
+    },
+    auditWebsite(root: any, args: any): string {
+      const LHCI_BUILD_CONTEXT_CURRENT_HASH = new Date()
         .getTime()
         .toString(16)
         .split('')
         .reverse()
         .join('');
       const lhciScript = spawn(
-        ` cd /tmp && mkdir ${LHCI_BUILD_CONTEXT__CURRENT_HASH} && cd ${LHCI_BUILD_CONTEXT__CURRENT_HASH} &&
+        ` cd /tmp && mkdir ${LHCI_BUILD_CONTEXT_CURRENT_HASH} && cd ${LHCI_BUILD_CONTEXT_CURRENT_HASH} &&
       lhci healthcheck && lhci collect --settings.chromeFlags='--no-sandbox --ignore-certificate-errors' --url=${
   args.property.sites
 } && lhci assert --preset=${
@@ -125,7 +134,7 @@ export const LighthouseAuditResolver = {
         Logger.log(data.toString());
         pubsub
           .publish('AUTORUN', {
-            autorun: LHCI_BUILD_CONTEXT__CURRENT_HASH + data.toString(),
+            autorun: LHCI_BUILD_CONTEXT_CURRENT_HASH + data.toString(),
           })
           .catch((err) => Logger.error(err));
       });
@@ -134,7 +143,7 @@ export const LighthouseAuditResolver = {
         Logger.error(data.toString());
         pubsub
           .publish('AUTORUN', {
-            autorun: LHCI_BUILD_CONTEXT__CURRENT_HASH + data.toString(),
+            autorun: LHCI_BUILD_CONTEXT_CURRENT_HASH + data.toString(),
           })
           .catch((err) => Logger.error(err));
       });
@@ -143,15 +152,15 @@ export const LighthouseAuditResolver = {
         Logger.info(`Process exited with code ${code}`);
         pubsub
           .publish('AUTORUN', {
-            autorun: LHCI_BUILD_CONTEXT__CURRENT_HASH + code,
+            autorun: LHCI_BUILD_CONTEXT_CURRENT_HASH + code,
           })
           .catch((err) => Logger.error(err));
       });
-      return LHCI_BUILD_CONTEXT__CURRENT_HASH;
+      return LHCI_BUILD_CONTEXT_CURRENT_HASH;
     },
-    async uploadLHReport(root: any, args: any, ctx: any) {
+    async uploadLHReport(root: any, args: any) {
       const profile = await lhci.fetchProfileFavicon(args.property.authorEmail);
-      const LHCI_BUILD_CONTEXT__COMMIT_MESSAGE = `${
+      const LHCI_BUILD_CONTEXT_COMMIT_MESSAGE = `${
         args.property.commitMessage
         || `Benchmark Commit by ${args.property.authorName}`
       }`;
@@ -162,7 +171,7 @@ export const LighthouseAuditResolver = {
       export LHCI_BUILD_CONTEXT__CURRENT_BRANCH="${
   args.property.currentBranch || process.env.CURRENT_BRANCH
 }" &&
-      export LHCI_BUILD_CONTEXT__COMMIT_MESSAGE="${LHCI_BUILD_CONTEXT__COMMIT_MESSAGE}" &&
+      export LHCI_BUILD_CONTEXT__COMMIT_MESSAGE="${LHCI_BUILD_CONTEXT_COMMIT_MESSAGE}" &&
       export LHCI_BUILD_CONTEXT__AUTHOR="${args.property.authorName} <${
   args.property.authorEmail
 }>" &&

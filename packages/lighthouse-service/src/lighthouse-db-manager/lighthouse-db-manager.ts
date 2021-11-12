@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable class-methods-use-this */
 import { Order, WhereOptions } from 'sequelize/types';
 import {
   Op, fn, col, literal,

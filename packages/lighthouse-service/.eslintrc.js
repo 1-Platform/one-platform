@@ -14,6 +14,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {
-    "max-len": ["error", { code: 130 }],
+    "max-len": [ "error", { code: 130 } ],
+    "import/prefer-default-export": "off"
   },
 };

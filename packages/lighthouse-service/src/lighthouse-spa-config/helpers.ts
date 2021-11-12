@@ -41,16 +41,17 @@ export const getUserProfile = async (
 export const populateMongooseDocWithUser = async (
   lhSpaConfigDoc: LHSpaConfigModel,
 ) => {
+  const doc = { ...lhSpaConfigDoc };
   /**
    * if the fetch fails inorder to not break the query returning an empty object
    */
   try {
     const user = await getUserProfile(lhSpaConfigDoc.createdBy as string);
-    lhSpaConfigDoc.createdBy = user;
-    lhSpaConfigDoc.updatedBy = user;
+    doc.createdBy = user;
+    doc.updatedBy = user;
   } catch (error) {
-    lhSpaConfigDoc.createdBy = {};
-    lhSpaConfigDoc.updatedBy = {};
+    doc.createdBy = {};
+    doc.updatedBy = {};
   }
-  return lhSpaConfigDoc;
+  return doc;
 };
