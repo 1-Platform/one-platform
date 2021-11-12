@@ -1,6 +1,8 @@
+/* eslint-disable class-methods-use-this */
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import { camelCase } from 'lodash';
+import Logger from './lib/logger';
 
 const fetch = require('node-fetch');
 
@@ -17,10 +19,15 @@ export const pubsub = new RedisPubSub({
   subscriber: new Redis(redisOptions),
 });
 
+const handleFetchError = (response:any) => {
+  if (!response.ok) {
+    throw response;
+  }
+  return response;
+};
+
 class LHCIHelper {
   private static LHCIHelperInstance: LHCIHelper;
-
-  constructor() { }
 
   public static lhciHelper() {
     if (!LHCIHelper.LHCIHelperInstance) {
@@ -35,8 +42,11 @@ class LHCIHelper {
     return fetch(`${process.env.GITLAB_URL}/api/v4/avatar?email=${email}`, {
       method: 'GET',
       headers,
-    }).then((res: any) => res.json())
-      .then((result: any) => result, (error: any) => {
+    })
+      .then(handleFetchError)
+      .then((res: any) => res.json())
+      .then((result: any) => result)
+      .catch((error: any) => {
         throw new Error(error);
       });
   }
@@ -48,8 +58,11 @@ class LHCIHelper {
       method: 'GET',
       headers,
       redirect: 'follow',
-    }).then((res: any) => res.json())
-      .then((result: LighthouseProjectType) => result, (error: any) => {
+    })
+      .then(handleFetchError)
+      .then((res: any) => res.json())
+      .then((result: LighthouseProjectType) => result)
+      .catch((error: any) => {
         throw new Error(error);
       });
   }
@@ -62,21 +75,35 @@ class LHCIHelper {
       headers,
       body: JSON.stringify({ token: buildToken }),
       redirect: 'follow',
-    }).then((res: any) => res.json())
-      .then((result: LighthouseProjectType) => result, (error: any) => {
+    })
+      .then(handleFetchError)
+      .then((res: any) => res.json())
+      .then((result: LighthouseProjectType) => result)
+      .catch((error: any) => {
         throw new Error(error);
       });
   }
 
-  fetchProjectBuilds(serverBaseUrl: string, projectID: string, branch:string, limit: number) {
+  fetchProjectBuilds(
+    serverBaseUrl: string,
+    projectID: string,
+    branch: string,
+    limit: number,
+  ) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return fetch(`${serverBaseUrl}/v1/projects/${projectID}/builds?branch=${branch}&limit=${limit}`, {
-      method: 'GET',
-      headers,
-      redirect: 'follow',
-    }).then((res: any) => res.json())
-      .then((result: LighthouseProjectType) => result, (error: any) => {
+    return fetch(
+      `${serverBaseUrl}/v1/projects/${projectID}/builds?branch=${branch}&limit=${limit}`,
+      {
+        method: 'GET',
+        headers,
+        redirect: 'follow',
+      },
+    )
+      .then(handleFetchError)
+      .then((res: any) => res.json())
+      .then((result: LighthouseProjectType) => result)
+      .catch((error: any) => {
         throw new Error(error);
       });
   }
@@ -84,23 +111,35 @@ class LHCIHelper {
   fetchProjectLHR(serverBaseUrl: string, projectID: string, buildID: string) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return fetch(`${serverBaseUrl}/v1/projects/${projectID}/builds/${buildID}/runs`, {
-      method: 'GET',
-      headers,
-      redirect: 'follow',
-    }).then((res: any) => res.json())
+    return fetch(
+      `${serverBaseUrl}/v1/projects/${projectID}/builds/${buildID}/runs`,
+      {
+        method: 'GET',
+        headers,
+        redirect: 'follow',
+      },
+    )
+      .then(handleFetchError)
+      .then((res: any) => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res;
+      })
+      .then((res: any) => res.json())
       .then((results: any) => {
         const scores: LighthouseScoreType[] = [];
-        results.map((value: any) => {
+        results.forEach((value: any) => {
           const lhr = JSON.parse(value.lhr);
           const data: any = {};
-          Object.keys(lhr.categories).map((category: any) => {
+          Object.keys(lhr.categories).forEach((category: any) => {
             data[camelCase(category)] = lhr.categories[category].score;
           });
           scores.push(data);
         });
         return scores;
-      }, (error: any) => {
+      })
+      .catch((error: any) => {
         throw new Error(error);
       });
   }
@@ -112,9 +151,33 @@ class LHCIHelper {
       method: 'GET',
       headers,
       redirect: 'follow',
-    }).then((res: any) => res.json())
-      .then((result: LighthouseProjectType) => result, (error: any) => {
+    })
+      .then(handleFetchError)
+      .then((res: any) => res.json())
+      .then((result: LighthouseProjectType) => result)
+      .catch((error: any) => {
         throw new Error(error);
+      });
+  }
+
+  /**
+   * function to create LH Project
+   * @param {PropertyModel} $project: input project document
+   * @returns {Object}: Mutated document as object
+   */
+  createLHProject(project: any) {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    const raw = JSON.stringify(project);
+
+    return fetch(`${process.env.SERVER_BASE_URL}/v1/projects`, {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    })
+      .then((response: any) => response.json())
+      .catch((error: Error) => {
+        Logger.error(error);
       });
   }
 }

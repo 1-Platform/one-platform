@@ -13,8 +13,6 @@ import auditSchema from './src/audit-manager/typedef.graphql';
 import Logger from './src/lib/logger';
 import { LHSpaConfigResolver } from './src/lighthouse-spa-config/resolver';
 import lhSpaConfigSchema from './src/lighthouse-spa-config/typedef.graphql';
-import { PropertyResolver } from './src/property-manager/resolver';
-import propertySchema from './src/property-manager/typedef.graphql';
 
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.test.env' });
@@ -58,8 +56,8 @@ mongoose.connection.on('error', (error) => {
 });
 
 const schema = mergeSchemas({
-  typeDefs: [auditSchema, propertySchema, lhSpaConfigSchema],
-  resolvers: [LighthouseAuditResolver, PropertyResolver, LHSpaConfigResolver],
+  typeDefs: [auditSchema, lhSpaConfigSchema],
+  resolvers: [LighthouseAuditResolver, LHSpaConfigResolver],
 });
 
 /* Defining the Apollo Server */
