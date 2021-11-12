@@ -66,9 +66,9 @@
     "eslint-plugin-standard": "4.1.0",
     "lerna": "3.22.1",
     "mocha": "8.3.0",
-    "mochawesome": "6.2.2",
+    "mochawesome": "7.0.0",
     "mochawesome-merge": "4.2.0",
-    "mochawesome-report-generator": "5.2.0"
+    "mochawesome-report-generator": "6.0.0"
   },
   "dependencies": {
     "@spaship/cli": "0.14.0"
