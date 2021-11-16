@@ -31,7 +31,8 @@
         <app-empty-state title="No branch found">
         </app-empty-state>
     </section>
-    <section *ngIf="!isPageLoading" class="pf-c-page__main-section pf-m-limit-width pf-m-align-center">
+    <section *ngIf="!isPageLoading && branches.length !==0"
+        class="pf-c-page__main-section pf-m-limit-width pf-m-align-center">
         <div class="pf-l-flex pf-m-grow pf-m-align-items-center pf-m-column pf-u-w-100 pf-u-py-md pf-m-space-items-2xl">
             <div id="apps-score-card" class="pf-l-flex pf-m-column pf-m-space-items-sm">
                 <div class="pf-l-flex__item pf-l-flex">
@@ -61,8 +62,11 @@
                                     *ngIf="isBranchLoading">
                                     <app-loader></app-loader>
                                 </div>
-
-                                <div *ngIf="!isBranchLoading"
+                                <div *ngIf="!isBranchLoading && !buildScores[selectedBranch][0].score">
+                                    <app-empty-state title="No Scores yet">
+                                    </app-empty-state>
+                                </div>
+                                <div *ngIf="!isBranchLoading && buildScores[selectedBranch][0].score"
                                     class="pf-l-flex pf-m-nowrap pf-m-justify-content-space-around pf-m-space-items-xl">
                                     <div class="pf-l-flex__item score"
                                         *ngFor="let score of buildScores[selectedBranch][0].score | keyvalue">

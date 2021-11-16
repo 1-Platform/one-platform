@@ -10,10 +10,12 @@ export class TimelineScoreFormaterPipe implements PipeTransform {
 
   parseTimeLineForAScoreType(scoreType: string, branch: ProjectBranch[]) {
     const formatDate = new DatePipe(this.locale);
-    return branch.map(({ score, updatedAt }) => ({
-      name: formatDate.transform(updatedAt, 'MMM-dd, h:mm'),
-      value: score[scoreType],
-    }));
+    return branch
+      .filter(({ score }) => Boolean(score)) // filter out null score
+      .map(({ score, updatedAt }) => ({
+        name: formatDate.transform(updatedAt, 'MMM-dd, h:mm'),
+        value: score?.[scoreType] || 0,
+      }));
   }
 
   transform(value: ProjectBranch[], ...args: unknown[]) {

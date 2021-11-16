@@ -19,7 +19,7 @@ type ProjectBranch = {
   branch: string;
   projectId: string;
   updatedAt: string;
-  score: Score;
+  score: Score | null;
 };
 
 type Score = {

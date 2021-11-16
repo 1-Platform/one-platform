@@ -93,7 +93,7 @@
             </div>
         </div>
     </div>
-    <div class="pf-u-w-100 cards pf-u-pl-md pf-u-pr-sm">
+    <div class="pf-u-w-100 cards pf-u-pl-md pf-u-pr-sm" *ngIf="!isProjectListLoading">
         <div *ngFor="let project of projects.rows | filterList: debouncedSearchProject : 'name'">
             <a [routerLink]="'./'+project.id" [queryParams]="{name: project.name}">
                 <app-property-card>

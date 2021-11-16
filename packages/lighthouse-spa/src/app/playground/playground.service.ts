@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import {
   AuditWebsite,
   Autorun,
-  FetchProjectDetails,
+  VerifyLHProjectDetails,
   FetchScore,
   FetchProjectLHR,
   FetchProjects,
@@ -66,10 +66,10 @@ export class PlaygroundService extends GraphQLModule {
   };
 
   // Fetch & Verify Project details of valid project
-  fetchProjectDetails = (serverBaseUrl, buildToken) => {
+  verifyLHProjectDetails = (serverBaseUrl, buildToken) => {
     return this.apollo
       .watchQuery<any>({
-        query: FetchProjectDetails,
+        query: VerifyLHProjectDetails,
         variables: {
           serverBaseUrl,
           buildToken,

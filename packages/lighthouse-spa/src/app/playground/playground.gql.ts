@@ -24,8 +24,8 @@ export const FetchScore = gql`
   }
 `;
 
-export const FetchProjectDetails = gql`
-  query FetchProjectDetails($serverBaseUrl: String, $buildToken: String!) {
+export const VerifyLHProjectDetails = gql`
+  query VerifyLHProjectDetails($serverBaseUrl: String, $buildToken: String!) {
     verifyLHProjectDetails(
       serverBaseUrl: $serverBaseUrl
       buildToken: $buildToken

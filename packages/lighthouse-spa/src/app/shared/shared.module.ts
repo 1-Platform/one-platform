@@ -14,6 +14,7 @@ import { ContextSelectorComponent } from './components/context-selector/context-
 import { LHScoreLabelFormaterPipe } from './pipes/lhscore-label-formater.pipe';
 import { FilterListPipe } from './pipes/filter-list.pipe';
 import { UrlValidatorDirective } from './directive/url-validator.directive';
+import { FormErrorMessageComponent } from './components/form-error-message/form-error-message.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { UrlValidatorDirective } from './directive/url-validator.directive';
     FilterListPipe,
     ContextSelectorComponent,
     UrlValidatorDirective,
+    FormErrorMessageComponent,
   ],
   imports: [CommonModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -41,6 +43,7 @@ import { UrlValidatorDirective } from './directive/url-validator.directive';
     FilterListPipe,
     ContextSelectorComponent,
     UrlValidatorDirective,
+    FormErrorMessageComponent,
   ],
 })
 export class SharedModule {}

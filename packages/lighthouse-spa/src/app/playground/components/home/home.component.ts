@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { PlaygroundService } from 'app/playground/playground.service';
+import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 const Ansi = require('ansi-to-html');
 @Component({
@@ -11,13 +13,10 @@ const Ansi = require('ansi-to-html');
 })
 export class HomeComponent implements OnInit {
   document: Document;
-  validUrl: boolean = false;
   sites = '';
-  projectID = '';
   loading = false;
   showScore = false;
   toggleModal = false;
-  validUploadConfig = false;
   selectedPreset = 'lighthouse:recommended';
   presets = [
     {
@@ -70,7 +69,26 @@ export class HomeComponent implements OnInit {
   ];
   projects = [];
   projectBranches = [];
-  property: any = {};
+  isFetchingProjects = false;
+  isFetchingBranches = false;
+
+  // upload form management
+  auditUploadForm = new FormGroup({
+    project: new FormControl('', [
+      Validators.required,
+      this.whitespaceValidator,
+    ]),
+    branch: new FormControl('', [
+      Validators.required,
+      this.whitespaceValidator,
+    ]),
+    buildToken: new FormControl('', [
+      Validators.required,
+      this.whitespaceValidator,
+    ]),
+  });
+  auditUploadFormSubscription: Subscription;
+
   constructor(
     private appService: PlaygroundService,
     private router: ActivatedRoute
@@ -90,6 +108,17 @@ export class HomeComponent implements OnInit {
         }
       });
     });
+
+    // monitor form project changes
+    this.auditUploadFormSubscription = this.auditUploadForm
+      .get('project')
+      .valueChanges.subscribe((selectedProject: string) => {
+        this.fetchProjectBranches(selectedProject);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.auditUploadFormSubscription.unsubscribe();
   }
 
   get user(): any {
@@ -102,32 +131,19 @@ export class HomeComponent implements OnInit {
       .scrollTo(0, document.querySelector('#codeBlock').scrollHeight);
   };
 
-  validateUrl = (url: string): void => {
-    this.validUrl = url.indexOf('http://') == 0 || url.indexOf('https://') == 0;
-  };
+  whitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { whitespace: true };
+  }
 
-  fetchProjectDetails = (): void => {
-    if (this.property.buildToken) {
-      this.appService
-        .fetchProjectDetails(
-          environment.LH_SERVER_URL,
-          this.property.buildToken
-        )
-        .then((response) => {
-          if (response.fetchProjectDetails?.id === this.projectID) {
-            this.validUploadConfig = true;
-            window.OpNotification.success({
-              subject: `Valid Token`,
-              body: `Token valid for project ${response.fetchProjectDetails?.name}.`,
-            });
-          } else {
-            this.validUploadConfig = false;
-            window.OpNotification.warning({
-              subject: `Invalid Token`,
-              body: `Build token is invalid.`,
-            });
-          }
-        });
+  verifyProject = async (buildToken: string, projectId: string) => {
+    const res = await this.appService.verifyLHProjectDetails(
+      environment.LH_SERVER_URL,
+      buildToken
+    );
+    if (res.verifyLHProjectDetails?.id !== projectId) {
+      throw Error('Invalid token');
     }
   };
 
@@ -216,35 +232,66 @@ export class HomeComponent implements OnInit {
   };
 
   fetchProjects = (): void => {
-    this.appService.fetchProjects().then((responses) => {
-      this.projects = responses.listLHProjects.rows;
-    });
+    this.isFetchingProjects = true;
+    this.appService
+      .fetchProjects()
+      .then((responses) => {
+        this.projects = responses.listLHProjects.rows;
+      })
+      .finally(() => (this.isFetchingProjects = false));
   };
 
-  fetchProjectBranches = (): void => {
-    if (this.projectID) {
-      this.appService.fetchProjectBranches(this.projectID).then((responses) => {
-        this.projectBranches = responses.listLHProjectBranches.rows;
-      });
+  fetchProjectBranches = (projectId: string): void => {
+    if (projectId) {
+      this.isFetchingBranches = true;
+      this.appService
+        .fetchProjectBranches(projectId)
+        .then((responses) => {
+          this.projectBranches = responses.listLHProjectBranches.rows;
+        })
+        .finally(() => (this.isFetchingBranches = false));
     }
   };
 
-  upload = (property): void => {
-    const uploadProperty = {
-      auditId: this.auditId,
-      serverBaseUrl: environment.LH_SERVER_URL,
-      authorName: this.user.fullName,
-      authorEmail: this.user.email,
-      ...property,
-    };
-    this.toggleModal = false;
-    this.appService.upload(uploadProperty).subscribe((response) => {
-      if (response.upload) {
-        window.OpNotification.success({
-          subject: `Started upload of LHR Report`,
-          body: `LHR Upload to ${environment.LH_SERVER_URL} in progress.`,
-        });
-      }
-    });
+  upload = async (): Promise<void> => {
+    const { project, branch, buildToken } = this.auditUploadForm.value;
+
+    if (!this.auditId) {
+      window.OpNotification.danger({
+        subject: 'Uploading report failed!!',
+        body: 'Execute an audit',
+      });
+      return;
+    }
+
+    try {
+      await this.verifyProject(buildToken, project);
+
+      const uploadProperty = {
+        auditId: this.auditId,
+        serverBaseUrl: environment.LH_SERVER_URL,
+        authorName: this.user.fullName,
+        authorEmail: this.user.email,
+        currentBranch: branch,
+        buildToken,
+        preset: this.selectedPreset,
+        sites: this.sites,
+      };
+
+      this.appService.upload(uploadProperty).subscribe((response) => {
+        if (response.upload) {
+          this.toggleModal = false;
+          window.OpNotification.success({
+            subject: `Started upload of LHR Report`,
+            body: `LHR Upload to ${environment.LH_SERVER_URL} in progress.`,
+          });
+        }
+      });
+    } catch (error) {
+      window.OpNotification.danger({
+        subject: 'Uploading report failed!!',
+        body: error.message,
+      });
+    }
   };
 }
