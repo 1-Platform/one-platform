@@ -2,12 +2,20 @@ import { Button, Flex, FlexItem, Form, FormGroup, TextInput } from '@patternfly/
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { createLightHouseProjects } from '../../services/lighthouse';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 type CreateProjectFormValues = {
   projectName: string;
   repoUrl: string;
   baseBranch: string;
 };
+
+const projectSchema = yup.object().shape({
+  projectName: yup.string().trim().required(),
+  repoUrl: yup.string(),
+  baseBranch: yup.string(),
+});
 
 type CreateProjectProps = {
   setActiveTabKey: Dispatch<SetStateAction<number>>,
@@ -18,8 +26,9 @@ type CreateProjectProps = {
 const CreateProjectForm = ( props: CreateProjectProps ) => {
   const [ isPrimaryLoading, setIsPrimaryLoading ] = useState<boolean>( false );
 
-  const { handleSubmit, control, formState: { errors } } = useForm<CreateProjectFormValues>( {
-    mode: 'onBlur'
+  const { handleSubmit, control, formState: { errors, isValid } } = useForm<CreateProjectFormValues>( {
+    mode: 'onBlur',
+    resolver: yupResolver(projectSchema),
   } );
 
   const createProject = ( data: CreateProjectFormValues ) => {
@@ -93,7 +102,7 @@ const CreateProjectForm = ( props: CreateProjectProps ) => {
           <FlexItem align={ { default: 'alignRight' } }>
             <Button
               type="submit"
-              disabled={ isPrimaryLoading }
+              isDisabled={ isPrimaryLoading || !isValid }
               spinnerAriaValueText={ isPrimaryLoading ? 'Loading' : undefined }
               isLoading={ isPrimaryLoading }
               variant="primary"
