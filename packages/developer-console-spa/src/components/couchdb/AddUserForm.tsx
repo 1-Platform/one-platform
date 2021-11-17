@@ -27,7 +27,7 @@ type AddUserProps = {
 };
 
 const appSchema = yup.object().shape({
-  user: yup.string().required(),
+  user: yup.string().trim().required(),
   permission: yup.string(),
 });
 

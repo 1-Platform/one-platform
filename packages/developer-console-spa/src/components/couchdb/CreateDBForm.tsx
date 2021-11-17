@@ -19,7 +19,7 @@ interface IDBInput {
   appId: string;
 }
 const appSchema = yup.object().shape({
-  dbname: yup.string().required(),
+  dbname: yup.string().trim().required(),
   description: yup.string(),
 });
 
