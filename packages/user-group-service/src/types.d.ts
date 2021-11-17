@@ -28,7 +28,7 @@ type User = {
   isActive ?: boolean;
   createdOn: Date;
   updatedOn: Date;
-}
+};
 
 type Group = {
   _id?: any;
@@ -36,7 +36,7 @@ type Group = {
   cn: string;
   createdOn: Date;
   updatedOn: Date;
-}
+};
 
 type APIKey = {
   _id?: any;
@@ -54,10 +54,10 @@ type APIKey = {
   createdBy: string;
   updatedOn: Date;
   updatedBy: string;
-}
+};
 declare enum OwnerType {
   User = 'User',
-  Group = 'Group'
+  Group = 'Group',
 }
 
 type GraphQLArgs = {
