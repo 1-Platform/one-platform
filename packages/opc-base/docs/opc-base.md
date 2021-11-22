@@ -63,6 +63,7 @@ Object properties
 - keycloakClientId: keycloak client id
 - keycloakRealm: keycloak clock realm
 - cachePolicy (optional): The fetch policy strategy followed by the graphql instance([urql](https://formidable.com/open-source/urql/)) used in opc-base. By default `cache-first`
+- isDebugMode (optional): Setting debug mode as true enables to log warnings. Used in development to show warning when mutating opcBase values. By default false.
 
 ###### opcBase.auth
 
