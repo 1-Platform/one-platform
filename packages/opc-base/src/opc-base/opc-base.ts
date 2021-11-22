@@ -1,4 +1,4 @@
-import { Client } from '@urql/core';
+import { Client } from "@urql/core";
 import { OpKeycloakAuthProvider } from "../keycloakAuthProvider/keycloakAuthProvider";
 import { OpcBase as OpcBaseType, Config, Toast, Feedback } from "./types";
 
@@ -34,10 +34,11 @@ class OpcBase {
   }
 
   set toast(toast: Toast) {
-    if (this._app.toast) {
-      throw new Error("Cannot set toast");
+    if (!this._app.toast) {
+      this._app.toast = toast;
+    } else {
+      this._app.config?.isDebugMode && console.warn("Cannot set toast");
     }
-    this._app.toast = toast;
   }
 
   get toast() {
@@ -46,10 +47,11 @@ class OpcBase {
   }
 
   set feedback(feedback: Feedback) {
-    if (this._app.feedback) {
-      throw new Error("Cannot set feedback");
+    if (!this._app.feedback) {
+      this._app.feedback = feedback;
+    } else {
+      this._app.config?.isDebugMode && console.warn("Cannot set feedback");
     }
-    this._app.feedback = feedback;
   }
 
   get feedback() {
@@ -58,10 +60,11 @@ class OpcBase {
   }
 
   set api(api: Client) {
-    if (this._app.api) {
-      throw new Error("Cannot set feedback");
+    if (!this._app.api) {
+      this._app.api = api;
+    } else {
+      this._app.config?.isDebugMode && console.warn("Cannot set api client");
     }
-    this._app.api = api;
   }
 
   get api() {
