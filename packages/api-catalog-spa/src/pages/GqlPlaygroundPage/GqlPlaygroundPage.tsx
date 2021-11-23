@@ -47,6 +47,7 @@ export const GqlPlaygroundPage = (): JSX.Element => {
         headers={headers || null}
         settings={{
           'editor.theme': 'light',
+          'request.credentials': 'omit',
         }}
       />
     </Provider>
