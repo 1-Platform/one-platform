@@ -29,9 +29,12 @@ export const ReadMore = ({
     <Component {...props}>
       {isReadMore ? text.slice(0, limit) : text}
       {!isReadMoreHidden && (
-        <Button onClick={setReadMore.toggle} variant="link" isInline>
-          {isReadMore ? '...read more' : ' show less'}
-        </Button>
+        <>
+          {isReadMore && '... '}
+          <Button onClick={setReadMore.toggle} variant="link" isInline>
+            {isReadMore ? 'Read more' : ' Show less'}
+          </Button>
+        </>
       )}
     </Component>
   );
