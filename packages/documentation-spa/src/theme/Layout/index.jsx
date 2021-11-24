@@ -15,7 +15,23 @@ import UserPreferencesProvider from "@theme/UserPreferencesProvider";
 import AnnouncementBar from "@theme/AnnouncementBar";
 import Footer from "@theme/Footer";
 
+import "@one-platform/opc-nav/dist/opc-nav";
+import "@one-platform/opc-menu-drawer/dist/opc-menu-drawer";
+import "@one-platform/opc-notification-drawer/dist/opc-notification-drawer";
+import "@one-platform/opc-feedback/dist/opc-feedback";
+
+import opcBase from "@one-platform/opc-base";
+import "@one-platform/opc-base/dist/opc-provider";
+
 import "./styles.css";
+
+opcBase.configure({
+  apiBasePath: process.env.REACT_APP_OPCBASE_API_BASE_PATH,
+  subscriptionsPath: process.env.REACT_APP_OPCBASE_SUBSCRIPTION_BASE_PATH,
+  keycloakUrl: process.env.REACT_APP_OPCBASE_KEYCLOAK_URL,
+  keycloakClientId: process.env.REACT_APP_OPCBASE_KEYCLOAK_CLIENT_ID,
+  keycloakRealm: process.env.REACT_APP_OPCBASE_KEYCLOAK_REALM,
+});
 
 function Providers({ children }) {
   return (
@@ -49,38 +65,41 @@ function Layout(props) {
   const faviconUrl = useBaseUrl(favicon);
 
   return (
-    <>
-      <Providers>
-        <Head>
-          {/* TODO: Do not assume that it is in english language */}
-          <html lang="en" />
+    <Providers>
+      <Head>
+        {/* TODO: Do not assume that it is in english language */}
+        <html lang="en" />
 
-          { metaTitle && <title>{ metaTitle }</title> }
-          { metaTitle && <meta property="og:title" content={ metaTitle } /> }
-          { favicon && <link rel="shortcut icon" href={ faviconUrl } /> }
-          { description && <meta name="description" content={ description } /> }
-          { description && (
-            <meta property="og:description" content={ description } />
-          ) }
-          { version && <meta name="docsearch:version" content={ version } /> }
-          { keywords && keywords.length && (
-            <meta name="keywords" content={ keywords.join( "," ) } />
-          ) }
-          { metaImage && <meta property="og:image" content={ metaImageUrl } /> }
-          { metaImage && <meta property="twitter:image" content={ metaImageUrl } /> }
-          { metaImage && (
-            <meta name="twitter:image:alt" content={ `Image for ${ metaTitle }` } />
-          ) }
-          { permalink && <meta property="og:url" content={ siteUrl + permalink } /> }
-          { permalink && <link rel="canonical" href={ siteUrl + permalink } /> }
-          <meta name="twitter:card" content="summary_large_image" />
-        </Head>
-        <AnnouncementBar />
-        <div dangerouslySetInnerHTML={ { __html: '<!--#include virtual="/.ssi/nav/default.html" -->' } } />
-        <div className="main-wrapper">{ children }</div>
-        { !noFooter && <Footer /> }
-      </Providers>
-    </>
+        {metaTitle && <title>{metaTitle}</title>}
+        {metaTitle && <meta property="og:title" content={metaTitle} />}
+        {favicon && <link rel="shortcut icon" href={faviconUrl} />}
+        {description && <meta name="description" content={description} />}
+        {description && (
+          <meta property="og:description" content={description} />
+        )}
+        {version && <meta name="docsearch:version" content={version} />}
+        {keywords && keywords.length && (
+          <meta name="keywords" content={keywords.join(",")} />
+        )}
+        {metaImage && <meta property="og:image" content={metaImageUrl} />}
+        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
+        {metaImage && (
+          <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
+        )}
+        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
+        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
+      <opc-provider>
+        <opc-nav></opc-nav>
+        <opc-menu-drawer></opc-menu-drawer>
+        <opc-notification-drawer></opc-notification-drawer>
+        <opc-feedback theme="blue"></opc-feedback>
+      </opc-provider>
+      <AnnouncementBar />
+      <div className="main-wrapper">{children}</div>
+      {!noFooter && <Footer />}
+    </Providers>
   );
 }
 

@@ -7,6 +7,13 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: '1-platform',
   projectName: '1-platform.github.io',
+  plugins: [[
+            'docusaurus2-dotenv',
+            {
+                safe: true
+            }
+    ]
+  ],
   themeConfig: {
     // announcementBar: {
     //   id: 'support_us', // Any value that will identify this message.
