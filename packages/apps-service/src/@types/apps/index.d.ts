@@ -17,9 +17,13 @@ type App = {
     qe: Array<string>
     stakeholders: Array<string>
   }
-  access: Array<{
-    roverGroup: string
-    role: App.AccessRole
+  permissions: Array<{
+    name: string
+    email: string
+    refId: string
+    refType: App.PermissionsRefType
+    role: App.PermissionsRole
+    customRoles?: string[]
   }>
   feedback: {
     isEnabled: boolean
@@ -57,9 +61,13 @@ namespace App {
     BUILTIN = 'BUILTIN',
     HOSTED = 'HOSTED',
   }
-  declare const enum AccessRole {
+  declare const enum PermissionsRole {
     EDIT = 'EDIT',
     VIEW = 'VIEW',
+  }
+  declare const enum PermissionsRefType {
+    USER = 'User',
+    GROUP = 'Group',
   }
   declare const enum FeedbackSource {
     JIRA = 'JIRA',

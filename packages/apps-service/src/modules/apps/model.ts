@@ -1,5 +1,4 @@
 /* Mongoose schema/model definition */
-
 import {
   Document, Model, model, Schema,
 } from 'mongoose';
@@ -16,11 +15,11 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
     type: String,
     unique: true,
     default(this: App) {
-      return uniqueIdFromPath(this.path) || uniqueIdFromPath(this.name);
+      return uniqueIdFromPath(this.name);
     },
   },
   isActive: { type: Boolean, default: false },
-  name: { type: String, unique: true },
+  name: { type: String, unique: true, required: true },
   description: { type: String },
   path: { type: String },
   icon: { type: String },
@@ -68,7 +67,6 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
     sourceType: {
       type: String,
       enum: ['JIRA', 'GITHUB', 'GITLAB', 'EMAIL'],
-      default: App.FeedbackSource.EMAIL,
     },
     sourceApiUrl: { type: String },
     sourceHeaders: [
@@ -107,12 +105,12 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
   updatedOn: { type: Date, default: Date.now },
 });
 
-AppSchema.static('isAuthorized', function isAuthorized(appId: any, userId: string) {
+AppSchema.static('isAuthorized', function isAuthorized(id: any, userId: string) {
   return this.exists({
-    _id: appId, ownerId: userId,
+    _id: id, ownerId: userId,
   });
 });
 
 const Apps = model<AppModel, AppModelStatic>('App', AppSchema);
 
-export { Apps as default };
+export default Apps;

@@ -1,13 +1,14 @@
 /* GraphQL resolver implementations */
 import { IResolvers } from '@graphql-tools/utils';
-import { isEmpty } from 'lodash';
+import { isEmpty, clone } from 'lodash';
 import Apps from './model';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 import AppsHelper from '../../utils/apps-helper';
 import { createDatabase, deleteDatabase, setDatabasePermissions } from '../../services/couchdb';
-import Logger from '../../lib/logger';
+import logger from '../../lib/logger';
+import { getUser } from '../../services/user-group';
 
-const AppsResolver = <IResolvers<App, IAppsContext>>{
+const AppsResolver = <IResolvers<App, IAppsContext>> {
   Query: {
     apps: () => Apps.find().exec(),
     myApps: (parent, args, { rhatUUID }) => {
@@ -44,6 +45,8 @@ const AppsResolver = <IResolvers<App, IAppsContext>>{
       }
       const newApp = await new Apps({
         ...app,
+        name: app.name.trim(),
+        description: app.description.trim(),
         ownerId: ctx.rhatUUID,
         createdBy: ctx.rhatUUID,
         updatedBy: ctx.rhatUUID,
@@ -64,11 +67,12 @@ const AppsResolver = <IResolvers<App, IAppsContext>>{
       if (appRecord.path) {
         appRecord.appId = uniqueIdFromPath(app.path);
       }
-      const updatedApp = await Apps.findByIdAndUpdate(id, {
-        ...appRecord,
-        updatedBy: ctx.rhatUUID,
-        updatedOn: new Date(),
-      }, { new: true })
+      const updatedApp = await Apps
+        .findByIdAndUpdate(id, {
+          ...appRecord,
+          updatedBy: ctx.rhatUUID,
+          updatedOn: new Date(),
+        }, { new: true })
         .exec();
 
       if (updatedApp) {
@@ -93,6 +97,50 @@ const AppsResolver = <IResolvers<App, IAppsContext>>{
       }
 
       return app;
+    },
+    transferAppOwnership: async (parent, { id, ownerId }, { rhatUUID }) => {
+      if (!Apps.isAuthorized(id, rhatUUID)) {
+        throw new Error('User unauthorized to transfer ownership');
+      }
+      const app = await Apps.findById(id).exec();
+      if (!app) {
+        throw new Error(`App not found for id: "${id}"`);
+      }
+      if (app.ownerId !== rhatUUID) {
+        throw new Error('User not authorized to transfer ownership.');
+      }
+      if (app.ownerId === ownerId) {
+        return app;
+      }
+
+      const owner = await getUser(app.ownerId);
+      const newOwner = await getUser(ownerId);
+      if (!owner || !newOwner) {
+        throw new Error('There was some problem. Please try again.');
+      }
+
+      let permissions = clone(app.permissions);
+      /* Make the previous owner an editor */
+      permissions.unshift({
+        name: owner.name,
+        email: owner.email,
+        refId: owner.uuid,
+        refType: App.PermissionsRefType.USER,
+        role: App.PermissionsRole.EDIT,
+      });
+      /* Remove duplicates, if any */
+      permissions = permissions
+        .filter((permission, index, arr) => (
+          arr.findIndex((perm) => perm.refId === permission.refId) === index
+          && permission.refId !== ownerId
+        ));
+
+      return Apps.findByIdAndUpdate(id, {
+        ownerId,
+        permissions,
+        updatedOn: new Date(),
+        updatedBy: rhatUUID,
+      }, { new: true }).exec();
     },
     createAppDatabase: async (parent, {
       id, databaseName, description, permissions,
@@ -122,7 +170,7 @@ const AppsResolver = <IResolvers<App, IAppsContext>>{
         /* Set the default permissions */
         await setDatabasePermissions(database.name, database.permissions);
       } catch (err) {
-        Logger.error('[CouchDB Error]:', JSON.stringify(err));
+        logger.error('[CouchDB Error]:', JSON.stringify(err));
         throw new Error(`Database could not be created: ${JSON.stringify(err)}`);
       }
 
@@ -149,7 +197,7 @@ const AppsResolver = <IResolvers<App, IAppsContext>>{
         /* Delete the database from couchdb */
         await deleteDatabase(databaseName);
       } catch (err) {
-        Logger.error('[CouchDB Error]:', JSON.stringify(err));
+        logger.error('[CouchDB Error]:', JSON.stringify(err));
         throw new Error(`Database could not be deleted: ${JSON.stringify(err)}`);
       }
 

@@ -6,7 +6,7 @@ import CommonSchema from './modules/common';
 import AppsSchema from './modules/apps/schema.gql';
 import AppsResolver from './modules/apps/resolver';
 import MicroservicesSchema from './modules/microservices/schema.gql';
-import Logger from './lib/logger';
+import logger from './lib/logger';
 import MicroservicesResolver from './modules/microservices/resolver';
 
 (async () => {
@@ -30,12 +30,19 @@ import MicroservicesResolver from './modules/microservices/resolver';
             ?.replace(/\s+/g, ' ')
             .trim();
           const variables = JSON.stringify(requestContext.request.variables);
-          Logger.http(
-            `- [Request Started] { query: ${query}, variables: ${variables}, operationName: ${requestContext.request.operationName} }`,
+          logger.info(
+            `[Request Started] { query: ${query?.trim()}, variables: ${variables}, operationName: ${requestContext.request.operationName} }`,
           );
         },
       },
     ],
+    formatError: (error) => {
+      const errorObject = Object.create(error);
+      if (errorObject?.extensions?.exception?.stacktrace) {
+        errorObject.extensions.exception.stacktrace = undefined;
+      }
+      return errorObject;
+    },
     context: ({ req }) => ({
       rhatUUID: req.header('X-OP-User-ID'),
     }),
@@ -45,6 +52,6 @@ import MicroservicesResolver from './modules/microservices/resolver';
   server
     .listen(PORT)
     .then(({ url }) => {
-      Logger.info(`Server ready at ${url}`);
+      logger.info(`Server ready at ${url}`);
     });
 })();

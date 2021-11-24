@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import fetch, { Headers } from 'cross-fetch';
-import Logger from '../lib/logger';
+import logger from '../lib/logger';
 import { API_GATEWAY, GATEWAY_AUTH_TOKEN, SEARCH_DATA_SOURCE } from '../setup/env';
 
 function formatSearchInput(data: any) {
@@ -52,11 +52,11 @@ function manageSearchIndex(data: any, mode: string) {
     .then((result: any) => {
       const succesStatusCodes = [200, 204];
       if (succesStatusCodes.includes(result.data?.manageIndex?.status)) {
-        Logger.info('Sucessfully completed the index updation.');
+        logger.info('Sucessfully completed the index updation.');
       } else if (
         !succesStatusCodes.includes(result.data?.manageIndex?.status)
       ) {
-        Logger.info('Error in index updation.');
+        logger.info('Error in index updation.');
       }
     })
     .catch((err: Error) => {
