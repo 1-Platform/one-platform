@@ -1,10 +1,10 @@
 {
   "name": "documentation-spa",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
+    "start": "docusaurus start --port 5500",
     "build": "docusaurus build --out-dir=dist",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -14,7 +14,13 @@
     "@docusaurus/core": "2.0.0-alpha.65",
     "@docusaurus/preset-classic": "2.0.0-alpha.65",
     "@mdx-js/react": "1.6.22",
+    "@one-platform/opc-base": "^1.1.2-beta",
+    "@one-platform/opc-feedback": "0.0.9-prerelease",
+    "@one-platform/opc-menu-drawer": "^0.1.2-prerelease",
+    "@one-platform/opc-nav": "0.0.3-prerelease",
+    "@one-platform/opc-notification-drawer": "^0.1.2-prerelease",
     "clsx": "1.1.1",
+    "docusaurus2-dotenv": "^1.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
