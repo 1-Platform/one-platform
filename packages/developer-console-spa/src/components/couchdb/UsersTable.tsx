@@ -35,6 +35,7 @@ const getUserQueries = (props: any) => {
                   }
                 `;
     }
+    return '';
   });
 };
 /**
@@ -82,7 +83,7 @@ const UsersTable = (props: UsersTableProps) => {
         setIsUserDataLoading(false);
         setRows(memberRows);
       });
-  }, [props.admin, props.db]);
+  }, [props]);
 
   const getLabelOrAction = (
     cell: string,
