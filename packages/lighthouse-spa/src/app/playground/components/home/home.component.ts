@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { PlaygroundService } from 'app/playground/playground.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
 
 const Ansi = require('ansi-to-html');
 @Component({
@@ -72,6 +73,8 @@ export class HomeComponent implements OnInit {
   isFetchingProjects = false;
   isFetchingBranches = false;
 
+  destroySub: Subject<boolean> = new Subject<boolean>();
+
   // upload form management
   auditUploadForm = new FormGroup({
     project: new FormControl('', [
@@ -98,27 +101,30 @@ export class HomeComponent implements OnInit {
     this.updateProgress();
     this.fetchProjects();
     window.OpAuthHelper?.onLogin(() => {
-      this.router.queryParams.subscribe((params) => {
-        const siteUrl = params.siteUrl as string;
-        const preset = params.preset;
-        if (siteUrl && preset) {
-          this.sites = siteUrl;
-          this.selectedPreset = preset;
-          this.auditWebsite();
-        }
-      });
+      this.router.queryParams
+        .pipe(takeUntil(this.destroySub))
+        .subscribe((params) => {
+          const siteUrl = params.siteUrl as string;
+          const preset = params.preset;
+          if (siteUrl && preset) {
+            this.sites = siteUrl;
+            this.selectedPreset = preset;
+            this.auditWebsite();
+          }
+        });
     });
 
-    // monitor form project changes
-    this.auditUploadFormSubscription = this.auditUploadForm
+    this.auditUploadForm
       .get('project')
-      .valueChanges.subscribe((selectedProject: string) => {
+      .valueChanges.pipe(takeUntil(this.destroySub))
+      .subscribe((selectedProject: string) => {
         this.fetchProjectBranches(selectedProject);
       });
   }
 
   ngOnDestroy(): void {
-    this.auditUploadFormSubscription.unsubscribe();
+    this.destroySub.next(true);
+    this.destroySub.unsubscribe();
   }
 
   get user(): any {
@@ -148,24 +154,27 @@ export class HomeComponent implements OnInit {
   };
 
   updateProgress = (): void => {
-    this.appService.autorun().subscribe((progress: string) => {
-      if (progress.substr(0, this.auditId.length) === this.auditId) {
-        if (progress.replace(this.auditId, '')) {
-          progress = progress.replace(this.auditId, '');
-          if (progress !== `1`) {
-            progress = this.linkParser(progress);
-            this.auditProgress += this.convert.toHtml(progress);
-          } else {
-            this.loading = false;
-            window.OpNotification.success({
-              subject: `Audit completed successfully`,
-            });
-            this.fetchScore(this.auditId);
+    this.appService
+      .autorun()
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((progress: string) => {
+        if (progress.substr(0, this.auditId.length) === this.auditId) {
+          if (progress.replace(this.auditId, '')) {
+            progress = progress.replace(this.auditId, '');
+            if (progress !== `1`) {
+              progress = this.linkParser(progress);
+              this.auditProgress += this.convert.toHtml(progress);
+            } else {
+              this.loading = false;
+              window.OpNotification.success({
+                subject: `Audit completed successfully`,
+              });
+              this.fetchScore(this.auditId);
+            }
+            this.scrollBottom();
           }
-          this.scrollBottom();
         }
-      }
-    });
+      });
   };
 
   linkParser = (progress) => {
@@ -191,12 +200,15 @@ export class HomeComponent implements OnInit {
       sites: this.sites,
       preset: this.selectedPreset,
     };
-    this.appService.auditWebsite(property).subscribe((response) => {
-      this.auditId = response.auditWebsite;
-      window.OpNotification.success({
-        subject: `Audit started successfully`,
+    this.appService
+      .auditWebsite(property)
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((response) => {
+        this.auditId = response.auditWebsite;
+        window.OpNotification.success({
+          subject: `Audit started successfully`,
+        });
       });
-    });
   };
 
   fetchScore = (auditId): void => {
@@ -278,15 +290,18 @@ export class HomeComponent implements OnInit {
         sites: this.sites,
       };
 
-      this.appService.upload(uploadProperty).subscribe((response) => {
-        if (response.upload) {
-          this.toggleModal = false;
-          window.OpNotification.success({
-            subject: `Started upload of LHR Report`,
-            body: `LHR Upload to ${environment.LH_SERVER_URL} in progress.`,
-          });
-        }
-      });
+      this.appService
+        .upload(uploadProperty)
+        .pipe(takeUntil(this.destroySub))
+        .subscribe((response) => {
+          if (response.upload) {
+            this.toggleModal = false;
+            window.OpNotification.success({
+              subject: `Started upload of LHR Report`,
+              body: `LHR Upload to ${environment.LH_SERVER_URL} in progress.`,
+            });
+          }
+        });
     } catch (error) {
       window.OpNotification.danger({
         subject: 'Uploading report failed!!',

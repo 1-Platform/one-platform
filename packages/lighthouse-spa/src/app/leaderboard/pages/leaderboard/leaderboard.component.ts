@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LeaderboardCategory } from 'app/leaderboard/enum';
 import { LeaderboardService } from 'app/leaderboard/leaderboard.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-leaderboard',
@@ -18,6 +19,7 @@ export class LeaderboardComponent implements OnInit {
   leaderboardSortDir: Sort[] = ['DESC', 'ASC'];
 
   lighthouseLeaderboard: LHLeaderboard[] = [];
+  listLeaderBoardSubscription: Subscription;
 
   leaderbooardSelectedCategory = LeaderboardCategory.PWA;
   leaderboardSelectedSortOrder: Sort = 'DESC';
@@ -38,11 +40,15 @@ export class LeaderboardComponent implements OnInit {
     this.fetchLHLeaderboard();
   }
 
+  ngOnDestroy (): void {
+    this.listLeaderBoardSubscription.unsubscribe()
+  }
+
   fetchLHLeaderboard(): void {
     this.isPageLoading = true;
 
     try {
-      this.leaderboardService
+      this.listLeaderBoardSubscription =  this.leaderboardService
         .listLHLeaderboard(
           this.leaderbooardSelectedCategory,
           this.leaderboardSelectedSortOrder,
@@ -53,7 +59,7 @@ export class LeaderboardComponent implements OnInit {
           this.isPageLoading = loading;
           this.totalCount = listLHLeaderboard.count;
           this.lighthouseLeaderboard = listLHLeaderboard.rows;
-        });
+        } );
     } catch (error) {
       window.OpNotification.danger({
         subject: 'Error on loading leaderboard',
