@@ -17,9 +17,9 @@ context( 'Home Page Tests', () => {
         cy.get( 'input[name="name"]' ).type( words );
         cy.get( 'textarea[name="description"]' ).type( "test" )
         cy.contains( "REST" ).click( { force: true } )
-        cy.get( 'div[class="pf-c-select__toggle-wrapper"] > input[placeholder^="Search"]' ).type( 'denair' ).then( () => {
+        cy.get( 'div[class="pf-c-select__toggle-wrapper"] > input[placeholder^="Search"]' ).type( 'one-portal' ).then( () => {
             cy.wait(5000)
-            cy.contains( 'Deepesh Nair', { timeout: 10000 } ).should( 'be.visible' ).click( { force: true } )
+            cy.contains( 'one-portal-test', { timeout: 10000 } ).should( 'be.visible' ).click( { force: true } )
         })
         cy.get( '[name="appUrl"]' ).type( "https://www.google.com" )
         cy.get( '[name="schemaEndpoint"]' ).type( "https://www.redhat.com" )
