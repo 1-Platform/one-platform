@@ -46,7 +46,6 @@ export const AppLayout: FC = () => {
       >
         <Outlet />
       </PageSection>
-      <opc-footer theme="light" />
     </Page>
   );
 };

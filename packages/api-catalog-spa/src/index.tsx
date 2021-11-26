@@ -7,7 +7,6 @@ import '@one-platform/opc-nav/dist/opc-nav';
 import '@one-platform/opc-menu-drawer/dist/opc-menu-drawer';
 import '@one-platform/opc-notification-drawer/dist/opc-notification-drawer';
 import '@one-platform/opc-feedback/dist/opc-feedback';
-import '@one-platform/opc-footer/dist/opc-footer';
 
 import App from './App';
 

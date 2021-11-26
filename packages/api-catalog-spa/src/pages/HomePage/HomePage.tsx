@@ -7,7 +7,6 @@ import {
   MenuItem,
   MenuList,
   PageSection,
-  SearchInput,
   Spinner,
   Split,
   SplitItem,
@@ -26,6 +25,7 @@ import { useDebounce } from 'hooks';
 import { ApiCategory } from 'graphql/namespace/types';
 import { useGetNamespaceList } from './hooks/useGetNamespaceList';
 import styles from './homePage.module.scss';
+import { SearchBar } from './components/SearchBar';
 
 const OP_CONTAINER_LOGO = `${process.env.PUBLIC_URL}/images/op-containers.svg`;
 
@@ -43,8 +43,6 @@ export const HomePage = (): JSX.Element => {
   const onSearchChange = (value: string): void => {
     setSearch(value);
   };
-
-  const onSearchClear = () => setSearch('');
 
   const onSearch = () => {
     navigate(`/apis?search=${search}`);
@@ -117,7 +115,7 @@ export const HomePage = (): JSX.Element => {
                     </Title>
                   </StackItem>
                   <StackItem>
-                    <Text className="pf-u-font-size-2xl">
+                    <Text className="pf-u-font-size-xl">
                       A catalog of APIs to manage, promote and share APIs with developers and users.
                     </Text>
                   </StackItem>
@@ -146,14 +144,9 @@ export const HomePage = (): JSX.Element => {
           </StackItem>
           <StackItem className="pf-u-mt-2xl">
             <Bullseye className={styles['catalog-search-container']}>
-              <SearchInput
-                className="pf-u-w-75"
-                placeholder="Search for apis"
-                value={search}
-                onChange={onSearchChange}
-                onClear={onSearchClear}
-                onSearch={onSearch}
-              />
+              <div className="pf-u-w-75">
+                <SearchBar placeholder="Search for APIs" value={search} onChange={onSearchChange} />
+              </div>
               {search && debouncedSearch && (
                 <Menu className={styles['catalog-search-menu']}>
                   <MenuList>{searchResult}</MenuList>

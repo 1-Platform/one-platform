@@ -7,7 +7,7 @@ export const stats: NamespaceCountTemplate[] = [
     key: 'all',
   },
   {
-    type: 'Graphql',
+    type: 'GraphQL',
     image: 'graphql-logo.svg',
     key: 'graphql',
   },

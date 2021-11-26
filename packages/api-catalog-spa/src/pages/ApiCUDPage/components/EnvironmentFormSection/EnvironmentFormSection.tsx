@@ -95,9 +95,10 @@ export const EnvironmentFormSection = (): JSX.Element => {
                           onClear={callbackify(onEnvNameClear, controllerField.onChange)}
                           selections={controllerField.value}
                           aria-label="env link"
-                          placeholder="Enter env name"
+                          placeholder="Enter environment name"
                           isCreatable
                           onCreateOption={onEnvNameCreate}
+                          placeholderText="Enter environment name"
                         >
                           {envNames.map((env, envIndex) => (
                             <SelectOption key={`${env}-${envIndex + 1}`} value={env} />

@@ -19,7 +19,7 @@ export const Footer = (): JSX.Element => {
   return (
     <Stack hasGutter className="pf-u-p-lg">
       <StackItem>
-        <Text component={TextVariants.h2}>Abount One Platform</Text>
+        <Text component={TextVariants.h2}>About One Platform</Text>
       </StackItem>
       <StackItem>
         <Split hasGutter>

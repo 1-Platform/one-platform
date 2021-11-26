@@ -1,6 +1,11 @@
 .header {
-  background: #000;
+  background-image: radial-gradient(#151515 14%, transparent 22%), linear-gradient(#151515, #000);
+  background-size: 24px 24px, 100% 100%;
+  background-position: center;
+  background-repeat: repeat, no-repeat;
+
   color: white;
+
   &-explore-button {
     padding: 1rem;
     margin-top: 1rem;
@@ -26,7 +31,8 @@
 
   &-menu {
     position: absolute;
-    top: 56px;
+    top: 72px;
     width: 75%;
+    border-radius: 8px;
   }
 }
