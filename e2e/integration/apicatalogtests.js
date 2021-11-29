@@ -24,7 +24,7 @@ context( 'Home Page Tests', () => {
         cy.get( 'textarea[name="description"]' ).type( "test" )
         cy.contains( "REST" ).click( { force: true } )
         cy.get( '#app-layout-page > section.pf-c-page__main-section.pf-m-no-padding.pf-m-light.appLayout_app-layout--content__1Gx8I > section > div > div > div > div:nth-child(2) > form > div:nth-child(4) > div.pf-c-form__group-control > div' ).within( () => {
-            cy.get('input[placeholder ^= "Search" ]' ).type( 'one-portal-test' ).then( () => {
+            cy.get('input[placeholder ^= "Search" ]' ).type( 'portal-test' ).then( () => {
             cy.wait( 5000 );
             cy.contains( 'sso', { timeout: 10000 } ).should( 'not.be.disabled' ).click( { force: true } );
             // cy.contains( 'one-portal-test sso-tester', { timeout: 10000 } ).click({force:true})
