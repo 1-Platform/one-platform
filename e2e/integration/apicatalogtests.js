@@ -1,3 +1,9 @@
+/// <reference types="Cypress" />
+Cypress.on( 'uncaught:exception', ( err, runnable ) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false;
+} )
 context( 'Home Page Tests', () => {
     before( () => {
         cy.visit( Cypress.env( 'QA_HOST' ) +'developers/api-catalog');
@@ -17,12 +23,16 @@ context( 'Home Page Tests', () => {
         cy.get( 'input[name="name"]' ).type( words );
         cy.get( 'textarea[name="description"]' ).type( "test" )
         cy.contains( "REST" ).click( { force: true } )
-        cy.get( 'div[class="pf-c-select__toggle-wrapper"] > input[placeholder^="Search"]' ).type( 'one-portal' ).then( () => {
-            cy.wait(5000)
-            cy.contains( 'one-portal-test', { timeout: 10000 } ).should( 'be.visible' ).click( { force: true } )
+        cy.get( '#app-layout-page > section.pf-c-page__main-section.pf-m-no-padding.pf-m-light.appLayout_app-layout--content__1Gx8I > section > div > div > div > div:nth-child(2) > form > div:nth-child(4) > div.pf-c-form__group-control > div' ).within( () => {
+            cy.get('input[placeholder ^= "Search" ]' ).type( 'one-portal-test' ).then( () => {
+            cy.wait( 5000 );
+            cy.contains( 'sso', { timeout: 10000 } ).should( 'not.be.disabled' ).click( { force: true } );
+            // cy.contains( 'one-portal-test sso-tester', { timeout: 10000 } ).click({force:true})
+            cy.get( 'span.pf-c-chip__text' ).should( 'be.visible' )
+        })
         })
         cy.get( '[name="appUrl"]' ).type( "https://www.google.com" )
-        cy.get( '[name="schemaEndpoint"]' ).type( "https://www.redhat.com" )
+        cy.get( '[name="schemaEndpoint"]' ).type( "https://petstore.swagger.io/v2/swagger.json" )
         cy.get( '[aria-label^="Select a"]' ).click( { force: true } ).then( () => {
             cy.get( 'button[role="option"]' ).then( ( elements ) => {
                 // Get a random number using the max number of elements.
