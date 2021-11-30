@@ -1,9 +1,9 @@
 import fetch from 'cross-fetch';
-import Logger from '../lib/logger';
+import logger from '../lib/logger';
 import { COUCHDB_ADMIN_TOKEN, COUCHDB_ENDPOINT } from '../setup/env';
 
 const headers = {
-  'Content-Type': 'appliceation/json',
+  'Content-Type': 'application/json',
   Authorization: COUCHDB_ADMIN_TOKEN,
 };
 
@@ -15,7 +15,7 @@ async function handleResponse(res: Response) {
 }
 
 function handleError(err: any) {
-  Logger.debug(err);
+  logger.debug(err);
   if (err instanceof Error) {
     throw new Error(err.message);
   } else {

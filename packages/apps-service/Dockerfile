@@ -7,7 +7,7 @@ ENV NODE_ENV=development
 WORKDIR /usr/src
 
 ADD . .
-RUN npm install --silent
+RUN npm install --silent && npm run build
 
 EXPOSE 8080
 

@@ -12,6 +12,7 @@ type Mutation {
   createApp(app: CreateAppInput!): App
   updateApp(id: ID!, app: UpdateAppInput!): App
   deleteApp(id: ID!): App
+  transferAppOwnership(id: ID!, ownerId: String!): App
 
   createAppDatabase(id: ID!, databaseName: String! description: String, permissions: AppDatabasePermissionsInput): App
   deleteAppDatabase(id: ID!, databaseName: String!): App
