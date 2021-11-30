@@ -27,7 +27,6 @@ context( 'Home Page Tests', () => {
             cy.get('input[placeholder ^= "Search" ]' ).type( 'portal-test' ).then( () => {
             cy.wait( 5000 );
             cy.contains( 'sso', { timeout: 10000 } ).should( 'not.be.disabled' ).click( { force: true } );
-            // cy.contains( 'one-portal-test sso-tester', { timeout: 10000 } ).click({force:true})
             cy.get( 'span.pf-c-chip__text' ).should( 'be.visible' )
         })
         })
