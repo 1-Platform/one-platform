@@ -29,7 +29,7 @@ export const VoyagerToolPage = (): JSX.Element => {
       }, {});
       return fetch(namespace?.schemaEndpoint || '', {
         method: 'POST',
-        headers: { authorizationToken, ...headers },
+        headers: { authorizationToken, 'Content-Type': 'application/json', ...headers },
         body: JSON.stringify({ query }),
       }).then((response) => response.json());
     },

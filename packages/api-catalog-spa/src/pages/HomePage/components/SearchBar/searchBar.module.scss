@@ -1,0 +1,31 @@
+.search-bar {
+  &--container {
+    width: 100%;
+  }
+
+  &--input-group {
+    position: relative;
+    width: 100%;
+  }
+
+  &--input {
+    width: 100%;
+    padding: 1rem;
+    padding-right: 3rem;
+    background: black;
+    border-radius: 8px;
+    border: 1px solid #8c8c8c;
+    box-shadow: 0 3px 6px #00000010;
+    color: white;
+
+    &-icon-group {
+      position: absolute;
+      right: 1rem;
+      top: 0;
+    }
+
+    &-icon {
+      fill: #fafafa;
+    }
+  }
+}

@@ -9,7 +9,10 @@ import {
   DataListItemRow,
   DataListItemCells,
   DataListCell,
+  EmptyState,
+  EmptyStateIcon,
 } from '@patternfly/react-core';
+import { CubesIcon } from '@patternfly/react-icons';
 import { Environments } from 'graphql/namespace/types';
 
 import { urlProtocolRemover } from 'utils';
@@ -29,6 +32,14 @@ export const ApiEnvironmentSection = ({ environments = [] }: Props): JSX.Element
         <Divider />
       </StackItem>
       <StackItem>
+        {environments.length === 0 && (
+          <EmptyState>
+            <EmptyStateIcon icon={CubesIcon} />
+            <Title headingLevel="h4" size="lg">
+              No environments found
+            </Title>
+          </EmptyState>
+        )}
         <DataList aria-label="environment-list" className={styles['catalog-env-list']}>
           {environments.map(({ apiBasePath, name }) => (
             <DataListItem key={`${name}-${apiBasePath}`}>

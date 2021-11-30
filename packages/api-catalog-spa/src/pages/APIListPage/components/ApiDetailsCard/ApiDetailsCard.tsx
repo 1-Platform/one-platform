@@ -12,6 +12,7 @@ import {
   TitleSizes,
   TextVariants,
 } from '@patternfly/react-core';
+import { urlProtocolRemover } from 'utils';
 
 interface Props {
   title: string;
@@ -35,6 +36,8 @@ export const ApiDetailsCard = ({
     (apiUpdatedAt: string) => `modified on: ${dayjs(apiUpdatedAt).format('DD MMM YYYY hh:mm a')}`,
     []
   );
+
+  const urlParser = useCallback((url: string) => urlProtocolRemover(url), []);
 
   const isRestApiType = apiType === 'REST';
 
@@ -74,7 +77,6 @@ export const ApiDetailsCard = ({
             <Split hasGutter>
               <SplitItem isFilled>
                 <Text>
-                  URL:{' '}
                   <a
                     href={appUrl}
                     target="_blank"
@@ -82,7 +84,7 @@ export const ApiDetailsCard = ({
                     style={{ textDecoration: 'none' }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {appUrl}
+                    {urlParser(appUrl)}
                   </a>
                 </Text>
               </SplitItem>

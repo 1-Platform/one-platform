@@ -8,6 +8,7 @@ import {
   Modal,
   ModalVariant,
   PageSection,
+  Popover,
   SelectOption,
   SelectOptionObject,
   SelectVariant,
@@ -21,6 +22,7 @@ import {
   Title,
   TitleSizes,
 } from '@patternfly/react-core';
+import { HelpIcon } from '@patternfly/react-icons';
 import { Controller, useForm, FormProvider } from 'react-hook-form';
 import { nanoid } from 'nanoid';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -29,7 +31,7 @@ import * as Yup from 'yup';
 
 import { ApiCatalogLinks } from 'router';
 import { useToggle } from 'hooks';
-import { debounce, callbackify, reqErrorMsg } from 'utils';
+import { debounce, callbackify, reqErrorMsg, emailErrorMsg } from 'utils';
 import { Select } from 'components/Select';
 import { useBreadcrumb } from 'context/BreadcrumbContext';
 
@@ -50,7 +52,7 @@ const schema = Yup.object({
   name: Yup.string().trim().required(reqErrorMsg('Name')),
   description: Yup.string().trim().required(reqErrorMsg('Description')),
   appUrl: Yup.string().url().trim().required(reqErrorMsg('Application URL')),
-  schemaEndpoint: Yup.string().url().trim().required(reqErrorMsg('Schema')),
+  schemaEndpoint: Yup.string().url().trim().required(reqErrorMsg('Schema URL')),
   environments: Yup.array(
     Yup.object({
       name: Yup.string().trim().required(reqErrorMsg('Name')),
@@ -75,7 +77,7 @@ const schema = Yup.object({
         .required(),
       mid: Yup.string().when('group', {
         is: (value: string) => value === ApiEmailGroup.MAILING_LIST,
-        then: Yup.string().email().trim().required(),
+        then: Yup.string().email(emailErrorMsg(`Owner's mailing list`)).trim().required(),
         otherwise: Yup.string().trim().required(),
       }),
       email: Yup.string().trim().required(),
@@ -161,7 +163,14 @@ export const ApiCUDPage = (): JSX.Element => {
         mid: owner.group === ApiEmailGroup.USER ? owner?.user?.rhatUUID : owner?.email,
         email: owner.group === ApiEmailGroup.USER ? owner?.user?.mail : owner?.email,
       }));
-      reset({ ...namespaceDefault, owners });
+      reset({
+        ...namespaceDefault,
+        owners,
+        headers:
+          namespaceDefault?.headers?.length === 0
+            ? [{ key: '', value: '' }]
+            : namespaceDefault?.headers,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNamespaceLoading, namespace?.getNamespaceById, isUpdate]);
@@ -362,31 +371,45 @@ export const ApiCUDPage = (): JSX.Element => {
                 <Controller
                   name="owners"
                   control={control}
-                  render={({ field: { value, onChange }, fieldState: { error } }) => (
-                    <FormGroup
-                      fieldId="owners"
-                      label="Owners"
-                      isRequired
-                      validated={error ? 'error' : 'success'}
-                      helperTextInvalid={error?.message}
-                    >
-                      <Select
-                        variant={SelectVariant.typeaheadMulti}
-                        selections={value?.map((owners) => owners.email)}
-                        onTypeaheadInputChanged={debounce(handleOwnerSelectTypeaheadChange)}
-                        placeholderText="Search by kerberos id or add mailing list"
-                        maxHeight="45vh"
-                        onSelect={callbackify(onSelect, value, onChange)}
-                        onClear={callbackify(onClearOwnerSelect, onChange)}
-                        isCreatable
-                        createText="Create mailing list: "
-                        onFilter={onFilterOwnerList}
-                        validated={error ? 'error' : 'default'}
+                  render={({
+                    field: { value, onChange },
+                    fieldState: { error },
+                    formState: { errors: formErrors },
+                  }) => {
+                    // checking error either in owners array or inside the objects of owners array
+                    const hasError = error || Boolean(formErrors.owners?.length);
+                    const ownerFieldError =
+                      Array.isArray(formErrors?.owners) &&
+                      formErrors?.owners?.find((ownerError) => ownerError?.mid?.message);
+                    const helperTextInvalid =
+                      error?.message || (ownerFieldError && ownerFieldError?.mid?.message);
+
+                    return (
+                      <FormGroup
+                        fieldId="owners"
+                        label="Owners"
+                        isRequired
+                        validated={hasError ? 'error' : 'success'}
+                        helperTextInvalid={helperTextInvalid}
                       >
-                        {renderOwnerOptions}
-                      </Select>
-                    </FormGroup>
-                  )}
+                        <Select
+                          variant={SelectVariant.typeaheadMulti}
+                          selections={value?.map((owners) => owners.email)}
+                          onTypeaheadInputChanged={debounce(handleOwnerSelectTypeaheadChange)}
+                          placeholderText="Search by kerberos id or add mailing list"
+                          maxHeight="45vh"
+                          onSelect={callbackify(onSelect, value, onChange)}
+                          onClear={callbackify(onClearOwnerSelect, onChange)}
+                          isCreatable
+                          createText="Create mailing list: "
+                          onFilter={onFilterOwnerList}
+                          validated={hasError ? 'error' : 'default'}
+                        >
+                          {renderOwnerOptions}
+                        </Select>
+                      </FormGroup>
+                    );
+                  }}
                 />
                 <Controller
                   name="appUrl"
@@ -417,10 +440,26 @@ export const ApiCUDPage = (): JSX.Element => {
                   render={({ field, fieldState: { error } }) => (
                     <FormGroup
                       fieldId="schemaEndpoint"
-                      label="Documentation URL"
+                      label="Schema URL"
                       isRequired
                       validated={error ? 'error' : 'success'}
                       helperTextInvalid={error?.message}
+                      labelIcon={
+                        <Popover
+                          headerContent="URL For Documentation"
+                          bodyContent="This must be the Swagger file URL(REST) or the GraphQL URL"
+                        >
+                          <button
+                            type="button"
+                            aria-label="More info for name field"
+                            onClick={(e) => e.preventDefault()}
+                            aria-describedby="simple-form-name-01"
+                            className="pf-c-form__group-label-help"
+                          >
+                            <HelpIcon noVerticalAlign />
+                          </button>
+                        </Popover>
+                      }
                     >
                       <TextInput
                         aria-label="documentation url"
