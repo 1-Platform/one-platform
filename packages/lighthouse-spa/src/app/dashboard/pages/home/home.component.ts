@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { DashboardService } from 'app/dashboard/dashboard.service';
 import { environment } from 'environments/environment';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   searchProject = '';
   searchControl = new Subject<string>();
   debouncedSearchProject = '';
+  dashboardServiceSub: Subscription;
 
   isEmpty = false;
   sites = '';
@@ -56,6 +57,7 @@ export class HomeComponent implements OnInit {
         "Each test comes with helpful steps to improve your site's results.",
     },
   ];
+
   constructor(
     private dashboardService: DashboardService,
     private router: Router
@@ -69,7 +71,7 @@ export class HomeComponent implements OnInit {
           this.debouncedSearchProject = searchTerm;
         },
       });
-    this.dashboardService
+    this.dashboardServiceSub = this.dashboardService
       .listLHProjects()
       .valueChanges.subscribe(({ data, loading }) => {
         this.isProjectListLoading = loading;
@@ -80,6 +82,7 @@ export class HomeComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.searchControl.unsubscribe();
+    this.dashboardServiceSub.unsubscribe();
   }
 
   validateUrl(url: string): void {

@@ -28,6 +28,7 @@ export class LeaderboardService extends GraphQLModule {
         limit,
         offset,
       },
+      fetchPolicy:'network-only'
     });
   }
 }
