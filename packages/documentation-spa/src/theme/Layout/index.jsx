@@ -7,6 +7,7 @@
 
 import React from "react";
 import Head from "@docusaurus/Head";
+import BrowserOnly from "@docusaurus/BrowserOnly";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
@@ -15,23 +16,7 @@ import UserPreferencesProvider from "@theme/UserPreferencesProvider";
 import AnnouncementBar from "@theme/AnnouncementBar";
 import Footer from "@theme/Footer";
 
-import "@one-platform/opc-nav/dist/opc-nav";
-import "@one-platform/opc-menu-drawer/dist/opc-menu-drawer";
-import "@one-platform/opc-notification-drawer/dist/opc-notification-drawer";
-import "@one-platform/opc-feedback/dist/opc-feedback";
-
-import opcBase from "@one-platform/opc-base";
-import "@one-platform/opc-base/dist/opc-provider";
-
 import "./styles.css";
-
-opcBase.configure({
-  apiBasePath: process.env.REACT_APP_OPCBASE_API_BASE_PATH,
-  subscriptionsPath: process.env.REACT_APP_OPCBASE_SUBSCRIPTION_BASE_PATH,
-  keycloakUrl: process.env.REACT_APP_OPCBASE_KEYCLOAK_URL,
-  keycloakClientId: process.env.REACT_APP_OPCBASE_KEYCLOAK_CLIENT_ID,
-  keycloakRealm: process.env.REACT_APP_OPCBASE_KEYCLOAK_REALM,
-});
 
 function Providers({ children }) {
   return (
@@ -90,12 +75,35 @@ function Layout(props) {
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <opc-provider>
-        <opc-nav></opc-nav>
-        <opc-menu-drawer></opc-menu-drawer>
-        <opc-notification-drawer></opc-notification-drawer>
-        <opc-feedback theme="blue"></opc-feedback>
-      </opc-provider>
+      <BrowserOnly>
+        {() => {
+          require("@one-platform/opc-nav/dist/opc-nav");
+          require("@one-platform/opc-menu-drawer/dist/opc-menu-drawer");
+          require("@one-platform/opc-notification-drawer/dist/opc-notification-drawer");
+          require("@one-platform/opc-feedback/dist/opc-feedback");
+
+          const opcBase = require("@one-platform/opc-base").default;
+          require("@one-platform/opc-base/dist/opc-provider");
+
+          opcBase.configure({
+            apiBasePath: process.env.REACT_APP_OPCBASE_API_BASE_PATH,
+            subscriptionsPath:
+              process.env.REACT_APP_OPCBASE_SUBSCRIPTION_BASE_PATH,
+            keycloakUrl: process.env.REACT_APP_OPCBASE_KEYCLOAK_URL,
+            keycloakClientId: process.env.REACT_APP_OPCBASE_KEYCLOAK_CLIENT_ID,
+            keycloakRealm: process.env.REACT_APP_OPCBASE_KEYCLOAK_REALM,
+          });
+
+          return (
+            <opc-provider>
+              <opc-nav></opc-nav>
+              <opc-menu-drawer></opc-menu-drawer>
+              <opc-notification-drawer></opc-notification-drawer>
+              <opc-feedback theme="blue"></opc-feedback>
+            </opc-provider>
+          );
+        }}
+      </BrowserOnly>
       <AnnouncementBar />
       <div className="main-wrapper">{children}</div>
       {!noFooter && <Footer />}
