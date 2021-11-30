@@ -69,7 +69,12 @@ function UpdateCouchDBConfig(props: any) {
               </FlexItem>
             </Flex>
           </div>
-          <UsersTable admin={true} db={db} />
+          <UsersTable
+            admin={ true }
+            db={ db }
+            appId={ app.id }
+            forceRefreshApp={forceRefreshApp}
+          />
         </Card>
       </StackItem>
       <StackItem>
@@ -86,7 +91,12 @@ function UpdateCouchDBConfig(props: any) {
               </FlexItem>
             </Flex>
           </div>
-          <UsersTable admin={false} db={db} />
+          <UsersTable
+            admin={ false }
+            db={ db }
+            appId={ app.id }
+            forceRefreshApp={forceRefreshApp}
+          />
         </Card>
       </StackItem>
       <StackItem>
