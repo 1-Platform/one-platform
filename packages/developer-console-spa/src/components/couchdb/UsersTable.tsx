@@ -1,4 +1,4 @@
-import { Button, Label, LabelGroup } from '@patternfly/react-core';
+import { Button, Label, LabelGroup, Modal, ModalVariant } from '@patternfly/react-core';
 import {
   TableComposable,
   Thead,
@@ -8,66 +8,29 @@ import {
   Td,
 } from '@patternfly/react-table';
 import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
-import { Key, useEffect, useState } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import Loader from 'components/Loader';
+import gqlClient from 'utils/gqlClient';
+import { manageAppDatabase } from 'utils/gql-queries';
 
 interface UsersTableProps {
   admin: boolean;
   db: any;
+  appId: string;
+  forceRefreshApp: React.FC;
 }
 
-/**
- *
- * @param props props of the component
- * @returns UserQueries
- */
-const getUserQueries = (props: any) => {
-  const users = props.admin
-    ? props.db.permissions.admins
-    : props.db.permissions.users;
-  return users.map((admin: string, index: number) => {
-    const rhatUUID = admin.slice(5, admin.length);
-    if (admin.startsWith('user:')) {
-      return `
-                  admin${index}:getUsersBy(rhatUUID:"${rhatUUID}") {
-                    cn
-                    rhatUUID
-                  }
-                `;
-    }
-    return '';
-  });
-};
-/**
- *
- * @param res response from userData fetch request
- * @param props props of the component
- * @returns memberRows
- */
-const getMemberRows = (res: any, props: any) => {
-  const users = props.admin
-    ? props.db.permissions.admins
-    : props.db.permissions.users;
-  const userMap = Object.values(res.data).map((userData: any) => userData[0]);
-  return users.map((admin: string) => {
-    const matchedUsers = userMap.find((user: any) => {
-      return user.rhatUUID === admin.slice(5, admin.length);
-    });
-    if (matchedUsers) {
-      return [matchedUsers.cn, '', ''];
-    } else {
-      return [admin, '', ''];
-    }
-  });
-};
 
-const UsersTable = (props: UsersTableProps) => {
-  const [isUserDataLoading, setIsUserDataLoading] = useState(true);
-  const [columns] = useState(['Name', 'Permission', 'Action']);
-  const [rows, setRows] = useState([[]]);
+const UsersTable = ( { admin, db, appId, forceRefreshApp }: UsersTableProps) => {
+  const [ isUserDataLoading, setIsUserDataLoading ] = useState(true);
+  const [ columns ] = useState(['Name', 'Permission', 'Action']);
+  const [ rows, setRows ] = useState( [ [] ] );
+  const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+  const [ isRemovingUser, setIsRemovingUser ] = useState<boolean>( false );
+  const [ rhatUUIDtoDel, setRhatUUIDtoDel ] = useState<string>( '' );
 
   useEffect(() => {
-    const queries = getUserQueries(props);
+    const queries = getUserQueries(admin, db);
     const joinedQuery = queries.join();
     fetch(process.env.REACT_APP_API_GATEWAY, {
       method: `POST`,
@@ -78,12 +41,112 @@ const UsersTable = (props: UsersTableProps) => {
       body: JSON.stringify({ query: `query{${joinedQuery}}` }),
     })
       .then((res: any) => res.json())
-      .then((res: any) => {
-        const memberRows = getMemberRows(res, props);
+      .then( ( res: any ) => {
+        let memberRows = [[]];
+        if ( !res.errors ) {
+          memberRows = getMemberRows(res, admin, db);
+        }
+        else {
+          window.OpNotification?.danger({
+            subject: 'An error occurred when getting user details',
+            body: res.errors[0].message,
+          });
+        }
         setIsUserDataLoading(false);
         setRows(memberRows);
       });
-  }, [props]);
+  }, [admin, db]);
+
+  const handleModalToggle = () => {
+    setIsModalOpen( ( isModalOpen ) => !isModalOpen );
+    setIsRemovingUser( false );
+  };
+
+  const removeUsers = ( user: string ) => {
+    setRhatUUIDtoDel( user );
+    setIsModalOpen(true);
+  }
+
+  /**
+   *
+   * Remove Admins/Users from the database permissions
+   */
+  const doRemoveUsers = () => {
+    setIsRemovingUser(true);
+    const permissions = admin ? db.permissions.admins : db.permissions.users;
+    const index = permissions.findIndex( ( item: any ) => item.indexOf( rhatUUIDtoDel ) > 0 );
+    permissions.splice( index, 1 );
+    gqlClient({
+        query: manageAppDatabase,
+        variables: {
+          id: appId,
+          databaseName: db.name,
+          permissions: db.permissions,
+        },
+      })
+        .then( ( res: any ) => {
+          if ( res?.errors ) {
+            throw res.errors;
+          }
+          window.OpNotification?.success({
+            subject: 'Member permission deleted successfully!',
+          });
+          forceRefreshApp( res.data.manageAppDatabase );
+          setIsModalOpen( false );
+          setIsRemovingUser( false );
+        })
+        .catch((err: any) => {
+          window.OpNotification?.danger({
+            subject: 'An error occurred when deleting member permissions',
+            body: err[0].message,
+          } );
+          setIsRemovingUser( false );
+        });
+  }
+  /**
+   * @param admin props of the component
+   * @param db database details
+   * @returns UserQueries
+   */
+  const getUserQueries = ( admin: boolean, db: any ) => {
+    const users = admin
+      ? db.permissions.admins
+      : db.permissions.users;
+    return users.map((admin: string, index: number) => {
+      const rhatUUID = admin.slice(5, admin.length);
+      if (admin.startsWith('user:')) {
+        return `
+                    admin${index}:getUsersBy(rhatUUID:"${rhatUUID}") {
+                      cn
+                      rhatUUID
+                    }
+                  `;
+      }
+      return '';
+    });
+  };
+  /**
+   * @param res response from userData fetch request
+   * @param admin props of the component
+   * @param db database details
+   * @returns memberRows
+   */
+  const getMemberRows = ( res: any, admin: boolean, db: any ) => {
+    const users = admin
+      ? db.permissions.admins
+      : db.permissions.users;
+    const userMap = Object.values(res.data).map((userData: any) => userData[0]);
+    return users.map((admin: string) => {
+      const matchedUsers = userMap.find((user: any) => {
+        return user.rhatUUID === admin.slice(5, admin.length);
+      });
+      if (matchedUsers) {
+        return [matchedUsers.cn, '', matchedUsers.rhatUUID];
+      } else {
+        return [admin, '', admin];
+      }
+    });
+  };
 
   const getLabelOrAction = (
     cell: string,
@@ -107,7 +170,10 @@ const UsersTable = (props: UsersTableProps) => {
       return labels;
     } else if (cellIndex === 2) {
       return (
-        <Button variant="link" color={'red'} icon={<TimesIcon />}></Button>
+        <Button variant="link"
+          onClick={ () => { removeUsers( cell ); } }
+          icon={ <TimesIcon /> }
+        ></Button>
       );
     } else {
       return cell;
@@ -135,14 +201,36 @@ const UsersTable = (props: UsersTableProps) => {
                     key={`${rowIndex}_${cellIndex}`}
                     dataLabel={columns[cellIndex]}
                   >
-                    {getLabelOrAction(cell, cellIndex, props.admin)}
+                    { getLabelOrAction(cell, cellIndex, admin) }
                   </Td>
                 ))}
               </Tr>
             ))}
           </Tbody>
         </TableComposable>
-      )}
+      ) }
+      <Modal
+        variant={ModalVariant.small}
+        title={`Are you sure to remove the user?`}
+        titleIconVariant="danger"
+        isOpen={isModalOpen}
+        onClose={handleModalToggle}
+        actions={[
+          <Button
+            key="confirm"
+            variant="danger"
+            isLoading={ isRemovingUser }
+            onClick={doRemoveUsers}
+          >
+            Yes, Remove
+          </Button>,
+          <Button key="cancel" variant="link" onClick={handleModalToggle}>
+            Cancel
+          </Button>,
+        ]}
+      >
+        You are removing the user from the Database, this operation will restrict the user from accessing the selected database.
+      </Modal>
     </>
   );
 };
