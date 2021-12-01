@@ -79,7 +79,7 @@ context( 'Test search', () => {
     } )
 
     it( 'Test for invalid search', () => {
-        cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs' );
+        cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs' ,{force:true});
         cy.get( '.op-search__btn' ).click();
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
