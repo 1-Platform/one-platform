@@ -185,7 +185,7 @@ export const FeedbackResolver = {
     },
     listFeedback(root: any, args: any, ctx: any) {
       return Feedback.findById(args._id).exec()
-        .then((response: FeedbackType) => response)
+        .then((response: any) => response)
         .catch((error: Error) => error);
     },
   },
@@ -264,7 +264,9 @@ Reported by - ${userData[0].cn} (${userData[0].mail}) :}
           const jiraResponse = await FeedbackIntegrationHelper.createJira(jiraQuery);
           apiResponse = {
             ...args.input,
-            ticketUrl: `https://${apps.feedback.sourceApiUrl || process.env.JIRA_HOST}/browse/${jiraResponse.key}`,
+            ticketUrl: `https://${new URL(jiraResponse.self).hostname}/browse/${
+              jiraResponse.key
+            }`,
           };
           break;
         case 'GITLAB':
@@ -302,7 +304,7 @@ Reported by - ${userData[0].cn} (${userData[0].mail}) :}
     },
     updateFeedback(root: any, args: any, ctx: any) {
       return Feedback.findById(args.input._id)
-        .then((response: FeedbackType) => {
+        .then((response: any) => {
           return Object.assign(response, args.input).save()
             .then(async (feedback: FeedbackType) => {
               let userQuery = `query ListUsers {
@@ -331,7 +333,7 @@ Reported by - ${userData[0].cn} (${userData[0].mail}) :}
     },
     deleteFeedback(root: any, args: any, ctx: any) {
       return Feedback.findByIdAndRemove(args._id)
-        .then((response: FeedbackType) => {
+        .then((response: any) => {
           let input = {
             dataSource: "oneportal",
             documents: [ { 'id': args._id } ]
