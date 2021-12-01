@@ -13,13 +13,8 @@ context( 'Test search', () => {
     it( 'Test for valid search count', () => {
         cy.get( '.opc-nav-search__btn' ).click( { force: true } )
         cy.wait(2000)
-<<<<<<< Updated upstream
-        cy.get( 'input[name="query"]' ).type( 'Feedback' ,{force:true});
-        cy.get( '.opc-nav-search__btn' ).click();
-=======
         cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'Feedback' );
         cy.get( '.op-search__btn' ).click();
->>>>>>> Stashed changes
         cy.get( '.pf-u-mt-xl' ).should( 'include.text','results found')
     })
 
