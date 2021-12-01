@@ -1,3 +1,4 @@
+/// <reference types="Cypress" />
 import { gaugechart } from "../helper/apps.list";
 
 context( 'Test lighthouse', () => {
