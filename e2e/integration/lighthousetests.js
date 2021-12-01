@@ -2,7 +2,7 @@ import { gaugechart } from "../helper/apps.list";
 
 context( 'Test lighthouse', () => {
     before( () => {
-        cy.visit( Cypress.env( 'STAGE_HOST' ) + 'lighthouse' );
+        cy.visit( Cypress.env( 'QA_HOST' ) + 'lighthouse' );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();

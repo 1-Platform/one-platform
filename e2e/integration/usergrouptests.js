@@ -1,7 +1,8 @@
+/// <reference types="Cypress" />
 context( 'Test for UserGroup', () => {
 
     before( () => {
-        cy.visit( Cypress.env( 'STAGE_HOST' ) + 'user-groups/' );
+        cy.visit( Cypress.env( 'QA_HOST' ) + 'user-groups/' );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
@@ -27,9 +28,9 @@ context( 'Test for UserGroup', () => {
     })
 
     it( 'Test for search user group by name', () => {
-        cy.get( '#searchText' ).type( 'DSAL Admins' )
+        cy.get( '#searchText' ).type( 'dsal-admin' )
         cy.get( 'tbody' ).within( () => {
-            cy.get( '[data-label="Group Name"]' ).first().should( 'have.text','DSAL Admins')
+            cy.get( '[data-label^="LDAP"]' ).first().should( 'have.text','dsal-admin')
         })
     } )
 

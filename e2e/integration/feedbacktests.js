@@ -1,3 +1,4 @@
+/// <reference types="Cypress" />
 context( 'Test feedback form', () => {
 
     before( () => {
@@ -14,8 +15,8 @@ context( 'Test feedback form', () => {
         cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
         cy.get( `[data-feedback-type="bug"]`, { timeout: 10000 } ).click();
         cy.contains( 'Other', { timeout: 10000 } ).click( { force: true } );
-        cy.get( '#bugsummary' ).click( { force: true } ).clear( { force: true } );
-        cy.get( '#bugsummary' ).type( 'e2e test automation' );
+        cy.get( '#bugsummary' ).should( 'not.be.disabled' )
+        cy.get( '#bugsummary' ).type( 'e2e test automation',{force:true} );
         cy.contains( 'Submit', { timeout: 10000 } ).click();
         cy.contains( "Thanks for your feedback. Your experience is important to us!" ).should( 'be.visible' );
     } );
@@ -24,7 +25,7 @@ context( 'Test feedback form', () => {
         cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
         cy.get( `[data-feedback-type="feedback"]`, { timeout: 10000 } ).click();
         cy.contains( 'Excellent', { timeout: 10000 } ).click( { force: true } );
-        cy.get( '#feedbacksummary' ).type( 'e2e test automation' );
+        cy.get( '#feedbacksummary' ).type( 'e2e test automation' ,{force:true});
         cy.contains( 'Submit', { timeout: 10000 } ).click( { force: true } );
         cy.contains( "Thanks for your feedback. Your experience is important to us!" ).should( 'be.visible' );
     } );
@@ -66,7 +67,9 @@ context( 'Test feedback form', () => {
             cy.get( '.pf-u-display-flex' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.get( '.pf-u-font-size-sm' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.contains( 'View Details' ).should( 'be.visible' );
-            cy.get( `a[ href *= "${ Cypress.env( 'JIRA' ) }"]` ).should( 'have.text', 'JIRA Link ' );
+            cy.get( `a[ href *= "${ Cypress.env( 'JIRA' ) }"] > button` ).invoke( 'text' ).then( ( text ) => {
+                expect( text.replace( /\u00a0/g, ' ' ) ).equal( 'JIRA Link ' );
+            })
         } );
     } );
 

@@ -51,7 +51,7 @@ context( 'Test devloper console', () => {
     it( 'Test for update the application', () => {
         cy.contains( 'App Settings' ).click();
         cy.get( '#name' ).clear().type( 'e2e test automation update' );
-        cy.contains( 'Update' ).click();
+        cy.contains( 'Save' ).click();
         cy.contains( 'App Updated Successfully!' ).should( 'be.visible' );
     } );
 
