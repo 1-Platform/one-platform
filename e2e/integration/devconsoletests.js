@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-context( 'Test devloper console', () => {
+context( 'Test developer console', () => {
     before( () => {
         cy.visit( Cypress.env( 'QA_HOST' ) + 'console' );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
