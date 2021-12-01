@@ -1,6 +1,7 @@
+/// <reference types="Cypress" />
 context( 'Test search', () => {
     before( () => {
-        cy.visit( Cypress.env( 'STAGE_HOST' ) );
+        cy.visit( Cypress.env( 'QA_HOST' ) );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
@@ -10,8 +11,10 @@ context( 'Test search', () => {
     } );
 
     it( 'Test for valid search count', () => {
-        cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'Feedback' );
-        cy.get( '.op-search__btn' ).click();
+        cy.get( '.opc-nav-search__btn' ).click( { force: true } )
+        cy.wait(2000)
+        cy.get( 'input[name="query"]' ).type( 'Feedback' ,{force:true});
+        cy.get( '.opc-nav-search__btn' ).click();
         cy.get( '.pf-u-mt-xl' ).should( 'include.text','results found')
     })
 
@@ -66,8 +69,10 @@ context( 'Test search', () => {
             cy.contains( 'Feedback' ).click();
         } )
         cy.get( '.search-result-section', { timeout: 5000 } ).should( 'be.visible' ).within( () => {
-            cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
-                cy.get( '.search-tag' ).should( 'be.visible' ).should( 'contain.text', 'Feedback App' );
+            cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( (elem,index) => {
+                cy.get( '.search-tag' ).each( ( elem2, index ) => {
+                    cy.wrap( elem2 ).should( 'be.visible' ).should( 'contain.text', 'Feedback, BUG' );
+                })
             } );
         } )
         cy.get( '#select-checkbox-expanded-toggle' ).first().click( { force: true } );

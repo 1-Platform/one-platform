@@ -1,3 +1,4 @@
+/// <reference types="Cypress" />
 context( 'Test devloper console', () => {
     before( () => {
         cy.visit( Cypress.env( 'QA_HOST' ) + 'console' );

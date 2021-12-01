@@ -4,7 +4,7 @@ Cypress.on( 'uncaught:exception', ( err, runnable ) => {
     // failing the test
     return false;
 } )
-context( 'Home Page Tests', () => {
+context( 'API Catalog Tests', () => {
     before( () => {
         cy.visit( Cypress.env( 'QA_HOST' ) +'developers/api-catalog');
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
