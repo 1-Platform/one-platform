@@ -12,7 +12,7 @@ context( 'Test search', () => {
 
     it( 'Test for valid search count', () => {
         cy.get( '.opc-nav-search__btn' ).click( { force: true } )
-        cy.wait(2000)
+        cy.wait(5000)
         cy.get( 'input[name="query"]' ).type( 'Feedback' ,{force:true});
         cy.get( '.opc-nav-search__btn' ).click();
         cy.get( '.pf-u-mt-xl' ).should( 'include.text','results found')

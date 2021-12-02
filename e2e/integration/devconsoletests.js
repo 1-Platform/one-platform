@@ -50,9 +50,12 @@ context( 'Test developer console', () => {
     })
 
     it( 'Test for update the application', () => {
+        cy.wait(3000)
         cy.contains( 'App Settings' ).click();
+        cy.wait(3000)
         cy.get( '#name' ).clear().type( 'e2e test automation update' );
         cy.contains( 'Save' ).click();
+        cy.wait( 3000 )
         cy.contains( 'App Updated Successfully!' ).should( 'be.visible' );
     } );
 
