@@ -1,12 +1,28 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import "@patternfly/react-core/dist/styles/base.css";
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import { render } from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 
-import BreadcrumbContextProvider from './context/BreadcrumbContext.jsx'
+import "@patternfly/react-core/dist/styles/base.css";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+
+import pkg from "../package.json";
+
+import BreadcrumbContextProvider from "./context/BreadcrumbContext.jsx";
+
+if (process.env.NODE_ENV === "production") {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    release: `user-group-spa@${pkg.version}`,
+    environment: "production",
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
 
 const renderApp = () => {
   render(

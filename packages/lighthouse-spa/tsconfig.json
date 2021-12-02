@@ -13,7 +13,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom", "esnext.asynciterable"],
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

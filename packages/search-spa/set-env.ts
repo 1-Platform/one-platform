@@ -11,12 +11,13 @@ const targetPath = isProduction
 const environmentFileContent = `
 export const environment = {
    production: ${isProduction},
-   API_URL: '${process.env.API_URL }',
-   OPCBASE_API_BASE_PATH: '${ process.env.OPCBASE_API_BASE_PATH}',
+   API_URL: '${process.env.API_URL}',
+   OPCBASE_API_BASE_PATH: '${process.env.OPCBASE_API_BASE_PATH}',
    OPCBASE_SUBSCRIPTION_BASE_PATH: '${process.env.OPCBASE_SUBSCRIPTION_BASE_PATH}',
    OPCBASE_KEYCLOAK_URL: '${process.env.OPCBASE_KEYCLOAK_URL}',
    OPCBASE_KEYCLOAK_CLIENT_ID: '${process.env.OPCBASE_KEYCLOAK_CLIENT_ID}' ,
    OPCBASE_KEYCLOAK_REALM: '${process.env.OPCBASE_KEYCLOAK_REALM}',
+   SENTRY_DSN: '${process.env.SENTRY_DSN}',
 };
 `;
 // write the content to the respective file

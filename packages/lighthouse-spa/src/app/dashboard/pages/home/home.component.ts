@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
     this.validUrl = url.indexOf('http://') == 0 || url.indexOf('https://') == 0;
   }
 
-  navigateToReportGeneration(): void {
+  navigateToReportGeneration (): void {
     this.router.navigate(['/playground'], {
       queryParams: {
         siteUrl: this.sites,

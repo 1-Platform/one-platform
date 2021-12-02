@@ -6,7 +6,7 @@
   "scripts": {
     "watch:eleventy": "eleventy --serve --port=4200",
     "watch:scss": "sass --watch src/scss:dist/css",
-    "build:eleventy": "eleventy --port=4200",
+    "build:eleventy": "ELEVENTY_ENV=production eleventy --port=4200",
     "build:scss": "sass src/scss:dist/css",
     "start": "npm-run-all build:scss --parallel watch:*",
     "build": "npm-run-all build:*"

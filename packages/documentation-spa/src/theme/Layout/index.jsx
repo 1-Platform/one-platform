@@ -9,14 +9,28 @@ import React from "react";
 import Head from "@docusaurus/Head";
 import BrowserOnly from "@docusaurus/BrowserOnly";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import * as Sentry from "@sentry/react";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 import ThemeProvider from "@theme/ThemeProvider";
 import UserPreferencesProvider from "@theme/UserPreferencesProvider";
 import AnnouncementBar from "@theme/AnnouncementBar";
 import Footer from "@theme/Footer";
+import pkg from "../../../package.json";
 
 import "./styles.css";
+
+if (process.env.NODE_ENV === "production") {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    release: `documentation-spa@${pkg.version}`,
+    environment: "production",
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
 
 function Providers({ children }) {
   return (

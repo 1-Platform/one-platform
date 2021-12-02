@@ -20,6 +20,7 @@ export const environment = {
    OPCBASE_KEYCLOAK_URL: '${process.env.OPCBASE_KEYCLOAK_URL}',
    OPCBASE_KEYCLOAK_CLIENT_ID: '${process.env.OPCBASE_KEYCLOAK_CLIENT_ID}' ,
    OPCBASE_KEYCLOAK_REALM: '${process.env.OPCBASE_KEYCLOAK_REALM}',
+   SENTRY_DSN: '${process.env.SENTRY_DSN}',
 };
 `;
 // write the content to the respective file

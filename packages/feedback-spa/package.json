@@ -12,6 +12,7 @@
   "dependencies": {
     "@one-platform/opc-footer": "0.0.3-prerelease",
     "@one-platform/opc-header": "0.0.2-prerelease",
+    "@sentry/vue": "^6.15.0",
     "apollo-link": "1.2.14",
     "core-js": "3.18.1",
     "jsonexport": "3.2.0",

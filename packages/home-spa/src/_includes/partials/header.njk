@@ -16,6 +16,10 @@
 <script src="https://unpkg.com/@one-platform/opc-base@1.1.1-beta/dist/umd/opc-provider.js"
   integrity="sha384-9A8f4mk6CGQDY++3pwUq3x5mGOPexK9d8fuRA2Dr21P++qkNwtl51IqZS+8Fvsxf"
   crossorigin="anonymous"></script>
+<script
+  src="https://browser.sentry-cdn.com/6.15.0/bundle.min.js"
+  integrity="sha384-uAr9Te+rNkmpaCjPTu4/ipQDpO1nR6fEY8JX+NHVNO5mY6LUs362JWJD8rHyaLEt"
+  crossorigin="anonymous"></script>
 <script>
   opcBase.configure({
     apiBasePath: '{{ env.API_URL }}',
@@ -24,6 +28,19 @@
     keycloakClientId: '{{ env.KEYCLOAK_CLIENT_ID }}',
     keycloakRealm: '{{ env.KEYCLOAK_REALM }}',
   })
+</script>
+<script>
+  if('{{env.environment}}' === 'production'){
+    Sentry.init({
+      dsn: '{{env.SENTRY_DSN}}',
+      release: 'home-spa@{{env.version}}',
+      environment: 'production',
+      // Set tracesSampleRate to 1.0 to capture 100%
+      // of transactions for performance monitoring.
+      // We recommend adjusting this value in production
+      tracesSampleRate: 1.0,
+    });
+  }
 </script>
 <opc-provider>
   <opc-nav></opc-nav>
