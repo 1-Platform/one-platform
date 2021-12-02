@@ -1,10 +1,15 @@
-import JiraApi from 'jira-client';
 const fetch = require('node-fetch');
 import * as _ from 'lodash';
 const nodemailer = require('nodemailer');
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
-(global as any).Headers = fetch.Headers;
+( global as any ).Headers = fetch.Headers;
+import axios from 'axios';
 
+const proxyAgent =
+  process.env.ENABLE_HYDRA_PROXY === "true"
+    ? { httpsAgent: new HttpsProxyAgent(`${process.env.AKAMAI_API}`) }
+    : {};
 class FeedbackHelper {
     private static FeedbackHelperInstance: FeedbackHelper;
     constructor() { }
@@ -49,18 +54,18 @@ class FeedbackHelper {
             });
     }
 
-    public createJira(query: any) {
-        const JiraApiClient = new JiraApi({
-            protocol: 'https',
-            host: `${query.sourceUrl || process.env.JIRA_HOST}`,
-            username: process.env.JIRA_USERNAME,
-            password: process.env.JIRA_PASSWORD,
-            apiVersion: '2',
-            strictSSL: false
-        });
-        return JiraApiClient.addNewIssue(query.jiraIssueInput).catch(err => {
-            throw err.message
-        });
+    public async createJira ( query: any ) {
+        const jiraResponse = await axios.request<any>( {
+            url: `https://${query.sourceUrl || process.env.JIRA_HOST}/rest/api/2/issue/`,
+            method: "POST",
+            headers: {
+                Authorization: `${ process.env.JIRA_AUTH_TOKEN }`,
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify(query.jiraIssueInput),
+            ...proxyAgent,
+            });
+            return jiraResponse.data;
     }
 
     public createGitlabIssue(query: any) {
@@ -264,37 +269,39 @@ class FeedbackHelper {
             });
     }
 
-    public listJira(jiraQuery: any) {
-        const JiraApiClient = new JiraApi({
-            protocol: 'https',
-            host: `${jiraQuery.sourceUrl || process.env.JIRA_HOST}`,
-            username: process.env.JIRA_USERNAME,
-            password: process.env.JIRA_PASSWORD,
-            apiVersion: '2',
-            strictSSL: false
-        });
-        return JiraApiClient.searchJira(`issue = ${jiraQuery.query}`).then(response => {
-            const jiraList: Array<any> = [];
-            response?.issues?.map((jira: any) => {
-                jiraList.push({
-                    'key': jira.key,
-                    'url': `${(new URL(jira.self)).origin}/browse/${jira.key}`,
-                    'lastUpdated': jira.fields.updated,
-                    'summary': jira.fields.summary,
-                    'description': jira.fields.description,
-                    'state': jira.fields?.status?.name,
-                    'assignee': {
-                        'name': jira.fields?.assignee?.displayName || null,
-                        'email': jira.fields?.assignee?.emailAddress || null,
-                        'uid': jira.fields?.assignee?.name || null,
-                    }
-                });
-            });
-            return jiraList;
-        }).catch((err: Error) => {
-            console.error(err.message);
-            return [];
-        });
+    public async listJira ( jiraQuery: any ) {
+        const jiraList: Array<any> = [];
+        const jiraResponse: any = await axios
+          .request<any>({
+            url: `https://${jiraQuery.sourceUrl || process.env.JIRA_HOST}/rest/api/2/search?jql=issue=${jiraQuery.query}`,
+            method: "GET",
+            headers: {
+              Authorization: `${process.env.JIRA_AUTH_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+            ...proxyAgent,
+          })
+          .then( (response) => response.data)
+          .catch((error: Error)  => {
+              console.error( error.message );
+              throw new Error( 'listJira operation failed' );
+          });
+        await jiraResponse?.issues?.map((jira: any) => {
+          jiraList.push({
+            key: jira.key,
+            url: `${new URL(jira.self).origin}/browse/${jira.key}`,
+            lastUpdated: jira.fields.updated,
+            summary: jira.fields.summary,
+            description: jira.fields.description,
+            state: jira.fields?.status?.name,
+            assignee: {
+              name: jira.fields?.assignee?.displayName || null,
+              email: jira.fields?.assignee?.emailAddress || null,
+              uid: jira.fields?.assignee?.name || null,
+            },
+          });
+        } );
+        return jiraList;
     }
 
     public sendEmail(data: any) {
