@@ -50,5 +50,27 @@ context( 'API Catalog Tests', () => {
     } )
     it( "Click on Submit", () => {
         cy.get( '.pf-c-button.pf-m-primary.pf-m-progress' ).click( { force: true } )
+    } )
+    it( "Subscribe Test", () => {
+        cy.contains( 'Subscribe' ).click( { force: true } )
+        cy.wait(2000)
+        cy.contains('Subscribed to').should('be.visible')
+    } )
+    it( "Unsubscribe Test", () => {
+        cy.wait(6000)
+        cy.contains( "Subscribed" ).click( { force: true } )
+        cy.wait( 2000 )
+        cy.contains("Unsubscribed to").should('be.visible')
+    } )
+    it( 'Check if swagger link is visible', () => {
+        cy.get('.pf-c-card__body .pf-c-title.pf-m-md').should('be.visible')
+    } )
+    it( 'Access the swagger link', () => {
+        cy.get( '.pf-c-card__body .pf-c-title.pf-m-md' ).click( { force: true } )
+        cy.contains('Swagger Petstore').should('be.visible')
+    } )
+    it( 'Navigate to My API', () => {
+        cy.contains('My API').click({force:true})
     })
+
     } );
