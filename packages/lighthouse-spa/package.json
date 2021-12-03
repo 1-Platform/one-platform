@@ -33,6 +33,7 @@
     "@one-platform/opc-menu-drawer": "^0.1.2-prerelease",
     "@one-platform/opc-nav": "0.0.2-prerelease",
     "@one-platform/opc-notification-drawer": "^0.1.2-prerelease",
+    "@sentry/angular": "^6.15.0",
     "@swimlane/ngx-charts": "19.0.1",
     "ansi-to-html": "0.6.15",
     "apollo-angular": "2.5.0",

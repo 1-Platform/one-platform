@@ -19,6 +19,7 @@
     "@one-platform/opc-menu-drawer": "^0.1.2-prerelease",
     "@one-platform/opc-nav": "0.0.3-prerelease",
     "@one-platform/opc-notification-drawer": "^0.1.2-prerelease",
+    "@sentry/react": "^6.15.0",
     "clsx": "1.1.1",
     "docusaurus2-dotenv": "^1.4.0",
     "react": "16.14.0",

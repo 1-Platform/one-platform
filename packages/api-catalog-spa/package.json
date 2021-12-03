@@ -14,6 +14,7 @@
     "@patternfly/react-icons": "^4.11.8",
     "@patternfly/react-styles": "^4.11.0",
     "@patternfly/react-table": "^4.29.37",
+    "@sentry/react": "^6.15.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
