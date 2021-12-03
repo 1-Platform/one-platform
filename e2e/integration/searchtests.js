@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 context( 'Test search', () => {
     before( () => {
-        cy.visit( Cypress.env( 'QA_HOST' ) );
+        cy.visit( Cypress.env( 'QA_HOST' )+'/search' );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
@@ -11,12 +11,12 @@ context( 'Test search', () => {
     } );
 
     it( 'Test for valid search count', () => {
-        cy.get( '.opc-nav-search__btn' ).click( { force: true } )
-        cy.wait(2000)
-        cy.get( 'input[name="query"]' ).type( 'Feedback', { force: true } );
-        cy.wait(500)
-        cy.get( '.opc-nav-search__btn' ).click();
-        cy.get( '.pf-u-mt-xl' ).should( 'include.text','results found')
+        cy.wait(150)
+        cy.get( 'input[name="query"]', { includeShadowDom: true } ).click( { force: true } ).clear( { force: true } ).type( 'Feedback', { force: true } );
+        cy.get( '.op-search__btn' ).click({force:true});
+        //cy.wait(500)
+        //cy.get( '.opc-nav-search__btn' ).click({force:true});
+        cy.contains('results found' ).should( 'be.visible')
     })
 
     it( 'Test for search result', () => {
@@ -80,7 +80,7 @@ context( 'Test search', () => {
     } )
 
     it( 'Test for invalid search', () => {
-        cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs' ,{force:true});
+        cy.get( 'input[name="query"]', { includeShadowDom: true }  ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs' ,{force:true});
         cy.get( '.op-search__btn' ).click();
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
