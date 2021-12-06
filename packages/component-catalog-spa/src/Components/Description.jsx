@@ -14,7 +14,10 @@ const Description = ({ componentLink }) => {
     { isPending && <div className="spinner"><Spinner isSVG /></div> }
     {readme && 
     <>
-    {images && images.map((image, index) => <img key={index} className="markdown-image" src={image.download_url} alt={image.download_url} />)}
+    {images && images.map((image, index) => 
+    <div>
+      <img key={index} className="markdown-image" src={image.download_url} alt={image.download_url} />
+    </div>)}
     <pfe-markdown class="no-reset-class">
       <div pfe-markdown-container="">
         { readme }

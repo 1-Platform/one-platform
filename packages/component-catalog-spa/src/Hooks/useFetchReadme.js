@@ -37,6 +37,7 @@ const useFetchReadme = (componentLink) => {
     return () => {
       setIsPending(true);
       setData(null);
+      setError(null);
       setImages([]);
       return abortController.abort();
     };
