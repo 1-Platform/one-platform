@@ -1,13 +1,15 @@
-const { writeFile } = require( 'fs' );
-const { argv } = require( 'yargs' );
+const { writeFile } = require('fs');
+const { argv } = require('yargs');
 // read environment variables from .env file
-require( 'dotenv' ).config();
+require('dotenv').config();
 // read the command line arguments passed with yargs
 const environment = argv.environment;
 const isProduction = environment === 'prod';
 const targetPath = isProduction
-    ? `./src/environments/environment.prod.ts`
-    : `./src/environments/environment.ts`;
+  ? `./src/environments/environment.prod.ts`
+  : `./src/environments/environment.ts`;
+const sentryDSN = process.env.SENTRY_DSN && `'${process.env.SENTRY_DSN}'`
+
 const environmentFileContent = `
 export const environment = {
    production: ${isProduction},
@@ -20,13 +22,13 @@ export const environment = {
    OPCBASE_KEYCLOAK_URL: '${process.env.OPCBASE_KEYCLOAK_URL}',
    OPCBASE_KEYCLOAK_CLIENT_ID: '${process.env.OPCBASE_KEYCLOAK_CLIENT_ID}' ,
    OPCBASE_KEYCLOAK_REALM: '${process.env.OPCBASE_KEYCLOAK_REALM}',
-   SENTRY_DSN: '${process.env.SENTRY_DSN}',
+   SENTRY_DSN: ${sentryDSN},
 };
 `;
 // write the content to the respective file
-writeFile( targetPath, environmentFileContent, function ( err ) {
-    if ( err ) {
-        console.log( err );
-    }
-    console.log( `Wrote variables to ${ targetPath }` );
-} );
+writeFile(targetPath, environmentFileContent, function (err) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(`Wrote variables to ${targetPath}`);
+});
