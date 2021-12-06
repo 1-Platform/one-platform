@@ -5,6 +5,8 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import pkg from '../package.json';
+import { BrowserRouter } from 'react-router-dom';
+import '@patternfly/pfe-markdown/dist/pfe-markdown';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -20,7 +22,9 @@ if (process.env.NODE_ENV === 'production') {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
