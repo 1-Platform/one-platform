@@ -3,7 +3,7 @@ scalar JSON
 scalar DateTime
 
 
-type FeedbackUserProfileType {
+type FeedbackAssigneeType {
   name: String
   uid: String
   rhatUUID: String
@@ -20,15 +20,28 @@ input StackInfoInput {
   path: String
 }
 
+type StackInfoType {
+  stack: String
+  path: String
+}
+
 enum FeedbackCategory {
   BUG
   FEEDBACK
 }
 
+type FeedbackUserProfileType {
+  cn: String
+  mail: String
+  uid: String
+  rhatUUID: String
+}
+
 type FeedbackType {
-  _id: ID
+  id: ID
   summary: String
   description: String
+  stackInfo: StackInfoType
   experience: String
   error: String
   config: String
@@ -37,7 +50,7 @@ type FeedbackType {
   category: FeedbackCategory
   source: String
   module: String
-  assignee: FeedbackUserProfileType
+  assignee: FeedbackAssigneeType
   createdOn: DateTime
   createdBy: FeedbackUserProfileType
   updatedOn: DateTime
@@ -45,7 +58,7 @@ type FeedbackType {
 }
 
 input FeedbackInput {
-  _id: ID
+  id: ID
   summary: String
   description: String
   stackInfo: StackInfoInput
@@ -68,7 +81,7 @@ type Query {
   """
   List the Feedback by _id parameter
   """
-  listFeedback(_id: ID): FeedbackType
+  getFeedbackById(id: ID): FeedbackType
 }
 
 type Mutation {
@@ -79,11 +92,11 @@ type Mutation {
   """
   Update Feedback infomation on database
   """
-  updateFeedback(input: FeedbackInput!): FeedbackType
+  updateFeedback(id:ID!, input: FeedbackInput!): FeedbackType
   """
   Delete feedback with _id parameter
   """
-  deleteFeedback(_id: ID!): FeedbackType
+  deleteFeedback(id: ID!): FeedbackType
   """
   Update Feedback Index for Search
   """

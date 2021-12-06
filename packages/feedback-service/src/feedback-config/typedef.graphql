@@ -1,0 +1,49 @@
+enum FeedbackSource {
+  JIRA
+  GITHUB
+  GITLAB
+  EMAIL
+}
+
+type FeedbackHeaderType {
+  key: String
+  value: String
+}
+input FeedbackHeaderInput {
+  key: String
+  value: String
+}
+
+type FeedbackConfigType {
+  id: ID
+  appId: String
+  isEnabled: Boolean
+  sourceType: FeedbackSource
+  sourceApiUrl: String
+  sourceHeaders: [FeedbackHeaderType]
+  projectKey: String
+  feedbackEmail: String
+}
+
+input FeedbackConfigInput {
+  id: ID
+  appId: String
+  isEnabled: Boolean
+  sourceType: FeedbackSource
+  sourceApiUrl: String
+  sourceHeaders: [FeedbackHeaderInput]
+  projectKey: String
+  feedbackEmail: String
+}
+
+type Query {
+  listFeedbackConfigs: [FeedbackConfigType]
+  listFeedbackConfigById(id: ID!): FeedbackConfigType
+  listFeedbackConfigByAppId(appId: String): FeedbackConfigType
+}
+
+type Mutation {
+  createFeedbackConfig(payload: FeedbackConfigInput!): FeedbackConfigType
+  updateFeedbackConfig(id:ID, payload: FeedbackConfigInput!): FeedbackConfigType
+  deleteFeedbackConfig(id: ID!): FeedbackConfigType
+}
