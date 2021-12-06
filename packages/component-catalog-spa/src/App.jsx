@@ -89,12 +89,12 @@ const App = () => {
   
   const routeMain = 
   <Routes>
-  <Route exact path="/" element={<Home />} />
-  {navBarItems.map((item) => (
+  <Route exact key={'home'} path="/" element={<Home />} />
+  {navBarItems.map((item, index) => (
     <Route
       key={item.name}
       path={`/${item.name}`}
-      element={<Description componentLink={item.url} />}
+      element={<Description key={index.toString()} componentLink={item.url} />}
     />
   ))}
 </Routes>;
@@ -102,8 +102,8 @@ const App = () => {
   return (
     <>
       <Page sidebar={<PageSidebar className="view-height" theme={'dark'} nav={navMenu} />}>
-        <PageSection type="breadcrumb" children={breadCrumb} />
-        <PageSection children={routeMain} />
+        <PageSection key={'breadcrumb'} type="breadcrumb" children={breadCrumb} />
+        <PageSection key={'main'} children={routeMain} />
         <footer><opc-footer ref={footerRef} theme="dark"></opc-footer></footer>
       </Page>
     </>
