@@ -1,5 +1,6 @@
 import useFetchReadme from '../Hooks/useFetchReadme';
 import { Spinner, HelperText, HelperTextItem } from '@patternfly/react-core';
+import './Description.scss';
 
 const Description = ({ componentLink }) => {
   const {data: readme, images, isPending, error} = useFetchReadme(componentLink);
@@ -10,10 +11,10 @@ const Description = ({ componentLink }) => {
     <HelperText>
       <HelperTextItem variant="error"> { error } </HelperTextItem>
     </HelperText>}
-    { isPending && <Spinner isSVG /> }
+    { isPending && <div className="spinner"><Spinner isSVG /></div> }
     {readme && 
     <>
-    <img src={images[0].download_url } alt={'text'} />
+    {images && images.map((image, index) => <img key={index} className="markdown-image" src={image.download_url} alt={image.download_url} />)}
     <pfe-markdown class="no-reset-class">
       <div pfe-markdown-container="">
         { readme }

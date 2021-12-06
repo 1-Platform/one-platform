@@ -19,7 +19,6 @@ const useFetchReadme = (componentLink) => {
     const signal = abortController.signal;
     (async function () {
       try {
-  
         const componentsDir = await fetch(componentLink, { signal });
         const componentDirJSON = await componentsDir.json();
   
@@ -34,8 +33,13 @@ const useFetchReadme = (componentLink) => {
       } catch (err) {
         abortErrorSetter(err);
       }
-    })()
-    return () => abortController.abort();
+    })();
+    return () => {
+      setIsPending(true);
+      setData(null);
+      setImages([]);
+      return abortController.abort();
+    };
   }, [componentLink]);
   return {
     data,
