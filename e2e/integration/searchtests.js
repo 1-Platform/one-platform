@@ -11,11 +11,9 @@ context( 'Test search', () => {
     } );
 
     it( 'Test for valid search count', () => {
-        cy.wait(150)
-        cy.get( 'input[name="query"]', { includeShadowDom: true } ).click( { force: true } ).clear( { force: true } ).type( 'Feedback', { force: true } );
+        cy.wait(1500)
+        cy.get('.op-nav').find( 'input[name="query"]').click( { force: true } ).clear( { force: true } ).type( 'Feedback', { force: true } );
         cy.get( '.op-search__btn' ).click({force:true});
-        //cy.wait(500)
-        //cy.get( '.opc-nav-search__btn' ).click({force:true});
         cy.contains('results found' ).should( 'be.visible')
     })
 
@@ -80,7 +78,7 @@ context( 'Test search', () => {
     } )
 
     it( 'Test for invalid search', () => {
-        cy.get( 'input[name="query"]', { includeShadowDom: true }  ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs' ,{force:true});
+        cy.get('op-nav').find( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs' ,{force:true});
         cy.get( '.op-search__btn' ).click();
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
