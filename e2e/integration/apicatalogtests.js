@@ -4,7 +4,6 @@ Cypress.on( 'uncaught:exception', ( err, runnable ) => {
     // failing the test
     return false;
 } )
-let words;
 context( 'API Catalog Tests', () => {
     before( () => {
         cy.visit( Cypress.env( 'QA_HOST' ) +'developers/api-catalog');
@@ -19,11 +18,7 @@ context( 'API Catalog Tests', () => {
         cy.contains( 'Add API' ).click( { force: true } );
     } )
     it( 'Fill the add API form', () => {
-        cy.faker = require( 'faker' );
-        const words = cy.faker.lorem.words();
-        //this.words=words
         cy.get( 'input[name="name"]' ).type( 'e2e test automation' );
-        //cy.get( 'input[name="name"]' ).invoke('text').as('wordID')
         cy.get( 'textarea[name="description"]' ).type( "test" )
         cy.contains( "REST" ).click( { force: true } )
         cy.get( '#app-layout-page > section.pf-c-page__main-section.pf-m-no-padding.pf-m-light.appLayout_app-layout--content__1Gx8I > section > div > div > div > div:nth-child(2) > form > div:nth-child(4) > div.pf-c-form__group-control > div' ).within( () => {
