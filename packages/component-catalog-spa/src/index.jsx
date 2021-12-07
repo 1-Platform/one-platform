@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import pkg from '../package.json';
 import { BrowserRouter } from 'react-router-dom';
 import '@patternfly/pfe-markdown/dist/pfe-markdown';
+import '@patternfly/pfe-cta/dist/pfe-cta';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({

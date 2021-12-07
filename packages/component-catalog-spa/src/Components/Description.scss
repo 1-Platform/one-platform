@@ -8,3 +8,9 @@
   margin-top: 10rem;
   min-height: 60vh;
 }
+.description {
+  &__content {
+    max-width: 900px;
+    overflow: scroll;
+  }
+}
