@@ -81,9 +81,6 @@ context( 'API Catalog Tests', () => {
     } )
     it( 'Verify click on Home', () => {
         cy.get('.pf-l-split').contains( 'Home' ).click( { force: true } )
-        // cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
-        // cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        // cy.get( '#submit' ).click();
     } )
     it( 'Verify Search for API', () => {
         cy.get( 'input[placeholder^="Search for APIs"]' ).type( 'e2e test automation', { force: true } )
