@@ -61,7 +61,7 @@ const App = () => {
   const breadCrumb = 
   <Breadcrumb>
     <BreadcrumbItem to="/">Home</BreadcrumbItem>
-    <BreadcrumbItem to="/components-catalogue" isActive>
+    <BreadcrumbItem to={process.env.PUBLIC_URL} isActive>
       Component Catalog
     </BreadcrumbItem>
   </Breadcrumb>;
@@ -88,14 +88,14 @@ const App = () => {
     <Route
       key={item.name}
       path={`/${item.name}`}
-      element={<Description key={index.toString()} githubLink={item.html_url} componentLink={item.url} />}
+      element={<Description key={index.toString()} componentInformation={item.title} githubLink={item.html_url} componentLink={item.url} />}
     />
   ))}
 </Routes>;
 
   return (
     <>
-      <Page sidebar={<PageSidebar className="view-height" theme={'dark'} nav={navMenu} />}>
+      <Page sidebar={<PageSidebar className="side-panel" theme={'dark'} nav={navMenu} />}>
         <PageSection key={'breadcrumb'} type="breadcrumb" children={breadCrumb} />
         <PageSection key={'main'} children={routeMain} />
         <footer><opc-footer ref={footerRef} theme="dark"></opc-footer></footer>

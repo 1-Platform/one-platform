@@ -1,6 +1,7 @@
-.view-height {
-  height: 100vh;
-}
 .capitalize {
   text-transform: capitalize;
+}
+.side-panel {
+  --pf-c-page__sidebar--ZIndex: 1;
+  height: 100vh;
 }
