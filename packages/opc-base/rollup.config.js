@@ -18,7 +18,9 @@ const copyConfig = {
 };
 
 const generalPlugins = [
-  typescript(),
+  typescript({
+    exclude: ["./src/**/*.test.ts"],
+  }),
   minifyHTML(),
   copy(copyConfig),
   image(),

@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import style from "./opc-toast.styles";
-import dayjs from "dayjs";
+import dayjs from "dayjs/esm";
 import { Notification, ToastOptions } from "./types";
 
 @customElement("opc-toast")

@@ -4,52 +4,72 @@ Opc-Base is an npm package that provides authentication, toast notification, inj
 
 ## Getting Started
 
-Copy the `config.example.json` file in `dev folder`, rename it as `config.json` and provide the configuration values needed to load the variables.
+Copy the `config.example.js` file in `dev folder`, rename it as `config.js` and provide the configuration values needed to load the variables.
+
+For testing es module copy the `config.es.example.js` file in `dev folder`, rename it as `config.es.js` and provide the configuration values needed to load the variables.
 
 ### Installation
 
-- ```sh
+```sh
     npm install
-  ```
+```
 
 ### Development Setup
 
 To start the live build with rollup
 
-- ```sh
+```sh
    npm run build:watch
-  ```
+```
 
 To start the development server
 
-- ```sh
+```sh
    npm run dev
-  ```
+```
 
 ## Docs
 
 1. [opc-base](https://github.com/1-Platform/one-platform/tree/master/packages/opc-base/docs/opc-base.md)
 2. [opc-provider](https://github.com/1-Platform/one-platform/tree/master/packages/opc-base/docs/opc-provider.md)
 
-## Available Scripts
+## Build
 
-In the project directory, you can run:
+This projects uses typescript with rollup for bundling
 
-### `npm run dev`
+To build the project:
 
-To start the development server. Server will be available in `localhost:5000/dev`
+```bash
+npm run build
+```
 
-### `npm test`
+To watch for changes and rebuild the files:
 
-Runs the e2e test cases with jest
+```bash
+npm run build:watch
+```
 
-### `npm run build`
+Inorder to preview the changes you made the project uses web [@web-dev-server](https://modern-web.dev/docs/dev-server/overview/):
 
-Generates build in production mode. Build will be available in `dist` directory.
+```bash
+npm run dev
+```
 
-### `npm run build:watch`
+## Testing
 
-To watch for any change in source code and run the build again
+Testing is done using [@web/test-runner](https://modern-web.dev/docs/test-runner/overview/) and [@open-wc/testing](https://open-wc.org/docs/testing/testing-package/). Remember to build the package as some test are done using build file due to dependency import issues.
+
+To run test:
+
+```bash
+npm run test
+```
+
+For local testing during development
+
+```bash
+npm run test:watch
+```
 
 ## Contributors
 

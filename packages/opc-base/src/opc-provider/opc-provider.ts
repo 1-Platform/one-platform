@@ -360,7 +360,7 @@ export class OpcProvider extends LitElement {
         >(SUBSCRIBE_NOTIFICATION, { targets: userDetails }),
         subscribe((res) => {
           if (res.error) {
-            throw res.error;
+            console.error(res.error);
           }
           if (res?.data?.notification) {
             this.showToast(res.data.notification, {

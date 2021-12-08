@@ -1,11 +1,13 @@
-import opcBase from "./opc-base";
+// due to keyclock esbuild issue opc-base uses dist
+import opcBase from "../../dist/opc-base";
+import { expect } from "@open-wc/testing";
 
-describe("opcBase", () => {
-  it("should throw error", () => {
-    expect(() => opcBase.config).toThrow();
+suite("opcBase", () => {
+  test("should throw error", () => {
+    expect(() => opcBase.config).to.throw();
   });
 
-  it("should set the config", () => {
+  test("should set the config", () => {
     const config = {
       apiBasePath: "",
       subscriptionsPath: "",
@@ -14,6 +16,6 @@ describe("opcBase", () => {
       keycloakClientId: "",
     };
     opcBase.configure(config);
-    expect(opcBase.config).toMatchObject(config);
+    expect(opcBase.config).to.deep.eq(config);
   });
 });

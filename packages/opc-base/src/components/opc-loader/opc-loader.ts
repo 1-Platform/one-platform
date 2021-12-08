@@ -18,7 +18,7 @@ export class OpcLoader extends LitElement {
 
   render() {
     return html`
-      <div class="opc-loader__container" hidden=${this.hidden}>
+      <div class="opc-loader__container" ?hidden=${this.hidden}>
         <span class="opc-loader">L &nbsp; ading</span>
       </div>
     `;
