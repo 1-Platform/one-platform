@@ -13,5 +13,6 @@ export type QuickLink = {
 export type RecentVisitContextProps = {
   logs: RecentVisitLog[];
   handleAddNewLog: (log: RecentVisitLog) => void;
+  handleRemoveLog: (logId: string) => void;
   quickLink: QuickLink;
 };

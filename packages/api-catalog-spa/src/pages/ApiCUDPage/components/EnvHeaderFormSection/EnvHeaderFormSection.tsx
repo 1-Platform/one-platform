@@ -55,7 +55,7 @@ export const EnvHeaderFormSection = (): JSX.Element => {
                   >
                     <TextInput
                       aria-label="header name"
-                      placeholder="Key"
+                      placeholder="Content-Type"
                       {...controllerField}
                       onClick={callbackify(handleInputClick, index + 1 === fields.length)}
                     />
@@ -75,7 +75,11 @@ export const EnvHeaderFormSection = (): JSX.Element => {
                     validated={error ? 'error' : 'success'}
                     helperTextInvalid={error?.message}
                   >
-                    <TextInput aria-label="header url" placeholder="value" {...controllerField} />
+                    <TextInput
+                      aria-label="header url"
+                      placeholder="application/json"
+                      {...controllerField}
+                    />
                   </FormGroup>
                 )}
               />

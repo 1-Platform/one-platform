@@ -37,6 +37,15 @@ export const RecentVisitProvider: React.FC = ({ children }) => {
     [recentVisit, saveToLocalStorage]
   );
 
+  const handleRemoveLog = useCallback(
+    (logId: string) => {
+      const newState = recentVisit.filter(({ id }) => id !== logId);
+      setRecentVisit(newState);
+      saveToLocalStorage(newState);
+    },
+    [recentVisit, saveToLocalStorage]
+  );
+
   /**
    * Context value to access glabally from anywhere
    * Memo to optimize at best
@@ -45,10 +54,11 @@ export const RecentVisitProvider: React.FC = ({ children }) => {
     () => ({
       logs: recentVisit,
       handleAddNewLog,
+      handleRemoveLog,
       quickLink,
     }),
 
-    [recentVisit, handleAddNewLog, quickLink]
+    [recentVisit, handleAddNewLog, quickLink, handleRemoveLog]
   );
 
   return <RecentVisitContext.Provider value={value}>{children}</RecentVisitContext.Provider>;
