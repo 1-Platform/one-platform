@@ -3,6 +3,7 @@ import cors from 'cors';
 import expressWinston from 'express-winston';
 import jwtAuth from './middleware/jwtAuth';
 import couchDBRouter from './couchdb';
+import noCorsRouter from './no-cors-proxy'
 import winstonInstance from './utils/logger';
 
 const app = express();
@@ -16,6 +17,9 @@ app.get( '/api', ( _, res ) => {
 } );
 
 app.use( '/api/couchdb', [ cors(), jwtAuth ], couchDBRouter );
+
+
+app.use( '/api/no-cors-proxy', [ cors() ], noCorsRouter );
 
 app.use( expressWinston.errorLogger( {
   winstonInstance,
