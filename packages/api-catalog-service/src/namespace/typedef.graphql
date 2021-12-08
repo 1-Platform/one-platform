@@ -44,9 +44,9 @@ type NamespaceType {
   subscribers: [ApiSubscriberType]
   lastCheckedOn: DateTime
   createdOn: DateTime
-  createdBy: UserType
+  createdBy: ApiUserType
   updatedOn: DateTime
-  updatedBy: UserType
+  updatedBy: ApiUserType
 }
 
 type NamespaceCount {
