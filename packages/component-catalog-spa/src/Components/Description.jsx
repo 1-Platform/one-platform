@@ -49,8 +49,8 @@ const Description = ({ component }) => {
                 <FlexItem>
                     <Brand src={Libraries.find(lib => lib.shortName === component.name.split('-')[0]).logo} alt="logo" style={{ height: '48px' }} />
                 </FlexItem>
-                <FlexItem >
-                  <Title className="pf-u-ml-md capitalize" headingLevel="h2">{component.title}</Title>
+                <FlexItem className="capitalize">
+                  <Title className="pf-u-ml-md" headingLevel="h2">{component.title}</Title>
                 </FlexItem>
               </Flex>
             </CardHeaderMain>

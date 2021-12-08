@@ -5,21 +5,18 @@ import { useEffect, useRef, useState } from 'react';
 import '@one-platform/opc-footer/dist/opc-footer';
 import { footer } from './Configs/footer';
 import Home from './Pages/Home';
+import NavBar from './Components/Navbar';
 import {
   Breadcrumb,
   BreadcrumbItem,
   Page,
   PageSection,
-  Nav,
-  NavList,
-  NavItem,
   PageSidebar,
 } from '@patternfly/react-core';
 // Routes
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Description from './Components/Description';
 import { Repositories, RepoAPI } from './Configs/repositoryConfig';
-
 
 const App = () => {
   const footerRef = useRef();
@@ -30,34 +27,34 @@ const App = () => {
   }, []);
 
   const [components, setComponents] = useState([]);
+  const [componentRoutes, setComponentRoutes] = useState([]);
+
   useEffect(() => {
     ( async () => {
       const results = await Promise.all(
         Repositories.map(async (repo) => 
           fetch(RepoAPI(repo))
           .then(response => response.json())
+          .then(data => 
+            ({ [repo.repo] : data.reduce((acc, curr) => {
+              if (curr.name.split('-')[1]) {
+              acc.push({
+                ...curr,
+                title: curr.name.split('-').join(' '),
+              })
+            }
+            return acc;
+          }, []) }))
           .catch(error => {
+            console.error(error);
             return [];
           })
         )
       );
-      setComponents(
-      results.flat().reduce((acc, curr) => {
-          if (curr.name.split('-')[1]) {
-          acc.push({
-            ...curr,
-            title: curr.name.split('-').join(' '),
-          })
-        }
-        return acc;
-      }, [])
-      );
+      setComponents(results);
+      setComponentRoutes(results.map( lib => Object.values(lib)[0]).flat());
     })();
   }, []);
-  const [activeItem, setActiveItem] = useState(-1);
-  const onNavItemClick = (event) => {
-    setActiveItem(event.itemId);
-  };
 
   const breadCrumb = 
   <Breadcrumb>
@@ -67,25 +64,10 @@ const App = () => {
     </BreadcrumbItem>
   </Breadcrumb>;
 
-  const navMenu = 
-  <Nav onSelect={onNavItemClick}>
-    <NavList>
-      <NavItem id="navbar" to="/" itemId={-1} isActive={activeItem === -1}>
-        <Link className="pf-c-nav__link" to="/">
-          All Components
-        </Link>
-      </NavItem>
-      { components.map( (component, index) =>
-        <NavItem key={index} itemId={index} isActive={activeItem === index}>
-          <Link key={component.sha} className=" capitalize" to={component.name}> {component.title}</Link> 
-        </NavItem>) }
-    </NavList>
-  </Nav>;
-  
   const routes = 
   <Routes>
-    <Route exact path="/" element={<Home components={components} />} />
-    {components.map((item, index) => (
+    <Route exact path="/" element={<Home components={componentRoutes} />} />
+    {componentRoutes.map((item, index) => (
     <Route
       key={item.name}
       path={`/${item.name}`}
@@ -100,7 +82,7 @@ const App = () => {
 
   return (
     <>
-      <Page sidebar={<PageSidebar className="side-panel" theme={'dark'} nav={navMenu} />}>
+      <Page sidebar={<PageSidebar className="side-panel" theme={'dark'} nav={< NavBar components={components} />} />}>
         <PageSection key={'breadcrumb'} type="breadcrumb" children={breadCrumb} />
         <PageSection key={'main'} children={routes} />
         <footer><opc-footer ref={footerRef} theme="dark"></opc-footer></footer>
