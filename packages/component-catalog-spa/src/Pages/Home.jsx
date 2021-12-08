@@ -1,7 +1,7 @@
 import Main from '../Components/Main';
 
-const Home = () => (
-  <>
+const Home = () => {
+  return <>
   <main>
     <h3>Components Catalog</h3>
     <p>
@@ -12,6 +12,7 @@ const Home = () => (
     </p>
     <Main />
   </main>
-  </>);
+  </>
+  };
 
 export default Home;

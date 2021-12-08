@@ -21,14 +21,28 @@ const useFetchReadme = (componentLink) => {
       try {
         const componentsDir = await fetch(componentLink, { signal });
         const componentDirJSON = await componentsDir.json();
-  
-        const imagesDir = await fetch(componentDirJSON.find(item => item.name === 'docs').url, { signal });
-        const imagesDirJSON = await imagesDir.json();
-        setImages(imagesDirJSON.filter(item => item.name.endsWith('.png') || item.name.endsWith('.jpg')));
-    
-        const readmeRawUrl = await fetch(componentDirJSON.find(item => item.name === 'README.md').download_url, { signal })
-        const readmeText = await readmeRawUrl.text()
-        setData(readmeText);
+
+        const docsUrl = componentDirJSON.find(item => item.name === 'docs') 
+          ? componentDirJSON.find(item => item.name === 'docs').url 
+          : null;
+        if (docsUrl) {
+          const imagesDir = await fetch(docsUrl, { signal });
+          const imagesDirJSON = await imagesDir.json();
+          setImages(imagesDirJSON.filter(item => item.name.endsWith('.png') || item.name.endsWith('.jpg')));
+        } else {
+          setImages([]);
+        }
+
+        const readmeURL = componentDirJSON.find(item => item.name === 'README.md') 
+          ? componentDirJSON.find(item => item.name === 'README.md').download_url 
+          : null;
+        if (readmeURL) {
+          const readmeRawUrl = await fetch(readmeURL, { signal })
+          const readmeText = await readmeRawUrl.text()
+          setData(readmeText);
+        } else {
+          setData('# No README.md found');
+        }
         setIsPending(false)
       } catch (err) {
         abortErrorSetter(err);

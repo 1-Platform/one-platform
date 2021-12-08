@@ -29,7 +29,7 @@ const App = () => {
     }
   }, []);
 
-  const [navBarItems, setNavbarItems] = useState([]);
+  const [components, setComponents] = useState([]);
   useEffect(() => {
     ( async () => {
       const results = await Promise.all(
@@ -37,17 +37,18 @@ const App = () => {
           fetch(RepoAPI(repo))
           .then(response => response.json())
           .catch(error => {
-            console.log(error);
             return [];
           })
         )
       );
-      setNavbarItems(
+      setComponents(
       results.flat().reduce((acc, curr) => {
-        acc.push({
-          ...curr,
-          title: curr.name.split('-').join(' '),
-        })
+          if (curr.name.split('-')[1]) {
+          acc.push({
+            ...curr,
+            title: curr.name.split('-').join(' '),
+          })
+        }
         return acc;
       }, [])
       );
@@ -69,22 +70,22 @@ const App = () => {
   const navMenu = 
   <Nav onSelect={onNavItemClick}>
     <NavList>
-      <NavItem id="home" to="/" itemId={-1} isActive={activeItem === -1}>
+      <NavItem id="navbar" to="/" itemId={-1} isActive={activeItem === -1}>
         <Link className="pf-c-nav__link" to="/">
           All Components
         </Link>
       </NavItem>
-      { navBarItems.map( (item, index) =>
+      { components.map( (component, index) =>
         <NavItem key={index} itemId={index} isActive={activeItem === index}>
-          <Link key={item.sha} className=" capitalize" to={item.name}> {item.title}</Link> 
+          <Link key={component.sha} className=" capitalize" to={component.name}> {component.title}</Link> 
         </NavItem>) }
     </NavList>
   </Nav>;
   
   const routeMain = 
   <Routes>
-  <Route exact key={'home'} path="/" element={<Home />} />
-  {navBarItems.map((item, index) => (
+    <Route exact path="/" element={<Home />} />
+    {components.map((item, index) => (
     <Route
       key={item.name}
       path={`/${item.name}`}
@@ -95,7 +96,7 @@ const App = () => {
         />}
     />
   ))}
-</Routes>;
+  </Routes>;
 
   return (
     <>

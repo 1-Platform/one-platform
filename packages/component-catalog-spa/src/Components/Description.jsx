@@ -10,10 +10,10 @@ import {
   FlexItem,
   Title,
   CardHeader, 
-  CardHeaderMain, 
-  CardTitle } from '@patternfly/react-core';
+  CardHeaderMain,
+} from '@patternfly/react-core';
 import './Description.scss';
-import { Libraries } from '../Configs/component-libraries'; 
+import { Libraries } from '../Configs/component-libraries';
 
 const Description = ({ component }) => {
   const {data: readme, images, isPending, error} = useFetchReadme(component.url);
@@ -40,29 +40,29 @@ const Description = ({ component }) => {
         }
       </div>
       <div className="description__cards">
-      <Card>
-        <CardHeader>
-          <CardHeaderMain>
-            <Flex 
-              alignItems={{ default: 'alignItemsCenter' }}>
-              <FlexItem>
-                  <Brand src={Libraries.find(lib => lib.shortName === component.name.split('-')[0]).logo}alt="logo" style={{ height: '48px' }} />
-              </FlexItem>
-              <FlexItem >
-                <Title className="pf-u-ml-md capitalize" headingLevel="h2">{component.title}</Title>
-              </FlexItem>
-            </Flex>
-          </CardHeaderMain>
-        </CardHeader>
-        <CardTitle>
-        </CardTitle>
-        <CardFooter>
-          <a target="_blank" className="anchor-link" rel="noreferrer" href={component.html_url}>
-            View on Github
-            <ion-icon style={{marginBottom: '-2px', marginLeft: '.25rem'}} name="arrow-forward-outline"></ion-icon>
-          </a>
-        </CardFooter>
-      </Card>
+      { component.name.split('-')[1] && 
+        <Card>
+          <CardHeader>
+            <CardHeaderMain>
+              <Flex 
+                alignItems={{ default: 'alignItemsCenter' }}>
+                <FlexItem>
+                    <Brand src={Libraries.find(lib => lib.shortName === component.name.split('-')[0]).logo} alt="logo" style={{ height: '48px' }} />
+                </FlexItem>
+                <FlexItem >
+                  <Title className="pf-u-ml-md capitalize" headingLevel="h2">{component.title}</Title>
+                </FlexItem>
+              </Flex>
+            </CardHeaderMain>
+          </CardHeader>
+          <CardFooter>
+            <a target="_blank" className="anchor-link" rel="noreferrer" href={component.html_url}>
+              View on Github
+              <ion-icon style={{marginBottom: '-2px', marginLeft: '.25rem'}} name="arrow-forward-outline"></ion-icon>
+            </a>
+          </CardFooter>
+        </Card>
+      }
       </div>
     </div>
   );
