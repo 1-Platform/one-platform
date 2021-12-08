@@ -2,3 +2,4 @@ dist/
 .DS_Store
 node_modules
 dev/config.js
+dev/config.es.js

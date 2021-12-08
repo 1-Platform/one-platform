@@ -1,39 +1,66 @@
-import { axe, toHaveNoViolations } from "jest-axe";
 import { OpcToast } from "./opc-toast";
+import { fixture, assert, expect } from "@open-wc/testing";
+import { html } from "lit/static-html.js";
 
-expect.extend(toHaveNoViolations);
+const COMPONENT_TAG = "opc-toast";
 
-describe("opc-toast", () => {
-  const OPC_COMPONENT = "opc-toast";
-  const ELEMENT_ID = "opc-toast";
-  let opcToast: OpcToast;
+const mock = {
+  toastOptions: {
+    addToDrawer: false,
+    duration: "5s",
+    variant: "success",
+  },
+  notificationOptions: {
+    subject: "Hello",
+    body: "World",
+    sentOn: "2021-12-07T15:27:46.139Z",
+    link: "",
+  },
+};
 
-  const getShadowRoot = (tagName: string): ShadowRoot => {
-    return document.body.getElementsByTagName(tagName)[0]
-      .shadowRoot as ShadowRoot;
-  };
-
-  beforeEach(() => {
-    opcToast = window.document.createElement(OPC_COMPONENT) as OpcToast;
-    document.body.appendChild(opcToast);
+suite(COMPONENT_TAG, () => {
+  test("is defined", () => {
+    const el = document.createElement(COMPONENT_TAG);
+    assert.instanceOf(el, OpcToast);
   });
 
-  afterEach(() => {
-    document.body.getElementsByTagName(OPC_COMPONENT)[0].remove();
+  test("should render properly", async () => {
+    const el = await fixture(html`<opc-toast
+      .notification=${mock.notificationOptions}
+      .options=${mock.toastOptions}
+    ></opc-toast>`);
+    assert.shadowDom.equal(
+      el,
+      `
+     <pfe-toast
+        auto-dismiss="${mock.toastOptions.duration}"
+        class="op-menu-drawer__notification-toast"
+        variant="${mock.toastOptions.variant}"
+      >
+        <span
+          class="op-menu-drawer__notification-time"
+          title="LLL"
+          >just now</span
+        >
+        <h5 class="op-menu-drawer__notification-subject">
+          ${mock.notificationOptions.subject}
+        </h5>
+        <p
+          style="display: block;"
+          class="op-menu-drawer__notification-body"
+        >
+          ${mock.notificationOptions.body}
+        </p>
+      </pfe-toast>
+     `
+    );
   });
 
-  it("is defined", async () => {
-    expect(opcToast).toBeDefined();
-  });
-
-  it("has no axe violations", async () => {
-    expect(await axe(opcToast)).toHaveNoViolations();
-  });
-
-  it("should change properties", async () => {
-    opcToast.options = { variant: "info" };
-    opcToast.notification = { sentOn: "25/12/21" };
-    await opcToast.updateComplete;
-    expect(opcToast.options.variant).toEqual("info");
+  test("has no axe violations", async () => {
+    const el = await fixture(html`<opc-toast
+      .notification=${mock.notificationOptions}
+      .options=${mock.toastOptions}
+    ></opc-toast>`);
+    expect(el).to.be.accessible();
   });
 });

@@ -6,22 +6,18 @@
     "declaration": true,
     "declarationMap": true,
     "noEmitOnError": true,
-    "lib": [
-      "es2016",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["es2016", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "./dist",
-    "rootDir": "./",
-    "baseUrl": "./src"
+    "outDir": "./src",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "allowJs": true,
+    "skipLibCheck":true,
   },
-  "include": [
-    "./src/**/*.ts"
-  ],
+  "include": ["./src/**/*.ts"],
   "exclude": []
 }
