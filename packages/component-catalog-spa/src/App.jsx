@@ -82,7 +82,7 @@ const App = () => {
     </NavList>
   </Nav>;
   
-  const routeMain = 
+  const routes = 
   <Routes>
     <Route exact path="/" element={<Home components={components} />} />
     {components.map((item, index) => (
@@ -102,7 +102,7 @@ const App = () => {
     <>
       <Page sidebar={<PageSidebar className="side-panel" theme={'dark'} nav={navMenu} />}>
         <PageSection key={'breadcrumb'} type="breadcrumb" children={breadCrumb} />
-        <PageSection key={'main'} children={routeMain} />
+        <PageSection key={'main'} children={routes} />
         <footer><opc-footer ref={footerRef} theme="dark"></opc-footer></footer>
       </Page>
     </>
