@@ -69,8 +69,15 @@ context( 'API Catalog Tests', () => {
         cy.get('.title').contains('Swagger Petstore').should('be.visible')
     } )
     it( 'Navigate to My API', () => {
-        cy.contains( 'My API' ).click( { force: true } )
-        cy.wait(4000)
+        cy.contains( 'My API' ).click( { force: true } );
+        cy.wait( 4000 );
+    } )
+    it( 'Invalid Search Test', () => {
+        cy.get( 'input[aria-label="Search API"]' ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
+        cy.contains( 'No API found', { timeout: 6000 } )
+    })
+    it( 'Valid search in My APIs Page', () => {
+        cy.get( 'input[aria-label="Search API"]' ).clear().type( 'e2e test automation', { force: true } );
         cy.get('.pf-c-card__body').contains('e2e test automation').should('be.visible').click({force:true})
 
     } )
