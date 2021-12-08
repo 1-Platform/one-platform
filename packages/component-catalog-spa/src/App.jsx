@@ -84,7 +84,7 @@ const App = () => {
   
   const routeMain = 
   <Routes>
-    <Route exact path="/" element={<Home />} />
+    <Route exact path="/" element={<Home components={components} />} />
     {components.map((item, index) => (
     <Route
       key={item.name}

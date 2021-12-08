@@ -26,8 +26,8 @@ const Main = () => {
     }}>
     { Libraries.map(
       ( lib ) => 
-      <GalleryItem key={ lib.id }>
-        <Card isFullHeight isRounded>
+    <GalleryItem key={ lib.id }>
+      <Card isFullHeight isRounded>
         <CardHeader>
           <Flex 
             alignItems={{ default: 'alignItemsCenter' }}>
