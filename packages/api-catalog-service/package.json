@@ -5,7 +5,7 @@
     "className": "ApiCatalog",
     "serviceName": "api-catalog"
   },
-  "version": "0.4.0",
+  "version": "0.4.1",
   "keywords": [
     "web-components",
     "html"
@@ -33,7 +33,12 @@
     "name": "Rigin Oommen",
     "email": "riginoommen@gmail.com"
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Akhil Mohan",
+      "email": "akhilmhdh@gmail.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "@graphql-tools/schema": "^8.2.0",
