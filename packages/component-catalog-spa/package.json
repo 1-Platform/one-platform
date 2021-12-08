@@ -6,7 +6,6 @@
   "dependencies": {
     "@one-platform/opc-footer": "0.0.4-prerelease",
     "@patternfly/patternfly": "^4.135.2",
-    "@patternfly/pfe-cta": "^1.12.2",
     "@patternfly/pfe-markdown": "^1.12.2",
     "@patternfly/react-core": "4.175.4",
     "@sentry/react": "^6.15.0",

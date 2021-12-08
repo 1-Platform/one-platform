@@ -11,7 +11,7 @@ import {
   Flex, 
   FlexItem,
 } from '@patternfly/react-core';
-import { Libraries } from '../assets/component-libraries';
+import { Libraries } from '../Configs/component-libraries';
 
 const Main = () => {
   return (

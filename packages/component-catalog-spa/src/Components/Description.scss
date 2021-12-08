@@ -9,8 +9,16 @@
   min-height: 60vh;
 }
 .description {
+  display: flex;
   &__content {
-    max-width: 900px;
+    width: 950px;
     overflow: scroll;
+  }
+  &__cards {
+    height: fit-content;
+    width: 20rem;
+    margin-left: 1rem;
+    position: sticky;
+    top: 78px;
   }
 }

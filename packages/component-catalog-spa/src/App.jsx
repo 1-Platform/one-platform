@@ -3,8 +3,8 @@ import './App.scss';
 import { useEffect, useRef, useState } from 'react';
 // Components
 import '@one-platform/opc-footer/dist/opc-footer';
-import { footer } from './assets/footer';
-import Home from './Components/Home';
+import { footer } from './Configs/footer';
+import Home from './Pages/Home';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,7 +18,7 @@ import {
 // Routes
 import { Routes, Route, Link } from 'react-router-dom';
 import Description from './Components/Description';
-import {repositories,repoAPI } from './Configs/repositoryConfig';
+import { Repositories, RepoAPI } from './Configs/repositoryConfig';
 
 
 const App = () => {
@@ -33,8 +33,8 @@ const App = () => {
   useEffect(() => {
     ( async () => {
       const results = await Promise.all(
-        repositories.map(async (repo) => 
-          fetch(repoAPI(repo))
+        Repositories.map(async (repo) => 
+          fetch(RepoAPI(repo))
           .then(response => response.json())
           .catch(error => {
             console.log(error);
@@ -88,7 +88,11 @@ const App = () => {
     <Route
       key={item.name}
       path={`/${item.name}`}
-      element={<Description key={index.toString()} componentInformation={item.title} githubLink={item.html_url} componentLink={item.url} />}
+      element={
+        <Description 
+          key={index.toString()} 
+          component={item}
+        />}
     />
   ))}
 </Routes>;

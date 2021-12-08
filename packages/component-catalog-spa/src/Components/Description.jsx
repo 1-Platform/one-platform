@@ -5,16 +5,18 @@ import {
   HelperTextItem,
   Brand, 
   Card, 
-  CardBody, 
-  CardFooter, 
+  CardFooter,
+  Flex,
+  FlexItem,
+  Title,
   CardHeader, 
   CardHeaderMain, 
   CardTitle } from '@patternfly/react-core';
 import './Description.scss';
+import { Libraries } from '../Configs/component-libraries'; 
 
-const Description = ({ componentLink, githubLink, componentTitle }) => {
-  const {data: readme, images, isPending, error} = useFetchReadme(componentLink);
-  console.log(componentTitle);
+const Description = ({ component }) => {
+  const {data: readme, images, isPending, error} = useFetchReadme(component.url);
   return (
     <div className="description">
       <div className="description__content">
@@ -41,16 +43,25 @@ const Description = ({ componentLink, githubLink, componentTitle }) => {
       <Card>
         <CardHeader>
           <CardHeaderMain>
-            <Brand src={'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'} alt="PatternFly logo" style={{ height: '50px' }} />
+            <Flex 
+              alignItems={{ default: 'alignItemsCenter' }}>
+              <FlexItem>
+                  <Brand src={Libraries.find(lib => lib.shortName === component.name.split('-')[0]).logo}alt="logo" style={{ height: '48px' }} />
+              </FlexItem>
+              <FlexItem >
+                <Title className="pf-u-ml-md capitalize" headingLevel="h2">{component.title}</Title>
+              </FlexItem>
+            </Flex>
           </CardHeaderMain>
         </CardHeader>
         <CardTitle>
-          <pfe-cta>
-            <a target="_blank" href={githubLink } rel="noreferrer">Go to Github</a>
-          </pfe-cta>
         </CardTitle>
-        <CardBody>Body</CardBody>
-        <CardFooter>Footer</CardFooter>
+        <CardFooter>
+          <a target="_blank" className="anchor-link" rel="noreferrer" href={component.html_url}>
+            View on Github
+            <ion-icon style={{marginBottom: '-2px', marginLeft: '.25rem'}} name="arrow-forward-outline"></ion-icon>
+          </a>
+        </CardFooter>
       </Card>
       </div>
     </div>
