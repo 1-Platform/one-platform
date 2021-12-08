@@ -18,6 +18,8 @@ import {
 // Routes
 import { Routes, Route, Link } from 'react-router-dom';
 import Description from './Components/Description';
+import {repositories,repoAPI } from './Configs/repositoryConfig';
+
 
 const App = () => {
   const footerRef = useRef();
@@ -29,22 +31,10 @@ const App = () => {
 
   const [navBarItems, setNavbarItems] = useState([]);
   useEffect(() => {
-    const repositories = [
-      {
-        owner: "1-platform",
-        repo: "op-components",
-        folderName: "packages",
-      },
-      {
-        owner: "patternfly",
-        repo: "patternfly-elements",
-        folderName: "elements",
-      },
-    ];
     ( async () => {
       const results = await Promise.all(
         repositories.map(async (repo) => 
-          fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/contents/${repo.folderName}?ref=master`)
+          fetch(repoAPI(repo))
           .then(response => response.json())
           .catch(error => {
             console.log(error);
