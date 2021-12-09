@@ -6,7 +6,6 @@ export const NamespaceSchema: Schema = new Schema({
   name: {
     type: String,
     unique: true,
-
   },
   slug: {
     type: String,

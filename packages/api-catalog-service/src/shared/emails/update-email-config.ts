@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { SPA_URL } from '../../setup/env';
 
 export default async function updateEmailConfig(namespace: Omit<NamespaceType, 'owners'>) {
@@ -6,7 +7,7 @@ Hi,<br/><br/>
 
 There are new updates for ${namespace.name} APIs.
 <br/>
-Please visit <a href="${SPA_URL}/details/${namespace.slug}" target="_blank">API Catalog</a> for more information.
+Please visit <a href="${SPA_URL}/apis/${(namespace as any)._id}" target="_blank">API Catalog</a> for more information.
 
 
 <p style="color:#989898"><b>Note:</b>You are receiving this mail because you have subscribed to API Catalog.</p>

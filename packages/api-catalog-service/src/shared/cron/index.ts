@@ -21,7 +21,7 @@ export default function initializeAgenda(): void {
     /* Start the agenda */
     agenda.start();
     /* Schedule the jobs */
-    agenda.every('6 hours', 'api-sync-hash');
+    agenda.every('12 hours', 'api-sync-hash');
   });
 }
 
