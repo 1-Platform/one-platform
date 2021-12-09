@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { SPA_URL } from '../../setup/env';
 
@@ -5,9 +6,9 @@ export default async function updateEmailConfig(namespace: Omit<NamespaceType, '
   const message = `
 Hi,<br/><br/>
 
-There are new updates for ${namespace.name} APIs.
+There are new updates for ${namespace.name} in API Catalog.
 <br/>
-Please visit <a href="${SPA_URL}/apis/${(namespace as any)._id}" target="_blank">API Catalog</a> for more information.
+Please visit <a rel="noopener noreferrer" href="${SPA_URL}/apis/${ (namespace as any)._id }" target="_blank">API Catalog</a> for more information.
 
 
 <p style="color:#989898"><b>Note:</b>You are receiving this mail because you have subscribed to API Catalog.</p>
