@@ -50,7 +50,7 @@ import styles from './apiCUDPage.module.scss';
 
 const schema = Yup.object({
   name: Yup.string().trim().required(reqErrorMsg('Name')),
-  description: Yup.string().trim().required(reqErrorMsg('Description')),
+  description: Yup.string().trim().min(200).required(reqErrorMsg('Description')),
   appUrl: Yup.string().url().trim().required(reqErrorMsg('Application URL')),
   schemaEndpoint: Yup.string().url().trim().required(reqErrorMsg('Schema URL')),
   environments: Yup.array(
@@ -111,7 +111,7 @@ export const ApiCUDPage = (): JSX.Element => {
   const methods = useForm<FormData>({
     defaultValues: {
       environments: [{ apiBasePath: '', name: '' }],
-      headers: [{ key: 'Content-Type', value: 'application/json' }],
+      headers: [{ key: '', value: '' }],
     },
     resolver: yupResolver(schema),
   });

@@ -1,20 +1,33 @@
 import { useCallback, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Voyager } from 'graphql-voyager';
-import { Bullseye, Spinner } from '@patternfly/react-core';
+import {
+  Bullseye,
+  Button,
+  EmptyState,
+  EmptyStateIcon,
+  Spinner,
+  Title,
+} from '@patternfly/react-core';
+import { CubesIcon } from '@patternfly/react-icons';
 import { useRecentVisit } from 'context/RecentVisitContext';
 import { useGetANamespace } from './hooks/useGetANamespace';
 
 export const VoyagerToolPage = (): JSX.Element => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { handleAddNewLog } = useRecentVisit();
+  const { handleAddNewLog, handleRemoveLog } = useRecentVisit();
   const { isLoading, data: namespaceData } = useGetANamespace({ id });
 
   useEffect(() => {
-    if (!isLoading && namespaceData?.getNamespaceById) {
-      const namespace = namespaceData?.getNamespaceById;
-      handleAddNewLog({ title: namespace?.name || '', tool: 'voyager', url: pathname, id });
+    if (!isLoading) {
+      if (namespaceData?.getNamespaceById) {
+        const namespace = namespaceData?.getNamespaceById;
+        handleAddNewLog({ title: namespace?.name || '', tool: 'voyager', url: pathname, id });
+      } else {
+        handleRemoveLog(id);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, id, namespaceData?.getNamespaceById]);
@@ -40,6 +53,22 @@ export const VoyagerToolPage = (): JSX.Element => {
     return (
       <Bullseye>
         <Spinner size="xl" />
+      </Bullseye>
+    );
+  }
+
+  if (!namespace) {
+    return (
+      <Bullseye>
+        <EmptyState>
+          <EmptyStateIcon icon={CubesIcon} />
+          <Title headingLevel="h4" size="lg">
+            Sorry, Couldn&apos;t find this API
+          </Title>
+          <Button variant="primary" onClick={() => navigate('/apis')}>
+            Go Back
+          </Button>
+        </EmptyState>
       </Bullseye>
     );
   }
