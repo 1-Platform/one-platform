@@ -12,6 +12,7 @@ import {
   Page,
   PageSection,
   PageSidebar,
+  PageSectionVariants,
 } from '@patternfly/react-core';
 // Routes
 import { Routes, Route } from 'react-router-dom';
@@ -82,10 +83,10 @@ const App = () => {
 
   return (
     <>
-      <Page sidebar={<PageSidebar className="side-panel" theme={'dark'} nav={< NavBar components={components} />} />}>
-        <PageSection key={'breadcrumb'} type="breadcrumb" children={breadCrumb} />
-        <PageSection key={'main'} children={routes} />
-        <footer><opc-footer ref={footerRef} theme="dark"></opc-footer></footer>
+      <Page sidebar={<PageSidebar className="side-panel" theme={'light'} nav={< NavBar components={components} />} />}>
+        <PageSection variant={PageSectionVariants.light} key={'breadcrumb'} type="breadcrumb" children={breadCrumb} />
+        <PageSection variant={PageSectionVariants.light} key={'main'} children={routes} />
+        <footer><opc-footer ref={footerRef} theme="light"></opc-footer></footer>
       </Page>
     </>
   );

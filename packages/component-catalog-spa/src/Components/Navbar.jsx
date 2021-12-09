@@ -14,7 +14,7 @@ const NavBar = ({components}) => {
     setActiveItem(event.itemId);
   };
 
-  return ( <Nav onSelect={onNavItemClick}>
+  return ( <Nav theme="light" onSelect={onNavItemClick}>
     <NavList>
       <NavItem id="navbar" to="/" itemId={'all'} isActive={activeItem === 'all'}>
         <Link className="pf-c-nav__link" to="/">
