@@ -251,7 +251,7 @@ class APICatalogHelper {
       tls: {
         rejectUnauthorized: false,
       },
-      logger: true,
+      logger: false,
       debug: false,
     });
   }
