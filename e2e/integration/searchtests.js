@@ -85,7 +85,6 @@ context( 'Test search', () => {
         cy.get( '.opc-nav-search__btn' ).click( { force: true } );
         cy.wait( 500 );
         cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
-        //cy.get( 'op-nav' ).find( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
         cy.get( '.opc-nav-search__btn' ).click( { force: true } );
         cy.get( '.search-result-section', { timeout: 5000 } ).should( 'be.visible' ).within( () => {
             cy.contains( "Can't find anything related to ", { timeout: 5000 }).should( 'be.visible' );
