@@ -2,7 +2,7 @@ declare module '*.graphql';
 declare module '*.json';
 
 /** All built-in and custom scalars, mapped to their actual values */
-type UserType = {
+type ApiUserType = {
   cn?: string;
   mail?: string;
   uid?: string;
@@ -65,9 +65,9 @@ type NamespaceType = {
   subscribers?: Array<ApiSubscribeType>;
   lastCheckedOn?: Date;
   createdOn?: Date;
-  createdBy?: UserType | string;
+  createdBy?: ApiUserType | string;
   updatedOn?: Date;
-  updatedBy?: UserType | string;
+  updatedBy?: ApiUserType | string;
 };
 
 type NamespaceDoc = Omit<NamespaceType, 'owners'> & { owners: Array<ApiOwnerInput> };
@@ -83,7 +83,7 @@ type ApiSubscribeType = {
 };
 
 type OwnerUserType = {
-  user: UserType;
+  user: ApiUserType;
   group: ApiEmailGroup.USER;
 };
 

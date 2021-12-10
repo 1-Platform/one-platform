@@ -1,7 +1,7 @@
 {
   "name": "api-catalog-spa",
   "homepage": "/developers/api-catalog",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^2.8.0",

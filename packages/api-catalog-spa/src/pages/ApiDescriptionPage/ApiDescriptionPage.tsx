@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import {
   Bullseye,
   Button,
+  EmptyState,
+  EmptyStateIcon,
   Grid,
   GridItem,
   PageSection,
@@ -13,7 +15,7 @@ import {
   StackItem,
   Title,
 } from '@patternfly/react-core';
-import { BellIcon, ExternalLinkAltIcon, EditIcon } from '@patternfly/react-icons';
+import { BellIcon, ExternalLinkAltIcon, EditIcon, CubesIcon } from '@patternfly/react-icons';
 import opcBase from '@one-platform/opc-base';
 
 import { hasUserApiEditAccess } from 'utils';
@@ -35,6 +37,7 @@ const PLAYGROUND_ICON = `${process.env.PUBLIC_URL}/images/gql-playground-logo.sv
 
 export const ApiDescriptionPage = (): JSX.Element => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { handleDynamicCrumbs } = useBreadcrumb();
   const userInfo = opcBase.auth?.getUserInfo();
   const [subscriptionStatus, setSubscriptionStatus] = useState({
@@ -153,6 +156,23 @@ export const ApiDescriptionPage = (): JSX.Element => {
       </Bullseye>
     );
   }
+
+  if (!namespace) {
+    return (
+      <Bullseye>
+        <EmptyState>
+          <EmptyStateIcon icon={CubesIcon} />
+          <Title headingLevel="h4" size="lg">
+            Sorry, Couldn&apos;t find this API
+          </Title>
+          <Button variant="primary" onClick={() => navigate('../')}>
+            Go Back
+          </Button>
+        </EmptyState>
+      </Bullseye>
+    );
+  }
+
   return (
     <PageSection isWidthLimited className="pf-m-align-center">
       <Grid hasGutter>

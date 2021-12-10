@@ -5,7 +5,7 @@ enum ApiEmailGroup {
   MAILING_LIST
 }
 
-type UserType {
+type ApiUserType {
   cn: String
   uid: String
   rhatUUID: String
@@ -19,7 +19,7 @@ type OwnerMailingType {
 }
 
 type OwnerUserType {
-  user:UserType
+  user: ApiUserType
   group: ApiEmailGroup
 }
 

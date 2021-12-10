@@ -1,6 +1,6 @@
 {
   "name": "reverse-proxy-service",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A reverse proxy service for One Platform",
   "main": "src/index.ts",
   "scripts": {
@@ -17,6 +17,12 @@
     "email": "deshmukhmayur@outlook.com",
     "url": "https://deshmukhmayur.com"
   },
+  "contributors": [
+    {
+      "name": "Akhil Mohan",
+      "email": "akhilmhdh@gmail.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",

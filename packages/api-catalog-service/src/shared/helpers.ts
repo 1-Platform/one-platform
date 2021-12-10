@@ -41,7 +41,7 @@ class APICatalogHelper {
         }`;
   }
 
-  public async fetchUserProfile(query: string): Promise<Record<string, UserType>> {
+  public async fetchUserProfile(query: string): Promise<Record<string, ApiUserType>> {
     const headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Authorization', `${GATEWAY_AUTH_TOKEN}`);
@@ -251,7 +251,7 @@ class APICatalogHelper {
       tls: {
         rejectUnauthorized: false,
       },
-      logger: true,
+      logger: false,
       debug: false,
     });
   }
