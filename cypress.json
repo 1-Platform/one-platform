@@ -3,6 +3,7 @@
     "chromeWebSecurity": false,
     "video": false,
     "numTestsKeptInMemory": 0,
+    "pageLoadTimeout": 15000,
     "restartBrowserBetweenSpecFiles": true,
     "integrationFolder":"e2e/integration",
     "reporter":"cypress-multi-reporters",
