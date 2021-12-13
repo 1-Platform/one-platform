@@ -67,7 +67,7 @@ context( 'Test feedback form', () => {
             cy.get( '.pf-u-display-flex' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.get( '.pf-u-font-size-sm' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
             cy.contains( 'View Details' ).should( 'be.visible' );
-            cy.get( `a[ href *= "${ Cypress.env( 'JIRA' ) }"] > button` ).invoke( 'text' ).then( ( text ) => {
+            cy.get( `a[ href ^= "${ Cypress.env( 'JIRA' ) }"]` ).invoke( 'text' ).then( ( text ) => {
                 expect( text.replace( /\u00a0/g, ' ' ) ).equal( 'JIRA Link ' );
             })
         } );

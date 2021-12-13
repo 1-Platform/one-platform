@@ -18,9 +18,7 @@ context( 'API Catalog Tests', () => {
         cy.contains( 'Add API' ).click( { force: true } );
     } )
     it( 'Fill the add API form', () => {
-        cy.faker = require( 'faker' );
-        const words = cy.faker.lorem.words();
-        cy.get( 'input[name="name"]' ).type( words );
+        cy.get( 'input[name="name"]' ).type( 'e2e test automation' );
         cy.get( 'textarea[name="description"]' ).type( "test" )
         cy.contains( "REST" ).click( { force: true } )
         cy.get( '#app-layout-page > section.pf-c-page__main-section.pf-m-no-padding.pf-m-light.appLayout_app-layout--content__1Gx8I > section > div > div > div > div:nth-child(2) > form > div:nth-child(4) > div.pf-c-form__group-control > div' ).within( () => {
@@ -67,10 +65,44 @@ context( 'API Catalog Tests', () => {
     } )
     it( 'Access the swagger link', () => {
         cy.get( '.pf-c-card__body .pf-c-title.pf-m-md' ).click( { force: true } )
-        cy.contains('Swagger Petstore').should('be.visible')
+        cy.wait(15000)
+        cy.get('.title').contains('Swagger Petstore').should('be.visible')
     } )
     it( 'Navigate to My API', () => {
-        cy.contains('My API').click({force:true})
+        cy.contains( 'My API' ).click( { force: true } );
+        cy.wait( 4000 );
+    } )
+    it( 'Invalid Search Test', () => {
+        cy.get( 'input[aria-label="Search API"]' ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
+        cy.contains( 'No API found', { timeout: 6000 } )
+    })
+    it( 'Valid search in My APIs Page', () => {
+        cy.get( 'input[aria-label="Search API"]' ).clear().type( 'e2e test automation', { force: true } );
+        cy.get('.pf-c-card__body').contains('e2e test automation').should('be.visible').click({force:true})
+
+    } )
+    it( 'Verify click on Home', () => {
+        cy.get('.pf-l-split').contains( 'Home' ).click( { force: true } )
+    } )
+    it( 'Verify Search for API', () => {
+        cy.get( 'input[placeholder^="Search for APIs"]' ).type( 'e2e test automation', { force: true } )
+        cy.wait( 300 )
+        cy.get( 'a[class="catalog-nav-link"] button[type="button"]').click({force:true})
+    })
+    it( 'Verifying edit API functionality', () => {
+        cy.contains( 'Edit' ).click( { force: true } )
+        cy.get( 'input[name="name"]' ).clear().type( 'e2e test automation update' );
+        cy.get( '.pf-c-button.pf-m-primary.pf-m-progress' ).click( { force: true } )
+
+
+    } )
+    it( 'Verify Delete API', () => {
+        cy.contains( 'Edit' ).click( { force: true } )
+        cy.contains( 'Delete' ).click( { force: true } )
+        cy.get("footer[class='pf-c-modal-box__footer'] button:nth-child(1)").click({force:true})
+    })
+    it( 'Click on Explore APIs', () => {
+        cy.contains('Explore').click({force:true})
     })
 
     } );
