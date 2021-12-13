@@ -185,6 +185,8 @@ context( 'API Catalog Tests', () => {
         cy.contains( 'Edit' ).click( { force: true } )
         cy.contains( 'Delete' ).click( { force: true } )
         cy.get("footer[class='pf-c-modal-box__footer'] button:nth-child(1)").click({force:true})
-    })
+        cy.get( '.pf-c-button.pf-m-primary.pf-m-progress' ).click( { force: true } )
 
+
+    } )   
     } );
