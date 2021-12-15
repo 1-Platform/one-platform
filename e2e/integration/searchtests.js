@@ -2,7 +2,7 @@
 
 context( 'Test search', () => {
     before( () => {
-        cy.visit( Cypress.env( 'QA_HOST' )+'/search' );
+        cy.visit( Cypress.env( 'QA_HOST' ) );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
@@ -12,10 +12,13 @@ context( 'Test search', () => {
     } );
     it( 'Test for valid search count', () => {
         cy.wait( 1500 )
-        cy.get( '.opc-nav-search__btn' ).click( { force: true } )
-        cy.wait(500)
-        cy.get('input[name="query"]').click( { force: true } ).clear( { force: true } ).type( 'Feedback', { force: true } );
-        cy.wait(500)
+        cy.get( 'opc-nav-search[slot="opc-nav-search"]' ).within( () => {
+            cy.get( '.opc-nav-search__btn' ).click( { force: true } );
+            cy.get('input[name="query"]').type( 'Feedback', { force: true } );
+        } )
+        cy.wait(5000)
+
+        cy.wait(5000)
         cy.get( '.opc-nav-search__btn', { timeout: 6000 } ).click( { force: true } );
         cy.contains('results found' ).should( 'be.visible')
     })
@@ -82,10 +85,15 @@ context( 'Test search', () => {
 
     it( 'Test for invalid search', () => {
         cy.wait( 1500 );
-        cy.get( '.opc-nav-search__btn' ).click( { force: true } );
-        cy.wait( 500 );
-        cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
-        cy.get( '.opc-nav-search__btn' ).click( { force: true } );
+        cy.get( 'opc-nav-search[slot="opc-nav-search"]' ).within( () => {
+            cy.get( '.opc-nav-search__btn' ).click( { force: true } );
+            cy.wait( 500 );
+            cy.get( 'input[name="query"]' ).click( { force: true } ).clear( { force: true } ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
+            cy.get( '.opc-nav-search__btn' ).click( { force: true } );
+        } )
+        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
+        cy.get( '#submit' ).click();
         cy.get( '.search-result-section', { timeout: 5000 } ).should( 'be.visible' ).within( () => {
             cy.contains( "Can't find anything related to ", { timeout: 5000 }).should( 'be.visible' );
             } );
