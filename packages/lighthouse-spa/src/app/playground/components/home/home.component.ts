@@ -21,16 +21,16 @@ export class HomeComponent implements OnInit {
   selectedPreset = 'lighthouse:recommended';
   presets = [
     {
-      name: 'All',
-      value: 'lighthouse:all',
+      name: 'Performance',
+      value: 'perf',
     },
     {
-      name: 'Recommended',
-      value: 'lighthouse:recommended',
+      name: 'Desktop',
+      value: 'desktop',
     },
     {
-      name: 'No PWA',
-      value: 'lighthouse:no-pwa',
+      name: 'Experimental',
+      value: 'experimental',
     },
   ];
   auditProgress = '';
@@ -159,20 +159,17 @@ export class HomeComponent implements OnInit {
       .pipe(takeUntil(this.destroySub))
       .subscribe((progress: string) => {
         if (progress.substr(0, this.auditId.length) === this.auditId) {
-          if (progress.replace(this.auditId, '')) {
-            progress = progress.replace(this.auditId, '');
-            if (progress !== `1`) {
-              progress = this.linkParser(progress);
-              this.auditProgress += this.convert.toHtml(progress);
-            } else {
-              this.loading = false;
-              window.OpNotification.success({
-                subject: `Audit completed successfully`,
-              });
-              this.fetchScore(this.auditId);
-            }
-            this.scrollBottom();
+          progress = progress.replace(this.auditId, '');
+          progress = this.linkParser(progress);
+          this.auditProgress += this.convert.toHtml(progress) + '\n';
+          if (progress.startsWith('Results:')) {
+            this.loading = false;
+            window.OpNotification.success({
+              subject: `Audit completed successfully`,
+            });
+            this.fetchScore(JSON.parse(progress.split('Results:')[1]));
           }
+          this.scrollBottom();
         }
       });
   };
@@ -211,34 +208,21 @@ export class HomeComponent implements OnInit {
       });
   };
 
-  fetchScore = (auditId): void => {
-    this.appService.fetchScore(auditId).then((responses) => {
-      this.showScore = true;
-      const scores = responses.reduce((acc, val) => {
-        Object.keys(val).map((prop: any) => {
-          if (prop in acc) {
-            acc[prop] += val[prop];
-          } else {
-            acc[prop] = val[prop];
+  fetchScore = ( score ) => {
+    this.showScore = true;
+    this.lhciScores.map((record) => {
+      Object.keys(score).map((key) => {
+        if (key === record.label) {
+          record.score = score[key];
+          if (record.score >= 0 && record.score <= 49) {
+            record.class = 'orange';
+          } else if (record.score >= 50 && record.score <= 89) {
+            record.class = 'blue';
+          } else if (record.score >= 90 && record.score <= 100) {
+            record.class = 'green';
           }
-        });
-        return acc;
-      }, {});
-
-      this.lhciScores.map((record) => {
-        Object.keys(scores).map((key) => {
-          if (key === record.label) {
-            record.score = Math.trunc((scores[key] / responses.length) * 100);
-            if (record.score >= 0 && record.score <= 49) {
-              record.class = 'orange';
-            } else if (record.score >= 50 && record.score <= 89) {
-              record.class = 'blue';
-            } else if (record.score >= 90 && record.score <= 100) {
-              record.class = 'green';
-            }
-            return record;
-          }
-        });
+          return record;
+        }
       });
     });
   };
@@ -262,51 +246,6 @@ export class HomeComponent implements OnInit {
           this.projectBranches = responses.listLHProjectBranches.rows;
         })
         .finally(() => (this.isFetchingBranches = false));
-    }
-  };
-
-  upload = async (): Promise<void> => {
-    const { project, branch, buildToken } = this.auditUploadForm.value;
-
-    if (!this.auditId) {
-      window.OpNotification.danger({
-        subject: 'Uploading report failed!!',
-        body: 'Execute an audit',
-      });
-      return;
-    }
-
-    try {
-      await this.verifyProject(buildToken, project);
-
-      const uploadProperty = {
-        auditId: this.auditId,
-        serverBaseUrl: environment.LH_SERVER_URL,
-        authorName: this.user.fullName,
-        authorEmail: this.user.email,
-        currentBranch: branch,
-        buildToken,
-        preset: this.selectedPreset,
-        sites: this.sites,
-      };
-
-      this.appService
-        .upload(uploadProperty)
-        .pipe(takeUntil(this.destroySub))
-        .subscribe((response) => {
-          if (response.upload) {
-            this.toggleModal = false;
-            window.OpNotification.success({
-              subject: `Started upload of LHR Report`,
-              body: `LHR Upload to ${environment.LH_SERVER_URL} in progress.`,
-            });
-          }
-        });
-    } catch (error) {
-      window.OpNotification.danger({
-        subject: 'Uploading report failed!!',
-        body: error.message,
-      });
     }
   };
 }

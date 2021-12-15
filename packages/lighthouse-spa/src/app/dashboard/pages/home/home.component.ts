@@ -29,16 +29,16 @@ export class HomeComponent implements OnInit {
   selectedPreset = 'lighthouse:recommended';
   presets = [
     {
-      name: 'All',
-      value: 'lighthouse:all',
+      name: 'Performance',
+      value: 'perf',
     },
     {
-      name: 'Recommended',
-      value: 'lighthouse:recommended',
+      name: 'Desktop',
+      value: 'desktop',
     },
     {
-      name: 'No PWA',
-      value: 'lighthouse:no-pwa',
+      name: 'Experimental',
+      value: 'experimental',
     },
   ];
   taglines = [
@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
     this.validUrl = url.indexOf('http://') == 0 || url.indexOf('https://') == 0;
   }
 
-  navigateToReportGeneration (): void {
+  navigateToReportGeneration(): void {
     this.router.navigate(['/playground'], {
       queryParams: {
         siteUrl: this.sites,

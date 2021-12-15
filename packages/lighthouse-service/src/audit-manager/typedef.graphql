@@ -130,10 +130,6 @@ type Query {
     search: String
   ): ListLHProjectBranches
   """
-  Fetch the scores of a webproperty locally.
-  """
-  listLHScore(auditId: String!): [LighthouseScoreType]
-  """
   Fetch the leaderboard showcasing project with highest scores
   """
   listLHLeaderboard(
@@ -153,10 +149,6 @@ type Mutation {
   Audit Website with Lighthouse CI
   """
   auditWebsite(property: LighthouseInput): String
-  """
-  Upload the lhr to server
-  """
-  uploadLHReport(property: LighthouseInput): String
 }
 
 type Subscription {
