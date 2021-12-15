@@ -17,8 +17,6 @@ context( 'Test search', () => {
             cy.get('input[name="query"]').type( 'Feedback', { force: true } );
         } )
         cy.wait(5000)
-
-        cy.wait(5000)
         cy.get( '.opc-nav-search__btn', { timeout: 6000 } ).click( { force: true } );
         cy.contains('results found' ).should( 'be.visible')
     })
