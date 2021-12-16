@@ -5,6 +5,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser = require('cookie-parser');
 import { mergeSchemas } from '@graphql-tools/schema';
+import morgan from 'morgan';
 import Logger from './src/lib/logger';
 import FeedbackResolver from './src/feedbacks/resolver';
 import FeedbackSchema from './src/feedbacks/typedef.graphql';
@@ -41,12 +42,13 @@ const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
   ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
   : '';
 const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
-
 mongoose.connect(dbConnection, { useNewUrlParser: true, useCreateIndex: true }).catch(Logger.error);
 
 mongoose.connection.on('error', (error) => {
   Logger.error(error);
 });
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
 const schema = mergeSchemas({
   typeDefs: [FeedbackConfigSchema, FeedbackSchema],

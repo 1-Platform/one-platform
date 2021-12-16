@@ -13,24 +13,66 @@
  * Last modified  : 2021-06-28 17:21:06
  */
 import * as _ from 'lodash';
+import pickBy from 'lodash/pickBy';
+import { Types } from 'mongoose';
 import { Feedback } from './schema';
 import FeedbackHelper from './helpers';
 import { FeedbackConfig } from '../feedback-config/schema';
 
 const FeedbackResolver = {
   Query: {
-    async listFeedbacks(root: any, args: any, ctx: any) {
-      return Feedback.find()
-        .sort({ createdOn: -1 })
-        .exec()
-        .then(async (feedbacks) => FeedbackHelper.processFeedbackRecords(feedbacks))
-        .catch((error: Error) => error);
+    async listFeedbacks(root: any, {
+      limit = 10, offset = 0, search, category,
+    }: any, ctx: any) {
+      const match: Record<string, unknown> = {};
+      if (search) match.name = { $regex: search, $options: 'i' };
+      if (category) match.category = category;
+      const paginatedFeedback = await Feedback.aggregate([
+        { $match: match },
+        {
+          $facet: {
+            data: [{ $skip: offset }, { $limit: limit }],
+            total: [{ $count: 'total' }],
+          },
+        },
+      ]).exec();
+      const feedbackRecords = paginatedFeedback[0].data.map(
+        (doc: any) => Feedback.hydrate(doc),
+      );
+      const count = paginatedFeedback[0].total[0]?.total || 0;
+      return {
+        count,
+        data: await FeedbackHelper.processFeedbackRecords(feedbackRecords),
+      };
     },
-    async getFeedbackById(root: any, args: any, ctx: any) {
-      const userFeedback = await Feedback.findById(args.id)
-        .exec();
-      const responses = await FeedbackHelper.processFeedbackRecords([userFeedback]);
-      return responses[0];
+    async getFeedbackBy(root: any, {
+      id, appId, limit = 10,
+      offset = 0, search, category,
+    }: any, ctx: any) {
+      let feedbackConfig: any = {};
+      const match: Record<string, unknown> = {};
+      if (appId) {
+        feedbackConfig = await FeedbackConfig.find({ appId }).exec();
+      }
+      if (search) match.summary = { $regex: search, $options: 'i' };
+      if (category) match.category = category;
+      if (id) match._id = Types.ObjectId(id);
+      if (feedbackConfig) match.config = (feedbackConfig[0]?._id)?.toString();
+      const paginatedFeedback = await Feedback.aggregate([
+        { $match: match },
+        {
+          $facet: {
+            data: [{ $skip: offset }, { $limit: limit }],
+            total: [{ $count: 'total' }],
+          },
+        },
+      ]).exec();
+      const feedbackRecords = paginatedFeedback[0].data.map((doc: any) => Feedback.hydrate(doc));
+      const count = paginatedFeedback[0].total[0]?.total || 0;
+      return {
+        count,
+        data: await FeedbackHelper.processFeedbackRecords(feedbackRecords),
+      };
     },
   },
   Mutation: {
@@ -38,6 +80,7 @@ const FeedbackResolver = {
       let feedbackConfig: Array<FeedbackConfigType> = [];
       let app: any;
       const userFeedback = args.input;
+      let appList:any[] = [];
       let userData: any[] = [];
       let integrationResponse;
       if (!userFeedback.createdBy) {
@@ -47,22 +90,34 @@ const FeedbackResolver = {
           userFeedback.createdBy,
         ]);
         userData = await FeedbackHelper.getUserProfiles(userQuery);
+        appList = await FeedbackHelper.listApps();
       }
+
       if (!userFeedback.config && userFeedback?.stackInfo?.path) {
-        const appList = await FeedbackHelper.listApps();
-        app = appList.filter(
-          (response: any) => response.path === `/${userFeedback.stackInfo.path.split('/')[1]}`,
+        const urlCombinations = await FeedbackHelper.urlCombinationChecker(
+          userFeedback.stackInfo.path,
         );
+
+        app = appList.filter((response: any) => urlCombinations.includes(response.path));
         if (app.length !== 0) {
           feedbackConfig = await FeedbackConfig.find({
             appId: app[0].id,
           }).exec();
           userFeedback.config = (feedbackConfig[0] as any)?._id;
-        } else {
-          throw new Error(
-            'Feedback Configuration not registered. Visit Developer Console to register your Feedback Configuration',
-          );
         }
+      } else if (
+        (userFeedback.config && !userFeedback?.stackInfo?.path)
+        || (userFeedback.config && userFeedback?.stackInfo?.path)
+      ) {
+        feedbackConfig = await FeedbackConfig.find({
+          _id: userFeedback.config,
+        }).exec();
+        app = appList.filter(
+          (response: any) => response.id === feedbackConfig[0].appId,
+        );
+      }
+      if (feedbackConfig.length === 0) {
+        throw new Error('Feedback configuration not registered. Please visit developer-console');
       }
       if (feedbackConfig[0]?.sourceType === 'GITHUB') {
         integrationResponse = await FeedbackHelper.createGithubIssue(
@@ -112,7 +167,7 @@ const FeedbackResolver = {
             response,
             userData,
           );
-          FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
+          // FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
           return response;
         })
         .catch((error: Error) => error);

@@ -7,7 +7,8 @@ declare enum FeedbackCategory {
 }
 
 type FeedbackUserProfileType = {
-  name: String;
+  cn: String;
+  name: string;
   uid: string;
   rhatUUID: string;
   email: string;
@@ -26,11 +27,11 @@ type FeedbackType = {
   category: FeedbackCategory;
   module: string;
   stackInfo: JSON;
-  assignee: FeedbackUserProfileType
+  assignee: FeedbackUserProfileType;
   createdOn: string;
-  createdBy: string | FeedbackUserProfileType;
+  createdBy: FeedbackUserProfileType;
   updatedOn: string;
-  updatedBy: string | FeedbackUserProfileType;
+  updatedBy: string;
 };
 
 // New types

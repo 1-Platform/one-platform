@@ -40,10 +40,10 @@ ${
 Reported by - ${userData[0].cn} (${userData[0].mail})`;
 
   feedback.description = feedback?.description?.concat(descriptionTemplate) || '';
-  if (feedback?.summary?.length > 250) {
+  if (feedback?.summary?.length > 240) {
     feedback.description = feedback.summary + feedback.description;
   }
-  feedback.summary = feedback?.summary.length > 250
+  feedback.summary = (feedback?.summary?.length > 240 || !feedback?.summary)
     ? `${capitalize(feedback.category)} reported by ${userData[0].cn} for ${
       app[0].name
     }`
@@ -484,6 +484,15 @@ P.S.: This is an automated email. Please do not reply.
   };
   return emailData;
 }
+function urlCombinationChecker(url: string) {
+  const combinations = [];
+  for (let i = 0; i < url.length; i += 1) {
+    for (let j = i + 1; j < url.length + 1; j += 1) {
+      combinations.push(url.slice(i, j));
+    }
+  }
+  return combinations;
+}
 async function processFeedbackRecords(userFeedbacks: any) {
   if (userFeedbacks.length) {
     const feedbacks = groupBy(userFeedbacks, 'config');
@@ -495,6 +504,7 @@ async function processFeedbackRecords(userFeedbacks: any) {
     let intResponse: any = [];
     const jiraResponses: any = [];
     let jiraQueryPromises: any = null;
+    const appList = await listApps();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const integrationPromise = new Promise((resolve, reject) => {
       Object.keys(feedbacks).forEach(async (key: string, index: number) => {
@@ -553,6 +563,14 @@ async function processFeedbackRecords(userFeedbacks: any) {
       }
     }`;
             }
+            userFeedbacks.map((feedback: FeedbackType) => {
+              const userFeedback = feedback;
+              if ((record as any)._id === (userFeedback as any)._id) {
+                userFeedback.source = config.sourceType;
+                userFeedback.module = appList.filter((app:any) => app.id === config.appId)[0].name;
+              }
+              return userFeedback;
+            });
             if (feedbacks[key].length === keyIndex + 1) {
               const apiQueryParams = {
                 query,
@@ -569,37 +587,36 @@ async function processFeedbackRecords(userFeedbacks: any) {
         }
       });
     });
-    return integrationPromise
-      .then(async (promises: any) => {
-        await promises.forEach(async (promise: any) => {
-          if (promise.source === 'GITLAB') {
-            intResponse = await listGitlabIssues(promise);
-            intResponses.push(intResponse);
-          } else if (promise.source === 'GITHUB') {
-            intResponse = await listGithubIssues(promise);
-            intResponses.push(intResponse);
-          } else if (promise.source === 'JIRA') {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            jiraQueryPromises = new Promise((resolve, reject) => {
-              const jiraQueryChunk = chunk(
-                compact(promise.query.split(' ')),
-                50,
-              );
-              jiraQueryChunk.forEach(async (jira: any, jiraIndex: number) => {
-                const jiraParam: object = {
-                  ...promise,
-                  query: jira.join(' OR '),
-                };
-                const jiraResponse = await listJira(jiraParam);
-                jiraResponses.push(jiraResponse);
-                if (jiraQueryChunk.length === jiraIndex + 1) {
-                  resolve(jiraResponses);
-                }
-              });
+    return integrationPromise.then(async (promises: any) => {
+      await promises.forEach(async (promise: any) => {
+        if (promise.source === 'GITLAB') {
+          intResponse = await listGitlabIssues(promise);
+          intResponses.push(intResponse);
+        } else if (promise.source === 'GITHUB') {
+          intResponse = await listGithubIssues(promise);
+          intResponses.push(intResponse);
+        } else if (promise.source === 'JIRA') {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          jiraQueryPromises = new Promise((resolve, reject) => {
+            const jiraQueryChunk = chunk(
+              compact(promise.query.split(' ')),
+              50,
+            );
+            jiraQueryChunk.forEach(async (jira: any, jiraIndex: number) => {
+              const jiraParam: object = {
+                ...promise,
+                query: jira.join(' OR '),
+              };
+              const jiraResponse = await listJira(jiraParam);
+              jiraResponses.push(jiraResponse);
+              if (jiraQueryChunk.length === jiraIndex + 1) {
+                resolve(jiraResponses);
+              }
             });
-          }
-        });
-      })
+          });
+        }
+      });
+    })
       .then(async () => {
         const mergedJira = jiraQueryPromises !== null
           ? await jiraQueryPromises.then(async (data: any) => data[0])
@@ -617,12 +634,12 @@ async function processFeedbackRecords(userFeedbacks: any) {
           )[0];
           userFeedback.state = selectedResponse?.state || feedback?.state;
           userFeedback.assignee = selectedResponse?.assignee || {};
-          userFeedback.createdBy = await userData.filter(
+          userFeedback.createdBy = userData.filter(
             (user: any) => user.rhatUUID === feedback.createdBy,
-          )[0];
+          )[0]?.cn || null;
           userFeedback.updatedBy = await userData.filter(
             (user: any) => user.rhatUUID === feedback.updatedBy,
-          )[0];
+          )[0]?.cn || null;
           return userFeedback;
         });
       });
@@ -643,5 +660,6 @@ export default {
   manageSearchIndex,
   processFeedbackRecords,
   sendEmail,
+  urlCombinationChecker,
   transporter,
 };

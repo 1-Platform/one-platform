@@ -52,9 +52,9 @@ type FeedbackType {
   module: String
   assignee: FeedbackAssigneeType
   createdOn: DateTime
-  createdBy: FeedbackUserProfileType
+  createdBy: String
   updatedOn: DateTime
-  updatedBy: FeedbackUserProfileType
+  updatedBy: String
 }
 
 input FeedbackInput {
@@ -73,15 +73,30 @@ input FeedbackInput {
   updatedBy: String
 }
 
+type PaginatedFeedbackType {
+  count: Int
+  data: [FeedbackType]
+}
 type Query {
   """
   List All Feedbacks
   """
-  listFeedbacks: [FeedbackType]
+  listFeedbacks(
+    search: String
+    limit: Int
+    offset: Int
+    category: FeedbackCategory
+  ): PaginatedFeedbackType
   """
-  List the Feedback by _id parameter
+  List the Feedback by id and appId parameters
   """
-  getFeedbackById(id: ID): FeedbackType
+  getFeedbackBy(
+    id: ID
+    appId: ID
+    search: String
+    limit: Int
+    offset: Int
+    category: FeedbackCategory): PaginatedFeedbackType
 }
 
 type Mutation {
