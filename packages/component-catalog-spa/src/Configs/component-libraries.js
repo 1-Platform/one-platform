@@ -43,6 +43,6 @@ export const Libraries = [
     title: 'Patternkit',
     logo: dp,
     description: 'Drupal plugin that allows you to drag and drop a library of patterns / web components.',
-    link: 'https://github.com/drupal-pattern-lab/patternkit',
+    link: 'https://gitlab.corp.redhat.com/uxdd/webrh',
   }
 ];
