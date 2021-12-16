@@ -12,6 +12,7 @@ export const Libraries = [
     logo: cpx,
     description: 'A relatively unopinionated toolset built around enterprise-grade, functional, web components.',
     link: 'https://github.com/chapeaux',
+    email: 'ldary@redhat.com',
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ export const Libraries = [
     logo: pfe,
     description: 'A set of community-created web components based on PatternFly design.',
     link: 'https://github.com/patternfly/patternfly-elements',
+    email: 'patternfly-elements-contribute@redhat.com',
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ export const Libraries = [
     logo: op,
     description: 'One platform component library is a collection of web components which are built using lit-element, each component follows the red hat brand guideline.',
     link: 'https://github.com/1-platform/op-components',
+    email: 'one-portal-devel@redhat.com',
   },
   {
     id: 4,
@@ -36,6 +39,7 @@ export const Libraries = [
     logo: pf,
     description: 'PatternFly is an open source design system created to enable consistency and usability across a wide range of applications and use cases.',
     link: 'https://github.com/patternfly/patternfly-react',
+    email: 'patternfly@redhat.com',
   },
   {
     id: 5,
@@ -43,6 +47,7 @@ export const Libraries = [
     title: 'Patternkit',
     logo: dp,
     description: 'Drupal plugin that allows you to drag and drop a library of patterns / web components.',
-    link: 'https://github.com/drupal-pattern-lab/patternkit',
+    link: 'https://gitlab.corp.redhat.com/uxdd/webrh',
+    email: '',
   }
 ];

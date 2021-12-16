@@ -8,7 +8,7 @@ import {
   Title, 
   Gallery, 
   GalleryItem, 
-  Flex, 
+  Flex,
   FlexItem,
 } from '@patternfly/react-core';
 import { Libraries } from '../Configs/component-libraries';
@@ -41,10 +41,18 @@ const Main = () => {
         </CardHeader>
         <CardBody >{lib.description}</CardBody>
         <CardFooter>
-          <a target="_blank" className="anchor-link" rel="noreferrer" href={lib.link}>
-            View on Github
-            <ion-icon style={{marginBottom: '-2px', marginLeft: '.25rem'}} name="arrow-forward-outline"></ion-icon>
-          </a>
+          <Flex
+          alignItems={ { default: 'justifyContentSpaceBetween'} }>
+            <FlexItem>
+              <a target="_blank" className="anchor-link" rel="noreferrer" href={lib.link}>
+              View on Github
+              <ion-icon style={{marginBottom: '-2px', marginLeft: '.25rem'}} name="arrow-forward-outline"></ion-icon>
+            </a>
+            </FlexItem>
+            <FlexItem>
+              <a className="anchor-link" href={`mailto:${lib.email}`}> <ion-icon name="mail-outline"></ion-icon></a>
+            </FlexItem>
+          </Flex>
         </CardFooter>
       </Card> 
     </GalleryItem>
