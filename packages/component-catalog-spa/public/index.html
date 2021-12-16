@@ -22,7 +22,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Component Catalogue</title>
+    <title>Component Catalog</title>
     <!-- Custom links -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
       integrity="sha384-EcogLzNzScolFpuLPk/kxJRnmu39K6J1j3+8yrfrebDq7qtbZoB2gfP0rD08JKit" crossorigin="anonymous"
@@ -33,27 +33,14 @@
   </head>
 
   <body>
-
     <!-- #region NavBar -->
-    <script src="https://unpkg.com/@one-platform/opc-nav@0.0.3-prerelease/dist/opc-nav.js"
-      integrity="sha384-N/XXcy88sqNtDwdswFWIfew+ecxOGnny+j0CR7Bn/deliGg49PgoBVrK8IeHjrAI"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-menu-drawer@0.1.1-prerelease/dist/opc-menu-drawer.js"
-      integrity="sha384-lnyGND2Ba53ZPH1nFlneXIaszATrkbsa6EIqHY4TRhli1gGCD1HpCCLn9s6CeO2F"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-feedback@0.0.9-prerelease/dist/opc-feedback.js"
-      integrity="sha384-2rFZX1TmlNqGFKNQ7pcks2ddrToaIcGPGvN758FNeeUTg57uk8xJrZMiaygSTjhn"
-      crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@one-platform/opc-nav@latest/dist/opc-nav.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-menu-drawer@latest/dist/opc-menu-drawer.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-feedback@latest/dist/opc-feedback.js"></script>
     <script
-      src="https://unpkg.com/@one-platform/opc-notification-drawer@0.1.1-prerelease/dist/opc-notification-drawer.js"
-      integrity="sha384-+io26hmt/nqCeER9grOX5NMUBURFWMcAG4CV80Eb1C78tkW4HEmE7H1MM6Ne82sB"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-base@1.1.1-beta/dist/umd/opc-base.js"
-      integrity="sha384-RJTWG6gAshj4ygraq79jKDiIEBtnUb6YqUQgVdarbrDE+gx6YMg3eDt1unDlOW9B"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-base@1.1.1-beta/dist/umd/opc-provider.js"
-      integrity="sha384-9A8f4mk6CGQDY++3pwUq3x5mGOPexK9d8fuRA2Dr21P++qkNwtl51IqZS+8Fvsxf"
-      crossorigin="anonymous"></script>
+      src="https://unpkg.com/@one-platform/opc-notification-drawer@latest/dist/opc-notification-drawer.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-base.js"></script>
+    <script src="https://unpkg.com/@one-platform/opc-base@latest/dist/umd/opc-provider.js"></script>
     <script>
       opcBase.configure( {
         apiBasePath: "%REACT_APP_API_URL%",
@@ -70,7 +57,6 @@
       <opc-feedback theme="blue"></opc-feedback>
     </opc-provider>
     <!-- #endregion NavBar -->
-
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>

@@ -1,11 +1,13 @@
-import op from './images/op-logo.svg';
-import pfe from './images/pfe-logo.svg';
-import cpx from './images/chapeaux-logo.svg';
-import pf from './images/patternfly-logo.svg';
+import op from '../assets/images/op-logo.svg';
+import pfe from '../assets/images/pfe-logo.svg';
+import cpx from '../assets/images/chapeaux-logo.svg';
+import pf from '../assets/images/patternfly-logo.svg';
+import dp from '../assets/images/druplicon-vector.svg';
 
 export const Libraries = [
   {
     id: 1,
+    shortName: 'cpx',
     title: 'Chapeaux',
     logo: cpx,
     description: 'A relatively unopinionated toolset built around enterprise-grade, functional, web components.',
@@ -13,6 +15,7 @@ export const Libraries = [
   },
   {
     id: 2,
+    shortName: 'pfe',
     title: 'Patternfly Elements',
     logo: pfe,
     description: 'A set of community-created web components based on PatternFly design.',
@@ -20,6 +23,7 @@ export const Libraries = [
   },
   {
     id: 3,
+    shortName: 'opc',
     title: 'One Platform Components',
     logo: op,
     description: 'One platform component library is a collection of web components which are built using lit-element, each component follows the red hat brand guideline.',
@@ -27,9 +31,18 @@ export const Libraries = [
   },
   {
     id: 4,
+    shortName: 'pf',
     title: 'PatternFly React Components',
     logo: pf,
     description: 'PatternFly is an open source design system created to enable consistency and usability across a wide range of applications and use cases.',
     link: 'https://github.com/patternfly/patternfly-react',
   },
+  {
+    id: 5,
+    shortName: 'pf-react',
+    title: 'Patternkit',
+    logo: dp,
+    description: 'Drupal plugin that allows you to drag and drop a library of patterns / web components.',
+    link: 'https://github.com/drupal-pattern-lab/patternkit',
+  }
 ];
