@@ -6,7 +6,7 @@
             <i class="fas fa-caret-down" attr.aria-hidden="{{!isOpen}}"></i>
         </span>
     </button>
-    <div class="pf-c-context-selector__menu" [hidden]="!isOpen">
+    <div class="pf-c-context-selector__menu" *ngIf="isOpen">
         <div class="pf-c-context-selector__menu-search">
             <div class="pf-c-input-group">
                 <input class="pf-c-form-control" type="search" placeholder="Search" id="context-input"

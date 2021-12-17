@@ -40,15 +40,15 @@ export class LeaderboardComponent implements OnInit {
     this.fetchLHLeaderboard();
   }
 
-  ngOnDestroy (): void {
-    this.listLeaderBoardSubscription.unsubscribe()
+  ngOnDestroy(): void {
+    this.listLeaderBoardSubscription.unsubscribe();
   }
 
   fetchLHLeaderboard(): void {
     this.isPageLoading = true;
 
     try {
-      this.listLeaderBoardSubscription =  this.leaderboardService
+      this.listLeaderBoardSubscription = this.leaderboardService
         .listLHLeaderboard(
           this.leaderbooardSelectedCategory,
           this.leaderboardSelectedSortOrder,
@@ -59,8 +59,9 @@ export class LeaderboardComponent implements OnInit {
           this.isPageLoading = loading;
           this.totalCount = listLHLeaderboard.count;
           this.lighthouseLeaderboard = listLHLeaderboard.rows;
-        } );
+        });
     } catch (error) {
+      console.error(error);
       window.OpNotification.danger({
         subject: 'Error on loading leaderboard',
         body: error.message,
