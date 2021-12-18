@@ -38,7 +38,7 @@
     "eslint": "7.32.0",
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.3.1",
+    "eslint-plugin-promise": "5.2.0",
     "eslint-plugin-standard": "4.1.0",
     "eslint-plugin-vue": "6.2.2",
     "geckodriver": "1.22.3",
