@@ -52,7 +52,7 @@ export const LighthouseAuditResolver = {
     },
     async listLHLeaderboard(root: any, args: any) {
       return lhDbManager.getLeaderBoard(args);
-    }
+    },
   },
   Mutation: {
     async createLHProject(root: any, args: any) {

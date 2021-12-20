@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   isEmpty = false;
   sites = '';
   validUrl = false;
-  selectedPreset = 'lighthouse:recommended';
+  selectedPreset = 'perf';
   presets = [
     {
       name: 'Performance',

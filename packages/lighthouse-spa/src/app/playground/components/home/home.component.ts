@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   loading = false;
   showScore = false;
   toggleModal = false;
-  selectedPreset = 'lighthouse:recommended';
+  selectedPreset = 'perf';
   presets = [
     {
       name: 'Performance',
@@ -214,13 +214,6 @@ export class HomeComponent implements OnInit {
       Object.keys(score).map((key) => {
         if (key === record.label) {
           record.score = score[key];
-          if (record.score >= 0 && record.score <= 49) {
-            record.class = 'orange';
-          } else if (record.score >= 50 && record.score <= 89) {
-            record.class = 'blue';
-          } else if (record.score >= 90 && record.score <= 100) {
-            record.class = 'green';
-          }
           return record;
         }
       });
