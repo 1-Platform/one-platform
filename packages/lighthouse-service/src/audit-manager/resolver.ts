@@ -1,9 +1,10 @@
-import { spawn } from 'child_process';
-import * as fs from 'fs';
 import { camelCase } from 'lodash';
 import { pubsub, lhci } from '../helpers';
 import Logger from '../lib/logger';
 import { lhDbManager } from '../lighthouse-db-manager';
+
+const lighthouse = require('lighthouse');
+const chromeLauncher = require('chrome-launcher');
 
 export const LighthouseAuditResolver = {
   LHLeaderBoardCategory: {
@@ -41,7 +42,9 @@ export const LighthouseAuditResolver = {
       );
 
       // eslint-disable-next-line no-param-reassign
-      projectBuilds.forEach((build: any) => { build.score = lhScore[build.id]; });
+      projectBuilds.forEach((build: any) => {
+        build.score = lhScore[build.id];
+      });
       return projectBuilds;
     },
     async listLHProjectBranches(root: any, args: any) {
@@ -49,58 +52,6 @@ export const LighthouseAuditResolver = {
     },
     async listLHLeaderboard(root: any, args: any) {
       return lhDbManager.getLeaderBoard(args);
-    },
-    async listLHScore(root: any, args: any) {
-      const directoryPromises: any = [];
-      const filePromises: any = [];
-      const filePaths: any = [];
-      const lhrReports: any = [];
-      const scores: LighthouseScoreType[] = [];
-      const fileListPromise = new Promise((resolve, reject) => {
-        fs.readdir(`/tmp/${args.auditId}/.lighthouseci`, (err, files) => {
-          files.forEach((file, index) => {
-            if (file.startsWith('lhr-') && file.endsWith('.json')) {
-              filePaths.push(`/tmp/${args.auditId}/.lighthouseci/${file}`);
-            }
-            if (files.length - 1 === index) {
-              resolve(filePaths);
-            }
-          });
-          if (err) {
-            reject(err);
-          }
-        });
-      });
-      directoryPromises.push(fileListPromise);
-      const paths: any[] = (await Promise.all(directoryPromises).then(
-        (values) => values[0],
-      )) as any;
-      const fileDataPromise = await new Promise((resolve, reject) => {
-        paths.forEach((path, index) => {
-          fs.readFile(path, 'utf8', (err, data) => {
-            lhrReports.push(data);
-            if (index === paths.length - 1) {
-              resolve(lhrReports);
-            }
-            if (err) {
-              reject(err);
-            }
-          });
-        });
-      });
-      filePromises.push(fileDataPromise);
-      const reports: any[] = (await Promise.all(filePromises).then(
-        (values) => values[0],
-      )) as any;
-      reports.forEach((value: any) => {
-        const lhr = JSON.parse(value);
-        const data: any = {};
-        Object.keys(lhr.categories).forEach((category: any) => {
-          data[camelCase(category)] = lhr.categories[category].score;
-        });
-        scores.push(data);
-      });
-      return scores;
     },
   },
   Mutation: {
@@ -112,102 +63,50 @@ export const LighthouseAuditResolver = {
       };
       return lhci.createLHProject(project);
     },
-    auditWebsite(root: any, args: any): string {
-      const LHCI_BUILD_CONTEXT_CURRENT_HASH = new Date()
+    auditWebsite(root: any, args: any, ctx: any) {
+      const lhciBuildContextHash = new Date()
         .getTime()
         .toString(16)
         .split('')
         .reverse()
         .join('');
-      const lhciScript = spawn(
-        ` cd /tmp && mkdir ${LHCI_BUILD_CONTEXT_CURRENT_HASH} && cd ${LHCI_BUILD_CONTEXT_CURRENT_HASH} &&
-      lhci healthcheck && lhci collect --settings.chromeFlags='--no-sandbox --ignore-certificate-errors' --url=${
-  args.property.sites
-} && lhci assert --preset=${
-  args.property.preset || 'lighthouse:recommended'
-}`,
-        {
-          shell: true,
-        },
-      );
-      lhciScript.stdout.on('data', async (data) => {
-        Logger.log(data.toString());
-        pubsub
-          .publish('AUTORUN', {
-            autorun: LHCI_BUILD_CONTEXT_CURRENT_HASH + data.toString(),
-          })
-          .catch((err) => Logger.error(err));
-      });
-
-      lhciScript.stderr.on('data', (data) => {
-        Logger.error(data.toString());
-        pubsub
-          .publish('AUTORUN', {
-            autorun: LHCI_BUILD_CONTEXT_CURRENT_HASH + data.toString(),
-          })
-          .catch((err) => Logger.error(err));
-      });
-
-      lhciScript.on('exit', (code) => {
-        Logger.info(`Process exited with code ${code}`);
-        pubsub
-          .publish('AUTORUN', {
-            autorun: LHCI_BUILD_CONTEXT_CURRENT_HASH + code,
-          })
-          .catch((err) => Logger.error(err));
-      });
-      return LHCI_BUILD_CONTEXT_CURRENT_HASH;
-    },
-    async uploadLHReport(root: any, args: any) {
-      const profile = await lhci.fetchProfileFavicon(args.property.authorEmail);
-      const LHCI_BUILD_CONTEXT_COMMIT_MESSAGE = `${
-        args.property.commitMessage
-        || `Benchmark Commit by ${args.property.authorName}`
-      }`;
-      const lhciScript = spawn(
-        ` cd /tmp && cd ${args.property.auditId} &&
-      export LHCI_BUILD_CONTEXT__CURRENT_HASH=${args.property.auditId} &&
-      export LHCI_BUILD_CONTEXT__COMMIT_TIME="${new Date().toString()}" &&
-      export LHCI_BUILD_CONTEXT__CURRENT_BRANCH="${
-  args.property.currentBranch || process.env.CURRENT_BRANCH
-}" &&
-      export LHCI_BUILD_CONTEXT__COMMIT_MESSAGE="${LHCI_BUILD_CONTEXT_COMMIT_MESSAGE}" &&
-      export LHCI_BUILD_CONTEXT__AUTHOR="${args.property.authorName} <${
-  args.property.authorEmail
-}>" &&
-      export LHCI_BUILD_CONTEXT__AVATAR_URL="${profile.avatar_url}" &&
-      lhci upload  --serverBaseUrl=${
-  args.property.serverBaseUrl || process.env.SERVER_BASE_URL
-} --upload.token=${args.property.buildToken}`,
-        {
-          shell: true,
-        },
-      );
-      lhciScript.stdout.on('data', async (data) => {
-        Logger.info(data.toString());
-        pubsub
-          .publish('AUTORUN', {
-            autorun: args.property.auditId + data.toString(),
-          })
-          .catch((err) => Logger.error(err));
-      });
-
-      lhciScript.stderr.on('data', (data) => {
-        Logger.error(data.toString());
-        pubsub
-          .publish('AUTORUN', {
-            autorun: args.property.auditId + data.toString(),
-          })
-          .catch((err) => Logger.error(err));
-      });
-
-      lhciScript.on('exit', (code) => {
-        Logger.info(`Process exited with code ${code}`);
-        pubsub
-          .publish('AUTORUN', { autorun: args.property.auditId + code })
-          .catch((err) => Logger.error(err));
-      });
-      return args.property.auditId;
+      pubsub.publish('AUTORUN', { autorun: `${lhciBuildContextHash}Started the Audit` })
+        .catch((err) => Logger.error(err));
+      (async () => {
+        const chrome = await chromeLauncher.launch({
+          chromeFlags: [
+            '--headless',
+            ' --no-sandbox',
+            '--ignore-certificate-errors',
+          ],
+          preset: `${args.property.preset || 'perf'}`,
+        });
+        const result = await lighthouse(args.property.sites, {
+          logLevel: 'info',
+          verbose: true,
+          output: 'json',
+          onlyCategories: [
+            'performance',
+            'accessibility',
+            'best-practices',
+            'seo',
+            'pwa',
+          ],
+          port: chrome.port,
+        });
+        const data: any = {};
+        Object.keys(result.lhr.categories).forEach((category: any) => {
+          data[camelCase(category)] = Math.trunc(
+            result.lhr.categories[category].score * 100,
+          );
+        });
+        pubsub.publish('AUTORUN', { autorun: `${lhciBuildContextHash}Results:${JSON.stringify(data)}` })
+          .catch((error: Error) => Logger.error(error));
+        pubsub.publish('AUTORUN', { autorun: `${lhciBuildContextHash}Audit Completed` })
+          .catch((err: Error) => Logger.error(err));
+        await chrome.kill();
+      })();
+      return lhciBuildContextHash;
     },
   },
   Subscription: {

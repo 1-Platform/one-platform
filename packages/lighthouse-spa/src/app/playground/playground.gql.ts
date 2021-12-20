@@ -12,18 +12,6 @@ export const Autorun = gql`
   }
 `;
 
-export const FetchScore = gql`
-  query FetchScore($auditId: String!) {
-    listLHScore(auditId: $auditId) {
-      performance
-      accessibility
-      bestPractices
-      seo
-      pwa
-    }
-  }
-`;
-
 export const VerifyLHProjectDetails = gql`
   query VerifyLHProjectDetails($serverBaseUrl: String, $buildToken: String!) {
     verifyLHProjectDetails(
@@ -99,11 +87,5 @@ export const FetchProjectBranches = gql`
         branch
       }
     }
-  }
-`;
-
-export const Upload = gql`
-  mutation Upload($property: LighthouseInput) {
-    uploadLHReport(property: $property)
   }
 `;

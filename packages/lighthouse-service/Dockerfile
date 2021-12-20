@@ -1,14 +1,13 @@
-FROM cypress/browsers:node14.16.0-chrome89-ff86
+FROM node:14-alpine
 LABEL Name=one-platform-lighthouse-service \
-  Version=0.0.1 \
+  Version=0.0.3 \
   maintainer="mdeshmuk@redhat.com"
 
 # Building the lighthouse microservice
 ADD  . /app
 WORKDIR /app
-
-RUN npm install -g @lhci/cli && \
-  npm install --silent && \
+RUN apk add chromium
+RUN npm install --silent && \
   npm run build
 
 ENV PORT 8080

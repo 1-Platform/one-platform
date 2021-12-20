@@ -6,11 +6,9 @@ import {
   AuditWebsite,
   Autorun,
   VerifyLHProjectDetails,
-  FetchScore,
   FetchProjectLHR,
   FetchProjects,
   FetchProjectBranches,
-  Upload,
 } from './playground.gql';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -41,19 +39,6 @@ export class PlaygroundService extends GraphQLModule {
       .subscribe({ query: Autorun })
       .pipe(map((result: any) => result.data.autorun));
   }
-
-  // Fetch score of the lighthouse result.
-  fetchScore = (auditId) => {
-    return this.apollo
-      .watchQuery<any>({
-        query: FetchScore,
-        variables: {
-          auditId,
-        },
-      })
-      .result()
-      .then((result) => _.cloneDeep(result.data.listLHScore));
-  };
 
   // Fetch & Verify Project details of valid project
   fetchProjects = () => {
@@ -105,17 +90,5 @@ export class PlaygroundService extends GraphQLModule {
       })
       .result()
       .then((result) => _.cloneDeep(result.data));
-  };
-
-  // Upload result to lighthouse server.
-  upload = (property) => {
-    return this.apollo
-      .mutate({
-        mutation: Upload,
-        variables: {
-          property,
-        },
-      })
-      .pipe(map((result: any) => result.data));
   };
 }

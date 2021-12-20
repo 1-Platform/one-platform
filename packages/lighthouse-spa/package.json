@@ -1,9 +1,9 @@
 {
   "name": "lighthouse-spa",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run config -- --environment=dev && ng serve",
     "config": "ts-node set-env.ts",
     "build:dev": "npm run config -- --environment=dev && ng build --watch --base-href /lighthouse/",
     "build": "npm run config -- --environment=prod && ng build --prod --base-href /lighthouse/",
