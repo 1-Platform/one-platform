@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from 'app/shared/shared.module';
 
 import { LeaderboardCardComponent } from './leaderboard-card.component';
 
@@ -8,9 +9,9 @@ describe('LeaderboardCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LeaderboardCardComponent ]
-    })
-    .compileComponents();
+      declarations: [LeaderboardCardComponent],
+      imports: [SharedModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {

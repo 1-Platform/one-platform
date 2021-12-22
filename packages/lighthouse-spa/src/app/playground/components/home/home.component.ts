@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { PlaygroundService } from 'app/playground/playground.service';
 import { Subject, Subscription } from 'rxjs';
@@ -68,10 +67,6 @@ export class HomeComponent implements OnInit {
       class: null,
     },
   ];
-  projects = [];
-  projectBranches = [];
-  isFetchingProjects = false;
-  isFetchingBranches = false;
 
   destroySub: Subject<boolean> = new Subject<boolean>();
 
@@ -99,7 +94,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateProgress();
-    this.fetchProjects();
     window.OpAuthHelper?.onLogin(() => {
       this.router.queryParams
         .pipe(takeUntil(this.destroySub))
@@ -113,13 +107,6 @@ export class HomeComponent implements OnInit {
           }
         });
     });
-
-    this.auditUploadForm
-      .get('project')
-      .valueChanges.pipe(takeUntil(this.destroySub))
-      .subscribe((selectedProject: string) => {
-        this.fetchProjectBranches(selectedProject);
-      });
   }
 
   ngOnDestroy(): void {
@@ -142,16 +129,6 @@ export class HomeComponent implements OnInit {
     const isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };
   }
-
-  verifyProject = async (buildToken: string, projectId: string) => {
-    const res = await this.appService.verifyLHProjectDetails(
-      environment.LH_SERVER_URL,
-      buildToken
-    );
-    if (res.verifyLHProjectDetails?.id !== projectId) {
-      throw Error('Invalid token');
-    }
-  };
 
   updateProgress = (): void => {
     this.appService
@@ -218,27 +195,5 @@ export class HomeComponent implements OnInit {
         }
       });
     });
-  };
-
-  fetchProjects = (): void => {
-    this.isFetchingProjects = true;
-    this.appService
-      .fetchProjects()
-      .then((responses) => {
-        this.projects = responses.listLHProjects.rows;
-      })
-      .finally(() => (this.isFetchingProjects = false));
-  };
-
-  fetchProjectBranches = (projectId: string): void => {
-    if (projectId) {
-      this.isFetchingBranches = true;
-      this.appService
-        .fetchProjectBranches(projectId)
-        .then((responses) => {
-          this.projectBranches = responses.listLHProjectBranches.rows;
-        })
-        .finally(() => (this.isFetchingBranches = false));
-    }
   };
 }

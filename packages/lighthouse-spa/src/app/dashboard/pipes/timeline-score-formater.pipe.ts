@@ -6,14 +6,14 @@ import { LHScoreLabelFormaterPipe } from 'app/shared/pipes/lhscore-label-formate
   name: 'timelineScoreFormater',
 })
 export class TimelineScoreFormaterPipe implements PipeTransform {
+  formatDate = new DatePipe(this.locale);
   constructor(@Inject(LOCALE_ID) private locale: string) {}
 
   parseTimeLineForAScoreType(scoreType: string, branch: ProjectBranch[]) {
-    const formatDate = new DatePipe(this.locale);
     return branch
       .filter(({ score }) => Boolean(score)) // filter out null score
       .map(({ score, updatedAt }) => ({
-        name: formatDate.transform(updatedAt, 'MMM-dd, h:mm'),
+        name: this.formatDate.transform(updatedAt, 'MMM-dd, h:mm'),
         value: score?.[scoreType] || 0,
       }));
   }

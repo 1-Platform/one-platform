@@ -1,16 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 
 import { EmptyStateComponent } from './empty-state.component';
 
 describe('EmptyStateComponent', () => {
   let component: EmptyStateComponent;
   let fixture: ComponentFixture<EmptyStateComponent>;
+  const mockTitle = 'empty state';
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EmptyStateComponent ]
-    })
-    .compileComponents();
+      declarations: [EmptyStateComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -22,4 +27,12 @@ describe('EmptyStateComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have title', fakeAsync(() => {
+    component.title = mockTitle;
+    tick();
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain(mockTitle);
+  }));
 });

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { SharedModule } from 'app/shared/shared.module';
@@ -26,6 +26,7 @@ describe('HomeComponent', () => {
         FormsModule,
         SharedModule,
         ApolloTestingModule,
+        ReactiveFormsModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
