@@ -50,7 +50,7 @@ module.exports = {
             },
             {
               label: 'Contact Us',
-              href: 'https://beta.one.redhat.com/contact-us.html',
+              href: 'https://one.redhat.com/contact-us',
             },
           ],
         },
@@ -76,7 +76,7 @@ module.exports = {
           items: [
             {
               label: 'Report an Issue',
-              href: 'https://beta.one.redhat.com/feedback',
+              href: 'https://one.redhat.com/feedback',
             },
             {
               label: 'FAQs',
