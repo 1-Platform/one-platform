@@ -38,7 +38,7 @@
   "scripts": {
     "clean:reports": "rm -R -f e2e/reports && mkdir e2e/reports",
     "pretest": "npm run clean:reports ",
-    "test:e2e": "cypress run -b chromium --headless",
+    "test:e2e": "cypress run --headless",
     "test:e2e:browser": "cypress open",
     "combine-reports": "mochawesome-merge --reportDir e2e/reports > e2e/reports/mochareports/report.json",
     "generate-report": "marge e2e/reports/mochareports/report.json -f report -o e2e/reports/mochareports",
@@ -56,7 +56,7 @@
     "@typescript-eslint/eslint-plugin": "4.32.0",
     "@typescript-eslint/parser": "4.32.0",
     "bats": "1.4.1",
-    "cypress": "6.5.0",
+    "cypress": "7.6.0",
     "cypress-multi-reporters": "1.4.0",
     "cypress-shadow-dom": "^1.4.1",
     "eslint": "7.32.0",
@@ -73,6 +73,7 @@
   },
   "dependencies": {
     "@spaship/cli": "0.14.0",
+    "browserstack-cypress-cli": "^1.11.0",
     "faker": "^5.5.3"
   },
   "main": "platform.js"

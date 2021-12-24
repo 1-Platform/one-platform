@@ -2,6 +2,7 @@
 context( 'Test feedback form', () => {
 
     before( () => {
+        cy.viewport( 1280, 720 );
         cy.visit( Cypress.env( 'QA_HOST' ) );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );

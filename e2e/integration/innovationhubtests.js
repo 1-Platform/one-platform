@@ -1,6 +1,7 @@
 context( 'Test for Innovation Hub', () => {
 
     before( () => {
+        cy.viewport( 1280, 720 );
         cy.visit( Cypress.env( 'QA_HOST' ) + 'ideas/' );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
@@ -11,6 +12,7 @@ context( 'Test for Innovation Hub', () => {
     } );
 
     it( 'Test for post a new idea', () => {
+        cy.wait(2000)
         cy.contains( 'Post a new idea!', { timeout: 5000 } ).click();
         cy.get( '#title' ).type( 'e2e test automation' );
         cy.get( '#description' ).type( 'e2e test automation' );
