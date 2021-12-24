@@ -1,0 +1,48 @@
+{
+    "auth": {
+        "username": "muditmaheshwari_KaOg3o",
+        "access_key": "xGn8cDFWCUqcd1zhqYm1"
+    },
+"browsers": [{
+      "browser": "chrome",
+      "os": "Windows 10",
+      "versions": ["latest", "latest - 1"]
+    },
+    {
+      "browser": "firefox",
+      "os": "OS X Mojave",
+      "versions": ["latest", "latest - 1"]
+    },
+    {
+      "browser": "edge",
+      "os": "OS X Catalina",
+      "versions": ["latest"]
+    }
+  ],
+
+    "run_settings": {
+        "cypress_version":"7.6.0",
+        "cypress_config_file": "./cypress.json",
+        "project_name": "one-platform",
+        "build_name":"Build no 1",
+        "exclude": [],
+        "parallels": "5",
+        "npm_dependencies": {
+            "cypress": "7.6.0",
+    "cypress-multi-reporters": "1.4.0",
+    "cypress-shadow-dom": "^1.4.1",
+    "mocha": "8.3.0",
+    "mochawesome": "6.2.2",
+    "mochawesome-merge": "4.2.0",
+    "mochawesome-report-generator": "5.2.0"
+
+        },
+        "package_config_options": {},
+        "headless": true
+    },
+    "connection_settings": {
+        "local": true,
+        "local_mode": "always-on"
+    },
+    "disable_usage_reporting": false
+}
