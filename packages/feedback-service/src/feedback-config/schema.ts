@@ -4,7 +4,7 @@ import {
 
 export const FeedbackConfigSchema: Schema = new Schema({
   appId: { type: String },
-  isEnabled: { type: Boolean, default: false },
+  isEnabled: { type: Boolean, default: true },
   sourceType: { type: String, enum: ['JIRA', 'GITLAB', 'GITHUB', 'EMAIL'] },
   sourceApiUrl: { type: String },
   sourceHeaders: [
@@ -13,8 +13,8 @@ export const FeedbackConfigSchema: Schema = new Schema({
       value: { type: String },
     },
   ],
-  projectKey: { type: String },
-  feedbackEmail: { type: String },
+  projectKey: { type: String, default: 'ONEPLAT' },
+  feedbackEmail: { type: String, default: 'one-portal-devel+feedback@redhat.com' },
 });
 
 interface FeedbackConfigModel extends FeedbackConfigType, Document { }

@@ -9,7 +9,7 @@ const FeedbackConfigResolver = {
         .then((response: any) => response)
         .catch((error: Error) => error);
     },
-    listFeedbackConfigById(
+    getFeedbackConfigById(
       root: any,
       { id }: QueryListFeedbackConfigByIdArgs,
       ctx: any,
@@ -19,7 +19,7 @@ const FeedbackConfigResolver = {
         .then((response: any) => response)
         .catch((error: Error) => error);
     },
-    listFeedbackConfigByAppId(
+    getFeedbackConfigByAppId(
       root: any,
       { appId }: QueryListFeedbackConfigByAppIdArgs,
       ctx: any,
