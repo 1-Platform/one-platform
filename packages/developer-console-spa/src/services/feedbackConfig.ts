@@ -1,25 +1,51 @@
-import { updateApp } from '../utils/gql-queries';
-import gqlClient from '../utils/gqlClient';
+import {
+  CreateFeedbackConfig,
+  UpdateFeedbackConfig,
+} from "../utils/gql-queries";
+import gqlClient from "../utils/gqlClient";
 
-export const updateFeedbackConfigService = async ( id: string, feedback: Partial<App.FeedbackConfig> ) => {
-  return gqlClient( {
-    query: updateApp,
+export const createFeedbackConfigService = async (
+  payload: Partial<FeedbackConfig>
+) => {
+  return gqlClient({
+    query: CreateFeedbackConfig,
+    variables: {
+      payload,
+    },
+  })
+    .then((res) => {
+      if (res.errors && !res?.data?.createFeedbackConfig) {
+        const errMessage = res.errors.map((err: any) => err.message).join(", ");
+        throw new Error(errMessage);
+      }
+      return res.data.createFeedbackConfig;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const updateFeedbackConfigService = async (
+  id: string,
+  payload: Partial<FeedbackConfig>
+) => {
+  return gqlClient({
+    query: UpdateFeedbackConfig,
     variables: {
       id,
-      app: {
-        feedback
+      payload,
+    },
+  })
+    .then((res) => {
+      if (res.errors && !res?.data?.updateFeedbackConfig) {
+        const errMessage = res.errors.map((err: any) => err.message).join(", ");
+        throw new Error(errMessage);
       }
-    }
-  } )
-    .then( res => {
-      if ( res.errors && !res?.data?.updateApp ) {
-        const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
-        throw new Error( errMessage );
-      }
-      return res.data.updateApp;
-    } )
-    .catch( err => {
-      console.error( err );
+      return res.data.updateFeedbackConfig;
+    })
+    .catch((err) => {
+      console.error(err);
       throw err;
-    } );
-}
+    });
+};
