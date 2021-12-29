@@ -2,6 +2,7 @@ import { apps } from "../helper/apps.list";
 context( 'Test for SSI', () => {
 
     before( () => {
+        cy.viewport(Cypress.env('width'), Cypress.env('height') );
         cy.visit( Cypress.env( 'QA_HOST' ) );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
