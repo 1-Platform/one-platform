@@ -1,7 +1,7 @@
 context( 'Test for Innovation Hub', () => {
 
     before( () => {
-        cy.viewport( 1280, 720 );
+  cy.viewport(Cypress.env('width'), Cypress.env('height') );
         cy.visit( Cypress.env( 'QA_HOST' ) + 'ideas/' );
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );

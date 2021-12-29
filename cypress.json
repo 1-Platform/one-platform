@@ -16,5 +16,10 @@
             "html":false,
             "json":true
         }
-    }
+    },
+     "env": {
+    "width": 1280,
+    "height": 720
+  }
+
 }
