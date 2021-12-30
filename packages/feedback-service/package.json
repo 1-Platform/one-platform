@@ -44,7 +44,7 @@
     "clean-webpack-plugin": "3.0.0",
     "cookie-parser": "1.4.5",
     "cors": "2.8.5",
-    "dotenv": "8.6.0",
+    "dotenv": "10.0.0",
     "dotenv-safe": "8.2.0",
     "ejs": "3.1.6",
     "errorhandler": "1.5.1",
