@@ -60,7 +60,7 @@
     "cypress-multi-reporters": "1.4.0",
     "cypress-shadow-dom": "^1.4.1",
     "eslint": "7.32.0",
-    "eslint-config-standard": "14.1.1",
+    "eslint-config-standard": "16.0.3",
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
