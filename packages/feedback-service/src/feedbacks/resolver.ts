@@ -13,7 +13,6 @@
  * Last modified  : 2021-06-28 17:21:06
  */
 import * as _ from 'lodash';
-import pickBy from 'lodash/pickBy';
 import { Types } from 'mongoose';
 import { Feedback } from './schema';
 import FeedbackHelper from './helpers';
@@ -167,7 +166,7 @@ const FeedbackResolver = {
             response,
             userData,
           );
-          // FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
+          FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
           return response;
         })
         .catch((error: Error) => error);
@@ -180,6 +179,11 @@ const FeedbackResolver = {
     },
     async deleteFeedback(root: any, { id }: any, ctx: any) {
       const feedback = await Feedback.findByIdAndRemove(id).exec();
+      const input = {
+        dataSource: 'oneportal',
+        documents: [{ id }],
+      };
+      FeedbackHelper.manageSearchIndex(input, "delete");
       if (!feedback) return null;
       return feedback;
     },
