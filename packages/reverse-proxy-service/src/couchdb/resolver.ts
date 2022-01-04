@@ -16,7 +16,7 @@ export default function resolver(
   role.push("user:" + uid, "user:" + rhatUUID, "op-users");
 
   const token = createHmac("sha1", COUCHDB_SECRET as string)
-    .update(uid)
+    .update( uid )                                      // lgtm[js/weak-cryptographic-algorithm]
     .digest("hex");
 
   const proxy = createProxyMiddleware({

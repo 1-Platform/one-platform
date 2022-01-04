@@ -5,6 +5,8 @@ A simple express server that acts as a reverse-proxy/authentication layer for so
 Currently, the reverse-proxy contains middleware rules for:
 
 - CouchDB: An open-source document-oriented NoSQL database.
+- Keycloak Auth: An auth middleware to apply Keycloak SSO Auth to some restricted URLs
+- A no-cors proxy middleware: Used for API Catalog
 
 ## License
 

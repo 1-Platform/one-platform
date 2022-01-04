@@ -20,7 +20,7 @@ const jwtAuth = (req: Request, res: Response, next: NextFunction): void => {
     } else {
       throw new Error(`Authentication method not supported`);
     }
-  } catch (err) {
+  } catch (err: any) {
     res.status(403).json({ error: err.message });
   }
 };
