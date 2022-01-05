@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
+import map from 'lodash/map';
+import groupBy from 'lodash/groupBy';
+import compact from 'lodash/compact';
 import { AppService } from 'src/app/app.service';
 
 @Component({
@@ -9,6 +17,8 @@ import { AppService } from 'src/app/app.service';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
+  @ViewChild('filterSelect') filterSelect: ElementRef;
+
   searchResults: SearchResponseType;
   sliceLimit = 10;
   appsStats: any[] = [];
@@ -47,6 +57,18 @@ export class SearchComponent implements OnInit {
     await this.generateAppFilter();
   }
 
+  /**
+   * This is used to check application filter multi-select dropdown closing
+   * Reference: https://medium.com/ekohe/dismissing-a-react-dropdown-menu-by-clicking-outside-its-container-7fe9f31a6767
+   */
+  @HostListener('document:click', ['$event'])
+  onDocClick(ev: Event) {
+    const filterSelect = this.filterSelect.nativeElement;
+    if (filterSelect && !filterSelect.contains(ev.target)) {
+      this.appFilterActive = false;
+    }
+  }
+
   search = (query, start, rows) => {
     const startTime = new Date().getTime();
     return this.appService.search(query, start, rows).then((searchResponse) => {
@@ -66,7 +88,7 @@ export class SearchComponent implements OnInit {
     this.searchResults?.response?.docs?.map((res) => {
       this.appsStats.push(res.content_type);
     });
-    this.appsList = _.map(_.groupBy(this.appsStats), (value, key): any => {
+    this.appsList = map(groupBy(this.appsStats), (value, key): any => {
       return {
         content_type: key,
         icon: this.searchResults?.response?.docs?.filter(
@@ -89,7 +111,7 @@ export class SearchComponent implements OnInit {
   };
 
   selectedApps = (): void => {
-    this.filteredApps = _.compact(
+    this.filteredApps = compact(
       this.appsList.map((app) => {
         if (app.selected) {
           return app.content_type;
