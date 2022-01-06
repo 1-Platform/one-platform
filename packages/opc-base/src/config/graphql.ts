@@ -23,6 +23,7 @@ export class APIService {
     this._wsLink = new SubscriptionClient(this._subscriptionsPath, {
       reconnect: true,
       connectionParams: () => ({ ...this._headers }),
+      minTimeout: 5000,
     });
     this.gqlClient = this.gqlInit();
   }

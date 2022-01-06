@@ -325,7 +325,6 @@ export class OpcProvider extends LitElement {
     this.opcMenuDrawer.links = [
       {
         title: "Applications",
-        isSearchable: true,
         links: apps
           .filter(({ applicationType }) => applicationType === "HOSTED")
           .map(({ name, path, isActive }) => ({
