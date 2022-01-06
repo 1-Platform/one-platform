@@ -42,7 +42,6 @@ export const SUBSCRIBE_NOTIFICATION = gql`
 export const CREATE_FEEDBACK = gql`
   mutation CreateFeedback($input: FeedbackInput!) {
     createFeedback(input: $input) {
-      _id
       ticketUrl
     }
   }
