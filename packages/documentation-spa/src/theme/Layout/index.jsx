@@ -66,7 +66,6 @@ function Layout(props) {
   return (
     <Providers>
       <Head>
-        {/* TODO: Do not assume that it is in english language */}
         <html lang="en" />
 
         {metaTitle && <title>{metaTitle}</title>}

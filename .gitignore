@@ -69,3 +69,5 @@ cypress/
 
 #environment variables
 *.env.json
+
+.idea
