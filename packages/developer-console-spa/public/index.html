@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Web site created using create-react-app" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -14,9 +16,11 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!-- Ionicons -->
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"
+    <script
+      src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"
       integrity="sha384-91eTn+dSetR0hKL4tQcexLB37O10IRrVo4AKvtSd0t16bLVsLLQiigN9ykASLTqG"
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -27,38 +31,56 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Developer Console</title>
-  </head>
-
-  <body>
-    <!-- #region NavBar -->
-    <script src="https://unpkg.com/@one-platform/opc-nav@0.0.3-prerelease/dist/opc-nav.js"
-      integrity="sha384-N/XXcy88sqNtDwdswFWIfew+ecxOGnny+j0CR7Bn/deliGg49PgoBVrK8IeHjrAI"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-menu-drawer@0.1.1-prerelease/dist/opc-menu-drawer.js"
-      integrity="sha384-lnyGND2Ba53ZPH1nFlneXIaszATrkbsa6EIqHY4TRhli1gGCD1HpCCLn9s6CeO2F"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-feedback@0.0.9-prerelease/dist/opc-feedback.js"
-      integrity="sha384-2rFZX1TmlNqGFKNQ7pcks2ddrToaIcGPGvN758FNeeUTg57uk8xJrZMiaygSTjhn"
-      crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
     <script
-      src="https://unpkg.com/@one-platform/opc-notification-drawer@0.1.1-prerelease/dist/opc-notification-drawer.js"
-      integrity="sha384-+io26hmt/nqCeER9grOX5NMUBURFWMcAG4CV80Eb1C78tkW4HEmE7H1MM6Ne82sB"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-base@1.1.1-beta/dist/umd/opc-base.js"
-      integrity="sha384-RJTWG6gAshj4ygraq79jKDiIEBtnUb6YqUQgVdarbrDE+gx6YMg3eDt1unDlOW9B"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@one-platform/opc-base@1.1.1-beta/dist/umd/opc-provider.js"
-      integrity="sha384-9A8f4mk6CGQDY++3pwUq3x5mGOPexK9d8fuRA2Dr21P++qkNwtl51IqZS+8Fvsxf"
-      crossorigin="anonymous"></script>
+      src="https://unpkg.com/@one-platform/opc-nav@0.0.4-prerelease/dist/opc-nav.js"
+      integrity="sha384-3V899EyWDdVFcXZjgNjZNDbTLciCZ+EMmniUFMwijYwepFA3RJX3FqIHUKRHy/zY"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://unpkg.com/@one-platform/opc-menu-drawer@0.2.2-prerelease/dist/opc-menu-drawer.js"
+      integrity="sha384-wEtBNoLc5JFZEyDS8whrBMK6aV0gbGG4FV+YIo3LhGSzoC//g1Qp5PPAwWJmeg1A"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://unpkg.com/@one-platform/opc-feedback@0.0.10-prerelease/dist/opc-feedback.js"
+      integrity="sha384-AH+OgTmX8gp49M9W7oqGwMCVl98k1JBBGvpLfn80Ws5Z923vDa6HXKzQdBXQKb2u"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://unpkg.com/@one-platform/opc-notification-drawer@0.1.3-prerelease/dist/opc-notification-drawer.js"
+      integrity="sha384-A+qgRjIalaYugVHRmgJhIdF2f9bczb8M//5D5wa7KwjQ8po83pfy9yYsuC5yBrg7"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://unpkg.com/@one-platform/opc-base@1.1.5-beta/dist/umd/opc-base.js"
+      integrity="sha384-ASygq8hTB2fzRmsj592afrUnabfiwqMVOg2r0gdZfLG8EpjSZoWaHmgfhH4xGALS"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://unpkg.com/@one-platform/opc-base@1.1.5-beta/dist/umd/opc-provider.js"
+      integrity="sha384-04g7C0jKhCyxpPn2kl+G4T3rUp7uMGRjZYcv43u2dg2Xw7+9dfYv3NBa4J4mHhYO"
+      crossorigin="anonymous"
+    ></script>
+
     <script>
-      opcBase.configure( {
+      opcBase.configure({
         apiBasePath: "%REACT_APP_API_URL%",
         subscriptionsPath: "%REACT_APP_OP_SUBSCRIPTIONS_URL%",
         keycloakUrl: "%REACT_APP_KEYCLOAK_IDP_URL%",
         keycloakClientId: "%REACT_APP_KEYCLOAK_CLIENT_ID%",
         keycloakRealm: "%REACT_APP_KEYCLOAK_REALM%",
-      } );
+      });
     </script>
+  </head>
+
+  <body>
+    <!-- #region NavBar -->
     <opc-provider>
       <opc-nav></opc-nav>
       <opc-menu-drawer></opc-menu-drawer>
@@ -69,5 +91,4 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
-
 </html>
