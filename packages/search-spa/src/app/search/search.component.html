@@ -10,7 +10,7 @@
         </div>
         <!-- App filters -->
         <div class="pf-l-grid__item pf-m-2-col pf-u-mt-xl" *ngIf="searchResults?.response?.numFound !== 0">
-          <div class="pf-c-select pf-m-expanded search-filter__width">
+          <div class="pf-c-select pf-m-expanded search-filter__width" #filterSelect>
             <button class="pf-c-select__toggle" type="button" id="select-checkbox-expanded-toggle" aria-haspopup="true"
               aria-expanded="true" aria-labelledby="select-checkbox-expanded-label select-checkbox-expanded-toggle"
               (click)="appFilterActive=!appFilterActive">
@@ -39,7 +39,7 @@
         </div>
         <!-- Sort -->
         <div class="pf-l-grid__item pf-m-2-col pf-u-mt-xl pf-u-ml-xl" *ngIf="searchResults?.response?.numFound !== 0">
-          <div class="pf-c-select pf-m-expanded search-filter__width">
+          <div class="pf-c-select pf-m-expanded search-filter__width" tabindex="1">
             <button class="pf-c-select__toggle" type="button" id="select-checkbox-expanded-toggle" aria-haspopup="true"
               aria-expanded="true" aria-labelledby="select-checkbox-expanded-label select-checkbox-expanded-toggle"
               (click)="appSortActive=!appSortActive">
@@ -54,7 +54,7 @@
               <fieldset class="pf-c-select__menu-fieldset" aria-label="Select input">
                 <label *ngFor="let sort of this.sortList;" class="pf-c-check pf-c-select__menu-item"
                   for="select-checkbox-expanded-active"
-                  (click)="orderFilter(sort.filter, sort.name);appSortActive=false;">
+                  (mousedown)="orderFilter(sort.filter, sort.name);appSortActive=false;">
                   <span class="pf-c-check__label">{{sort.name}}
                   </span>
                 </label>
@@ -114,8 +114,7 @@
       <!-- View if no results -->
       <div *ngIf="searchResults?.response?.numFound === 0">
         <div class="pf-m-height-100 search-no-result">
-          <img src="./assets/no_search_result.svg"
-            class="pf-u-pt-sm pf-u-display-block pf-u-ml-auto pf-u-mr-auto" />
+          <img src="./assets/no_search_result.svg" class="pf-u-pt-sm pf-u-display-block pf-u-ml-auto pf-u-mr-auto" />
           <p class="pf-u-mt-md pf-u-text-align-center"><span>Can't find anything related to <b>{{ query }}</b> on one
               platform.</span>
             <br /><span>Would you like to tell us about it?.</span>
