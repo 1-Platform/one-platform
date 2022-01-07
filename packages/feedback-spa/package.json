@@ -1,6 +1,6 @@
 {
   "name": "feedback-spa",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "serve": "PORT=4200 vue-cli-service serve",

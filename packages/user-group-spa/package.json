@@ -1,6 +1,6 @@
 {
   "name": "user-group-spa",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "This package contains the react app for the One Platform User Group SPA",
   "keywords": [
@@ -26,6 +26,7 @@
     "@one-platform/opc-header": "0.0.2-prerelease",
     "@patternfly/react-core": "4.135.0",
     "@patternfly/react-table": "4.29.0",
+    "@sentry/react": "^6.16.1",
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "11.2.7",
     "@testing-library/user-event": "12.8.3",
