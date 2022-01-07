@@ -1,141 +1,230 @@
 /* Mock */
-import mock from './mock.json';
+import supertest from 'supertest';
+import mock from './mock';
 import Feedback from '../../service';
 
 /* Supertest */
-import supertest from 'supertest';
 
 let request: supertest.SuperTest<supertest.Test>;
 const query = `
+fragment feedbackType on FeedbackType {
+    id
+    summary
+    experience
+    module
+    ticketUrl
+    state
+    assignee {
+      name
+      email
+    }
+    createdBy
+  }
+
+fragment paginatedFeedbackType on PaginatedFeedbackType {
+  count
+  data {
+    ...feedbackType
+  }
+}
+
+fragment feedbackConfigType on FeedbackConfigType {
+  id
+  appId
+  feedbackEmail
+  id
+  projectKey
+  sourceApiUrl
+  sourceHeaders {
+    key
+    value
+  }
+  sourceType
+}
+
 query ListFeedbacks {
   listFeedbacks {
-      _id
-      summary
-      experience
-      module
-      source
-      ticketUrl
-      state
-      assignee {
-        name
-        email
-      }
-      createdBy {
-        name
-        rhatUUID
-      }
-    }
+    ...paginatedFeedbackType
   }
+}
 
-  query ListFeedback($_id: ID) {
-    listFeedback(_id: $_id) {
-      _id
-      summary
-      experience
-      module
-      source
-      ticketUrl
-      state
-      assignee {
-        name
-        email
-      }
-      createdBy {
-        name
-        rhatUUID
-      }
-    }
+query GetFeedbackBy($id: ID) {
+  getFeedbackBy(id: $id) {
+    ...paginatedFeedbackType
   }
+}
 
-  mutation CreateFeedback($input: FeedbackInput!) {
-    createFeedback(input: $input) {
-      _id
-      summary
-      experience
-      module
-      source
-      ticketUrl
-      state
-      assignee {
-        name
-        email
-      }
-      createdBy {
-        name
-        rhatUUID
-      }
-    }
+mutation CreateFeedback($input: FeedbackInput!) {
+  createFeedback(input: $input) {
+    ...feedbackType
   }
+}
 
-  mutation DeleteFeedback($_id: ID!) {
-    deleteFeedback(_id: $_id) {
-      _id
-    }
+mutation DeleteFeedback($id: ID!) {
+  deleteFeedback(id: $id) {
+    ...feedbackType
   }
+}
+
+query ListFeedbackConfigs {
+  listFeedbackConfigs {
+    ...feedbackConfigType
+  }
+}
+
+mutation CreateFeedbackConfig($payload: FeedbackConfigInput!){
+  createFeedbackConfig(payload: $payload) {
+    ...feedbackConfigType
+  }
+}
+
+mutation UpdateFeedbackConfig($id:ID, $payload: FeedbackConfigInput!){
+  updateFeedbackConfig(id:$id,payload: $payload) {
+    ...feedbackConfigType
+  }
+}
+
+mutation DeleteFeedbackConfig($id:ID!){
+  deleteFeedbackConfig(id:$id) {
+    ...feedbackConfigType
+  }
+}
 `;
 
 beforeAll(() => {
   request = supertest.agent(Feedback);
 });
-afterAll(done => {
-  return Feedback.close(done);
-});
+afterAll(() => Feedback.close());
 
 describe('Feedback microservice API Test', () => {
-  it('addFeedback should create a feedback', done => {
+  it('CreateFeedbackConfig should create an Feedback Config', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
+        operationName: 'CreateFeedbackConfig',
+        variables: {
+          payload: mock.feedbackConfigMock,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('createFeedbackConfig');
+        expect(res.body.data.createFeedbackConfig).toHaveProperty('appId', mock.feedbackConfigMock.appId);
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
+
+  it('ListFeedbackConfigs should return all Feedback Configs', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'ListFeedbackConfigs',
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data.listFeedbackConfigs[0]).toHaveProperty('appId');
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
+
+  it('createFeedback should create a feedback', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
         operationName: 'CreateFeedback',
         variables: {
-          input: mock
-        }
+          input: mock.feedbackMock,
+        },
       })
-      .expect(res => {
+      .expect((res) => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('createFeedback');
-        expect(res.body.data.createFeedback).toHaveProperty('_id', mock._id);
       })
-      .end((err, res) => {
+      .end((err) => {
         done(err);
       });
   });
 
-  it('List should return all Feedbacks', done => {
+  it('List should return all Feedbacks', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
-        operationName: 'ListFeedbacks'
+        query,
+        operationName: 'GetFeedbackBy',
       })
-      .expect(res => {
+      .expect((res) => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
-        expect(res.body.data.listFeedbacks[0]).toHaveProperty('_id');
-        expect(res.body.data.listFeedbacks[0]).toHaveProperty('summary');
-        expect(res.body.data.listFeedbacks[0]).toHaveProperty('experience');
       })
-      .end((err, res) => {
+      .end((err) => {
         done(err);
       });
   });
 
-  it('deleteFeedback should delete a feedback', done => {
+  it('deleteFeedback should delete a feedback', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'DeleteFeedback',
-        variables: { _id: mock._id}
+        variables: { id: mock.feedbackMock.id },
       })
-      .expect(res => {
+      .expect((res) => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('deleteFeedback');
       })
-      .end((err, res) => {
+      .end((err) => {
+        done(err);
+      });
+  });
+
+  it('UpdateFeedbackConfig should update a Feedback Config', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'UpdateFeedbackConfig',
+        variables: {
+          id: mock.feedbackConfigMock.id,
+          payload: mock.feedbackConfigMock,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('updateFeedbackConfig');
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
+  it('DeleteFeedbackConfig should delete a feedback config', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'DeleteFeedbackConfig',
+        variables: {
+          id: mock.feedbackConfigMock.id,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('deleteFeedbackConfig');
+      })
+      .end((err) => {
         done(err);
       });
   });
