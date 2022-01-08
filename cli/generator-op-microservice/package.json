@@ -25,12 +25,12 @@
     "yeoman-test": "3.0.0",
     "yeoman-assert": "3.1.1",
     "eslint": "7.32.0",
-    "prettier": "2.4.1",
+    "prettier": "2.5.1",
     "husky": "5.2.0",
     "lint-staged": "10.5.4",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.1",
-    "eslint-config-xo": "0.38.0",
+    "eslint-config-xo": "0.39.0",
     "jest": "26.6.3"
   },
   "engines": {
