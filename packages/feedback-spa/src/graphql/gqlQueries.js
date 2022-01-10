@@ -2,31 +2,26 @@ import gql from 'graphql-tag'
 
 export const ListFeedbacks = gql`
   query ListFeedbacks {
-  listFeedbacks {
-    _id
-    summary
-    module
-    description
-    experience
-    error
-    ticketUrl
-    state
-    source
-    category
-    assignee {
-      name
-      email
-      url
+    listFeedbacks {
+      data {
+        id
+        summary
+        module
+        description
+        experience
+        error
+        ticketUrl
+        state
+        source
+        category
+        assignee {
+          name
+          email
+        }
+        createdBy
+        createdOn
+        updatedOn
+      }
     }
-    createdBy {
-      name
-      uid
-    }
-    updatedBy {
-      name
-      uid
-    }
-    createdOn
-    updatedOn
   }
-}`
+`

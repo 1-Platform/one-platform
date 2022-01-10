@@ -136,7 +136,7 @@
           <div class="pf-u-mt-sm pf-l-grid pf-m-gutter">
             <div class=" pf-m-6-col">
               Created By
-              <p><a v-bind:href="`mailto:${selectedFeedback.createdBy.uid}@redhat.com`">{{selectedFeedback.createdBy.name || 'N/A'}}</a></p>
+              <p>{{selectedFeedback.createdBy || 'N/A'}}</p>
             </div>
 
             <div class=" pf-m-6-col">
@@ -226,7 +226,7 @@ export default {
       query: ListFeedbacks
     }).then(response => {
       this.loading = response.loading
-      return response.data.listFeedbacks
+      return response.data.listFeedbacks.data
     })
     this.feedbackStats = [
       {
@@ -297,7 +297,7 @@ export default {
             regex.test(feedback?.state) ||
             regex.test(feedback?.source) ||
             regex.test(feedback?.category) ||
-            !!(feedback?.createdBy && (regex.test(feedback?.createdBy?.name) || regex.test(feedback?.createdBy?.uid))) ||
+            !!(feedback?.createdBy && (regex.test(feedback?.createdBy) || regex.test(feedback?.createdBy))) ||
             !!(feedback?.assignee && (regex.test(feedback?.assignee?.name) || regex.test(feedback?.assignee?.email) || regex.test(feedback?.assignee?.url)))
           )
         })
