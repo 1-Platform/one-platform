@@ -17,3 +17,5 @@ export * from './search-users';
 export * from './upadte-app-permissions';
 export * from './get-user-by';
 export * from './manage-app-database';
+export * from './create-feedback-config';
+export * from './update-feedback-config';
