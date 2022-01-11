@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* Supertest */
 import supertest from 'supertest';
 import Search from '../../service';
@@ -99,16 +100,14 @@ query Search($query: String, $start: Int, $rows: Int) {
 beforeAll(() => {
   request = supertest.agent(Search);
 });
-afterAll((done) => {
-  return Search.close(done);
-});
+afterAll(() => Search.close());
 
 describe('Search microservice API Test', () => {
   it('search should return a test search response', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'Search',
         variables: {
           query: 'lorem',
@@ -121,16 +120,14 @@ describe('Search microservice API Test', () => {
         expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('search');
       })
-      .end((err, res) => {
-        done(err);
-      });
+      .end((err) => done(err));
   });
 
   it('createUpdateIndex should create/update the search record in solr index', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'CreateUpdateIndex',
         variables: {
           input: mock.searchIndexMock,
@@ -142,16 +139,14 @@ describe('Search microservice API Test', () => {
         expect(res.body.data).toHaveProperty('createUpdateIndex');
         expect(res.body.data.createUpdateIndex).toHaveProperty('status');
       })
-      .end((err, res) => {
-        done(err);
-      });
+      .end((err) => done(err));
   });
 
   it('DeleteIndex should delete the search record in solr index', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'DeleteIndex',
         variables: {
           input: mock.searchIndexMock,
@@ -163,16 +158,14 @@ describe('Search microservice API Test', () => {
         expect(res.body.data).toHaveProperty('deleteIndex');
         expect(res.body.data.deleteIndex).toHaveProperty('status');
       })
-      .end((err, res) => {
-        done(err);
-      });
+      .end((err) => done(err));
   });
 
   it('CreateSearchMap should create the map record in search config', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'CreateSearchMap',
         variables: {
           input: mock.searchMapMock,
@@ -180,19 +173,17 @@ describe('Search microservice API Test', () => {
       })
       .expect((res) => {
         expect(res.body).not.toHaveProperty('errors');
-        expect( res.body ).toHaveProperty( 'data' );
+        expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('createSearchMap');
       })
-      .end((err, res) => {
-        done(err);
-      });
+      .end((err) => done(err));
   });
 
   it('ListSearchMap should list the search config in search config', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'ListSearchMap',
         variables: null,
       })
@@ -200,36 +191,32 @@ describe('Search microservice API Test', () => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
       })
-      .end((err, res) => {
-        done(err);
-      });
-  } );
+      .end((err) => done(err));
+  });
 
   it('GetSearchMap should list the search config in search config', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'GetSearchMap',
         variables: {
-          _id: mock.searchMapMock._id
+          _id: mock.searchMapMock._id,
         },
       })
       .expect((res) => {
         expect(res.body).not.toHaveProperty('errors');
-        expect( res.body ).toHaveProperty( 'data' );
+        expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('getSearchMap');
       })
-      .end((err, res) => {
-        done(err);
-      });
+      .end((err) => done(err));
   });
 
   it('UpdateSearchMap should update the map record in search config', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'UpdateSearchMap',
         variables: {
           input: mock.searchMapMock,
@@ -237,19 +224,17 @@ describe('Search microservice API Test', () => {
       })
       .expect((res) => {
         expect(res.body).not.toHaveProperty('errors');
-        expect( res.body ).toHaveProperty( 'data' );
+        expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('updateSearchMap');
       })
-      .end((err, res) => {
-        done(err);
-      });
+      .end((err) => done(err));
   });
 
   it('DeleteSearchMap should delete the map record in search config', (done) => {
     request
       .post('/graphql')
       .send({
-        query: query,
+        query,
         operationName: 'DeleteSearchMap',
         variables: {
           _id: mock.searchMapMock._id,
@@ -257,12 +242,10 @@ describe('Search microservice API Test', () => {
       })
       .expect((res) => {
         expect(res.body).not.toHaveProperty('errors');
-        expect( res.body ).toHaveProperty( 'data' );
-        expect( res.body.data ).toHaveProperty( 'deleteSearchMap' );
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('deleteSearchMap');
         expect(res.body.data.deleteSearchMap).toHaveProperty('_id', mock.searchMapMock._id);
       })
-      .end((err, res) => {
-        done(err);
-      });
+      .end((err) => done(err));
   });
 });

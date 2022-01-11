@@ -8,12 +8,12 @@
  */
 
 import { config } from 'dotenv-safe';
-if ( process.env.NODE_ENV === 'test' ) {
-  config( { path: '.test.env' } );
-} else {
-  config( { path: '.env' } );
-}
 
+if (process.env.NODE_ENV === 'test') {
+  config({ path: '.test.env' });
+} else {
+  config({ path: '.env' });
+}
 
 export const NODE_ENV = process.env.NODE_ENV ?? 'local';
 export const PORT = process.env.PORT ?? 8080;

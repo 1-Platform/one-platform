@@ -17,15 +17,15 @@ declare type SearchMap = {
   /**
    * Authorization config for the Search API
    */
-  authorization: SearchMap.Authorization
+  authorization: SearchMapSpace.Authorization
   /**
    * Additional Query Parameters (optional)
    */
-  apiQueryParams: SearchMap.APIQueryParam[]
+  apiQueryParams: SearchMapSpace.APIQueryParam[]
   /**
    * Additional headers (optional)
    */
-  apiHeaders: SearchMap.APIHeader[]
+  apiHeaders: SearchMapSpace.APIHeader[]
   /**
    * ContentType for the documents indexed using this config (eg. can be the App name)
    */
@@ -33,19 +33,19 @@ declare type SearchMap = {
   /**
    * A map for transforming the input fields to the expected fields
    */
-  fieldMap: SearchMap.FieldMap
+  fieldMap: SearchMapSpace.FieldMap
   /**
    * Other custom preferences for templating
    */
-  preferences: SearchMap.Preferences
+  preferences: SearchMapSpace.Preferences
 
   createdBy: string
   createdOn: Date
   updatedBy: string
   updatedOn: string
-}
+};
 
-declare namespace SearchMap {
+declare namespace SearchMapSpace {
   type Authorization = {
     /**
      * Location where the authorization should be provided
@@ -65,17 +65,17 @@ declare namespace SearchMap {
      * Authorization credentials (eg. JWT or API Key)
      */
     credentials: string
-  }
+  };
 
   type APIQueryParam = {
     param: string
     value: string
-  }
+  };
 
   type APIHeader = {
     key: string
     value: string
-  }
+  };
 
   type FieldMap = {
     /**
@@ -122,7 +122,7 @@ declare namespace SearchMap {
      * Timestamp for when the document was last modified
      */
     lastModifiedDate: string
-  }
+  };
 
   type Preferences = {
     iconUrl: string
@@ -130,5 +130,5 @@ declare namespace SearchMap {
     urlParams: string
     titleTemplate: string
     titleParams: string
-  }
+  };
 }
