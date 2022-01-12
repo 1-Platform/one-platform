@@ -9,7 +9,7 @@ export const PORT = process.env.PORT || 8080;
 export const COOKIE_SECRET = process.env.COOKIE_SECRET ?? 'topsecretcookie';    // lgtm[js/hardcoded-credentials]
 
 /* Keycloak environment variables */
-export const { KEYCLOAK_PUBKEY, KEYCLOAK_CLIENT_ID, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM } = process.env;
+export const { KEYCLOAK_PUBKEY, KEYCLOAK_CLIENT_ID, KEYCLOAK_SERVER_URL, KEYCLOAK_REALM, KEYCLOAK_ORIGINAL_HOST } = process.env;
 
 /* CouchDB environment variables */
 export const { COUCHDB_HOST, COUCHDB_SECRET } = process.env;

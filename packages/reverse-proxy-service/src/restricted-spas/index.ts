@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { rhelDeveloperGuide } from './resolver';
-import keycloak from '../utils/keycloakAuth';
+import resolver from './resolver';
 
 const router = Router();
-router.all( '/rhel-developer-guide', keycloak.protect(), rhelDeveloperGuide );
+router.get( '/rhel-developer-guide', resolver );
 
 export default router;

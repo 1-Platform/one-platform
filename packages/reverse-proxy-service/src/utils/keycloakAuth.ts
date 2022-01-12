@@ -1,6 +1,5 @@
 import Keycloak from 'keycloak-connect';
 import { MemoryStore } from 'express-session';
-
 import { KEYCLOAK_CLIENT_ID, KEYCLOAK_PUBKEY, KEYCLOAK_REALM, KEYCLOAK_SERVER_URL } from '../config/env';
 
 export const memoryStore = new MemoryStore();
