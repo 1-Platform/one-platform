@@ -1,9 +1,8 @@
-export const appFeedbackConfig = /* GraphQL */`
-query FeedbackConfig($appId: String!) {
-  app(appId: $appId) {
-    id
-    appId
-    feedback {
+export const appFeedbackConfig = /* GraphQL */ `
+  query FeedbackConfig($appId: String!) {
+    getFeedbackConfigByAppId(appId: $appId) {
+      id
+      appId
       isEnabled
       sourceType
       sourceApiUrl
@@ -15,5 +14,4 @@ query FeedbackConfig($appId: String!) {
       feedbackEmail
     }
   }
-}
 `;

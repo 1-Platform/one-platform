@@ -3,7 +3,7 @@ import { appFeedbackConfig } from '../utils/gql-queries';
 import gqlClient from '../utils/gqlClient';
 
 export default function useFeedbackConfig ( appId: string ) {
-  const [ feedbackConfig, setFeedbackConfig ] = useState<App.FeedbackConfig>( {} as App.FeedbackConfig );
+  const [ feedbackConfig, setFeedbackConfig ] = useState<FeedbackConfig>( {} as FeedbackConfig );
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {
@@ -21,7 +21,7 @@ export default function useFeedbackConfig ( appId: string ) {
           setLoading( false );
           return;
         }
-        setFeedbackConfig( res.data.app?.feedback ?? {} );
+        setFeedbackConfig( res.data.getFeedbackConfigByAppId ?? {} );
         setLoading( false );
       } )
       .catch( err => {
