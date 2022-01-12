@@ -1,29 +1,37 @@
+import { ApolloServer } from 'apollo-server-express';
+import { json } from 'body-parser';
 import dotenv from 'dotenv-safe';
-if ( process.env.NODE_ENV === 'test' ) {
-  dotenv.config( { path: '.test.env' } );
+import express from 'express';
+import mongoose from 'mongoose';
+import cookieParser = require('cookie-parser');
+import { mergeSchemas } from '@graphql-tools/schema';
+import morgan from 'morgan';
+import Logger from './src/lib/logger';
+import FeedbackResolver from './src/feedbacks/resolver';
+import FeedbackSchema from './src/feedbacks/typedef.graphql';
+import FeedbackConfigResolver from './src/feedback-config/resolver';
+import FeedbackConfigSchema from './src/feedback-config/typedef.graphql';
+
+if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: '.test.env' });
 } else {
   dotenv.config();
 }
-
-import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
-import http from 'http';
-import mongoose from 'mongoose';
-
-import gqlSchema from './src/typedef.graphql';
-import { FeedbackResolver as resolver } from './src/resolver';
-import cookieParser = require('cookie-parser');
 
 /* Setting port for the server */
 const port = process.env.PORT || 8080;
 
 const app = express();
 
-// Mount cookie parser
 app.use(cookieParser());
+app.use(json());
 
 /* Configuring Mongoose */
-mongoose.plugin((schema: any) => { schema.options.usePushEach = true; });
+mongoose.plugin((schema: any) => {
+  const mongoSchema = schema;
+  mongoSchema.options.usePushEach = true;
+  return mongoSchema;
+});
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -34,22 +42,22 @@ const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
   ? `${process.env.DB_USER}:${process.env.DB_PASSWORD}@`
   : '';
 const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
+mongoose.connect(dbConnection, { useNewUrlParser: true, useCreateIndex: true }).catch(Logger.error);
 
-mongoose.connect(dbConnection, { useNewUrlParser: true, useCreateIndex: true }).catch(console.error);
-
-mongoose.connection.on('error', error => {
-  console.error(error);
+mongoose.connection.on('error', (error) => {
+  Logger.error(error);
 });
 
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+
+const schema = mergeSchemas({
+  typeDefs: [FeedbackConfigSchema, FeedbackSchema],
+  resolvers: [FeedbackConfigResolver, FeedbackResolver],
+});
 /* Defining the Apollo Server */
-const apollo = new ApolloServer({
-  playground: process.env.NODE_ENV !== 'production',
-  typeDefs: gqlSchema,
-  resolvers: resolver,
-  subscriptions: {
-    path: '/subscriptions',
-  },
-  formatError: error => ({
+const apolloServer = new ApolloServer({
+  schema,
+  formatError: (error) => ({
     message: error.message,
     locations: error.locations,
     path: error.path,
@@ -57,28 +65,26 @@ const apollo = new ApolloServer({
   }),
   plugins: [
     {
-      requestDidStart: ( requestContext ) => {
-        if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
+      requestDidStart: (requestContext): any => {
+        if (requestContext.request.http?.headers.has('x-apollo-tracing')) {
           return;
         }
-        const query = requestContext.request.query?.replace( /\s+/g, ' ' ).trim();
-        const variables = JSON.stringify( requestContext.request.variables );
-        console.log( new Date().toISOString(), `- [Request Started] { query: ${ query }, variables: ${ variables }, operationName: ${ requestContext.request.operationName } }` );
-        return;
+        const query = requestContext.request.query?.replace(/\s+/g, ' ').trim();
+        const variables = JSON.stringify(requestContext.request.variables);
+        Logger.http(
+          `${new Date().toISOString()}- [Request Started] { query: ${query}, variables: ${variables}, operationName: ${
+            requestContext.request.operationName
+          } }`,
+        );
       },
     },
-  ]
+  ],
 });
 
-/* Applying apollo middleware to express server */
-apollo.applyMiddleware({ app });
+apolloServer.start().then(() => {
+  apolloServer.applyMiddleware({ app });
+});
 
-/*  Creating the server based on the environment */
-const server = http.createServer(app);
-
-// Installing the apollo ws subscription handlers
-apollo.installSubscriptionHandlers(server);
-// Feedback
-export default server.listen({ port: port }, () => {
-  console.log(`Microservice running on ${process.env.NODE_ENV} at ${port}${apollo.graphqlPath}`);
+export default app.listen({ port }, () => {
+  Logger.info(`Microservice running on ${process.env.NODE_ENV} at ${port}${apolloServer.graphqlPath}`);
 });

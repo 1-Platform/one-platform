@@ -1,23 +1,22 @@
 module.exports = {
-  "moduleFileExtensions": [
-    "ts",
-    "tsx",
-    "js"
+  moduleFileExtensions: [
+    'js',
+    'ts',
+    'tsx',
   ],
-  "transform": {
-    "^.+\\.(ts|tsx|js)$": "ts-jest"
-    ,
-    "\\.(gql|graphql)$": "jest-transform-graphql"
-      },
-  "globals": {
-    "ts-jest": {
-      "tsConfig": "tsconfig.json"
-    }
+  transform: {
+    '^.+\\.(ts|tsx|js)$': 'ts-jest',
+    '\\.(gql|graphql)$': 'jest-transform-graphql',
   },
-  "collectCoverage": true,
-  "testMatch": [
-    "**/src/e2e/*.spec.(ts|tsx|js)"
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.json',
+    },
+  },
+  collectCoverage: true,
+  testMatch: [
+    '**/src/e2e/*.spec.(ts|tsx|js)',
   ],
-  "testEnvironment": "node"
+  testEnvironment: 'node',
+  preset: 'ts-jest/presets/js-with-ts',
 }
-
