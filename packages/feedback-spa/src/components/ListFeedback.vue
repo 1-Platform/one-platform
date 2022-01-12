@@ -48,10 +48,8 @@
 
       <div class="accordion-open" v-if="isAccordionOpen">
         <p class="pf-u-font-size-sm">
-          Created By <br />
-          <b>{{ feedback.createdBy.name }}</b>
-          at {{ feedback.createdOn | formatDate }}</p>
-          <i v-if="!feedback.createdBy.name">Not Assigned</i>
+          Created By {{ feedback.createdBy }} at {{ feedback.createdOn | formatDate }}</p>
+          <i v-if="!feedback.createdBy">Not Assigned</i>
         <button class="pf-c-button pf-m-secondary pf-m-small" type="button" @click='openModal()'>View Details</button>&nbsp;
         <a target="_blank" :href="`${feedback.ticketUrl}`">
         <button class="pf-c-button pf-m-tertiary pf-m-small" type="button">{{ feedback.source }} Link&nbsp;<i class="fas fa-external-link-alt"></i></button>
