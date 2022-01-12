@@ -1,39 +1,38 @@
 import mongoose from 'mongoose';
+import logger from '../lib/logger';
 
 /* App Imports */
 import { MONGO_URL } from './env';
 
+/* Retry connection */
+const connectWithRetry = async () => mongoose.connect(
+  MONGO_URL,
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  },
+);
+
 /* Connect database */
-export default async function () {
-  console.info( 'SETUP - Connecting database..' );
+export default async function connectDB() {
+  logger.info('SETUP - Connecting database..');
 
   await connectWithRetry();
 
-  console.log( 'Database connected' );
+  logger.info('Database connected');
 }
 
 /* Handle connection error */
-mongoose.connection.on( 'error', error => {
-  console.log( `ERROR - Connection failed: ${ error.message }` );
+mongoose.connection.on('error', (error) => {
+  logger.info(`ERROR - Connection failed: ${error.message}`);
 
-  setTimeout( async () => {
-    console.log( 'SETUP - Connecting database.. retrying..' );
+  setTimeout(async () => {
+    logger.info('SETUP - Connecting database.. retrying..');
 
     await connectWithRetry();
-  }, 5000 );
-} );
-
-/* Retry connection */
-const connectWithRetry = async () => {
-  return await mongoose.connect(
-    MONGO_URL,
-    {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    }
-  );
-};
+  }, 5000);
+});
 
 export { mongoose };

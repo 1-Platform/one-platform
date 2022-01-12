@@ -1,26 +1,28 @@
-import { Document, Model, model, Schema } from 'mongoose';
+import {
+  Document, Model, model, Schema,
+} from 'mongoose';
 
 export const SearchMapSchema: Schema = new Schema({
-  appId: { type: String, },
-  apiUrl: { type: String, },
+  appId: { type: String },
+  apiUrl: { type: String },
   method: { type: String, default: 'GET' },
   body: { type: String, get: JSON.parse, set: JSON.stringify },
   authorization: {
-    location: { type: String, enum: [ 'header', 'queryParam' ] },
-    key: { type: String, },
-    authType: { type: String, },
-    credentials: { type: String, },
+    location: { type: String, enum: ['header', 'queryParam'] },
+    key: { type: String },
+    authType: { type: String },
+    credentials: { type: String },
   },
-  apiQueryParams: [ {
-    param: { type: String, },
-    value: { type: String, },
-  } ],
-  apiHeaders: [ {
-    key: { type: String, },
-    value: { type: String, },
-  } ],
+  apiQueryParams: [{
+    param: { type: String },
+    value: { type: String },
+  }],
+  apiHeaders: [{
+    key: { type: String },
+    value: { type: String },
+  }],
 
-  contentType: { type: String, },
+  contentType: { type: String },
 
   fieldMap: {
     id: { type: String, default: 'id' },
@@ -37,16 +39,16 @@ export const SearchMapSchema: Schema = new Schema({
   },
 
   preferences: {
-    iconUrl: { type: String, },
-    urlTemplate: { type: String, },
-    urlParams: [ { type: String, } ],
-    titleTemplate: { type: String, },
-    titleParams: [ { type: String, } ],
+    iconUrl: { type: String },
+    urlTemplate: { type: String },
+    urlParams: [{ type: String }],
+    titleTemplate: { type: String },
+    titleParams: [{ type: String }],
   },
 
-  createdBy: { type: String, },
+  createdBy: { type: String },
   createdOn: { type: Date, default: Date.now },
-  updatedBy: { type: String, },
+  updatedBy: { type: String },
   updatedOn: { type: Date, default: Date.now },
 });
 

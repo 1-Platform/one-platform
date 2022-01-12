@@ -1,4 +1,5 @@
 import { cloneDeep, isEmpty, isString } from 'lodash';
+import logger from '../lib/logger';
 
 interface IOptions {
   stringify?: boolean;
@@ -12,31 +13,30 @@ interface IOptions {
  * @param options additional options for response
  * @returns the object matching the selector, or null if nothing found
  */
-export default function getValueBySelector ( data: any, prop: string, opts: IOptions = { stringify: false } ): any | null {
+export default function getValueBySelector(data: any, prop: string, opts: IOptions = { stringify: false }): any | null {
   const { stringify, fallback } = opts;
   const propsArray = prop
-    .replace( /\[(\w+)\]/g, '.$1' )
-    .replace( /^\./, '' )
-    .split( '.' );
+    .replace(/\[(\w+)\]/g, '.$1')
+    .replace(/^\./, '')
+    .split('.');
 
-  let cursor = cloneDeep( data );
+  let cursor = cloneDeep(data);
   try {
-    const res = propsArray.reduce( ( value, propName ) => {
-      if ( propName in cursor ) {
-        cursor = cursor[ propName ];
+    const res = propsArray.reduce((value, propName) => {
+      if (propName in cursor) {
+        cursor = cursor[propName];
         return cursor;
       }
-      console.log( 'throwing...' );
-      throw new Error( `${ propName } is not a property of ${typeof cursor}` );
+      logger.info('throwing...');
+      throw new Error(`${propName} is not a property of ${typeof cursor}`);
     }, null);
 
-    if ( !isEmpty(res) && !isString(res) && stringify ) {
-      return JSON.stringify( res );
+    if (!isEmpty(res) && !isString(res) && stringify) {
+      return JSON.stringify(res);
     }
     return res;
-  } catch ( err ) {
-    // tslint:disable-next-line: no-console
-    console.debug( err );
+  } catch (err) {
+    logger.debug(err);
     if (fallback) {
       return fallback;
     }

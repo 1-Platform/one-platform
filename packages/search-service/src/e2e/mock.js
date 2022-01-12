@@ -12,9 +12,9 @@ const searchIndexMock = {
     createdBy: 'bot',
     createdDate: '2022-01-04T05:17:16.244Z',
     lastModifiedBy: 'bot',
-    lastModifiedDate: '2022-01-04T05:17:16.244Z'
-  }
-}
+    lastModifiedDate: '2022-01-04T05:17:16.244Z',
+  },
+};
 
 const searchMapMock = {
   _id: '6167ba700ae8f84a2ebfadb9',
@@ -44,5 +44,5 @@ const searchMapMock = {
 
 module.exports = {
   searchIndexMock,
-  searchMapMock
-}
+  searchMapMock,
+};
