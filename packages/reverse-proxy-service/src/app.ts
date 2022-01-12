@@ -9,6 +9,7 @@ import restrictedSPAs from './restricted-spas';
 import winstonInstance from './utils/logger';
 import keycloak, { memoryStore } from './utils/keycloakAuth';
 import { COOKIE_SECRET } from './config/env';
+import keycloakAuth from './middleware/keycloakAuth';
 
 const app = express();
 app.use( expressWinston.logger( {
@@ -38,7 +39,7 @@ app.use( session( {                                 // lgtm[js/clear-text-cookie
 app.use( keycloak.middleware({ logout: '/' }) );
 
 /* Router for restricted SPAs */
-app.get( '*', restrictedSPAs );
+app.get( '*', [ keycloakAuth ], restrictedSPAs );
 
 app.use( expressWinston.errorLogger( {
   winstonInstance,
