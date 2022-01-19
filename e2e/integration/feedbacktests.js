@@ -84,6 +84,9 @@ context( 'Test feedback form', () => {
 
     it( 'Test for pagination in feedback list', () => {
         //Go to next page validation
+        cy.get( 'body' ).then( ( body ) => {
+            if ( body.find( '.feedback-item' ).length > 10 ) {
+
         cy.get( '.feedback-item' ).should( 'be.visible' ).first().invoke( 'text' ).then( ( BeforeNextPage ) => {
             cy.get( 'button[aria-label="Go to next page"]' ).click();
             cy.get( '.feedback-item' ).first().invoke( 'text' ).then( ( AfterNextPage ) => {
@@ -95,6 +98,8 @@ context( 'Test feedback form', () => {
         cy.get( '.feedback-item' ).should( 'be.visible' ).should( 'have.length', 10 );
         cy.get( '#perPage' ).select( '5 per page' );
         cy.get( '.feedback-item' ).should( 'be.visible' ).should( 'have.length', 5 );
+            }
+        })
     } );
 
 } );
