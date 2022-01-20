@@ -28,7 +28,7 @@ context( 'Test lighthouse', () => {
         cy.contains( ' Generate Report ' ).click()
         cy.contains( 'Audit started successfully', { timeout: 20000 } ).should( 'be.visible' )
         cy.get( '#codeBlock' ).should( 'be.visible' )
-        cy.contains( 'Audit completed successfully', { timeout: 60000 } ).should( 'be.visible' );
+        cy.contains( 'Audit Completed', { timeout: 60000 } ).should( 'be.visible' );
         gaugechart.forEach( function ( item ) {
             cy.get( '.gauge-chart', { timeout: 60000 } ).should( 'be.visible' ).each( () => {
                 cy.contains( `${ item }` ).should( 'be.visible' );

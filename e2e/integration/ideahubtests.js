@@ -13,12 +13,12 @@ context( 'Test for Idea Hub', () => {
 
     it( 'Test for post a new idea', () => {
         cy.wait(2000)
-        cy.contains( 'Post a new idea!', { timeout: 5000 } ).click();
-        cy.get( '#title' ).type( 'e2e test automation' );
-        cy.get( '#description' ).type( 'e2e test automation' );
-        cy.get( '[aria-label="Options menu"]' ).click();
+        cy.contains( 'Post a new idea!', { timeout: 5000 } ).click({force:true});
+        cy.get( '#title' ).type( 'e2e test automation' ,{force:true});
+        cy.get( '#description' ).type( 'e2e test automation' ,{force:true});
+        cy.get( '[aria-label="Options menu"]' ).click({force:true});
         cy.contains( 'automation' ).click( { force: true } );
-        cy.contains( 'Post my idea!' ).click();
+        cy.contains( 'Post my idea!' ).click({force:true});
         cy.wait( 5000 );
         cy.get( '.pf-c-card__body' ).first().should( 'contain.text', 'e2e test automation' );
     } );
@@ -32,11 +32,11 @@ context( 'Test for Idea Hub', () => {
 
     it( 'Test for commenting an idea', () => {
         cy.get( '.pf-l-stack' ).within( () => {
-            cy.get( '.pf-l-stack__item' ).first().click();
+            cy.get( '.pf-l-stack__item' ).first().click({force:true});
         } );
         cy.get( '#comment' ).type( 'test' );
         cy.get( '.pf-c-form__actions' ).within( () => {
-            cy.contains( 'Submit' ).click();
+            cy.contains( 'Submit' ).click({force:true});
         })
         cy.get( '[aria-label="comment-content"]',{ timeout: 10000 } ).should( 'be.visible' );
     } );
@@ -47,13 +47,13 @@ context( 'Test for Idea Hub', () => {
     } );
 
     it( 'Test for voting an idea', () => {
-        cy.contains( 'VOTE' ).click();
+        cy.contains( 'VOTE' ).click({force:true});
         cy.contains( 'VOTED', { timeout: 10000 } ).should( 'be.visible' );
     } )
 
     it( 'Test for recent ideas table', () => {
         cy.visit( Cypress.env( 'QA_HOST' ) + 'ideas/' );
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ),{force:true} );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
         cy.get( '.pf-l-stack' ).within( () =>{
@@ -68,22 +68,22 @@ context( 'Test for Idea Hub', () => {
     it( 'Test for archive an idea', () => {
         cy.get( '.pf-l-stack' ).within( () => {
             cy.get( '.pf-l-stack__item' ).first().within( () => {
-                cy.get( '.pf-c-dropdown', { timeout: 5000 } ).click();
-                cy.contains( 'Archive my idea' ).click();
+                cy.get( '.pf-c-dropdown', { timeout: 5000 } ).click({force:true});
+                cy.contains( 'Archive my idea' ).click({force:true});
             } );
         } );
         cy.contains( 'Successfully archived' ).should( 'be.visible' );
         cy.get( '.pf-l-stack' ).within( () => {
             cy.get( '.pf-l-stack__item' ).first().within( () => {
                 cy.get( '.pf-c-dropdown' ).click();
-                cy.contains( 'Unarchive my idea' ).click();
+                cy.contains( 'Unarchive my idea' ).click({force:true});
             } );
         } );
         cy.contains( 'Successfully unarchived' ).should( 'be.visible' );
     } )
 
     it( 'Test for popular ideas table', () => {
-        cy.get( '.pf-c-tabs__item-text' ).last().click()
+        cy.get( '.pf-c-tabs__item-text' ).last().click({force:true})
         cy.get( '.pf-l-stack' ).within( () => {
             cy.get( '.pf-l-stack__item' ).each( () => {
                 cy.get( '.pf-c-card__body' ).should( 'be.visible' ).within( () => {
@@ -94,7 +94,7 @@ context( 'Test for Idea Hub', () => {
     } )
 
     it( 'Test for my ideas', () => {
-        cy.contains( 'My ideas' ).click()
+        cy.contains( 'My ideas' ).click({force:true})
         cy.get( '.pf-l-stack' ).within( () => {
             cy.get( '.pf-l-stack__item' ).each( () => {
                 cy.get( '.pf-c-card__body' ).should( 'be.visible' ).within( () => {
