@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/1-Platform/one-platform.git"
   },
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": {
     "name": "Sayak Sarkar",
     "email": "sayak.bugsmith@gmail.com"
@@ -58,6 +58,7 @@
     "bats": "1.4.1",
     "cypress": "7.6.0",
     "cypress-multi-reporters": "1.4.0",
+    "cypress-xpath": "1.6.2",
     "cypress-shadow-dom": "^1.4.1",
     "eslint": "7.32.0",
     "eslint-config-standard": "14.1.1",

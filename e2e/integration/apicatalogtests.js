@@ -53,13 +53,13 @@ context( 'API Catalog Tests', () => {
     it( "Subscribe Test", () => {
         cy.contains( 'Subscribe' ).click( { force: true } )
         cy.wait(2000)
-        cy.contains('Subscribed to').should('be.visible')
+        cy.contains('Subscribed to',{timeout:10000}).should('be.visible')
     } )
     it( "Unsubscribe Test", () => {
         cy.wait(6000)
         cy.contains( "Subscribed" ).click( { force: true } )
         cy.wait( 2000 )
-        cy.contains("Unsubscribed to").should('be.visible')
+        cy.contains("Unsubscribed to",{timeout:10000}).should('be.visible')
     } )
     it( 'Check if swagger link is visible', () => {
         cy.get('.pf-c-card__body .pf-c-title.pf-m-md').should('be.visible')
