@@ -18,7 +18,9 @@ fragment feedbackType on FeedbackType {
       name
       email
     }
-    createdBy
+    createdBy {
+      cn
+    }
   }
 
 fragment paginatedFeedbackType on PaginatedFeedbackType {
@@ -48,9 +50,9 @@ query ListFeedbacks {
   }
 }
 
-query GetFeedbackBy($id: ID) {
-  getFeedbackBy(id: $id) {
-    ...paginatedFeedbackType
+query GetFeedbackById($id: ID!) {
+  getFeedbackById(id: $id) {
+    ...feedbackType
   }
 }
 
