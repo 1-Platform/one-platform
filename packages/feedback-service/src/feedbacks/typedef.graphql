@@ -2,6 +2,10 @@ scalar URI
 scalar JSON
 scalar DateTime
 
+enum FeedbackSortType {
+  CREATED_ON
+  UPDATED_ON
+}
 
 type FeedbackAssigneeType {
   name: String
@@ -30,6 +34,11 @@ enum FeedbackCategory {
   FEEDBACK
 }
 
+enum FeedbackStatus {
+  OPEN
+  CLOSED
+}
+
 type FeedbackUserProfileType {
   cn: String
   mail: String
@@ -52,9 +61,9 @@ type FeedbackType {
   module: String
   assignee: FeedbackAssigneeType
   createdOn: DateTime
-  createdBy: String
+  createdBy: FeedbackUserProfileType
   updatedOn: DateTime
-  updatedBy: String
+  updatedBy: FeedbackUserProfileType
 }
 
 input FeedbackInput {
@@ -84,18 +93,18 @@ type Query {
     search: String
     limit: Int
     offset: Int
-    category: FeedbackCategory
+    category: [FeedbackCategory]
+    appId: [String]
+    createdBy: String
+    status: FeedbackStatus
+    sortBy: FeedbackSortType
   ): PaginatedFeedbackType
   """
   List the Feedback by id and appId parameters
   """
-  getFeedbackBy(
-    id: ID
-    appId: ID
-    search: String
-    limit: Int
-    offset: Int
-    category: FeedbackCategory): PaginatedFeedbackType
+  getFeedbackById(
+    id: ID!
+    ): FeedbackType
 }
 
 type Mutation {

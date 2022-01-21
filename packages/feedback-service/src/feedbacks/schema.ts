@@ -15,13 +15,11 @@ export const FeedbackSchema: Schema = new Schema({
     path: { type: String },
   },
   category: { type: String, enum: ['BUG', 'FEEDBACK'] },
-  createdOn: { type: Date, default: Date.now },
   createdBy: String,
-  updatedOn: { type: Date, default: Date.now },
   updatedBy: String,
-});
+}, { timestamps: { createdAt: 'createdOn', updatedAt: 'updatedOn' } });
 
-interface FeedbackModel extends FeedbackType, Document { }
+export interface FeedbackModel extends FeedbackType, Document { }
 
 interface FeedbackModelStatic extends Model <FeedbackModel> { }
 

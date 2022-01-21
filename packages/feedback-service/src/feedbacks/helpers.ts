@@ -9,6 +9,7 @@ import uniq from 'lodash/uniq';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { FeedbackConfig } from '../feedback-config/schema';
 import logger from '../lib/logger';
+import { FeedbackModel } from './schema';
 
 const nodemailer = require('nodemailer');
 
@@ -200,7 +201,7 @@ async function createGitlabIssue(
     });
   return gitlabResponse;
 }
-async function listApps() {
+async function listApps(): Promise<App[]> {
   const appsResponse = await axios.request({
     url: process.env.API_GATEWAY,
     method: 'POST',
@@ -467,13 +468,13 @@ async function manageSearchIndex(data: any, mode: string) {
 function createEmailTemplate(
   userInfo: any,
   feedback: FeedbackType,
-  app: any,
+  app: App,
   config: FeedbackConfigType,
 ) {
   const emailBody = `
 Hi ${userInfo[0].cn},<br/><br/>
 We have received the ${feedback.category.toLowerCase()} for the ${
-  app[0].name
+  app.name
 }<br/><br/>
 
 Summary: ${feedback.summary}<br/><br/>
@@ -495,19 +496,10 @@ P.S.: This is an automated email. Please do not reply.
     to: userInfo[0].mail,
     subject: `${feedback.error ? feedback.error : feedback.experience} - ${
       feedback.category.charAt(0) + feedback.category.substring(1).toLowerCase()
-    } reported for ${app[0].name}.`,
+    } reported for ${app.name}.`,
     body: emailBody,
   };
   return emailData;
-}
-function urlCombinationChecker(url: string) {
-  const combinations = [];
-  for (let i = 0; i < url.length; i += 1) {
-    for (let j = i + 1; j < url.length + 1; j += 1) {
-      combinations.push(url.slice(i, j));
-    }
-  }
-  return combinations;
 }
 async function processFeedbackRecords(userFeedbacks: any) {
   if (userFeedbacks.length) {
@@ -643,19 +635,19 @@ async function processFeedbackRecords(userFeedbacks: any) {
       .then(async (integrationResponses) => {
         const userQuery = buildUserQuery(userList);
         const userData = await getUserProfiles(userQuery);
-        return userFeedbacks.map(async (feedback: FeedbackType) => {
-          const userFeedback = feedback;
+        const userDataObj = userData.reduce((prev, curr) => {
+          const userObj = { ...prev, [curr.rhatUUID]: curr };
+          return userObj;
+        }, {});
+        return userFeedbacks.map(async (feedback: FeedbackModel) => {
+          const userFeedback = feedback.toObject({ virtuals: true });
           const selectedResponse: any = await integrationResponses.filter(
             (response: any) => userFeedback?.ticketUrl === (response?.webUrl || response?.url),
           )[0];
           userFeedback.state = selectedResponse?.state || feedback?.state;
           userFeedback.assignee = selectedResponse?.assignee || {};
-          userFeedback.createdBy = userData.filter(
-            (user: any) => user.rhatUUID === feedback.createdBy,
-          )[0]?.cn || null;
-          userFeedback.updatedBy = await userData.filter(
-            (user: any) => user.rhatUUID === feedback.updatedBy,
-          )[0]?.cn || null;
+          userFeedback.createdBy = userDataObj?.[feedback.createdBy as string] || null;
+          userFeedback.updatedBy = userDataObj?.[feedback.updatedBy as string] || null;
           return userFeedback;
         });
       });
@@ -676,6 +668,5 @@ export default {
   manageSearchIndex,
   processFeedbackRecords,
   sendEmail,
-  urlCombinationChecker,
   transporter,
 };

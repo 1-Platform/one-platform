@@ -5,7 +5,7 @@
     "className": "Feedback",
     "serviceName": "feedback"
   },
-  "version": "0.0.6",
+  "version": "0.0.7",
   "keywords": [
     "feedback",
     "microservice",
@@ -30,7 +30,8 @@
     "build:dev": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack --watch --config webpack.dev.js",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
   },
   "author": {
     "name": "Rigin Oommen",

@@ -6,6 +6,11 @@ declare enum FeedbackCategory {
   FEEDBACK = 'FEEDBACK',
 }
 
+declare enum FeedbackStatus {
+  CLOSED = 'CLOSED',
+  OPEN = 'OPEN',
+}
+
 type FeedbackUserProfileType = {
   cn: String;
   name: string;
@@ -34,9 +39,9 @@ type FeedbackType = {
   stackInfo: StackType;
   assignee: FeedbackUserProfileType;
   createdOn: string;
-  createdBy: string;
+  createdBy: string | FeedbackUserProfileType;
   updatedOn: string;
-  updatedBy: string;
+  updatedBy: string | FeedbackUserProfileType;
 };
 
 type PaginatedFeedbackType = {
@@ -98,4 +103,11 @@ type FeedbackConfigInput = {
   }>;
   projectKey: string;
   feedbackEmail: string;
+};
+
+type App = {
+  id: string;
+  appId: string;
+  path: string;
+  name: string;
 };

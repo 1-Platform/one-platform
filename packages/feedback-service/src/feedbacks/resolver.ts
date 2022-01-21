@@ -13,25 +13,51 @@
  * Last modified  : 2021-06-28 17:21:06
  */
 import * as _ from 'lodash';
-import { Types } from 'mongoose';
 import { Feedback } from './schema';
 import FeedbackHelper from './helpers';
 import { FeedbackConfig } from '../feedback-config/schema';
 
 const FeedbackResolver = {
+  FeedbackSortType: {
+    CREATED_ON: 'createdOn',
+    UPDATED_ON: 'updatedOn',
+  },
   Query: {
     async listFeedbacks(
       root: any,
       {
-        limit = 10, offset = 0, search, category,
+        limit = 10, offset = 0, search, category, appId, createdBy, status, sort = 'createdOn',
       }: any,
       ctx: any,
     ) {
+      // filters
       const match: Record<string, unknown> = {};
-      if (search) match.name = { $regex: search, $options: 'i' };
-      if (category) match.category = category;
+      if (search) match.summary = { $regex: search, $options: 'i' };
+      if (category) match.category = { $in: category };
+      if (createdBy) match.createdBy = createdBy;
+
+      if (status) {
+        if (status === 'OPEN') {
+          match.status = { $ne: 'Closed' };
+        } else {
+          match.status = 'Closed';
+        }
+      }
+
+      // multiple application based filter
+      if (appId) {
+        const feedbackConfig = await FeedbackConfig.find({ appId: { $in: appId } }).exec();
+        if (FeedbackConfig) {
+          const config = feedbackConfig.map(({ _id }) => _id?.toString());
+          match.config = { $in: config };
+        } else {
+          throw new Error('App not found. Please visit developer-console');
+        }
+      }
+
       const paginatedFeedback = await Feedback.aggregate([
         { $match: match },
+        { $sort: { [sort]: -1 } },
         {
           $facet: {
             data: [{ $skip: offset }, { $limit: limit }],
@@ -41,74 +67,45 @@ const FeedbackResolver = {
       ]).exec();
       const feedbackRecords = paginatedFeedback[0].data.map((doc: any) => Feedback.hydrate(doc));
       const count = paginatedFeedback[0].total[0]?.total || 0;
+      const data = await FeedbackHelper.processFeedbackRecords(feedbackRecords);
       return {
         count,
-        data: await FeedbackHelper.processFeedbackRecords(feedbackRecords),
+        data,
       } as PaginatedFeedbackType;
     },
-    async getFeedbackBy(
-      root: any,
-      {
-        id, appId, limit = 10, offset = 0, search, category,
-      }: any,
-      ctx: any,
+    async getFeedbackById(
+      root: any, { id }: any, ctx: any,
     ) {
-      let feedbackConfig: any = {};
-      const match: Record<string, unknown> = {};
-      if (appId) {
-        feedbackConfig = await FeedbackConfig.find({ appId }).exec();
-      }
-      if (search) match.summary = { $regex: search, $options: 'i' };
-      if (category) match.category = category;
-      if (id) match._id = Types.ObjectId(id);
-      if (feedbackConfig) match.config = feedbackConfig[0]?._id?.toString();
-      const paginatedFeedback = await Feedback.aggregate([
-        { $match: match },
-        {
-          $facet: {
-            data: [{ $skip: offset }, { $limit: limit }],
-            total: [{ $count: 'total' }],
-          },
-        },
-      ]).exec();
-      const feedbackRecords = paginatedFeedback[0].data.map((doc: any) => Feedback.hydrate(doc));
-      const count = paginatedFeedback[0].total[0]?.total || 0;
-      return {
-        count,
-        data: await FeedbackHelper.processFeedbackRecords(feedbackRecords),
-      } as PaginatedFeedbackType;
+      const feedbackDoc = await Feedback.findById(id).exec();
+      const feedback = await FeedbackHelper.processFeedbackRecords([feedbackDoc]);
+      return feedback?.[0];
     },
   },
   Mutation: {
     async createFeedback(root: any, args: any, ctx: any) {
-      let feedbackConfig: Array<FeedbackConfigType> = [];
-      let app: any;
       const userFeedback = args.input;
       let appList = [];
       let userData: any[] = [];
       let integrationResponse;
+
       if (!userFeedback.createdBy) {
         throw new Error('Field `createdBy` is missing in the request');
-      } else {
-        const userQuery = FeedbackHelper.buildUserQuery([
-          userFeedback.createdBy,
-        ]);
-        userData = await FeedbackHelper.getUserProfiles(userQuery);
-        appList = await FeedbackHelper.listApps();
       }
 
-      if (userFeedback?.stackInfo?.path) {
-        const urlCombinations = await FeedbackHelper.urlCombinationChecker(
-          userFeedback.stackInfo.path,
-        );
-        app = appList.filter((response: any) => urlCombinations.includes(response.path));
-        if (app.length !== 0) {
-          feedbackConfig = await FeedbackConfig.find({
-            appId: app[0].id,
-          }).exec();
-          userFeedback.config = (feedbackConfig[0] as any)?._id;
-        }
+      const userQuery = FeedbackHelper.buildUserQuery([userFeedback.createdBy]);
+      userData = await FeedbackHelper.getUserProfiles(userQuery);
+      appList = await FeedbackHelper.listApps();
+
+      const app = appList.sort((a, b) => b.path.localeCompare(a.path))
+        .find(({ path }) => userFeedback.stackInfo.path.includes(path));
+      if (!app) {
+        throw new Error('App not found. Please visit developer-console');
       }
+      const feedbackConfig = await FeedbackConfig.find({
+        appId: app.id,
+      }).exec();
+      userFeedback.config = (feedbackConfig[0] as any)?._id;
+
       if (feedbackConfig.length === 0) {
         throw new Error(
           'Feedback configuration not registered. Please visit developer-console',
@@ -191,7 +188,7 @@ const FeedbackResolver = {
         .exec()
         .then(async (feedbacks: FeedbackType[]) => {
           feedbacks.forEach(async (data: FeedbackType) => {
-            userList.push(data.createdBy, data.updatedBy);
+            userList.push(data.createdBy as string, data.updatedBy as string);
             const userQuery = FeedbackHelper.buildUserQuery(userList);
             const userData = await FeedbackHelper.getUserProfiles(userQuery);
             const formattedSearchResponse = FeedbackHelper.formatSearchInput(
