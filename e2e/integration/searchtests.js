@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+/// <reference types="cypress-xpath" />
 
 context( 'Test search', () => {
     before( () => {
@@ -79,7 +80,10 @@ context( 'Test search', () => {
     } )
 
     it( 'Test for sort application', () => {
-        cy.get('#select-checkbox-expanded-toggle')
+        cy.xpath( '(//button[@id="select-checkbox-expanded-toggle"])[2]' ).click({force:true}).then( () => {
+            cy.get( '.pf-c-select__menu' ).should( 'be.visible' )
+            cy.contains('Oldest First').click({force:true})
+        })
     })
     it( 'Test for invalid search', () => {
         cy.wait( 15000 );

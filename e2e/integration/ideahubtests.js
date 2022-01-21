@@ -31,13 +31,13 @@ context( 'Test for Idea Hub', () => {
     } );
 
     it( 'Test for commenting an idea', () => {
-        cy.get( '.pf-l-stack' ).within( () => {
-            cy.get( '.pf-l-stack__item' ).first().click({force:true});
+        cy.get( '.pf-l-stack.pf-m-gutter' ).within( () => {
+            cy.get( '.pf-l-stack__item.pf-u-mx-xs > a' ).first().click({force:true});
         } );
-        cy.get( '#comment' ).type( 'test' );
-        cy.get( '.pf-c-form__actions' ).within( () => {
-            cy.contains( 'Submit' ).click({force:true});
-        })
+        cy.wait(5000)
+        cy.get( '#comment' ).type( 'test' ,{force:true});
+            cy.get( 'button[type="submit"]',{timeout:10000} ).click({force:true});
+
         cy.get( '[aria-label="comment-content"]',{ timeout: 10000 } ).should( 'be.visible' );
     } );
 
@@ -47,7 +47,7 @@ context( 'Test for Idea Hub', () => {
     } );
 
     it( 'Test for voting an idea', () => {
-        cy.contains( 'VOTE' ).click({force:true});
+        cy.contains( 'VOTE',{timeout:6000} ).click({force:true});
         cy.contains( 'VOTED', { timeout: 10000 } ).should( 'be.visible' );
     } )
 
@@ -56,8 +56,8 @@ context( 'Test for Idea Hub', () => {
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ),{force:true} );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
-        cy.get( '.pf-l-stack' ).within( () =>{
-            cy.get( '.pf-l-stack__item' ).each( () => {
+        cy.get( '.pf-l-stack.pf-m-gutter' ).within( () =>{
+            cy.get( '.pf-l-stack__item.pf-u-mx-xs' ).each( () => {
                 cy.get( '.pf-c-card__body' ).should( 'be.visible' ).within( () => {
                     cy.get('.pf-l-flex').should('be.visible')
                 })
@@ -66,9 +66,9 @@ context( 'Test for Idea Hub', () => {
     } )
 
     it( 'Test for archive an idea', () => {
-        cy.get( '.pf-l-stack' ).within( () => {
+        cy.get( '.pf-l-stack.pf-m-gutter' ).within( () => {
             cy.get( '.pf-l-stack__item' ).first().within( () => {
-                cy.get( '.pf-c-dropdown', { timeout: 5000 } ).click({force:true});
+                cy.get( '.pf-c-dropdown > button', { timeout: 5000 } ).click({force:true});
                 cy.contains( 'Archive my idea' ).click({force:true});
             } );
         } );
