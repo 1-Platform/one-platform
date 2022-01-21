@@ -8,7 +8,8 @@ import AppOverview from './components/AppOverview';
 import NotFound from './components/NotFound';
 import AddAppForm from './components/AddAppForm';
 import UnderDevelopment from './components/UnderDevelopment';
-import ConfigureFeedback from './components/ConfigureFeedback';
+import FeedbackList from "./components/feedback/FeedbackList";
+import ConfigureFeedback from "./components/feedback/ConfigureFeedback";
 import ConfigureLighthouse from './components/ConfigureLighthouse';
 import ConfigureSSI from './components/ConfigureSSI';
 import ConfigureDatabase from './components/ConfigureDatabase';
@@ -28,7 +29,8 @@ function App() {
               <Route path="/:appId/analytics" component={ UnderDevelopment } exact />
               <Route path="/:appId/ssi" component={ ConfigureSSI } exact />
               <Route path="/:appId/database" component={ ConfigureDatabase } exact />
-              <Route path="/:appId/feedback" component={ ConfigureFeedback } exact />
+              <Route path="/:appId/feedback" component={ FeedbackList } exact />
+              <Route path="/:appId/feedback/edit" component={ ConfigureFeedback } exact />
               <Route path="/:appId/lighthouse" component={ ConfigureLighthouse } exact />
               <Route path="/:appId/search" component={ UnderDevelopment } exact />
               <Route path="/:appId/couchdb" component={ ConfigureCouchDB } />

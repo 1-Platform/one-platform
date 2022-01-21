@@ -26,11 +26,11 @@ import * as yup from "yup";
 import {
   createFeedbackConfigService,
   updateFeedbackConfigService,
-} from "../services/feedbackConfig";
-import Header from "./Header";
-import Loader from "./Loader";
-import { AppContext } from "../context/AppContext";
-import useFeedbackConfig from "../hooks/useFeedbackConfig";
+} from "services/feedbackConfig";
+import Header from "../Header";
+import Loader from "../Loader";
+import { AppContext } from "context/AppContext";
+import useFeedbackConfig from "hooks/useFeedbackConfig";
 import { requiredMsg } from "utils/formErrorMsg";
 
 const feedbackTargets = [
@@ -89,7 +89,11 @@ const formSchema = yup
   .required();
 
 function ConfigureFeedback() {
-  const { appId, loading: appLoading } = useContext(AppContext);
+  /**
+   * appId: it is the unique slug generated for an app used in url
+   * app.id: its db id of an app in app service. Used for reference in other services
+   */
+  const { appId, loading: appLoading, app } = useContext(AppContext);
   const {
     feedbackConfig,
     setFeedbackConfig,
@@ -114,7 +118,7 @@ function ConfigureFeedback() {
   const isUpdate = Boolean(feedbackConfig.id);
 
   const saveFeedbackConfig = async (formData: FormData) => {
-    const data = { ...formData, appId };
+    const data = { ...formData, appId: app.id };
     try {
       if (isUpdate) {
         await updateFeedbackConfigService(feedbackConfig.id, data);
