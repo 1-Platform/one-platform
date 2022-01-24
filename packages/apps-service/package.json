@@ -55,7 +55,7 @@
     "graphql-tools": "^8.2.0",
     "lodash": "^4.17.21",
     "mongoose": "^5.13.9",
-    "nanoid": "^3.1.30",
+    "nanoid": "^3.1.31",
     "rimraf": "^3.0.2",
     "winston": "^3.3.3"
   }
