@@ -59,7 +59,7 @@
     "method-override": "3.0.0",
     "moment": "2.29.1",
     "mongoose": "5.13.9",
-    "node-fetch": "2.6.5",
+    "node-fetch": "2.6.7",
     "nodemailer": "6.6.5",
     "nodemon-webpack-plugin": "4.5.2",
     "supertest": "5.0.0",

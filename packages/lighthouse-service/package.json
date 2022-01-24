@@ -64,7 +64,7 @@
     "method-override": "3.0.0",
     "mongoose": "5.13.9",
     "morgan": "1.10.0",
-    "node-fetch": "2.6.1",
+    "node-fetch": "2.6.7",
     "node-schedule": "2.0.0",
     "nodemon-webpack-plugin": "4.5.2",
     "pg": "8.7.1",
