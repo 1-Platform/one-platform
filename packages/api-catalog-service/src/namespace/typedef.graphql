@@ -84,6 +84,10 @@ input NamespaceInput {
   updatedBy: String
 }
 
+type ExdResponseType {
+  entry: String
+}
+
 type Query {
   """
   List all API namespaces
@@ -116,6 +120,8 @@ type Query {
     schemaEndpoint: String
     headers: [HeaderInput]
   ): String
+
+  fetchEXDCatalog: [ExdResponseType]
 }
 
 type Mutation {

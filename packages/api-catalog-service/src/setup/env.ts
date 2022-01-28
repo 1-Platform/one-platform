@@ -11,3 +11,5 @@ export const { GATEWAY_AUTH_TOKEN } = process.env;
 export const { SPA_URL } = process.env;
 
 export const { SMTP_HOST } = process.env;
+
+export const { GITLAB_DATA_SOURCE } = process.env;
