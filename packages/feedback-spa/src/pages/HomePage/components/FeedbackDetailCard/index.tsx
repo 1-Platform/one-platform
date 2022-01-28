@@ -1,0 +1,1 @@
+export { FeedbackDetailCard } from './FeedbackDetailCard';

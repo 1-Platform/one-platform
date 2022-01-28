@@ -1,0 +1,15 @@
+.feedback-icon {
+  width: 42px;
+  height: 42px;
+  background-color: #efefef;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feedback-title {
+  color: #6c6c6c;
+  --pf-c-title--m-md--FontWeight: normal;
+  font-family: 'RedHatText';
+}
