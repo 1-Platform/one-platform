@@ -415,7 +415,7 @@ function formatSearchInput(data: any, userData: any) {
         abstract: data.description,
         description: data.description,
         icon: 'assets/icons/feedback.svg',
-        uri: `${process.env.FEEDBACK_CLIENT}/${data._id}`,
+        uri: `${process.env.FEEDBACK_CLIENT}?id=${data._id}`,
         tags: 'Feedback',
         contentType: 'Feedback',
         createdBy: userData[0].cn || '',
@@ -506,7 +506,7 @@ async function processFeedbackRecords(userFeedbacks: any) {
     const feedbacks = groupBy(userFeedbacks, 'config');
     let query = '';
     const queryList: any[] = [];
-    const configs: any[] = await FeedbackConfig.find().exec();
+    const configs = await FeedbackConfig.find().exec();
     const intResponses: any[] = [];
     const userList: any[] = [];
     let intResponse: any = [];
@@ -519,9 +519,10 @@ async function processFeedbackRecords(userFeedbacks: any) {
         await feedbacks[key].forEach(
           async (record: FeedbackType, keyIndex: number) => {
             userList.push(record.createdBy, record.updatedBy);
-            const config = configs.filter(
+            const config = configs.find(
               (conf) => key.toString() === conf._id.toString(),
-            )[0];
+            );
+            if (!config) return;
             const issueIdParam = record.ticketUrl.split('/').length;
             if (config.sourceType === 'JIRA') {
               query += `issue=${
@@ -571,14 +572,6 @@ async function processFeedbackRecords(userFeedbacks: any) {
       }
     }`;
             }
-            userFeedbacks.map((feedback: FeedbackType) => {
-              const userFeedback = feedback;
-              if ((record as any)._id === (userFeedback as any)._id) {
-                userFeedback.source = config.sourceType;
-                userFeedback.module = appList.filter((app:any) => app.id === config.appId)[0].name;
-              }
-              return userFeedback;
-            });
             if (feedbacks[key].length === keyIndex + 1) {
               const apiQueryParams = {
                 query,
@@ -644,6 +637,13 @@ async function processFeedbackRecords(userFeedbacks: any) {
           const selectedResponse: any = await integrationResponses.filter(
             (response: any) => userFeedback?.ticketUrl === (response?.webUrl || response?.url),
           )[0];
+          const config = configs.find(
+            (conf) => feedback.config === conf._id.toString(),
+          );
+          userFeedback.source = config?.sourceType || '';
+          userFeedback.module = appList.find(
+            (app: any) => app.id === config?.appId,
+          )?.name || '';
           userFeedback.state = selectedResponse?.state || feedback?.state;
           userFeedback.assignee = selectedResponse?.assignee || {};
           userFeedback.createdBy = userDataObj?.[feedback.createdBy as string] || null;
