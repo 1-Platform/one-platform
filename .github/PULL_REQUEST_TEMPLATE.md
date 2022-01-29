@@ -12,7 +12,7 @@ Projects: "One Platform Development"
 
 # Explain the feature/fix
 
-<!-- Provide a clear explaination of the feature/fix implemented -->
+<!-- Provide a clear explanation of the feature/fix implemented -->
 
 ## Does this PR introduce a breaking change
 
@@ -37,4 +37,4 @@ Projects: "One Platform Development"
 - [ ] Does the change have appropriate unit tests?
 - [ ] Did tests pass?
 - [ ] Did you update or add any necessary documentation (README.md, WHY.md, etc.)?
-- [ ] Was this feature demo'd and the design review approved?
+- [ ] Was this feature demoed and the design review approved?
