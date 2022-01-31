@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
-import '@patternfly/react-core/dist/styles/base.css';
 
 import opcBase from '@one-platform/opc-base';
 import pkg from '../package.json';

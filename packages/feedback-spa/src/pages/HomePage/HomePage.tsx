@@ -24,7 +24,7 @@ import {
 import { CubesIcon, PlusIcon, UploadIcon } from '@patternfly/react-icons';
 import { useQuery } from 'urql';
 import opcBase from '@one-platform/opc-base';
-import * as jsonexport from 'jsonexport/dist';
+import jsonexport from 'jsonexport/dist';
 
 import { useDebounce, usePagination, usePopUp, useQueryParams, useToggle } from 'hooks';
 import { FeedbackCategoryAPI, FeedbackStatusAPI, FeedbackUserProfileAPI } from 'types';
