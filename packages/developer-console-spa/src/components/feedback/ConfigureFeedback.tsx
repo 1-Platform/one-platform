@@ -93,12 +93,12 @@ function ConfigureFeedback() {
    * appId: it is the unique slug generated for an app used in url
    * app.id: its db id of an app in app service. Used for reference in other services
    */
-  const { appId, loading: appLoading, app } = useContext(AppContext);
+  const { loading: appLoading, app } = useContext(AppContext);
   const {
     feedbackConfig,
     setFeedbackConfig,
     loading: feedbackConfigLoading,
-  } = useFeedbackConfig(appId);
+  } = useFeedbackConfig(app.id);
   const {
     handleSubmit,
     control,
