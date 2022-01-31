@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { GITLAB_DATA_SOURCE } from '../setup/env';
 import APICatalogHelper from '../shared/helpers';
 import { Namespace } from './schema';
 
@@ -90,6 +91,19 @@ const NamespaceResolver = {
         schemaEndpoint as string,
         headers as HeaderType[],
       );
+    },
+    async fetchEXDCatalog(
+      root: any,
+      args: any,
+      ctx: any,
+    ) {
+      const apiResponse = await APICatalogHelper.fetchSchema('REST' as ApiCategory.REST,
+        GITLAB_DATA_SOURCE as string,
+        []);
+      const gitlabResponse = JSON.parse(apiResponse);
+      return gitlabResponse.items.map((item: string) => ({
+        entry: item.slice(0, -5),
+      }));
     },
   },
   Mutation: {
