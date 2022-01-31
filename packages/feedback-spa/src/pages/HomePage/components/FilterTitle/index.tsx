@@ -1,0 +1,1 @@
+export { FilterTitle } from './FilterTitle';

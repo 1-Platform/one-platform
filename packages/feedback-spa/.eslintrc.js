@@ -1,28 +1,45 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    browser: true,
+    es2021: true,
   },
   extends: [
-    'plugin:vue/essential',
-    '@vue/standard'
+    'plugin:react/recommended',
+    'airbnb',
+    'airbnb-typescript',
+    'airbnb/hooks',
+    'plugin:prettier/recommended',
   ],
-  parserOptions: {
-    parser: 'babel-eslint'
-  },
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
-  },
   overrides: [
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
-      ],
-      env: {
-        jest: true
-      }
-    }
-  ]
-}
+      files: '**/*.{ts,tsx}',
+      // TypeScript-only configuration
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: 'tsconfig.json',
+        tsconfigRootDir: __dirname,
+        sourceType: 'module',
+      },
+      plugins: ['@typescript-eslint'],
+    },
+  ],
+  plugins: ['react', '@typescript-eslint', 'react-hooks', 'prettier'],
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    'import/prefer-default-export': 'off',
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+  },
+  settings: {
+    react: {
+      pragma: 'React',
+      version: 'detect',
+    },
+  },
+};

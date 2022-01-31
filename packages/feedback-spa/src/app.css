@@ -1,0 +1,28 @@
+html,
+body,
+#root {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.pf-c-page {
+  --pf-c-page--BackgroundColor: #fff;
+  height: calc(100vh - 60px);
+}
+
+.pf-c-page__sidebar-body {
+  height: 100% !important;
+}
+
+.pf-c-backdrop {
+  --pf-c-backdrop--ZIndex: 1000;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.p-4 {
+  padding: 1rem;
+}
