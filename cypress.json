@@ -12,11 +12,10 @@
     "reporter":"cypress-mochawesome-reporter",
     "reporterOptions":{
         "reportDir": "e2e/reports/",
-    "charts": true,
-    "reportPageTitle": "one-platform-test",
-    "quiet":false
-
-        },
+        "charts": true,
+        "reportPageTitle": "one-platform-test",
+        "quiet":false
+     },
      "env": {
     "width": 1280,
     "height": 720
