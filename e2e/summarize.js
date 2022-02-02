@@ -46,7 +46,7 @@ function buildHtml ( req ) {
             </body>
         </html>`;
 };
-let fileName = "e2e/reports/summary.html";
+let fileName = "e2e/reports/index.html";
 let stream = fs.createWriteStream( fileName );
 
 stream.once( "open", function ( fd ) {

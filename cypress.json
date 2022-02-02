@@ -2,21 +2,20 @@
     "includeShadowDom": true,
     "chromeWebSecurity": false,
     "video": false,
-    "numTestsKeptInMemory": 0,
+    "numTestsKeptInMemory":0,
     "pageLoadTimeout": 15000,
+    "experimentalRunEvents": true,
     "restartBrowserBetweenSpecFiles": true,
+    "screenshotOnRunFailure": true,
+    "screenshotsFolder": "e2e/reports/mochareports/assets",
     "integrationFolder":"e2e/integration",
-    "reporter":"cypress-multi-reporters",
+    "reporter":"cypress-mochawesome-reporter",
     "reporterOptions":{
-        "reporterEnabled":"mochawesome",
-        "mochawesomeReporterOptions":{
-            "reportDir":"e2e/reports/mochawesome-report",
-            "quite":true,
-            "overwrite": false,
-            "html":false,
-            "json":true
-        }
-    },
+        "reportDir": "e2e/reports/",
+        "charts": true,
+        "reportPageTitle": "one-platform-test",
+        "quiet":false
+     },
      "env": {
     "width": 1280,
     "height": 720

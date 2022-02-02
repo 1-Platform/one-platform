@@ -66,7 +66,6 @@ typings/
 tmp/
 e2e/reports/
 cypress/fixtures
-cypress/plugins
 cypress/screenshots
 cypress/videos
 
