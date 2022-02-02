@@ -13,6 +13,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
+import { ReadMore } from 'components';
 import dayjs from 'dayjs';
 import { useCallback } from 'react';
 import { FeedbackCategoryAPI, FeedbackUserProfileAPI } from 'types';
@@ -64,12 +65,12 @@ export const FeedbackDetailCard = ({ feedback, isLoading }: Props): JSX.Element 
             <Title headingLevel="h6">
               {(createdBy as FeedbackUserProfileAPI)?.cn} at {formatDate(createdOn)}
             </Title>
-            {summary}.
+            <ReadMore>{summary}</ReadMore>
           </StackItem>
           <StackItem style={{ whiteSpace: 'pre-line', lineHeight: 1.75 }}>
             <Title headingLevel="h6">Description</Title>
             {/* // regex in html to remove <br/> tag */}
-            {description.replace(/<br\/>/gi, '')}
+            <ReadMore>{description.replace(/<br\/>/gi, '')}</ReadMore>
           </StackItem>
           <StackItem>
             <Stack hasGutter>

@@ -222,6 +222,7 @@ export const HomePage = (): JSX.Element => {
                   variant="secondary"
                   onClick={onExportToCSV}
                   isLoading={isExporting}
+                  isDisabled={!feedbacks?.count}
                 >
                   Export
                 </Button>
@@ -371,6 +372,7 @@ export const HomePage = (): JSX.Element => {
                       createdOn={feedback.createdOn}
                       description={feedback.summary}
                       experience={feedback.experience}
+                      error={feedback.error}
                       module={feedback.module}
                       category={feedback.category}
                       state={feedback.state}

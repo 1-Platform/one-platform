@@ -20,4 +20,10 @@ describe('Feedback Detail PopUp', () => {
     const emptyMsg = screen.getByText(/No feedback found!!!/i);
     expect(emptyMsg).toBeInTheDocument();
   });
+
+  test('Should have a title', () => {
+    render(<FeedbackDetailCard feedback={mockFeedbacks[0] as any} />);
+    const title = screen.getByText(/lore at 27 January 2022/i);
+    expect(title).toBeInTheDocument();
+  });
 });

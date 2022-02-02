@@ -36,4 +36,28 @@ describe('Feedback Card', () => {
     fireEvent.click(btn);
     expect(mockFn.mock.calls.length).toBe(1);
   });
+
+  test('When summary is short ellipsis should  be hidden', () => {
+    const textEl = screen.queryByText(/\.\.\./i);
+    expect(textEl).toBeNull();
+  });
+
+  test('When summary is longer than 200 ellipsis', () => {
+    const desc = new Array(300).fill('a').join();
+    component.unmount();
+    component = render(
+      <FeedbackCard
+        title={feedback.createdBy.cn}
+        createdOn={feedback.createdOn}
+        description={desc}
+        experience={feedback.experience}
+        module={feedback.module}
+        category={feedback.category}
+        state={feedback.state}
+        onClick={mockFn}
+      />
+    );
+    const textEl = screen.getByText(/\.\.\./i);
+    expect(textEl).toBeInTheDocument();
+  });
 });
