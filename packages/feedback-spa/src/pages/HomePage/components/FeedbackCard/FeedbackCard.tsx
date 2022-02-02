@@ -27,6 +27,8 @@ type Props = {
   onClick: () => void;
 };
 
+const MAX_SUMMARY_CHARACTERS = 200;
+
 export const FeedbackCard = ({
   onClick,
   title,
@@ -40,6 +42,10 @@ export const FeedbackCard = ({
 }: Props): JSX.Element => {
   const formatDate = useCallback((date: string) => {
     return dayjs(date).format('DD MMMM, YYYY');
+  }, []);
+
+  const clampDescriptionLength = useCallback((desc: string) => {
+    return desc.length > 200 ? `${desc.slice(0, MAX_SUMMARY_CHARACTERS)}...` : desc;
   }, []);
 
   return (
@@ -79,8 +85,8 @@ export const FeedbackCard = ({
             </Split>
           </StackItem>
           <StackItem style={{ margin: '0.75rem 0 1rem 0' }}>
-            {description}
-            <Button variant="link" isInline onClick={onClick} style={{ padding: '0 0.5rem' }}>
+            {clampDescriptionLength(description)}
+            <Button variant="link" isInline onClick={onClick} style={{ padding: '0 0.25rem' }}>
               View more
             </Button>
           </StackItem>
