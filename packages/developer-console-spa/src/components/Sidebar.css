@@ -56,14 +56,14 @@
   margin-right: var(--pf-c-nav__link--PaddingRight, 5%);
   background: #eee;
   position: absolute;
-  top: 0;
+  top: -1px;
   left: 0;
 }
 
 .pf-c-nav.pf-m-light {
-  --pf-c-nav__link--m-current--Color: var(--color-active);
-  --pf-c-nav__link--before--BorderColor: transparent;
-  --pf-c-nav__section-title--BorderBottomWidth: 0;
+  --pf-c-nav__link--m-current--Color: var(--color-active) !important;
+  --pf-c-nav__link--before--BorderColor: transparent !important;
+  --pf-c-nav__section-title--BorderBottomWidth: 0 !important;
 }
 .pf-c-nav__link.pf-m-current {
   background-color: #fff;

@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-if (!window.OpAuthHelper) {
+function renderApp() {
   ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
@@ -29,16 +29,13 @@ if (!window.OpAuthHelper) {
     </React.StrictMode>,
     document.getElementById('root')
   );
+}
+
+if (!window.OpAuthHelper) {
+  renderApp();
 } else {
   window.OpAuthHelper.onLogin(() => {
-    ReactDOM.render(
-      <React.StrictMode>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <App />
-        </BrowserRouter>
-      </React.StrictMode>,
-      document.getElementById('root')
-    );
+    renderApp();
   });
 }
 

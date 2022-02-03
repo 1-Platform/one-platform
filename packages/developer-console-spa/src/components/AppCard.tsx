@@ -15,7 +15,7 @@ function AppCard (props: IAppCardProps) {
     <>
       <Card isHoverable isRounded className="app-card">
         <section className="app-card--body">
-          <Link to={app.path || ''}><Title headingLevel='h2'>{ app.name }</Title></Link>
+          <Link to={app.appId}><Title headingLevel='h2'>{ app.name }</Title></Link>
           <p className="app-card--body__description">{ app.description }</p>
         </section>
         <aside className="app-card--dropdown">

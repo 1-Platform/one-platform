@@ -18,7 +18,7 @@ import ssiDefaultImage from "assets/images/ssi_default.png";
 import ssiFeedbackImage from "assets/images/ssi_feedback.png";
 import ssiNavOnlyImage from "assets/images/ssi_nav_only.png";
 
-import styles from "./configureSSI.module.css";
+import styles from "./ConfigureOPCBase.module.css";
 
 const OPC_BASE_SCRIPT = `opcBase.configure({
     apiBasePath: "",
@@ -34,11 +34,11 @@ enum Themes {
   FeedbackOnly = "feedback-only",
 }
 
-function ConfigureSSI(props: any) {
+function ConfigureOPNavbar(props: any) {
   const [theme, setTheme] = useState<Themes>(Themes.Full);
 
   const themes = [
-    { name: "Full SSI", image: ssiDefaultImage, key: Themes.Full },
+    { name: "Full Template", image: ssiDefaultImage, key: Themes.Full },
     { name: "Top Nav only", image: ssiNavOnlyImage, key: Themes.NavOnly },
     {
       name: "Feedback only",
@@ -150,14 +150,14 @@ ${OPC_BASE_SCRIPT}`;
           <CardBody>
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h1">Configure SSI Header</Title>
+                <Title headingLevel="h1">Configure OP Navbar</Title>
               </StackItem>
               <StackItem>
                 <Grid hasGutter>
                   <GridItem span={12}>
                     <Text>
                       <span className={styles["text-bold"]}>Step 1: </span>
-                      Choose a style for the SSI Header
+                      Choose a style for the OP Navbar
                     </Text>
                   </GridItem>
                   {themes.map(({ name, image, key }) => (
@@ -276,4 +276,4 @@ ${OPC_BASE_SCRIPT}`;
   );
 }
 
-export default ConfigureSSI;
+export default ConfigureOPNavbar;

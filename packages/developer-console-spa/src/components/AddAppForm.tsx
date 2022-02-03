@@ -9,16 +9,14 @@ import * as yup from 'yup';
 
 interface IAppInput {
   name: string;
-  path: string;
   description: string;
 }
 const appSchema = yup.object().shape( {
-  name: yup.string().required(),
-  path: yup.string().required(),
-  description: yup.string(),
+  name: yup.string().trim().required(),
+  description: yup.string().trim(),
 } );
 
-export default function AppAppForm () {
+export default function AddAppForm () {
   const [ isOpen, setIsOpen ] = useState<boolean>();
   const location = useLocation();
   const history = useHistory();
@@ -27,7 +25,6 @@ export default function AppAppForm () {
     resolver: yupResolver( appSchema ),
     defaultValues: {
       name: '',
-      path: '',
       description: '',
     },
   });
@@ -91,26 +88,6 @@ export default function AppAppForm () {
                 validated={errors.name ? 'error' : 'default'}
                 placeholder="Enter app name here..."/>
             )}/>
-        </FormGroup>
-        <FormGroup
-          isRequired
-          label="App Path"
-          fieldId="app-path"
-          helperText="Please provide the path/url for your app"
-          helperTextInvalid={ errors.path?.message }
-          validated={errors.path ? 'error' : 'default'}>
-          <Controller
-            name="path"
-            control={ control }
-            render={ ( { field } ) => (
-              <TextInput
-                { ...field }
-                type="text"
-                id="app-path"
-                aria-describedby="app-path-helper"
-                validated={ errors.path ? 'error' : 'default' }
-                placeholder="Enter app path here..." />
-            ) } />
         </FormGroup>
         <FormGroup
           label="App Description"
