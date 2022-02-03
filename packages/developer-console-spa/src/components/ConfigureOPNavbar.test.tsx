@@ -1,15 +1,15 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import ConfigureSSI from "./ConfigureSSI";
+import ConfigureOPNavbar from "./ConfigureOPNavbar";
 
 describe("ConfigureSSI Page", () => {
   it("should render configure SSI page", () => {
-    const { getByText } = render(<ConfigureSSI />);
-    const headingElement = getByText(/Configure SSI Header/i);
+    const { getByText } = render(<ConfigureOPNavbar />);
+    const headingElement = getByText(/Configure OPC Base/i);
     expect(headingElement).toBeInTheDocument();
   });
 
   it("should change active theme", async () => {
-    const { container } = render(<ConfigureSSI />);
+    const { container } = render(<ConfigureOPNavbar />);
     let currentActiveImage = container.querySelector("img[active-theme]");
     const navOnlyThemeImage = container.querySelector("#nav-only"); // get the nav-only image button
     expect(currentActiveImage?.getAttribute("active-theme")).toEqual(

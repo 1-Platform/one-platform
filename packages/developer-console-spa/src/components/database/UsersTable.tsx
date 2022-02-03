@@ -7,7 +7,7 @@ import {
   Th,
   Td,
 } from '@patternfly/react-table';
-import TimesIcon from '@patternfly/react-icons/dist/esm/icons/times-icon';
+import { TimesIcon } from '@patternfly/react-icons';
 import React, { Key, useEffect, useState } from 'react';
 import Loader from 'components/Loader';
 import gqlClient from 'utils/gqlClient';
@@ -20,11 +20,10 @@ interface UsersTableProps {
   forceRefreshApp: React.FC;
 }
 
-
 const UsersTable = ( { admin, db, appId, forceRefreshApp }: UsersTableProps) => {
   const [ isUserDataLoading, setIsUserDataLoading ] = useState(true);
   const [ columns ] = useState(['Name', 'Permission', 'Action']);
-  const [ rows, setRows ] = useState( [ [] ] );
+  const [ rows, setRows ] = useState( [ [] ] as any[][] );
   const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
   const [ isRemovingUser, setIsRemovingUser ] = useState<boolean>( false );
   const [ rhatUUIDtoDel, setRhatUUIDtoDel ] = useState<string>( '' );
@@ -42,7 +41,7 @@ const UsersTable = ( { admin, db, appId, forceRefreshApp }: UsersTableProps) => 
     })
       .then((res: any) => res.json())
       .then( ( res: any ) => {
-        let memberRows = [[]];
+        let memberRows = [[]] as any[][];
         if ( !res.errors ) {
           memberRows = getMemberRows(res, admin, db);
         }
@@ -104,26 +103,25 @@ const UsersTable = ( { admin, db, appId, forceRefreshApp }: UsersTableProps) => 
         });
   }
   /**
-   * @param admin props of the component
+   * @param admin whether to use the admins
    * @param db database details
    * @returns UserQueries
    */
-  const getUserQueries = ( admin: boolean, db: any ) => {
+  const getUserQueries = (admin: boolean, db: App.Database ) => {
     const users = admin
       ? db.permissions.admins
       : db.permissions.users;
-    return users.map((admin: string, index: number) => {
-      const rhatUUID = admin.slice(5, admin.length);
-      if (admin.startsWith('user:')) {
+    return users
+      .filter(admin => admin.startsWith('user:'))
+      .map((admin, index) => {
+        const rhatUUID = admin.slice(5, admin.length);
         return `
-                    admin${index}:getUsersBy(rhatUUID:"${rhatUUID}") {
-                      cn
-                      rhatUUID
-                    }
-                  `;
-      }
-      return '';
-    });
+        admin${index}:getUsersBy(rhatUUID:"${rhatUUID}") {
+          cn
+          rhatUUID
+        }
+      `;
+      });
   };
   /**
    * @param res response from userData fetch request
@@ -131,13 +129,13 @@ const UsersTable = ( { admin, db, appId, forceRefreshApp }: UsersTableProps) => 
    * @param db database details
    * @returns memberRows
    */
-  const getMemberRows = ( res: any, admin: boolean, db: any ) => {
+  const getMemberRows = ( res: any, admin: boolean, db: App.Database ) => {
     const users = admin
       ? db.permissions.admins
       : db.permissions.users;
     const userMap = Object.values(res.data).map((userData: any) => userData[0]);
-    return users.map((admin: string) => {
-      const matchedUsers = userMap.find((user: any) => {
+    return users.map(admin => {
+      const matchedUsers = userMap.find(user => {
         return user.rhatUUID === admin.slice(5, admin.length);
       });
       if (matchedUsers) {

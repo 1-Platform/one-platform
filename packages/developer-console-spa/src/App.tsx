@@ -11,9 +11,8 @@ import UnderDevelopment from './components/UnderDevelopment';
 import FeedbackList from "./components/feedback/FeedbackList";
 import ConfigureFeedback from "./components/feedback/ConfigureFeedback";
 import ConfigureLighthouse from './components/ConfigureLighthouse';
-import ConfigureSSI from './components/ConfigureSSI';
+import ConfigureOPNavbar from './components/ConfigureOPNavbar';
 import ConfigureDatabase from './components/ConfigureDatabase';
-import ConfigureCouchDB from './components/ConfigureCouchDB';
 import AppSettings from './components/AppSettings';
 
 function App() {
@@ -27,13 +26,11 @@ function App() {
               <Redirect path="/:appId" to="/:appId/overview" exact />
               <Route path="/:appId/overview" component={ AppOverview } exact />
               <Route path="/:appId/analytics" component={ UnderDevelopment } exact />
-              <Route path="/:appId/ssi" component={ ConfigureSSI } exact />
+              <Route path="/:appId/op-navbar" component={ ConfigureOPNavbar } exact />
               <Route path="/:appId/database" component={ ConfigureDatabase } exact />
               <Route path="/:appId/feedback" component={ FeedbackList } exact />
               <Route path="/:appId/feedback/edit" component={ ConfigureFeedback } exact />
               <Route path="/:appId/lighthouse" component={ ConfigureLighthouse } exact />
-              <Route path="/:appId/search" component={ UnderDevelopment } exact />
-              <Route path="/:appId/couchdb" component={ ConfigureCouchDB } />
               <Route path="/:appId/notifications" component={ UnderDevelopment } exact />
               <Route path="/:appId/user-groups" component={ UnderDevelopment } exact />
               <Route path="/:appId/settings" component={ AppSettings } />

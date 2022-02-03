@@ -35,8 +35,7 @@ function Sidebar () {
   const appsMenuToggle = <OptionsMenuToggle onToggle={ () => {setAppsListOpen( !appsListOpen )} } toggleTemplate={ loading ? 'Loading...' : app?.name }></OptionsMenuToggle>;
 
   const integrations = [
-    { name: 'SSI Header', path: 'ssi', },
-    { name: 'Couch DB', path: 'couchdb', },
+    { name: 'OP Navbar', path: 'op-navbar', },
     { name: 'Database', path: 'database', },
     { name: 'Feedback', path: 'feedback', },
     { name: 'Search', path: 'search', },
@@ -44,9 +43,9 @@ function Sidebar () {
     { name: 'Lighthouse', path: 'lighthouse' },
   ];
 
-  function isNavItemActive ( path: string ) {
-    return location.pathname.includes(path);
-  }
+  const isNavItemActive = useCallback( ( path: string ) => {
+    return location.pathname.startsWith( `/${ appId }/${ path }` );
+  }, [appId, location.pathname] );
 
   return (
     <>
@@ -79,7 +78,7 @@ function Sidebar () {
           ))}
         </NavList>
         <NavList className="app-details--sidebar--settings pf-u-mt-auto">
-          <NavItem>
+          <NavItem isActive={ isNavItemActive('settings') }>
             <Link to={ 'settings' }>
               App Settings
               <ion-icon class="pf-u-ml-auto pf-u-my-auto" name="settings-outline"></ion-icon>

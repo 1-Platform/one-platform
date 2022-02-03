@@ -10,11 +10,10 @@ function AppOverview () {
   const history = useHistory();
 
   const [services] = useState([
-    { id: 'ssi', name: 'SSI Header', path: 'ssi', isActive: false, disabled: true },
+    { id: 'op-navbar', name: 'OP Navbar', path: 'op-navbar', isActive: false, disabled: true },
     { id: 'database', name: 'Database', path: 'database', isActive: false, disabled: true },
     { id: 'feedback', name: 'Feedback', path: 'feedback', isActive: false, disabled: true },
     { id: 'search', name: 'Search', path: 'search', isActive: false, disabled: true },
-    { id: 'couchdb', name: 'Couch DB', path: 'couchdb', isActive: false, disabled: true },
     { id: 'notifications', name: 'Notifications', path: 'notifications', isActive: false, disabled: true },
   ] );
 
@@ -56,8 +55,7 @@ function AppOverview () {
                 <MenuItem
                   className="pf-u-align-items-center"
                   key={ service.id }
-                  // to={ app.path + '/' + service.path }
-                  onClick={ () => history.push( app.path + '/' + service.path)}
+                  onClick={ () => history.push( service.path ) }
                   isSelected={false}
                   actions={
                     <MenuItemAction
