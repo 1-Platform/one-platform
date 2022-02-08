@@ -112,10 +112,10 @@ context( 'Test feedback form', () => {
         } )
         cy.wait(4000)
     } )
-    it( 'Test whether My Feedback Option is Visible', () => {
+    it( 'Test whether My Feedback Option is Visible and clickable', () => {
         cy.contains('My Feedback').should('be.visible').click({force:true})
     } )
-    it( 'Test whether All Feedback Option is Visible', () => {
+    it( 'Test whether All Feedback Option is Visible and clickable', () => {
         cy.wait( 3000 )
         cy.xpath('//button[contains(text(),"All Feedback")]').should('be.visible').click({force:true})
     } )
@@ -123,7 +123,7 @@ context( 'Test feedback form', () => {
         cy.contains( 'Export' ).click( { force: true } )
         cy.contains('Export sucessfully completed',{timeout:70000}).should('be.visible')
     } )
-    it( 'Select User group and check the table', () => {
+    it( 'Select Home option and verify home is present in the table', () => {
         cy.xpath( '//label[contains(text(),"Home")]/preceding-sibling::input' ).click( { force: true } ).then( () => {
             cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span' ,{timeout:70000}).each( ( elem, index ) => {
                 cy.wrap(elem).should('contain.text','Home')
