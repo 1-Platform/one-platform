@@ -11,6 +11,7 @@ enum LHLeaderBoardCategory {
   BEST_PRACTICES
   ACCESSIBILITY
   PERFORMANCE
+  OVERALL
 }
 
 input LighthouseInput {
@@ -75,7 +76,7 @@ type LighthouseLeaderBoardBuildType {
 }
 
 type LighthouseLeaderBoardType {
-  score: Int
+  score: LighthouseScoreType
   rank: Int
   build: LighthouseLeaderBoardBuildType
   project: LighthouseProjectType
@@ -137,7 +138,17 @@ type Query {
     limit: Int
     offset: Int
     sort: Sort
+    search: String
   ): ListLHLeaderBoard
+   """
+  Fetch the leaderboard rank of a build
+  """
+  getLHRankingOfABuild(
+    type: LHLeaderBoardCategory!
+    projectId: String!
+    buildId: String!
+    sort: Sort
+  ): LighthouseLeaderBoardType
 }
 
 type Mutation {

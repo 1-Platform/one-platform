@@ -71,15 +71,21 @@ export type Sort = {
 };
 
 export type LeadboardStatistic = {
-  score: number;
+  score: number | LighthouseScoreType;
   rank: number;
-  buildId: number;
-  projectId: number;
+  buildId: string;
+  projectId: string;
   project: LighthouseProjectType;
   build: LighthouseBuildType;
 };
 
-export type LeaderBoardOptions = Omit<Pagination, 'search'> &
+export type LeaderBoardOptions = Pagination &
 Optional<Sort, 'sort'> & {
   type?: string;
 };
+
+export type BuildLeaderboardRankOption = {
+  projectId: string;
+  buildId: string;
+  type?: string;
+} & Partial<Sort>;

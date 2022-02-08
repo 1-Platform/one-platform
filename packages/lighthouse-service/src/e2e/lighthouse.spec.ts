@@ -35,7 +35,26 @@ const query = `
       count
       rows {
         rank
-        score
+        score {
+            accessibility
+            performance
+            pwa
+            bestPractices
+            seo
+        }
+      }
+    }
+  }
+
+   query GetLHRankingOfABuild($type: LHLeaderBoardCategory!, $projectId: String!, $buildId: String!) {
+    getLHRankingOfABuild(type: $type, projectId: $projectId, buildId: $buildId){
+      rank
+      score {
+          accessibility
+          performance
+          pwa
+          bestPractices
+          seo
       }
     }
   }
@@ -123,6 +142,30 @@ describe('Lighthouse audit manager API Test', () => {
         expect(res.body.data.listLHLeaderboard).toHaveProperty('rows');
         expect(res.body.data.listLHLeaderboard.rows[0]).toHaveProperty('rank');
         expect(res.body.data.listLHLeaderboard.rows[0]).toHaveProperty('score');
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
+
+  it('Pull the leaderboard rank of a build from the lighthouse server', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'GetLHRankingOfABuild',
+        variables: {
+          type: 'ACCESSIBILITY',
+          projectId: mock.projectId,
+          buildId: mock.buildID,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('getLHRankingOfABuild');
+        expect(res.body.data.getLHRankingOfABuild).toHaveProperty('rank');
+        expect(res.body.data.getLHRankingOfABuild).toHaveProperty('score');
       })
       .end((err) => {
         done(err);
