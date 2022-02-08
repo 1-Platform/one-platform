@@ -14,7 +14,8 @@
         "reportDir": "e2e/reports/",
         "charts": true,
         "reportPageTitle": "one-platform-test",
-        "quiet":false
+        "quiet":true,
+        "enableCode":false
      },
      "env": {
     "width": 1280,
