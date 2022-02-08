@@ -103,7 +103,7 @@ context( 'Test feedback form', () => {
     it( 'Test for click on expand to see more apps', () => {
         cy.contains('Expand to see more apps').click({force:true})
     } )
-    it( 'Test to see whether modal opens', () => {
+    it( 'Test to see whether  modal opens on clicking more apps', () => {
         cy.get( '#pf-modal-part-1' ).should( 'be.visible' )
 
         cy.get( '#pf-modal-part-1' ).within( () => {
