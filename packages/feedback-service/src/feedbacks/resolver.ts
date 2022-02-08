@@ -38,9 +38,9 @@ const FeedbackResolver = {
 
       if (status) {
         if (status === 'OPEN') {
-          match.status = { $ne: 'Closed' };
+          match.state = { $ne: 'Closed' };
         } else {
-          match.status = 'Closed';
+          match.state = 'Closed';
         }
       }
 
