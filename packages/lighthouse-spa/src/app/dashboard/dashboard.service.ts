@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { GraphQLModule } from 'app/graphql.module';
+import { LeaderboardCategory } from 'app/leaderboard/enum';
+
 import {
   ListLHProjects,
   ListLHProjectBranches,
   ListLHProjectScores,
+  ListLHLeaderboard,
 } from './dashboard.gql';
 
 @Injectable({
@@ -36,12 +39,34 @@ export class DashboardService extends GraphQLModule {
   }
 
   ListLHProjectScores(projectId: string, branch: string, limit = 10) {
-    return this.apollo.watchQuery<{ listLHProjectBuilds: ProjectBranch[] }>({
+    return this.apollo.query<{ listLHProjectBuilds: ProjectBranch[] }>({
       query: ListLHProjectScores,
       variables: {
         projectId,
         branch,
         limit,
+      },
+    });
+  }
+
+  listLHLeaderboard(
+    type: LeaderboardCategory,
+    buildId: string,
+    projectId: string,
+    sort: Sort = 'DESC'
+  ) {
+    return this.apollo.query<{
+      listLHLeaderboard: Pagination<LHLeaderboard[]>;
+      getLHRankingOfABuild: LHLeaderboard;
+    }>({
+      query: ListLHLeaderboard,
+      variables: {
+        type,
+        sort,
+        limit: 5,
+        offset: 0,
+        buildId,
+        projectId,
       },
     });
   }

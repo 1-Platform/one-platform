@@ -3,7 +3,9 @@ import {
   ApolloTestingController,
   ApolloTestingModule,
 } from 'apollo-angular/testing';
+import { LeaderboardCategory } from 'app/leaderboard/enum';
 import {
+  ListLHLeaderboard,
   ListLHProjectBranches,
   ListLHProjects,
   ListLHProjectScores,
@@ -11,6 +13,7 @@ import {
 
 import { DashboardService } from './dashboard.service';
 import {
+  mockLeaderboardAPI,
   mockListProjectBranches,
   mockListProjects,
   mockListProjectScores,
@@ -69,7 +72,7 @@ describe('DashboardService', () => {
   it('ListLHProjectScores query', fakeAsync(() => {
     service
       .ListLHProjectScores('eef123', 'one-platform')
-      .valueChanges.subscribe((project) => {
+      .subscribe((project) => {
         const data = project.data;
         expect(data).toEqual(mockListProjectScores as any);
       });
@@ -79,6 +82,24 @@ describe('DashboardService', () => {
     expect(op.operation.variables.branch).toEqual('one-platform');
 
     op.flush({ data: mockListProjectScores });
+
+    controller.verify();
+  }));
+
+  it('ListLHLeaderboard query', fakeAsync(() => {
+    service
+      .listLHLeaderboard(LeaderboardCategory.OVERALL, 'eef123', 'one-platform')
+      .subscribe((project) => {
+        const data = project.data;
+        expect(data).toEqual(mockLeaderboardAPI as any);
+      });
+    flushMicrotasks();
+    const op = controller.expectOne(ListLHLeaderboard);
+    expect(op.operation.variables.type).toEqual(LeaderboardCategory.OVERALL);
+    expect(op.operation.variables.projectId).toEqual('one-platform');
+    expect(op.operation.variables.buildId).toEqual('eef123');
+
+    op.flush({ data: mockLeaderboardAPI });
 
     controller.verify();
   }));

@@ -43,3 +43,60 @@ export const ListLHProjectScores = gql`
     }
   }
 `;
+
+export const ListLHLeaderboard = gql`
+  query ListLHLeaderboard(
+    $type: LHLeaderBoardCategory!
+    $buildId: String!
+    $projectId: String!
+    $limit: Int
+    $offset: Int
+    $sort: Sort
+  ) {
+    listLHLeaderboard(
+      type: $type
+      limit: $limit
+      offset: $offset
+      sort: $sort
+    ) {
+      count
+      rows {
+        score {
+          accessibility
+          performance
+          pwa
+          bestPractices
+          seo
+        }
+        rank
+        build {
+          branch
+        }
+        project {
+          name
+        }
+      }
+    }
+    getLHRankingOfABuild(
+      type: $type
+      projectId: $projectId
+      buildId: $buildId
+      sort: $sort
+    ) {
+      score {
+        accessibility
+        performance
+        pwa
+        bestPractices
+        seo
+      }
+      rank
+      build {
+        branch
+      }
+      project {
+        name
+      }
+    }
+  }
+`;

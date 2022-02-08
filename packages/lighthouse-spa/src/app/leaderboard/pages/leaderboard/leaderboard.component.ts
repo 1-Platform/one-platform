@@ -1,7 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LeaderboardCategory } from 'app/leaderboard/enum';
 import { LeaderboardService } from 'app/leaderboard/leaderboard.service';
-import { Subscription } from 'rxjs';
+import { Row } from 'app/shared/components/table/table.component';
+import {
+  getLeaderboardCells,
+  LEADERBOARD_COLUMNS,
+} from 'app/utils/leaderboardTable';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-leaderboard',
@@ -15,14 +22,17 @@ export class LeaderboardComponent implements OnInit {
     'ACCESSIBILITY',
     'BEST_PRACTICES',
     'PERFORMANCE',
+    'OVERALL',
   ] as LeaderboardCategory[];
+  columns = LEADERBOARD_COLUMNS;
+  rows: Row[] = [];
   leaderboardSortDir: Sort[] = ['DESC', 'ASC'];
 
-  lighthouseLeaderboard: LHLeaderboard[] = [];
-  listLeaderBoardSubscription: Subscription;
+  @ViewChild('search') searchInput: ElementRef;
+  searchSubscription: Subscription;
+  searchTerm = '';
 
-  leaderbooardSelectedCategory = LeaderboardCategory.PWA;
-  leaderboardSelectedSortOrder: Sort = 'DESC';
+  listLeaderBoardSubscription: Subscription;
 
   // pagination
   totalCount = 0;
@@ -34,7 +44,10 @@ export class LeaderboardComponent implements OnInit {
   isPageLimitOptionOpen = false;
   isPageSortOptionOpen = false;
 
-  constructor(private leaderboardService: LeaderboardService) {}
+  constructor(
+    private leaderboardService: LeaderboardService,
+    private titleCasePipe: TitleCasePipe
+  ) {}
 
   ngOnInit(): void {
     this.fetchLHLeaderboard();
@@ -42,23 +55,57 @@ export class LeaderboardComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.listLeaderBoardSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    this.searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup')
+      .pipe(
+        map((event: InputEvent) => (event.target as HTMLInputElement).value),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((search) => {
+        this.searchTerm = search;
+        this.pageOffset = 0;
+        this.fetchLHLeaderboard();
+      });
+  }
+
+  getAvgScore(scores: number[]) {
+    const avg = scores.reduce((prev, curr) => prev + curr, 0) / scores.length;
+    return Math.min(Math.max(avg, 0), 100);
+  }
+
+  getCategory() {
+    return this.columns.find(
+      ({ sortDir, isSortable }) => isSortable && Boolean(sortDir)
+    );
   }
 
   fetchLHLeaderboard(): void {
     this.isPageLoading = true;
-
+    const selectedCategory = this.getCategory();
     try {
       this.listLeaderBoardSubscription = this.leaderboardService
         .listLHLeaderboard(
-          this.leaderbooardSelectedCategory,
-          this.leaderboardSelectedSortOrder,
+          selectedCategory.key,
+          selectedCategory.sortDir,
+          this.searchTerm,
           this.pageLimit,
           this.pageOffset
         )
-        .valueChanges.subscribe(({ data: { listLHLeaderboard }, loading }) => {
+        .subscribe(({ data: { listLHLeaderboard }, loading }) => {
           this.isPageLoading = loading;
-          this.totalCount = listLHLeaderboard.count;
-          this.lighthouseLeaderboard = listLHLeaderboard.rows;
+          this.totalCount = listLHLeaderboard?.count;
+          this.rows = listLHLeaderboard?.rows.map((leader) => {
+            return {
+              cells: getLeaderboardCells({
+                row: leader,
+                titleCasePipe: this.titleCasePipe,
+              }),
+            };
+          });
         });
     } catch (error) {
       console.error(error);
@@ -69,20 +116,22 @@ export class LeaderboardComponent implements OnInit {
     }
   }
 
-  handleLeaderboardOptionChange(type: LeaderboardCategory): void {
-    if (!this.isPageLoading) {
-      this.pageOffset = 0;
-      this.leaderbooardSelectedCategory = type;
-      this.fetchLHLeaderboard();
-    }
+  handleSortClick({
+    column: columnName,
+    sortDir: dir,
+  }: {
+    column: string;
+    sortDir: 'DESC' | 'ASC';
+  }) {
+    this.pageOffset = 0;
+    this.columns = this.columns.map(({ sortDir, ...column }) =>
+      column.title === columnName ? { ...column, sortDir: dir } : column
+    );
+    this.fetchLHLeaderboard();
   }
 
   handleToggleOption(): void {
     this.isPageLimitOptionOpen = !this.isPageLimitOptionOpen;
-  }
-
-  handleToggleSortOption(): void {
-    this.isPageSortOptionOpen = !this.isPageSortOptionOpen;
   }
 
   handlePageLimitChange(limit: number): void {
@@ -100,12 +149,5 @@ export class LeaderboardComponent implements OnInit {
   handlePrevPageClick(): void {
     this.pageOffset -= this.pageLimit;
     this.fetchLHLeaderboard();
-  }
-
-  handleSortDirChange(dir: Sort): void {
-    this.pageOffset = 0;
-    this.leaderboardSelectedSortOrder = dir;
-    this.fetchLHLeaderboard();
-    this.handleToggleSortOption();
   }
 }

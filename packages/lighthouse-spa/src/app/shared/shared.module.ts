@@ -15,6 +15,7 @@ import { LHScoreLabelFormaterPipe } from './pipes/lhscore-label-formater.pipe';
 import { FilterListPipe } from './pipes/filter-list.pipe';
 import { UrlValidatorDirective } from './directive/url-validator.directive';
 import { FormErrorMessageComponent } from './components/form-error-message/form-error-message.component';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FormErrorMessageComponent } from './components/form-error-message/form-
     ContextSelectorComponent,
     UrlValidatorDirective,
     FormErrorMessageComponent,
+    TableComponent,
   ],
   imports: [CommonModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -44,6 +46,7 @@ import { FormErrorMessageComponent } from './components/form-error-message/form-
     ContextSelectorComponent,
     UrlValidatorDirective,
     FormErrorMessageComponent,
+    TableComponent,
   ],
 })
 export class SharedModule {}

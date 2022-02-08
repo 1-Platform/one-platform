@@ -1,0 +1,55 @@
+<table class="pf-c-table" role="grid" aria-label="This is a sortable table example" id="table-sortable">
+    <thead>
+        <tr role="row">
+            <th *ngFor="let column of columns" class="pf-c-table__sort" [class.pf-m-selected]="column.sortDir"
+                role="columnheader" aria-sort="ascending" scope="col">
+                <button class="pf-c-table__button" *ngIf="column.isSortable; else elseBlock"
+                    (click)="onSort(column.title,column.sortDir === 'DESC'?'ASC':'DESC')">
+                    <div class="pf-c-table__button-content">
+                        <span class="pf-c-table__text">{{ column.title }}</span>
+                        <span class="pf-c-table__sort-indicator">
+                            <i class="fas fa-long-arrow-alt-up" *ngIf="column.sortDir === 'ASC'"></i>
+                            <i class="fas fa-long-arrow-alt-down" *ngIf="column.sortDir === 'DESC'"></i>
+                        </span>
+                    </div>
+                </button>
+                <ng-template #elseBlock>
+                    {{ column.title }}
+
+                </ng-template>
+            </th>
+        </tr>
+    </thead>
+    <tbody role="rowgroup">
+        <tr role="row" *ngIf="isLoading; else elseBlock">
+            <td role="row" [colSpan]="columns.length">
+                <div class="pf-l-bullseye pf-u-my-4xl">
+                    <div class="pf-l-bullseye__item">
+                        <app-loader [title]="loadingText"></app-loader>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <ng-template #elseBlock>
+            <tr role="row" *ngIf="!isLoading && rows.length === 0; else elseSecondBlock">
+                <td role="row" [colSpan]="columns.length">
+                    <div class="pf-l-bullseye pf-u-my-4xl">
+                        <app-empty-state title="No data to show">
+                        </app-empty-state>
+                    </div>
+                </td>
+            </tr>
+            <ng-template #elseSecondBlock>
+                <tr role="row" *ngFor="let row of rows" [ngClass]="row.rowClassName">
+                    <td role="cell" [attr.data-label]="cell" *ngFor="let cell of row.cells"
+                        [ngClass]="cell.cellClassName">
+                        {{ cell.title }}
+                        <span class="pf-c-label pf-m-compact pf-m-{{cell.chipColor}}" *ngIf="cell.chipTitle">
+                            <span class="pf-c-label__content">{{cell.chipTitle}}</span>
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+        </ng-template>
+    </tbody>
+</table>
