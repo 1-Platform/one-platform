@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 
 import { LeaderboardRoutingModule } from './leaderboard-routing.module';
 import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
@@ -15,6 +15,7 @@ import { LeaderboardLabelFormaterPipe } from './pipes/leaderboard-label-formater
     LeaderboardCardComponent,
     LeaderboardLabelFormaterPipe,
   ],
+  providers: [TitleCasePipe],
   imports: [
     CommonModule,
     LeaderboardRoutingModule,

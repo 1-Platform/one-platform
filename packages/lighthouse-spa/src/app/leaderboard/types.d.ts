@@ -1,5 +1,5 @@
 type LHLeaderboard = {
-  score: number;
+  score: Score;
   rank: number;
   build: ProjectBranch;
   project: LHProject;

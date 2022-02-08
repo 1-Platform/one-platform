@@ -1,6 +1,12 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DashboardService } from 'app/dashboard/dashboard.service';
+import { Row } from 'app/shared/components/table/table.component';
+import {
+  getLeaderboardCells,
+  LEADERBOARD_COLUMNS,
+} from 'app/utils/leaderboardTable';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -11,6 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AnalysisComponent implements OnInit {
   projectId = '';
+  buildId = '';
   branches: string[] = [];
   buildScores: Record<string, ProjectBranch[]> = {};
 
@@ -51,9 +58,15 @@ export class AnalysisComponent implements OnInit {
 
   destroySub: Subject<boolean> = new Subject<boolean>();
 
+  // leaderboard states
+  isLeaderboardLoading = true;
+  rows: Row[] = [];
+  columns = LEADERBOARD_COLUMNS;
+
   constructor(
     private router: ActivatedRoute,
     private dashboardService: DashboardService,
+    private titleCasePipe: TitleCasePipe,
     @Inject(LOCALE_ID) private locale: string
   ) {}
 
@@ -113,19 +126,27 @@ export class AnalysisComponent implements OnInit {
 
   async fetchBranchScore(branch: string) {
     // to avoid error on dynamic query builder
+    this.isLeaderboardLoading = true;
     try {
       if (!this.buildScores?.[branch]) {
         this.isBranchLoading = true;
         this.dashboardService
           .ListLHProjectScores(this.projectId, branch)
-          .valueChanges.pipe(takeUntil(this.destroySub))
+          .pipe(takeUntil(this.destroySub))
           .subscribe(({ data, loading }) => {
             this.isBranchLoading = false;
+
+            this.buildId = data.listLHProjectBuilds[0]?.id;
+            this.fetchLHLeaderboard();
+
             this.buildScores = {
               ...this.buildScores,
               [branch]: data.listLHProjectBuilds,
             };
           });
+      } else {
+        this.buildId = this.buildScores[branch][0]?.id;
+        this.fetchLHLeaderboard();
       }
     } catch (error) {
       window.OpNotification.danger({
@@ -149,5 +170,94 @@ export class AnalysisComponent implements OnInit {
     this.isBranchContextSelectorOpen = false;
     this.branchContextSelectorSearchValue = '';
     this.fetchBranchScore(branch);
+  }
+
+  // leaderboard functions
+  fetchLHLeaderboard(): void {
+    this.isLeaderboardLoading = true;
+    const selectedCategory = this.getCategory();
+    try {
+      this.dashboardService
+        .listLHLeaderboard(
+          selectedCategory.key,
+          this.buildId,
+          this.projectId,
+          selectedCategory.sortDir
+        )
+        .subscribe(
+          ({
+            data: {
+              listLHLeaderboard,
+              getLHRankingOfABuild: currentBranchRank,
+            },
+            loading,
+          }) => {
+            this.isLeaderboardLoading = loading;
+            const leaders = [...listLHLeaderboard.rows];
+            // obtain the new leaderboard with the selected branch rank
+            const [finalLeaderboard, pos] =
+              this.joinCurrentBranchScoreToLeaderBoard(
+                currentBranchRank,
+                leaders
+              );
+
+            this.rows = finalLeaderboard.map((leader, index) => {
+              const isSelected = index === pos;
+
+              return {
+                rowClassName: isSelected ? 'selected-row' : '',
+                cells: getLeaderboardCells({
+                  row: leader,
+                  titleCasePipe: this.titleCasePipe,
+                  isSelected,
+                }),
+              };
+            });
+          }
+        );
+    } catch (error) {
+      console.error(error);
+      window.OpNotification.danger({
+        subject: 'Error on loading leaderboard',
+        body: error.message,
+      });
+    }
+  }
+
+  joinCurrentBranchScoreToLeaderBoard(
+    currentBranchRank: LHLeaderboard,
+    leaders: LHLeaderboard[]
+  ): [LHLeaderboard[], number] {
+    let pos = leaders.length;
+    for (let i = 0; i < leaders.length; i++) {
+      if (currentBranchRank.build.branch === leaders[i].build.branch) {
+        return [leaders, i];
+      }
+
+      if (currentBranchRank.rank <= leaders[i].rank) {
+        pos = i;
+      }
+    }
+    leaders.splice(pos, 0, currentBranchRank);
+    return [leaders, pos];
+  }
+
+  getCategory() {
+    return this.columns.find(
+      ({ sortDir, isSortable }) => isSortable && Boolean(sortDir)
+    );
+  }
+
+  handleSortClick({
+    column: columnName,
+    sortDir: dir,
+  }: {
+    column: string;
+    sortDir: 'DESC' | 'ASC';
+  }) {
+    this.columns = this.columns.map(({ sortDir, ...column }) =>
+      column.title === columnName ? { ...column, sortDir: dir } : column
+    );
+    this.fetchLHLeaderboard();
   }
 }

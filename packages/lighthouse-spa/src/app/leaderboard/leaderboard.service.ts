@@ -15,10 +15,11 @@ export class LeaderboardService extends GraphQLModule {
   listLHLeaderboard(
     type: LeaderboardCategory,
     sort: Sort = 'DESC',
+    search = '',
     limit = 10,
     offset = 0
   ) {
-    return this.apollo.watchQuery<{
+    return this.apollo.query<{
       listLHLeaderboard: Pagination<LHLeaderboard[]>;
     }>({
       query: ListLHLeaderboard,
@@ -27,8 +28,8 @@ export class LeaderboardService extends GraphQLModule {
         sort,
         limit,
         offset,
+        search,
       },
-      fetchPolicy: 'network-only',
     });
   }
 }

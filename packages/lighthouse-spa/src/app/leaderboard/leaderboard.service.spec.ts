@@ -7,7 +7,7 @@ import { LeaderboardCategory } from './enum';
 import { ListLHLeaderboard } from './leaderboard.gql';
 
 import { LeaderboardService } from './leaderboard.service';
-import { mockLeaderboard } from './mock-leaderboard';
+import { mockLeaderboardData } from './mock-leaderboard';
 
 describe('LeaderboardService', () => {
   let service: LeaderboardService;
@@ -32,7 +32,7 @@ describe('LeaderboardService', () => {
   it('expect and answer', fakeAsync(() => {
     service
       .listLHLeaderboard(LeaderboardCategory.ACCESSIBILITY)
-      .valueChanges.subscribe((leaderboard) => {
+      .subscribe((leaderboard) => {
         const data = leaderboard.data.listLHLeaderboard;
         expect(data.count).toEqual(1);
       });
@@ -42,7 +42,7 @@ describe('LeaderboardService', () => {
       LeaderboardCategory.ACCESSIBILITY
     );
 
-    op.flush({ data: { listLHLeaderboard: mockLeaderboard } });
+    op.flush({ data: { listLHLeaderboard: mockLeaderboardData } });
 
     controller.verify();
   }));

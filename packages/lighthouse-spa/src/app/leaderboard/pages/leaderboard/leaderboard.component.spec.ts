@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   ComponentFixture,
   fakeAsync,
@@ -12,8 +12,8 @@ import { LeaderboardCardComponent } from 'app/leaderboard/components/leaderboard
 import { SharedModule } from 'app/shared/shared.module';
 import { LeaderboardService } from 'app/leaderboard/leaderboard.service';
 import {
-  mockLeaderboard,
   mockLeaderboardAPI,
+  mockLeaderboardRows,
 } from 'app/leaderboard/mock-leaderboard';
 import { LeaderboardLabelFormaterPipe } from 'app/leaderboard/pipes/leaderboard-label-formater.pipe';
 import { LeaderboardComponent } from './leaderboard.component';
@@ -31,7 +31,11 @@ describe('LeaderboardComponent', () => {
         LeaderboardCardComponent,
       ],
       imports: [CommonModule, SharedModule, ApolloTestingModule],
-      providers: [{ provide: 'Window', useValue: window }, Apollo],
+      providers: [
+        { provide: 'Window', useValue: window },
+        Apollo,
+        TitleCasePipe,
+      ],
     }).compileComponents();
   });
 
@@ -40,9 +44,7 @@ describe('LeaderboardComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.inject(LeaderboardService);
     fixture.detectChanges();
-    spyOn(service, 'listLHLeaderboard').and.returnValue({
-      valueChanges: of(mockLeaderboardAPI),
-    });
+    spyOn(service, 'listLHLeaderboard').and.returnValue(of(mockLeaderboardAPI));
     component.ngOnInit();
   });
 
@@ -51,24 +53,12 @@ describe('LeaderboardComponent', () => {
   });
 
   it('should setup a leaderboard on component mount', () => {
-    expect(component.lighthouseLeaderboard).toEqual(
-      mockLeaderboard.rows as any // graphql type error: using general type of the whole object
-    );
+    expect(component.rows).toEqual(mockLeaderboardRows);
     expect(component.totalCount).toEqual(
       mockLeaderboardAPI.data.listLHLeaderboard.count
     );
     expect(component.isPageLoading).toBeFalsy();
   });
-
-  it('should change sort order of leaderboard', fakeAsync(() => {
-    component.handleToggleSortOption();
-    component.handleSortDirChange('DESC');
-    tick();
-    fixture.detectChanges();
-    expect(component.leaderboardSelectedSortOrder).toEqual('DESC');
-    expect(component.pageOffset).toEqual(0);
-    expect(component.isPageSortOptionOpen).toBeFalsy();
-  }));
 
   it('should disable both pagination button', () => {
     const el: HTMLElement = fixture.nativeElement;

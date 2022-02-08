@@ -4,21 +4,7 @@
   height: 100%;
 }
 
-.leaderboard {
-  &--title-container {
-    --pf-c-page--section--m-limit-width--MaxWidth: 1148px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-
-  &--card {
-    max-width: 900px;
-  }
-
-  &--header {
-    position: sticky;
-    top: 136px;
-    z-index: 5;
-  }
+.search-input-container {
+  width: 50%;
+  max-width: 320px;
 }

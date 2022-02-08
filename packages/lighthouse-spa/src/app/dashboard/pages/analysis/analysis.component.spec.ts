@@ -1,15 +1,17 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
 } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardService } from 'app/dashboard/dashboard.service';
 import {
+  mockLeaderboardAPI,
   mockListProjectBranches,
   mockListProjectScores,
 } from 'app/dashboard/mock-dashboard';
@@ -32,6 +34,7 @@ describe('AnalysisComponent', () => {
         RouterTestingModule,
         SharedModule,
         NgxChartsModule,
+        BrowserAnimationsModule,
       ],
       providers: [
         {
@@ -45,6 +48,7 @@ describe('AnalysisComponent', () => {
             }),
           },
         },
+        TitleCasePipe,
       ],
     }).compileComponents();
   });
@@ -57,9 +61,12 @@ describe('AnalysisComponent', () => {
     spyOn(service, 'listLHProjectBranches').and.returnValue({
       valueChanges: of({ data: mockListProjectBranches, loading: false }),
     });
-    spyOn(service, 'ListLHProjectScores').and.returnValue({
-      valueChanges: of({ data: mockListProjectScores, loading: false }),
-    });
+    spyOn(service, 'ListLHProjectScores').and.returnValue(
+      of({ data: mockListProjectScores, loading: false })
+    );
+    spyOn(service, 'listLHLeaderboard').and.returnValue(
+      of({ data: mockLeaderboardAPI, loading: false })
+    );
   });
 
   it('should create', () => {

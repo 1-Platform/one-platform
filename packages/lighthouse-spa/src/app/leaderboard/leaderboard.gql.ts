@@ -6,16 +6,24 @@ export const ListLHLeaderboard = gql`
     $limit: Int
     $offset: Int
     $sort: Sort
+    $search: String
   ) {
     listLHLeaderboard(
       type: $type
       limit: $limit
       offset: $offset
       sort: $sort
+      search: $search
     ) {
       count
       rows {
-        score
+        score {
+          accessibility
+          performance
+          pwa
+          bestPractices
+          seo
+        }
         rank
         build {
           branch

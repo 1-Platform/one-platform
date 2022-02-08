@@ -42,3 +42,17 @@ opc-feedback {
 .whitespace-nowrap {
   white-space: nowrap;
 }
+
+.selected-row {
+  background-color: #dbe9ff !important;
+}
+
+.score-low {
+  color: #ee0000 !important;
+}
+.score-avg {
+  color: #f0ab00 !important;
+}
+.score-good {
+  color: #3e8635 !important;
+}
