@@ -10,9 +10,10 @@ export const LighthouseAuditResolver = {
   LHLeaderBoardCategory: {
     PWA: 'category_pwa_median',
     SEO: 'category_seo_median',
-    BEST_PRACTICES: 'category_performance_median',
+    BEST_PRACTICES: 'category_best-practices_median',
     ACCESSIBILITY: 'category_accessibility_median',
-    PERFORMANCE: 'category_best-practices_median',
+    PERFORMANCE: 'category_performance_median',
+    OVERALL: 'overall',
   },
   Query: {
     async listLHProjects(root: any, args: any) {
@@ -42,8 +43,8 @@ export const LighthouseAuditResolver = {
       );
 
       // eslint-disable-next-line no-param-reassign
-      projectBuilds.forEach((build: any) => {
-        build.score = lhScore[build.id];
+      projectBuilds.forEach((build: any, index: number) => {
+        (projectBuilds[index] as any).score = lhScore[build.id];
       });
       return projectBuilds;
     },
@@ -52,6 +53,9 @@ export const LighthouseAuditResolver = {
     },
     async listLHLeaderboard(root: any, args: any) {
       return lhDbManager.getLeaderBoard(args);
+    },
+    async getLHRankingOfABuild(root: any, args: any) {
+      return lhDbManager.getLHRankingOfABuild(args);
     },
   },
   Mutation: {
@@ -63,14 +67,17 @@ export const LighthouseAuditResolver = {
       };
       return lhci.createLHProject(project);
     },
-    auditWebsite(root: any, args: any, ctx: any) {
+    auditWebsite(root: any, args: any) {
       const lhciBuildContextHash = new Date()
         .getTime()
         .toString(16)
         .split('')
         .reverse()
         .join('');
-      pubsub.publish('AUTORUN', { autorun: `${lhciBuildContextHash}Started the Audit` })
+      pubsub
+        .publish('AUTORUN', {
+          autorun: `${lhciBuildContextHash}Started the Audit`,
+        })
         .catch((err) => Logger.error(err));
       (async () => {
         const chrome = await chromeLauncher.launch({
@@ -100,9 +107,15 @@ export const LighthouseAuditResolver = {
             result.lhr.categories[category].score * 100,
           );
         });
-        pubsub.publish('AUTORUN', { autorun: `${lhciBuildContextHash}Results:${JSON.stringify(data)}` })
+        pubsub
+          .publish('AUTORUN', {
+            autorun: `${lhciBuildContextHash}Results:${JSON.stringify(data)}`,
+          })
           .catch((error: Error) => Logger.error(error));
-        pubsub.publish('AUTORUN', { autorun: `${lhciBuildContextHash}Audit Completed` })
+        pubsub
+          .publish('AUTORUN', {
+            autorun: `${lhciBuildContextHash}Audit Completed`,
+          })
           .catch((err: Error) => Logger.error(err));
         await chrome.kill();
       })();

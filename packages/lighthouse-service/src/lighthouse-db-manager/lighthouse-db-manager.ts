@@ -2,8 +2,9 @@
 /* eslint-disable class-methods-use-this */
 import { Order, WhereOptions } from 'sequelize/types';
 import {
-  Op, fn, col, literal,
+  Op, fn, col, QueryTypes,
 } from 'sequelize';
+
 import groupBy from 'lodash/groupBy';
 import { sequelize } from './sequelize';
 
@@ -17,6 +18,8 @@ import {
   BuildAttributes,
   LeadboardStatistic,
   LeaderBoardOptions,
+  ProjectInstance,
+  BuildLeaderboardRankOption,
 } from './types';
 import Logger from '../lib/logger';
 
@@ -121,13 +124,7 @@ class LighthouseDbManager {
         projectId,
         buildId: buildFilter,
         name: {
-          [Op.or]: [
-            'category_performance_median',
-            'category_pwa_median',
-            'category_seo_median',
-            'category_accessibility_median',
-            'category_best-practices_median',
-          ],
+          [Op.or]: Object.keys(DB_SCORE_KEY_TO_LH_KEY),
         },
       },
       group: ['buildId', 'name'],
@@ -151,55 +148,133 @@ class LighthouseDbManager {
     return lhScoreGroupByBuildId;
   }
 
+  async getAllScoreOfBuilds(buildIds: string[]) {
+    const leaderboardOtherScores = await Statistic.findAll({
+      where: {
+        name: { [Op.in]: Object.keys(DB_SCORE_KEY_TO_LH_KEY) },
+        buildId: {
+          [Op.in]: buildIds,
+        },
+      },
+    });
+
+    return leaderboardOtherScores.reduce<
+    Record<string, LighthouseScoreType>
+    >((prev, { buildId, value, name }) => {
+      const buildScores = prev;
+      const roundedValue = Math.min(Math.round(value * 100), 100);
+
+      if (buildId in buildScores) {
+        buildScores[buildId][DB_SCORE_KEY_TO_LH_KEY[name]] = roundedValue;
+      } else {
+        buildScores[buildId] = { [DB_SCORE_KEY_TO_LH_KEY[name]]: roundedValue } as LighthouseScoreType;
+      }
+
+      return buildScores;
+    }, {});
+  }
+
+  /**
+   * Statistic table contains all infomation of various type of scores of a build
+   * Its stored in key - value model
+   * The major issue with lighthouse table is, it uses associate keys rather than foreign keys
+   * Thus you cannot use joins to obtains relational ones
+   *              -------------------------------------------------
+   * There is major two flows one due to search and other not
+   * In search (by project name): first projects are fetched then corresponding stats and builds
+   * When not using search first stats are taken then build -> projects
+   */
   async getLeaderBoard({
     limit = 10,
     offset = 0,
     sort = 'DESC',
-    type = 'category_seo_median',
+    type = 'overall',
+    search,
   }: LeaderBoardOptions = {}) {
+    // filters that gets added on based on conditions
+    let group = [];
+
+    const scoreFieldsDb = Object.keys(DB_SCORE_KEY_TO_LH_KEY);
+    const isOveralCategory = type === 'overall';
+
+    let projects: ProjectInstance[] = []; // due to two flows
+
+    if (search) {
+      // find projects and then find stats
+      projects = await Project.findAll({
+        raw: true,
+        where: {
+          name: { [Op.iLike]: `%${search}%` },
+        },
+        limit: 10,
+      });
+
+      if (!projects.length) {
+        return { count: 0, rows: [] };
+      }
+    }
+
     /**
-     * LOGIC: Leaderboard ranks projects by various category like PWA, SEO etc
-     * So the statistic model of LH contains scores for a build's various url
-     * We find the score of a build with  SQL AVG operation of all URL
-     * The order it accordingly
-     * We also use the field createdAt second ordering acting as tie breaker
+     * When category is overall we need to take avg of whole build stats
+     * Other ones we need to pick it up key name
      */
-    const stats = (await Statistic.findAll({
-      raw: true,
-      group: ['buildId', 'projectId'],
-      attributes: [
-        'projectId',
-        'buildId',
-        [fn('AVG', col('value')), 'score'],
-        [literal('(RANK() OVER (ORDER BY AVG(value) DESC))'), 'rank'],
-      ],
-      limit,
-      offset,
-      where: {
-        name: type,
+    if (isOveralCategory) {
+      group = ['buildId', 'projectId'];
+    } else {
+      group = ['buildId', 'name', 'projectId'];
+    }
+
+    /**
+     * raw query is used to handle filtering after ranking as sub query is not feasible in orm
+     * To avoid sql injection conditionally replacement values are placed and values are injected from replacement
+     * Conditions checked
+     * 1. When its not overall fetch the name else
+     * 2. Groups
+     * 3. Sort direction
+     * 4. On search to inject projects requried after ranking
+     */
+    const stats = await sequelize.query(
+      `SELECT * FROM (
+          SELECT "projectId", "buildId", AVG("value") AS "score",
+          (DENSE_RANK() OVER (ORDER BY AVG(value) DESC)) AS "rank" ${isOveralCategory ? '' : ', "name"'}
+          FROM "statistics" AS "statistics"
+          WHERE "statistics"."name" ${isOveralCategory ? 'IN(:name)' : '= :name'}
+          GROUP BY "${group.join('","')}"
+          ORDER BY AVG("value") ${sort === 'DESC' ? 'DESC' : 'ASC'}, max("createdAt") ${sort === 'DESC' ? 'DESC' : 'ASC'}
+        ) As a
+        ${projects.length ? 'where "projectId" IN(:projectId)' : ''}
+        LIMIT :limit OFFSET :offset`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          name: isOveralCategory ? scoreFieldsDb : type,
+          projectId: projects.map(({ id }) => id),
+          limit,
+          offset,
+        },
+        model: Statistic,
+        raw: true,
       },
-      order: [
-        [fn('AVG', col('value')), sort],
-        [fn('max', col('createdAt')), 'DESC'],
-      ],
-    })) as unknown as LeadboardStatistic[]; // sequilize ts-issue on groupby to solve this ts interconvertion of tyoe
+    ) as unknown as LeadboardStatistic[];
+
+    const buildIds = stats
+      .map(({ buildId }) => buildId)
+      .filter((el) => Boolean(el));
+
+    const leaderBoardScores = await this.getAllScoreOfBuilds(buildIds);
 
     const count = await Statistic.count({
-      where: {
-        name: type,
-      },
       attributes: undefined,
       distinct: true,
       col: 'buildId',
+      where: search ? {
+        projectId: {
+          [Op.in]: projects.map(({ id }) => id),
+        },
+      } : undefined,
     });
 
-    /**
-     * Lighthouse model's contain only the reference key between each other and not foreign key
-     * Therefore we cannot apply any kind of operations like JOIN or subquery as there exist no
-     * association between the models.
-     * Thus we need to make an additional two calls to build and project model to get there details
-     */
-    const buildIds = stats.map((stat) => stat.buildId);
+    // due to missing relation keys
     const builds = await Build.findAll({
       raw: true,
       where: {
@@ -216,25 +291,102 @@ class LighthouseDbManager {
       return ids;
     }, [] as string[]);
 
-    const projects = await Project.findAll({
-      raw: true,
-      where: {
-        id: {
-          [Op.in]: projectIds,
+    // if not search flow find the projects
+    if (!search) {
+      projects = await Project.findAll({
+        raw: true,
+        where: {
+          id: {
+            [Op.in]: projectIds,
+          },
         },
-      },
-    });
+      });
+    }
 
     const projectsGroupedById = groupBy(projects, 'id');
     const buildsGroupedById = groupBy(builds, 'id');
 
     stats.forEach((stat) => {
-      stat.score = Math.min(Math.round(stat.score * 100), 100);
+      stat.score = leaderBoardScores[stat.buildId];
       stat.build = buildsGroupedById[stat.buildId][0] as any;
       stat.project = projectsGroupedById[stat.projectId][0] as any;
     });
 
     return { count, rows: stats };
+  }
+
+  // same query as leaderboard but for a particule build
+  async getLHRankingOfABuild({
+    projectId, buildId, sort = 'DESC',
+    type = 'overall',
+  }: BuildLeaderboardRankOption) {
+    let group = [];
+
+    const isOveralCategory = type === 'overall';
+    const scoreFieldsDb = Object.keys(DB_SCORE_KEY_TO_LH_KEY);
+
+    if (isOveralCategory) {
+      group = ['buildId', 'projectId'];
+    } else {
+      group = ['buildId', 'name', 'projectId'];
+    }
+
+    const stats = await sequelize.query(
+      `SELECT * FROM (
+          SELECT "projectId", "buildId", AVG("value") AS "score",
+          (DENSE_RANK() OVER (ORDER BY AVG(value) DESC)) AS "rank" ${isOveralCategory ? '' : ', "name"'}
+          FROM "statistics" AS "statistics"
+          WHERE "statistics"."name" ${isOveralCategory ? 'IN(:name)' : '= :name'}
+          GROUP BY "${group.join('","')}"
+          ORDER BY AVG("value") ${sort === 'DESC' ? 'DESC' : 'ASC'}, max("createdAt") ${sort === 'DESC' ? 'DESC' : 'ASC'}
+        ) As a
+        where "projectId" = :projectId AND  "buildId" = :buildId
+        LIMIT 1`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          projectId,
+          buildId,
+          name: isOveralCategory ? scoreFieldsDb : type,
+        },
+        model: Statistic,
+        raw: true,
+      },
+    ) as unknown as LeadboardStatistic[];
+
+    if (!stats.length) {
+      throw Error('No stats found');
+    }
+    const leaderBoardScores = await this.getAllScoreOfBuilds([buildId]);
+
+    const stat = stats[0];
+    const build = await Build.findOne({
+      raw: true,
+      where: {
+        id: buildId,
+      },
+      attributes: this.BUILD_ATTRIBUTES,
+    });
+
+    if (!build) {
+      throw Error('Build not found');
+    }
+
+    const project = await Project.findOne({
+      raw: true,
+      where: {
+        id: projectId,
+      },
+    });
+
+    if (!project) {
+      throw Error('Project not found');
+    }
+
+    stat.build = build as any;
+    stat.project = project as any;
+    stat.score = leaderBoardScores[buildId];
+    return stat;
   }
 }
 
