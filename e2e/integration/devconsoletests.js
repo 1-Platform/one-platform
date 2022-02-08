@@ -24,16 +24,16 @@ context( 'Test developer console', () => {
         cy.get( '.app-details--sidebar--main-nav' ).within( () => {
             cy.contains('Feedback').click();
         } )
-        cy.get( '.container', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
-            cy.get( '.pf-c-card__body' ).should( 'contain.text', 'Configure Feedback')
-        } )
+
     } );
 
     it( 'Test for feedback target header', () => {
-        cy.get( '.pf-c-form' ).within( () => {
-            cy.get( '.pf-c-form__label-text' ).first().should( 'have.text','Feedback Target')
+               cy.get( 'h3').should( 'contain.text', 'User Feedback')
         } )
-    } )
+
+it( 'Click on Edit Feedback', () => {
+    cy.xpath( "//button[normalize-space()='Edit Feedback Config']" ).click();
+    })
 
     it( 'Test for feedback target help circle', () => {
         cy.get('[name=help-circle-outline]').click()

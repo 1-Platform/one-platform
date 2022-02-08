@@ -41,65 +41,95 @@ context( 'Test feedback form', () => {
         cy.get( '#username', { timeout: 20000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
-        cy.get( '#card-action', { timeout: 20000 } ).should( 'be.visible' ).each( () => {
-            cy.get( '.pf-c-card__header' ).within( () => {
-                cy.get( '.count' ).should( 'be.visible' );
-            } );
-            cy.get( '#card-action-check-label' ).should( 'be.visible' );
-        } );
+        cy.get('h1').should('have.text','Feedback')
     } );
 
     it( 'Test if list of feedback is visible', () => {
 
-        cy.get( '.feedback-item' ).should( 'be.visible' ).each( () => {
-            cy.get( '.feedback-title' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.get( '.feedback-description' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.get( '.tag-module-name' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.get( '.pf-u-display-flex' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.get( '.feedback-experience' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.get( '.feedback-assignees' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-        } );
+       cy.get('.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack',{timeout:50000}).should('have.length',20)
     } );
 
     it( 'Test for expansion of feedback from feedback list', () => {
-        cy.get( '.feedback-item' ).should( 'be.visible' ).first().within( () => {
-            cy.get( '.feedback-title' ).should( 'be.visible' ).click();
-            cy.get( '.feedback-description' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.get( '.pf-u-display-flex' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.get( '.pf-u-font-size-sm' ).should( 'be.visible' ).invoke( 'text' ).its( 'length' ).should( 'to.be.greaterThan', 1 );
-            cy.contains( 'View Details' ).should( 'be.visible' );
-            cy.get( `a[ href ^= "${ Cypress.env( 'JIRA' ) }"]` ).invoke( 'text' ).then( ( text ) => {
-                expect( text.replace( /\u00a0/g, ' ' ) ).equal( 'JIRA Link ' );
-            })
-        } );
-    } );
+        cy.get( '.pf-c-button.pf-m-link.pf-m-inline' ).then( ( elements ) => {
+             const max = elements.length;
+            const min = 1;
+            const randomNumber = Math.floor(Math.random() * (max - min) + min);
 
-    it( 'Test for search feedback from feedback list', () => {
-        cy.get( '#input-search' ).type( 'test' );
-        cy.get( '.feedback-item' ).should( 'be.visible' ).each( () => {
-            cy.get( '.feedback-title' ).should( 'include.text', 'test' );
-        } );
-        cy.get( '#input-search' ).clear();
-    } );
-
-    it( 'Test for pagination in feedback list', () => {
-        //Go to next page validation
-        cy.get( 'body' ).then( ( body ) => {
-            if ( body.find( '.feedback-item' ).length > 10 ) {
-
-        cy.get( '.feedback-item' ).should( 'be.visible' ).first().invoke( 'text' ).then( ( BeforeNextPage ) => {
-            cy.get( 'button[aria-label="Go to next page"]' ).click();
-            cy.get( '.feedback-item' ).first().invoke( 'text' ).then( ( AfterNextPage ) => {
-                expect( BeforeNextPage ).not.to.eq( AfterNextPage );
-            } );
-        } );
-        cy.get( 'button[aria-label="Go to previous page"]' ).click();
-        //per Page items division validation
-        cy.get( '.feedback-item' ).should( 'be.visible' ).should( 'have.length', 10 );
-        cy.get( '#perPage' ).select( '5 per page' );
-        cy.get( '.feedback-item' ).should( 'be.visible' ).should( 'have.length', 5 );
-            }
+            // Wrap the DOM element so we can execute new cypress commands.
+            // Use the randomized number to select a DOM element, then click it.
+            cy.wrap(elements[randomNumber]).click({ force: true });
         })
     } );
+    it( 'Test for modal opening ', () => {
+        cy.get( '.pf-c-modal-box__header' ).within( () => {
+            cy.contains( 'ONEPLAT-' ).should( 'be.visible' );
+        } );
+    } )
+    it( 'Test for JIRA button visibility', () => {
+        cy.contains( 'See JIRA Issue' ).should( 'be.visible' );
+    } )
+    it( 'Test for Close Button', () => {
+        cy.get( '.pf-c-modal-box__footer' ).within( () => {
+            cy.contains( 'Close' ).click( { force: true } );
+        })
+    } )
+    it( 'Test for search feedback from feedback list', () => {
+        cy.get( '.pf-c-search-input__text-input' ).type( 'test' );
+        cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack',{timeout:60000}).should( 'be.visible' ).each( () => {
+            cy.get( '.pf-l-stack__item:nth-child(2)' ).should( 'include.text', 'test' );
+        } );
+        cy.get( '.pf-c-search-input__text-input' ).clear();
+    } );
+    it( 'Test for clicking User Groups', () => {
+        cy.get( '.pf-c-check__input' ).then( ( elements ) => {
+            const max = elements.length;
+            const min = 1;
+            const randomNumber = Math.floor(Math.random() * (max - min) + min);
 
+            // Wrap the DOM element so we can execute new cypress commands.
+            // Use the randomized number to select a DOM element, then click it.
+            cy.wrap(elements[randomNumber]).click({ force: true });
+        })
+    } )
+    it( 'Test for click on clear', () => {
+        cy.contains('clear').click({force:true})
+    })
+    it( 'Test for Selecting Bug Type', () => {
+        cy.get('#feedback-type-1').click({force:true})
+    } )
+    it( 'Test for selecting Status', () => {
+        cy.get('#feedback-status-1').click({force:true})
+    } )
+    it( 'Test for click on expand to see more apps', () => {
+        cy.contains('Expand to see more apps').click({force:true})
+    } )
+    it( 'Test to see whether  modal opens on clicking more apps', () => {
+        cy.get( '#pf-modal-part-1' ).should( 'be.visible' )
+
+        cy.get( '#pf-modal-part-1' ).within( () => {
+            cy.xpath( '//button[@aria-label="Close"]' ).click( { force: true } )
+
+        } )
+        cy.wait(4000)
+    } )
+    it( 'Test whether My Feedback Option is Visible and clickable', () => {
+        cy.contains('My Feedback').should('be.visible').click({force:true})
+    } )
+    it( 'Test whether All Feedback Option is Visible and clickable', () => {
+        cy.wait( 3000 )
+        cy.xpath('//button[contains(text(),"All Feedback")]').should('be.visible').click({force:true})
+    } )
+    it( 'Test whether Export functionality works', () => {
+        cy.contains( 'Export' ).click( { force: true } )
+        cy.contains('Export sucessfully completed',{timeout:70000}).should('be.visible')
+    } )
+    it( 'Select Home option and verify home is present in the table', () => {
+        cy.xpath( '//label[contains(text(),"Home")]/preceding-sibling::input' ).click( { force: true } ).then( () => {
+            cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span' ,{timeout:70000}).each( ( elem, index ) => {
+                cy.wrap(elem).should('contain.text','Home')
+             })
+
+        });
+
+    })
 } );
