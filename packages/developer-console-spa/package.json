@@ -1,6 +1,6 @@
 {
   "name": "developer-console-spa",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "homepage": "/console",
   "description": "The place where developers can get started with using One Platform for SPA deployments and integrating with One Platform Microservices.",
   "author": {
@@ -51,6 +51,9 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "prettier": {
+    "singleQuote": true
   },
   "browserslist": {
     "production": [

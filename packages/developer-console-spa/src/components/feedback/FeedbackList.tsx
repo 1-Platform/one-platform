@@ -1,5 +1,5 @@
-import { useCallback, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Bullseye,
   Button,
@@ -19,7 +19,7 @@ import {
   Stack,
   StackItem,
   Title,
-} from "@patternfly/react-core";
+} from '@patternfly/react-core';
 import {
   TableComposable,
   Tbody,
@@ -27,16 +27,16 @@ import {
   Th,
   Thead,
   Tr,
-} from "@patternfly/react-table";
-import SearchIcon from "@patternfly/react-icons/dist/esm/icons/search-icon";
-import { ExternalLinkAltIcon } from "@patternfly/react-icons";
-import { useToggle } from "hooks/useToggle";
-import { usePagination } from "hooks/usePagination";
-import { useDebounce } from "hooks/useDebounce";
-import { AppContext } from "context/AppContext";
-import { getAppFeedbacksService } from "services/feedback";
+} from '@patternfly/react-table';
+import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons';
+import { useToggle } from 'hooks/useToggle';
+import { usePagination } from 'hooks/usePagination';
+import { useDebounce } from 'hooks/useDebounce';
+import { AppContext } from 'context/AppContext';
+import { getAppFeedbacksService } from 'services/feedback';
 
-const FEEDBACK_TABLE_TITLES = ["Created by", "Summary", "Type", "Experience"];
+const FEEDBACK_TABLE_TITLES = ['Created by', 'Summary', 'Type', 'Experience'];
 
 type FeedbackState = {
   count: number;
@@ -47,19 +47,19 @@ type FeedbackState = {
 const SORT_SELECT_OPTIONS = [
   {
     value: 'CREATED_ON',
-    toString: () => 'Sort by: newest'
+    toString: () => 'Sort by: newest',
   },
-   {
+  {
     value: 'UPDATED_ON',
-    toString: () => 'Sort by: activity'
+    toString: () => 'Sort by: activity',
   },
-]
+];
 
 export const FeedbackList = () => {
   const [isSortOpen, setIsSortOpen] = useToggle();
   const { loading: appLoading, app } = useContext(AppContext);
   const { pagination, onPerPageSelect, onSetPage } = usePagination();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState(SORT_SELECT_OPTIONS[0]);
 
   const debouncedSearchTerm = useDebounce(
@@ -83,7 +83,7 @@ export const FeedbackList = () => {
         limit: pagination.perPage,
         offset: (pagination.page - 1) * pagination.perPage,
         search: debouncedSearchTerm,
-        sortBy:sortBy.value,
+        sortBy: sortBy.value,
       })
         .then((data) => {
           setFeedbacks((state) => ({ ...state, ...data }));
@@ -111,6 +111,11 @@ export const FeedbackList = () => {
     setSearch(value);
   };
 
+  const truncateText = useCallback(
+    (text: string) => (text.length > 200 ? text.slice(0, 200) + '...' : text),
+    []
+  );
+
   const handleFeedbackSortChange = (
     _evt: React.MouseEvent | React.ChangeEvent,
     selection: any
@@ -131,7 +136,7 @@ export const FeedbackList = () => {
               <SplitItem isFilled>
                 <SearchInput
                   placeholder="Search by summary"
-                  style={{ maxWidth: "320px" }}
+                  style={{ maxWidth: '320px' }}
                   onChange={handleFeedbackSearchChange}
                 />
               </SplitItem>
@@ -144,7 +149,7 @@ export const FeedbackList = () => {
                 <Select
                   isOpen={isSortOpen}
                   onToggle={setIsSortOpen.toggle}
-                  onSelect={ handleFeedbackSortChange }
+                  onSelect={handleFeedbackSortChange}
                   selections={sortBy}
                 >
                   {SORT_SELECT_OPTIONS.map((value, index) => (
@@ -201,40 +206,52 @@ export const FeedbackList = () => {
                     )}
                     {feedbacks.data.map(
                       (
-                        { summary, createdBy, category, experience },
+                        { summary, createdBy, category, experience, error, id },
                         rowIndex
                       ) => {
                         const isEvenRow = rowIndex % 2;
+                        const isError = Boolean(error);
+                        const isBug = category === 'BUG';
                         return (
                           <Tr
                             key={`feedback-rows-${rowIndex}`}
                             style={
                               isEvenRow
-                                ? { backgroundColor: "#FAFAFA" }
+                                ? { backgroundColor: '#FAFAFA' }
                                 : undefined
                             }
                           >
                             <Td>{(createdBy as FeedbackUserProfile)?.cn}</Td>
-                            <Td>{summary}</Td>
+                            <Td>{truncateText(summary || '')}</Td>
                             <Td>
-                              <Label color="blue">{category}</Label>
+                              <Label color={isBug ? 'red' : 'blue'}>
+                                {category}
+                              </Label>
                             </Td>
                             <Td>
-                              <Label color="blue">{experience}</Label>
+                              <Label color={isError ? 'red' : 'blue'}>
+                                {isError ? error : experience}
+                              </Label>
                             </Td>
-                            <Td style={{ textAlign: "right" }}>
-                              <Button
-                                variant="link"
-                                icon={
-                                  <ExternalLinkAltIcon
-                                    width="12px"
-                                    height="12px"
-                                  />
-                                }
-                                iconPosition="right"
+                            <Td style={{ textAlign: 'right' }}>
+                              <a
+                                href={`/feedback/?id=${id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
                               >
-                                View
-                              </Button>
+                                <Button
+                                  variant="link"
+                                  icon={
+                                    <ExternalLinkAltIcon
+                                      width="12px"
+                                      height="12px"
+                                    />
+                                  }
+                                  iconPosition="right"
+                                >
+                                  View
+                                </Button>
+                              </a>
                             </Td>
                           </Tr>
                         );
