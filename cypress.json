@@ -15,7 +15,8 @@
         "charts": true,
         "reportPageTitle": "one-platform-test",
         "quiet":true,
-        "enableCode":false
+        "enableCode":false,
+        "json":true
      },
      "env": {
     "width": 1280,

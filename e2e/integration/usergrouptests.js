@@ -51,13 +51,13 @@ context( 'Test for UserGroup', () => {
     } )
 
     it( 'Test for trying to add new group with existing name', () => {
-        cy.get( 'a[href="/user-groups"]' ).click()
+        cy.get( '.pf-c-breadcrumb__item  a[href="/user-groups"]' ).click()
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
         cy.get( 'a[href="/user-groups/group/new"]' ).click();
         cy.get( '#groupName' ).type( 'test1' );
-        cy.get( '[aria-label="Search input"]' ).type( 'one - portal - devel' );
+        cy.get( '[aria-label="Search input"]' ).type( 'one - portal - devele' );
         cy.xpath( '//button[normalize-space()="Add Group"]' ).click({force:true});
         cy.contains( 'Could not create the group').should('be.visible')
     } )

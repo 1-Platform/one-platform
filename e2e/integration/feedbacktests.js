@@ -125,11 +125,11 @@ context( 'Test feedback form', () => {
     } )
     it( 'Select Home option and verify home is present in the table', () => {
         cy.xpath( '//label[contains(text(),"Home")]/preceding-sibling::input' ).click( { force: true } ).then( () => {
-            cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span' ,{timeout:70000}).each( ( elem, index ) => {
-                cy.wrap(elem).should('contain.text','Home')
-             })
+            cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span', { timeout: 70000 } ).each( ( elem, index ) => {
+                cy.wrap( elem ).should( 'contain.text', 'Home' );
+            } );
 
-        });
+        } );
+    })
 
     })
-} );

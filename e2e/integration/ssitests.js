@@ -56,18 +56,12 @@ context( 'Test for SSI', () => {
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
-        cy.wait(5000)
-        cy.get( '.op-menu__item:last-child > button' ).click( { force: true } ).then( () => {
-            cy.wait( 3000 );
-            cy.get( '#op-menu-drawer' ).should( 'be.visible' ).within( () => {
-                cy.get( '.op-menu-drawer__title' ).should( 'contain.text', `${ Cypress.env( 'USERNAME' ) } sso-tester` );
-            } );
-        })
-    } );
-
-    it( 'Test for Get started Section', () => {
-        cy.get( '.op-menu__item:first-child > a' ).within( () => {
-            cy.get( 'span' ).should( 'contain.text','Get Started' );
+        cy.wait( 5000 );
+        cy.get( 'slot[name="opc-nav-btn"] > button:last-child' ).click( { force: true } ).then( () => {
+            cy.wait( 2000 );
+            cy.get( 'div:nth-child(1) > dialog:nth-child(2) > div:nth-child(3) > div:nth-child(8)' ).click( { force: true } );
         } );
-    } );
+    })
+
+  
 } );
