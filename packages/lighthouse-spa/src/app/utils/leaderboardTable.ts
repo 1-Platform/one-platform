@@ -40,14 +40,6 @@ export const getLeaderboardCells = ({
       chipColor: isSelected ? 'blue' : 'gray',
     },
     {
-      title: score.pwa,
-      cellClassName: getScoreColor(score.pwa),
-    },
-    {
-      title: score.seo,
-      cellClassName: getScoreColor(score.seo),
-    },
-    {
       title: score.accessibility,
       cellClassName: getScoreColor(score.accessibility),
     },
@@ -58,6 +50,14 @@ export const getLeaderboardCells = ({
     {
       title: score.performance,
       cellClassName: getScoreColor(score.performance),
+    },
+    {
+      title: score.pwa,
+      cellClassName: getScoreColor(score.pwa),
+    },
+    {
+      title: score.seo,
+      cellClassName: getScoreColor(score.seo),
     },
     {
       title: total,
@@ -74,16 +74,6 @@ export const LEADERBOARD_COLUMNS: (Column & { key?: LeaderboardCategory })[] = [
     title: 'Project',
   },
   {
-    title: 'PWA',
-    isSortable: true,
-    key: LeaderboardCategory.PWA,
-  },
-  {
-    title: 'SEO',
-    isSortable: true,
-    key: LeaderboardCategory.SEO,
-  },
-  {
     title: 'Accessibility',
     isSortable: true,
     key: LeaderboardCategory.ACCESSIBILITY,
@@ -97,6 +87,16 @@ export const LEADERBOARD_COLUMNS: (Column & { key?: LeaderboardCategory })[] = [
     title: 'Performance',
     isSortable: true,
     key: LeaderboardCategory.PERFORMANCE,
+  },
+  {
+    title: 'PWA',
+    isSortable: true,
+    key: LeaderboardCategory.PWA,
+  },
+  {
+    title: 'SEO',
+    isSortable: true,
+    key: LeaderboardCategory.SEO,
   },
   {
     title: 'Total',

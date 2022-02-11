@@ -230,7 +230,7 @@ export class AnalysisComponent implements OnInit {
   ): [LHLeaderboard[], number] {
     let pos = leaders.length;
     for (let i = 0; i < leaders.length; i++) {
-      if (currentBranchRank.build.branch === leaders[i].build.branch) {
+      if (currentBranchRank.build.id === leaders[i].build.id) {
         return [leaders, i];
       }
 
@@ -248,15 +248,9 @@ export class AnalysisComponent implements OnInit {
     );
   }
 
-  handleSortClick({
-    column: columnName,
-    sortDir: dir,
-  }: {
-    column: string;
-    sortDir: 'DESC' | 'ASC';
-  }) {
+  handleSortClick({ column: columnName }) {
     this.columns = this.columns.map(({ sortDir, ...column }) =>
-      column.title === columnName ? { ...column, sortDir: dir } : column
+      column.title === columnName ? { ...column, sortDir: 'DESC' } : column
     );
     this.fetchLHLeaderboard();
   }
