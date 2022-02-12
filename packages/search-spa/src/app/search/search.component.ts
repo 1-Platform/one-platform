@@ -63,7 +63,7 @@ export class SearchComponent implements OnInit {
    */
   @HostListener('document:click', ['$event'])
   onDocClick(ev: Event) {
-    const filterSelect = this.filterSelect.nativeElement;
+    const filterSelect = this.filterSelect?.nativeElement;
     if (filterSelect && !filterSelect.contains(ev.target)) {
       this.appFilterActive = false;
     }
