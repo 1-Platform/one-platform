@@ -13,3 +13,15 @@
 .score-loader-container {
   min-width: 720px;
 }
+
+@media screen and (min-width: 2100px) {
+  .pf-l-grid > .pf-m-6-col-on-3xl {
+    --pf-l-grid__item--GridColumnEnd: span 6;
+  }
+}
+
+.line-chart-container {
+  display: flex;
+  overflow: hidden;
+  padding: 2rem 0;
+}

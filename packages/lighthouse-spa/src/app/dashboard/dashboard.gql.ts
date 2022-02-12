@@ -70,6 +70,7 @@ export const ListLHLeaderboard = gql`
         }
         rank
         build {
+          id
           branch
         }
         project {

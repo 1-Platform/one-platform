@@ -69,7 +69,7 @@
         <div class="pf-l-flex__item">
           <div class="pf-l-grid pf-m-gutter">
             <!-- pie chart -->
-            <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-2xl pf-c-card score-card">
+            <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-3xl pf-c-card score-card">
               <div class="pf-c-card__body">
                 <div class="pf-u-p-2xl pf-l-flex pf-m-nowrap pf-m-justify-content-center score-loader-container"
                   *ngIf="isBranchLoading">
@@ -96,18 +96,16 @@
             </div>
 
             <!-- line chart -->
-            <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-2xl pf-c-card score-card">
-              <div class="pf-c-card__body">
+            <div class="pf-l-grid__item pf-m-12-col pf-m-6-col-on-3xl pf-c-card score-card">
+              <div class="pf-c-card__body line-chart-container">
                 <div class="pf-u-p-2xl pf-l-flex pf-m-nowrap pf-m-justify-content-center score-loader-container"
                   *ngIf="isBranchLoading">
                   <app-loader></app-loader>
                 </div>
-                <ngx-charts-line-chart *ngIf="!isBranchLoading" [view]="[800, 350]" [scheme]="timelineColorSchema"
-                  [timeline]="true" [results]="
-                    buildScores[selectedBranch] | timelineScoreFormater
-                  " [legend]="legend" [xAxis]="xAxis" [yAxis]="yAxis" [timeline]="timeline"
-                  [referenceLines]="referenceLines" [showRefLines]="showRefLines" [yScaleMax]="yScaleMax"
-                  [yScaleMin]="yScaleMin" [legendTitle]="legendTitle" [xAxisLabel]="xAxisLabel"
+                <ngx-charts-line-chart *ngIf="!isBranchLoading" [scheme]="timelineColorSchema" [timeline]="true"
+                  [results]="buildScores[selectedBranch] | timelineScoreFormater" [legend]="legend" [xAxis]="xAxis"
+                  [yAxis]="yAxis" [timeline]="timeline" [referenceLines]="referenceLines" [showRefLines]="showRefLines"
+                  [yScaleMax]="yScaleMax" [yScaleMin]="yScaleMin" [legendTitle]="legendTitle" [xAxisLabel]="xAxisLabel"
                   [yAxisLabel]="yAxisLabel" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel">
                 </ngx-charts-line-chart>
               </div>
