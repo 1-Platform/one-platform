@@ -62,6 +62,19 @@ context( 'Test for UserGroup', () => {
         cy.contains( 'Could not create the group').should('be.visible')
     } )
 
+    it( 'Edit a User Profile Group Test', () => {
+        cy.get( '.pf-c-breadcrumb__item  a[href="/user-groups"]' ).click()
+        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
+        cy.get( '#submit' ).click();
+        cy.xpath( "//tbody/tr[2]/td[1]/a" ).click( { force: true } )
+        cy.contains( 'Edit Group' ).click( { force: true } )
+        cy.contains( 'Update Group' ).click( { force: true } )
+        
+
+
+    })
+
    //Test for my profile
     it( 'Test for my profile name', () => {
         cy.contains( 'My Profile' ).click();
