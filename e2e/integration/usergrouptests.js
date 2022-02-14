@@ -57,7 +57,7 @@ context( 'Test for UserGroup', () => {
         cy.get( '#submit' ).click();
         cy.get( 'a[href="/user-groups/group/new"]' ).click();
         cy.get( '#groupName' ).type( 'test1' );
-        cy.get( '[aria-label="Search input"]' ).type( 'one - portal - devele' );
+        cy.get( '[aria-label="Search input"]' ).type( 'one - portal - devel' );
         cy.xpath( '//button[normalize-space()="Add Group"]' ).click({force:true});
         cy.contains( 'Could not create the group').should('be.visible')
     } )
