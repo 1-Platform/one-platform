@@ -56,7 +56,7 @@ function User ( props ) {
         email: authUser.email,
         uid: authUser.kerberosID,
         title: authUser.title,
-        roles: authUser.roles,
+        role: authUser.role,
       } );
     } else {
       window.OpNotification && window.OpNotification.warning( {
@@ -128,9 +128,9 @@ function User ( props ) {
               <DescriptionListGroup>
                 <DescriptionListTerm>Rover Groups</DescriptionListTerm>
                 <DescriptionListDescription>
-                  { user.roles?.length > 0 && (
+                  { user.role?.length > 0 && (
                     <ChipGroup>
-                      { user.roles.map( ( role ) => (
+                      { user.role.map( ( role ) => (
                         <Chip key={ role } isReadOnly>
                           { role }
                         </Chip>
