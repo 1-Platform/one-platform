@@ -51,13 +51,13 @@ context( 'API Catalog Tests', () => {
         cy.get( '.pf-c-button.pf-m-primary.pf-m-progress' ).click( { force: true } )
     } )
     it( "Subscribe Test", () => {
-        cy.contains( 'Subscribe' ).click( { force: true } )
+        cy.contains( 'Subscribe' ,{timeout:20000}).click( { force: true } )
         cy.wait(2000)
         cy.contains('Subscribed to',{timeout:10000}).should('be.visible')
     } )
     it( "Unsubscribe Test", () => {
         cy.wait(6000)
-        cy.contains( "Subscribed" ).click( { force: true } )
+        cy.contains( "Subscribed" ,{timeout:20000}).click( { force: true } )
         cy.wait( 2000 )
         cy.contains("Unsubscribed to",{timeout:10000}).should('be.visible')
     } )
