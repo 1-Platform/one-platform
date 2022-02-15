@@ -23,7 +23,7 @@ import "./styles.css";
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
-    release: `documentation-spa@${pkg.version}`,
+    release: `op-documentation-spa@${pkg.version}`,
     environment: "production",
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.

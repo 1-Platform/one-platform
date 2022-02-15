@@ -1,6 +1,6 @@
 {
   "name": "developer-console-spa",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "homepage": "/console",
   "description": "The place where developers can get started with using One Platform for SPA deployments and integrating with One Platform Microservices.",
   "author": {
@@ -20,7 +20,7 @@
     "@patternfly/react-core": "4.152.4",
     "@patternfly/react-icons": "^4.32.1",
     "@patternfly/react-table": "^4.30.3",
-    "@sentry/react": "^6.15.0",
+    "@sentry/react": "^6.17.8",
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "11.2.5",
     "@testing-library/user-event": "12.8.1",

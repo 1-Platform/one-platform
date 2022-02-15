@@ -13,7 +13,7 @@ if (environment.production) {
     // We recommend adjusting this value in production, or using tracesSampler
     // for finer control
     tracesSampleRate: 1.0,
-    release: `lighthouse-spa@${pkg.version}`,
+    release: `op-lighthouse-spa@${pkg.version}`,
   });
 }
 

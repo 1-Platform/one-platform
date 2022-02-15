@@ -30,9 +30,10 @@
 ></script>
 
 <script
-  src="https://browser.sentry-cdn.com/6.15.0/bundle.min.js"
-  integrity="sha384-uAr9Te+rNkmpaCjPTu4/ipQDpO1nR6fEY8JX+NHVNO5mY6LUs362JWJD8rHyaLEt"
-  crossorigin="anonymous"></script>
+  src="https://browser.sentry-cdn.com/6.17.7/bundle.min.js"
+  integrity="sha384-uEkavFis/hOnCrXbiKlEgQ88RRmG0o+Veako4gCDkBDrJ0dtg75OTKXkXtRvI7Te"
+  crossorigin="anonymous"
+></script>
 <script>
   opcBase.configure({
     apiBasePath: '{{ env.API_URL }}',
@@ -46,7 +47,7 @@
   if('{{env.environment}}' === 'production'){
     Sentry.init({
       dsn: '{{env.SENTRY_DSN}}',
-      release: 'home-spa@{{env.version}}',
+      release: 'op-home-spa@{{env.version}}',
       environment: 'production',
       // Set tracesSampleRate to 1.0 to capture 100%
       // of transactions for performance monitoring.
