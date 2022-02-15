@@ -1,6 +1,6 @@
 {
   "name": "search-spa",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "scripts": {
     "config": "ts-node set-env.ts",
     "ng": "ng",
@@ -33,7 +33,7 @@
     "@one-platform/opc-menu-drawer": "^0.2.2-prerelease",
     "@one-platform/opc-nav": "0.0.4-prerelease",
     "@one-platform/opc-notification-drawer": "^0.1.3-prerelease",
-    "@sentry/angular": "^6.15.0",
+    "@sentry/angular": "^6.17.8",
     "apollo-angular": "2.0.4",
     "apollo-angular-link-http": "1.11.0",
     "apollo-cache-inmemory": "1.6.6",

@@ -16,7 +16,7 @@ import App from './App';
 if (import.meta.env.MODE === 'production') {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
-    release: `opc-feedbacks-spa-@${pkg.version}`,
+    release: `op-feedback-spa@${pkg.version}`,
     environment: 'production',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.

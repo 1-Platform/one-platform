@@ -14,7 +14,7 @@ if (environment.production) {
      // We recommend adjusting this value in production, or using tracesSampler
      // for finer control
      tracesSampleRate: 1.0,
-     release: `search-spa@${pkg.version}`,
+     release: `op-search-spa@${pkg.version}`,
    });
 }
 
