@@ -50,17 +50,16 @@ function ConfigureCouchDB() {
   }, [expandedMenuCardId]);
 
   const dropdownItems = useCallback(( db: any ) => {
-    if ( url.endsWith('/') ) {
-      url = url.substring(0, url.length - 1);
-    }
+    const truncatedUrl = ( url.endsWith('/') ) ? url.substring(0, url.length - 1) : url;
+
     return [
-      <Link to={`${url}/${db.name}`} key={db.name}>
+      <Link to={`${truncatedUrl}/${db.name}`} key={db.name}>
         <DropdownItem component="span">
           Configure
         </DropdownItem>
       </Link>
     ];
-  }, []);
+  }, [url]);
 
   /**
    * Escapes the string for special characters
