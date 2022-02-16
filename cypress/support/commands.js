@@ -27,4 +27,19 @@ Cypress.Commands.add("login", (username, password) => {
     cy.get('#username', { timeout: 5000 }).type(username);
     cy.get('#password').type(password,{log:false});
     cy.get('#submit').click();
+} )
+Cypress.Commands.add("SortFilterSelection", () => {
+    cy.contains("Sort").click({ force: true });
+
+        // Get the open dropdown menu items.
+        cy.get("ul[role='listbox'] li button").then((elements) => {
+            // Get a random number using the max number of elements.
+            const max = elements.length;
+            const min = 0;
+            const randomNumber = Math.floor(Math.random() * (max - min) + min);
+
+            // Wrap the DOM element so we can execute new cypress commands.
+            // Use the randomized number to select a DOM element, then click it.
+            cy.wrap(elements[randomNumber]).click({ force: true });
+        });
 })

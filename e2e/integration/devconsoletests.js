@@ -12,11 +12,11 @@ context( 'Test developer console', () => {
     } );
 
     it( 'Check whether the app is already existing', () => {
-        cy.wait(50000)
+        cy.wait(10000)
         cy.get( 'body' ).then( (body) => {
-            if ( body.find( 'a[href="/console/e2e test automation"]' ).length > 0 ) {
+            if ( body.find( 'a[href^="/console/e2e-test-automation"]' ).length > 0 ) {
                 cy.log('pop')
-                cy.xpath( '//a[@href="/console/e2e test automation"]/parent::section/following-sibling::aside/descendant::button' ).click( { force: true } )
+                cy.xpath( '//a//h2[text()="e2e test automation"]/ancestor::section/following-sibling::aside/descendant::button' ).click( { force: true } )
                 cy.contains( 'Delete', { timeout: 10000 } ).click( { force: true } )
                   cy.get( '#delete-app', { timeout: 5000 } ).type( 'e2e test automation' );
         cy.contains( 'I understand the consequences, delete this app' ).click();
@@ -27,7 +27,6 @@ context( 'Test developer console', () => {
     it( 'Test for create the application', () => {
         cy.contains( 'Create new App', { timeout: 5000 } ).click();
         cy.get( '#app-name' ).type( 'e2e test automation' );
-        cy.get( '#app-path' ).type( 'e2e test automation' );
         cy.get( '#app-desc' ).type( 'e2e test automation' );
         cy.contains( 'Create App' ).click();
         cy.contains( 'App Created Successfully!' ,{timeout:60000}).should( 'be.visible' );
@@ -61,6 +60,10 @@ it( 'Click on Edit Feedback', () => {
             cy.get( '[aria-disabled="true"]' ).should( 'be.visible' );
             cy.contains( 'Save' ).click()
         } )
+    } )
+    it( 'Sort Feedback Test', () => {
+        cy.xpath( '//a[text()="Feedback"]' ).should( 'be.visible' ).click( { force: true } )
+        cy.SortFilterSelection()
     })
 
     it( 'Test for update the application', () => {
