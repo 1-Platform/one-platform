@@ -11,13 +11,26 @@ context( 'Test developer console', () => {
         return false;
     } );
 
+    it( 'Check whether the app is already existing', () => {
+        cy.wait(50000)
+        cy.get( 'body' ).then( (body) => {
+            if ( body.find( 'a[href="/console/e2e test automation"]' ).length > 0 ) {
+                cy.log('pop')
+                cy.xpath( '//a[@href="/console/e2e test automation"]/parent::section/following-sibling::aside/descendant::button' ).click( { force: true } )
+                cy.contains( 'Delete', { timeout: 10000 } ).click( { force: true } )
+                  cy.get( '#delete-app', { timeout: 5000 } ).type( 'e2e test automation' );
+        cy.contains( 'I understand the consequences, delete this app' ).click();
+        cy.contains( 'App Deleted Successfully!' ).should( 'be.visible' );
+            }
+        })
+    })
     it( 'Test for create the application', () => {
         cy.contains( 'Create new App', { timeout: 5000 } ).click();
         cy.get( '#app-name' ).type( 'e2e test automation' );
         cy.get( '#app-path' ).type( 'e2e test automation' );
         cy.get( '#app-desc' ).type( 'e2e test automation' );
         cy.contains( 'Create App' ).click();
-        cy.contains( 'App Created Successfully!' ).should( 'be.visible' );
+        cy.contains( 'App Created Successfully!' ,{timeout:60000}).should( 'be.visible' );
     } );
 
     it( 'Test for header section of feedback page', () => {
@@ -44,7 +57,7 @@ it( 'Click on Edit Feedback', () => {
         cy.get( '.pf-c-form' ).within( () => {
             cy.contains( 'JIRA' ).click()
             cy.get( '#projectKey' ).type( 'Test' )
-            cy.get( '#feedbackEmail' ).type( 'Test' )
+            cy.get( '#feedbackEmail' ).type( 'test@redhat.com' )
             cy.get( '[aria-disabled="true"]' ).should( 'be.visible' );
             cy.contains( 'Save' ).click()
         } )
@@ -52,7 +65,7 @@ it( 'Click on Edit Feedback', () => {
 
     it( 'Test for update the application', () => {
         cy.wait(3000)
-        cy.contains( 'App Settings' ).click();
+        cy.contains( 'App Settings' ,{timeout:40000}).click();
         cy.wait(3000)
         cy.get( '#name' ).clear().type( 'e2e test automation update' );
         cy.contains( 'Save' ).click();

@@ -14,7 +14,7 @@ context( 'Test search', () => {
     } );
     it( 'Test for valid search count', () => {
         cy.wait( 10000 )
-        cy.get('input[name="query"]' ,{timeout:5000}).focus().type('Feedback{enter}', { force: true } );
+        cy.get('input[name="query"]' ,{timeout:5000}).focus().type('*.*{enter}', { force: true } );
         cy.wait(500)
         cy.contains('results found' ).should( 'be.visible')
     })
@@ -67,12 +67,12 @@ context( 'Test search', () => {
     it( 'Test for select application', () => {
         cy.get( '#select-checkbox-expanded-toggle' ).first().click( { force: true } );
         cy.get( '.pf-c-select__menu' ).within( () => {
-            cy.contains( 'Feedback' ).click({force:true});
+            cy.contains( 'Apps' ).click({force:true});
         } )
         cy.get( '.search-result-section', { timeout: 5000 } ).should( 'be.visible' ).within( () => {
             cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( (elem,index) => {
                 cy.get( '.search-tag' ).each( ( elem2, index ) => {
-                    cy.wrap( elem2 ).should( 'be.visible' ).should( 'contain.text', 'Feedback' );
+                    cy.wrap( elem2 ).should( 'be.visible' ).should( 'contain.text', 'Apps' );
                 })
             } );
         } )
