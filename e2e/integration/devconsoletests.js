@@ -61,7 +61,7 @@ it( 'Click on Edit Feedback', () => {
             cy.contains( 'Save' ).click()
         } )
     } )
-    it( 'Sort Feedback Test', () => {
+    it( 'Sort Feedback Button Clickability and Options Test', () => {
         cy.xpath( '//a[text()="Feedback"]' ).should( 'be.visible' ).click( { force: true } )
         cy.SortFilterSelection()
     })
