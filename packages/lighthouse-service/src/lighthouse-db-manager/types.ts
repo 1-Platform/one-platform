@@ -73,7 +73,7 @@ export type Sort = {
 export type LeadboardStatistic = {
   score: number | LighthouseScoreType;
   rank: number;
-  buildId: string;
+  branch: string;
   projectId: string;
   project: LighthouseProjectType;
   build: LighthouseBuildType;
@@ -86,6 +86,6 @@ Optional<Sort, 'sort'> & {
 
 export type BuildLeaderboardRankOption = {
   projectId: string;
-  buildId: string;
+  branch: string;
   type?: string;
 } & Partial<Sort>;

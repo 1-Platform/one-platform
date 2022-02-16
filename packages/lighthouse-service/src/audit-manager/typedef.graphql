@@ -78,7 +78,7 @@ type LighthouseLeaderBoardBuildType {
 type LighthouseLeaderBoardType {
   score: LighthouseScoreType
   rank: Int
-  build: LighthouseLeaderBoardBuildType
+  branch: String
   project: LighthouseProjectType
 }
 
@@ -141,12 +141,12 @@ type Query {
     search: String
   ): ListLHLeaderBoard
    """
-  Fetch the leaderboard rank of a build
+  Fetch the leaderboard rank of a project branch
   """
-  getLHRankingOfABuild(
+  getLHRankingOfAProjectBranch(
     type: LHLeaderBoardCategory!
     projectId: String!
-    buildId: String!
+    branch: String!
     sort: Sort
   ): LighthouseLeaderBoardType
 }
