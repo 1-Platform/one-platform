@@ -10,15 +10,15 @@ type Options = {
 
 const getAvgScore = (scores: number[]) => {
   const avg = scores.reduce((prev, curr) => prev + curr, 0) / scores.length;
-  return Math.min(Math.max(avg, 0), 100);
+  return Math.min(Math.max(Math.round(avg), 0), 100);
 };
 
 const getScoreColor = (score: number) => {
   if (score >= 0 && score <= 49) {
     return 'score-low pf-u-font-weight-bold';
-  } else if (score >= 50 && score <= 89) {
+  } else if (score > 49 && score <= 89) {
     return 'score-avg pf-u-font-weight-bold';
-  } else if (score >= 90 && score <= 100) {
+  } else if (score > 89 && score <= 100) {
     return 'score-good pf-u-font-weight-bold';
   }
 };
@@ -28,7 +28,7 @@ export const getLeaderboardCells = ({
   titleCasePipe,
   isSelected,
 }: Options) => {
-  const { score, build, project, rank } = row;
+  const { score, branch, project, rank } = row;
   const total = getAvgScore(Object.values(score));
   return [
     {
@@ -36,7 +36,7 @@ export const getLeaderboardCells = ({
     },
     {
       title: titleCasePipe.transform(project.name),
-      chipTitle: build.branch,
+      chipTitle: branch,
       chipColor: isSelected ? 'blue' : 'gray',
     },
     {

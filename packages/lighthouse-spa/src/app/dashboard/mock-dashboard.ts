@@ -50,11 +50,10 @@ export const mockLeaderboardData = {
         performance: 50,
       },
       rank: 1,
-      build: {
-        branch: 'main',
-      },
+      branch: 'main',
       project: {
         name: 'one-platform',
+        id: 1
       },
     },
   ],
@@ -62,7 +61,7 @@ export const mockLeaderboardData = {
 
 export const mockLeaderboardAPI = {
   listLHLeaderboard: mockLeaderboardData,
-  getLHRankingOfABuild: mockLeaderboardData.rows[0],
+  getLHRankingOfAProjectBranch: mockLeaderboardData.rows[0],
 };
 
 export const mockLeaderboardRows = [

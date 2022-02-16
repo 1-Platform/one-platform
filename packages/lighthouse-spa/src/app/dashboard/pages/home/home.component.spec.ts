@@ -41,9 +41,9 @@ describe('HomeComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.inject(DashboardService);
     fixture.detectChanges();
-    spyOn(service, 'listLHProjects').and.returnValue({
-      valueChanges: of({ data: mockListProjects, loading: false }),
-    });
+    spyOn(service, 'listLHProjects').and.returnValue(
+      of({ data: mockListProjects, loading: false })
+    );
     component.ngOnInit();
   });
 

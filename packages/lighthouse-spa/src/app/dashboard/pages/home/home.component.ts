@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
       });
     this.dashboardServiceSub = this.dashboardService
       .listLHProjects()
-      .valueChanges.subscribe(({ data, loading }) => {
+      .subscribe(({ data, loading }) => {
         this.isProjectListLoading = loading;
         this.projects = data.listLHProjects;
         this.isEmpty = data.listLHProjects.count === 0;

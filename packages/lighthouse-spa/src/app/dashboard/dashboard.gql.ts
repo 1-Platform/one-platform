@@ -47,7 +47,7 @@ export const ListLHProjectScores = gql`
 export const ListLHLeaderboard = gql`
   query ListLHLeaderboard(
     $type: LHLeaderBoardCategory!
-    $buildId: String!
+    $branch: String!
     $projectId: String!
     $limit: Int
     $offset: Int
@@ -69,19 +69,17 @@ export const ListLHLeaderboard = gql`
           seo
         }
         rank
-        build {
-          id
-          branch
-        }
+        branch
         project {
           name
+          id
         }
       }
     }
-    getLHRankingOfABuild(
+    getLHRankingOfAProjectBranch(
       type: $type
       projectId: $projectId
-      buildId: $buildId
+      branch: $branch
       sort: $sort
     ) {
       score {
@@ -92,11 +90,10 @@ export const ListLHLeaderboard = gql`
         seo
       }
       rank
-      build {
-        branch
-      }
+      branch
       project {
         name
+        id
       }
     }
   }

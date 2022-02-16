@@ -25,9 +25,7 @@ export const ListLHLeaderboard = gql`
           seo
         }
         rank
-        build {
-          branch
-        }
+        branch
         project {
           name
         }

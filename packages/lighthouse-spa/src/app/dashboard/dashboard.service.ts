@@ -19,7 +19,7 @@ export class DashboardService extends GraphQLModule {
   }
 
   listLHProjects() {
-    return this.apollo.watchQuery<{ listLHProjects: Pagination<LHProject[]> }>({
+    return this.apollo.query<{ listLHProjects: Pagination<LHProject[]> }>({
       query: ListLHProjects,
       variables: {
         limit: 10000,
@@ -51,13 +51,13 @@ export class DashboardService extends GraphQLModule {
 
   listLHLeaderboard(
     type: LeaderboardCategory,
-    buildId: string,
+    branch: string,
     projectId: string,
     sort: Sort = 'DESC'
   ) {
     return this.apollo.query<{
       listLHLeaderboard: Pagination<LHLeaderboard[]>;
-      getLHRankingOfABuild: LHLeaderboard;
+      getLHRankingOfAProjectBranch: LHLeaderboard;
     }>({
       query: ListLHLeaderboard,
       variables: {
@@ -65,7 +65,7 @@ export class DashboardService extends GraphQLModule {
         sort,
         limit: 5,
         offset: 0,
-        buildId,
+        branch,
         projectId,
       },
     });
