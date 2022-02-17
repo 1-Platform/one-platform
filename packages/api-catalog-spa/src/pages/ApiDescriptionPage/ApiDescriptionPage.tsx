@@ -83,7 +83,7 @@ export const ApiDescriptionPage = (): JSX.Element => {
     const subFn = hasSubscribed ? handleUnsubscribeNamespace : handleSubscribeNamespace;
     setSubscriptionStatus((state) => ({ ...state, isChanging: true }));
     const res = await subFn({
-      id,
+      id: id as string,
       payload: {
         group: ApiEmailGroup.USER,
         email: userInfo?.email || '',

@@ -23,7 +23,7 @@ type UseGetANamespaceQuery = {
 };
 
 type Props = {
-  id: string;
+  id?: string;
 };
 
 export const useGetANamespace = ({ id }: Props): UseQueryReturn<UseGetANamespaceQuery> => {

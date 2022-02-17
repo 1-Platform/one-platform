@@ -21,7 +21,7 @@ export const VoyagerToolPage = (): JSX.Element => {
   const { isLoading, data: namespaceData } = useGetANamespace({ id });
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && id) {
       if (namespaceData?.getNamespaceById) {
         const namespace = namespaceData?.getNamespaceById;
         handleAddNewLog({ title: namespace?.name || '', tool: 'voyager', url: pathname, id });

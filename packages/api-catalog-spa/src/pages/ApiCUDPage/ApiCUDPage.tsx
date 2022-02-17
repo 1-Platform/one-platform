@@ -21,6 +21,7 @@ import {
   TextInput,
   Title,
   TitleSizes,
+  SelectProps,
 } from '@patternfly/react-core';
 import { HelpIcon } from '@patternfly/react-icons';
 import { Controller, useForm, FormProvider } from 'react-hook-form';
@@ -191,7 +192,7 @@ export const ApiCUDPage = (): JSX.Element => {
   const handleFormSubmit = async (data: FormData) => {
     const payload = handleFormParsing(data);
     let res;
-    if (isUpdate) res = await updateANamespace({ id, payload });
+    if (isUpdate) res = await updateANamespace({ id: id as string, payload });
     else res = await createANamespace({ payload });
     if (res.error) {
       window.OpNotification.danger({
@@ -207,7 +208,7 @@ export const ApiCUDPage = (): JSX.Element => {
 
   const handleApiDelete = async (): Promise<void> => {
     if (deleteNamespaceState.fetching) return;
-    const res = await deleteANamepspace({ id });
+    const res = await deleteANamepspace({ id: id as string });
     if (res.error) {
       window.OpNotification.danger({
         subject: `Failed to delete API`,
@@ -280,7 +281,7 @@ export const ApiCUDPage = (): JSX.Element => {
   }, [ownerValue, isOwnerListLoading, ownerOptionList?.searchRoverUsers]);
 
   // owner filter to override the default fiter inside sleect
-  const onFilterOwnerList = (_: React.ChangeEvent<HTMLInputElement>, typeAheadValue: string) => {
+  const onFilterOwnerList: SelectProps['onFilter'] = (_, typeAheadValue: string) => {
     if (!typeAheadValue || !renderOwnerOptions) {
       return renderOwnerOptions as JSX.Element[];
     }
