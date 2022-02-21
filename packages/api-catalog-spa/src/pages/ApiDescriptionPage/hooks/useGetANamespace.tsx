@@ -49,7 +49,7 @@ type UseGetANamespaceQuery = {
 };
 
 type Props = {
-  id: string;
+  id?: string;
   email: string;
 };
 

@@ -22,7 +22,7 @@ export const SwaggerToolPage = (): JSX.Element => {
   const { isLoading, data: namespaceData } = useGetANamespace({ id });
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && id) {
       if (namespaceData?.getNamespaceById) {
         const namespace = namespaceData?.getNamespaceById;
         handleAddNewLog({ title: namespace?.name || '', tool: 'swagger', url: pathname, id });
@@ -44,7 +44,7 @@ export const SwaggerToolPage = (): JSX.Element => {
         CORS error causes Swagger to break.
         Thus request is proxied through reverse proxy to inject CORS
        */
-      request.url = `${process.env.REACT_APP_NO_CORS_PROXY}?url=${request.url}`;
+      request.url = `${process.env.REACT_APP_NO_CORS_PROXY}/${request.url}`;
       return request;
     },
     [namespace?.headers]
