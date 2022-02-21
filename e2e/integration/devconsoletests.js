@@ -64,6 +64,11 @@ it( 'Click on Edit Feedback', () => {
     it( 'Sort Feedback Button Clickability and Options Selection Test', () => {
         cy.xpath( '//a[text()="Feedback"]' ).should( 'be.visible' ).click( { force: true } )
         cy.SortFilterSelection()
+        cy.get( 'table' ).then( (table )=> {
+            if ( table.find( 'h2[class="pf-c-title pf-m-lg"]' ).length > 0 ) {
+                cy.contains('No results found').should('be.visible')
+            }
+        })
     })
 
     it( 'Test for update the application', () => {
