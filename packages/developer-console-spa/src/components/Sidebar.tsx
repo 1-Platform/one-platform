@@ -63,10 +63,10 @@ function Sidebar () {
 
         <NavList className="app-details--sidebar--main-nav">
           <NavItem isActive={ isNavItemActive( 'overview' ) }>
-            <Link to={ 'overview' }>Overview</Link>
+            <Link to={`/${ appId}/overview`}>Overview</Link>
           </NavItem>
           <NavItem isActive={ isNavItemActive( 'analytics' ) }>
-            <Link to={ 'analytics' }>Analytics</Link>
+            <Link to={`/${ appId}/analytics`}>Analytics</Link>
           </NavItem>
 
           <Title headingLevel="h4" className="app-details--sidebar--title pf-u-color-400 pf-u-px-md">Integrations</Title>
@@ -79,7 +79,7 @@ function Sidebar () {
         </NavList>
         <NavList className="app-details--sidebar--settings pf-u-mt-auto">
           <NavItem isActive={ isNavItemActive('settings') }>
-            <Link to={ 'settings' }>
+            <Link to={`/${ appId}/settings`}>
               App Settings
               <ion-icon class="pf-u-ml-auto pf-u-my-auto" name="settings-outline"></ion-icon>
             </Link>
