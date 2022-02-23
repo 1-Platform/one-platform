@@ -16,7 +16,7 @@
         "reportPageTitle": "one-platform-test",
         "quiet":true,
         "enableCode":false,
-        "json":true
+        "saveJson": true
      },
      "env": {
     "width": 1280,
