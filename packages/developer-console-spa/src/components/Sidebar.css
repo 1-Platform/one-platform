@@ -1,4 +1,4 @@
-.app-details--sidebar {
+.app-details--sidebar.pf-c-nav {
   height: var(--max-page-height);
   background: #fff;
   display: flex;
@@ -21,7 +21,7 @@
   overflow: hidden;
   transition: all 120ms ease;
 }
-.app-menu--list .pf-c-options-menu__toggle::before {
+.app-menu--list .pf-c-options-menu__toggle:not(.pf-m-plain)::before {
   content: 'Application:';
   font-size: .75rem;
   padding: .75rem 1rem;
@@ -60,10 +60,10 @@
   left: 0;
 }
 
-.pf-c-nav.pf-m-light {
-  --pf-c-nav__link--m-current--Color: var(--color-active) !important;
-  --pf-c-nav__link--before--BorderColor: transparent !important;
-  --pf-c-nav__section-title--BorderBottomWidth: 0 !important;
+.app-details--sidebar.pf-c-nav.pf-m-light {
+  --pf-c-nav__link--m-current--Color: var(--color-active);
+  --pf-c-nav__link--before--BorderColor: transparent;
+  --pf-c-nav__section-title--BorderBottomWidth: 0;
 }
 .pf-c-nav__link.pf-m-current {
   background-color: #fff;
