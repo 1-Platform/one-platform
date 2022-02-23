@@ -17,7 +17,6 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AnalysisComponent implements OnInit {
   projectId = '';
-  buildId = '';
   branches: string[] = [];
   buildScores: Record<string, ProjectBranch[]> = {};
 
@@ -133,21 +132,15 @@ export class AnalysisComponent implements OnInit {
         this.dashboardService
           .ListLHProjectScores(this.projectId, branch)
           .pipe(takeUntil(this.destroySub))
-          .subscribe(({ data, loading }) => {
+          .subscribe(({ data }) => {
             this.isBranchLoading = false;
-
-            this.buildId = data.listLHProjectBuilds[0]?.id;
-            this.fetchLHLeaderboard();
-
             this.buildScores = {
               ...this.buildScores,
               [branch]: data.listLHProjectBuilds,
             };
           });
-      } else {
-        this.buildId = this.buildScores[branch][0]?.id;
-        this.fetchLHLeaderboard();
       }
+      this.fetchLHLeaderboard();
     } catch (error) {
       window.OpNotification.danger({
         subject: 'Error on fetching scores',
@@ -180,7 +173,7 @@ export class AnalysisComponent implements OnInit {
       this.dashboardService
         .listLHLeaderboard(
           selectedCategory.key,
-          this.buildId,
+          this.selectedBranch,
           this.projectId,
           selectedCategory.sortDir
         )
@@ -188,7 +181,7 @@ export class AnalysisComponent implements OnInit {
           ({
             data: {
               listLHLeaderboard,
-              getLHRankingOfABuild: currentBranchRank,
+              getLHRankingOfAProjectBranch: currentBranchRank,
             },
             loading,
           }) => {
@@ -230,10 +223,14 @@ export class AnalysisComponent implements OnInit {
   ): [LHLeaderboard[], number] {
     let pos = leaders.length;
     for (let i = 0; i < leaders.length; i++) {
-      if (currentBranchRank.build.id === leaders[i].build.id) {
+      // check current one is in leaderboard
+      if (
+        currentBranchRank.branch === leaders[i].branch &&
+        currentBranchRank.project.id === leaders[i].project.id
+      ) {
         return [leaders, i];
       }
-
+      // else place in correct rank position
       if (currentBranchRank.rank <= leaders[i].rank) {
         pos = i;
       }

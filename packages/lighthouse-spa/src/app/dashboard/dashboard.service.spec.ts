@@ -40,7 +40,7 @@ describe('DashboardService', () => {
   });
 
   it('listLHProjects query', fakeAsync(() => {
-    service.listLHProjects().valueChanges.subscribe((project) => {
+    service.listLHProjects().subscribe((project) => {
       const data = project.data;
       expect(data).toEqual(mockListProjects as any);
     });
@@ -88,7 +88,7 @@ describe('DashboardService', () => {
 
   it('ListLHLeaderboard query', fakeAsync(() => {
     service
-      .listLHLeaderboard(LeaderboardCategory.OVERALL, 'eef123', 'one-platform')
+      .listLHLeaderboard(LeaderboardCategory.OVERALL, 'main', 'one-platform')
       .subscribe((project) => {
         const data = project.data;
         expect(data).toEqual(mockLeaderboardAPI as any);
@@ -97,7 +97,7 @@ describe('DashboardService', () => {
     const op = controller.expectOne(ListLHLeaderboard);
     expect(op.operation.variables.type).toEqual(LeaderboardCategory.OVERALL);
     expect(op.operation.variables.projectId).toEqual('one-platform');
-    expect(op.operation.variables.buildId).toEqual('eef123');
+    expect(op.operation.variables.branch).toEqual('main');
 
     op.flush({ data: mockLeaderboardAPI });
 

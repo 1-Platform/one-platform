@@ -10,9 +10,7 @@ export const mockLeaderboardData = {
         performance: 50,
       },
       rank: 1,
-      build: {
-        branch: 'main',
-      },
+      branch: 'main',
       project: {
         name: 'one-platform',
       },
