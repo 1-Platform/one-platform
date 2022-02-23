@@ -20,6 +20,7 @@ import {
   LeaderBoardOptions,
   ProjectInstance,
   BuildLeaderboardRankOption,
+  StatisticInstance,
 } from './types';
 import Logger from '../lib/logger';
 
@@ -148,28 +149,57 @@ class LighthouseDbManager {
     return lhScoreGroupByBuildId;
   }
 
-  async getAllScoreOfBuilds(buildIds: string[]) {
-    const leaderboardOtherScores = await Statistic.findAll({
-      where: {
-        name: { [Op.in]: Object.keys(DB_SCORE_KEY_TO_LH_KEY) },
-        buildId: {
-          [Op.in]: buildIds,
+  // If there is negative score its clamped to 0
+  get getLeaderboardAvgField() {
+    return 'ROUND(AVG(CASE WHEN "value" >= 0 THEN "value" ELSE 0 END),2)';
+  }
+
+  async getAllScoresOfProjectBranches(data: Array<{ branchName: string, projectId: string; }>) {
+    const projectIds = data.map(({ projectId: id }) => id);
+    const branches = data.map(({ branchName: branch }) => branch);
+
+    /**
+     * 1. Get all other variations of a project branch average score same Grouping as ranking
+     * 2. Filter only needed branch, projects and values
+     */
+    const leaderboardOtherScores = (await sequelize.query(
+      `SELECT * FROM (
+          SELECT "projectId", "name",
+          ${this.getLeaderboardAvgField} * 100 AS "value",
+          (SELECT "branch" FROM "builds" WHERE "statistics"."buildId" = "builds"."id") AS "branch"
+            FROM "statistics" AS "statistics"
+            WHERE "statistics"."name" IN(:name) AND
+            "statistics"."projectId" IN(:projectId)
+            GROUP BY "projectId", "branch", "name"
+        ) AS a
+        WHERE "branch" IN(:branch)`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          name: Object.keys(DB_SCORE_KEY_TO_LH_KEY),
+          projectId: projectIds,
+          branch: branches,
         },
+        model: Statistic,
+        raw: true,
       },
-    });
+    )) as Array<StatisticInstance & { branch: string }>;
 
     return leaderboardOtherScores.reduce<
     Record<string, LighthouseScoreType>
-    >((prev, { buildId, value, name }) => {
+    >((prev, {
+      branch: branchName, value, name, projectId,
+    }) => {
       const buildScores = prev;
-      const roundedValue = Math.min(Math.round(value * 100), 100);
-
-      if (buildId in buildScores) {
-        buildScores[buildId][DB_SCORE_KEY_TO_LH_KEY[name]] = roundedValue;
+      const key = `${projectId}:${branchName}`;
+      const roundedValue = Math.min(value, 100);
+      if (key in buildScores) {
+        buildScores[key][DB_SCORE_KEY_TO_LH_KEY[name]] = roundedValue;
       } else {
-        buildScores[buildId] = { [DB_SCORE_KEY_TO_LH_KEY[name]]: roundedValue } as LighthouseScoreType;
+        buildScores[key] = {
+          [DB_SCORE_KEY_TO_LH_KEY[name]]: roundedValue,
+        } as LighthouseScoreType;
       }
-
       return buildScores;
     }, {});
   }
@@ -219,30 +249,34 @@ class LighthouseDbManager {
      * Other ones we need to pick it up key name
      */
     if (isOveralCategory) {
-      group = ['buildId', 'projectId'];
+      group = ['projectId', 'branch'];
     } else {
-      group = ['buildId', 'name', 'projectId'];
+      group = ['projectId', 'branch', 'name'];
     }
 
     /**
      * raw query is used to handle filtering after ranking as sub query is not feasible in orm
      * To avoid sql injection conditionally replacement values are placed and values are injected from replacement
-     * Conditions checked
-     * 1. When its not overall fetch the name else
-     * 2. Groups
-     * 3. Sort direction
-     * 4. On search to inject projects requried after ranking
+     * Operations done
+     * 1. Get field projectId, average * 100 and branch name as subquery from build table
+     * 2. Group projectId, branch and name if not overall
+     * 3. Only select specific categories of our interest PWA, Accessbility etc
+     * 4. Order by Rank and createdAt as tie breaker
+     * 5. Then keeping rank apply limit and offset projectId
      */
     const stats = await sequelize.query(
       `SELECT * FROM (
-          SELECT "projectId", "buildId", AVG("value") AS "score",
-          (DENSE_RANK() OVER (ORDER BY AVG(value) DESC)) AS "rank" ${isOveralCategory ? '' : ', "name"'}
+          SELECT "projectId", ${this.getLeaderboardAvgField} * 100 AS "score",
+          (DENSE_RANK() OVER (ORDER BY  ${this.getLeaderboardAvgField} DESC)) AS "rank"
+          ${isOveralCategory ? '' : ', "name"'},
+          (SELECT "branch" FROM "builds" WHERE "statistics"."buildId" = "builds"."id") AS "branch"
           FROM "statistics" AS "statistics"
           WHERE "statistics"."name" ${isOveralCategory ? 'IN(:name)' : '= :name'}
           GROUP BY "${group.join('","')}"
-          ORDER BY AVG("value") ${sort === 'DESC' ? 'DESC' : 'ASC'}, max("createdAt") ${sort === 'DESC' ? 'DESC' : 'ASC'}
-        ) As a
-        ${projects.length ? 'where "projectId" IN(:projectId)' : ''}
+          ORDER BY ${this.getLeaderboardAvgField} ${sort === 'DESC' ? 'DESC' : 'ASC'},
+          max("createdAt") ${sort === 'DESC' ? 'DESC' : 'ASC'}
+        ) AS a
+        ${projects.length ? 'WHERE "projectId" IN(:projectId)' : ''}
         LIMIT :limit OFFSET :offset`,
       {
         type: QueryTypes.SELECT,
@@ -257,37 +291,46 @@ class LighthouseDbManager {
       },
     ) as unknown as LeadboardStatistic[];
 
-    const buildIds = stats
-      .map(({ buildId }) => buildId)
-      .filter((el) => Boolean(el));
+    const projectBranches = stats.map(({ projectId, branch }) => ({
+      branchName: branch,
+      projectId,
+    }));
 
-    const leaderBoardScores = await this.getAllScoreOfBuilds(buildIds);
-
-    const count = await Statistic.count({
-      attributes: undefined,
-      distinct: true,
-      col: 'buildId',
-      where: search ? {
-        projectId: {
-          [Op.in]: projects.map(({ id }) => id),
-        },
-      } : undefined,
-    });
-
-    // due to missing relation keys
-    const builds = await Build.findAll({
-      raw: true,
-      where: {
-        id: {
-          [Op.in]: buildIds,
+    /**
+     * 1. Get by same grouping as rank tanle
+     * 2. Then count the number of rows generated
+     * 3. If search is done do it with projectId filter
+     */
+    const count = (await sequelize.query(
+      `
+    SELECT COUNT(*) FROM (
+      SELECT "projectId",
+      (SELECT "branch" FROM "builds" WHERE "statistics"."buildId" = "builds"."id") AS "branch"
+      FROM "statistics"
+      ${projects.length ? 'WHERE "projectId" IN(:projectId)' : ''}
+      GROUP BY "projectId", "branch"
+    )
+    AS a`,
+      {
+        type: QueryTypes.SELECT,
+        raw: true,
+        replacements: {
+          projectId: projects.map(({ id }) => id),
         },
       },
-      attributes: this.BUILD_ATTRIBUTES,
-    });
+    )) as { count: string }[];
+
+    if (!projectBranches.length) {
+      return { count: count[0].count, rows: [] };
+    }
+
+    const leaderBoardScores = await this.getAllScoresOfProjectBranches(
+      projectBranches,
+    );
 
     const uniqueProjectIds: Record<string, boolean> = {};
-    const projectIds = builds.reduce((ids, build) => {
-      if (!uniqueProjectIds?.[build.projectId]) ids.push(build.projectId);
+    const projectIds = stats.reduce((ids, stat) => {
+      if (!uniqueProjectIds?.[stat.projectId]) ids.push(stat.projectId);
       return ids;
     }, [] as string[]);
 
@@ -304,20 +347,18 @@ class LighthouseDbManager {
     }
 
     const projectsGroupedById = groupBy(projects, 'id');
-    const buildsGroupedById = groupBy(builds, 'id');
 
     stats.forEach((stat) => {
-      stat.score = leaderBoardScores[stat.buildId];
-      stat.build = buildsGroupedById[stat.buildId][0] as any;
+      stat.score = leaderBoardScores[`${stat.projectId}:${stat.branch}`];
       stat.project = projectsGroupedById[stat.projectId][0] as any;
     });
 
-    return { count, rows: stats };
+    return { count: count[0].count, rows: stats };
   }
 
-  // same query as leaderboard but for a particule build
-  async getLHRankingOfABuild({
-    projectId, buildId, sort = 'DESC',
+  // same query as leaderboard but for a particule project's branch
+  async getLHRankingOfAProjectBranch({
+    projectId, branch, sort = 'DESC',
     type = 'overall',
   }: BuildLeaderboardRankOption) {
     let group = [];
@@ -326,27 +367,34 @@ class LighthouseDbManager {
     const scoreFieldsDb = Object.keys(DB_SCORE_KEY_TO_LH_KEY);
 
     if (isOveralCategory) {
-      group = ['buildId', 'projectId'];
+      group = ['projectId', 'branch'];
     } else {
-      group = ['buildId', 'name', 'projectId'];
+      group = ['projectId', 'branch', 'name'];
     }
 
+    /**
+     * Same as ranking. Only key difference is
+     * Its done for a projectid and branch specifically
+     */
     const stats = await sequelize.query(
       `SELECT * FROM (
-          SELECT "projectId", "buildId", AVG("value") AS "score",
-          (DENSE_RANK() OVER (ORDER BY AVG(value) DESC)) AS "rank" ${isOveralCategory ? '' : ', "name"'}
+          SELECT "projectId",  ${this.getLeaderboardAvgField} * 100 AS "score",
+          (DENSE_RANK() OVER (ORDER BY  ${this.getLeaderboardAvgField} DESC)) AS "rank"
+          ${isOveralCategory ? '' : ', "name"'},
+          (SELECT "branch" FROM "builds" WHERE "statistics"."buildId" = "builds"."id") AS "branch"
           FROM "statistics" AS "statistics"
           WHERE "statistics"."name" ${isOveralCategory ? 'IN(:name)' : '= :name'}
           GROUP BY "${group.join('","')}"
-          ORDER BY AVG("value") ${sort === 'DESC' ? 'DESC' : 'ASC'}, max("createdAt") ${sort === 'DESC' ? 'DESC' : 'ASC'}
-        ) As a
-        where "projectId" = :projectId AND  "buildId" = :buildId
+          ORDER BY  ${this.getLeaderboardAvgField} ${sort === 'DESC' ? 'DESC' : 'ASC'},
+          max("createdAt") ${sort === 'DESC' ? 'DESC' : 'ASC'}
+        ) AS a
+        where "projectId" = :projectId AND  "branch" = :branch
         LIMIT 1`,
       {
         type: QueryTypes.SELECT,
         replacements: {
           projectId,
-          buildId,
+          branch,
           name: isOveralCategory ? scoreFieldsDb : type,
         },
         model: Statistic,
@@ -357,20 +405,10 @@ class LighthouseDbManager {
     if (!stats.length) {
       throw Error('No stats found');
     }
-    const leaderBoardScores = await this.getAllScoreOfBuilds([buildId]);
+
+    const leaderBoardScores = await this.getAllScoresOfProjectBranches([{ branchName: branch, projectId }]);
 
     const stat = stats[0];
-    const build = await Build.findOne({
-      raw: true,
-      where: {
-        id: buildId,
-      },
-      attributes: this.BUILD_ATTRIBUTES,
-    });
-
-    if (!build) {
-      throw Error('Build not found');
-    }
 
     const project = await Project.findOne({
       raw: true,
@@ -383,9 +421,8 @@ class LighthouseDbManager {
       throw Error('Project not found');
     }
 
-    stat.build = build as any;
     stat.project = project as any;
-    stat.score = leaderBoardScores[buildId];
+    stat.score = leaderBoardScores[`${projectId}:${branch}`];
     return stat;
   }
 }

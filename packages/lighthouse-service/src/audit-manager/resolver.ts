@@ -54,8 +54,8 @@ export const LighthouseAuditResolver = {
     async listLHLeaderboard(root: any, args: any) {
       return lhDbManager.getLeaderBoard(args);
     },
-    async getLHRankingOfABuild(root: any, args: any) {
-      return lhDbManager.getLHRankingOfABuild(args);
+    async getLHRankingOfAProjectBranch(root: any, args: any) {
+      return lhDbManager.getLHRankingOfAProjectBranch(args);
     },
   },
   Mutation: {
