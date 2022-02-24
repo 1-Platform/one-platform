@@ -8,9 +8,6 @@ context( 'Test for SSI', () => {
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
     } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
-    } );
 
     it( 'Test for Notifications section', () => {
         cy.get( 'slot[name="opc-nav-btn"] > button:first-child' ).click({force:true}).then( () => {
@@ -63,5 +60,5 @@ context( 'Test for SSI', () => {
         } );
     })
 
-  
+
 } );

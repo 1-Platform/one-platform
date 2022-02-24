@@ -9,9 +9,6 @@ context( 'Test lighthouse', () => {
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
     } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
-    } );
 
     it( 'measure performance steps', () => {
         cy.contains( 'Measure performance of your application' ).should( 'be.visible' )

@@ -7,9 +7,6 @@ context( 'Test developer console', () => {
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
     } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
-    } );
 
     it( 'Check whether the app is already existing', () => {
         cy.wait(10000)
