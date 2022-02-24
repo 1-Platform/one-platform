@@ -1,6 +1,6 @@
 const fs = require( "fs" );
 
-let rawReport = fs.readFileSync( `e2e/reports/output.json` );
+let rawReport = fs.readFileSync( `e2e/reports/index.json` );
 let report = JSON.parse( rawReport );
 
 function buildHtml ( req ) {
@@ -46,7 +46,7 @@ function buildHtml ( req ) {
             </body>
         </html>`;
 };
-let fileName = "e2e/reports/index.html";
+let fileName = "e2e/reports/summary.html";
 let stream = fs.createWriteStream( fileName );
 
 stream.once( "open", function ( fd ) {
