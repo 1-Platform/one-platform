@@ -9,9 +9,6 @@ context( 'Test search', () => {
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
     } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
-    } );
     it( 'Test for valid search count', () => {
         cy.wait( 10000 )
         cy.get('input[name="query"]' ,{timeout:5000}).focus().type('*.*{enter}', { force: true } );

@@ -8,9 +8,6 @@ context( 'Test for UserGroup', () => {
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
     } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
-    } );
 
     it( 'Test for top header section', () => {
         cy.get( '.app' ).within( () => {
@@ -70,7 +67,7 @@ context( 'Test for UserGroup', () => {
         cy.xpath( "//tbody/tr[2]/td[1]/a" ).click( { force: true } )
         cy.contains( 'Edit Group' ).click( { force: true } )
         cy.contains( 'Update Group' ).click( { force: true } )
-        
+
 
 
     })

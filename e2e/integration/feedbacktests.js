@@ -8,9 +8,6 @@ context( 'Test feedback form', () => {
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
     } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
-    } );
 
     it( 'Report bug', () => {
         cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
