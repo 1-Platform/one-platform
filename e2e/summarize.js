@@ -2,7 +2,7 @@ const fs = require( "fs" );
 
 let rawReport = fs.readFileSync( 'e2e/reports/index.json');
 let report = JSON.parse( rawReport );
-
+console.log("report has been parsed")
 function buildHtml ( req ) {
     return `
         <!DOCTYPE html>
@@ -48,8 +48,8 @@ function buildHtml ( req ) {
 };
 let fileName = 'e2e/reports/summary.html';
 let stream = fs.createWriteStream( fileName );
-
-stream.once( "open", function ( fd ) {
+stream.once( "open", function ( fs ) {
     let html = buildHtml();
+    console.log(html)
     stream.end( html );
 } );
