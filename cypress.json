@@ -16,7 +16,8 @@
         "reportPageTitle": "one-platform-test",
         "quiet":true,
         "enableCode":false,
-        "saveJson": true
+        "saveJson": true,
+        "inlineAssets": true
      },
      "env": {
     "width": 1280,
