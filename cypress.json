@@ -7,7 +7,6 @@
     "experimentalRunEvents": true,
     "restartBrowserBetweenSpecFiles": true,
     "screenshotOnRunFailure": true,
-    "screenshotsFolder": "e2e/reports/mochareports/assets",
     "integrationFolder":"e2e/integration",
     "reporter":"cypress-mochawesome-reporter",
     "reporterOptions":{
