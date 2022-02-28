@@ -1,6 +1,6 @@
 {
   "name": "home-spa",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,9 @@
     "build:eleventy": "ELEVENTY_ENV=production eleventy --port=4200",
     "build:scss": "sass src/scss:dist/css",
     "start": "npm-run-all build:scss --parallel watch:*",
-    "build": "npm-run-all build:*"
+    "build": "npm-run-all build:*",
+    "test": "npm run build && jest --verbose",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,7 @@
     "eleventy-plugin-sass": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "sass": "^1.42.1",
-    "dotenv-safe": "^8.2.0"
+    "dotenv-safe": "^8.2.0",
+    "jest": "^27.5.1"
   }
 }
