@@ -51,7 +51,7 @@
     "cli-microservice": "sh cli-init.sh",
     "deploy": "sh deploy.sh",
     "postinstall": "npm run lerna bootstrap && node platform.js",
-    "merge-reports": "jrm e2e/reports/combined.xml e2e/reports/junit/*.xml",
+    "merge:reports": "jrm e2e/reports/combined.xml e2e/reports/junit/*.xml",
     "convert": "xml-js e2e/reports/combined.xml test.json --spaces 4 --out e2e/reports/report.json --compact"
   },
   "devDependencies": {
