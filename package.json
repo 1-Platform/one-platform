@@ -50,7 +50,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli-microservice": "sh cli-init.sh",
     "deploy": "sh deploy.sh",
-    "postinstall": "npm run lerna bootstrap && node platform.js"
+    "postinstall": "npm run lerna bootstrap && node platform.js",
+    "merge-reports": "jrm e2e/reports/combined.xml e2e/reports/junit/*.xml",
+    "convert": "xml-js e2e/reports/combined.xml test.json --spaces 4 --out e2e/reports/report.json --compact"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.32.0",
@@ -66,16 +68,20 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "4.1.0",
+    "junit-report-merger": "^3.0.5",
     "lerna": "3.22.1",
     "mocha": "^8.4.0",
     "mochawesome": "^6.3.1",
     "mochawesome-merge": "^4.2.1",
-    "mochawesome-report-generator": "^5.2.0"
+    "mochawesome-report-generator": "^5.2.0",
+    "xml-js": "^1.6.11"
   },
   "dependencies": {
     "@spaship/cli": "0.14.0",
     "browserstack-cypress-cli": "^1.11.0",
-    "faker": "^5.5.3"
+    "cypress-multi-reporters": "^1.5.0",
+    "faker": "^5.5.3",
+    "mocha-junit-reporter": "^2.0.2"
   },
   "main": "platform.js"
 }
