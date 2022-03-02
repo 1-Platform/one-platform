@@ -3,7 +3,6 @@ const fs = require( "fs" );
 let rawReport = fs.readFileSync( 'e2e/reports/report.json');
 let report = JSON.parse( rawReport );
 let passed=parseInt(report.testsuites._attributes.tests)-parseInt(report.testsuites._attributes.failures)
-console.log("report has been parsed")
 function buildHtml ( req ) {
     return `
         <!DOCTYPE html>
@@ -47,6 +46,5 @@ let fileName = 'e2e/reports/summary.html';
 let stream = fs.createWriteStream( fileName );
 stream.once( "open", function ( fs ) {
     let html = buildHtml();
-    console.log(html)
     stream.end( html );
 } );
