@@ -7,17 +7,22 @@
     "experimentalRunEvents": true,
     "restartBrowserBetweenSpecFiles": true,
     "screenshotOnRunFailure": true,
-    "screenshotsFolder": "e2e/reports/mochareports/assets",
     "integrationFolder":"e2e/integration",
-    "reporter":"cypress-mochawesome-reporter",
+    "reporter":"cypress-multi-reporters",
     "reporterOptions":{
-        "reportDir": "e2e/reports/",
+       "reporterEnabled": "cypress-mochawesome-reporter, mocha-junit-reporter",
+"cypressMochawesomeReporterReporterOptions": {
+       "reportDir": "e2e/reports/",
         "charts": true,
         "reportPageTitle": "one-platform-test",
         "quiet":true,
         "enableCode":false,
-        "saveJson": true
+        "saveJson": true,
+        "inlineAssets": true
      },
+      "mochaJunitReporterReporterOptions": {
+      "mochaFile": "e2e/reports/junit/results-[hash].xml"
+    }},
      "env": {
     "width": 1280,
     "height": 720

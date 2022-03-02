@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/1-Platform/one-platform.git"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "Sayak Sarkar",
     "email": "sayak.bugsmith@gmail.com"
@@ -38,7 +38,7 @@
   "scripts": {
     "clean:reports": "rm -R -f e2e/reports && mkdir e2e/reports",
     "pretest": "npm run clean:reports ",
-    "test:e2e": "cypress run --headless",
+    "test:e2e": "cypress run",
     "test:e2e:browser": "cypress open",
     "combine-reports": "mochawesome-merge  e2e/reports/mochawesome-report/*.json -o e2e/reports/mochareports/report.json",
     "generate-report": "marge e2e/reports/mochareports/report.json -f report -o e2e/reports/mochareports --inline",
@@ -50,13 +50,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli-microservice": "sh cli-init.sh",
     "deploy": "sh deploy.sh",
-    "postinstall": "npm run lerna bootstrap && node platform.js"
+    "postinstall": "npm run lerna bootstrap && node platform.js",
+    "merge:reports": "jrm e2e/reports/combined.xml e2e/reports/junit/*.xml",
+    "convert": "xml-js e2e/reports/combined.xml test.json --spaces 4 --out e2e/reports/report.json --compact"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.32.0",
     "@typescript-eslint/parser": "4.32.0",
     "bats": "1.4.1",
-    "cypress": "7.6.0",
+    "cypress": "6.5.0",
     "cypress-mochawesome-reporter": "^2.3.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-shadow-dom": "^1.4.1",
@@ -67,11 +69,14 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "4.1.0",
+    "junit-report-merger": "^3.0.5",
     "lerna": "3.22.1",
     "mocha": "^8.4.0",
+    "mocha-junit-reporter": "^2.0.2",
     "mochawesome": "^6.3.1",
     "mochawesome-merge": "^4.2.1",
-    "mochawesome-report-generator": "^5.2.0"
+    "mochawesome-report-generator": "^5.2.0",
+    "xml-js": "^1.6.11"
   },
   "dependencies": {
     "@spaship/cli": "0.14.0",

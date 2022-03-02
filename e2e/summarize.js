@@ -1,8 +1,8 @@
 const fs = require( "fs" );
 
-let rawReport = fs.readFileSync( 'e2e/reports/index.json');
+let rawReport = fs.readFileSync( 'e2e/reports/report.json');
 let report = JSON.parse( rawReport );
-
+let passed=parseInt(report.testsuites._attributes.tests)-parseInt(report.testsuites._attributes.failures)
 function buildHtml ( req ) {
     return `
         <!DOCTYPE html>
@@ -28,19 +28,15 @@ function buildHtml ( req ) {
                 <table>
                     <tr>
                         <th>Total no. of tests</th>
-                        <td>${ report.stats.tests }</td>
+                        <td>${ report.testsuites._attributes.tests }</td>
                     </tr>
                     <tr>
                         <th>Passed</th>
-                        <td>${ report.stats.passes }</td>
+                        <td>${ passed }</td>
                     </tr>
                     <tr>
                         <th>Failed</th>
-                        <td>${ report.stats.failures }</td>
-                    </tr>
-                    <tr>
-                        <th>Skipped</th>
-                        <td>${ report.stats.skipped }</td>
+                        <td>${ report.testsuites._attributes.failures }</td>
                     </tr>
                 </table>
             </body>
@@ -48,8 +44,7 @@ function buildHtml ( req ) {
 };
 let fileName = 'e2e/reports/summary.html';
 let stream = fs.createWriteStream( fileName );
-
-stream.once( "open", function ( fd ) {
+stream.once( "open", function ( fs ) {
     let html = buildHtml();
     stream.end( html );
 } );
