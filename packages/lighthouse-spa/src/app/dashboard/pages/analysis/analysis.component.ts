@@ -8,6 +8,7 @@ import {
   LEADERBOARD_COLUMNS,
 } from 'app/utils/leaderboardTable';
 import { Subject } from 'rxjs';
+import { environment } from 'environments/environment';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -61,6 +62,8 @@ export class AnalysisComponent implements OnInit {
   isLeaderboardLoading = true;
   rows: Row[] = [];
   columns = LEADERBOARD_COLUMNS;
+
+  externalLHServerURL = '#';
 
   constructor(
     private router: ActivatedRoute,
@@ -127,6 +130,7 @@ export class AnalysisComponent implements OnInit {
     // to avoid error on dynamic query builder
     this.isLeaderboardLoading = true;
     try {
+      this.externalLHServerURL = `${environment.LH_SERVER_URL}/app/projects/${this.title}/dashboard?branch=${branch}`;
       if (!this.buildScores?.[branch]) {
         this.isBranchLoading = true;
         this.dashboardService
