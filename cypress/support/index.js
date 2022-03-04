@@ -17,6 +17,8 @@
 import './commands'
 require( 'cypress-xpath' );
 import 'cypress-mochawesome-reporter/register';
+ const chaiSorted = require('chai-sorted');
+ chai.use(chaiSorted);
 Cypress.on( 'uncaught:exception', ( err, runnable ) => {
     // returning false here prevents Cypress from
     // failing the test

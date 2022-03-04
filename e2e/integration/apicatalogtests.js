@@ -3,10 +3,10 @@
 context( 'API Catalog Tests', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
-        cy.visit( Cypress.env( 'QA_HOST' ) +'developers/api-catalog');
+        cy.visit( Cypress.env( 'QA_HOST' ) +'developers/api-catalog',{timeout:10000});
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit' ).click();
+        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ));
+        cy.get( '#submit',{timeout:10000} ).click({force:true});
     } );
     Cypress.on( 'uncaught:exception', ( err, runnable ) => {
         return false;
