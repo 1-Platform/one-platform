@@ -25,7 +25,7 @@ context( 'Test lighthouse', () => {
         cy.contains( ' Generate Report ' ).click()
         cy.contains( 'Audit started successfully', { timeout: 20000 } ).should( 'be.visible' )
         cy.get( '#codeBlock' ).should( 'be.visible' )
-        cy.contains( 'Audit completed', { timeout: 10000 } ).should( 'be.visible' );
+        cy.contains( 'Audit completed', { timeout: 100000 } ).should( 'be.visible' );
         gaugechart.forEach( function ( item ) {
             cy.get( '.gauge-chart', { timeout: 60000 } ).should( 'be.visible' ).each( () => {
                 cy.contains( `${ item }` ).should( 'be.visible' );
@@ -43,7 +43,7 @@ context( 'Test lighthouse', () => {
 
     } )
     it( 'Search Test for Project', () => {
-        cy.xpath( "//input[@placeholder='Find by project name']" ).type( 'Rhc-certification-workflow' );
+        cy.xpath( "//input[@placeholder='Find by project name']" ).type( 'Rhc-certification-workflow',{force:true} );
         cy.get('tr td:nth-child(2)').should('contain.text','Rhc-certification-workflow')
         cy.xpath( "//input[@placeholder='Find by project name']" ).clear()
     } )
@@ -184,9 +184,23 @@ context( 'Test lighthouse', () => {
         })
      } )
     it( 'Verify count of rows being printed', () => {
+        cy.wait(4000)
         cy.get( "button[aria-label^='Items']" ).click( { force: true } );
+        cy.wait(4000)
         cy.contains( "5 per page" ).click( { force: true } )
         cy.get('tr').should('have.length',6)
     } )
-    
-})
+      function checkpagination() {
+            cy.get( 'body' ).then( $mainContainer => {
+                const isVisible = $mainContainer.find( "button[aria-label='Go to next page']" ).is( ':enabled' );
+                if ( isVisible ) {
+                    cy.get( "button[aria-label='Go to next page']" ).click();
+                    checkpagination();
+                }
+            } );
+        }
+    it( 'Test for Pagination', () => {
+        checkpagination();
+     })
+
+    })
