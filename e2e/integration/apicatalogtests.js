@@ -168,8 +168,8 @@ context( 'API Catalog Tests', () => {
         cy.contains( 'Edit' ).click( { force: true } )
         cy.get( 'input[name="name"]' ).clear().type( 'e2e test graphql automation update' );
         cy.get( '.pf-c-button.pf-m-primary.pf-m-progress' ).click( { force: true } )
-        cy.wait( 2000 )
-        cy.get('h1').should('have.text','e2e test graphql automation update')
+        cy.wait( 5000 )
+        cy.get('h1').should('contain.text','e2e test graphql automation update')
 
     } )
      it( 'Verify Delete Graphql API', () => {
