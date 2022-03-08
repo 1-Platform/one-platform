@@ -55,13 +55,21 @@
           </div>
           <div class="pf-l-flex__item pf-m-grow"></div>
           <div class="pf-l-flex__item pf-u-font-size-sm pf-u-color-300">
-            Last Report generated at:{{ " " }}
-            {{
-              buildScores.hasOwnProperty(selectedBranch)
-                ? (buildScores[selectedBranch][0].updatedAt
-                  | date: "MMM dd, YY")
-                : "..."
-            }}
+            Last report generated at:{{ " " }}
+                {{
+                  buildScores.hasOwnProperty(selectedBranch)
+                    ? (buildScores[selectedBranch][0].updatedAt
+                      | date: "MMM dd, YY")
+                    : "..."
+                }}
+            <a href="{{this.externalLHServerURL}}" target="_blank" rel="noopener noreferrer">
+              <button class="pf-c-button pf-m-link pf-u-p-xs" type="button">
+                <span class="pf-c-button__icon pf-m-end">
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </span>
+              </button>
+            </a>
+            <!-- https://lighthouse.one.redhat.com/app/projects/catalog.redhat.com/dashboard?branch=update-autosuggest-options -->
           </div>
         </div>
 
