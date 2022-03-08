@@ -2,10 +2,10 @@
 context( 'Test developer console', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
-        cy.visit( Cypress.env( 'QA_HOST' ) + 'console' );
+        cy.visit( Cypress.env( 'QA_HOST' ) + 'console' ,{timeout:10000});
         cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit' ).click();
+        cy.get( '#submit',{timeout:10000} ).click({force:true});
     } );
 
     it( 'Check whether the app is already existing', () => {
