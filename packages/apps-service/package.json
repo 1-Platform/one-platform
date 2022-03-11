@@ -1,6 +1,6 @@
 {
   "name": "apps-service",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Microservice for managing apps created/deployed on the One Platform",
   "main": "src/index.ts",
   "scripts": {

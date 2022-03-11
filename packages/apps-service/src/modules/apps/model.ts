@@ -14,8 +14,9 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
   appId: {
     type: String,
     unique: true,
-    default(this: App) {
-      return uniqueIdFromPath(this.name);
+    default():string {
+      // referenced as any due to mongoose this typescript issue getting typed from closest object
+      return uniqueIdFromPath((this as any).name);
     },
   },
   isActive: { type: Boolean, default: false },
