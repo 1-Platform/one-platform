@@ -9,7 +9,7 @@ export const Repositories = [
     owner: 'patternfly',
     repo: 'patternfly-elements',
     folderName: 'elements',
-    branch: 'master',
+    branch: 'main',
   },
   {
     owner: 'chapeaux',
