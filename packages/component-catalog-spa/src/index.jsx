@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import pkg from '../package.json';
 import { BrowserRouter } from 'react-router-dom';
+import '@patternfly/patternfly/patternfly.css';
 import '@patternfly/pfe-markdown/dist/pfe-markdown';
 
 if (process.env.NODE_ENV === 'production') {

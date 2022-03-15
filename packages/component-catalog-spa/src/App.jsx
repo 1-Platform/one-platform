@@ -13,6 +13,7 @@ import {
   PageSection,
   PageSidebar,
   PageSectionVariants,
+  Button,
 } from '@patternfly/react-core';
 // Routes
 import { Routes, Route } from 'react-router-dom';
@@ -57,13 +58,14 @@ const App = () => {
     })();
   }, []);
 
-  const breadCrumb = 
-  <Breadcrumb>
-    <BreadcrumbItem to="/">Home</BreadcrumbItem>
-    <BreadcrumbItem to={process.env.PUBLIC_URL} isActive>
-      Component Catalog
-    </BreadcrumbItem>
-  </Breadcrumb>;
+  const BreadCrumbs = () =>(
+    <Breadcrumb>
+      <BreadcrumbItem to="/">Home</BreadcrumbItem>
+      <BreadcrumbItem to={process.env.PUBLIC_URL} isActive>
+        Component Catalog
+      </BreadcrumbItem>
+    </Breadcrumb>
+  );
 
   const routes = 
   <Routes>
@@ -80,11 +82,17 @@ const App = () => {
     />
   ))}
   </Routes>;
+  const [isNavOpen, setIsNavOpen] = useState(true);
 
   return (
     <>
-      <Page sidebar={<PageSidebar className="side-panel" theme={'light'} nav={< NavBar components={components} />} />}>
-        <PageSection variant={PageSectionVariants.light} key={'breadcrumb'} type="breadcrumb" children={breadCrumb} />
+      <Page sidebar={<PageSidebar isNavOpen={isNavOpen} className="side-panel" theme={'light'} nav={ <NavBar onToggle={setIsNavOpen} components={components} />} />}>
+        <PageSection variant={PageSectionVariants.light} key={'breadcrumb'} type="breadcrumb">
+          <Button id="toggle" variant="plain" onClick={() => { setIsNavOpen(!isNavOpen)}} aria-label="nav toggle">
+            { isNavOpen ? <ion-icon name="chevron-back-outline"></ion-icon> : <ion-icon name="chevron-forward-outline"></ion-icon> }
+          </Button>
+          <BreadCrumbs />
+        </PageSection>
         <PageSection variant={PageSectionVariants.light} key={'main'} children={routes} />
         <footer><opc-footer ref={footerRef} theme="light"></opc-footer></footer>
       </Page>
