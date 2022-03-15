@@ -1,7 +1,14 @@
 .side-panel {
-  --pf-c-page__sidebar--ZIndex: 1;
   height: 100vh;
 }
 .list-style-none {
   list-style: none;
+}
+#toggle {
+  background: #eee;
+  margin-left: -1.75rem;
+  border-radius: 0px 1rem 1rem 0px;
+  margin-right: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
