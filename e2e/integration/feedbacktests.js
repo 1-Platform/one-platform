@@ -22,20 +22,20 @@ context( 'Test feedback form', () => {
     it( 'Share feedback', () => {
         cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
         cy.get( `[data-feedback-type="feedback"]`, { timeout: 10000 } ).click();
-        cy.contains( 'Excellent', { timeout: 10000 } ).click( { force: true } );
+        cy.contains( 'Excellent' ).click( { force: true } );
         cy.get( '#feedbacksummary' ).type( 'e2e test automation' ,{force:true});
         cy.contains( 'Submit', { timeout: 10000 } ).click( { force: true } );
         cy.contains( "Thanks for your feedback. Your experience is important to us!" ).should( 'be.visible' );
     } );
 
     it( 'Verify documentation link', () => {
-        cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
-        cy.get( 'a[href = "/get-started"]', { timeout: 10000 } ).should( 'contain.text', 'Documentation' );
+        cy.get( '#feedback-popup').click().wait( 1000 );
+        cy.get( 'a[href = "/get-started"]').should( 'contain.text', 'Documentation' );
     } );
 
     it( 'Test if feedback and bug counts are visible in view existing feedback section', () => {
         cy.visit( Cypress.env( 'QA_HOST' ) + 'feedback' );
-        cy.get( '#username', { timeout: 20000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#username').type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
         cy.get('h1').should('have.text','Feedback')
@@ -122,7 +122,7 @@ context( 'Test feedback form', () => {
     } )
     it( 'Select Home option and verify home is present in the table', () => {
         cy.xpath( '//label[contains(text(),"Home")]/preceding-sibling::input' ).click( { force: true } ).then( () => {
-            cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span', { timeout: 70000 } ).each( ( elem, index ) => {
+            cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span').each( ( elem, index ) => {
                 cy.wrap( elem ).should( 'contain.text', 'Home' );
             } );
 

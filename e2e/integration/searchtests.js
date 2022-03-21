@@ -11,13 +11,13 @@ context( 'Test search', () => {
     } );
     it( 'Test for valid search count', () => {
         cy.wait( 10000 )
-        cy.get('input[name="query"]' ,{timeout:5000}).focus().type('*.*{enter}', { force: true } );
+        cy.get('input[name="query"]').focus().type('*.*{enter}', { force: true } );
         cy.wait(500)
         cy.contains('results found' ).should( 'be.visible')
     })
 
     it( 'Test for search result', () => {
-        cy.get( '.search-result-section', { timeout: 20000 } ).should( 'be.visible' ).within( () => {
+        cy.get( '.search-result-section' ).should( 'be.visible' ).within( () => {
             cy.get( '.pf-u-mt-md' ).should( 'be.visible' )
         } )
     } )

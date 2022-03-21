@@ -19,10 +19,11 @@ context( 'Test developer console', () => {
         cy.contains( 'I understand the consequences, delete this app' ).click();
         cy.contains( 'App Deleted Successfully!' ).should( 'be.visible' );
             }
+            cy.contains('e2e test automation',{timeout:100}).should('not.exist')
         })
     })
     it( 'Test for create the application', () => {
-        cy.contains( 'Create new App', { timeout: 5000 } ).click();
+        cy.contains( 'Create new App').click();
         cy.get( '#app-name' ).type( 'e2e test automation' );
         cy.get( '#app-desc' ).type( 'e2e test automation' );
         cy.contains( 'Create App' ).click();

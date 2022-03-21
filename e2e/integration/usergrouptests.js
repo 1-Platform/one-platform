@@ -4,7 +4,7 @@ context( 'Test for UserGroup', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
         cy.visit( Cypress.env( 'QA_HOST' ) +'user-groups');
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit').click();
     } );
@@ -49,7 +49,7 @@ context( 'Test for UserGroup', () => {
 
     it( 'Test for trying to add new group with existing name', () => {
         cy.get( '.pf-c-breadcrumb__item  a[href="/user-groups"]' ).click()
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
         cy.get( 'a[href="/user-groups/group/new"]' ).click();
@@ -61,7 +61,7 @@ context( 'Test for UserGroup', () => {
 
     it( 'Edit a User Profile Group Test', () => {
         cy.get( '.pf-c-breadcrumb__item  a[href="/user-groups"]' ).click()
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#username').type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
         cy.xpath( "//tbody/tr[2]/td[1]/a" ).click( { force: true } )
