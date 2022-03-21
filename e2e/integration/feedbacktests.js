@@ -3,19 +3,19 @@ context( 'Test feedback form', () => {
 
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
-        cy.visit( Cypress.env( 'QA_HOST' ),{timeout:10000} );
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.visit( Cypress.env( 'QA_HOST' ) +'feedback');
+        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit',{timeout:10000} ).click();
+        cy.get( '#submit').click();
     } );
 
     it( 'Report bug', () => {
         cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
         cy.get( `[data-feedback-type="bug"]`, { timeout: 10000 } ).click();
-        cy.contains( 'Other', { timeout: 10000 } ).click( { force: true } );
+        cy.contains( 'Other' ).click( { force: true } );
         cy.get( '#bugsummary' ).should( 'not.be.disabled' )
         cy.get( '#bugsummary' ).type( 'e2e test automation',{force:true} );
-        cy.contains( 'Submit', { timeout: 10000 } ).click();
+        cy.contains( 'Submit').click();
         cy.contains( "Thanks for your feedback. Your experience is important to us!" ).should( 'be.visible' );
     } );
 

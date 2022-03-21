@@ -3,13 +3,10 @@
 context( 'Home Page Tests', () => {
     before( () => {
         cy.viewport( Cypress.env( 'width' ), Cypress.env( 'height' ) );
-        cy.visit( Cypress.env( 'QA_HOST' ), { timeout: 10000 } );
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.visit( Cypress.env( 'QA_HOST' ));
+        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit', { timeout: 10000 } ).click( { force: true } );
-    } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
+        cy.get( '#submit').click( { force: true } );
     } );
     it( 'Check whether the heading is visible', () => {
         cy.contains('We connect users to an experience').should('be.visible')

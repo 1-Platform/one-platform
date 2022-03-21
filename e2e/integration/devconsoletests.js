@@ -2,10 +2,10 @@
 context( 'Test developer console', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
-        cy.visit( Cypress.env( 'QA_HOST' ) + 'console' ,{timeout:10000});
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.visit( Cypress.env( 'QA_HOST' ) +'console');
+        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit',{timeout:10000} ).click({force:true});
+        cy.get( '#submit' ).click({force:true});
     } );
 
     it( 'Check whether the app is already existing', () => {
@@ -14,8 +14,8 @@ context( 'Test developer console', () => {
             if ( body.find( 'a[href^="/console/e2e-test-automation"]' ).length > 0 ) {
                 cy.log('pop')
                 cy.xpath( '//a//h2[text()="e2e test automation"]/ancestor::section/following-sibling::aside/descendant::button' ).click( { force: true } )
-                cy.contains( 'Delete', { timeout: 10000 } ).click( { force: true } )
-                  cy.get( '#delete-app', { timeout: 5000 } ).type( 'e2e test automation' );
+                cy.contains( 'Delete').click( { force: true } )
+                  cy.get( '#delete-app').type( 'e2e test automation' );
         cy.contains( 'I understand the consequences, delete this app' ).click();
         cy.contains( 'App Deleted Successfully!' ).should( 'be.visible' );
             }
@@ -26,7 +26,7 @@ context( 'Test developer console', () => {
         cy.get( '#app-name' ).type( 'e2e test automation' );
         cy.get( '#app-desc' ).type( 'e2e test automation' );
         cy.contains( 'Create App' ).click();
-        cy.contains( 'App Created Successfully!' ,{timeout:60000}).should( 'be.visible' );
+        cy.contains( 'App Created Successfully!').should( 'be.visible' );
     } );
 
     it( 'Test for header section of feedback page', () => {
@@ -61,9 +61,9 @@ it( 'Click on Edit Feedback', () => {
 
     it( 'Test for update the application', () => {
         cy.wait(3000)
-        cy.contains( 'App Settings' ,{timeout:40000}).click({force:true});
+        cy.contains( 'App Settings').click({force:true});
         cy.wait(3000)
-        cy.get( '#name', { timeout: 50000 }).clear().type( 'e2e test automation update' );
+        cy.get( '#name').clear().type( 'e2e test automation update' );
         cy.contains( 'Save' ).click();
         cy.wait( 3000 )
         cy.contains( 'App Updated Successfully!' ).should( 'be.visible' );
@@ -71,7 +71,7 @@ it( 'Click on Edit Feedback', () => {
 
     it( 'Test for delete the application', () => {
         cy.contains( 'Delete this App' ).click({force:true});
-        cy.get( '#delete-app', { timeout: 50000 } ).type( 'e2e test automation update' );
+        cy.get( '#delete-app').type( 'e2e test automation update' );
         cy.contains( 'I understand the consequences, delete this app' ).click();
         cy.contains( 'App Deleted Successfully!' ).should( 'be.visible' );
     } );
