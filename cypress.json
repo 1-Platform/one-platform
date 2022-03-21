@@ -4,7 +4,7 @@
     "video": false,
     "numTestsKeptInMemory":0,
     "pageLoadTimeout": 900000,
-    "defaultCommandTimeout":99999,
+    "defaultCommandTimeout":50000,
     "experimentalRunEvents": true,
     "restartBrowserBetweenSpecFiles": true,
     "screenshotOnRunFailure": true,

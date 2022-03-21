@@ -126,7 +126,7 @@ context( 'Test lighthouse', () => {
     } )
      it( 'Sort Test based on PWA ', () => {
         cy.contains( 'PWA' ).click( { force: true } )
-        cy.get('tr td:nth-child(6)',{timeout:60000}).then(($cells)=> {
+        cy.get('tr td:nth-child(6)').then(($cells)=> {
             // again, convert the date strings into timestamps
             const pwa = Cypress._.map(
                 $cells,

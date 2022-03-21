@@ -66,7 +66,7 @@ context( 'API Catalog Tests', () => {
     } )
     it( 'Invalid Search Test', () => {
         cy.get( 'input[aria-label="Search API"]' ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
-        cy.contains( 'No API found', { timeout: 6000 } )
+        cy.contains( 'No API found')
     })
     it( 'Valid search in My APIs Page', () => {
         cy.get( 'input[aria-label="Search API"]' ).clear().type( 'e2e test automation', { force: true } );
@@ -108,7 +108,7 @@ context( 'API Catalog Tests', () => {
         cy.get( '#app-layout-page > section.pf-c-page__main-section.pf-m-no-padding.pf-m-light.appLayout_app-layout--content__1Gx8I > section > div > div > div > div:nth-child(2) > form > div:nth-child(4) > div.pf-c-form__group-control > div' ).within( () => {
             cy.get('input[placeholder ^= "Search" ]' ).type( 'portal-test' ).then( () => {
             cy.wait( 5000 );
-            cy.contains( 'sso', { timeout: 10000 } ).should( 'not.be.disabled' ).click( { force: true } );
+            cy.contains( 'sso').should( 'not.be.disabled' ).click( { force: true } );
             cy.get( 'span.pf-c-chip__text' ).should( 'be.visible' )
         })
         })
