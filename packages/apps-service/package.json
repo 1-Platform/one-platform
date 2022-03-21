@@ -4,7 +4,8 @@
   "description": "Microservice for managing apps created/deployed on the One Platform",
   "main": "src/index.ts",
   "scripts": {
-    "serve": "ts-node src/index.ts",
+    "serve": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
     "start": "nodemon",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
