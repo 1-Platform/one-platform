@@ -33,7 +33,9 @@ export class OpcToast extends LitElement {
         >
         <h5 class="op-menu-drawer__notification-subject">
           ${this.notification.link
-            ? `<a href="${this.notification.link}">${this.notification.subject}</a>`
+            ? html`<a href="${this.notification.link}"
+                >${this.notification.subject}</a
+              >`
             : this.notification.subject}
         </h5>
         <p
