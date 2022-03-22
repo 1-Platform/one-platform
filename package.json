@@ -28,6 +28,11 @@
       "name": "Rigin Oommen",
       "email": "riginoommen@gmail.com",
       "url": "https://github.com/riginoommen"
+    },
+    {
+      "name": "Deepesh Nair",
+      "email": "hybridx18@gmail.com",
+      "url": "https://github.com/hybridx"
     }
   ],
   "license": "MIT",
@@ -48,9 +53,8 @@
     "combinereports": "mochawesome-merge e2e/reports/mochawesome-report/*.json > e2e/reports/output.json",
     "lerna": "lerna",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cli-microservice": "sh cli-init.sh",
     "deploy": "sh deploy.sh",
-    "postinstall": "npm run lerna bootstrap && node platform.js",
+    "postinstall": "npm run lerna bootstrap",
     "merge:reports": "jrm e2e/reports/combined.xml e2e/reports/junit/*.xml",
     "convert": "xml-js e2e/reports/combined.xml test.json --spaces 4 --out e2e/reports/report.json --compact"
   },
@@ -83,6 +87,5 @@
     "@spaship/cli": "0.14.0",
     "browserstack-cypress-cli": "^1.11.0",
     "faker": "^5.5.3"
-  },
-  "main": "platform.js"
+  }
 }
