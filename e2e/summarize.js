@@ -1,8 +1,7 @@
 const fs = require( "fs" );
 
-let rawReport = fs.readFileSync( 'e2e/reports/report.json');
+let rawReport = fs.readFileSync( 'e2e/reports/index.json');
 let report = JSON.parse( rawReport );
-let passed=parseInt(report.testsuites._attributes.tests)-parseInt(report.testsuites._attributes.failures)
 function buildHtml ( req ) {
     return `
         <!DOCTYPE html>
@@ -28,15 +27,19 @@ function buildHtml ( req ) {
                 <table>
                     <tr>
                         <th>Total no. of tests</th>
-                        <td>${ report.testsuites._attributes.tests }</td>
+                        <td>${ report.stats.tests }</td>
                     </tr>
                     <tr>
                         <th>Passed</th>
-                        <td>${ passed }</td>
+                        <td>${ report.stats.passes }</td>
                     </tr>
                     <tr>
                         <th>Failed</th>
-                        <td>${ report.testsuites._attributes.failures }</td>
+                        <td>${ report.stats.failures }</td>
+                    </tr>
+                     <tr>
+                        <th>Skipped</th>
+                        <td>${ report.stats.skipped }</td>
                     </tr>
                 </table>
             </body>

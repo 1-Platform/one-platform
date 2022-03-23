@@ -3,39 +3,39 @@ context( 'Test feedback form', () => {
 
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
-        cy.visit( Cypress.env( 'QA_HOST' ),{timeout:10000} );
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.visit( Cypress.env( 'QA_HOST' ) +'feedback');
+        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit',{timeout:10000} ).click();
+        cy.get( '#submit').click();
     } );
 
     it( 'Report bug', () => {
-        cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
-        cy.get( `[data-feedback-type="bug"]`, { timeout: 10000 } ).click();
-        cy.contains( 'Other', { timeout: 10000 } ).click( { force: true } );
-        cy.get( '#bugsummary' ).should( 'not.be.disabled' )
+        cy.get( '#feedback-popup'  ).click().wait( 1000 );
+        cy.get( `[data-feedback-type="bug"]`).click();
+        cy.contains( 'Other' ).click( { force: true } );
+        cy.get( '#bugsummary' ).should( 'not.be.disabled' );
         cy.get( '#bugsummary' ).type( 'e2e test automation',{force:true} );
-        cy.contains( 'Submit', { timeout: 10000 } ).click();
+        cy.contains( 'Submit').click({force:true});
         cy.contains( "Thanks for your feedback. Your experience is important to us!" ).should( 'be.visible' );
     } );
 
     it( 'Share feedback', () => {
-        cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
-        cy.get( `[data-feedback-type="feedback"]`, { timeout: 10000 } ).click();
-        cy.contains( 'Excellent', { timeout: 10000 } ).click( { force: true } );
+        cy.get( '#feedback-popup' ).click().wait( 1000 );
+        cy.get( `[data-feedback-type="feedback"]` ).click();
+        cy.contains( 'Excellent' ).click( { force: true } );
         cy.get( '#feedbacksummary' ).type( 'e2e test automation' ,{force:true});
-        cy.contains( 'Submit', { timeout: 10000 } ).click( { force: true } );
+        cy.contains( 'Submit').click( { force: true } )
         cy.contains( "Thanks for your feedback. Your experience is important to us!" ).should( 'be.visible' );
     } );
 
     it( 'Verify documentation link', () => {
-        cy.get( '#feedback-popup', { timeout: 10000 } ).click().wait( 1000 );
-        cy.get( 'a[href = "/get-started"]', { timeout: 10000 } ).should( 'contain.text', 'Documentation' );
+        cy.get( '#feedback-popup').click().wait( 1000 );
+        cy.get( 'a[href = "/get-started"]').should( 'contain.text', 'Documentation' );
     } );
 
     it( 'Test if feedback and bug counts are visible in view existing feedback section', () => {
         cy.visit( Cypress.env( 'QA_HOST' ) + 'feedback' );
-        cy.get( '#username', { timeout: 20000 } ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#username').type( Cypress.env( 'USERNAME' ) );
         cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
         cy.get( '#submit' ).click();
         cy.get('h1').should('have.text','Feedback')
@@ -43,7 +43,7 @@ context( 'Test feedback form', () => {
 
     it( 'Test if list of feedback is visible', () => {
 
-       cy.get('.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack',{timeout:50000}).should('have.length',20)
+        cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack').should( 'have.length', 20 )
     } );
 
     it( 'Test for expansion of feedback from feedback list', () => {
@@ -72,7 +72,7 @@ context( 'Test feedback form', () => {
     } )
     it( 'Test for search feedback from feedback list', () => {
         cy.get( '.pf-c-search-input__text-input' ).type( 'test' );
-        cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack',{timeout:60000}).should( 'be.visible' ).each( () => {
+        cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack').should( 'be.visible' ).each( () => {
             cy.get( '.pf-l-stack__item:nth-child(2)' ).should( 'include.text', 'test' );
         } );
         cy.get( '.pf-c-search-input__text-input' ).clear();
@@ -118,11 +118,11 @@ context( 'Test feedback form', () => {
     } )
     it( 'Test whether Export functionality works', () => {
         cy.contains( 'Export' ).click( { force: true } )
-        cy.contains('Export sucessfully completed',{timeout:70000}).should('be.visible')
+        cy.contains('Export sucessfully completed').should('be.visible')
     } )
     it( 'Select Home option and verify home is present in the table', () => {
         cy.xpath( '//label[contains(text(),"Home")]/preceding-sibling::input' ).click( { force: true } ).then( () => {
-            cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span', { timeout: 70000 } ).each( ( elem, index ) => {
+            cy.get( '.pf-l-grid__item.pf-m-9-col  >.pf-l-stack.pf-m-gutter .pf-l-stack__item .pf-l-split__item:nth-child(3) > span').each( ( elem, index ) => {
                 cy.wrap( elem ).should( 'contain.text', 'Home' );
             } );
 

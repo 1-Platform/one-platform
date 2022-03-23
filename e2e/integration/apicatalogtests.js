@@ -2,18 +2,15 @@
 
 context( 'API Catalog Tests', () => {
     before( () => {
-        cy.viewport(Cypress.env('width'), Cypress.env('height') );
-        cy.visit( Cypress.env( 'QA_HOST' ) +'developers/api-catalog',{timeout:10000});
-        cy.get( '#username', { timeout: 5000 } ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ));
-        cy.get( '#submit',{timeout:10000} ).click({force:true});
-    } );
-    Cypress.on( 'uncaught:exception', ( err, runnable ) => {
-        return false;
+        cy.viewport( Cypress.env( 'width' ), Cypress.env( 'height' ) );
+        cy.visit( Cypress.env( 'QA_HOST' ) + 'developers/api-catalog' );
+        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
+        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
+        cy.get( '#submit' ).click( { force: true } );
     } );
     it( 'Add API Test', () => {
         cy.contains( 'Add API' ).click( { force: true } );
-    } )
+    })
     it( 'Fill the add API form', () => {
         cy.get( 'input[name="name"]' ).type( 'e2e test automation' );
         cy.get( 'textarea[name="description"]' ).type( "test is on for the api catalog. it seems to be an interesting application. i am liking it very much . this is a test by one of the tester . it seems there are very less bugs in this application. there are more of user experience difficulties found in this spa." )
@@ -21,7 +18,7 @@ context( 'API Catalog Tests', () => {
         cy.get( '#app-layout-page > section.pf-c-page__main-section.pf-m-no-padding.pf-m-light.appLayout_app-layout--content__1Gx8I > section > div > div > div > div:nth-child(2) > form > div:nth-child(4) > div.pf-c-form__group-control > div' ).within( () => {
             cy.get('input[placeholder ^= "Search" ]' ).type( 'portal-test' ).then( () => {
             cy.wait( 5000 );
-            cy.contains( 'sso', { timeout: 10000 } ).should( 'not.be.disabled' ).click( { force: true } );
+            cy.contains( 'sso' ).should( 'not.be.disabled' ).click( { force: true } );
             cy.get( 'span.pf-c-chip__text' ).should( 'be.visible' )
         })
         })
@@ -47,15 +44,13 @@ context( 'API Catalog Tests', () => {
         cy.get( '.pf-c-button.pf-m-primary.pf-m-progress' ).click( { force: true } )
     } )
     it( "Subscribe Test", () => {
-        cy.contains( 'Subscribe' ,{timeout:20000}).click( { force: true } )
-        cy.wait(2000)
-        cy.contains('Subscribed to',{timeout:10000}).should('be.visible')
+        cy.contains( 'Subscribe').click( { force: true } )
+        cy.contains('Subscribed to').should('be.visible')
     } )
     it( "Unsubscribe Test", () => {
-        cy.wait(6000)
-        cy.contains( "Subscribed" ,{timeout:20000}).click( { force: true } )
+        cy.contains( "Subscribed").click( { force: true } )
         cy.wait( 2000 )
-        cy.contains("Unsubscribed to",{timeout:10000}).should('be.visible')
+        cy.contains("Unsubscribed to").should('be.visible')
     } )
     it( 'Check if swagger link is visible', () => {
         cy.get('.pf-c-card__body .pf-c-title.pf-m-md').should('be.visible')
@@ -71,7 +66,7 @@ context( 'API Catalog Tests', () => {
     } )
     it( 'Invalid Search Test', () => {
         cy.get( 'input[aria-label="Search API"]' ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
-        cy.contains( 'No API found', { timeout: 6000 } )
+        cy.contains( 'No API found')
     })
     it( 'Valid search in My APIs Page', () => {
         cy.get( 'input[aria-label="Search API"]' ).clear().type( 'e2e test automation', { force: true } );
@@ -113,7 +108,7 @@ context( 'API Catalog Tests', () => {
         cy.get( '#app-layout-page > section.pf-c-page__main-section.pf-m-no-padding.pf-m-light.appLayout_app-layout--content__1Gx8I > section > div > div > div > div:nth-child(2) > form > div:nth-child(4) > div.pf-c-form__group-control > div' ).within( () => {
             cy.get('input[placeholder ^= "Search" ]' ).type( 'portal-test' ).then( () => {
             cy.wait( 5000 );
-            cy.contains( 'sso', { timeout: 10000 } ).should( 'not.be.disabled' ).click( { force: true } );
+            cy.contains( 'sso').should( 'not.be.disabled' ).click( { force: true } );
             cy.get( 'span.pf-c-chip__text' ).should( 'be.visible' )
         })
         })
