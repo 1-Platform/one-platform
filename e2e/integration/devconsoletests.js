@@ -3,9 +3,7 @@ context( 'Test developer console', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
         cy.visit( Cypress.env( 'QA_HOST' ) +'console');
-        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit' ).click({force:true});
+        cy.login( Cypress.env( 'USERNAME' ), Cypress.env( 'PASSWORD' ) );
     } );
 
 
@@ -73,12 +71,12 @@ context( 'Test developer console', () => {
         })
          cy.contains( 'Configure Lighthouse' ).should( 'be.visible' )
         cy.get( '.pf-c-empty-state__body' ).within( () => {
-            cy.get( 'img' ).should( 'be.visible' )
+            cy.get( 'img' ).should( 'be.visible' );
+        })
             cy.contains( 'Learn more' ).should( 'be.visible' )
             cy.contains('Get Started').should('be.visible')
         })
 
-    } )
 
     it( 'Test for header section of feedback page', () => {
         cy.get( '.app-details--sidebar--main-nav' ).within( () => {
