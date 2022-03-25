@@ -4,9 +4,7 @@ context( 'Test feedback form', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
         cy.visit( Cypress.env( 'QA_HOST' ) +'feedback');
-        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit').click();
+        cy.login( Cypress.env( 'USERNAME' ), Cypress.env( 'PASSWORD' ) );
     } );
 
     it( 'Report bug', () => {
@@ -35,9 +33,7 @@ context( 'Test feedback form', () => {
 
     it( 'Test if feedback and bug counts are visible in view existing feedback section', () => {
         cy.visit( Cypress.env( 'QA_HOST' ) + 'feedback' );
-        cy.get( '#username').type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit' ).click();
+        cy.login(Cypress.env('USERNAME'),Cypress.env('PASSWORD'));
         cy.get('h1').should('have.text','Feedback')
     } );
 

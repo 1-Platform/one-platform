@@ -4,9 +4,7 @@ context( 'Test for SSI', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
         cy.visit( Cypress.env( 'QA_HOST' ));
-        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password').type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit').click();
+        cy.login( Cypress.env( 'USERNAME' ), Cypress.env( 'PASSWORD' ) );
     } );
 
     it( 'Test for Notifications section', () => {

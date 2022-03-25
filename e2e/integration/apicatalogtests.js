@@ -4,9 +4,7 @@ context( 'API Catalog Tests', () => {
     before( () => {
         cy.viewport( Cypress.env( 'width' ), Cypress.env( 'height' ) );
         cy.visit( Cypress.env( 'QA_HOST' ) + 'developers/api-catalog' );
-        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit' ).click( { force: true } );
+       cy.login(Cypress.env('USERNAME'),Cypress.env('PASSWORD'))
     } );
     it( 'Add API Test', () => {
         cy.contains( 'Add API' ).click( { force: true } );
@@ -66,13 +64,14 @@ context( 'API Catalog Tests', () => {
     } )
     it( 'Invalid Search Test', () => {
         cy.get( 'input[aria-label="Search API"]' ).type( 'qwertyuiopasdgthchgbtnjkmnvxs', { force: true } );
-        cy.contains( 'No API found')
+        cy.contains( 'No API found').should('be.visible')
     })
     it( 'Valid search in My APIs Page', () => {
         cy.get( 'input[aria-label="Search API"]' ).clear().type( 'e2e test automation', { force: true } );
         cy.get('.pf-c-card__body').contains('e2e test automation').should('be.visible').click({force:true})
-
+           cy.get( 'input[aria-label="Search API"]' ).clear()
     } )
+    it()
     it( 'Verify click on Home', () => {
         cy.get('.pf-l-split').contains( 'Home' ).click( { force: true } )
     } )

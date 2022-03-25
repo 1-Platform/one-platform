@@ -4,9 +4,7 @@ context( 'Home Page Tests', () => {
     before( () => {
         cy.viewport( Cypress.env( 'width' ), Cypress.env( 'height' ) );
         cy.visit( Cypress.env( 'QA_HOST' ));
-        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password' ).type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit').click( { force: true } );
+        cy.login( Cypress.env( 'USERNAME' ), Cypress.env( 'PASSWORD' ) );
     } );
     it( 'Check whether the heading is visible', () => {
         cy.contains('We connect users to an experience').should('be.visible')

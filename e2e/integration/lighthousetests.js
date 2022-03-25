@@ -5,9 +5,7 @@ context( 'Test lighthouse', () => {
     before( () => {
         cy.viewport(Cypress.env('width'), Cypress.env('height') );
         cy.visit( Cypress.env( 'STAGE_HOST' ) +'lighthouse');
-        cy.get( '#username' ).type( Cypress.env( 'USERNAME' ) );
-        cy.get( '#password').type( Cypress.env( 'PASSWORD' ) );
-        cy.get( '#submit' ).click();
+        cy.login( Cypress.env( 'USERNAME' ), Cypress.env( 'PASSWORD' ) );
     } );
 
     it( 'measure performance steps', () => {
