@@ -2,11 +2,8 @@
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import { camelCase } from 'lodash';
+import fetch, { Headers } from 'node-fetch';
 import Logger from './lib/logger';
-
-const fetch = require('node-fetch');
-
-(global as any).Headers = fetch.Headers;
 
 const redisOptions: Redis.RedisOptions = {
   host: process.env.REDIS_URL,
