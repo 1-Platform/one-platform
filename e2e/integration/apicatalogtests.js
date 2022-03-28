@@ -71,7 +71,6 @@ context( 'API Catalog Tests', () => {
         cy.get('.pf-c-card__body').contains('e2e test automation').should('be.visible').click({force:true})
            cy.get( 'input[aria-label="Search API"]' ).clear()
     } )
-    it()
     it( 'Verify click on Home', () => {
         cy.get('.pf-l-split').contains( 'Home' ).click( { force: true } )
     } )
