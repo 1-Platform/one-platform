@@ -5,7 +5,7 @@
     "className": "ApiGateway",
     "serviceName": "api-gateway"
   },
-  "version": "0.1.1",
+  "version": "0.2.0",
   "keywords": [
     "api-gateway",
     "api",
@@ -19,10 +19,12 @@
   },
   "private": true,
   "scripts": {
-    "test": "jest --forceExit",
-    "build:dev": "webpack --config webpack.dev.js",
+    "start": "npm run serve",
+    "serve": "node dist/bundle.js",
+    "dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack --watch --config webpack.dev.js"
+    "build:dev": "webpack --config webpack.dev.js",
+    "test": "jest --forceExit"
   },
   "author": {
     "name": "Rigin Oommen",

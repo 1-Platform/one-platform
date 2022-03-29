@@ -1,15 +1,16 @@
-FROM node:12-alpine
+FROM node:16-alpine
 LABEL Name=one-platform-api-gateway-service \
-  Version=0.1.2 \
+  Version=0.2.0 \
   maintainer="mdeshmuk@redhat.com"
 
-# Building the user-group microservice
-ADD  . /usr/src
 WORKDIR /usr/src
+ADD  . .
+
+# Building the user-group microservice
 RUN npm install --silent && \
   npm run build
 
 ENV PORT 8080
 EXPOSE 8080
 
-CMD [ "node", "dist/bundle.js"]
+CMD [ "npm", "start"]
