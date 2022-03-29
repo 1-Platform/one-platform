@@ -57,7 +57,7 @@
     "@web/dev-server": "0.1.18",
     "@web/dev-server-esbuild": "^0.2.16",
     "@web/test-runner": "^0.13.22",
-    "electron": "13.1.8",
+    "electron": "17.3.0",
     "rimraf": "3.0.2",
     "rollup": "2.52.3",
     "rollup-plugin-copy": "3.4.0",
