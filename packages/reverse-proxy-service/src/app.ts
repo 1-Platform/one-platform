@@ -7,16 +7,19 @@ import couchDBRouter from './couchdb';
 import noCorsRouter from './no-cors-proxy'
 import restrictedSPAs from './restricted-spas';
 import winstonInstance from './utils/logger';
-import keycloak, { memoryStore } from './utils/keycloakAuth';
+import store from './utils/store';
 import { COOKIE_SECRET } from './config/env';
-import keycloakAuth from './middleware/keycloakAuth';
+import oidcAuth from './middleware/oidcAuth';
+import { requiresAuth } from 'express-openid-connect';
 
 const app = express();
+
+app.set( 'trust proxy', true );
+
 app.use( expressWinston.logger( {
   winstonInstance,
   statusLevels: true,
 } ) );
-app.set( 'trust proxy', true );
 
 app.get( '/api', ( _, res ) => {
   res.json( { message: 'This is a proxy service.' } );
@@ -31,15 +34,17 @@ app.use( session( {                                 // lgtm[js/clear-text-cookie
   secret: COOKIE_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: memoryStore,
+  store: store,
   cookie: {
     httpOnly: true,
   }
 } ) );
-app.use( keycloak.middleware({ logout: '/' }) );
+
+/* OpenID Connect Middleware */
+app.use( oidcAuth() );
 
 /* Router for restricted SPAs */
-app.get( '*', [ keycloakAuth ], restrictedSPAs );
+app.get( '*', [ requiresAuth() ], restrictedSPAs );
 
 app.use( expressWinston.errorLogger( {
   winstonInstance,

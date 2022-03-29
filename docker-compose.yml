@@ -17,11 +17,11 @@ services:
       - ./packages/ssi-service/dist:/var/www/html/.ssi/nav
       - ./packages/ssi-service/dist:/var/www/html/assets
     ports:
-      - 5500:8080
+      - 4200:8080
 
   reverse-proxy:
     build: ./packages/reverse-proxy-service
-    command: npm run watch
+    command: npm run dev
     env_file: ./packages/reverse-proxy-service/.env
     environment:
       PORT: 8000
@@ -30,9 +30,10 @@ services:
     volumes:
       - ./packages/reverse-proxy-service:/usr/src
     ports:
-      - 8000:8000
+      - 5500:8000
     depends_on:
       - couchdb
+      - redis
 
   api-gateway:
     build: ./packages/api-gateway-service
