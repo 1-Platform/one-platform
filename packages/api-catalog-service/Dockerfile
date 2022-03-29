@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:16-alpine
 LABEL Name=one-platform-api-catalog-service \
   Version=0.4.3 \
   maintainer="mdeshmuk@redhat.com"
