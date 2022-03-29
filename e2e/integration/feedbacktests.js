@@ -18,7 +18,7 @@ context( 'Test feedback form', () => {
     } );
 
     it( 'Share feedback', () => {
-        cy.get( '#feedback-popup' ).click().wait( 1000 );
+        cy.get( '#feedback-popup' ).click({force:true}).wait( 1000 );
         cy.get( `[data-feedback-type="feedback"]` ).click();
         cy.contains( 'Excellent' ).click( { force: true } );
         cy.get( '#feedbacksummary' ).type( 'e2e test automation' ,{force:true});
@@ -84,15 +84,47 @@ context( 'Test feedback form', () => {
             cy.wrap(elements[randomNumber]).click({ force: true });
         })
     } )
-    it( 'Test for click on clear', () => {
-        cy.contains('clear').click({force:true})
+    it( 'Test for click on clear in User Groups', () => {
+         cy.get( '.pf-l-stack.pf-m-gutter' ).within( () => {
+            cy.xpath('//button[text()="clear"]').click({force:true})
+        })
+
     })
-    it( 'Test for Selecting Bug Type', () => {
-        cy.get('#feedback-type-1').click({force:true})
+    it( 'Test for Selecting Bug Type and verifying the results are of Bug only', () => {
+        cy.get( '#feedback-type-1' ).click( { force: true } )
+        cy.get( '.pf-l-grid.pf-m-gutter' ).within( ( elem ) =>{
+            cy.get( 'img' ).should('have.attr','src','/feedback/assets/bug.18e51875.svg')
+        })
     } )
-    it( 'Test for selecting Status', () => {
-        cy.get('#feedback-status-1').click({force:true})
+
+    it( 'Test for Selecting Feedback Type and verifying the results are of Feedback only', () => {
+        cy.get( '#feedback-type-2' ).click( { force: true } )
+        cy.get( '.pf-l-grid.pf-m-gutter' ).within( (  ) =>{
+            cy.get( 'img' ).should('have.attr','src','/feedback/assets/feedback.8b7099a9.svg')
+        })
     } )
+    it( 'Test for click on clear in type section', () => {
+        cy.get( '.pf-l-stack.pf-m-gutter' ).within( () => {
+            cy.xpath( '//button[text()="clear"]' ).click( { force: true } );
+        } );
+    })
+
+    it( 'Test for selecting Open Status and Checking whether To Do is visible on the feedback', () => {
+        cy.get( '#feedback-status-1' ).click( { force: true } );
+        cy.get( '.pf-l-grid.pf-m-gutter' ).within( () => {
+            cy.contains( 'To Do' ).should( 'be.visible' );
+        } );
+    })
+  it( 'Test for checking Closed Status', () => {
+            cy.get( '#feedback-status-2' ).should( 'be.visible' ).click( { force: true } )
+            cy.contains('No feedback found').should('be.visible')
+  } )
+     it( 'Test for click on clear in Status section', () => {
+         cy.get( '.pf-l-stack.pf-m-gutter' ).within( () => {
+            cy.xpath('//button[text()="clear"]').click({force:true})
+        })
+
+    })
     it( 'Test for click on expand to see more apps', () => {
         cy.contains('Expand to see more apps').click({force:true})
     } )
