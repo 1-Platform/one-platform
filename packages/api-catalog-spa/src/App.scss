@@ -22,6 +22,10 @@ body,
   height: 100% !important;
 }
 
+ .pf-topology-side-bar__body{
+   height: 100%;
+ }
+
 opc-feedback {
   --op-feedback__z-index: 8;
 }

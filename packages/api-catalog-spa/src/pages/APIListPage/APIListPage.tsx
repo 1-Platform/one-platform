@@ -256,7 +256,7 @@ export const APIListPage = (): JSX.Element => {
           )}
         </Grid>
       </PageSection>
-      <PageSection variant="light" isWidthLimited className="pf-m-align-center">
+      <PageSection variant="light" isWidthLimited className="pf-m-align-center pf-u-pb-2xl">
         <Pagination
           itemCount={namespaceList?.listNamespaces?.count || 0}
           widgetId="pagination-options-menu-bottom"
