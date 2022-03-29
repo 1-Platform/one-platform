@@ -1,15 +1,17 @@
-FROM node:12-alpine
+FROM node:16-alpine
 LABEL Name=one-platform-search-service \
   Version=0.1.0 \
   maintainer="mdeshmuk@redhat.com"
 
+WORKDIR /use/src
+
+ADD  . .
+
 # Building the search microservice
-ADD  . /app
-WORKDIR /app
 RUN npm install --silent && \
   npm run build
 
 ENV PORT 8080
 EXPOSE 8080
 
-CMD [ "node", "dist/bundle.js"]
+CMD [ "npm", "start"]
