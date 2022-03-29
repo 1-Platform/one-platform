@@ -89,6 +89,7 @@
     "@types/mongoose": "5.11.97",
     "@types/morgan": "1.9.3",
     "@types/node": "16.10.3",
+    "@types/node-fetch": "^2.6.1",
     "@types/nodemailer": "6.4.4",
     "@types/supertest": "2.0.11",
     "@types/winston": "^2.4.4",

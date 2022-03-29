@@ -3,12 +3,9 @@
 import { createHash } from 'crypto';
 import { createTransport } from 'nodemailer';
 import uniq from 'lodash/uniq';
+import fetch, { Headers } from 'node-fetch';
 import { NamespaceModel } from '../namespace/schema';
 import { API_GATEWAY, GATEWAY_AUTH_TOKEN, SMTP_HOST } from '../setup/env';
-
-const fetch = require('node-fetch');
-
-(global as any).Headers = fetch.Headers;
 
 class APICatalogHelper {
   private static APICatalogHelperInstance: APICatalogHelper;
@@ -218,7 +215,7 @@ class APICatalogHelper {
       body:
         category === 'GRAPHQL'
           ? JSON.stringify({ query: this.introspectionQuery() })
-          : null,
+          : undefined,
     })
       .then((response: any) => response.text())
       .catch((err: Error) => err);
