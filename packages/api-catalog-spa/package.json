@@ -1,7 +1,7 @@
 {
   "name": "api-catalog-spa",
   "homepage": "/developers/api-catalog",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^2.8.0",
@@ -22,7 +22,6 @@
     "graphql-playground-react": "^1.7.28",
     "graphql-voyager": "^1.0.0-rc.31",
     "history": "^5.0.1",
-    "install": "^0.13.0",
     "nanoid": "^3.1.30",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -56,6 +55,9 @@
       "last 1 safari version"
     ]
   },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@types/node": "^12.20.18",
@@ -74,8 +76,8 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "graphql": "^15.5.1",
-    "node-sass": "^6.0.1",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "sass": "^1.49.9"
   },
   "author": {
     "name": "Rigin Oommen",
