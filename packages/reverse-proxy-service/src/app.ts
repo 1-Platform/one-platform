@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import expressWinston from 'express-winston';
 import session from 'express-session';
+import rateLimit from 'express-rate-limit'
 import jwtAuth from './middleware/jwtAuth';
 import couchDBRouter from './couchdb';
 import noCorsRouter from './no-cors-proxy'
@@ -15,6 +16,14 @@ import { requiresAuth } from 'express-openid-connect';
 const app = express();
 
 app.set( 'trust proxy', true );
+
+/* Rate limiter to protect from DDOS */
+app.use( rateLimit( {
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+} ) );
 
 app.use( expressWinston.logger( {
   winstonInstance,
