@@ -1,12 +1,12 @@
 {
   "name": "apps-service",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Microservice for managing apps created/deployed on the One Platform",
   "main": "src/index.ts",
   "scripts": {
+    "start": "npm run serve",
     "serve": "node dist/index.js",
-    "dev": "ts-node src/index.ts",
-    "start": "nodemon",
+    "dev": "nodemon",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,19 +31,19 @@
   },
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "devDependencies": {
-    "@types/dotenv-safe": "8.1.2",
-    "@types/lodash": "4.14.173",
-    "@types/node": "16.10.3",
+    "@types/dotenv-safe": "^8.1.2",
+    "@types/lodash": "^4.14.173",
+    "@types/node": "^16.10.3",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-airbnb-typescript": "^14.0.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^16.1.4",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jest": "^25.2.2",
-    "nodemon": "2.0.13",
-    "ts-node": "10.4.0",
-    "typescript": "4.4.4"
+    "nodemon": "^2.0.13",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "@graphql-tools/schema": "^8.3.1",
