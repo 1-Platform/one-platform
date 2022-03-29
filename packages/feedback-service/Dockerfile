@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:16-alpine
 LABEL Name=one-platform-feedback-service \
   Version=0.1.0 \
   maintainer="mdeshmuk@redhat.com"
