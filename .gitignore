@@ -74,3 +74,6 @@ cypress/videos
 *.env.json
 
 .idea
+
+# Mac OS files
+.DS_STORE

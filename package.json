@@ -56,7 +56,9 @@
     "deploy": "sh deploy.sh",
     "postinstall": "npm run lerna bootstrap",
     "merge:reports": "jrm e2e/reports/combined.xml e2e/reports/junit/*.xml",
-    "convert": "xml-js e2e/reports/combined.xml test.json --spaces 4 --out e2e/reports/report.json --compact"
+    "convert": "xml-js e2e/reports/combined.xml test.json --spaces 4 --out e2e/reports/report.json --compact",
+    "build:packages": "lerna run build --since master",
+    "test:packages": "lerna run test --since master"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.32.0",
