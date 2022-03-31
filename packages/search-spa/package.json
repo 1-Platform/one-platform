@@ -7,10 +7,10 @@
     "start": "npm run config && ng serve",
     "build:dev": "npm run config -- --environment=dev && ng build --base-href /search/",
     "build": "npm run config -- --environment=prod && ng build --prod --base-href /search/",
-    "test": "jest --verbose",
+    "test": "echo \"Error: no test specified\"",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test:watch": "jest --watch"
+    "test:watch": "echo \"Error: no test specified\""
   },
   "author": {
     "name": "Rigin Oommen",

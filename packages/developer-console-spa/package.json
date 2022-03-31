@@ -43,7 +43,7 @@
   "scripts": {
     "start": "PORT=5500 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "echo \"Error: no test specified\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

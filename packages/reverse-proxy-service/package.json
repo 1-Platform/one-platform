@@ -9,7 +9,7 @@
     "dev": "nodemon",
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "test": "jest --coverage",
+    "test": "echo \"Error: no test specified\"",
     "test:watch": "jest --watch"
   },
   "author": {

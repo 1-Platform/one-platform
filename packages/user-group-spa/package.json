@@ -40,7 +40,7 @@
     "start": "PORT=4200 react-scripts start",
     "build": "react-scripts build",
     "watch": "NODE_ENV=local npm-watch build",
-    "test": "react-scripts test",
+    "test": "echo \"Error: no test specified\"",
     "eject": "react-scripts eject"
   },
   "watch": {
