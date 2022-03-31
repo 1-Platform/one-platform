@@ -41,6 +41,17 @@ context( 'Test feedback form', () => {
 
         cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack').should( 'have.length', 20 )
     } );
+    it( 'Test for no of records being displayed', () => {
+        cy.get( '.pf-c-options-menu__toggle-button-icon' ).click( { force: true } )
+        cy.get( "ul[role='menu'] li:nth-child(1)" ).click( { force: true } )
+        cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack' ).should( 'have.length', 10 )
+        cy.get( '.pf-c-options-menu__toggle-button-icon' ).click( { force: true } )
+        cy.get( "ul[role='menu'] li:nth-child(3)" ).click( { force: true } )
+        cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack' ).should( 'have.length', 50 )
+        cy.get( '.pf-c-options-menu__toggle-button-icon' ).click( { force: true } )
+        cy.get( "ul[role='menu'] li:nth-child(4)" ).click( { force: true } )
+          cy.get( '.pf-l-grid__item.pf-m-9-col .pf-l-stack.pf-m-gutter .pf-l-stack').should( 'have.length', 100 )
+    })
 
     it( 'Test for expansion of feedback from feedback list', () => {
         cy.get( '.pf-c-button.pf-m-link.pf-m-inline' ).then( ( elements ) => {
