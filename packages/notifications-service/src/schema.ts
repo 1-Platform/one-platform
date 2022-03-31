@@ -3,7 +3,7 @@ import { Schema, Model, Document, model } from 'mongoose';
 /**
  * Notifications Queue
  */
-const NotificationQueueSchema: Schema = new Schema<OpNotification>( {
+const NotificationQueueSchema = new Schema<OpNotification>( {
   subject: { type: String, required: true, },
   body: { type: String, },
   link: { type: String, },
@@ -29,7 +29,7 @@ export const NotificationQueue: Model<NotificationModel> =
 /**
  * Notifications Archive
 */
-const NotificationArchiveSchema: Schema = new Schema<NotificationArchive>( {
+const NotificationArchiveSchema = new Schema<NotificationArchive>( {
   /* Inheriting the NotificationQueue Schema */
   ...NotificationQueueSchema.obj,
   /* Archive specific fields */

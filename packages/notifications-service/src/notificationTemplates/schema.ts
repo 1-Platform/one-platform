@@ -1,4 +1,4 @@
-import { Document, model, Model, Schema } from 'mongoose';
+import { CallbackError, Document, model, Model, Schema } from 'mongoose';
 import { randomBytes } from 'crypto';
 
 export interface TemplateModel extends NotificationTemplate, Document { }
@@ -48,7 +48,7 @@ NotificationTemplateSchema.post( 'save', async ( doc: TemplateModel, next ) => {
         if ( retryCount < 5 ) {
           continue;
         }
-        next( err );
+        next( err as CallbackError );
       }
       break;
     }
