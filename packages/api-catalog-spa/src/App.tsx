@@ -35,7 +35,7 @@ const App = (): JSX.Element => {
   return (
     <Provider value={client}>
       <RecentVisitProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <BreadcrumbProvider>
             <Suspense fallback={<Loader />}>
               <opc-provider>
