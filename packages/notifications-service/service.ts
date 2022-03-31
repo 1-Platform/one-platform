@@ -39,7 +39,7 @@ const dbConnection = `mongodb://${ dbCredentials }${ process.env.DB_PATH }/${ pr
 mongoose.connect( dbConnection, { useNewUrlParser: true, useCreateIndex: true } )
   .then( res => {
     /* Start the broadcasting service once the server starts */
-    NotificationsBroadcaster.getInstance( res.connection.db ).start();
+    NotificationsBroadcaster.getInstance( res.connection.db as any ).start();
   });
 
 mongoose.connection.on( 'error', console.error );

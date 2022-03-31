@@ -68,7 +68,7 @@ type EmailRecipient = {
 }
 
 type NotificationConfig = {
-  id?: string,
+  id?: any,
   template: string,
   defaultLink: string,
   source: string,
