@@ -31,7 +31,7 @@
     "dev": "webpack --watch --config webpack.dev.js",
     "build:dev": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "test": "jest --forceExit",
+    "test": "echo \"Error: no test specified\"",
     "lint": "eslint . --ext .ts --fix"
   },
   "author": {

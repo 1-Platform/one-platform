@@ -10,7 +10,7 @@
     "build:scss": "sass src/scss:dist/css",
     "start": "npm-run-all build:scss --parallel watch:*",
     "build": "npm-run-all build:*",
-    "test": "npm run build && jest --verbose",
+    "test": "npm run build && jest --verbose --forceExit",
     "test:watch": "jest --watch"
   },
   "repository": {

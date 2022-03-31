@@ -1,6 +1,6 @@
 # Development files
 node_modules
-*.env
+.env
 
 # ignore dist
 dist

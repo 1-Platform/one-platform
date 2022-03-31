@@ -42,7 +42,7 @@ dist/
 *.pem
 
 # ignore environment files
-*.env
+.env
 
 # -------------------------
 # BEGIN Whitelisted Files
