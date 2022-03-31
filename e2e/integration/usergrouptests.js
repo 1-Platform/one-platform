@@ -30,6 +30,25 @@ context( 'Test for UserGroup', () => {
         })
     } )
 
+    it( 'Test for user group table record display count as per filter', () => {
+            cy.get( '.pf-c-options-menu__toggle-button-icon' ).click( { force: true } )
+        cy.get( "ul[role='menu'] li:nth-child(1)" ).click( { force: true } )
+        cy.get( 'table tbody tr' ).should( 'have.length.lte', 10 );
+           cy.get( '.pf-c-options-menu__toggle-button-icon' ).click( { force: true } )
+        cy.get( "ul[role='menu'] li:nth-child(2)" ).click( { force: true } )
+        cy.get( 'table tbody tr' ).should( 'have.length.lte', 20 );
+           cy.get( '.pf-c-options-menu__toggle-button-icon' ).click( { force: true } )
+        cy.get( "ul[role='menu'] li:nth-child(3)" ).click( { force: true } )
+        cy.get( 'table tbody tr' ).should( 'have.length.lte', 50 );
+           cy.get( '.pf-c-options-menu__toggle-button-icon' ).click( { force: true } )
+        cy.get( "ul[role='menu'] li:nth-child(4)" ).click( { force: true } )
+        cy.get( 'table tbody tr' ).should( 'have.length.lte', 100 );
+
+
+
+
+    })
+
     it( 'Test for the headers of the table', () => {
         cy.get( 'tr' ).within( () => {
             cy.get( '[data-label="Group Name"]' ).should( 'be.visible' )
@@ -99,7 +118,9 @@ context( 'Test for UserGroup', () => {
     it( 'Test for my profile Rover Group', () => {
         cy.get( '.pf-c-description-list__group' ).eq( 3 ).within( () => {
             cy.get( '.pf-c-description-list__term' ).should( 'have.text', 'Rover Groups' );
+
         } );
+            cy.contains( 'uma_authorization' ).should( 'be.visible' );
     } )
 
     it( 'Test for my profile Authorization Section', () => {

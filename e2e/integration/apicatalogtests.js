@@ -95,11 +95,32 @@ context( 'API Catalog Tests', () => {
     it( 'Click on Explore APIs', () => {
         cy.contains( 'Explore' ).click( { force: true } )
         cy.wait(4000)
-        cy.get( '.pf-m-fill > a > .pf-c-button' ).click( { force: true } )
+
 
     } )
+    it( 'Click REST and verify only REST APIs are being displayed', () => {
+        cy.contains( 'REST' ).should( 'be.visible' ).click( { force: true } )
+        cy.get( '.pf-l-grid.pf-m-gutter' ).should( 'be.visible' ).within( () => {
+            cy.get( '.pf-c-card__body' ).within( () => {
+                cy.get( 'img' ).should( 'have.attr', 'src','/developers/api-catalog/images/rest-logo.svg')
+        })
+        })
+
+    } )
+
+    it( 'Click GraphQL and verify only GraphQL APIs are being displayed', () => {
+        cy.contains( 'GraphQL' ).should( 'be.visible' ).click( { force: true } )
+        cy.get( '.pf-l-grid.pf-m-gutter' ).should( 'be.visible' ).within( () => {
+            cy.get( '.pf-c-card__body' ).within( () => {
+                cy.get( 'img' ).should( 'have.attr', 'src','/developers/api-catalog/images/graphql-logo.svg')
+        })
+        })
+
+    } )
+
     it( 'Add GraphQL API Test', () => {
-        cy.wait(8000)
+        cy.wait( 8000 )
+        cy.get( '.pf-m-fill > a > .pf-c-button' ).click( { force: true } )
         cy.get( 'input[name="name"]' ).type( 'e2e test graphql automation' );
         cy.get( 'textarea[name="description"]' ).type( "test is on for the api catalog. it seems to be an interesting application. i am liking it very much . this is a test by one of the tester . it seems there are very less bugs in this application. there are more of user experience difficulties found in this spa." )
         cy.contains( "GraphQL" ).click( { force: true } )
