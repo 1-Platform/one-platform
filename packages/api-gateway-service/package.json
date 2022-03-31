@@ -24,7 +24,7 @@
     "dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "build:dev": "webpack --config webpack.dev.js",
-    "test": "jest --forceExit"
+    "test": "echo \"Error: no test specified\""
   },
   "author": {
     "name": "Rigin Oommen",
