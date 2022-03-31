@@ -82,5 +82,10 @@
   "author": {
     "name": "Rigin Oommen",
     "email": "riginoommen@gmail.com"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/?!(@one-platform/opc-base)"
+    ]
   }
 }
