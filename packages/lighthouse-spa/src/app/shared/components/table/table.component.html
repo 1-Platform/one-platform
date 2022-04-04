@@ -15,7 +15,6 @@
                 </button>
                 <ng-template #elseBlock>
                     {{ column.title }}
-
                 </ng-template>
             </th>
         </tr>
@@ -43,7 +42,15 @@
                 <tr role="row" *ngFor="let row of rows" [ngClass]="row.rowClassName">
                     <td role="cell" [attr.data-label]="cell" *ngFor="let cell of row.cells"
                         [ngClass]="cell.cellClassName">
-                        {{ cell.title }}
+                        <span *ngIf="!isFloat(cell.title); else floatBlock">
+                            {{ cell.title }}
+                        </span>
+                        <ng-template #floatBlock>
+                            {{ cell.title | floor }}
+                            <span class="decimal">
+                                .{{ cell.title | getDecimal }}
+                            </span>
+                        </ng-template>
                         <span class="pf-c-label pf-m-compact pf-m-{{cell.chipColor}}" *ngIf="cell.chipTitle">
                             <span class="pf-c-label__content">{{cell.chipTitle}}</span>
                         </span>

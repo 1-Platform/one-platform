@@ -4,6 +4,8 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
+import { FloorPipe } from 'app/shared/pipes/floor.pipe';
+import { GetDecimalPipe } from 'app/shared/pipes/get-decimal.pipe';
 import { EmptyStateComponent } from '../empty-state/empty-state.component';
 import { LoaderComponent } from '../loader/loader.component';
 
@@ -15,7 +17,13 @@ describe('TableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TableComponent, EmptyStateComponent, LoaderComponent],
+      declarations: [
+        TableComponent,
+        EmptyStateComponent,
+        LoaderComponent,
+        FloorPipe,
+        GetDecimalPipe,
+      ],
       imports: [],
     }).compileComponents();
   });

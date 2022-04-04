@@ -16,6 +16,8 @@ import { FilterListPipe } from './pipes/filter-list.pipe';
 import { UrlValidatorDirective } from './directive/url-validator.directive';
 import { FormErrorMessageComponent } from './components/form-error-message/form-error-message.component';
 import { TableComponent } from './components/table/table.component';
+import { GetDecimalPipe } from './pipes/get-decimal.pipe';
+import { FloorPipe } from './pipes/floor.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { TableComponent } from './components/table/table.component';
     UrlValidatorDirective,
     FormErrorMessageComponent,
     TableComponent,
+    GetDecimalPipe,
+    FloorPipe,
   ],
   imports: [CommonModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -47,6 +51,8 @@ import { TableComponent } from './components/table/table.component';
     UrlValidatorDirective,
     FormErrorMessageComponent,
     TableComponent,
+    GetDecimalPipe,
+    FloorPipe
   ],
 })
 export class SharedModule {}
