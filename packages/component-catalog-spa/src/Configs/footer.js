@@ -4,7 +4,7 @@ export const footer = [
         "links": [
             {
                 "text": "One Platform on The Source",
-                "href": "https://source.redhat.com/groups/public/pnt-devops/oneportal"
+                "href": "https://source.redhat.com/groups/public/one_platform"
             },
             {
                 "text": "One Platform Blog",
