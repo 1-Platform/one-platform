@@ -1,12 +1,12 @@
 {
   "name": "component-catalog",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": true,
   "homepage": "/components",
   "scripts": {
     "start": "PORT=4200 react-scripts start",
     "build": "react-scripts build",
-    "test": "echo \"Error: no test specified\"",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

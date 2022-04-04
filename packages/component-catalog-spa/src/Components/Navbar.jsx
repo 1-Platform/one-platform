@@ -65,7 +65,7 @@ const ListNavbar = ({components, searchValue}) => {
 };
 
 
-const NavBar = ({components, onToggle}) => {
+const NavBar = ({components, onToggle = () => {}}) => {
   const { control, getValues, setValue, watch } = useForm({
     mode: 'all',
   });
