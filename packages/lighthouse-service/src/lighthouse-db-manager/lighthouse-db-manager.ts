@@ -68,7 +68,7 @@ class LighthouseDbManager {
   }
 
   async getAllBuilds(projectId: string, branch: string, limit: number) {
-    const order = [['branch', 'DESC']] as Order;
+    const order = [['branch', 'DESC'], ['createdAt', 'DESC']] as Order;
     return Build.findAll({
       where: { projectId, branch },
       limit,
@@ -151,7 +151,7 @@ class LighthouseDbManager {
 
   // If there is negative score its clamped to 0
   get getLeaderboardAvgField() {
-    return 'ROUND(AVG(CASE WHEN "value" >= 0 THEN "value" ELSE 0 END),2)';
+    return 'ROUND(AVG(CASE WHEN "value" >= 0 THEN "value" ELSE 0 END),4)';
   }
 
   async getAllScoresOfProjectBranches(data: Array<{ branchName: string, projectId: string; }>) {

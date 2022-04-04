@@ -20,16 +20,17 @@ export const getUserProfile = async (
   });
   headers.append('Authorization', `${process.env.GATEWAY_AUTH_TOKEN}`);
   headers.append('Content-Type', 'application/json');
-  const user = await fetch(`${process.env.API_GATEWAY}`, {
-    method: 'POST',
-    headers,
-    body,
-  });
-  const res = await user.json();
-  if (!res.ok) {
-    throw new Error(res);
+  try {
+    const user = await fetch(`${process.env.API_GATEWAY}`, {
+      method: 'POST',
+      headers,
+      body,
+    });
+    const res = await user.json();
+    return res.data.getUsersBy[0];
+  } catch (error) {
+    throw error as Error;
   }
-  return res.data.getUsersBy[0];
 };
 
 /**
