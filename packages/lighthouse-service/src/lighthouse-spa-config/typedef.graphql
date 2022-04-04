@@ -49,6 +49,10 @@ type Query {
   To get a particular lighthouse spa config by appId
   """
   getLHSpaConfigByAppId(appId: String!): LHSpaConfigType
+  """
+  To get Lighthouse score by appId
+  """
+  getLHScoreByAppId(appId: String!): LighthouseScoreType
 }
 
 type Mutation {

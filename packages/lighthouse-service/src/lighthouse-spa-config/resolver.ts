@@ -1,5 +1,6 @@
 import { FilterQuery } from 'mongoose';
 import Logger from '../lib/logger';
+import { lhDbManager } from '../lighthouse-db-manager';
 import { populateMongooseDocWithUser, getUserProfile } from './helpers';
 import { LHSpaConfig } from './schema';
 
@@ -11,10 +12,11 @@ export const LHSpaConfigResolver = {
       const filters: FilterQuery<LHSpaConfigType> = {};
       if (user) filters.createdBy = user;
 
-      const lhSpaConfigs = await LHSpaConfig.find(filters as any)
+      const lhSpaConfigs = (await LHSpaConfig.find(filters as any)
         .limit(limit || 100)
-        .skip(offset || 0).lean()
-        .exec() as LHSpaConfigType[];
+        .skip(offset || 0)
+        .lean()
+        .exec()) as LHSpaConfigType[];
 
       const userQueryCache: Record<string, UserProfileType> = {};
 
@@ -51,6 +53,38 @@ export const LHSpaConfigResolver = {
       if (!property) return {};
       return populateMongooseDocWithUser(property as any);
     },
+    async getLHScoreByAppId(root: any, args: any) {
+      const { appId } = args;
+      // this query is written mainly for grafana
+      // this is avoid throwing errors on when app is not registered yet
+      const emptyValues = {
+        performance: 0,
+        accessibility: 0,
+        bestPractices: 0,
+        seo: 0,
+        pwa: 0,
+      };
+      const property = await LHSpaConfig.findOne({ appId }).lean().exec();
+      if (!property) {
+        return emptyValues;
+      }
+
+      const projectBuilds = await lhDbManager.getAllBuilds(
+        property.projectId,
+        property.branch,
+        1,
+      );
+      if (!projectBuilds?.length) {
+        return emptyValues;
+      }
+
+      const lhScore = await lhDbManager.getLHScores(
+        property.projectId,
+        projectBuilds.map(({ id }: any) => id),
+      );
+
+      return lhScore[projectBuilds[0].id];
+    },
   },
   Mutation: {
     async createLHSpaConfig(root: any, args: any) {
@@ -60,10 +94,11 @@ export const LHSpaConfigResolver = {
       // save to db
       const doc = { $set: lhSpaConfig };
       const options = { upsert: true };
-      const savedLhSpaDoc = await LHSpaConfig
-        .updateOne({ appId: lhSpaConfig.appId }, doc, options)
-        .then(() => LHSpaConfig.find({ appId: lhSpaConfig.appId })
-          .lean().exec());
+      const savedLhSpaDoc = await LHSpaConfig.updateOne(
+        { appId: lhSpaConfig.appId },
+        doc,
+        options,
+      ).then(() => LHSpaConfig.find({ appId: lhSpaConfig.appId }).lean().exec());
       return populateMongooseDocWithUser(savedLhSpaDoc[0] as any);
     },
     async updateLHSpaConfig(root: any, args: any) {
