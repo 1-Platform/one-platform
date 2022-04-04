@@ -40,4 +40,8 @@ export class TableComponent implements OnInit {
   onSort(column: string, sortDir: 'ASC' | 'DESC') {
     this.onSearchInputChangeEvent.emit({ column, sortDir });
   }
+
+  isFloat ( value: number | string ) {
+    return typeof value === 'number' && !Number.isInteger(value);
+  }
 }

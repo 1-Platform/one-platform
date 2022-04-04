@@ -17,8 +17,4 @@ fdescribe('FilterListPipe', () => {
   it('should filter an array of string', () => {
     expect(pipe.transform(stringInput, 'hello').length).toEqual(1);
   });
-
-  it('should filter an array of numbers', () => {
-    expect(pipe.transform(numberInput, 1).length).toEqual(1);
-  });
 });

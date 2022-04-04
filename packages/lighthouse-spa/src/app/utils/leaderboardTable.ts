@@ -10,7 +10,10 @@ type Options = {
 
 const getAvgScore = (scores: number[]) => {
   const avg = scores.reduce((prev, curr) => prev + curr, 0) / scores.length;
-  return Math.min(Math.max(Math.round(avg), 0), 100);
+  return Math.min(
+    Math.max(Math.round((avg + Number.EPSILON) * 100) / 100, 0),
+    100
+  );
 };
 
 const getScoreColor = (score: number) => {

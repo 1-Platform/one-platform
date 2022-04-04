@@ -9,3 +9,9 @@ tbody tr {
 tbody tr:nth-child(2n) {
   background: #f5f5f5;
 }
+
+.decimal{
+  position: relative;
+  right: 2px;
+  font-size: 12px;
+}
