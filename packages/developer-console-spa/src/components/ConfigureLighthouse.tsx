@@ -39,8 +39,12 @@ const ConfigureLighthouse = ( props: any ) => {
   } );
   const [ isCardExpanded, setIsCardExpanded ] = useState( true );
   const [ showConfirmation, setShowConfirmation ] = useState( false );
-  const { app, loading: appLoading } = useContext( AppContext );
-  const { lighthouseConfig, setLighthouseConfig, loading: lighthouseConfigLoading } = useLighthouseConfig( app.id );
+  const { app, loading: appLoading, appId } = useContext( AppContext );
+  const {
+    lighthouseConfig,
+    setLighthouseConfig,
+    loading: lighthouseConfigLoading,
+  } = useLighthouseConfig(appId);
 
   const lighthouseDocLink = 'https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/getting-started.md';
   const lighthouseConfigDocLink = 'https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md';
