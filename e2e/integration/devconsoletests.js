@@ -143,6 +143,8 @@ context( 'Test developer console', () => {
     it( 'Configure Lighthouse Heading Visibility', () => {
         cy.contains( 'Configure Lighthouse' ).should( 'be.visible' );
         cy.contains( 'You are all set!' ).should( 'be.visible' );
+        cy.contains( 'How do you use lighthouse CI?' ).should( 'be.visible' );
+        
     } )
     it( 'Code section visiblity test', () => {
         cy.xpath('//pre[contains(text(),"module.exports = {")]').should('be.visible')
