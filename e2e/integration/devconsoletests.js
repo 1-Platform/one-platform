@@ -74,7 +74,125 @@ context( 'Test developer console', () => {
             cy.get( 'img' ).should( 'be.visible' );
         })
             cy.contains( 'Learn more' ).should( 'be.visible' )
-            cy.contains('Get Started').should('be.visible')
+        cy.contains( 'Get Started' ).should( 'be.visible' ).click( { force: true } );
+        })
+    it( 'Link App To Lighthouse is visible',()=> {
+        cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+            cy.contains( 'Link the app to a Lighthouse CI Project' ).should( 'be.visible' );
+    })
+    } )
+    it( 'New Project and link to existing project tab visibility test', () => {
+        cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+            cy.contains( 'New Project' ).should( 'be.visible' );
+            cy.contains( 'Link to existing Project' ).should( 'be.visible' );
+        } );
+    } )
+    it( 'Enter info into Lighthouse info', () => {
+
+        cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+            cy.faker = require('faker');
+            const words = cy.faker.lorem.words();
+            cy.get('input[name="projectName"]').type(words, { force: true });
+            cy.get( 'input[name="projectName"]' ).invoke( 'val' ).as( 'projName' );
+            cy.get( 'input[name="repoUrl"]' ).type( 'https://github.com/1-Platform/one-platform' );
+            cy.get( 'input[name="baseBranch"]' ).type( "test" )
+            cy.xpath( '//button[normalize-space()="Create Project"]' ).should( 'be.visible' ).click( { force: true } );
+        } );
+    } )
+    it( 'Lighthouse Config Second Step Opened', function() {
+        cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+            cy.contains( 'New Project '+this.projName+' has been created' ).should( 'be.visible' );
+
+        } );
+    })
+        it( 'Build and Admin Token Generated', () => {
+            cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+                cy.contains( 'Build Token(Used to connect and upload reports)' ).should( 'be.visible' );
+                cy.contains( 'Admin Token(Used to manage the Project)' ).should( 'be.visible' );
+                cy.get( 'div > input[aria-label="Copyable input"]' ).should( 'not.have.value','' );
+            } );
+        } )
+        it( 'Copy Buttons are visible', () => {
+            cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+                cy.get( 'button[aria-label^="Copy to clipboard"]' ).should( 'be.visible' ).should('have.length',2);
+            } );
+        } )
+     it( 'Copy Buttons are clickable', () => {
+            cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+                cy.get( 'button[aria-label^="Copy to clipboard"]' ).should( 'be.visible' ).click({multiple:true},{force:true})
+            } );
+        } )
+    it( 'Branch Mandatory Validation Message Check', () => {
+        cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+            cy.contains( 'Link Project' ).should( 'be.visible' ).click( { force: true } );
+            cy.contains( 'Branch is mandatory field' ).should( 'be.visible' );
+        } );
+    })
+        it( 'Select Branch and click on Link Project', () => {
+            cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+                cy.get( 'input[placeholder*="Select a branch"]' ).type( 'test' ).then( () => {
+                    cy.get( '.pf-c-select__menu-item' ).click( { force: true } );
+                    cy.wait( 2000 );
+                });
+                cy.contains( 'Link Project' ).click( { force: true } );
+            } );
+        } )
+    it( 'Test for SPA Configured successful message', () => {
+        cy.contains( 'SPA configuration saved successfully!' ).should( 'be.visible' );
+    } )
+    it( 'Configure Lighthouse Heading Visibility', () => {
+        cy.contains( 'Configure Lighthouse' ).should( 'be.visible' );
+        cy.contains( 'You are all set!' ).should( 'be.visible' );
+        cy.contains( 'How do you use lighthouse CI?' ).should( 'be.visible' );
+        
+    } )
+    it( 'Code section visiblity test', () => {
+        cy.xpath('//pre[contains(text(),"module.exports = {")]').should('be.visible')
+    } )
+    it( 'Hide Code On Button click test', () => {
+        cy.get( '.pf-c-button.pf-m-control:nth-child(1)' ).click( { force: true } );
+    })
+    it( 'Test Copy Icon click of Configure lighthouse', () => {
+         cy.get( '.pf-c-button.pf-m-control:nth-child(3)' ).should( 'be.visible' ).click({force:true})
+    })
+    it( 'Check Link Redirections', () => {
+        cy.contains( 'Learn More' ).should( 'have.attr', 'href', 'https://qa.one.redhat.com/get-started/docs/apps/internal/lighthouse' );
+        cy.contains( 'View my Lighthouse reports' ).should( 'have.attr', 'href', 'https://qa.one.redhat.com/lighthouse' );
+        cy.contains( 'docs' ).should( 'have.attr', 'href', 'https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md' );
+
+    } )
+    it( 'Manage Lighthouse config button visibility and click', () => {
+        cy.contains( 'Manage Lighthouse Config' ).click( { force: true } );
+
+    } )
+    it( 'Check whether config page with link to existing project tab opens', () => {
+        cy.xpath( '//form[@class="pf-c-form"]//span[@class="pf-c-form__label-text"]' ).contains( 'Project Name' ).should( 'be.visible' );
+        } );
+    it( 'Check if project name is visible and do valid search', function () {
+        cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+            cy.get( '.pf-c-context-selector__toggle' ).should( 'have.text', this.projName );
+            cy.get( '.pf-c-context-selector__toggle' ).click( { force: true } ).then( () => {
+                cy.get( 'input[placeholder="Search"]' ).type( this.projName );
+                cy.xpath( '//button[@id="pf-context-selector-search-button-id-0"]' ).click( { force: true } );
+                cy.get( 'li[role="none"] button' ).should( 'have.text', this.projName ).click({force:true});
+            } );
+        })
+    })
+    it( 'Test Delete of lighthouse project', () => {
+        cy.get( '.pf-c-modal-box.pf-m-sm' ).within( () => {
+            cy.contains( 'Delete' ).should( 'be.visible' ).click( { force: true } );
+        } );
+    })
+    it( 'Check for Delete notification', () => {
+        cy.contains( 'SPA configuration deleted successfully!' ).should( 'be.visible' );
+    } );
+    it( 'Check whether at config home page', () => {
+         cy.contains( 'Configure Lighthouse' ).should( 'be.visible' )
+        cy.get( '.pf-c-empty-state__body' ).within( () => {
+            cy.get( 'img' ).should( 'be.visible' );
+        })
+            cy.contains( 'Learn more' ).should( 'be.visible' )
+        cy.contains( 'Get Started' ).should( 'be.visible' ).click( { force: true } );
         })
 
 
