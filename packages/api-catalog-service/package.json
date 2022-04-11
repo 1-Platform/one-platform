@@ -46,7 +46,7 @@
     "apollo-server-core": "^3.4.0",
     "apollo-server-express": "^3.4.0",
     "body-parser": "1.19.0",
-    "clean-webpack-plugin": "3.0.0",
+    "clean-webpack-plugin": "4.0.0",
     "cookie-parser": "1.4.5",
     "cors": "2.8.5",
     "dotenv": "^10.0.0",
