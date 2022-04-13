@@ -118,13 +118,13 @@ services:
 
   search-service:
     build: ./packages/search-service
-    command: npm start
+    command: npm run dev
     env_file: ./packages/search-service/.env
     environment:
       DB_PATH: mongo
       REDIS_SERVICE_HOST: redis
     volumes:
-      - ./packages/search-service:/app
+      - ./packages/search-service:/usr/src
     ports:
       - 8085:8080
     depends_on:
