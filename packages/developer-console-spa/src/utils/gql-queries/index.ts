@@ -20,3 +20,5 @@ export * from './manage-app-database';
 export * from './create-feedback-config';
 export * from './update-feedback-config';
 export * from './get-app-feedbacks';
+export * from './app-search-config';
+export * from './update-search-config';
