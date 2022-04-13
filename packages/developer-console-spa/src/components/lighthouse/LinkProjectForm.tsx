@@ -36,7 +36,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
   const [ projects, setProjects ] = useState( [] );
   const [ isProjectListOpen, setIsProjectListOpen ] = useState( false );
   const [ filteredProjects, setFilteredProjects ] = useState( [] );
-  const { app } = useContext( AppContext );
+  const { appId } = useContext( AppContext );
 
   const editMode = Boolean( lighthouseConfig?.projectId );
 
@@ -83,7 +83,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
   };
   const onCreateOption = ( newValue: any ) => {
     const config = {
-      appId: app.id,
+      appId,
       projectId: selectedProject.id,
       branch: newValue,
       createdBy: window.OpAuthHelper.getUserInfo().rhatUUID
@@ -115,7 +115,7 @@ const LinkProjectForm = ( props: LinkProjectProps ) => {
   const linkProject = ( data: LinkProjectFormInput ) => {
     setIsPrimaryLoading( true );
     const config = {
-      appId: app.id,
+      appId: appId,
       projectId: selectedProject.id,
       branch: data.branch,
       createdBy: window.OpAuthHelper.getUserInfo().rhatUUID
