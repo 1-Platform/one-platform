@@ -14,6 +14,7 @@ import ConfigureLighthouse from './components/ConfigureLighthouse';
 import ConfigureOPNavbar from './components/ConfigureOPNavbar';
 import ConfigureDatabase from './components/ConfigureDatabase';
 import AppSettings from './components/AppSettings';
+import ConfigureSearch from './components/ConfigureSearch';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/:appId/feedback" component={ FeedbackList } exact />
               <Route path="/:appId/feedback/edit" component={ ConfigureFeedback } exact />
               <Route path="/:appId/lighthouse" component={ ConfigureLighthouse } exact />
+              <Route path="/:appId/search" component={ ConfigureSearch } exact />
               <Route path="/:appId/notifications" component={ UnderDevelopment } exact />
               <Route path="/:appId/user-groups" component={ UnderDevelopment } exact />
               <Route path="/:appId/settings" component={ AppSettings } />
