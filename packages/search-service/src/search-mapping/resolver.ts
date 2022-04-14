@@ -10,9 +10,14 @@ export const SearchMapResolver = {
         .find()
         .exec();
     },
-    getSearchMap(root: any, args: any, ctx: any) {
+    getSearchMap ( root: any, { id }: any, ctx: any ) {
       return SearchMaps
-        .findById(args._id)
+        .findById( id )
+        .exec();
+    },
+    getSearchMapsByApp ( root: any, { appId }: any, ctx: any ) {
+      return SearchMaps
+        .find( { appId } )
         .exec();
     },
     async triggerSearchMap(root: any, args: any, ctx: any) {
@@ -21,18 +26,26 @@ export const SearchMapResolver = {
     },
   },
   Mutation: {
-    async createSearchMap(root: any, args: any, ctx: any) {
-      return new SearchMaps(args.input)
+    async createSearchMap(root: any, { searchMap }: any, { uuid }: any) {
+      return new SearchMaps({
+        ...searchMap,
+        createdBy: uuid,
+        updatedBy: uuid
+      })
         .save();
     },
-    updateSearchMap(root: any, args: any, ctx: any) {
+    updateSearchMap(root: any, { appId, searchMap }: any, { uuid }: any) {
       return SearchMaps
-        .findByIdAndUpdate(args.input._id, args.input, { new: true })
+        .findOneAndUpdate({ appId }, {
+          ...searchMap,
+          updatedBy: uuid,
+          updatedOn: new Date()
+        }, { new: true })
         .exec();
     },
-    deleteSearchMap(root: any, args: any, ctx: any) {
+    deleteSearchMap(root: any, { id }: any, ctx: any) {
       return SearchMaps
-        .findByIdAndRemove(args._id)
+        .findByIdAndRemove(id)
         .exec();
     },
   },

@@ -12,7 +12,9 @@ declare type SearchMap = {
    * HTTP Method for the Search API
    */
   method: string
-  /* API Body (if method = POST / PUT / PATCH) */
+  /**
+   * API Body (if method = POST / PUT / PATCH)
+   */
   body: any
   /**
    * Authorization config for the Search API
@@ -127,8 +129,8 @@ declare namespace SearchMapSpace {
   type Preferences = {
     iconUrl: string
     urlTemplate: string
-    urlParams: string
+    urlParams: string[]
     titleTemplate: string
-    titleParams: string
-  };
+    titleParams: string[]
+  }
 }

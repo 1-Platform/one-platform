@@ -1,99 +1,153 @@
-scalar DateTime
-
-type FieldType {
-    from: String
-    to: String
-}
-
-
-type ApiConfigType {
-    mode: String
-    apiUrl: String
-    query: String
-    param: String
-}
-
-type SearchMapPreferenceType {
-    iconUrl: String,
-    urlTemplate: String
-    urlParams: [String]
-    titleTemplate: String
-    titleParams: [String]
-}
-
-type SearchMapType {
-    _id: String
-    appId: String
-    apiConfig: ApiConfigType
-    fields: [FieldType]
-    preferences: SearchMapPreferenceType
-    createdBy: String
-    createdOn: DateTime
-    updatedBy: String
-    updatedOn: DateTime
-}
-
-input SearchMapPreferenceInput {
-    iconUrl: String,
-    urlTemplate: String
-    urlParams: [String]
-    titleTemplate: String
-    titleParams: [String]
-}
-
-input ApiConfigInput {
-    mode: String
-    apiUrl: String
-    authorizationHeader: String
-    query: String
-    param: String
-}
-
-input FieldInput {
-    from: String
-    to: String
-}
-
-input SearchMapInput {
-    _id: String
-    appId: String
-    apiConfig: ApiConfigInput
-    fields: [FieldInput]
-    preferences: SearchMapPreferenceInput
-    createdBy: String
-    createdOn: DateTime
-    updatedBy: String
-    updatedOn: DateTime
-}
-
-type SearchCronResponseCode {
-  status: Int
-  name: String
-}
-
 type Query {
-    """
-    Fetch active fields and configs and maps
-    """
-    listSearchMap: [SearchMapType]
-    """
-    Fetch Specific search map with _id
-    """
-    getSearchMap(_id: String!): SearchMapType
-    triggerSearchMap: String
+  """
+  Fetch active fields and configs and maps
+  """
+  listSearchMap: [SearchMap]
+  """
+  Fetch Specific search map with id
+  """
+  getSearchMap(id: String!): SearchMap
+  """
+  Fetch Search Map for a given App by appId
+  """
+  getSearchMapsByApp(appId: String!): [SearchMap]
+
+  """
+  Trigger search indexing job
+  """
+  triggerSearchMap: String
 }
 
 type Mutation {
-    """
-    Add a new Search Map configuration in database
-    """
-    createSearchMap(input: SearchMapInput): SearchMapType
-    """
-    update the Search Map configuration in database
-    """
-    updateSearchMap(input: SearchMapInput): SearchMapType
-    """
-    Delete Search Map configuration from database
-    """
-    deleteSearchMap(_id: String!): SearchMapType
+  """
+  Add a new Search Map configuration in database
+  """
+  createSearchMap(appId: String!, searchMap: CreateSearchMapInput!): SearchMap
+  """
+  update the Search Map configuration in database
+  """
+  updateSearchMap(appId: String!, searchMap: UpdateSearchMapInput!): SearchMap
+  """
+  Delete Search Map configuration from database
+  """
+  deleteSearchMap(id: String!): SearchMap
+}
+
+scalar DateTime
+scalar JSONObject
+
+type SearchMap {
+  id: String
+  appId: String
+  apiUrl: String
+  method: String
+  body: JSONObject
+  authorization: SearchMapAuthorization
+  apiQueryParams: [SearchMapAPIQueryParam]
+  apiHeaders: [SearchMapAPIHeader]
+  contentType: String
+  fieldMap: SearchMapFieldMap
+  preferences: SearchMapPreferences
+  createdBy: String
+  createdOn: DateTime
+  updatedBy: String
+  updatedOn: DateTime
+}
+
+enum SearchMapAuthorizationLocationEnum {
+  header
+  queryParam
+}
+
+type SearchMapAuthorization {
+  location: SearchMapAuthorizationLocationEnum
+  key: String
+  authType: String
+  credentials: String
+}
+type SearchMapAPIQueryParam {
+  param: String
+  value: String
+}
+type SearchMapAPIHeader {
+  key: String
+  value: String
+}
+type SearchMapFieldMap {
+  id: String
+  title: String
+  abstract: String
+  description: String
+  icon: String
+  uri: String
+  tags: String
+  createdBy: String
+  createdDate: DateTime
+  lastModifiedBy: String
+  lastModifiedDate: DateTime
+}
+type SearchMapPreferences {
+  iconUrl: String
+  urlTemplate: String
+  urlParams: [String]
+  titleTemplate: String
+  titleParams: [String]
+}
+
+input CreateSearchMapInput {
+  apiUrl: String!
+  method: String!
+  body: String
+  authorization: SearchMapAuthorizationInput
+  apiQueryParams: [SearchMapAPIQueryParamInput!]
+  apiHeaders: [SearchMapAPIHeaderInput!]
+  contentType: String!
+  fieldMap: SearchMapFieldMapInput
+  preferences: SearchMapPreferencesInput
+}
+input UpdateSearchMapInput {
+  apiUrl: String
+  method: String
+  body: String
+  authorization: SearchMapAuthorizationInput
+  apiQueryParams: [SearchMapAPIQueryParamInput!]
+  apiHeaders: [SearchMapAPIHeaderInput!]
+  contentType: String
+  fieldMap: SearchMapFieldMapInput
+  preferences: SearchMapPreferencesInput
+}
+
+input SearchMapAuthorizationInput {
+  location: SearchMapAuthorizationLocationEnum!
+  key: String!
+  authType: String!
+  credentials: String!
+}
+input SearchMapAPIQueryParamInput {
+  param: String!
+  value: String!
+}
+input SearchMapAPIHeaderInput {
+  key: String!
+  value: String!
+}
+input SearchMapFieldMapInput {
+  id: String!
+  title: String!
+  abstract: String!
+  description: String
+  icon: String
+  uri: String
+  tags: String
+  createdBy: String
+  createdDate: String
+  lastModifiedBy: String
+  lastModifiedDate: String
+}
+input SearchMapPreferencesInput {
+  iconUrl: String
+  urlTemplate: String
+  urlParams: [String]
+  titleTemplate: String
+  titleParams: [String]
 }
