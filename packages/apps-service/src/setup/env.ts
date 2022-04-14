@@ -9,7 +9,11 @@
 
 import dotenv from 'dotenv-safe';
 
-dotenv.config({ path: '.env' });
+if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: '.test.env' });
+} else {
+  dotenv.config({ path: '.env' });
+}
 
 export const NODE_ENV = process.env.NODE_ENV || 'local';
 
