@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 require( 'cypress-xpath' );
+require('faker');
 import 'cypress-mochawesome-reporter/register';
  const chaiSorted = require('chai-sorted');
  chai.use(chaiSorted);
