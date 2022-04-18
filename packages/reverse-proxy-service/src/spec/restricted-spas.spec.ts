@@ -23,9 +23,9 @@ describe( 'Restricted SPAs - OIDC Auth middleware', () => {
       } );
   } );
 
-  it( '/rhel-development-guide - should redirect for authentication with 302', ( done ) => {
+  it( '/other-app - should redirect for authentication with 302', ( done ) => {
     request( app )
-      .get( '/rhel-development-guide' )
+      .get( '/other-app' )
       .expect( 302 )
       .end( ( err, res ) => {
         if ( err ) {
