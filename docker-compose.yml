@@ -161,6 +161,19 @@ services:
       - mongo
       - redis
 
+  analytics-service:
+    build: ./packages/analytics-service
+    command: npm start
+    env_file: ./packages/analytics-service/.env
+    environment:
+      MONGO_URI: "mongodb://mongo/analytics"
+    volumes:
+      - ./packages/feedback-service:/app
+    ports:
+      - 8088:8080
+    depends_on:
+      - mongo
+
   mongo:
     image: mongo:4
     restart: always

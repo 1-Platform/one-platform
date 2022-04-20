@@ -1,0 +1,58 @@
+type SentryTeam {
+  id: ID
+  slug: String
+  name: String
+}
+
+type SentryProject {
+  id: ID
+  slug: String
+  name: String
+  platform: String
+  team: SentryTeam
+}
+
+enum CrashlyticsGroupBy {
+  OUTCOME
+  CATEGORY
+  REASON
+  PROJECT
+}
+
+enum CrashlyticsField {
+  QUANTITY
+  TIMES_SEEN
+}
+
+enum CrashlyticsOutcome {
+  ACCEPTED
+  FILTERED
+  RATE_LIMITED
+  INVALID
+  ABUSE
+  CLIENT_DISCARD
+}
+
+input CrashlyticOptionInput {
+  interval: String
+  start: DateTime
+  end: DateTime
+  statsPeriod: String
+  groupBy: CrashlyticsGroupBy!
+  field: CrashlyticsField!
+  outcome: CrashlyticsOutcome
+}
+
+type CrashlyticsStats {
+  start: DateTime
+  end: DateTime
+  intervals: [DateTime]
+  series: [Int]
+  total: Int
+}
+
+type Query {
+  getSentryTeams: [SentryTeam]
+  getSentryProjects(teamId: ID!): [SentryProject]
+  getCrashlyticStats(appId: String!, config: CrashlyticOptionInput!): CrashlyticsStats
+}
