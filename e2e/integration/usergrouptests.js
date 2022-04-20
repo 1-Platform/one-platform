@@ -24,12 +24,16 @@ context( 'Test for UserGroup', () => {
                 cy.get( '.opc-header__bottom-row' ).should( 'be.visible' );
             } );
         } )
+    } )
+    it( 'Get rover group name', () => {
+        cy.get( 'tr:nth-child(1) td:nth-child(2)' ).invoke( 'text' ).as( 'search' );
+        cy.get('tr:nth-child(1) td:nth-child(1)' ).invoke( 'text' ).as( 'searchname' );
     })
 
-    it( 'Test for search user group by rover group', () => {
-        cy.get( '#searchText' ).type( 'dsal-admin' )
+    it( 'Test for search user group by rover group', function()  {
+        cy.get( '#searchText' ).type( this.search );
         cy.get( 'tbody' ).within( () => {
-            cy.get( '[data-label^="LDAP"]' ).first().should( 'have.text','dsal-admin')
+            cy.get( '[data-label^="LDAP"]' ).first().should( 'have.text', this.search );
         } )
         cy.get( '.pf-c-search-input__text-input' ).clear();
     } )
@@ -38,14 +42,14 @@ context( 'Test for UserGroup', () => {
         cy.get( '#searchText' ).type( 'dsadsadsadsadsas' )
         cy.contains( 'No Groups Found' ).should( 'be.visible' );
     } )
-    it( 'Test Clear Search Functionality', () => {
+    it( 'Test Clear Search Visibility and Functionality', () => {
         cy.contains( 'Clear Search' ).should( 'be.visible' ).click( { force: true } );
         cy.get( '#searchText' ).should( 'have.text', '' );
     })
-it( 'Test for search user group by name', () => {
-        cy.get( '#searchText' ).type( 'One Platform Developers' )
+it( 'Test for search user group by name',function ()  {
+        cy.get( '#searchText' ).type( this.searchname )
         cy.get( 'tbody' ).within( () => {
-            cy.get( '[data-label^="Group Name"]' ).first().should( 'have.text','One Platform Developers')
+            cy.get( '[data-label^="Group Name"]' ).first().should( 'have.text',this.searchname)
         })
     } )
     it( 'Test for user group table record display count as per filter', () => {
