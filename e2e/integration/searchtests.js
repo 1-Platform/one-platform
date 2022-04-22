@@ -36,6 +36,9 @@ context( 'Test search', () => {
         } );
     } )
 
+    it( 'Verify Time taken to perform search is visible', () => {
+        cy.get('.pf-u-font-size-xs.pf-u-color-400').contains('Seconds').should('be.visible')
+    })
     it( 'Test for search abstract', () => {
         cy.get( '.search-result-section').should( 'be.visible' ).within( () => {
             cy.get( '.pf-u-mt-md' ).should( 'be.visible' ).each( () => {
@@ -78,7 +81,7 @@ context( 'Test search', () => {
         cy.xpath( '(//button[@id="select-checkbox-expanded-toggle"])[2]' ).click({force:true}).then( () => {
             cy.get( '.pf-c-select__menu' ).should( 'be.visible' )
             cy.contains('Oldest First').click({force:true})
-        })
+        } )
     })
     it( 'Test for invalid search', () => {
         cy.wait( 15000 );
@@ -95,4 +98,14 @@ context( 'Test search', () => {
             cy.contains( "Can't find anything related to ").should( 'be.visible' );
             } );
     } )
+    it( 'Test for not found image visible', () => {
+        cy.get( 'img[src*="./assets/no_search_result.svg"]' ).should( 'be.visible' );
+    } )
+    it( 'Check Send Feedback is visible', () => {
+        cy.get('p').contains( 'Send Feedback' ).should( 'be.visible' );
+    } )
+    it( 'Click Feedback and check feedback chatbot opens', () => {
+        cy.get( 'p' ).contains( 'Send Feedback' ).click( { force: true } );
+        cy.get('#op-feedback__panel-body').should('be.visible')
+    })
 })
