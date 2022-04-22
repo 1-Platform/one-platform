@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/1-Platform/one-platform.git"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": {
     "name": "Sayak Sarkar",
     "email": "sayak.bugsmith@gmail.com"
@@ -76,6 +76,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "4.1.0",
+    "faker": "5.5.3",
     "junit-report-merger": "^3.0.5",
     "lerna": "3.22.1",
     "mocha": "^8.4.0",
@@ -87,7 +88,6 @@
   },
   "dependencies": {
     "@spaship/cli": "0.14.0",
-    "browserstack-cypress-cli": "^1.11.0",
-    "faker": "^5.5.3"
+    "browserstack-cypress-cli": "^1.11.0"
   }
 }

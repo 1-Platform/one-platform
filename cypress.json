@@ -19,7 +19,10 @@
         "quiet":true,
         "enableCode":false,
         "saveJson": true,
-        "inlineAssets": true
+        "inlineAssets": true,
+        "overwrite":false,
+        "json":true,
+        "html":false
      },
       "mochaJunitReporterReporterOptions": {
       "mochaFile": "e2e/reports/junit/results-[hash].xml"
