@@ -33,7 +33,7 @@ export const topview = [
 
 ]
 export const fullview = [
-"opc-nav","opc-menu-drawer","opc-notification-drawer","opc-feedback"
+    "opc-nav","opc-menu-drawer","opc-notification-drawer","opc-feedback"
 ]
 
 
