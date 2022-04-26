@@ -25,6 +25,17 @@ export const microservicesDesc = [
     "A prebuilt integration with LDAP to authenticate, authorize and get user information.",
     "A unified search API gives you ability to search across all hosted applications on the platform."
 ];
+export const feedbackview = [
+    "opc-feedback"
+]
+export const topview = [
+    "opc-nav","opc-menu-drawer","opc-notification-drawer"
+
+]
+export const fullview = [
+"opc-nav","opc-menu-drawer","opc-notification-drawer","opc-feedback"
+]
+
 
 export const microservicesReadmore = [
     "/get-started/docs/microservices/authorization/",
