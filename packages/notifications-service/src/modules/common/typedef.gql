@@ -1,0 +1,31 @@
+scalar DateTime
+scalar ObjectId
+scalar JSONObject
+scalar _FieldSet
+
+directive @key(fields: _FieldSet!) on OBJECT | INTERFACE
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+directive @external on FIELD_DEFINITION
+
+interface List {
+  totalCount: Int
+  pageInfo: PageInfo
+}
+
+type PageInfo {
+  startCursor: Int
+  endCursor: Int
+  hasNextPage: Boolean
+}
+
+input SortInput {
+  field: String!
+  order: Int!
+}
+
+type OperationResponse {
+  _id: ID
+  ok: Boolean
+  errorMessage: String
+  error: JSONObject
+}

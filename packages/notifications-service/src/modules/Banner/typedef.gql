@@ -1,0 +1,41 @@
+type Query {
+  banners (url: String!): [Banner]
+}
+type Mutation {
+  createBanner (input: CreateBannerInput!): OperationResponse
+  updateBanner (_id: ObjectId!, input: UpdateBannerInput!): OperationResponse
+  removeBanner (_id: ObjectId!): OperationResponse
+}
+
+type Banner {
+  _id: ID
+  urls: [String]
+  subject: String
+  body: String
+  moreInfoLink: String
+  data: JSONObject
+  startsOn: DateTime
+  endsOn: DateTime
+  createdOn: DateTime
+  createdBy: String
+}
+
+input CreateBannerInput {
+  urls: [String!]!
+  subject: String!
+  body: String
+  moreInfoLink: String
+  data: JSONObject
+  startsOn: DateTime
+  endsOn: DateTime
+}
+
+input UpdateBannerInput {
+  urls: [String!]
+  subject: String
+  body: String
+  moreInfoLink: String
+  data: JSONObject
+  startsOn: DateTime
+  endsOn: DateTime
+}

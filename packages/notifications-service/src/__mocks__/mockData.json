@@ -1,9 +1,0 @@
-{
-   "template": "This is some random template string",
-   "channel": "EMAIL",
-   "type": "TRIGGERED",
-   "targets": [
-      "one-portal-devel"
-   ],
-   "createdBy": "mdeshmuk"
-}

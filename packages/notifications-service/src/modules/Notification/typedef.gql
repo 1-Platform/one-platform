@@ -1,0 +1,83 @@
+type Query {
+  notifications(
+    filter: NotificationsFilter,
+    since: DateTime,
+    first: Int,
+    after: Int,
+    sort: SortInput
+  ): NotificationList
+
+  allNotifications(
+    filter: NotificationsFilter
+    first: Int
+    after: Int
+    sort: SortInput
+  ): NotificationList
+
+  notification(_id: ObjectId!): Notification
+}
+type Mutation {
+  publish(
+    event: NotificationEventInput!
+    payload: NotificationPayloadInput!
+    channel: NotificationChannel!
+    schedule: DateTime
+    additionalRecipients: [NotificationRecipient!]
+  ): OperationResponse
+}
+
+type NotificationList implements List {
+  totalCount: Int
+  edges: [Notification]
+  pageInfo: PageInfo
+}
+
+type Notification @key(fields: "_id") {
+  _id: ID
+  contentId: String
+  contentType: String
+  action: NotificationAction
+  channel: NotificationChannel
+  payload: NotificationPayload
+  scheduled: Boolean
+  scheduledFor: DateTime
+  createdOn: DateTime
+}
+type NotificationPayload {
+  subject: String
+  body: String
+  data: JSONObject
+}
+input NotificationPayloadInput {
+  subject: String!
+  body: String
+  data: JSONObject
+}
+
+input NotificationsFilter {
+  contentType: String
+  contentId: String
+  action: NotificationAction
+  channel: NotificationChannel
+}
+
+input NotificationEventInput {
+  contentType: String!
+  contentId: String!
+  action: NotificationAction
+}
+input NotificationRecipient {
+  name: String
+  email: String!
+}
+
+enum NotificationAction {
+  NEW
+  UPDATE
+  DELETE
+  CUSTOM
+}
+enum NotificationChannel {
+  PUSH
+  EMAIL
+}
