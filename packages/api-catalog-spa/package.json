@@ -63,7 +63,7 @@
     "@types/node": "^12.20.18",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
-    "@types/swagger-ui-react": "^3.35.2",
+    "@types/swagger-ui-react": "4.1.1",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "eslint": "^7.32.0",
