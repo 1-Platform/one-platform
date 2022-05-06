@@ -1,7 +1,7 @@
 {
   "name": "feedback-spa",
   "homepage": "/feedback",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,8 +10,8 @@
     "test": "echo \"Error: no test specified\""
   },
   "dependencies": {
-    "@one-platform/opc-base": "^1.1.5-beta",
-    "@one-platform/opc-feedback": "0.0.10-prerelease",
+    "@one-platform/opc-base": "^1.1.6-beta",
+    "@one-platform/opc-feedback": "0.0.11-prerelease",
     "@one-platform/opc-header": "0.0.2-prerelease",
     "@one-platform/opc-menu-drawer": "^0.2.2-prerelease",
     "@one-platform/opc-nav": "0.0.4-prerelease",

@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-spa",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "scripts": {
     "ng": "ng",
     "start": "npm run config -- --environment=dev && ng serve",
@@ -27,8 +27,8 @@
     "@angular/platform-browser-dynamic": "11.2.14",
     "@angular/router": "11.2.14",
     "@apollo/client": "3.3.19",
-    "@one-platform/opc-base": "^1.1.5-beta",
-    "@one-platform/opc-feedback": "0.0.10-prerelease",
+    "@one-platform/opc-base": "^1.1.6-beta",
+    "@one-platform/opc-feedback": "0.0.11-prerelease",
     "@one-platform/opc-footer": "0.0.3-prerelease",
     "@one-platform/opc-menu-drawer": "^0.2.2-prerelease",
     "@one-platform/opc-nav": "0.0.4-prerelease",
@@ -61,7 +61,7 @@
     "dotenv": "9.0.2",
     "jasmine-core": "3.6.0",
     "jasmine-spec-reporter": "5.0.2",
-    "karma": "6.1.2",
+    "karma": "^6.3.19",
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage": "2.0.3",
     "karma-jasmine": "4.0.1",
