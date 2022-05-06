@@ -1,15 +1,14 @@
 FROM node:16-alpine
-LABEL Name=one-platform-notifications-service \
-  Version=0.1.0 \
+LABEL Name="one-platform-notifications-service" \
+  Version="2.0.0" \
   maintainer="mdeshmuk@redhat.com"
 
-# Building the user-group microservice
-ADD  . /app
-WORKDIR /app
-RUN npm install --silent && \
-  npm run build
+ENV NODE_ENV=development
+WORKDIR /usr/src/app
 
-ENV PORT 8080
+ADD . .
+RUN npm install --silent && npm run build
+
 EXPOSE 8080
 
-CMD [ "node", "dist/bundle.js"]
+CMD ["npm", "start"]

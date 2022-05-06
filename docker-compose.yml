@@ -101,15 +101,16 @@ services:
 
   notifications-service:
     build: ./packages/notifications-service
-    command: npm start
+    command: npm run dev
     env_file: ./packages/notifications-service/.env
     environment:
-      DB_PATH: mongo
-      HOME_SERVICE_SERVICE_HOST: home-service
-      HOME_SERVICE_SERVICE_PORT: 8080
-      REDIS_SERVICE_HOST: redis
+      MONGO_URL: mongodb://mongo:27017/notifications
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     volumes:
-      - ./packages/notifications-service:/app
+      - type: bind
+        source: ./packages/notifications-service
+        target: /usr/src/app
     ports:
       - 8084:8080
     depends_on:
@@ -164,8 +165,6 @@ services:
   mongo:
     image: mongo:4
     restart: always
-    logging:
-      driver: none
     volumes:
       - ./tmp/db:/data/db
     ports:
@@ -191,8 +190,6 @@ services:
     ports:
       - 6379:6379
     restart: on-failure
-    logging:
-      driver: none
 
 volumes:
   couch_data:

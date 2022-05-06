@@ -1,0 +1,75 @@
+type Query {
+  subscriptions(filter: SubscriberFilter, first: Int, after: Int, sort: SortInput): UserSubscriptionList
+  subscription(_id: ObjectId!): UserSubscription
+}
+
+type Mutation {
+  subscribe(input: UserSubscriptionInput!): OperationResponse
+  unsubscribe(subscriptionId: ObjectId!): OperationResponse
+  readNotification(notificationId: ObjectId!): OperationResponse
+}
+
+type UserSubscriptionList implements List {
+  totalCount: Int
+  edges: [UserSubscription]
+  pageInfo: PageInfo
+}
+
+extend type Notification @key(fields: "_id") {
+  isRead: Boolean
+}
+
+type Subscriber @key(fields: "_id") {
+  _id: ID
+  username: String
+  name: String
+  email: String
+  preferredUsername: String
+  subscriptions: [UserSubscription]
+  readNotificationIds: [ID]
+}
+type UserSubscription {
+  _id: ID
+  contentType: String
+  contentId: String
+  contentTitle: String
+  filters: [UserSubscriptionFilter]
+  enabled: Boolean
+  frequency: NotificationFrequency
+  schedule: String
+  createdOn: DateTime
+  updatedOn: DateTime
+}
+type UserSubscriptionFilter {
+  property: String
+  value: String
+  operator: String
+}
+
+input SubscriberFilter {
+  username: String
+  name: String
+  email: String
+  preferredUsername: String
+}
+
+input UserSubscriptionInput {
+  contentType: String
+  contentId: String
+  contentTitle: String
+  filters: [UserSubscriptionFilterInput]
+  enabled: Boolean
+  frequency: NotificationFrequency
+  schedule: String
+}
+input UserSubscriptionFilterInput {
+  property: String
+  value: String
+  operator: String
+}
+
+enum NotificationFrequency {
+  IMMEDIATE
+  DAILY
+  WEEKLY
+}
