@@ -1,14 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-import { verifyJwtToken } from "../utils/verifyJwtToken";
+import { NextFunction, Request, Response } from 'express';
+import { verifyJwtToken } from '../utils/verifyJwtToken';
 
 const jwtAuth = (req: Request, res: Response, next: NextFunction): void => {
   try {
     if (!req.headers?.authorization) {
-      throw new Error("Request is not authenticated");
+      throw new Error('Request is not authenticated');
     }
     const authorization = req.headers.authorization;
-    const [authType, token] = authorization.split(" ");
-    if (authType === "Bearer") {
+    const [authType, token] = authorization.split(' ');
+    if (authType === 'Bearer') {
       verifyJwtToken(token, (err: any, tokenParsed: any) => {
         if (err) {
           throw new Error(err.message);

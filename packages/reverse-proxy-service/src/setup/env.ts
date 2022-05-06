@@ -1,19 +1,30 @@
 import { config } from 'dotenv-safe';
-config( { path: '.env' } );
+config({ path: '.env' });
 
 /* Exporting environment variables as JS Constants */
 export const NODE_ENV = process.env.NODE_ENV || 'development';
 
 export const PORT = process.env.PORT || 8080;
 
-export const COOKIE_SECRET = process.env.COOKIE_SECRET ?? 'topsecretcookie';    // lgtm[js/hardcoded-credentials]
+export const COOKIE_SECRET = process.env.COOKIE_SECRET ?? 'topsecretcookie'; // lgtm[js/hardcoded-credentials]
+
+/* MongoDB connection */
+export const MONGO_URL = process.env.MONGO_URL ?? 'mongodb://localhost:27017/';
+export const APPS_DB_NAME = process.env.APPS_DB_NAME ?? 'apps';
+export const APPS_DB_COLLECTION = process.env.APPS_DB_COLLECTION ?? 'apps';
 
 /* Redis Connection */
 export const REDIS_HOST = process.env.REDIS_HOST ?? 'localhost';
 export const REDIS_PORT = parseInt(process.env.REDIS_PORT ?? '6379', 10);
 
 /* Keycloak environment variables */
-export const { KEYCLOAK_CLIENT_ID, KEYCLOAK_SERVER_URL, KEYCLOAK_ORIGINAL_HOST, KEYCLOAK_SECRET, KEYCLOAK_PUBKEY } = process.env;
+export const {
+  KEYCLOAK_CLIENT_ID,
+  KEYCLOAK_SERVER_URL,
+  KEYCLOAK_ORIGINAL_HOST,
+  KEYCLOAK_SECRET,
+  KEYCLOAK_PUBKEY,
+} = process.env;
 
 /* CouchDB environment variables */
 export const { COUCHDB_HOST, COUCHDB_SECRET } = process.env;
