@@ -12,6 +12,9 @@ context( 'Home Page Tests', () => {
     } );
     beforeEach( () => {
         cy.viewport( Cypress.env( 'width' ), Cypress.env( 'height' ) );
+    } )
+    it( 'Check whether the Page title is Home', () => {
+        cy.title().should('eq','Home')
     })
     it( 'Check whether the heading is visible', () => {
         cy.contains('We connect users to an experience').should('be.visible')
