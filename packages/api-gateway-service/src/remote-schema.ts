@@ -14,6 +14,9 @@ function getExecutor ( uri: string, serviceName: string ) {
       headers: {
         'Content-Type': 'application/json',
         'X-OP-User-ID': context?.uid,
+        'X-OP-User-Roles': context?.roles ?? [],
+        'X-OP-User-Scopes': context?.scopes ?? [],
+        'X-OP-Token': context?.token,
         'From': 'OP-API-GATEWAY'
       },
       body: JSON.stringify( { query, variables } ),
@@ -30,6 +33,9 @@ function getSubscriber ( url: string, serviceName: string ): Subscriber {
       {
         connectionParams: {
           'X-OP-User-ID': context?.uid,
+          'X-OP-User-Roles': context?.roles,
+          'X-OP-User-Scopes': context?.scopes,
+          'X-OP-Token': context?.token,
           'From': 'OP-API-GATEWAY',
         }
       },
