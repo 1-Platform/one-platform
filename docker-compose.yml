@@ -37,7 +37,7 @@ services:
 
   api-gateway:
     build: ./packages/api-gateway-service
-    command: npm start
+    command: npm run dev
     env_file: ./packages/api-gateway-service/.env
     environment:
       REDIS_SERVICE_HOST: redis

@@ -52,17 +52,17 @@ const context = ({ req, connection }: any) => {
   const token = authorizationHeader.split( ' ' )[ 1 ];
 
   if ( uuidValidate( token ) ) {
-    return verifyAPIKey( token )
-      .then( res => ( { uid: res._id }))
-      .catch( err => {
-        throw new AuthenticationError( err.message );
-      } );
+    return verifyAPIKey(token)
+      .then((res) => ({ uid: res._id, roles: res.roles, scopes: res.scopes, token }))
+      .catch((err) => {
+        throw new AuthenticationError(err.message);
+      });
   } else {
     return verifyJwtToken( token, ( err: any, payload: any ) => {
       if ( err ) {
         throw new AuthenticationError( err.message );
       }
-      return { uid: payload.rhatUUID };
+      return { uid: payload.rhatUUID, roles: payload.role, scope: payload.scope?.split(' '), token };
     } );
   }
 };
