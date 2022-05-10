@@ -11,17 +11,17 @@
     "serve": "docusaurus serve --dir=dist"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.65",
-    "@docusaurus/preset-classic": "2.0.0-alpha.65",
+    "@docusaurus/core": "2.0.0-beta.20",
+    "@docusaurus/preset-classic": "2.0.0-beta.20",
     "@mdx-js/react": "1.6.22",
     "@one-platform/opc-base": "^1.1.6-beta",
     "@one-platform/opc-feedback": "0.0.11-prerelease",
-    "@one-platform/opc-menu-drawer": "^0.2.2-prerelease",
+    "@one-platform/opc-menu-drawer": "0.2.2-prerelease",
     "@one-platform/opc-nav": "0.0.4-prerelease",
-    "@one-platform/opc-notification-drawer": "^0.1.3-prerelease",
-    "@sentry/react": "^6.17.8",
+    "@one-platform/opc-notification-drawer": "0.1.3-prerelease",
+    "@sentry/react": "6.19.2",
     "clsx": "1.1.1",
-    "docusaurus2-dotenv": "^1.4.0",
+    "docusaurus2-dotenv": "1.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
