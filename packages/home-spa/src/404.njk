@@ -9,7 +9,7 @@ const renderSPAList = (homeList) => {
       spaListForFourZeroFour.innerHTML = homeList.map(spa =>
         {
           if (spa) {
-            return `<a href="/${spa.path}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
+            return `<a href="${spa.path}"><em class="fa ${spa.icon}"></em>${spa.name}</a>`;
           }
         }
       ).splice(0,5).join('');
