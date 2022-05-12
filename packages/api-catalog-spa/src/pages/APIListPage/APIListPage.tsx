@@ -24,21 +24,21 @@ import {
 } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 import { useDebounce, usePagination, useQueryParams, useToggle } from 'hooks';
-import { ApiCatalogLinks } from 'router';
+import { ApiCatalogLinks } from 'router/links';
 
+import { config } from 'config';
 import { callbackify } from 'utils';
-import { ApiCategory, ApiEmailGroup, ApiOwnerType } from 'graphql/namespace/types';
+import { ApiCategory, ApiEmailGroup, ApiOwnerType } from 'api/types';
 import { useGetNamespaceList } from './hooks/useGetNamespaceList';
 import { useGetNamespaceStats } from './hooks/useGetNamespaceStats';
 
-import { Header } from './components/Header';
-import { ApiDetailsCard } from './components/ApiDetailsCard';
-import { StatCard } from './components/StatCard';
+import { Header, ApiDetailsCard, StatCard } from './components';
+
 import styles from './apiListPage.module.scss';
 import { stats } from './apiListPage.helper';
 import { SortBy } from './types';
 
-export const APIListPage = (): JSX.Element => {
+const APIListPage = (): JSX.Element => {
   const navigate = useNavigate();
 
   // query param strings
@@ -65,7 +65,7 @@ export const APIListPage = (): JSX.Element => {
     offset: (pagination.page - 1) * pagination.perPage,
     apiCategory: filters.type,
     search: debouncedSearch,
-    sortBy: sortOption === SortBy.RECENTLY_ADDED ? 'CREATED_AT' : 'UPDATED_AT',
+    sortBy: sortOption === SortBy.RECENTLY_ADDED ? 'CREATED_ON' : 'UPDATED_ON',
     mid,
   });
   const { isLoading: isNamespaceStatLoading, data: namespaceStats } = useGetNamespaceStats({
@@ -74,14 +74,14 @@ export const APIListPage = (): JSX.Element => {
   });
 
   const handleApiOwnersRender = useCallback((owners: ApiOwnerType[]) => {
-    return owners
-      .map((owner) => (owner.group === ApiEmailGroup.USER ? owner.user.cn : owner.email))
-      .join(', ');
+    return owners.map((owner) =>
+      owner.group === ApiEmailGroup.USER ? owner.user.cn : owner.email
+    );
   }, []);
 
-  const onStatCardClick = (cardType: 'all' | 'rest' | 'graphql') => {
+  const onStatCardClick = (cardType: 'total' | 'rest' | 'graphql') => {
     onResetPagination();
-    if (cardType === 'all') {
+    if (cardType === 'total') {
       setFilters((state) => ({ ...state, type: null }));
     } else {
       setFilters((state) => ({ ...state, type: cardType.toUpperCase() as ApiCategory }));
@@ -107,11 +107,7 @@ export const APIListPage = (): JSX.Element => {
     navigate(id);
   };
 
-  const onClickStopPropagation: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
-    event.stopPropagation();
-  };
-
-  const namespaceCount = namespaceStats?.getNamespaceCount;
+  const namespaceCount = namespaceStats?.getApiCategoryCount;
   const namespaces = namespaceList?.listNamespaces?.data;
 
   const isNamespaceEmpty = !isApiListLoading && namespaces?.length === 0;
@@ -135,10 +131,10 @@ export const APIListPage = (): JSX.Element => {
                   category={type}
                   isLoading={isNamespaceStatLoading}
                   onClick={callbackify(onStatCardClick, key)}
-                  isSelected={filters.type ? filters.type.toLowerCase() === key : key === 'all'}
+                  isSelected={filters.type ? filters.type.toLowerCase() === key : key === 'total'}
                 >
                   <img
-                    src={`${process.env.PUBLIC_URL}/images/${image}`}
+                    src={`${config.baseURL}/images/${image}`}
                     alt={`api-select-${type}`}
                     style={{ height: '48px' }}
                   />
@@ -195,53 +191,22 @@ export const APIListPage = (): JSX.Element => {
               <Spinner size="xl" />
             </Bullseye>
           ) : (
-            namespaces?.map(({ id, name, appUrl, updatedOn, category, owners }) => (
+            namespaces?.map(({ id, name, updatedOn, owners, schemas, slug }) => (
               <GridItem
                 span={12}
                 key={id}
                 className="catalog-nav-link"
-                onClick={callbackify(onCardClick, id)}
+                onClick={callbackify(onCardClick, slug)}
               >
                 <ApiDetailsCard
                   title={name}
-                  ownedBy={handleApiOwnersRender(owners)}
-                  appUrl={appUrl}
+                  owners={handleApiOwnersRender(owners)}
                   updatedAt={updatedOn}
-                  apiType={category}
-                >
-                  {category === ApiCategory.GRAPHQL ? (
-                    [
-                      <Link
-                        to={`/apis/graphql/voyager/${id}`}
-                        key={`${id}-voyager-btn`}
-                        onClick={onClickStopPropagation}
-                      >
-                        <Button variant="secondary" isSmall>
-                          Try voyager
-                        </Button>
-                      </Link>,
-                      <Link
-                        to={`/apis/graphql/playground/${id}`}
-                        key={`${id}-playground-btn`}
-                        onClick={onClickStopPropagation}
-                      >
-                        <Button variant="secondary" isSmall key={`${id}-playground-btn`}>
-                          Try playground
-                        </Button>
-                      </Link>,
-                    ]
-                  ) : (
-                    <Link
-                      to={`/apis/rest/swagger/${id}`}
-                      key={`${id}-swagger-btn`}
-                      onClick={onClickStopPropagation}
-                    >
-                      <Button variant="secondary" isSmall key={`${id}-rest-btn`}>
-                        Try swagger
-                      </Button>
-                    </Link>
-                  )}
-                </ApiDetailsCard>
+                  schemas={schemas.map(({ name: schemaName, category }) => ({
+                    name: schemaName,
+                    type: category,
+                  }))}
+                />
               </GridItem>
             ))
           )}
@@ -270,3 +235,5 @@ export const APIListPage = (): JSX.Element => {
     </>
   );
 };
+
+export default APIListPage;

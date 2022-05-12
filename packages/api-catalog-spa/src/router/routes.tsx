@@ -1,13 +1,13 @@
-import { AppLayout } from 'layouts/AppLayout';
 import { lazy } from 'react';
+import { AppLayout } from 'layouts/AppLayout';
 
-const SwaggerToolPage = lazy(() => import('pages/SwaggerToolPage'));
-const VoyagerToolPage = lazy(() => import('pages/VoyagerToolPage'));
-const GqlPlaygroundPage = lazy(() => import('pages/GqlPlaygroundPage'));
-const APIListPage = lazy(() => import('pages/APIListPage'));
-const ApiCUDPage = lazy(() => import('pages/ApiCUDPage'));
-const ApiDescriptionPage = lazy(() => import('pages/ApiDescriptionPage'));
-const HomePage = lazy(() => import('pages/HomePage'));
+const SwaggerToolboxPage = lazy(() => import('../pages/SwaggerToolboxPage'));
+const RedocToolboxPage = lazy(() => import('../pages/RedocToolboxPage'));
+const GQLPlaygroundToolboxPage = lazy(() => import('../pages/GQLPlaygroundToolboxPage'));
+const APIListPage = lazy(() => import('../pages/APIListPage'));
+const ApiCUDPage = lazy(() => import('../pages/APICUDPage'));
+const APIDescriptionPage = lazy(() => import('../pages/APIDescriptionPage'));
+const HomePage = lazy(() => import('../pages/HomePage'));
 
 export const routes = [
   {
@@ -22,37 +22,37 @@ export const routes = [
       {
         path: '/apis',
         element: <APIListPage />,
-        key: 'list',
+        key: 'api-list',
       },
       {
         path: '/apis/new',
         element: <ApiCUDPage />,
-        key: 'new',
+        key: 'api-create',
       },
       {
-        path: '/apis/:id/edit',
+        path: '/apis/edit/:slug',
         element: <ApiCUDPage />,
-        key: 'edit',
+        key: 'api-update-delete',
       },
       {
-        path: 'apis/:id',
-        element: <ApiDescriptionPage />,
-        key: 'detail',
+        path: '/apis/:slug',
+        element: <APIDescriptionPage />,
+        key: 'api-details',
       },
       {
-        path: 'apis/rest/swagger/:id',
-        element: <SwaggerToolPage />,
-        key: 'swagger',
+        path: '/apis/rest/swagger/:envSlug',
+        element: <SwaggerToolboxPage />,
+        key: 'api-swagger',
       },
       {
-        path: 'apis/graphql/voyager/:id',
-        element: <VoyagerToolPage />,
-        key: 'voyager',
+        path: '/apis/rest/redoc/:envSlug',
+        element: <RedocToolboxPage />,
+        key: 'api-redoc',
       },
       {
-        path: 'apis/graphql/playground/:id',
-        element: <GqlPlaygroundPage />,
-        key: 'playground',
+        path: '/apis/graphql/playground/:envSlug',
+        element: <GQLPlaygroundToolboxPage />,
+        key: 'api-gql-playground',
       },
     ],
   },

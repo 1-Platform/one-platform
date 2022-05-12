@@ -1,1 +1,1 @@
-export { useGetNamespaceList } from './useGetNamespaceList';
+export * from './useGetNamespaceList';

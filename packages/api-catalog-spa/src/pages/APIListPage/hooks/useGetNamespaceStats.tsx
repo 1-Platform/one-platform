@@ -1,18 +1,18 @@
 import { useQuery } from 'hooks';
-
-import { NamespaceStat } from 'graphql/namespace/types';
+import { NamespaceStat } from 'api/types';
 import { UseQueryReturn } from 'hooks/useQuery/types';
 
-const GET_NAMESPACE_STATS = `
-query Query($search: String, $mid: String) {
-  getNamespaceCount(search: $search, mid: $mid) {
-    all
-    graphql
-    rest
+const GET_NAMESPACE_STATS = /* GraphQL */ `
+  query Query($search: String, $mid: String) {
+    getApiCategoryCount(search: $search, mid: $mid) {
+      total
+      graphql
+      rest
+    }
   }
-}
 `;
-type UseGetNamespaceStats = { getNamespaceCount: NamespaceStat };
+
+type UseGetNamespaceStats = { getApiCategoryCount: NamespaceStat };
 
 type Props = {
   search?: string;

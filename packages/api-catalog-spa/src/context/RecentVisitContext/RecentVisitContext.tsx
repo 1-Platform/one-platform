@@ -1,32 +1,72 @@
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 import opcBase from '@one-platform/opc-base';
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { QuickLink, RecentVisitContextProps, RecentVisitLog } from './types';
 
-type RecentVisit = { log: RecentVisitLog[] };
+// type RecentVisit = { log: RecentVisitLog[] };
 
 const RecentVisitContext = createContext<RecentVisitContextProps | Record<string, unknown>>({});
 
-// get local storage log
-const userInfo = opcBase.auth?.getUserInfo();
-const key = `api-catalog-recent-visits:${userInfo}`;
+type Props = {
+  children: ReactNode;
+};
 
-export const RecentVisitProvider: React.FC = ({ children }) => {
+// one week
+const TTL = 7 * 86400000;
+
+const getKey = () => {
+  // get local storage log
+  const userInfo = opcBase.auth?.getUserInfo();
+
+  return `api-catalog-recent-visits:${userInfo?.rhatUUID}`;
+};
+
+const loadFromLocalStorage = () => {
+  const key = getKey();
   const jsonSavedLog = localStorage.getItem(key);
-  const savedLog = jsonSavedLog ? (JSON.parse(jsonSavedLog) as RecentVisit) : { log: [] };
+  if (!jsonSavedLog) {
+    return [];
+  }
 
+  const data = JSON.parse(jsonSavedLog);
+  const now = new Date();
+
+  if (now.getTime() > data.expiry) {
+    localStorage.removeItem(key);
+    return [];
+  }
+  return data.log;
+};
+
+const saveToLocalStorage = (log: RecentVisitLog[]) => {
+  const key = getKey();
+  const now = new Date();
+  const jsonLog = JSON.stringify({ log, expiry: now.getTime() + TTL });
+  localStorage.setItem(key, jsonLog);
+};
+
+export const RecentVisitProvider = ({ children }: Props): JSX.Element => {
   // load it up
-  const [recentVisit, setRecentVisit] = useState<RecentVisitLog[]>(savedLog?.log);
+  const [recentVisit, setRecentVisit] = useState<RecentVisitLog[]>([]);
   const [quickLink, setQuickLink] = useState<QuickLink | null>(null);
 
-  const saveToLocalStorage = useCallback((log: RecentVisitLog[]) => {
-    const jsonLog = JSON.stringify({ log });
-    localStorage.setItem(key, jsonLog);
+  useEffect(() => {
+    opcBase.auth?.onLogin(() => {
+      setRecentVisit(loadFromLocalStorage());
+    });
   }, []);
 
   const handleAddNewLog = useCallback(
-    (log: RecentVisitLog) => {
+    ({ envSlug, ...log }: RecentVisitLog & { envSlug: string }) => {
       // save recent visit to quick link
-      setQuickLink({ id: log.id, name: log.title });
+      setQuickLink({ id: log.id, name: log.title, envSlug });
 
       const newState = recentVisit.filter(({ url }) => log.url !== url).slice(0, 4);
       // save to localstorage and  state
@@ -34,7 +74,7 @@ export const RecentVisitProvider: React.FC = ({ children }) => {
       setRecentVisit(newState);
       saveToLocalStorage(newState);
     },
-    [recentVisit, saveToLocalStorage]
+    [recentVisit]
   );
 
   const handleRemoveLog = useCallback(
@@ -43,7 +83,7 @@ export const RecentVisitProvider: React.FC = ({ children }) => {
       setRecentVisit(newState);
       saveToLocalStorage(newState);
     },
-    [recentVisit, saveToLocalStorage]
+    [recentVisit]
   );
 
   /**

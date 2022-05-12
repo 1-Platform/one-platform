@@ -1,5 +1,4 @@
-import { ApiEmailGroup, Namespace } from 'graphql/namespace/types';
-import { UserRoverDetails } from 'graphql/users/types';
+import { Namespace, UserRoverDetails, ApiEmailGroup } from 'api/types';
 
 export const hasUserApiEditAccess = (userUuid: string, namespace?: Namespace): boolean => {
   if (!namespace) return false;

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 type VoidFn = () => void;
 
-type useToggleReturn = [
+type UseToggleReturn = [
   boolean,
   {
     on: VoidFn;
@@ -11,7 +11,7 @@ type useToggleReturn = [
   }
 ];
 
-export const useToggle = (initialState = false): useToggleReturn => {
+export const useToggle = (initialState = false): UseToggleReturn => {
   const [value, setValue] = useState(initialState);
 
   const on = useCallback(() => {

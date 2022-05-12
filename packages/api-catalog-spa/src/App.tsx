@@ -1,41 +1,46 @@
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { createClient, Provider } from 'urql';
-import { RecentVisitProvider } from 'context/RecentVisitContext';
-import { BreadcrumbProvider } from 'context/BreadcrumbContext';
 
-import { Loader } from 'components/Loader';
+import { createClient, Provider } from 'urql';
+
 import opcBase from '@one-platform/opc-base';
 import '@one-platform/opc-base/dist/opc-provider';
+import { RecentVisitProvider } from 'context/RecentVisitContext';
+import { BreadcrumbProvider } from 'context/BreadcrumbContext';
+import { config } from 'config';
+import { Router } from 'router';
 
-import { Router } from './router';
-import './App.scss';
+import { Loader } from './components';
+import './app.scss';
+import 'swagger-ui-react/swagger-ui.css';
 
 opcBase.configure({
-  apiBasePath: process.env.REACT_APP_OPCBASE_API_BASE_PATH as string,
-  subscriptionsPath: process.env.REACT_APP_OPCBASE_SUBSCRIPTION_BASE_PATH as string,
-  keycloakUrl: process.env.REACT_APP_OPCBASE_KEYCLOAK_URL as string,
-  keycloakClientId: process.env.REACT_APP_OPCBASE_KEYCLOAK_CLIENT_ID as string,
-  keycloakRealm: process.env.REACT_APP_OPCBASE_KEYCLOAK_REALM as string,
+  apiBasePath: config.opcBase.apiBasePath,
+  subscriptionsPath: config.opcBase.subscriptionsPath,
+  keycloakUrl: config.opcBase.keycloakUrl,
+  keycloakClientId: config.opcBase.keycloakClientId,
+  keycloakRealm: config.opcBase.keycloakRealm,
 });
 
 const client = createClient({
-  url: process.env.REACT_APP_API_BASE_PATH as string,
+  url: config.apiURL,
+  requestPolicy: 'cache-and-network',
+  maskTypename: true,
   fetchOptions: () => {
-    const token = window.OpAuthHelper.jwtToken;
+    const token = opcBase.auth?.jwtToken;
     return {
-      headers: { authorization: token ? `Bearer ${token}` : '' },
+      headers: {
+        authorization: token ? `Bearer ${token}` : '',
+      },
     };
   },
-  maskTypename: true,
-  requestPolicy: 'cache-and-network',
 });
 
-const App = (): JSX.Element => {
+const App = () => {
   return (
     <Provider value={client}>
       <RecentVisitProvider>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter basename={config.baseURL}>
           <BreadcrumbProvider>
             <Suspense fallback={<Loader />}>
               <opc-provider>
