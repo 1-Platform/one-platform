@@ -1,0 +1,211 @@
+# Enums
+
+enum NamespaceSortType {
+  CREATED_ON
+  UPDATED_ON
+  NAME
+}
+
+enum NamespaceSortDir {
+  ASC
+  DESC
+}
+
+enum ApiCategory {
+  REST
+  GRAPHQL
+}
+
+# API Header
+
+type HeaderType {
+  id: ID
+  key: String
+}
+
+input HeaderInput {
+  key: String!
+  value: String!
+}
+
+input UpdateHeaderInput {
+  id: ID
+  key: String
+  value: String
+}
+
+# API Env Flag
+
+type ApiEnvironmentFlags {
+  isInternal: Boolean
+  isDeprecated: Boolean
+}
+
+input ApiEnvironmentFlagInput {
+  isInternal: Boolean!
+  isDeprecated: Boolean!
+}
+
+# API Namespaces
+type NamespaceType {
+  id: ID
+  name: String
+  slug: String
+  description: String
+  owners: [ApiOwnerType]
+  schemas: [ApiSchemaType]
+  createdOn: DateTime
+  createdBy: ApiUserType
+  updatedOn: DateTime
+  updatedBy: ApiUserType
+}
+
+input CreateNamespaceInput {
+  name: String!
+  description: String!
+  owners: [ApiOwnerInput]!
+  schemas: [CreateApiSchemaInput]!
+}
+
+input UpdateNamespaceInput {
+  name: String
+  description: String
+  owners: [ApiOwnerInput]
+  schemas: [UpdateApiSchemaInput]
+}
+
+# API SpecSheet
+type ApiSchemaType {
+  id: ID
+  name: String
+  description: String
+  appURL: String
+  docURL: String
+  environments: [NSEnvironmentType]
+  flags: ApiEnvironmentFlags
+  category: ApiCategory
+  lastCheckedOn: DateTime
+  createdOn: DateTime
+  updatedOn: DateTime
+}
+
+input CreateApiSchemaInput {
+  name: String!
+  description: String
+  category: ApiCategory!
+  appURL: String!
+  docURL: String
+  flags: ApiEnvironmentFlagInput
+  environments: [CreateNSEnvironmentInput]!
+}
+
+input UpdateApiSchemaInput {
+  id: ID
+  name: String
+  description: String
+  appURL: String
+  docURL: String
+  category: ApiCategory
+  flags: ApiEnvironmentFlagInput
+  environments: [UpdateNSEnvironmentInput]
+}
+
+# API Schema Environment Schemas
+type NSEnvironmentType {
+  id: ID
+  name: String
+  slug: String
+  isSubscribed: Boolean
+  isPublic: Boolean
+  apiBasePath: String
+  schemaEndpoint: String
+  headers: [HeaderType]
+}
+
+input CreateNSEnvironmentInput {
+  name: String!
+  isPublic: Boolean
+  apiBasePath: String!
+  schemaEndpoint: String
+  headers: [HeaderInput]!
+}
+
+input UpdateNSEnvironmentInput {
+  id: ID
+  name: String
+  isPublic: Boolean
+  apiBasePath: String
+  schemaEndpoint: String
+  headers: [UpdateHeaderInput]
+}
+
+type PaginatedNamespaceType {
+  count: Int
+  data: [NamespaceType]
+}
+
+type ApiCategoryCount {
+  total: Int
+  graphql: Int
+  rest: Int
+}
+
+type FetchApiSchemaType {
+  namespaceSlug: ID
+  schema: ApiSchemaType
+  file: String
+}
+
+input FetchApiSchemaInput {
+  category: ApiCategory
+  schemaEndpoint: String
+  headers: [HeaderInput]
+}
+
+## Resolvers
+
+type Query {
+  """
+  List all API namespaces
+  """
+  listNamespaces(
+    search: String
+    limit: Int
+    offset: Int
+    sortBy: NamespaceSortType
+    sortDir: NamespaceSortDir
+    mid: String
+    apiCategory: ApiCategory
+  ): PaginatedNamespaceType
+  """
+  To get a particular namespace by id
+  """
+  getNamespaceById(id: ID!): NamespaceType
+  """
+  To get a particular namespace by slug
+  """
+  getNamespaceBySlug(slug: ID!): NamespaceType
+  """
+  To get count of namespaces of type REST and GRAPHQL
+  """
+  getApiCategoryCount(search: String, mid: String): ApiCategoryCount
+  """
+  Fetch the API Schema
+  """
+  fetchAPISchema(config: FetchApiSchemaInput, envSlug: String): FetchApiSchemaType
+}
+
+type Mutation {
+  """
+  Create an API namespace record
+  """
+  createNamespace(payload: CreateNamespaceInput!): NamespaceType
+  """
+  Update an API namespace record
+  """
+  updateNamespace(id: ID!, payload: UpdateNamespaceInput!): NamespaceType
+  """
+  Delete an API namespace record
+  """
+  deleteNamespace(id: ID!): NamespaceType
+}

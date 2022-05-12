@@ -12,4 +12,4 @@ RUN npm install --silent && \
 ENV PORT 8080
 EXPOSE 8080 8443
 
-CMD [ "node", "dist/bundle.js"]
+CMD [ "node", "dist/index.js"]

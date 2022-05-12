@@ -1,0 +1,41 @@
+scalar DateTime
+
+enum ApiEmailGroup {
+  USER
+  MAILING_LIST
+}
+
+type ApiUserType {
+  cn: String
+  uid: String
+  rhatUUID: String
+  rhatJobTitle: String
+  mail: String
+}
+
+type OwnerMailingType {
+  email: String
+  group: ApiEmailGroup
+}
+
+type OwnerUserType {
+  user: ApiUserType
+  group: ApiEmailGroup
+}
+
+union ApiOwnerType = OwnerMailingType | OwnerUserType
+
+input ApiOwnerInput {
+  mid: String!
+  group: ApiEmailGroup!
+}
+
+type ApiSubscriberType {
+  email: String!
+  group: ApiEmailGroup!
+}
+
+input ApiSubscriberInput {
+  email: String!
+  group: ApiEmailGroup!
+}

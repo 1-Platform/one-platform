@@ -1,0 +1,1 @@
+export { setupCronTask } from './setupCronTask';
