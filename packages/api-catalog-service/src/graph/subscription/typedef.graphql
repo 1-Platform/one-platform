@@ -1,0 +1,10 @@
+input SubscribeSchema {
+  namespaceID: ID!
+  schemaID: ID!
+  envIDs: [String]!
+  email: String!
+}
+
+type Mutation {
+  subscribeApiSchema(config: SubscribeSchema!): NamespaceType
+}
