@@ -18,19 +18,8 @@ context( 'Test Error Page', () => {
     it( 'Check whether the links to other spas are visible', () => {
         cy.get( '#banner-links' ).should( 'be.visible' );
     } )
-    it( 'Check whether user group spa link is present and having correct redirection', () => {
-        cy.contains( 'User Group' ).should( 'have.attr', 'href','/user-groups' );
-    } )
-    it( 'Check whether Home Link is visible and having correct redirection', () => {
-        cy.contains( 'Home' ).should( 'be.visible' ).should( 'have.attr', 'href', '/' );
-    } )
-    it( 'Check Documentation Link is visible and having correct redirection ', () => {
-        cy.get('#banner-links').contains( 'Documentation' ).should( 'be.visible' ).should( 'have.attr', 'href','/get-started' );
+    it( 'Check whether the links count is greater than 1 and containing href attribute', () => {
+        cy.get( '#banner-links a' ).should( 'have.length.gte', 1 ).should( 'have.attr', 'href' );
     })
-     it( 'Check Feedback link is visible and having correct redirection ', () => {
-        cy.get('#banner-links').contains( 'Feedback' ).should( 'be.visible' ).should( 'have.attr', 'href', '/feedback' );
-     } )
-     it( 'Check Notifications is visible and having correct redirection ', () => {
-        cy.get('#banner-links').contains( 'Notifications' ).should( 'be.visible' ).should( 'have.attr', 'href', '/notifications' );
-    })
+
 })
