@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-spa",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "scripts": {
     "ng": "ng",
     "start": "npm run config -- --environment=dev && ng serve",
