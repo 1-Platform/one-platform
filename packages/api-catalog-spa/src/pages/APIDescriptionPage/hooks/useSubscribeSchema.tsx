@@ -30,7 +30,7 @@ const SUBSCRIBE_SCHEMA = /* GraphQL */ `
         category
         flags {
           isInternal
-          isDepreciated
+          isDeprecated
         }
         environments {
           id

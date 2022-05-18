@@ -31,7 +31,7 @@ const GET_A_NAMESPACE = /* GraphQL */ `
         category
         flags {
           isInternal
-          isDepreciated
+          isDeprecated
         }
         environments {
           id

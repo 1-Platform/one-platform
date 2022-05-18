@@ -211,13 +211,13 @@ export const APISchemaForm = forwardRef<HTMLDivElement, Props>(
                   {isUpdate && (
                     <StackItem>
                       <Controller
-                        name={`schemas.${index}.flags.isDepreciated`}
+                        name={`schemas.${index}.flags.isDeprecated`}
                         defaultValue={false}
                         render={({ field }) => (
                           <Checkbox
-                            label="Is this API depreciated?"
+                            label="Is this API deprecated?"
                             isChecked={field.value}
-                            id={`api-schema-${index}-depreciated-flag`}
+                            id={`api-schema-${index}-deprecated-flag`}
                             {...field}
                           />
                         )}

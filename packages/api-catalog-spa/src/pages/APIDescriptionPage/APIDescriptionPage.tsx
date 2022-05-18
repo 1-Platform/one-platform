@@ -210,9 +210,9 @@ const APIDescriptionPage = (): JSX.Element => {
       <StackItem>
         <PageSection isWidthLimited isCenterAligned className="pf-u-pb-4xl">
           <Grid hasGutter>
-            {selectedSchema?.flags.isDepreciated && (
+            {selectedSchema?.flags.isDeprecated && (
               <Grid span={12}>
-                <Alert variant="danger" isInline title={`${selectedSchema.name} is depreciated`} />
+                <Alert variant="danger" isInline title={`${selectedSchema.name} is deprecated`} />
               </Grid>
             )}
             <GridItem span={8}>
