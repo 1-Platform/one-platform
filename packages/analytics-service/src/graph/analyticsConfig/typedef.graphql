@@ -1,0 +1,46 @@
+scalar DateTime
+
+type User {
+  cn: String
+  mail: String
+  uid: String
+  rhatUUID: String
+  rhatJobTitle: String
+}
+
+input CreateAnalyticsConfigInput {
+  appId: String!
+  sentryTeamId: String
+  sentryProjectId: String
+  sentryPlatform: String
+}
+
+input UpdateAnalyticsConfigInput {
+  appId: String
+  sentryTeamId: String
+  sentryProjectId: String
+}
+
+type AnalyticsConfig {
+  id: ID
+  appId: String
+  sentryTeamId: String
+  sentryProjectId: String
+  sentryDSN: String
+  createdBy: User
+  createdOn: DateTime
+  updatedBy: User
+  updatedOn: DateTime
+}
+
+type Query {
+  listAnalyticsConfigs(limit: Int, offset: Int): [AnalyticsConfig]
+  getAnalyticsConfigByAppId(appId: String!): AnalyticsConfig
+  getAnalyticsConfigById(id: ID!): AnalyticsConfig
+}
+
+type Mutation {
+  createAnalyticsConfig(config: CreateAnalyticsConfigInput!): AnalyticsConfig
+  updateAnalyticsConfig(id: ID!, config: UpdateAnalyticsConfigInput!): AnalyticsConfig
+  deleteAnalyticsConfigById(id: ID!): AnalyticsConfig
+}
