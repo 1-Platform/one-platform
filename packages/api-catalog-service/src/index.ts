@@ -29,5 +29,5 @@ import { schema, setupMongoose, startApolloServer } from './app';
   }
   // await setupAgenda();
   await setupMongoose(config.mongoURI, logger);
-  await startApolloServer(schema, config, logger);
+  await startApolloServer(schema, config);
 })();
