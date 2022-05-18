@@ -1,0 +1,43 @@
+.subscription {
+  &-dropdown-btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &-dropdown-arrow {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &-container {
+    position: relative;
+  }
+
+  &-menu {
+    position: absolute;
+    top: 3rem;
+    width: 100%;
+    border-radius: 8px;
+  }
+}
+
+.schema {
+  &-container {
+    position: relative;
+    margin-bottom: 0.5rem !important;
+  }
+
+  &-dropdown-title {
+    font-weight: 400;
+    font-family: var(--pf-global--FontFamily--heading--sans-serif);
+    font-size: 1.3rem;
+    padding: 0;
+  }
+
+  &-menu {
+    position: absolute;
+    top: 2.5rem;
+    width: 50%;
+    border-radius: 8px;
+  }
+}

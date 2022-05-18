@@ -1,5 +1,5 @@
-import { ReactNode, useCallback } from 'react';
-import dayjs from 'dayjs';
+import { DOMAttributes, useCallback } from 'react';
+import dayjs from 'dayjs/esm';
 import {
   Card,
   CardBody,
@@ -11,84 +11,114 @@ import {
   Text,
   TitleSizes,
   TextVariants,
+  Label,
 } from '@patternfly/react-core';
-import { urlProtocolRemover } from 'utils';
+import { ReadMore } from 'components';
+import { config } from 'config';
 
-interface Props {
+type Schemas = {
+  name: string;
+  type: 'REST' | 'GRAPHQL';
+};
+
+type Props = {
   title: string;
-  ownedBy: string;
+  owners: string[];
+  schemas: Schemas[];
   // url of application
-  appUrl: string;
   updatedAt: string;
-  children: ReactNode;
-  apiType: 'REST' | 'GRAPHQL';
-}
+};
+
+const MAX_LOADED = 2;
 
 export const ApiDetailsCard = ({
   title,
-  ownedBy,
-  appUrl,
+  owners = [],
+  schemas = [],
   updatedAt,
-  children,
-  apiType,
 }: Props): JSX.Element => {
   const formatUpdatedAt = useCallback(
     (apiUpdatedAt: string) => `modified on: ${dayjs(apiUpdatedAt).format('DD MMM YYYY hh:mm a')}`,
     []
   );
 
-  const urlParser = useCallback((url: string) => urlProtocolRemover(url), []);
-
-  const isRestApiType = apiType === 'REST';
+  const stopOnClickPropogation: DOMAttributes<HTMLDivElement>['onClick'] = (event) => {
+    event.stopPropagation();
+  };
 
   return (
     <Card className="catalog-card-hover-effect cursor-pointer">
-      <CardBody>
+      <CardBody className="pf-u-px-md">
         <Stack hasGutter>
           <StackItem>
-            <Stack>
-              <StackItem>
-                <Split hasGutter className="pf-l-flex pf-m-align-items-center">
-                  <SplitItem isFilled>
-                    <Title headingLevel="h4" size={TitleSizes['2xl']}>
-                      {title}
-                    </Title>
-                  </SplitItem>
-                  <SplitItem>
-                    <Text component={TextVariants.small}>{formatUpdatedAt(updatedAt)}</Text>
-                  </SplitItem>
-                  <SplitItem className="pf-l-flex pf-m-align-items-center">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/images/${
-                        isRestApiType ? 'rest-logo.svg' : 'graphql-logo.svg'
-                      }`}
-                      alt="api-type"
-                      style={{ height: '2rem', maxWidth: '2.5rem' }}
-                    />
-                  </SplitItem>
-                </Split>
-              </StackItem>
-              <StackItem>
-                <Text>{`Owned by: ${ownedBy}`}</Text>
-              </StackItem>
-            </Stack>
+            <Split hasGutter className="pf-l-flex pf-m-align-items-flex-end">
+              <SplitItem isFilled>
+                <Title headingLevel="h4" size={TitleSizes['2xl']}>
+                  {title}
+                </Title>
+              </SplitItem>
+              <SplitItem>
+                <Text component={TextVariants.small} className="pf-u-color-400">
+                  {formatUpdatedAt(updatedAt)}
+                </Text>
+              </SplitItem>
+            </Split>
           </StackItem>
           <StackItem>
             <Split hasGutter>
-              <SplitItem isFilled>
-                <Text>
-                  <a
-                    href={appUrl}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    style={{ textDecoration: 'none' }}
-                    onClick={(e) => e.stopPropagation()}
+              <SplitItem>
+                <Split isWrappable onClick={stopOnClickPropogation}>
+                  <SplitItem className="pf-u-mr-xs">
+                    <Text>Owned by:</Text>
+                  </SplitItem>
+                  <ReadMore
+                    limit={MAX_LOADED}
+                    showMoreText={`+${(owners || []).length - MAX_LOADED} more`}
                   >
-                    {urlParser(appUrl)}
-                  </a>
-                </Text>
+                    {owners.map((owner) => (
+                      <SplitItem className="pf-u-ml-xs" key={owner}>
+                        <Label isCompact color="cyan">
+                          {owner}
+                        </Label>
+                      </SplitItem>
+                    ))}
+                  </ReadMore>
+                </Split>
               </SplitItem>
-              <SplitItem className="pf-l-flex pf-m-align-items-center">{children}</SplitItem>
+              <SplitItem isFilled />
+              <SplitItem>
+                <Split onClick={stopOnClickPropogation} isWrappable>
+                  <SplitItem className="pf-u-mr-sm">
+                    <Text>Schema(s): </Text>
+                  </SplitItem>
+                  <ReadMore
+                    limit={MAX_LOADED}
+                    showMoreText={`+${(schemas || []).length - MAX_LOADED} more`}
+                  >
+                    {schemas.map(({ name, type }) => (
+                      <SplitItem style={{ marginTop: '0.1rem' }} key={name}>
+                        <Label
+                          color="blue"
+                          className="pf-u-mr-xs"
+                          isCompact
+                          icon={
+                            <img
+                              src={`${config.baseURL}/images/${
+                                type === 'REST' ? 'swagger-black-logo.svg' : 'graphql-logo.svg'
+                              }`}
+                              alt="api-type"
+                              className="pf-u-mt-xs"
+                              style={{ height: '0.8rem', width: '0.8rem' }}
+                            />
+                          }
+                        >
+                          {name}
+                        </Label>
+                      </SplitItem>
+                    ))}
+                  </ReadMore>
+                </Split>
+              </SplitItem>
             </Split>
           </StackItem>
         </Stack>

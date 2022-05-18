@@ -2,11 +2,12 @@ export enum ApiCatalogLinks {
   HomePage = '/',
   ListPage = '/apis',
   AddNewApiPage = '/apis/new',
-  ApiDescriptionPage = '/apis/:id',
-  ApiEditPage = '/apis/:id/edit',
-  SwaggerPage = '/apis/rest/swagger/:id',
-  VoyagerPage = 'apis/graphql/voyager/:id',
-  Playground = 'apis/graphql/playground/:id',
+  APIDescriptionPage = '/apis/:slug',
+  ApiEditPage = '/apis/edit/:slug',
+  SwaggerPage = '/apis/rest/swagger/:envSlug',
+  RedocPage = '/apis/rest/redoc/:envSlug',
+  VoyagerPage = 'apis/graphql/voyager/:envSlug',
+  Playground = 'apis/graphql/playground/:envSlug',
 }
 
 export const apiToolsLinks = [

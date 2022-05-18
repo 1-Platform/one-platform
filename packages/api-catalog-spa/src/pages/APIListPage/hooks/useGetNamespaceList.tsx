@@ -1,48 +1,68 @@
 import { useQuery } from 'hooks';
 
-import { ApiCategory, Namespace } from 'graphql/namespace/types';
+import { Pagination, Namespace, ApiCategory, ApiSchema } from 'api/types';
 import { UseQueryReturn } from 'hooks/useQuery/types';
-import { Pagination } from 'graphql/types';
 
-const GET_NAMESPACE_LIST = `
-query ($limit: Int, $offset: Int, $apiCategory: ApiCategory, $search: String, $sortBy: ApiSortType,$mid: String) {
-  listNamespaces(limit: $limit,offset: $offset,apiCategory: $apiCategory, search: $search, sortBy: $sortBy, mid:$mid) {
-       count
-   data {
-    id
-    name
-    category
-    appUrl
-    createdBy {
-      cn
-    }
-    owners {
-      __typename
-      ... on OwnerMailingType {
-        email
-        group
-      }
-      ... on OwnerUserType {
-        user {
-          cn
-          rhatJobTitle
+const GET_NAMESPACE_LIST = /* GraphQL */ `
+  query (
+    $limit: Int
+    $offset: Int
+    $apiCategory: ApiCategory
+    $search: String
+    $sortBy: NamespaceSortType
+    $mid: String
+  ) {
+    listNamespaces(
+      limit: $limit
+      offset: $offset
+      apiCategory: $apiCategory
+      search: $search
+      sortBy: $sortBy
+      mid: $mid
+    ) {
+      count
+      data {
+        id
+        name
+        slug
+        schemas {
+          id
+          name
+          category
         }
-        group
+        owners {
+          __typename
+          ... on OwnerMailingType {
+            email
+            group
+          }
+          ... on OwnerUserType {
+            user {
+              cn
+              rhatJobTitle
+            }
+            group
+          }
+        }
+        updatedOn
       }
     }
-    updatedOn
-   }
   }
-}
 `;
-type UseGetNamespaceListQuery = { listNamespaces: Pagination<Namespace[]> };
+type UseGetNamespaceListQuery = {
+  listNamespaces: Pagination<
+    (Pick<Namespace, 'id' | 'name' | 'slug' | 'owners' | 'updatedOn'> & {
+      schemas: Pick<ApiSchema, 'id' | 'name' | 'category'>[];
+    })[]
+  >;
+};
 
 type Props = {
   limit?: number;
   offset?: number;
   apiCategory: null | ApiCategory;
   search?: string;
-  sortBy?: null | 'CREATED_AT' | 'UPDATED_AT';
+  sortBy?: null | 'CREATED_ON' | 'UPDATED_ON';
   mid?: string | null;
 };
 

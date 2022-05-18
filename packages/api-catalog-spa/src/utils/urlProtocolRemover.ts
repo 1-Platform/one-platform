@@ -4,7 +4,11 @@
  * @returns {String} host + pathname
  */
 export const urlProtocolRemover = (url: string): string => {
-  const { host, pathname } = new URL(url);
-  const path = pathname === '/' ? '' : pathname;
-  return host + path;
+  try {
+    const { host, pathname } = new URL(url);
+    const path = pathname === '/' ? '' : pathname;
+    return host + path;
+  } catch {
+    return '';
+  }
 };

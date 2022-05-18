@@ -1,4 +1,4 @@
-import { NamespaceStat } from 'graphql/namespace/types';
+import { NamespaceStat } from 'api/types';
 
 export type NamespaceCountTemplate = {
   type: string;

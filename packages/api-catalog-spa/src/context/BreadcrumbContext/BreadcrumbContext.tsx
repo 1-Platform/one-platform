@@ -1,12 +1,25 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useLocation, matchPath } from 'react-router-dom';
-import { ApiCatalogLinks } from 'router';
+import { ApiCatalogLinks } from 'router/links';
+import { config } from 'config';
 import { BREADCRUMB_USERFLOW, LOOK_UP_TABLE } from './lookupTable';
 import { Breadcrumb, BreadcrumbContextProps } from './types';
 
 const BreadcrumbContext = createContext<BreadcrumbContextProps | Record<string, unknown>>({});
 
-export const BreadcrumbProvider: React.FC = ({ children }) => {
+type Props = {
+  children: ReactNode;
+};
+
+export const BreadcrumbProvider = ({ children }: Props): JSX.Element => {
   // load it up
   const [dynamicCrumbs, setDynamicCrumbs] = useState<Record<string, Breadcrumb>>();
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
@@ -18,7 +31,7 @@ export const BreadcrumbProvider: React.FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const path = pathname.replace(process.env.PUBLIC_URL, '');
+    const path = pathname.replace(config.baseURL, '');
     const matchedPath = (Object.keys(BREADCRUMB_USERFLOW) as ApiCatalogLinks[]).find((pattern) =>
       Boolean(matchPath(pattern, path))
     );

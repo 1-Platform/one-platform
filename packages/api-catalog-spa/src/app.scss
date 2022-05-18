@@ -1,0 +1,127 @@
+@import '@patternfly/react-styles/css/utilities/Spacing/spacing.css',
+  '@patternfly/react-styles/css/utilities/Text/text.css',
+  '@patternfly/react-styles/css/utilities/Alignment/alignment.css',
+  '@patternfly/react-styles/css/utilities/Sizing/sizing.css',
+  '@patternfly/react-styles/css/utilities/Flex/flex.css',
+  '@patternfly/react-styles/css/utilities/Display/display.css';
+
+html,
+body,
+#root {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.pf-c-page {
+  --pf-c-page--BackgroundColor: #fff;
+  height: calc(100vh - 60px) !important;
+
+  &__main-breadcrumb {
+    padding: 1.5rem 1rem !important;
+  }
+}
+
+.pf-c-page__sidebar-body {
+  height: 100% !important;
+}
+
+.pf-topology-side-bar__body {
+  height: 100%;
+}
+
+opc-feedback {
+  --op-feedback__z-index: 8;
+}
+
+table tr > th {
+  background-color: #fafafa;
+}
+
+table tr {
+  --pf-c-table--BorderColor: #eeeeee;
+}
+
+table tr > td:first-child {
+  --pf-c-table--cell--FontWeight: 700;
+}
+
+table tr > td:not(:first-child) {
+  --pf-c-table--cell--Color: rgba(0, 0, 0, 0.75);
+}
+
+.catalog-card-flat {
+  border: 1px solid #dddddd;
+  box-shadow: none;
+}
+
+.catalog-card-hover-effect {
+  box-sizing: border-box;
+  box-shadow: var(--pf-global--BoxShadow--sm);
+  transition: all 150ms ease-in-out;
+
+  &:hover {
+    box-shadow: 0 3px 6px #01142729;
+  }
+}
+
+.catalog-card-select-effect {
+  border: 2px solid #0066cc;
+  background: #0066cc1a 0% 0% no-repeat padding-box;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.catalog-nav-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.rounded {
+  border-radius: 4px;
+}
+
+.fade-in {
+  &-enter {
+    opacity: 0;
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+}
+
+.border-1 {
+  border: 1px solid #d2d2d2;
+}
+
+.menu-selected {
+  background-color: #f0f0f0 !important;
+}
+
+.trash-button {
+  --pf-c-button--m-secondary--Color: #6b736acc;
+  --pf-c-button--m-secondary--after--BorderColor: #d2d2d2;
+  --pf-c-button--m-secondary--hover--Color: #6b736acc;
+  --pf-c-button--m-secondary--hover--after--BorderColor: #6b736acc;
+}

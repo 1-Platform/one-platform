@@ -1,1 +1,3 @@
-export { APIListPage as default } from './APIListPage';
+import ApiListPage from './APIListPage';
+
+export default ApiListPage;

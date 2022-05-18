@@ -1,0 +1,1 @@
+export { useRegisterRecentVisit } from './useRegisterRecentVisit';

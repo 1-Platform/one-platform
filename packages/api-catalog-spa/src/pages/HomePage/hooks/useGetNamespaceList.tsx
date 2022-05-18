@@ -1,24 +1,32 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useQuery } from 'hooks';
-
-import { Namespace } from 'graphql/namespace/types';
+import { Pagination, Namespace, ApiSchema } from 'api/types';
 import { UseQueryReturn } from 'hooks/useQuery/types';
-import { Pagination } from 'graphql/types';
 
-const GET_NAMESPACE_LIST = `
-query ($limit: Int, $search: String) {
-  listNamespaces(limit: $limit, search: $search) {
-       count
-       data {
-           id
-           name
-           category
-           description
+const GET_NAMESPACE_LIST = /* GraphQL */ `
+  query ($limit: Int, $search: String) {
+    listNamespaces(limit: $limit, search: $search) {
+      count
+      data {
+        id
+        name
+        slug
+        schemas {
+          id
+          name
+          category
         }
+      }
+    }
   }
-}
 `;
-type UseGetNamespaceListQuery = { listNamespaces: Pagination<Namespace[]> };
+type UseGetNamespaceListQuery = {
+  listNamespaces: Pagination<
+    (Pick<Namespace, 'id' | 'name' | 'slug'> & {
+      schemas: Pick<ApiSchema, 'id' | 'name' | 'category'>[];
+    })[]
+  >;
+};
 
 type Props = {
   limit?: number;

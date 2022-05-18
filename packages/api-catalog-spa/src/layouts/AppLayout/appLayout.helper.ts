@@ -1,9 +1,10 @@
+import { config } from 'config';
 import { BreadCrumbLink } from './types';
 
 const urlLookUpTable: Record<string, BreadCrumbLink> = {};
 
 export const handleBreadCrumbLinkGenerator = (url: string): BreadCrumbLink[] => {
-  const currentUrl = url.slice(process.env.PUBLIC_URL.length);
+  const currentUrl = url.slice(config.baseURL.length);
   const breadCrumbLinks: BreadCrumbLink[] = [];
 
   currentUrl.split('/').forEach((urlSub) => {

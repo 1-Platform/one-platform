@@ -3,6 +3,7 @@ import {
   Bullseye,
   Button,
   Divider,
+  Label,
   Menu,
   MenuItem,
   MenuList,
@@ -19,22 +20,21 @@ import {
 import { css } from '@patternfly/react-styles';
 import { ArrowRightIcon } from '@patternfly/react-icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { ApiCatalogLinks } from 'router';
+import { ApiCatalogLinks } from 'router/links';
 import { useDebounce } from 'hooks';
+import { config } from 'config';
+import { ApiCategory } from 'api/types';
 
-import { ApiCategory } from 'graphql/namespace/types';
-import { useGetNamespaceList } from './hooks/useGetNamespaceList';
-import styles from './homePage.module.scss';
+import { useGetNamespaceList } from './hooks';
 import { SearchBar } from './components/SearchBar';
+import styles from './homePage.module.scss';
 
-const OP_CONTAINER_LOGO = `${process.env.PUBLIC_URL}/images/op-containers.svg`;
+const OP_CONTAINER_LOGO = `${config.baseURL}/images/op-containers.svg`;
 
-const GRAPHQL_LOGO = `${process.env.PUBLIC_URL}/images/graphql-logo.svg`;
-const REST_LOGO = `${process.env.PUBLIC_URL}/images/rest-logo.svg`;
+const GRAPHQL_LOGO = `${config.baseURL}/images/graphql-logo.svg`;
+const REST_LOGO = `${config.baseURL}/images/rest-logo.svg`;
 
-const MAX_SEARCH_DESC_LENGTH = 100;
-
-export const HomePage = (): JSX.Element => {
+const HomePage = (): JSX.Element => {
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
   const debouncedSearch = useDebounce(search);
@@ -71,21 +71,37 @@ export const HomePage = (): JSX.Element => {
       ];
     }
 
-    return results?.map(({ name, id, category, description }, index) => [
-      <Link to={`/apis/${id}`} className="catalog-nav-link" key={`${id}-${index + 1}`}>
+    return results?.map(({ name, id, schemas, slug }, index) => [
+      <Link to={`/apis/${slug}`} className="catalog-nav-link" key={`${id}-${index + 1}`}>
         <MenuItem
           description={
-            description.length > MAX_SEARCH_DESC_LENGTH
-              ? `${description.slice(0, MAX_SEARCH_DESC_LENGTH)}...`
-              : description
-          }
-          icon={
-            <img
-              src={category === ApiCategory.GRAPHQL ? GRAPHQL_LOGO : REST_LOGO}
-              width="24px"
-              alt="graphql rest"
-              className="pf-u-mt-xs"
-            />
+            <Split className="pf-u-mt-xs">
+              <SplitItem className="pf-u-mr-xs">
+                <Text component={TextVariants.small} className="pf-u-color-200">
+                  Schema(s):
+                </Text>
+              </SplitItem>
+              {schemas.map(({ name: sName, id: sId, category }) => (
+                <SplitItem key={sId} className="pf-u-mr-xs">
+                  <Label
+                    isCompact
+                    color="blue"
+                    icon={
+                      <img
+                        src={category === ApiCategory.GRAPHQL ? GRAPHQL_LOGO : REST_LOGO}
+                        width="12px"
+                        alt="graphql rest"
+                        className="pf-u-mt-xs"
+                      />
+                    }
+                  >
+                    <Text component={TextVariants.small} className="pf-u-color-200">
+                      {sName}
+                    </Text>
+                  </Label>
+                </SplitItem>
+              ))}
+            </Split>
           }
         >
           {name}
@@ -178,3 +194,5 @@ export const HomePage = (): JSX.Element => {
     </>
   );
 };
+
+export default HomePage;
