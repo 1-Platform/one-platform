@@ -29,7 +29,7 @@ export type ApiSchema = {
   category: ApiCategory;
   flags: {
     isInternal: boolean;
-    isDepreciated: boolean;
+    isDeprecated: boolean;
   };
   environments: Environments[];
 };

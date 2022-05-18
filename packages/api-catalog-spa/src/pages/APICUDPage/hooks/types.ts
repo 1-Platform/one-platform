@@ -15,7 +15,7 @@ export type CreateNamespaceSchemaType = {
   category: ApiCategory;
   flags: {
     isInternal: boolean;
-    isDepreciated: boolean;
+    isDeprecated: boolean;
   };
   environments: CreateNamespaceEnvType[];
 };

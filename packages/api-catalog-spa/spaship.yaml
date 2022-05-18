@@ -4,4 +4,4 @@
 name: op-api-catalog
 path: /developers/api-catalog
 single: true
-buildDir: build
+buildDir: dist

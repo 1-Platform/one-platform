@@ -225,10 +225,7 @@ export const EnvironmentFormSection = ({
                         control={control}
                         rules={{ required: true }}
                         defaultValue=""
-                        render={({
-                          field: { onBlur, ...controllerField },
-                          fieldState: { error },
-                        }) => (
+                        render={({ field: { ...controllerField }, fieldState: { error } }) => (
                           <EnvSchemaField
                             isGraphqlAPI={isGraphqlAPI}
                             isError={Boolean(error)}
@@ -239,10 +236,6 @@ export const EnvironmentFormSection = ({
                               handleSchemaVerification(index, controllerField.value || '')
                             }
                             {...controllerField}
-                            onBlur={(event) => {
-                              handleSchemaVerification(index, event.target.value);
-                              onBlur();
-                            }}
                           />
                         )}
                       />

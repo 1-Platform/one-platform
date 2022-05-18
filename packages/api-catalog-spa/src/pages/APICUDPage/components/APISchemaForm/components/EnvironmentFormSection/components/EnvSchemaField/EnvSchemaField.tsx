@@ -90,9 +90,9 @@ export const EnvSchemaField = forwardRef<HTMLInputElement, Props>(
               placeholder="Enter api schema URL"
               ref={ref}
               {...inputProps}
-              onBlur={() => {
+              onBlur={(event) => {
                 handleRedoValidation();
-                if (inputProps?.onBlur) inputProps?.onBlur();
+                if (inputProps?.onBlur) inputProps?.onBlur(event);
               }}
             />
           </SplitItem>

@@ -74,7 +74,7 @@ const step2Schema = {
           docURL: yup.string().url().trim(),
           flags: yup.object({
             isInternal: yup.bool().default(false),
-            isDepreciated: yup.bool().default(false),
+            isDeprecated: yup.bool().default(false),
           }),
           category: yup
             .mixed<ApiCategory>()
