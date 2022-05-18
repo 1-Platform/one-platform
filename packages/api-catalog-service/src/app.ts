@@ -56,11 +56,7 @@ const fastifyAppClosePlugin = (app: FastifyInstance): ApolloServerPlugin => {
   };
 };
 
-export const startApolloServer = async (
-  gqlSchema: GraphQLSchema,
-  config: Config,
-  logger: Logger,
-) => {
+export const startApolloServer = async (gqlSchema: GraphQLSchema, config: Config) => {
   const context: ContextFunction<FastifyContext> = async ({ request }) => {
     const id = request?.headers?.['x-op-user-id'];
     const loaders = {
@@ -99,6 +95,5 @@ export const startApolloServer = async (
 
   await server.start();
   app.register(server.createHandler());
-  await app.listen(config.port);
-  logger.info(`🚀 Server ready at http://localhost:${config.port}${server.graphqlPath}`);
+  await app.listen(config.port, '0.0.0.0');
 };
