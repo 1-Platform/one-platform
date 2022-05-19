@@ -56,7 +56,6 @@ export const RecentVisitProvider = ({ children }: Props): JSX.Element => {
   // load it up
   const [recentVisit, setRecentVisit] = useState<RecentVisitLog[]>([]);
   const [quickLink, setQuickLink] = useState<QuickLink | null>(null);
-
   useEffect(() => {
     opcBase.auth?.onLogin(() => {
       setRecentVisit(loadFromLocalStorage());

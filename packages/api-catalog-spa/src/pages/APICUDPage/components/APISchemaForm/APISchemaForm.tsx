@@ -46,7 +46,7 @@ export const APISchemaForm = forwardRef<HTMLDivElement, Props>(
         environments: [
           {
             apiBasePath: '',
-            headers: [{ key: 'Content-Type', value: 'application/json', id: undefined }],
+            headers: [{ key: '', value: '', id: undefined }],
             isPublic: false,
             name: '',
             schemaEndpoint: '',

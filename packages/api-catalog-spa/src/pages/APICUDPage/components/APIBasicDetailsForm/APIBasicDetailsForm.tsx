@@ -136,6 +136,7 @@ export const APIBasicDetailsForm = forwardRef<HTMLDivElement, Props>(
                       createText="Use mailing list: "
                       placeholderText="Search by kerberos id or add mailing list"
                       customFilter={() => true}
+                      maxHeight="320px"
                     />
                   </FormGroup>
                 )}

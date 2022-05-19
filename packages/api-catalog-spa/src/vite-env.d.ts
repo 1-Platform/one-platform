@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+declare const Redoc: any;
 
 interface ImportMetaEnv {
   readonly VITE_OPC_BASE_API_URL: string;

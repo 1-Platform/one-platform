@@ -10,8 +10,6 @@ import {
   GridItem,
   SelectOption,
   SelectVariant,
-  Split,
-  SplitItem,
   Stack,
   StackItem,
   TextInput,
@@ -52,13 +50,16 @@ export const EnvironmentFormSection = ({
   });
 
   const handleAddNewEnvironment = () => {
-    append({
-      name: '',
-      apiBasePath: '',
-      headers: [{ key: 'Content-Type', value: 'application/json', id: undefined }],
-      schemaEndpoint: '',
-      isPublic: false,
-    });
+    append(
+      {
+        name: '',
+        apiBasePath: '',
+        headers: [{ key: '', value: '', id: undefined }],
+        schemaEndpoint: '',
+        isPublic: false,
+      },
+      { shouldFocus: false }
+    );
   };
 
   const onEnvNameClear = (onChange: (...event: any[]) => void) => {
@@ -126,21 +127,7 @@ export const EnvironmentFormSection = ({
   return (
     <Stack hasGutter className="pf-u-mt-md">
       <StackItem>
-        <Split>
-          <SplitItem isFilled>
-            <p className="pf-u-font-weight-bold">Environments</p>
-          </SplitItem>
-          <SplitItem>
-            <Button
-              variant="link"
-              icon={<PlusIcon size="sm" />}
-              className="pf-u-p-0"
-              onClick={handleAddNewEnvironment}
-            >
-              Add Environment
-            </Button>
-          </SplitItem>
-        </Split>
+        <p className="pf-u-font-weight-bold">Environments</p>
       </StackItem>
       <StackItem>
         <Stack hasGutter>
@@ -264,6 +251,16 @@ export const EnvironmentFormSection = ({
             </StackItem>
           ))}
         </Stack>
+      </StackItem>
+      <StackItem>
+        <Button
+          variant="link"
+          icon={<PlusIcon size="sm" />}
+          className="pf-u-p-0 pf-u-mb-lg"
+          onClick={handleAddNewEnvironment}
+        >
+          Add Environment
+        </Button>
       </StackItem>
     </Stack>
   );

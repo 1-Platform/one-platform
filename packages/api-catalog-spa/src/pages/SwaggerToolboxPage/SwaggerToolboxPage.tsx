@@ -27,7 +27,7 @@ const SwaggerToolboxPage = (): JSX.Element => {
   const file = schemaData?.fetchAPISchema?.file;
 
   useRegisterRecentVisit({
-    isLoading: isLoading && !envSlug,
+    isLoading: isLoading || isDecodingFile,
     log: useMemo(
       () => ({
         title: schema?.name || '',
