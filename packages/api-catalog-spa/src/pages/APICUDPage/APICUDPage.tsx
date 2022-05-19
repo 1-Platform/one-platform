@@ -353,7 +353,7 @@ const APICUDPage = () => {
                       </Button>
                     </SplitItem>
                     <SplitItem>
-                      <Button variant="secondary" onClick={onPrev} isDisabled={wizardStep === 0}>
+                      <Button variant="secondary" onClick={onPrev} isDisabled={wizardStep === 1}>
                         Back
                       </Button>
                     </SplitItem>

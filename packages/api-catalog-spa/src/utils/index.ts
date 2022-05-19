@@ -6,3 +6,4 @@ export { reqErrorMsg, emailErrorMsg } from './errorMessages';
 export { hasUserApiEditAccess } from './hasUserApiEditAccess';
 export { debouncePromise } from './debouncePromise';
 export { isValidURL } from './isValidURL';
+export { loadThirdPartyScript } from './loadThirdPartyScripts';

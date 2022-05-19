@@ -34,7 +34,6 @@ export const AsyncSelect = ({
     setOptions(LOADING);
     render(typeAhead)
       .then((loadedOptions) => {
-        // console.log(loadedOptions);
         setOptions(loadedOptions);
       })
       .catch(() => {
