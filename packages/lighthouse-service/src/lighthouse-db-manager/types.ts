@@ -82,6 +82,7 @@ export type LeadboardStatistic = {
 export type LeaderBoardOptions = Pagination &
 Optional<Sort, 'sort'> & {
   type?: string;
+  pickCategory?: string[];
 };
 
 export type BuildLeaderboardRankOption = {

@@ -139,8 +139,9 @@ type Query {
     offset: Int
     sort: Sort
     search: String
+    pickCategory: [LHLeaderBoardCategory]
   ): ListLHLeaderBoard
-   """
+  """
   Fetch the leaderboard rank of a project branch
   """
   getLHRankingOfAProjectBranch(
