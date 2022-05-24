@@ -6,7 +6,7 @@ import { LeaderboardCategory } from '../enum';
   name: 'leaderboardLabelFormater',
 })
 export class LeaderboardLabelFormaterPipe implements PipeTransform {
-  transform(value: LeaderboardCategory, ...args: unknown[]): unknown {
+  transform(value: string, ...args: unknown[]): unknown {
     if (
       value !== LeaderboardCategory.PWA &&
       value !== LeaderboardCategory.SEO

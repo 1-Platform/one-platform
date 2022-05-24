@@ -6,6 +6,7 @@ type Options = {
   row: LHLeaderboard;
   titleCasePipe: TitleCasePipe;
   isSelected?: boolean;
+  pickedCategory?: Record<string, boolean>;
 };
 
 const getAvgScore = (scores: number[]) => {
@@ -30,10 +31,10 @@ export const getLeaderboardCells = ({
   row,
   titleCasePipe,
   isSelected,
+  pickedCategory,
 }: Options) => {
   const { score, branch, project, rank } = row;
-  const total = getAvgScore(Object.values(score));
-  return [
+  const cells = [
     {
       title: rank,
     },
@@ -45,28 +46,43 @@ export const getLeaderboardCells = ({
     {
       title: score.accessibility,
       cellClassName: getScoreColor(score.accessibility),
+      key: LeaderboardCategory.ACCESSIBILITY,
     },
     {
       title: score.bestPractices,
       cellClassName: getScoreColor(score.bestPractices),
+      key: LeaderboardCategory.BEST_PRACTICES,
     },
     {
       title: score.performance,
       cellClassName: getScoreColor(score.performance),
+      key: LeaderboardCategory.PERFORMANCE,
     },
     {
       title: score.pwa,
       cellClassName: getScoreColor(score.pwa),
+      key: LeaderboardCategory.PWA,
     },
     {
       title: score.seo,
       cellClassName: getScoreColor(score.seo),
-    },
-    {
-      title: total,
-      cellClassName: getScoreColor(total),
+      key: LeaderboardCategory.SEO,
     },
   ];
+  const pickedCells = cells.filter(({ key }) =>
+    key ? pickedCategory[key] : true
+  );
+  const total = getAvgScore(
+    pickedCells
+      .filter(({ key }) => Boolean(key))
+      .map(({ title }) => title as number)
+  );
+  pickedCells.push({
+    title: total,
+    cellClassName: getScoreColor(total),
+    key: LeaderboardCategory.OVERALL,
+  });
+  return pickedCells;
 };
 
 export const LEADERBOARD_COLUMNS: (Column & { key?: LeaderboardCategory })[] = [

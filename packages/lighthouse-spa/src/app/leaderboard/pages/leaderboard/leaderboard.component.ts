@@ -1,5 +1,11 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { LeaderboardCategory } from 'app/leaderboard/enum';
 import { LeaderboardService } from 'app/leaderboard/leaderboard.service';
 import { Row } from 'app/shared/components/table/table.component';
@@ -25,8 +31,20 @@ export class LeaderboardComponent implements OnInit {
     'OVERALL',
   ] as LeaderboardCategory[];
   columns = LEADERBOARD_COLUMNS;
+  pickedColumns = [];
   rows: Row[] = [];
   leaderboardSortDir: Sort[] = ['DESC', 'ASC'];
+
+  @ViewChild('pickSelect') pickSelect: ElementRef;
+  isPickSelectOpen = false;
+  pickedCategoryList = [
+    'PWA',
+    'SEO',
+    'ACCESSIBILITY',
+    'BEST_PRACTICES',
+    'PERFORMANCE',
+  ];
+  pickedCategory: Record<string, boolean> = {};
 
   @ViewChild('search') searchInput: ElementRef;
   searchSubscription: Subscription;
@@ -51,6 +69,11 @@ export class LeaderboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchLHLeaderboard();
+    this.pickedCategory = this.pickedCategoryList.reduce((prev, curr) => {
+      prev[curr] = true;
+      return prev;
+    }, {});
+    this.pickedColumns = LEADERBOARD_COLUMNS;
   }
 
   ngOnDestroy(): void {
@@ -72,6 +95,46 @@ export class LeaderboardComponent implements OnInit {
       });
   }
 
+  /**
+   * This is used to check application filter multi-select dropdown closing
+   * Reference: https://medium.com/ekohe/dismissing-a-react-dropdown-menu-by-clicking-outside-its-container-7fe9f31a6767
+   */
+  @HostListener('document:click', ['$event'])
+  onDocClick(ev: Event) {
+    const pickSelect = this.pickSelect?.nativeElement;
+    if (
+      pickSelect &&
+      !pickSelect.contains(ev.target) &&
+      this.isPickSelectOpen
+    ) {
+      console.log('hit');
+      this.onPickedLeaderboardCategoryClose();
+    }
+  }
+
+  onPickedLeaderboardCategoryToggle() {
+    if (this.isPickSelectOpen) {
+      this.onPickedLeaderboardCategoryClose();
+    } else {
+      this.isPickSelectOpen = true;
+    }
+  }
+
+  onPickedLeaderboardCategoryClose() {
+    this.isPickSelectOpen = false;
+    this.fetchLHLeaderboard();
+  }
+
+  onPickedLeaderboardClick(option: string) {
+    if (this.pickedCategory?.[option]) {
+      const category = { ...this.pickedCategory };
+      delete category[option];
+      this.pickedCategory = category;
+    } else {
+      this.pickedCategory[option] = true;
+    }
+  }
+
   getAvgScore(scores: number[]) {
     const avg = scores.reduce((prev, curr) => prev + curr, 0) / scores.length;
     return Math.min(Math.max(avg, 0), 100);
@@ -85,7 +148,15 @@ export class LeaderboardComponent implements OnInit {
 
   fetchLHLeaderboard(): void {
     this.isPageLoading = true;
+    // for sorting
     const selectedCategory = this.getCategory();
+    // for removing some parameters from leaderboard like PWA
+    const pickedCategory = Object.keys(this.pickedCategory);
+    this.pickedColumns = LEADERBOARD_COLUMNS.filter(({ key }) =>
+      key
+        ? key === LeaderboardCategory.OVERALL || this.pickedCategory[key]
+        : true
+    );
     try {
       this.listLeaderBoardSubscription = this.leaderboardService
         .listLHLeaderboard(
@@ -93,7 +164,10 @@ export class LeaderboardComponent implements OnInit {
           selectedCategory.sortDir,
           this.searchTerm,
           this.pageLimit,
-          this.pageOffset
+          this.pageOffset,
+          pickedCategory.length !== 5
+            ? (pickedCategory as LeaderboardCategory[])
+            : []
         )
         .subscribe(({ data: { listLHLeaderboard }, loading }) => {
           this.isPageLoading = loading;
@@ -103,6 +177,7 @@ export class LeaderboardComponent implements OnInit {
               cells: getLeaderboardCells({
                 row: leader,
                 titleCasePipe: this.titleCasePipe,
+                pickedCategory: this.pickedCategory,
               }),
             };
           });

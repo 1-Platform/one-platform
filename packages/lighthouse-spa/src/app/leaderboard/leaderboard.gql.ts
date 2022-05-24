@@ -7,6 +7,7 @@ export const ListLHLeaderboard = gql`
     $offset: Int
     $sort: Sort
     $search: String
+    $pickCategory: [LHLeaderBoardCategory]
   ) {
     listLHLeaderboard(
       type: $type
@@ -14,6 +15,7 @@ export const ListLHLeaderboard = gql`
       offset: $offset
       sort: $sort
       search: $search
+      pickCategory: $pickCategory
     ) {
       count
       rows {
