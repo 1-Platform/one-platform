@@ -1,9 +1,34 @@
 <section class="pf-c-page__main-section pf-m-limit-width pf-m-align-center">
     <div class="pf-c-page__main-body">
         <!-- title and searchbox -->
-        <div class="pf-l-split pf-m-gutter">
+        <div class="pf-l-split pf-m-gutter pf-u-mr-0">
             <div class="pf-l-split__item pf-m-fill">
                 <h1 class="pf-c-title pf-m-2xl pf-u-mb-md">Leaderboard</h1>
+            </div>
+            <div class="pf-l-split__item">
+                <div class="pf-c-dropdown" #pickSelect>
+                    <button class="pf-c-dropdown__toggle pf-m-plain" id="dropdown-kebab-disabled-button"
+                        aria-expanded="isPickSelectOpen" type="button" aria-label="Actions"
+                        (click)="onPickedLeaderboardCategoryToggle()">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-kebab-disabled-button"
+                        *ngIf="isPickSelectOpen">
+                        <li *ngFor="let option of pickedCategoryList">
+                            <button class="pf-c-dropdown__menu-item" type="button" role="menuitem"
+                                (click)="onPickedLeaderboardClick(option)">
+                                <div class="pf-l-split">
+                                    <div class="pf-l-split__item pf-m-fill">
+                                        <span class="pf-u-font-size-sm">{{option | leaderboardLabelFormater}}</span>
+                                    </div>
+                                    <div class="pf-l-split__item pf-u-ml-md" *ngIf="pickedCategory[option]">
+                                        <i class="fas fa-check checked-icon" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="pf-l-split__item search-input-container">
                 <div class="pf-c-search-input">
@@ -20,7 +45,8 @@
             </div>
         </div>
 
-        <app-table [columns]="columns" [rows]="rows" [isLoading]="isPageLoading" (onSort)="handleSortClick($event)">
+        <app-table [columns]="pickedColumns" [rows]="rows" [isLoading]="isPageLoading"
+            (onSort)="handleSortClick($event)">
         </app-table>
 
         <!-- pagination -->

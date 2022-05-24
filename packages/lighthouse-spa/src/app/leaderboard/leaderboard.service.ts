@@ -17,7 +17,8 @@ export class LeaderboardService extends GraphQLModule {
     sort: Sort = 'DESC',
     search = '',
     limit = 10,
-    offset = 0
+    offset = 0,
+    pickCategory?: LeaderboardCategory[]
   ) {
     return this.apollo.query<{
       listLHLeaderboard: Pagination<LHLeaderboard[]>;
@@ -29,6 +30,7 @@ export class LeaderboardService extends GraphQLModule {
         limit,
         offset,
         search,
+        pickCategory,
       },
     });
   }
