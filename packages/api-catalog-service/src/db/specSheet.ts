@@ -62,7 +62,6 @@ export const SpecSheetSchema: Schema = new Schema(
         },
         schemaEndpoint: {
           type: String,
-          required: true,
         },
         hash: {
           type: String,
