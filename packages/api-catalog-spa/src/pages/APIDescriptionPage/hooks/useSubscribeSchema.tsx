@@ -47,6 +47,9 @@ const SUBSCRIBE_SCHEMA = /* GraphQL */ `
       }
       createdOn
       updatedOn
+      createdBy {
+        rhatUUID
+      }
     }
   }
 `;
@@ -63,7 +66,7 @@ type SubscribeNamespaceVariable = {
 };
 
 type UseSubscribeSchemaReturn = {
-  subscribeApiSchema: Omit<Namespace, 'createdBy' | 'updatedBy'>;
+  subscribeApiSchema: Omit<Namespace, 'updatedBy'>;
 };
 
 export const useSubscribeSchema = (): UseMutationResponse<

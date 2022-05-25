@@ -48,11 +48,14 @@ const GET_A_NAMESPACE = /* GraphQL */ `
       }
       createdOn
       updatedOn
+      createdBy {
+        rhatUUID
+      }
     }
   }
 `;
 type UseGetANamespaceQuery = {
-  getNamespaceBySlug: Omit<Namespace, 'createdBy' | 'updatedBy'>;
+  getNamespaceBySlug: Omit<Namespace, 'updatedBy'>;
 };
 
 type Props = {

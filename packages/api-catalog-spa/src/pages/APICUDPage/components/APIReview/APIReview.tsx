@@ -84,7 +84,7 @@ export const APIReview = (): JSX.Element => {
         <StackItem key={schema.name}>
           <Card>
             <CardTitle>
-              <Title headingLevel="h2">{`API Schema #${schemaIndex}`}</Title>
+              <Title headingLevel="h2">{`API Schema #${schemaIndex + 1}`}</Title>
             </CardTitle>
             <CardBody>
               <Stack hasGutter>
@@ -125,9 +125,13 @@ export const APIReview = (): JSX.Element => {
                 </StackItem>
                 <StackItem>
                   <Description title="Environments">
-                    <div style={{ border: '1px solid #d2d2d2' }} className="pf-u-p-lg">
-                      {schema.environments.map((env, envIndex) => (
-                        <Grid key={`schema-${schemaIndex + 1}-env-${envIndex + 1}`} hasGutter>
+                    {schema.environments.map((env, envIndex) => (
+                      <div
+                        style={{ border: '1px solid #d2d2d2' }}
+                        className="pf-u-p-lg pf-u-mb-md"
+                        key={`schema-${schemaIndex + 1}-env-${envIndex + 1}`}
+                      >
+                        <Grid hasGutter>
                           <GridItem span={6}>
                             <Description title="Name" isRequired>
                               <Title headingLevel="h6" className="uppercase">
@@ -179,8 +183,8 @@ export const APIReview = (): JSX.Element => {
                             />
                           </GridItem>
                         </Grid>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </Description>
                 </StackItem>
               </Stack>

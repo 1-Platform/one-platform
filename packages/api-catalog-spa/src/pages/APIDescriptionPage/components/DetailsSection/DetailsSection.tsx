@@ -20,9 +20,10 @@ import { ReadMore } from 'components/ReadMore';
 interface Props {
   namespace?: Pick<Namespace, 'owners' | 'updatedOn' | 'name' | 'description'>;
   id?: string;
+  hasEditAccess: boolean;
 }
 
-export const DetailsSection = ({ namespace, id }: Props): JSX.Element => {
+export const DetailsSection = ({ namespace, id, hasEditAccess }: Props): JSX.Element => {
   const formatUpdatedAt = useCallback(
     (apiUpdatedAt: string) => `Modified on: ${dayjs(apiUpdatedAt).format('DD MMM YYYY hh:mm a')}`,
     []
@@ -40,13 +41,15 @@ export const DetailsSection = ({ namespace, id }: Props): JSX.Element => {
               {formatUpdatedAt(namespace?.updatedOn || '')}
             </Text>
           </SplitItem>
-          <SplitItem>
-            <Link to={`/apis/edit/${id}`}>
-              <Button variant="plain">
-                <EditIcon />
-              </Button>
-            </Link>
-          </SplitItem>
+          {hasEditAccess && (
+            <SplitItem>
+              <Link to={`/apis/edit/${id}`}>
+                <Button variant="plain">
+                  <EditIcon />
+                </Button>
+              </Link>
+            </SplitItem>
+          )}
         </Split>
       </StackItem>
       <StackItem>

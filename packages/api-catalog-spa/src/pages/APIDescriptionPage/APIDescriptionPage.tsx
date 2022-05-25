@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, useEffect, useState } from 'react';
+import { CSSProperties, Fragment, useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Avatar,
@@ -33,6 +33,7 @@ import { useToggle, useURLParser } from 'hooks';
 import { config } from 'config';
 import { ReadMore } from 'components';
 import { useBreadcrumb } from 'context/BreadcrumbContext';
+import { hasUserApiEditAccess } from 'utils';
 
 import { useGetANamespaceBySlug, useSubscribeSchema } from './hooks';
 import { DetailsSection, ApiTypeCard, ApiEnvironmentSection, ApiSchemaList } from './components';
@@ -74,6 +75,11 @@ const APIDescriptionPage = (): JSX.Element => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNamespaceLoading, namespace?.name, namespace?.id]);
+
+  const hasEditAccess = useMemo(() => {
+    const userUuid = userInfo?.rhatUUID;
+    return hasUserApiEditAccess(userUuid as string, namespace);
+  }, [namespace, userInfo?.rhatUUID]);
 
   const onMenuClick = (schemaId: string) => {
     const index = namespace?.schemas.findIndex(({ id: sid }) => sid === schemaId);
@@ -180,7 +186,7 @@ const APIDescriptionPage = (): JSX.Element => {
         <PageSection isWidthLimited isCenterAligned>
           <Grid hasGutter>
             <GridItem span={8}>
-              <DetailsSection namespace={namespace} id={slug} />
+              <DetailsSection namespace={namespace} id={slug} hasEditAccess={hasEditAccess} />
             </GridItem>
             <GridItem span={4}>
               <ApiSchemaList
