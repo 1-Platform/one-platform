@@ -70,8 +70,9 @@ export const getLeaderboardCells = ({
     },
   ];
   const pickedCells = cells.filter(({ key }) =>
-    key ? pickedCategory[key] : true
+    key && pickedCategory ? pickedCategory[key] : true
   );
+
   const total = getAvgScore(
     pickedCells
       .filter(({ key }) => Boolean(key))
