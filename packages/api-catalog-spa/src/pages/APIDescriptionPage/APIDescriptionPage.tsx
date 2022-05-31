@@ -300,7 +300,7 @@ const APIDescriptionPage = (): JSX.Element => {
                   </CSSTransition>
                 </StackItem>
                 <StackItem>
-                  <ReadMore>{namespace?.description || ''}</ReadMore>
+                  <ReadMore>{selectedSchema?.description || ''}</ReadMore>
                 </StackItem>
                 <StackItem>
                   <Split hasGutter>
