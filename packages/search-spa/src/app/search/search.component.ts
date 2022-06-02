@@ -1,37 +1,24 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import map from 'lodash/map';
-import groupBy from 'lodash/groupBy';
 import compact from 'lodash/compact';
+import groupBy from 'lodash/groupBy';
+import map from 'lodash/map';
 import { AppService } from 'src/app/app.service';
-
+import { pagination } from '../utils/pagination';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  @ViewChild('filterSelect') filterSelect: ElementRef;
-
   searchResults: SearchResponseType;
-  sliceLimit = 10;
   appsStats: any[] = [];
   appsList: any[] = [];
   filteredApps: any[] = [];
   sortOrder: string;
   query: string;
-  start = 0;
-  rows = 10;
   loading = true;
   responseTime: string;
-  appFilterActive = false;
-  appSortActive = false;
   selectedOrderName = 'Sort';
   sortList = [
     {
@@ -43,6 +30,26 @@ export class SearchComponent implements OnInit {
       filter: 'asc',
     },
   ];
+  topPaginationOptionsActive = false;
+  bottomPaginationOptionsActive = false;
+  perPageOptions = [10, 20, 50, 100];
+  perPageOption = 10;
+  activePage = 1;
+  startIndex = 1;
+  endIndex = 1;
+  totalPages = 0;
+  start = 0;
+  totalRecordCount = 10;
+  relatedApps = [
+    {
+      name: 'Feedback',
+      url: '/feedback',
+    },
+    {
+      name: 'Developer Console',
+      url: '/console',
+    },
+  ];
 
   constructor(private appService: AppService, private route: ActivatedRoute) {
     this.route.queryParamMap.subscribe((params) => {
@@ -51,36 +58,61 @@ export class SearchComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.search(this.query, this.start, this.rows).then(
+    this.setPagination(
+      this.query,
+      this.activePage,
+      this.start,
+      this.perPageOption
+    );
+  }
+
+  search = (query: string, start: number, perPageOption: number) => {
+    const startTime = new Date().getTime();
+    return this.appService
+      .search(query, start, perPageOption)
+      .then((searchResponse) => {
+        this.responseTime =
+          ((new Date().getTime() - startTime) / 1000).toFixed(2) + ' Seconds';
+        this.searchResults = searchResponse;
+        this.totalRecordCount = this.searchResults.response.numFound;
+      });
+  };
+
+  setPagination = async (
+    query,
+    activePage,
+    start,
+    perPageOption
+  ): Promise<void> => {
+    await this.search(query, start, perPageOption).then(
       () => (this.loading = false)
     );
+    const paginationOpt = pagination(
+      this.totalRecordCount,
+      this.activePage,
+      this.perPageOption
+    );
+    this.activePage = paginationOpt.currentPage;
+    this.totalPages = paginationOpt.totalPages;
+    this.start = paginationOpt.startIndex;
+    this.startIndex = paginationOpt.startIndex + 1;
+    this.endIndex = paginationOpt.endIndex + 1;
+
     await this.generateAppFilter();
-  }
+  };
 
-  /**
-   * This is used to check application filter multi-select dropdown closing
-   * Reference: https://medium.com/ekohe/dismissing-a-react-dropdown-menu-by-clicking-outside-its-container-7fe9f31a6767
-   */
-  @HostListener('document:click', ['$event'])
-  onDocClick(ev: Event) {
-    const filterSelect = this.filterSelect?.nativeElement;
-    if (filterSelect && !filterSelect.contains(ev.target)) {
-      this.appFilterActive = false;
+  setPage = (action) => {
+    if (action === 'add') {
+      this.activePage += 1;
+    } else if (action === 'subtract') {
+      this.activePage -= 1;
     }
-  }
-
-  search = (query, start, rows) => {
-    const startTime = new Date().getTime();
-    return this.appService.search(query, start, rows).then((searchResponse) => {
-      this.responseTime =
-        ((new Date().getTime() - startTime) / 1000).toFixed(2) + ' Seconds';
-      if (!this.searchResults) {
-        this.searchResults = searchResponse;
-      } else {
-        this.searchResults.response.docs =
-          this.searchResults.response.docs.concat(searchResponse.response.docs);
-      }
-    });
+    this.setPagination(
+      this.query,
+      this.activePage,
+      this.start,
+      this.perPageOption
+    );
   };
 
   generateAppFilter = (): void => {
@@ -99,15 +131,6 @@ export class SearchComponent implements OnInit {
       };
     });
     this.filteredApps = [];
-  };
-
-  showMore = async () => {
-    this.start += this.rows;
-    await this.search(this.query, this.start, this.rows).then(
-      () => (this.loading = false)
-    );
-    this.sliceLimit = this.start + this.rows;
-    await this.generateAppFilter();
   };
 
   selectedApps = (): void => {
