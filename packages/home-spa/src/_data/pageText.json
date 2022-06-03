@@ -5,19 +5,19 @@
       "stats": [
           {
               "title": "Apps Deployed",
-              "value": "164+"
+              "value": "26+"
           },
           {
               "title": "Deployments/month",
-              "value": "624+"
+              "value": "750+"
           },
           {
               "title": "Avg. time to deploy",
-              "value": "3min"
+              "value": "2.5min"
           },
           {
               "title": "Avg. time saved",
-              "value": "9hours 38min"
+              "value": "11hours 38min"
           }
       ]
   }

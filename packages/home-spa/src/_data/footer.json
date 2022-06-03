@@ -37,9 +37,6 @@
       "category": "Help",
       "links": [
           {
-              "text": "Report An Issue"
-          },
-          {
               "text": "One Platform FAQs",
               "href": "https://source.redhat.com/groups/public/pnt-devops/oneportal/one_portal_wiki/faqs_one_platform"
           },
