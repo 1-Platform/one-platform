@@ -8,6 +8,7 @@ import { environment } from 'environments/environment';
 })
 export class AppLayoutComponent implements OnInit {
   lighthouseServerUrl = environment.LH_SERVER_URL;
+  lhDocURL = environment.LH_DOC_URL;
   sidebarFooterLinks = [
     {
       href: '/get-started/docs',
