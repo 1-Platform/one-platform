@@ -4,6 +4,7 @@ export const environment = {
   WS_URL: '',
   LH_SERVER_URL: '',
   LH_CONTACT_MAIL: '',
+  LH_DOC_URL: '',
   OPCBASE_API_BASE_PATH: '',
   OPCBASE_SUBSCRIPTION_BASE_PATH: '',
   OPCBASE_KEYCLOAK_URL: '',

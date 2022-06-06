@@ -8,7 +8,7 @@ const isProduction = environment === 'prod';
 const targetPath = isProduction
   ? `./src/environments/environment.prod.ts`
   : `./src/environments/environment.ts`;
-const sentryDSN = process.env.SENTRY_DSN && `'${process.env.SENTRY_DSN}'`
+const sentryDSN = process.env.SENTRY_DSN && `'${process.env.SENTRY_DSN}'`;
 
 const environmentFileContent = `
 export const environment = {
@@ -17,6 +17,7 @@ export const environment = {
    WS_URL: '${process.env.WS_URL}',
    LH_SERVER_URL: '${process.env.LH_SERVER_URL}',
    LH_CONTACT_MAIL: '${process.env.LH_CONTACT_MAIL}',
+   LH_DOC_URL: '${process.env.LH_DOC_URL}',
    OPCBASE_API_BASE_PATH: '${process.env.OPCBASE_API_BASE_PATH}',
    OPCBASE_SUBSCRIPTION_BASE_PATH: '${process.env.OPCBASE_SUBSCRIPTION_BASE_PATH}',
    OPCBASE_KEYCLOAK_URL: '${process.env.OPCBASE_KEYCLOAK_URL}',
