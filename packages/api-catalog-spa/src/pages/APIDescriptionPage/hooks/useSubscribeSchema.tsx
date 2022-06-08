@@ -22,9 +22,15 @@ const SUBSCRIBE_SCHEMA = /* GraphQL */ `
           group
         }
       }
+      outageStatus {
+        id
+        name
+        status
+      }
       schemas {
         id
         name
+        description
         appURL
         docURL
         category
@@ -32,6 +38,7 @@ const SUBSCRIBE_SCHEMA = /* GraphQL */ `
           isInternal
           isDeprecated
         }
+        cmdbAppID
         environments {
           id
           slug
@@ -40,6 +47,7 @@ const SUBSCRIBE_SCHEMA = /* GraphQL */ `
           schemaEndpoint
           isSubscribed
           isPublic
+          isSchemaInValid
         }
         lastCheckedOn
         createdOn

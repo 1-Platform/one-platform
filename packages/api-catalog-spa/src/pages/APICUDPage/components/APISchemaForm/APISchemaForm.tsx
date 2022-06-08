@@ -6,6 +6,7 @@ import {
   CardTitle,
   Checkbox,
   FormGroup,
+  SelectVariant,
   Split,
   SplitItem,
   Stack,
@@ -19,6 +20,8 @@ import { PlusIcon, TrashIcon } from '@patternfly/react-icons';
 import { ApiCategory } from 'api/types';
 import { FormData, HandleSchemaValidationArg } from 'pages/APICUDPage/APICUDPage.types';
 import { UseGetAPISchemaFileQuery } from 'pages/APICUDPage/hooks/types';
+import { AsyncSelect } from 'components';
+import { debouncePromise } from 'utils';
 
 import { ApiTypeSelector } from './components/ApiTypeSelector';
 import { EnvironmentFormSection } from './components/EnvironmentFormSection';
@@ -28,10 +31,11 @@ interface Props {
     arg0: HandleSchemaValidationArg
   ) => Promise<UseGetAPISchemaFileQuery['fetchAPISchema'] | undefined>;
   isUpdate?: boolean;
+  onSearchCMDB: (search: string) => Promise<JSX.Element[]>;
 }
 
 export const APISchemaForm = forwardRef<HTMLDivElement, Props>(
-  ({ handleSchemaValidation, isUpdate }: Props, ref): JSX.Element => {
+  ({ handleSchemaValidation, isUpdate, onSearchCMDB }: Props, ref): JSX.Element => {
     const { control } = useFormContext<FormData>();
     const { append, fields, remove } = useFieldArray({
       control,
@@ -156,6 +160,37 @@ export const APISchemaForm = forwardRef<HTMLDivElement, Props>(
                           id={`api-schema-${index}-internal-flag`}
                           {...field}
                         />
+                      )}
+                    />
+                  </StackItem>
+                  <StackItem>
+                    <Controller
+                      control={control}
+                      name={`schemas.${index}.cmdbAppID`}
+                      defaultValue={null}
+                      render={({
+                        field: { onChange, value, onBlur, name },
+                        fieldState: { error },
+                      }) => (
+                        <FormGroup
+                          label="CMDB App ID"
+                          fieldId="api-owners"
+                          validated={error ? 'error' : 'success'}
+                          helperTextInvalid={error?.message}
+                        >
+                          <AsyncSelect
+                            render={debouncePromise(onSearchCMDB)}
+                            onSelect={(_, selected) => onChange(selected)}
+                            name={name}
+                            onClear={() => onChange(null)}
+                            onBlur={onBlur}
+                            selections={value as string}
+                            variant={SelectVariant.typeahead}
+                            placeholderText="Search by application name"
+                            customFilter={() => true}
+                            maxHeight="320px"
+                          />
+                        </FormGroup>
                       )}
                     />
                   </StackItem>

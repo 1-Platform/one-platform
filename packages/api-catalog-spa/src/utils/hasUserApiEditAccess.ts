@@ -8,7 +8,7 @@ export const hasUserApiEditAccess = (
   const isApiCreatedUser = userUuid === (namespace?.createdBy as UserRoverDetails)?.rhatUUID;
   const isOwner =
     namespace?.owners.findIndex(
-      (owner) => owner.group === ApiEmailGroup.USER && owner.user.rhatUUID === userUuid
+      (owner) => owner.group === ApiEmailGroup.USER && owner?.user?.rhatUUID === userUuid
     ) !== -1;
   return isApiCreatedUser || isOwner;
 };

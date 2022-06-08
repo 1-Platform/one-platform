@@ -36,8 +36,8 @@
 
   &-menu {
     position: absolute;
-    top: 2.5rem;
-    width: 50%;
+    top: 2.5rem !important;
+    width: 50% !important;
     border-radius: 8px;
   }
 }

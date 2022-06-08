@@ -24,6 +24,15 @@ export const GET_USERS_QUERY = /* GraphQL */ `
   }
 `;
 
+export const GET_CMDB_CODES = /* GraphQL */ `
+  query ($name: String) {
+    listCMDBCodes(name: $name) {
+      appID
+      name
+    }
+  }
+`;
+
 export const GET_API_SCHEMA_FILE = /* GraphQL */ `
   query FetchAPISchema($config: FetchApiSchemaInput, $envSlug: String) {
     fetchAPISchema(config: $config, envSlug: $envSlug) {
@@ -60,6 +69,12 @@ const step1Schema = {
     )
     .required(reqErrorMsg('Owners'))
     .min(1, 'Minimum one owner required'),
+  outageStatus: yup
+    .object({
+      id: yup.string(),
+      name: yup.string(),
+    })
+    .nullable(true),
 };
 
 const step2Schema = {
@@ -80,6 +95,7 @@ const step2Schema = {
             .mixed<ApiCategory>()
             .oneOf(Object.values(ApiCategory))
             .required(reqErrorMsg('API Category')),
+          cmdbAppID: yup.string().nullable(true),
           environments: yup
             .array(
               yup.object({

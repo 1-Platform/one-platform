@@ -36,10 +36,12 @@ import {
   wizardStepDetails,
   GET_API_SCHEMA_FILE,
   GET_USERS_QUERY,
+  GET_CMDB_CODES,
 } from './APICUDPage.helpers';
 import {
   FormData,
   HandleSchemaValidationArg,
+  ListCMDBCodeQuery,
   UserRoverDetails,
   UserSearchQuery,
 } from './APICUDPage.types';
@@ -48,6 +50,7 @@ import {
   useDeleteANamespace,
   useGetANamespaceBySlug,
   useUpdateNamespace,
+  useGetOutages,
 } from './hooks';
 import {
   CreateNamespaceType,
@@ -84,6 +87,7 @@ const APICUDPage = () => {
   const [, updateANamespace] = useUpdateNamespace();
   const [deleteNamespaceState, deleteANamespace] = useDeleteANamespace();
   const { isLoading: isNamespaceLoading, data: nsData } = useGetANamespaceBySlug({ slug });
+  const { data: outageComponents } = useGetOutages();
 
   const namespace = nsData?.getNamespaceBySlug;
   const id = namespace?.id;
@@ -148,9 +152,10 @@ const APICUDPage = () => {
 
   const isLastStep = wizardStep === MAX_WIZARD_STEPS;
 
-  const formatFormData = ({ id: nsId, slug: nSlug, ...data }: FormData) => {
+  const formatFormData = ({ id: nsId, slug: nSlug, outageStatus, ...data }: FormData) => {
     return {
       ...data,
+      outageStatusAppID: outageStatus?.id || null,
       owners: data.owners.map(({ group, mid }) => ({ group, mid })),
       schemas: data.schemas.map((schema) => ({
         ...schema,
@@ -280,6 +285,33 @@ const APICUDPage = () => {
     return [];
   };
 
+  const onSearchCMDB = async (search: string): Promise<JSX.Element[]> => {
+    if (!search || search.length < 3) {
+      return [
+        <SelectOption key="no-result" value="Please type atleast 3 characters" isPlaceholder />,
+      ];
+    }
+
+    try {
+      const res = await gqlClient
+        .query<ListCMDBCodeQuery>(GET_CMDB_CODES, { name: search })
+        .toPromise();
+      const options = (res.data?.listCMDBCodes || []).map((code) => (
+        <SelectOption
+          key={`cmdb:${code.appID}`}
+          value={code.appID}
+          description={`Application: ${code.name}`}
+        />
+      ));
+      return options;
+    } catch (error) {
+      window.OpNotification.danger({
+        subject: 'Failed to search for cmdb codes',
+      });
+    }
+    return [];
+  };
+
   if (isUpdate && isNamespaceLoading) {
     return (
       <Bullseye>
@@ -326,7 +358,10 @@ const APICUDPage = () => {
             {/* Form Steps */}
             <StackItem>
               <CSSTransition in={wizardStep === 1} timeout={200} classNames="fade-in" unmountOnExit>
-                <APIBasicDetailsForm onSearchOwners={onSearchOwners} />
+                <APIBasicDetailsForm
+                  onSearchOwners={onSearchOwners}
+                  outageComponents={outageComponents?.listAPIOutageStatus}
+                />
               </CSSTransition>
             </StackItem>
             <StackItem>
@@ -334,6 +369,7 @@ const APICUDPage = () => {
                 <APISchemaForm
                   handleSchemaValidation={handleSchemaValidation}
                   isUpdate={isUpdate}
+                  onSearchCMDB={onSearchCMDB}
                 />
               </CSSTransition>
             </StackItem>

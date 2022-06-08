@@ -26,7 +26,7 @@ import {
 } from '@patternfly/react-core';
 import { CSSTransition } from 'react-transition-group';
 import { css } from '@patternfly/react-styles';
-import { BellIcon, CaretDownIcon, CubesIcon } from '@patternfly/react-icons';
+import { BellIcon, CaretDownIcon, CubesIcon, OutlinedCopyIcon } from '@patternfly/react-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import opcBase from '@one-platform/opc-base';
 import { useToggle, useURLParser } from 'hooks';
@@ -105,15 +105,11 @@ const APIDescriptionPage = (): JSX.Element => {
       const res = await handleSubscribeSchemaGQL({ config: subscriptionConfig });
       if (res.error) {
         opcBase.toast.danger({
-          subject: `Failed to ${hasSubscribed ? 'unsubscribe' : 'subscribe'} api`,
+          subject: `Failed to apply subscription change`,
           body: res?.error?.message,
         });
       } else {
-        const subject = `${hasSubscribed ? 'Unsubscribed' : 'Subscribed'} to ${namespace?.name}`;
-        const body = `You will ${
-          hasSubscribed ? 'not be' : 'be'
-        } be notified regarding updates on this API`;
-        opcBase.toast.info({ subject, body });
+        opcBase.toast.info({ subject: 'Successfully changed your subscription' });
       }
     } catch (error) {
       opcBase.toast.danger({
@@ -222,11 +218,8 @@ const APIDescriptionPage = (): JSX.Element => {
               </Grid>
             )}
             <GridItem span={8}>
-              <Stack
-                hasGutter
-                style={{ '--pf-l-stack--m-gutter--MarginBottom': '1.5rem' } as CSSProperties}
-              >
-                <StackItem className={styles.schemaContainer}>
+              <Grid hasGutter style={{ '--pf-l-grid--m-gutter--GridGap': '2rem' } as CSSProperties}>
+                <GridItem span={12} className={styles.schemaContainer}>
                   <Split>
                     <SplitItem isFilled>
                       <Button
@@ -298,37 +291,55 @@ const APIDescriptionPage = (): JSX.Element => {
                       </MenuContent>
                     </Menu>
                   </CSSTransition>
-                </StackItem>
-                <StackItem>
+                </GridItem>
+                <GridItem span={12}>
                   <ReadMore>{selectedSchema?.description || ''}</ReadMore>
-                </StackItem>
-                <StackItem>
-                  <Split hasGutter>
-                    <SplitItem isFilled>
-                      <Title headingLevel="h3">Application URL</Title>
-                      <a href={selectedSchema?.appURL} target="_blank" rel="noopener noreferrer">
-                        <Text className="pf-u-color-400">
-                          {urlParser(selectedSchema?.appURL || '')}
-                        </Text>
-                      </a>
-                    </SplitItem>
-                    <SplitItem isFilled>
-                      <Title headingLevel="h3">Documentation URL</Title>
-                      <a href={selectedSchema?.docURL} target="_blank" rel="noopener noreferrer">
-                        <Text className="pf-u-color-400">
-                          {urlParser(selectedSchema?.docURL || '')}
-                        </Text>
-                      </a>
-                    </SplitItem>
-                  </Split>
-                </StackItem>
-                <StackItem className="pf-u-mt-md">
+                </GridItem>
+                <GridItem span={6}>
+                  <Title headingLevel="h3">Application URL</Title>
+                  <a href={selectedSchema?.appURL} target="_blank" rel="noopener noreferrer">
+                    <Text className="pf-u-color-400">
+                      {urlParser(selectedSchema?.appURL || '')}
+                    </Text>
+                  </a>
+                </GridItem>
+                {selectedSchema?.docURL && (
+                  <GridItem span={6}>
+                    <Title headingLevel="h3">Documentation URL</Title>
+                    <a href={selectedSchema?.docURL} target="_blank" rel="noopener noreferrer">
+                      <Text className="pf-u-color-400">
+                        {urlParser(selectedSchema?.docURL || '')}
+                      </Text>
+                    </a>
+                  </GridItem>
+                )}
+                {selectedSchema?.cmdbAppID && (
+                  <GridItem span={6}>
+                    <Title headingLevel="h3">CMDB App ID</Title>
+                    <Split hasGutter className="pf-u-mt-xs">
+                      <SplitItem>
+                        <Text className="pf-u-color-400">{selectedSchema?.cmdbAppID}</Text>
+                      </SplitItem>
+                      <SplitItem>
+                        <Button variant="plain" isSmall className="pf-u-p-0">
+                          <OutlinedCopyIcon
+                            onClick={() => {
+                              window.navigator.clipboard.writeText(selectedSchema?.cmdbAppID);
+                              window.OpNotification.success({ subject: 'Copied to clipboard' });
+                            }}
+                          />
+                        </Button>
+                      </SplitItem>
+                    </Split>
+                  </GridItem>
+                )}
+                <GridItem span={12} className="pf-u-mt-lg">
                   <ApiEnvironmentSection
                     environments={selectedSchema?.environments}
                     category={selectedSchema?.category}
                   />
-                </StackItem>
-              </Stack>
+                </GridItem>
+              </Grid>
             </GridItem>
             <GridItem span={1} />
             <GridItem span={3}>

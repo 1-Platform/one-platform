@@ -1,9 +1,10 @@
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import {
   Card,
   CardBody,
   CardTitle,
   FormGroup,
+  SelectOption,
   SelectOptionObject,
   SelectVariant,
   Stack,
@@ -13,18 +14,23 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { Controller, useFormContext } from 'react-hook-form';
-import { ApiEmailGroup } from 'api/types';
+import { ApiEmailGroup, OutageStatusComponent } from 'api/types';
 import { FormData } from 'pages/APICUDPage/APICUDPage.types';
-import { AsyncSelect } from 'components';
+import { AsyncSelect, Select } from 'components';
 import { debouncePromise } from 'utils';
 
 type Props = {
   onSearchOwners: (value: string) => Promise<JSX.Element[]>;
+  outageComponents?: OutageStatusComponent[];
 };
 
 export const APIBasicDetailsForm = forwardRef<HTMLDivElement, Props>(
-  ({ onSearchOwners }: Props, ref): JSX.Element => {
+  ({ onSearchOwners, outageComponents = [] }: Props, ref): JSX.Element => {
     const { control, trigger } = useFormContext<FormData>();
+
+    const outages = useMemo(() => {
+      return [{ id: null, name: null }, ...outageComponents];
+    }, [outageComponents]);
 
     // PFE select selected value could be either string or object
     // Object when its a select from the list of provided
@@ -138,6 +144,53 @@ export const APIBasicDetailsForm = forwardRef<HTMLDivElement, Props>(
                       customFilter={() => true}
                       maxHeight="320px"
                     />
+                  </FormGroup>
+                )}
+              />
+            </StackItem>
+            <StackItem>
+              <Controller
+                control={control}
+                name="outageStatus"
+                defaultValue={null}
+                render={({ field: { onChange, value, onBlur, name }, fieldState: { error } }) => (
+                  <FormGroup
+                    label="Select Outage Component"
+                    fieldId="outage-component"
+                    validated={error ? 'error' : 'success'}
+                    helperTextInvalid={error?.message}
+                    helperText="from status.redhat.com"
+                  >
+                    <Select
+                      variant={SelectVariant.single}
+                      aria-label="Select outage component"
+                      aria-labelledby="outage status component"
+                      name={name}
+                      onClear={() => onChange(null)}
+                      selections={value?.name}
+                      onBlur={onBlur}
+                      onSelect={(evt, obj: any, isPlaceholder) => {
+                        if (isPlaceholder) {
+                          onChange(null);
+                        } else {
+                          onChange({ id: obj.id, name: obj.name });
+                        }
+                      }}
+                    >
+                      {outages.map(({ id, name: outageName }) => (
+                        <SelectOption
+                          isPlaceholder={!(id && outageName)}
+                          key={id || 'placeholder'}
+                          value={
+                            {
+                              id,
+                              name: outageName,
+                              toString: () => outageName || 'Select a component',
+                            } as SelectOptionObject
+                          }
+                        />
+                      ))}
+                    </Select>
                   </FormGroup>
                 )}
               />
