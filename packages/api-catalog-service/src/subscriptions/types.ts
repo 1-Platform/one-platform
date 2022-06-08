@@ -3,6 +3,11 @@ export enum Jobs {
   SUBSCRIPTION_CHILD = 'subscription-childs',
 }
 
+export enum JobError {
+  FETCH_FAILED = 'failed to fetch schema',
+  SCHEMA_VALIDATION_FAILED = 'failed to validate api schema',
+}
+
 export type GraphqlChange = { message: string; type: string; path?: string };
 
 export type GraphqlDiff = {

@@ -20,6 +20,10 @@ export const SpecSheetSchema: Schema = new Schema(
     docURL: {
       type: String,
     },
+    cmdbAppID: {
+      type: String,
+      unique: true,
+    },
     lastCheckedOn: {
       type: Date,
       default: Date.now,
@@ -62,6 +66,10 @@ export const SpecSheetSchema: Schema = new Schema(
         },
         schemaEndpoint: {
           type: String,
+        },
+        isSchemaInValid: {
+          type: Boolean,
+          default: false,
         },
         hash: {
           type: String,

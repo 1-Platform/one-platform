@@ -62,6 +62,7 @@ export type CreateNamespaceInputArgs = {
     description?: Scalars['String'];
     owners: ApiOwnerInput[];
     schemas: NsSchemaInput[];
+    outageStatusAppID: Scalars['String'];
   };
 };
 
@@ -121,4 +122,10 @@ export type SubcribeSchemaArg = {
 export type GetSchemaSubscription = {
   namespaceID: string;
   schemaID: string;
+};
+
+export type GetCMDBCodeListArg = {
+  limit: number;
+  name: string;
+  appID: string;
 };

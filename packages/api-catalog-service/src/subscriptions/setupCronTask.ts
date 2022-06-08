@@ -14,10 +14,10 @@ import { Namespace } from 'db/namespace';
 import { SpecStore } from 'db/specStore';
 import { IApiCategory } from 'db/types';
 
-import { Jobs } from './types';
+import { Jobs, JobError } from './types';
 import { diffGraphql } from './diffGraphql';
 import { diffOpenAPI } from './diffOpenAPI';
-import { getSubscribersOfAnEnv, saveSpecSheet } from './subscriptionDAL';
+import { getSubscribersOfAnEnv, saveSpecSheet, setSchemEnvInValidState } from './subscriptionDAL';
 
 type Config = {
   decryptionKey: string;
@@ -102,7 +102,12 @@ export const setupCronTask = (
       value: decrypt(config.decryptionKey, value),
     }));
 
-    const res = await fetchSchema(data.schema.category, env.schemaEndpoint, headers);
+    let res = '';
+    try {
+      res = await fetchSchema(data.schema.category, env.schemaEndpoint, headers);
+    } catch (error) {
+      throw new Error(JobError.FETCH_FAILED);
+    }
 
     const resBase64 = Buffer.from(res).toString('base64');
 
@@ -166,7 +171,9 @@ export const setupCronTask = (
         subLog.info('Mail send to subscribers');
       } catch (error) {
         subLog.error(error?.message);
+        throw new Error(JobError.SCHEMA_VALIDATION_FAILED);
       }
+      await setSchemEnvInValidState(namespace.id, schema.id, env._id, false);
       return;
     }
 
@@ -205,15 +212,29 @@ export const setupCronTask = (
         }),
       });
       subLog.info('Mail send');
+      await setSchemEnvInValidState(namespace.id, schema.id, env._id, false);
     } catch (error) {
-      subLog.error(error);
+      subLog.error(error?.message);
+      throw new Error(JobError.SCHEMA_VALIDATION_FAILED);
     }
   });
 
-  jobs.on(`fail:${Jobs.SUBSCRIPTION_CHILD}`, (err, job: Job) => {
+  jobs.on(`fail:${Jobs.SUBSCRIPTION_CHILD}`, async (err, job: Job) => {
+    const { data } = job.attrs;
+
+    if (!data) return;
+
+    const { namespace, schema, env } = data;
+
+    if (
+      err?.message === JobError.FETCH_FAILED ||
+      err?.message === JobError.SCHEMA_VALIDATION_FAILED
+    ) {
+      await setSchemEnvInValidState(namespace.id, schema.id, env._id, true);
+    }
     logger.error(`Failed to execute job: ${job.attrs._id}`);
     logger.error(job.attrs.data?.env?.name);
-    logger.error(err);
+    logger.error(err?.message);
   });
 
   jobs.start();

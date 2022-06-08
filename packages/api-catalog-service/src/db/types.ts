@@ -20,6 +20,7 @@ export type INamespaceDoc = {
   description?: string;
   slug?: string;
   tags: string[];
+  outageStatusAppID?: string;
   owners: IOwnerDoc[];
   schemas: Types.DocumentArray<ISpecSheetDoc>;
   createdBy: string;
@@ -31,6 +32,7 @@ export type ISpecSheetDoc = {
   description: string;
   appUrl: string;
   lastCheckedOn: string;
+  cmdbAppID?: string;
   category: IApiCategory;
   flags: {
     isInternal: boolean;
@@ -45,6 +47,7 @@ export type IEnvironment = {
   flags: {
     isPublic: boolean;
   };
+  isSchemaInValid?: boolean;
   hash?: string;
   slug?: string;
   apiBasePath: string;

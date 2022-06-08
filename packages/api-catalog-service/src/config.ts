@@ -9,6 +9,10 @@ export type Config = {
   apiGatewayURL: string;
   apiGatewayToken: string;
   nsEncryptionKey: string;
+  outageStatusURL: string;
+  rhatServiceNowURL: string;
+  rhatServieNowUsername: string;
+  rhatServieNowPassword: string;
 };
 
 export const setupConfig = (): Config => {
@@ -36,5 +40,9 @@ export const setupConfig = (): Config => {
     redisURI: process.env.REDIS_URI,
     apiGatewayURL: process.env.API_GATEWAY_URL || '',
     apiGatewayToken: process.env.API_GATEWAY_TOKEN || '',
+    outageStatusURL: process.env.OUTAGE_STATUS_URL || '',
+    rhatServiceNowURL: process.env.RHAT_SERVICE_NOW_URL || '',
+    rhatServieNowUsername: process.env.RHAT_SERVICE_NOW_USERNAME || '',
+    rhatServieNowPassword: process.env.RHAT_SERVICE_NOW_PASSWORD || '',
   };
 };
