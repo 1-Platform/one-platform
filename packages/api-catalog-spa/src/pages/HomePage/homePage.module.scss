@@ -31,8 +31,8 @@
 
   &-menu {
     position: absolute;
-    top: 72px;
-    width: 75%;
+    top: 72px !important;
+    width: 75% !important;
     border-radius: 8px;
   }
 }

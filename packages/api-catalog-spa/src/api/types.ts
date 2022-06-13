@@ -13,6 +13,7 @@ export type Namespace = {
   description: string;
   owners: ApiOwnerType[];
   schemas: ApiSchema[];
+  outageStatus: OutageStatusComponent;
   createdOn: string;
   createdBy: UserRoverDetails | string;
   updatedOn: string;
@@ -31,6 +32,7 @@ export type ApiSchema = {
     isInternal: boolean;
     isDeprecated: boolean;
   };
+  cmdbAppID: string;
   environments: Environments[];
 };
 
@@ -43,6 +45,7 @@ export type Environments = {
   headers: Header[];
   isPublic: boolean;
   isSubscribed: boolean;
+  isSchemaInValid: boolean;
 };
 
 export type ApiSubscribeType = {
@@ -86,4 +89,10 @@ export type NamespaceStat = {
 export type Pagination<T extends unknown> = {
   count: number;
   data: T;
+};
+
+export type OutageStatusComponent = {
+  id: string;
+  name: string;
+  status: string;
 };

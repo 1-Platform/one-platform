@@ -13,7 +13,14 @@ export type UserRoverDetails = {
   rhatJobTitle: string;
 };
 
+export type CMDBCode = {
+  appID: string;
+  name: string;
+};
+
 export type UserSearchQuery = { searchRoverUsers: UserRoverDetails[] };
+
+export type ListCMDBCodeQuery = { listCMDBCodes: CMDBCode[] };
 
 export type HandleSchemaValidationArg = {
   envSlug?: string;

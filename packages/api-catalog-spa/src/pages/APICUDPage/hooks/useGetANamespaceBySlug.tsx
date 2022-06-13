@@ -24,6 +24,10 @@ const GET_A_NAMESPACE = /* GraphQL */ `
           group
         }
       }
+      outageStatus {
+        id
+        name
+      }
       schemas {
         id
         name
@@ -35,6 +39,7 @@ const GET_A_NAMESPACE = /* GraphQL */ `
           isInternal
           isDeprecated
         }
+        cmdbAppID
         environments {
           slug
           id

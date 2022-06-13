@@ -66,7 +66,7 @@ export const APIReview = (): JSX.Element => {
                 </Description>
               </StackItem>
               <StackItem>
-                <Description title="Owners">
+                <Description title="Owners" isRequired>
                   <Title headingLevel="h6">
                     <List isPlain isBordered>
                       {formData.owners.map(({ email }) => (
@@ -76,6 +76,13 @@ export const APIReview = (): JSX.Element => {
                   </Title>
                 </Description>
               </StackItem>
+              {Boolean(formData.outageStatus?.name) && (
+                <StackItem>
+                  <Description title="Outage Status Component">
+                    <Title headingLevel="h6">{formData.outageStatus?.name}</Title>
+                  </Description>
+                </StackItem>
+              )}
             </Stack>
           </CardBody>
         </Card>
@@ -123,6 +130,13 @@ export const APIReview = (): JSX.Element => {
                     </SplitItem>
                   </Split>
                 </StackItem>
+                {Boolean(schema?.cmdbAppID) && (
+                  <StackItem>
+                    <Description title="CMDB App ID">
+                      <Title headingLevel="h6">{schema?.cmdbAppID}</Title>
+                    </Description>
+                  </StackItem>
+                )}
                 <StackItem>
                   <Description title="Environments">
                     {schema.environments.map((env, envIndex) => (

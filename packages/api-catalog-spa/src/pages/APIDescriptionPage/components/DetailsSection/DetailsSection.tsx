@@ -18,7 +18,7 @@ import { Namespace, OwnerMailingType, OwnerUserType, ApiEmailGroup } from 'api/t
 import { ReadMore } from 'components/ReadMore';
 
 interface Props {
-  namespace?: Pick<Namespace, 'owners' | 'updatedOn' | 'name' | 'description'>;
+  namespace?: Pick<Namespace, 'owners' | 'updatedOn' | 'name' | 'description' | 'outageStatus'>;
   id?: string;
   hasEditAccess: boolean;
 }
@@ -28,6 +28,9 @@ export const DetailsSection = ({ namespace, id, hasEditAccess }: Props): JSX.Ele
     (apiUpdatedAt: string) => `Modified on: ${dayjs(apiUpdatedAt).format('DD MMM YYYY hh:mm a')}`,
     []
   );
+
+  const isOutageStatusVisible = Boolean(namespace?.outageStatus);
+  const isOperational = namespace?.outageStatus?.status === 'operational';
 
   return (
     <Stack hasGutter>
@@ -63,11 +66,11 @@ export const DetailsSection = ({ namespace, id, hasEditAccess }: Props): JSX.Ele
                 {namespace?.owners?.map((owner, index) => {
                   const isUser = owner?.group === ApiEmailGroup.USER;
                   return (
-                    <SplitItem key={`${owner.group}-${index + 1}`} className="pf-u-ml-sm">
+                    <SplitItem key={`${owner?.group}-${index + 1}`} className="pf-u-ml-sm">
                       <Label icon={isUser ? <UserIcon /> : <UsersIcon />} color="blue" isCompact>
                         {isUser
-                          ? (owner as OwnerUserType).user.cn
-                          : (owner as OwnerMailingType).email}
+                          ? (owner as OwnerUserType)?.user?.cn
+                          : (owner as OwnerMailingType)?.email}
                       </Label>
                     </SplitItem>
                   );
@@ -75,6 +78,18 @@ export const DetailsSection = ({ namespace, id, hasEditAccess }: Props): JSX.Ele
               </ReadMore>
             </Split>
           </SplitItem>
+          {isOutageStatusVisible && (
+            <>
+              <SplitItem className="pf-u-ml-4xl pf-u-mr-md">
+                <Text>Outage Status</Text>
+              </SplitItem>
+              <SplitItem>
+                <Label className="capitalize" color={isOperational ? 'green' : 'red'} isCompact>
+                  {namespace?.outageStatus?.status}
+                </Label>
+              </SplitItem>
+            </>
+          )}
         </Split>
       </StackItem>
       <StackItem className="pf-u-mt-sm">

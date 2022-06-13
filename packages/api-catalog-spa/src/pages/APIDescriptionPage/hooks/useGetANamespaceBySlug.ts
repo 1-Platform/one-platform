@@ -23,9 +23,15 @@ const GET_A_NAMESPACE = /* GraphQL */ `
           group
         }
       }
+      outageStatus {
+        id
+        name
+        status
+      }
       schemas {
         id
         name
+        description
         appURL
         docURL
         category
@@ -33,6 +39,7 @@ const GET_A_NAMESPACE = /* GraphQL */ `
           isInternal
           isDeprecated
         }
+        cmdbAppID
         environments {
           id
           slug
@@ -41,6 +48,7 @@ const GET_A_NAMESPACE = /* GraphQL */ `
           schemaEndpoint
           isSubscribed
           isPublic
+          isSchemaInValid
         }
         lastCheckedOn
         createdOn
