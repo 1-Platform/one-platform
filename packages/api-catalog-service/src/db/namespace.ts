@@ -29,6 +29,11 @@ export const NamespaceSchema: Schema = new Schema(
         },
       },
     ],
+    // the outage mapping
+    outageStatusAppID: {
+      type: String,
+      unique: true,
+    },
     schemas: [SpecSheetSchema],
     createdBy: {
       type: String,

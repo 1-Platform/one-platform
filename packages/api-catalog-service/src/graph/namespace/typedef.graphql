@@ -54,6 +54,7 @@ type NamespaceType {
   description: String
   owners: [ApiOwnerType]
   schemas: [ApiSchemaType]
+  outageStatus: OutageStatus
   createdOn: DateTime
   createdBy: ApiUserType
   updatedOn: DateTime
@@ -64,6 +65,7 @@ input CreateNamespaceInput {
   name: String!
   description: String!
   owners: [ApiOwnerInput]!
+  outageStatusAppID: String
   schemas: [CreateApiSchemaInput]!
 }
 
@@ -71,6 +73,7 @@ input UpdateNamespaceInput {
   name: String
   description: String
   owners: [ApiOwnerInput]
+  outageStatusAppID: String
   schemas: [UpdateApiSchemaInput]
 }
 
@@ -79,6 +82,7 @@ type ApiSchemaType {
   id: ID
   name: String
   description: String
+  cmdbAppID: String
   appURL: String
   docURL: String
   environments: [NSEnvironmentType]
@@ -92,6 +96,7 @@ type ApiSchemaType {
 input CreateApiSchemaInput {
   name: String!
   description: String
+  cmdbAppID: String
   category: ApiCategory!
   appURL: String!
   docURL: String
@@ -104,6 +109,7 @@ input UpdateApiSchemaInput {
   name: String
   description: String
   appURL: String
+  cmdbAppID: String
   docURL: String
   category: ApiCategory
   flags: ApiEnvironmentFlagInput
@@ -115,6 +121,7 @@ type NSEnvironmentType {
   id: ID
   name: String
   slug: String
+  isSchemaInValid: Boolean
   isSubscribed: Boolean
   isPublic: Boolean
   apiBasePath: String
@@ -162,6 +169,22 @@ input FetchApiSchemaInput {
   headers: [HeaderInput]
 }
 
+enum ApiEmailGroup {
+  USER
+  MAILING_LIST
+}
+
+type OutageStatus {
+  id: ID
+  name: String
+  status: String
+}
+
+type CMDBCode {
+  appID: String
+  name: String
+}
+
 ## Resolvers
 
 type Query {
@@ -193,6 +216,14 @@ type Query {
   Fetch the API Schema
   """
   fetchAPISchema(config: FetchApiSchemaInput, envSlug: String): FetchApiSchemaType
+  """
+  List outgage status of Red Hat products
+  """
+  listAPIOutageStatus: [OutageStatus]
+  """
+  List cmdb codes for Red Hat application
+  """
+  listCMDBCodes(limit: Int, name: String, appID: String): [CMDBCode]
 }
 
 type Mutation {

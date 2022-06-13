@@ -61,3 +61,31 @@ export const saveSpecSheet = (
 
   return doc.save();
 };
+
+export const setSchemEnvInValidState = (
+  namespaceId: string,
+  schemaId: string,
+  environmentId: string,
+  isInValid: boolean,
+) => {
+  return Namespace.findOneAndUpdate(
+    { id: namespaceId },
+    {
+      $set: { 'schemas.$[schema].environments.$[env].isSchemaInValid': isInValid },
+    },
+    {
+      arrayFilters: [
+        {
+          'env.id': environmentId,
+        },
+        {
+          'schema.id': schemaId,
+        },
+      ],
+    },
+  ).exec();
+};
+
+export const getNamespaceOwners = (namespaceId: string) => {
+  return Namespace.findById(namespaceId, { owners: 1 });
+};

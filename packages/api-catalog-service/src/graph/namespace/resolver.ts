@@ -6,6 +6,7 @@ import {
   ApiOwnerType,
   CreateNamespaceInputArgs,
   FetchSchemaArgs,
+  GetCMDBCodeListArg,
   GetNamespaceCountArgs,
   ListNamespaceArg,
   UpdateNamespaceArgs,
@@ -48,6 +49,8 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
       loaders.user.load(parent.createdBy),
     updatedBy: (parent: { createdBy: string }, _, { loaders }) =>
       loaders.user.load(parent.createdBy),
+    outageStatus: (parent: { outageStatusAppID: string }, _, { loaders }) =>
+      loaders.outageStatus.load(parent.outageStatusAppID || ''),
   },
   NSEnvironmentType: {
     id: (parent: { _id: string }) => parent._id,
@@ -58,6 +61,9 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
       }
       return subscriptionStatus.load({ envId: parent._id, userId: user.id });
     },
+  },
+  CMDBCode: {
+    appID: (parent: { u_application_id: string }) => parent.u_application_id,
   },
   Query: {
     async listNamespaces(
@@ -140,6 +146,16 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
         namespaceSlug: ns?.slug,
         file,
       };
+    },
+    listAPIOutageStatus: (_root: any, _arg: any, { dataSources: { outageStatusAPI } }) => {
+      return outageStatusAPI.getOutageStatusList();
+    },
+    listCMDBCodes: (
+      _root: any,
+      { limit, name, appID }: GetCMDBCodeListArg,
+      { dataSources: { cmdbCodeAPI } },
+    ) => {
+      return cmdbCodeAPI.getCMDBApps(name, appID, limit);
     },
   },
   Mutation: {

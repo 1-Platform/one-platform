@@ -41,3 +41,23 @@ export type ApiCategoryCountArg = {
   search?: string;
   mid?: string;
 };
+
+export enum OutageAPIStatus {
+  Operational = 'operational',
+  Degraded_Performance = 'degraded_performance',
+  Partial_Outage = 'partial_outage',
+  Major_Outage = 'major_outage',
+}
+
+export type OutageAPI = {
+  components: Array<{
+    id: string;
+    name: string;
+    status: OutageAPIStatus;
+    group_id: string | null;
+  }>;
+};
+
+export type CMDBAPI = {
+  result: Array<{ u_application_id: string; name: string }>;
+};
