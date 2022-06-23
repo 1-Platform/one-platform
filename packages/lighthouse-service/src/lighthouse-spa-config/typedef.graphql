@@ -1,5 +1,5 @@
 scalar DateTime
-
+scalar URL
 input CreateLHSpaConfigInput {
   appId: String!
   projectId: String!
@@ -32,6 +32,17 @@ type LHSpaConfigType {
   updatedOn: DateTime
 }
 
+type LHProjectReport {
+  projectId: String
+  name: String
+  category: String
+  buildId: String
+  createdAt: DateTime
+  branch: String
+  url: URL
+  value: Float
+}
+
 type Query {
   """
   List all lighthouse spa configs
@@ -53,6 +64,10 @@ type Query {
   To get Lighthouse score by appId
   """
   getLHScoreByAppId(appId: String!): LighthouseScoreType
+  """
+  Fetch the report by Project Name and Branch
+  """
+  exportLHReportByProject(projectId: String!, branch: String!): [LHProjectReport]
 }
 
 type Mutation {

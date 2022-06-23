@@ -54,3 +54,13 @@ type CardScore = {
   label: string;
   score: number;
 };
+
+type ExportLHReport = {
+  name: string;
+  branch: string;
+  buildId: string;
+  category: string;
+  value: number;
+  url: string;
+  createdAt: string;
+};
