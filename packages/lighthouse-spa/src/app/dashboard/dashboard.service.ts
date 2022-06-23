@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { GraphQLModule } from 'app/graphql.module';
 import { LeaderboardCategory } from 'app/leaderboard/enum';
+import { map } from 'rxjs/operators';
 
 import {
   ListLHProjects,
   ListLHProjectBranches,
   ListLHProjectScores,
   ListLHLeaderboard,
+  ExportLHReportByProject,
 } from './dashboard.gql';
 
 @Injectable({
@@ -69,5 +71,17 @@ export class DashboardService extends GraphQLModule {
         projectId,
       },
     });
+  }
+
+  exportLHReportByProject(projectId: string, branch: string) {
+    return this.apollo
+      .query<{ exportLHReportByProject: ExportLHReport[] }>({
+        query: ExportLHReportByProject,
+        variables: {
+          projectId,
+          branch,
+        },
+      })
+      .pipe(map((result: any) => result.data.exportLHReportByProject));
   }
 }

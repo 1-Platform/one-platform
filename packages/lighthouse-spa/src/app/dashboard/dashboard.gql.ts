@@ -98,3 +98,17 @@ export const ListLHLeaderboard = gql`
     }
   }
 `;
+
+export const ExportLHReportByProject = gql`
+  query ExportLHReportByProject($projectId: String!, $branch: String!) {
+    exportLHReportByProject(projectId: $projectId, branch: $branch) {
+      name
+      branch
+      buildId
+      category
+      value
+      url
+      createdAt
+    }
+  }
+`;

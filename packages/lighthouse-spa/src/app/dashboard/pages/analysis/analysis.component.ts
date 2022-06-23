@@ -10,6 +10,7 @@ import {
 import { Subject } from 'rxjs';
 import { environment } from 'environments/environment';
 import { takeUntil } from 'rxjs/operators';
+import { csvExport } from 'app/utils/csvExport';
 
 @Component({
   selector: 'app-analysis',
@@ -254,5 +255,11 @@ export class AnalysisComponent implements OnInit {
       column.title === columnName ? { ...column, sortDir: 'DESC' } : column
     );
     this.fetchLHLeaderboard();
+  }
+
+  exportLHReportByProject () {
+    this.dashboardService.exportLHReportByProject( this.projectId, this.selectedBranch ).subscribe( data => {
+      csvExport(data, this.selectedBranch);
+    } );
   }
 }
