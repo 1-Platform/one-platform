@@ -85,6 +85,14 @@ export const LHSpaConfigResolver = {
 
       return lhScore[projectBuilds[0].id];
     },
+    async exportLHReportByProject(root: any, args: any) {
+      const { projectId, branch } = args;
+      const lhReport = await lhDbManager.exportLHReportByProject(
+        projectId,
+        branch,
+      );
+      return lhReport;
+    },
   },
   Mutation: {
     async createLHSpaConfig(root: any, args: any) {
@@ -105,7 +113,9 @@ export const LHSpaConfigResolver = {
       const { id, data } = args;
       const mongoosePropertyDoc = await LHSpaConfig.findById(id).lean().exec();
 
-      if (data.updatedBy !== mongoosePropertyDoc?.createdBy) throw Error('Unauthorised access');
+      if (data.updatedBy !== mongoosePropertyDoc?.createdBy) {
+        throw Error('Unauthorised access');
+      }
 
       const updatedDoc = await LHSpaConfig.findByIdAndUpdate(
         // eslint-disable-next-line no-underscore-dangle
