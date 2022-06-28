@@ -258,8 +258,11 @@ export class AnalysisComponent implements OnInit {
   }
 
   exportLHReportByProject () {
-    this.dashboardService.exportLHReportByProject( this.projectId, this.selectedBranch ).subscribe( data => {
-      csvExport(data, this.selectedBranch);
-    } );
+    this.dashboardService
+      .exportLHReportByProject(this.projectId, this.selectedBranch)
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((data) => {
+        csvExport(data, this.selectedBranch);
+      });
   }
 }
