@@ -64,6 +64,18 @@ const query = `
       _id
     }
   }
+
+  query ExportLHReportByProject($projectId: String!, $branch: String!) {
+    exportLHReportByProject(projectId: $projectId, branch: $branch) {
+      name
+      projectId
+      category
+      value
+      url
+      createdAt
+      buildId
+    }
+  }
 `;
 
 beforeAll(() => {
@@ -187,6 +199,28 @@ describe('Lighthouse audit manager API Test', () => {
         expect(res.body).not.toHaveProperty('errors');
         expect(res.body).toHaveProperty('data');
         expect(res.body.data).toHaveProperty('listLHSpaConfigs');
+      })
+      .end((err) => {
+        done(err);
+      });
+  });
+
+  // Lighthouse Data Export API Tests
+  it('Export the Lighthouse Reports', (done) => {
+    request
+      .post('/graphql')
+      .send({
+        query,
+        operationName: 'ExportLHReportByProject',
+        variables: {
+          projectId: mock.projectId,
+          branch: mock.branch,
+        },
+      })
+      .expect((res) => {
+        expect(res.body).not.toHaveProperty('errors');
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('exportLHReportByProject');
       })
       .end((err) => {
         done(err);
