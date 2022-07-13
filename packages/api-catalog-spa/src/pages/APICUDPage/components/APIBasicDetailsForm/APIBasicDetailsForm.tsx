@@ -124,15 +124,12 @@ export const APIBasicDetailsForm = forwardRef<HTMLDivElement, Props>(
                     label="Owners"
                     fieldId="api-owners"
                     validated={error ? 'error' : 'success'}
-                    helperTextInvalid={error?.message}
+                    helperTextInvalid={error?.message || (error as any)?.[0]?.mid?.message}
                   >
                     <AsyncSelect
                       render={debouncePromise(onSearchOwners)}
                       variant={SelectVariant.typeaheadMulti}
                       isCreatable
-                      // onCreateOption={(mid) =>
-                      //   onChange([...value, { group: ApiEmailGroup.MAILING_LIST, mid, email: mid }])
-                      // }
                       onSelect={(_, selected, isPlaceholder) =>
                         onSelectOwner(onChange, value, selected, isPlaceholder)
                       }
