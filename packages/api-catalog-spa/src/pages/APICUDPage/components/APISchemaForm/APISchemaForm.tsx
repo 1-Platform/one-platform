@@ -36,7 +36,7 @@ interface Props {
 
 export const APISchemaForm = forwardRef<HTMLDivElement, Props>(
   ({ handleSchemaValidation, isUpdate, onSearchCMDB }: Props, ref): JSX.Element => {
-    const { control } = useFormContext<FormData>();
+    const { control, trigger } = useFormContext<FormData>();
     const { append, fields, remove } = useFieldArray({
       control,
       name: 'schemas',
@@ -142,7 +142,10 @@ export const APISchemaForm = forwardRef<HTMLDivElement, Props>(
                       render={({ field: { value, onChange }, fieldState: { error } }) => (
                         <ApiTypeSelector
                           value={value as ApiCategory}
-                          onChange={onChange}
+                          onChange={(e) => {
+                            onChange(e);
+                            trigger(`schemas.${index}.category`, { shouldFocus: false });
+                          }}
                           errorMsg={error?.message}
                         />
                       )}

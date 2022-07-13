@@ -142,7 +142,7 @@ export const EnvironmentFormSection = ({
                         control={control}
                         rules={{ required: true }}
                         defaultValue=""
-                        render={({ field: controllerField, fieldState: { error } }) => (
+                        render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
                           <FormGroup
                             fieldId={`schemas.${schemaPos}.environments.${index}.name`}
                             label="Name"
@@ -153,9 +153,10 @@ export const EnvironmentFormSection = ({
                             <Select
                               variant={SelectVariant.typeahead}
                               typeAheadAriaLabel="Select a state"
-                              onSelect={callbackify(onEnvNameSelect, controllerField.onChange)}
-                              onClear={callbackify(onEnvNameClear, controllerField.onChange)}
-                              selections={controllerField.value}
+                              onSelect={callbackify(onEnvNameSelect, onChange)}
+                              onClear={callbackify(onEnvNameClear, onChange)}
+                              onBlur={onBlur}
+                              selections={value}
                               aria-label="env link"
                               placeholder="Enter environment name"
                               isCreatable

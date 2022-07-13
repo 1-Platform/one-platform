@@ -217,6 +217,10 @@ const APICUDPage = () => {
         })
         .toPromise();
 
+      window.OpNotification.success({
+        subject: 'Successfully validated schema',
+      });
+
       return res.data?.fetchAPISchema;
     } catch (error) {
       window.OpNotification.danger({
