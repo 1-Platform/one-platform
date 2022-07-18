@@ -79,7 +79,7 @@
     "faker": "5.5.3",
     "junit-report-merger": "^3.0.5",
     "lerna": "3.22.1",
-    "mocha": "^8.4.0",
+    "mocha": "^9.0.0",
     "mocha-junit-reporter": "^2.0.2",
     "mochawesome": "^6.3.1",
     "mochawesome-merge": "^4.2.1",
