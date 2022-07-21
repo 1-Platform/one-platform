@@ -87,7 +87,6 @@
     "xml-js": "^1.6.11"
   },
   "dependencies": {
-    "@spaship/cli": "0.14.0",
     "browserstack-cypress-cli": "^1.11.0"
   }
 }
