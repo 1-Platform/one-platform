@@ -450,6 +450,37 @@ class LighthouseDbManager {
     stat.score = leaderBoardScores[`${projectId}:${branch}`];
     return stat;
   }
+
+  async exportLHReportByProject(projectId: string, branch: string) {
+    const lhReport = await sequelize.query(
+      `
+      SELECT "s"."projectId",
+            "p"."name",
+            "s"."createdAt",
+            "b"."branch",
+            "s"."buildId",
+            "s"."url",
+            "s"."name" as category,
+            "s"."value"
+      FROM   statistics AS s,
+            builds AS b,
+            projects AS p
+      WHERE  "s"."projectId" = :projectId
+            AND "b"."id" = "s"."buildId"
+            AND "b"."branch" = :branch
+            AND "p"."id" = :projectId
+    `,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          projectId,
+          branch,
+        },
+        raw: true,
+      },
+    );
+    return lhReport;
+  }
 }
 
 export const lhDbManager = new LighthouseDbManager();
