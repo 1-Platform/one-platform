@@ -25,3 +25,11 @@
   overflow: hidden;
   padding: 2rem 0;
 }
+
+.export--btn {
+  background-color: var(--pf-global--primary-color--100);
+  color: var(--pf-c-button--m-primary--Color);
+  :hover {
+    background-color: var(--pf-global--primary-color--200);
+  }
+}
