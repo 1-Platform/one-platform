@@ -30,7 +30,7 @@ export class LeaderboardComponent implements OnInit {
     'PERFORMANCE',
     'OVERALL',
   ] as LeaderboardCategory[];
-  columns = LEADERBOARD_COLUMNS;
+
   pickedColumns = [];
   rows: Row[] = [];
   leaderboardSortDir: Sort[] = ['DESC', 'ASC'];
@@ -68,12 +68,12 @@ export class LeaderboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchLHLeaderboard();
+    this.pickedColumns = LEADERBOARD_COLUMNS;
     this.pickedCategory = this.pickedCategoryList.reduce((prev, curr) => {
       prev[curr] = true;
       return prev;
     }, {});
-    this.pickedColumns = LEADERBOARD_COLUMNS;
+    this.fetchLHLeaderboard();
   }
 
   ngOnDestroy(): void {
@@ -107,7 +107,6 @@ export class LeaderboardComponent implements OnInit {
       !pickSelect.contains(ev.target) &&
       this.isPickSelectOpen
     ) {
-      console.log('hit');
       this.onPickedLeaderboardCategoryClose();
     }
   }
@@ -122,6 +121,17 @@ export class LeaderboardComponent implements OnInit {
 
   onPickedLeaderboardCategoryClose() {
     this.isPickSelectOpen = false;
+    const pickedColumns = [];
+    LEADERBOARD_COLUMNS.forEach((val) => {
+      if (
+        !val.key ||
+        val.key === LeaderboardCategory.OVERALL ||
+        this.pickedCategory[val.key]
+      ) {
+        pickedColumns.push({ ...val, sortDir: val?.sortDir });
+      }
+    });
+    this.pickedColumns = pickedColumns;
     this.fetchLHLeaderboard();
   }
 
@@ -141,7 +151,7 @@ export class LeaderboardComponent implements OnInit {
   }
 
   getCategory() {
-    return this.columns.find(
+    return this.pickedColumns.find(
       ({ sortDir, isSortable }) => isSortable && Boolean(sortDir)
     );
   }
@@ -152,11 +162,6 @@ export class LeaderboardComponent implements OnInit {
     const selectedCategory = this.getCategory();
     // for removing some parameters from leaderboard like PWA
     const pickedCategory = Object.keys(this.pickedCategory);
-    this.pickedColumns = LEADERBOARD_COLUMNS.filter(({ key }) =>
-      key
-        ? key === LeaderboardCategory.OVERALL || this.pickedCategory[key]
-        : true
-    );
     try {
       this.listLeaderBoardSubscription = this.leaderboardService
         .listLHLeaderboard(
@@ -199,7 +204,7 @@ export class LeaderboardComponent implements OnInit {
     sortDir: 'DESC' | 'ASC';
   }) {
     this.pageOffset = 0;
-    this.columns = this.columns.map(({ sortDir, ...column }) =>
+    this.pickedColumns = this.pickedColumns.map(({ sortDir, ...column }) =>
       column.title === columnName ? { ...column, sortDir: dir } : column
     );
     this.fetchLHLeaderboard();
