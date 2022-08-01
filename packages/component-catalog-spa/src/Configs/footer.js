@@ -44,8 +44,8 @@ export const footer = [
                 "href": "https://source.redhat.com/groups/public/pnt-devops/oneportal/one_portal_wiki/faqs_one_platform"
             },
             {
-                "text": "one-portal-devel@redhat.com",
-                "href": "mailto:one-portal-devel@redhat.com"
+                "text": "one-platform-devs@redhat.com",
+                "href": "mailto:one-platform-devs@redhat.com"
             },
             {
                 "text": "GitHub",

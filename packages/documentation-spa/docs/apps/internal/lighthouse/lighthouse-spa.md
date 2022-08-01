@@ -92,7 +92,7 @@ cd one-platform/packages/lighthouse-spa
 export API_URL='http://localhost:8080/graphql'
 export WS_URL='ws://localhost:8080/subscriptions'
 export LH_SERVER_URL='http://lighthouse.example.com',
-export LH_CONTACT_MAIL='one-portal-devel@redhat.com',
+export LH_CONTACT_MAIL='one-platform-devs@redhat.com',
 export OPCBASE_API_BASE_PATH='http://localhost:8080/graphql',
 export OPCBASE_SUBSCRIPTION_BASE_PATH='ws://localhost:8080/subscriptions',
 export OPCBASE_KEYCLOAK_URL='https://keyclock.example.com',

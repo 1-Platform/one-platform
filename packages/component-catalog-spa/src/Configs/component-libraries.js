@@ -30,7 +30,7 @@ export const Libraries = [
     logo: op,
     description: 'One platform component library is a collection of web components which are built using lit-element, each component follows the red hat brand guideline.',
     link: 'https://github.com/1-platform/op-components',
-    email: 'one-portal-devel@redhat.com',
+    email: 'one-platform-devs@redhat.com',
   },
   {
     id: 4,

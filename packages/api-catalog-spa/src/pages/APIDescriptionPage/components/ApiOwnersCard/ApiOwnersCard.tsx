@@ -32,7 +32,7 @@ export const ApiOwnersCard = ({ owners = [] }: Props): JSX.Element => {
                     <OutlinedEnvelopeIcon />
                   </SplitItem>
                   <SplitItem>
-                    <a href="mailto:one-portal-devel@redhat.com">one-portal-devel@redhat.com</a>
+                    <a href="mailto:one-platform-devs@redhat.com">one-platform-devs@redhat.com</a>
                   </SplitItem>
                 </Split>
               </StackItem>

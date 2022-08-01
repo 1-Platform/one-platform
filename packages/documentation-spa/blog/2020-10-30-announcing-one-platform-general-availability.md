@@ -28,5 +28,5 @@ Known Issues?
 
 Questions:
 
-Please reach out to One Platform team over [one-portal-devel@redhat.com](mailto:one-portal-devel@redhat.com) or submit feedback using One platform feedback button or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
+Please reach out to One Platform team over [one-platform-devs@redhat.com](mailto:one-platform-devs@redhat.com) or submit feedback using One platform feedback button or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
 For more information please headover to [FAQs](/docs/faqs).
