@@ -169,5 +169,5 @@ The team was able to close 11 JIRAs across a range of development priorities and
 For more updates related to One Platform, please check out the One Platform Blog at: [one.redhat.com/get-started/blog](https://one.redhat.com/get-started/blog/)
 ## Questions
 
-For any questions, please reach out to One Platform team over [one-portal-devel@redhat.com](mailto:one-portal-devel@redhat.com) or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
+For any questions, please reach out to One Platform team over [one-platform-devs@redhat.com](mailto:one-platform-devs@redhat.com) or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
 For more information please view [FAQs](/docs/faqs).

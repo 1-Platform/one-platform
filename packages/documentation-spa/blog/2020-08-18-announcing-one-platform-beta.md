@@ -36,5 +36,5 @@ We are happy to announce the Beta release for [One Platform](https://beta.one.re
 
 ## Questions
 
-For any questions, please reach out to One Platform team over [one-portal-devel@redhat.com](mailto:one-portal-devel@redhat.com) or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
+For any questions, please reach out to One Platform team over [one-platform-devs@redhat.com](mailto:one-platform-devs@redhat.com) or ping us over [One Platform GChat Room](https://chat.google.com/room/AAAAF4M7oZE).
 For more information please view [FAQs](/docs/faqs).

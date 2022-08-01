@@ -93,5 +93,5 @@ Link to the Blog [here](https://source.redhat.com/groups/public/exd-digital-expe
 
 Please click on the below icons to - Chat, Raise questions with us and Subscribe to our mailing list.
 
-| [![Chat](images/July-blog/chat.png "Chat")](https://mail.google.com/chat/u/0/#chat/space/AAAAF4M7oZE)	| [![Questions](images/July-blog/questions.jpeg "Questions")](mailto:one-portal-devel@redhat.com)<br/>Link to [FAQs](https://one.redhat.com/get-started/docs/faqs)<br/> Link to [OKR](https://docs.google.com/spreadsheets/d/1L2shcuhCxVGUIFtWkh7Ft1ulNarq-zjatu-JqeONX4U/edit#gid=955345505) (Work In-Progress)	| [![Subscribe](images/July-blog/subscribe.jpeg "Subscribe")](https://post-office.corp.redhat.com/mailman/listinfo/one-portal) 	|
+| [![Chat](images/July-blog/chat.png "Chat")](https://mail.google.com/chat/u/0/#chat/space/AAAAF4M7oZE)	| [![Questions](images/July-blog/questions.jpeg "Questions")](mailto:one-platform-devs@redhat.com)<br/>Link to [FAQs](https://one.redhat.com/get-started/docs/faqs)<br/> Link to [OKR](https://docs.google.com/spreadsheets/d/1L2shcuhCxVGUIFtWkh7Ft1ulNarq-zjatu-JqeONX4U/edit#gid=955345505) (Work In-Progress)	| [![Subscribe](images/July-blog/subscribe.jpeg "Subscribe")](https://post-office.corp.redhat.com/mailman/listinfo/one-portal) 	|
 |---	|---	|---	|
