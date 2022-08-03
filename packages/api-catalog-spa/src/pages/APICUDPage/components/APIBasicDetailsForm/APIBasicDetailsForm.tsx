@@ -19,7 +19,7 @@ import { FormData } from 'pages/APICUDPage/APICUDPage.types';
 import { AsyncSelect, Select } from 'components';
 import { debouncePromise } from 'utils';
 
-type Props = {
+export type Props = {
   onSearchOwners: (value: string) => Promise<JSX.Element[]>;
   outageComponents?: OutageStatusComponent[];
 };

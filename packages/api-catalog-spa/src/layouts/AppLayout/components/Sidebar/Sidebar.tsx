@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import opcBase from '@one-platform/opc-base';
 import {
   PageSidebar,
   Nav,
@@ -86,7 +85,7 @@ export const Sidebar = ({ isOpen }: Props): JSX.Element => {
   const { pathname, search } = useLocation();
   const url = pathname.replace(config.baseURL, '');
   const { logs, quickLink } = useRecentVisit();
-  const userInfo = opcBase.auth?.getUserInfo();
+  const userInfo = window.OpAuthHelper?.getUserInfo();
   const navLinks = useMemo(() => navMenuLinks(userInfo?.rhatUUID || ''), [userInfo?.rhatUUID]);
 
   const getToolImage = useCallback((tool: string) => {

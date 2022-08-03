@@ -4,8 +4,8 @@ import { css } from '@patternfly/react-styles';
 import styles from './searchBar.module.scss';
 
 interface Props {
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange?: (value: string) => void;
   placeholder?: string;
   className?: string;
   type?: string;
@@ -18,7 +18,7 @@ export const SearchBar = forwardRef<HTMLInputElement, Props>(
         <span className={styles['search-bar--input-group']}>
           <input
             {...props}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange && onChange(e.target.value)}
             ref={ref}
             className={styles['search-bar--input']}
           />

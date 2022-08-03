@@ -15,7 +15,7 @@ export const ReadMore = ({
   component,
   limit = 300,
   showMoreText = '... Read more',
-  showLessText = 'Show Less',
+  showLessText = 'Show less',
   ...props
 }: Props & TextProps): JSX.Element => {
   const [isReadMore, setReadMore] = useToggle(true);
