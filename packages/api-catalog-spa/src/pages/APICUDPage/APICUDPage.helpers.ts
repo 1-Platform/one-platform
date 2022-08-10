@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import { emailErrorMsg, reqErrorMsg } from 'utils';
 import { ApiCategory, ApiEmailGroup } from 'api/types';
+import { validURLErrMsg } from 'utils/errorMessages';
 
 export const wizardStepDetails = [
   {
@@ -85,8 +86,12 @@ const step2Schema = {
           id: yup.string().notRequired(),
           name: yup.string().trim().required(reqErrorMsg('Schema name')),
           description: yup.string().trim().required(reqErrorMsg('Schema description')),
-          appURL: yup.string().url().trim().required(reqErrorMsg('Application URL')),
-          docURL: yup.string().url().trim(),
+          appURL: yup
+            .string()
+            .url(validURLErrMsg('Application URL'))
+            .trim()
+            .required(reqErrorMsg('Application URL')),
+          docURL: yup.string().url(validURLErrMsg('Doc URL')).trim(),
           flags: yup.object({
             isInternal: yup.bool().default(false),
             isDeprecated: yup.bool().default(false),
@@ -102,8 +107,12 @@ const step2Schema = {
                 id: yup.string().notRequired(),
                 name: yup.string().trim().required(reqErrorMsg('Name')),
                 slug: yup.string().notRequired(),
-                apiBasePath: yup.string().url().trim().required(reqErrorMsg('API Base Path')),
-                schemaEndpoint: yup.string().url().trim(),
+                apiBasePath: yup
+                  .string()
+                  .url(validURLErrMsg('API Base Path'))
+                  .trim()
+                  .required(reqErrorMsg('API Base Path')),
+                schemaEndpoint: yup.string().url(validURLErrMsg('Schema')).trim(),
                 headers: yup.array(
                   yup.object({
                     id: yup.string().notRequired(),

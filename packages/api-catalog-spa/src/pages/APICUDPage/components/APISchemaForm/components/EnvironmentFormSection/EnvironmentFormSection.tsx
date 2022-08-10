@@ -120,7 +120,6 @@ export const EnvironmentFormSection = ({
       }
     } else {
       setSchemaEndpointIsInvalid(envIndex);
-      window.OpNotification.danger({ subject: 'Invalid schema url provided' });
     }
   };
 

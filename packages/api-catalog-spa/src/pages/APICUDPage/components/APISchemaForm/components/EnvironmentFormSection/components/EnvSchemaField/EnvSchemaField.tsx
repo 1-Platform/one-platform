@@ -13,12 +13,12 @@ import { HelpIcon, UndoIcon } from '@patternfly/react-icons';
 import { useToggle } from 'hooks';
 
 type Props = {
-  isGraphqlAPI: boolean;
-  isError?: boolean;
-  errorMessage?: string;
   envIndex: number;
   onCopyValue: () => void;
   onRedoValidation: () => void | Promise<void>;
+  isGraphqlAPI?: boolean;
+  isError?: boolean;
+  errorMessage?: string;
 } & TextInputProps;
 
 export const EnvSchemaField = forwardRef<HTMLInputElement, Props>(
@@ -97,7 +97,7 @@ export const EnvSchemaField = forwardRef<HTMLInputElement, Props>(
             />
           </SplitItem>
           <SplitItem>
-            <Button variant="control" onClick={handleRedoValidation}>
+            <Button variant="control" onClick={handleRedoValidation} isDisabled={isValidating}>
               {isValidating ? <Spinner size="sm" /> : <UndoIcon />}
             </Button>
           </SplitItem>

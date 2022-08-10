@@ -20,7 +20,7 @@ import { ReadMore } from 'components/ReadMore';
 interface Props {
   namespace?: Pick<Namespace, 'owners' | 'updatedOn' | 'name' | 'description' | 'outageStatus'>;
   id?: string;
-  hasEditAccess: boolean;
+  hasEditAccess?: boolean;
 }
 
 export const DetailsSection = ({ namespace, id, hasEditAccess }: Props): JSX.Element => {
@@ -47,7 +47,7 @@ export const DetailsSection = ({ namespace, id, hasEditAccess }: Props): JSX.Ele
           {hasEditAccess && (
             <SplitItem>
               <Link to={`/apis/edit/${id}`}>
-                <Button variant="plain">
+                <Button variant="plain" data-testid="edit-icon">
                   <EditIcon />
                 </Button>
               </Link>

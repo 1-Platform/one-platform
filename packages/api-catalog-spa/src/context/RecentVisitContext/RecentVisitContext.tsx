@@ -7,10 +7,7 @@ import {
   ReactNode,
   useEffect,
 } from 'react';
-import opcBase from '@one-platform/opc-base';
 import { QuickLink, RecentVisitContextProps, RecentVisitLog } from './types';
-
-// type RecentVisit = { log: RecentVisitLog[] };
 
 const RecentVisitContext = createContext<RecentVisitContextProps | Record<string, unknown>>({});
 
@@ -23,7 +20,7 @@ const TTL = 7 * 86400000;
 
 const getKey = () => {
   // get local storage log
-  const userInfo = opcBase.auth?.getUserInfo();
+  const userInfo = window.OpAuthHelper?.getUserInfo();
 
   return `api-catalog-recent-visits:${userInfo?.rhatUUID}`;
 };
@@ -57,7 +54,7 @@ export const RecentVisitProvider = ({ children }: Props): JSX.Element => {
   const [recentVisit, setRecentVisit] = useState<RecentVisitLog[]>([]);
   const [quickLink, setQuickLink] = useState<QuickLink | null>(null);
   useEffect(() => {
-    opcBase.auth?.onLogin(() => {
+    window.OpAuthHelper?.onLogin(() => {
       setRecentVisit(loadFromLocalStorage());
     });
   }, []);
