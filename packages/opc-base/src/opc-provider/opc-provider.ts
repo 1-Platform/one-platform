@@ -200,7 +200,7 @@ export class OpcProvider extends LitElement {
           @opc-nav-search:change=${(evt: any) =>
             (this.searchValue = evt.detail.value)}
           @opc-nav-search:submit=${(evt: any) =>
-            (window.location.href = `/search?query=${evt.detail.value}`)}
+            (window.location.href = `/search/?query=${evt.detail.value}`)}
         ></opc-nav-search>
         <a slot="opc-nav-logo" href="/">
           <img slot="" src="${opLogo}" height="30px" alt="logo" />
