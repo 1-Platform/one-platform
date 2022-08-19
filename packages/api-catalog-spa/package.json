@@ -14,7 +14,7 @@
   "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^2.8.8",
-    "@one-platform/opc-base": "^1.1.6-beta",
+    "@one-platform/opc-base": "^1.1.7-beta",
     "@one-platform/opc-feedback": "^0.0.11-prerelease",
     "@one-platform/opc-menu-drawer": "^0.2.2-prerelease",
     "@one-platform/opc-nav": "^0.0.4-prerelease",
