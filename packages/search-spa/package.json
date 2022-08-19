@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "11.2.14",
     "@angular/router": "11.2.14",
     "@apollo/client": "^3.2.5",
-    "@one-platform/opc-base": "^1.1.6-beta",
+    "@one-platform/opc-base": "^1.1.7-beta",
     "@one-platform/opc-feedback": "0.0.11-prerelease",
     "@one-platform/opc-footer": "0.0.4-prerelease",
     "@one-platform/opc-menu-drawer": "^0.2.2-prerelease",
