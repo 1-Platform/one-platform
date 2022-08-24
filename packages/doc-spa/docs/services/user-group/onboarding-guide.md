@@ -1,6 +1,6 @@
 ---
-id: onboarding
-title: Onboarding Guide
-slug: /user-group/onboarding
-sidebar_label: Onboarding Guide
+id: guides
+title: Guides
+slug: /user-group/guides
+sidebar_label: Guides
 ---

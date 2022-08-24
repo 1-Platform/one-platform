@@ -56,7 +56,7 @@ const config = {
     ({
       navbar: {
         logo: {
-          alt: "My Site Logo",
+          alt: "One Platform Documentation",
           src: "img/logo.svg",
         },
         items: [

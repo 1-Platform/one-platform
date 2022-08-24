@@ -5,10 +5,6 @@ sidebar_label: One Platform FAQs
 slug: /faqs
 ---
 
-## Documentation FAQs
-
-1. [Documentation Style Guide](/docs/op-components/style-guide)
-
 ## Applications FAQs
 
 - **Will users be able to access applications outside Red Hat VPN?**

@@ -31,7 +31,7 @@ const sidebars = {
           label: "Apps Service",
           items: [
             "services/apps-service/overview",
-            "services/apps-service/onboarding",
+            "services/apps-service/guides",
             "services/apps-service/api-ref",
             "services/apps-service/faqs",
           ],
@@ -41,7 +41,7 @@ const sidebars = {
           label: "API Catalog",
           items: [
             "services/api-catalog/overview",
-            "services/api-catalog/onboarding",
+            "services/api-catalog/guides",
             "services/api-catalog/api-ref",
             "services/api-catalog/faqs",
           ],
@@ -51,7 +51,7 @@ const sidebars = {
           label: "Developer Console",
           items: [
             "services/developer-console/overview",
-            "services/developer-console/onboarding",
+            "services/developer-console/guides",
             "services/developer-console/api-ref",
             "services/developer-console/faqs",
           ],
@@ -61,7 +61,7 @@ const sidebars = {
           label: "Feedback Service",
           items: [
             "services/feedback/overview",
-            "services/feedback/onboarding",
+            "services/feedback/guides",
             "services/feedback/api-ref",
             "services/feedback/faqs",
           ],
@@ -71,7 +71,7 @@ const sidebars = {
           label: "Lighthouse",
           items: [
             "services/lighthouse/overview",
-            "services/lighthouse/onboarding",
+            "services/lighthouse/guides",
             "services/lighthouse/api-ref",
             "services/lighthouse/faqs",
           ],
@@ -81,7 +81,7 @@ const sidebars = {
           label: "Notification Service",
           items: [
             "services/notification/overview",
-            "services/notification/onboarding",
+            "services/notification/guides",
             "services/notification/api-ref",
             "services/notification/faqs",
           ],
@@ -91,7 +91,7 @@ const sidebars = {
           label: "Search Service",
           items: [
             "services/search/overview",
-            "services/search/onboarding",
+            "services/search/guides",
             "services/search/api-ref",
             "services/search/faqs",
           ],
@@ -101,7 +101,7 @@ const sidebars = {
           label: "User Group",
           items: [
             "services/user-group/overview",
-            "services/user-group/onboarding",
+            "services/user-group/guides",
             "services/user-group/api-ref",
             "services/user-group/faqs",
           ],
@@ -114,7 +114,6 @@ const sidebars = {
       collapsed: false,
       items: [
         "component-library/component-lib-overview",
-        "component-library/component-lib-style-guide",
         "component-library/opc-base",
       ],
     },
