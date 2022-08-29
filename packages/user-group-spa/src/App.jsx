@@ -36,7 +36,7 @@ function App () {
     headerLinks.current.opcHeaderLinks = [
       {
         name: "Documentation",
-        href: "/get-started/docs/apps/internal/user-groups",
+        href: "/get-started/docs/apps/internal/user-groups/",
         icon: "fa-file",
       },
     ];
