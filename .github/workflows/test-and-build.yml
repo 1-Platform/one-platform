@@ -24,4 +24,5 @@ jobs:
         CI: false
       run: npm run build:packages
     - name: Run tests for all packages
+      uses: GabrielBB/xvfb-action@v1
       run: npm run test:packages --if-present
