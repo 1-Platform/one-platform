@@ -109,6 +109,14 @@ function Layout(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
+        <script
+          type="module"
+          src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.0/ionicons/ionicons.esm.js"
+        ></script>
+        <script
+          nomodule=""
+          src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.2.3/ionicons/ionicons.js"
+        ></script>
       </Head>
       <opc-provider>
         <opc-nav></opc-nav>
