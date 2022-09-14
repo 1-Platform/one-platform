@@ -37,13 +37,13 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/1-platform/one-platform/tree/master/packages/doc-spa/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/1-platform/one-platform/tree/master/packages/doc-spa/",
         },
         theme: {
           customCss: [require.resolve("./src/css/custom.scss")],
