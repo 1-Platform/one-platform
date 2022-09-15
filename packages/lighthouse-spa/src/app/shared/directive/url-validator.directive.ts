@@ -22,7 +22,7 @@ export class UrlValidatorDirective {
     return (control: FormControl) => {
       const url = control.value;
       try {
-        if (yup.string().url().isValidSync(url) === true) {
+        if (yup.string().url().isValidSync(url)) {
           return null;
         } else {
           throw new Error('Invalid URL');
