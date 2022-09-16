@@ -1,28 +1,51 @@
 name: CI - Test and Build
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [ master ]
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js 16.x
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: 16.x
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: 'packages/**/package-lock.json'
     - run: npm install
-    - name: Create .env for SPAs
-      run: |
-        for d in ./packages/*-spa/; do (cd "$d" && cp .test.env .env); done
     - name: Build all packages
       env:
         CI: false
-      run: npm run build:packages
-    - name: Run tests for all packages
-      uses: GabrielBB/xvfb-action@v1
-      run: npm run test:packages --if-present
+      run: |
+        for d in ./packages/*-spa/; do (cd "$d" && cp .test.env .env); done
+        npm run build:packages
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name : Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: 'packages/**/package-lock.json'
+      - run: npm install --prefer-offline
+      - name: Run tests for all packages
+        env:
+          CI: false
+        run: |
+          for d in ./packages/*-spa/; do (cd "$d" && cp .test.env .env); done
+          export NODE_OPTIONS="--max-old-space-size=7168"
+          npm run test:packages -- --ignore=@one-platform/opc-base
+        if: ${{ always() }}
