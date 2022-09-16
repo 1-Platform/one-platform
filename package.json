@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/1-Platform/one-platform.git"
   },
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": {
     "name": "Sayak Sarkar",
     "email": "sayak.bugsmith@gmail.com"
@@ -41,24 +41,9 @@
   },
   "homepage": "https://github.com/1-Platform/one-platform#readme",
   "scripts": {
-    "clean:reports": "rm -R -f e2e/reports && mkdir e2e/reports",
-    "pretest": "npm run clean:reports ",
-    "test:e2e": "cypress run",
-    "test:e2e:browser": "cypress open",
-    "combine-reports": "mochawesome-merge  e2e/reports/mochawesome-report/*.json -o e2e/reports/mochareports/report.json",
-    "generate-report": "marge e2e/reports/mochareports/report.json -f report -o e2e/reports/mochareports --inline",
-    "e2e:reports": "npm run combine-reports && npm run generate-report",
-    "test:e2e:reports": "npm run test:e2e || npm run e2e:reports",
-    "e2e:report:html": "marge e2e/reports/output.json --reportDir e2e/reports --inline",
-    "combinereports": "mochawesome-merge e2e/reports/mochawesome-report/*.json > e2e/reports/output.json",
-    "lerna": "lerna",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "sh deploy.sh",
-    "postinstall": "npm run lerna bootstrap",
-    "merge:reports": "jrm e2e/reports/combined.xml e2e/reports/junit/*.xml",
-    "convert": "xml-js e2e/reports/combined.xml test.json --spaces 4 --out e2e/reports/report.json --compact",
+    "postinstall": "lerna bootstrap",
     "build:packages": "lerna run build --since",
-    "test:packages": "lerna run test --since"
+    "test:packages": "lerna run test --since --no-sort --concurrency 2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.32.0",
@@ -78,12 +63,13 @@
     "eslint-plugin-standard": "4.1.0",
     "faker": "5.5.3",
     "junit-report-merger": "^3.0.5",
-    "lerna": "3.22.1",
+    "lerna": "5.5.0",
     "mocha": "^8.4.0",
     "mocha-junit-reporter": "^2.0.2",
     "mochawesome": "^6.3.1",
     "mochawesome-merge": "^4.2.1",
     "mochawesome-report-generator": "^5.2.0",
+    "nx": "^14.6.4",
     "xml-js": "^1.6.11"
   },
   "dependencies": {
