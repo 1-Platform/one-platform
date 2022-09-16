@@ -222,8 +222,8 @@ async function listApps(): Promise<App[]> {
     }),
   }).catch((err: Error) => {
     logger.error(err.message);
-    throw new Error('listApps Query failed with Apps Service');
-  }).then((response) => response.data.data.apps);
+    throw new Error('Apps Query failed with Apps Service');
+  }).then((response) => response.data.data.apps.filter((app: App) => app.path !== null));
   return appsResponse;
 }
 async function getApp(params: any) {
