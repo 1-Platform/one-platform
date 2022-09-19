@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
 import { FormControl, NG_VALIDATORS, ValidatorFn } from '@angular/forms';
+import * as yup from 'yup';
 
 @Directive({
   selector: '[urlValidator][ngModel]',
@@ -21,8 +22,11 @@ export class UrlValidatorDirective {
     return (control: FormControl) => {
       const url = control.value;
       try {
-        new URL(url);
-        return null;
+        if (yup.string().url().isValidSync(url)) {
+          return null;
+        } else {
+          throw new Error('Invalid URL');
+        }
       } catch (e) {
         return { urlValidator: { valid: false } };
       }
