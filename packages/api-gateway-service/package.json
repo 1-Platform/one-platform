@@ -48,7 +48,7 @@
     "graphql-tools": "6.2.6",
     "helmet": "^4.6.0",
     "jsonwebtoken": "8.5.1",
-    "nodemon-webpack-plugin": "4.5.2",
+    "nodemon-webpack-plugin": "4.8.1",
     "subscriptions-transport-ws": "0.9.19",
     "supertest": "5.0.0",
     "ts-jest": "26.5.6",
