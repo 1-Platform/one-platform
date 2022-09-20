@@ -63,7 +63,7 @@
     "eslint-plugin-standard": "4.1.0",
     "faker": "5.5.3",
     "junit-report-merger": "^3.0.5",
-    "lerna": "5.5.0",
+    "lerna": "5.5.2",
     "mocha": "^8.4.0",
     "mocha-junit-reporter": "^2.0.2",
     "mochawesome": "^6.3.1",
