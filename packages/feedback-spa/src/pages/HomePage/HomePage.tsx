@@ -401,6 +401,8 @@ export const HomePage = (): JSX.Element => {
         title={formatePopupTitle(selectedFeedback?.source, selectedFeedback?.ticketUrl)}
         isOpen={popUp.detailView.isOpen}
         onClose={() => handlePopUpClose('detailView')}
+        aria-label="Feedback Detail"
+        aria-describedby="feedback-detail"
         footer={
           <Split hasGutter style={{ width: '100%' }}>
             <SplitItem isFilled>
@@ -430,6 +432,8 @@ export const HomePage = (): JSX.Element => {
         title="All Applications"
         isOpen={popUp.appList.isOpen}
         onClose={() => handlePopUpClose('appList')}
+        aria-label="Application List"
+        aria-describedby="application-list"
       >
         <AppListCard
           apps={appList?.apps}
