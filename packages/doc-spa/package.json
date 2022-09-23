@@ -1,6 +1,6 @@
 {
   "name": "doc-spa",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -50,5 +50,11 @@
     "email": "akhilmhdh@gmail.com",
     "name": "Akhil",
     "url": "https://github.com/akhilmhdh"
-  }
+  },
+  "contributors": [
+    {
+      "name": "Rigin Oommen",
+      "email": "riginoommen@gmail.com"
+    }
+  ]
 }
