@@ -1,7 +1,7 @@
 {
   "name": "feedback-spa",
   "homepage": "/feedback",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -63,6 +63,7 @@
   },
   "author": {
     "name": "akhilmhdh",
-    "email": "akhilmhdh@gmail.com"
+    "email": "akhilmhdh@gmail.com",
+    "url": "https://akhilmhdh.com"
   }
 }
