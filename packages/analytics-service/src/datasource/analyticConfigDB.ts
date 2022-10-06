@@ -13,29 +13,16 @@ export class AnalyticsConfig extends MongoDataSource<AnalyticsModel> {
     }
   }
 
-  async listConfig(limit = 50, offset = 0) {
-    return this.model.find().skip(offset).limit(limit).exec();
-  }
-
-  getConfigById(id: string) {
-    return this.findOneById(id);
-  }
-
-  async createConfig(arg: AnalyticsDoc) {
-    const AnalyticModel = this.model;
-    const doc = new AnalyticModel(arg);
-    return doc.save();
-  }
-
-  async updateConfigById(id: string, arg: Partial<AnalyticsDoc>) {
+  async updateConfigByAppId(appId: string, arg: Partial<AnalyticsDoc>) {
     return this.model
-      .findByIdAndUpdate(id, arg, {
+      .findOneAndUpdate({ appId }, arg, {
         new: true,
+        upsert: true,
       })
       .exec();
   }
 
-  deleteConfigById(id: string) {
-    return this.model.findByIdAndDelete(id, { new: true }).exec();
+  deleteConfigByAppId(appId: string) {
+    return this.model.findOneAndDelete({ appId }, { new: true }).exec();
   }
 }

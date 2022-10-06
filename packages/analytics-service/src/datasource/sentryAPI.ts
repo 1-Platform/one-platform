@@ -2,12 +2,20 @@ import { HTTPDataSource } from 'apollo-datasource-http';
 import { Pool } from 'undici';
 
 import { CrashlyticOptionInput } from 'graph/analyticsConfig/types';
-import { Project, ProjectKey, ProjectStatOptions, ProjectStats, Team } from './types';
+import {
+  TSentryProject,
+  ProjectKey,
+  ProjectStatOptions,
+  TSentryProjectStats,
+  TSentryTeam,
+} from './types';
 
 export class SentryAPI extends HTTPDataSource {
   orgName: string;
 
-  constructor(baseURL: string, token: string, orgName: string, pool: Pool) {
+  teamName: string;
+
+  constructor(baseURL: string, token: string, orgName: string, teamName: string, pool: Pool) {
     // global client options
     super(baseURL, {
       pool,
@@ -21,19 +29,21 @@ export class SentryAPI extends HTTPDataSource {
         },
       },
     });
+
     this.orgName = orgName;
+    this.teamName = teamName;
   }
 
   async getTeams() {
-    return this.get<Team[]>(`/api/0/organizations/${this.orgName}/teams/`);
+    return this.get<TSentryTeam[]>(`/api/0/organizations/${this.orgName}/teams/`);
   }
 
   async getProjects(team: string) {
-    return this.get<Project[]>(`/api/0/teams/${this.orgName}/${team}/projects/`);
+    return this.get<TSentryProject[]>(`/api/0/teams/${this.orgName}/${team}/projects/`);
   }
 
   async getAProject(projectId: string) {
-    return this.get<Project>(`/api/0/projects/${this.orgName}/${projectId}/`);
+    return this.get<TSentryProject>(`/api/0/projects/${this.orgName}/${projectId}/`);
   }
 
   async getAProjectClientKeys(projectId: string) {
@@ -41,22 +51,16 @@ export class SentryAPI extends HTTPDataSource {
   }
 
   async createAProject(name: string, platform: string) {
-    try {
-      // checking app exist or not
-      await this.getAProject(name);
-      return undefined;
-    } catch (error) {
-      return this.post(`/api/0/teams/${this.orgName}/one-platform/projects/`, {
-        body: {
-          name,
-          platform,
-        },
-      });
-    }
+    return this.post<TSentryProject>(`/api/0/teams/${this.orgName}/${this.teamName}/projects/`, {
+      body: {
+        name,
+        platform,
+      },
+    });
   }
 
   async getProjectStats(projectId: string, options: CrashlyticOptionInput) {
-    return this.get<ProjectStats>(`/api/0/organizations/${this.orgName}/stats_v2/`, {
+    return this.get<TSentryProjectStats>(`/api/0/organizations/${this.orgName}/stats_v2/`, {
       query: { ...(options as ProjectStatOptions), category: 'error', project: projectId },
     });
   }

@@ -8,25 +8,11 @@ type User {
   rhatJobTitle: String
 }
 
-input CreateAnalyticsConfigInput {
-  appId: String!
-  sentryTeamId: String
-  sentryProjectId: String
-  sentryPlatform: String
-}
-
-input UpdateAnalyticsConfigInput {
-  appId: String
-  sentryTeamId: String
-  sentryProjectId: String
-}
-
 type AnalyticsConfig {
   id: ID
   appId: String
-  sentryTeamId: String
-  sentryProjectId: String
-  sentryDSN: String
+  crashlytics: Crashlytics
+  userAnalytics: UserAnalytics
   createdBy: User
   createdOn: DateTime
   updatedBy: User
@@ -34,13 +20,5 @@ type AnalyticsConfig {
 }
 
 type Query {
-  listAnalyticsConfigs(limit: Int, offset: Int): [AnalyticsConfig]
   getAnalyticsConfigByAppId(appId: String!): AnalyticsConfig
-  getAnalyticsConfigById(id: ID!): AnalyticsConfig
-}
-
-type Mutation {
-  createAnalyticsConfig(config: CreateAnalyticsConfigInput!): AnalyticsConfig
-  updateAnalyticsConfig(id: ID!, config: UpdateAnalyticsConfigInput!): AnalyticsConfig
-  deleteAnalyticsConfigById(id: ID!): AnalyticsConfig
 }
