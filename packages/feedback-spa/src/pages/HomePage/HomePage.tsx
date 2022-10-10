@@ -198,7 +198,7 @@ export const HomePage = (): JSX.Element => {
 
   return (
     <>
-      <PageSection isWidthLimited variant="light" className=" pf-m-align-center">
+      <PageSection isWidthLimited variant="light" className="pf-m-align-center">
         <Grid hasGutter style={{ '--pf-l-grid--m-gutter--GridGap': '2rem' } as CSSProperties}>
           <GridItem span={3}>
             <SearchInput
@@ -383,6 +383,7 @@ export const HomePage = (): JSX.Element => {
               )}
               <StackItem>
                 <Pagination
+                  style={{ marginBottom: '4rem' }}
                   itemCount={feedbacks?.count}
                   isCompact
                   perPage={pagination.perPage}
