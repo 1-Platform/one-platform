@@ -108,7 +108,7 @@ export const ApiSchemaList = ({ schemas = [], onClick, selectedSchemaID }: Props
                   dataListCells={[
                     <DataListCell key={`${sID}-category`} isFilled={false}>
                       <Avatar
-                        src={`${config.baseURL}/images/${
+                        src={`${config.baseURL}images/${
                           category === 'REST' ? 'swagger-black-logo.svg' : 'graphql-logo.svg'
                         }`}
                         alt="api-type"

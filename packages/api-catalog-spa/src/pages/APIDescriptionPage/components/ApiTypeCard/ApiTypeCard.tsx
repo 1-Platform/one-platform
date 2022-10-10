@@ -22,8 +22,8 @@ export const ApiTypeCard = ({ category = ApiCategory.REST }: Props): JSX.Element
   const getApiTypeImage = useCallback(
     (apiCategory: ApiCategory) =>
       apiCategory === ApiCategory.REST
-        ? `${config.baseURL}/images/rest-logo.svg`
-        : `${config.baseURL}/images/graphql-logo.svg`,
+        ? `${config.baseURL}images/rest-logo.svg`
+        : `${config.baseURL}images/graphql-logo.svg`,
     []
   );
 

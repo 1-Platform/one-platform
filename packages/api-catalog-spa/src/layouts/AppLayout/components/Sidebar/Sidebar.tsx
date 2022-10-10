@@ -89,9 +89,9 @@ export const Sidebar = ({ isOpen }: Props): JSX.Element => {
   const navLinks = useMemo(() => navMenuLinks(userInfo?.rhatUUID || ''), [userInfo?.rhatUUID]);
 
   const getToolImage = useCallback((tool: string) => {
-    if (tool === 'playground') return `${config.baseURL}/images/gql-playground-logo.svg`;
-    if (tool === 'redoc') return `${config.baseURL}/images/redoc-logo.png`;
-    return `${config.baseURL}/images/${tool}-logo.svg`;
+    if (tool === 'playground') return `${config.baseURL}images/gql-playground-logo.svg`;
+    if (tool === 'redoc') return `${config.baseURL}images/redoc-logo.png`;
+    return `${config.baseURL}images/${tool}-logo.svg`;
   }, []);
 
   const isQuickLinkActive = logs?.[0]?.url === pathname;
@@ -112,7 +112,7 @@ export const Sidebar = ({ isOpen }: Props): JSX.Element => {
                 <Split>
                   <SplitItem className="pf-u-mr-sm pf-u-display-flex pf-u-align-items-center">
                     <img
-                      src={`${config.baseURL}/images/${img}`}
+                      src={`${config.baseURL}images/${img}`}
                       width="16px"
                       alt="quick link icon"
                     />
@@ -157,7 +157,7 @@ export const Sidebar = ({ isOpen }: Props): JSX.Element => {
                 ))}
               </NavList>
               {getQuickLinks()}
-              <NavGroup title="Recent visited">
+              <NavGroup title="Recently visited">
                 {logs?.map(({ title, url: toolUrl, tool }) => (
                   <NavItem key={`nav-item-${toolUrl}`}>
                     <Link to={toolUrl.replace(config.baseURL, '/')}>

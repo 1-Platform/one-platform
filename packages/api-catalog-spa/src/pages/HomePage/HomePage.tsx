@@ -29,10 +29,10 @@ import { useGetNamespaceList } from './hooks';
 import { SearchBar } from './components/SearchBar';
 import styles from './homePage.module.scss';
 
-const OP_CONTAINER_LOGO = `${config.baseURL}/images/op-containers.svg`;
+const OP_CONTAINER_LOGO = `${config.baseURL}images/op-containers.svg`;
 
-const GRAPHQL_LOGO = `${config.baseURL}/images/graphql-logo.svg`;
-const REST_LOGO = `${config.baseURL}/images/rest-logo.svg`;
+const GRAPHQL_LOGO = `${config.baseURL}images/graphql-logo.svg`;
+const REST_LOGO = `${config.baseURL}images/rest-logo.svg`;
 
 const HomePage = (): JSX.Element => {
   const [search, setSearch] = useState('');

@@ -34,7 +34,7 @@ export const ApiTypeSelector = ({ value, onChange, errorMsg }: Props): JSX.Eleme
             <CatalogBigButton
               title={title}
               desc={desc}
-              image={`${config.baseURL}/images/${image}`}
+              image={`${config.baseURL}images/${image}`}
               isSelected={value === type}
               onClick={callbackify(onChange, type)}
             />

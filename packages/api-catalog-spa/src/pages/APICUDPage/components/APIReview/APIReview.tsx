@@ -112,7 +112,7 @@ export const APIReview = (): JSX.Element => {
                     <CatalogBigButton
                       title={apiOptions[schema.category].title}
                       desc={apiOptions[schema.category].desc}
-                      image={`${config.baseURL}/images/${apiOptions[schema.category].image}`}
+                      image={`${config.baseURL}images/${apiOptions[schema.category].image}`}
                     />
                   </Description>
                 </StackItem>
