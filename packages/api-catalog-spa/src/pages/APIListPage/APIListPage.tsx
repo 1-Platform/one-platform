@@ -134,7 +134,7 @@ const APIListPage = (): JSX.Element => {
                   isSelected={filters.type ? filters.type.toLowerCase() === key : key === 'total'}
                 >
                   <img
-                    src={`${config.baseURL}/images/${image}`}
+                    src={`${config.baseURL}images/${image}`}
                     alt={`api-select-${type}`}
                     style={{ height: '48px' }}
                   />

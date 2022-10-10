@@ -103,7 +103,7 @@ export const ApiDetailsCard = ({
                           isCompact
                           icon={
                             <img
-                              src={`${config.baseURL}/images/${
+                              src={`${config.baseURL}images/${
                                 type === 'REST' ? 'swagger-black-logo.svg' : 'graphql-logo.svg'
                               }`}
                               alt="api-type"

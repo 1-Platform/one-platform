@@ -32,9 +32,9 @@ interface Props {
   category?: ApiCategory;
 }
 
-const SWAGGER_ICON = `${config.baseURL}/images/swagger-logo.svg`;
-const PLAYGROUND_ICON = `${config.baseURL}/images/gql-playground-logo.svg`;
-const REDOC_LOGO = `${config.baseURL}/images/redoc-logo.png`;
+const SWAGGER_ICON = `${config.baseURL}images/swagger-logo.svg`;
+const PLAYGROUND_ICON = `${config.baseURL}images/gql-playground-logo.svg`;
+const REDOC_LOGO = `${config.baseURL}images/redoc-logo.png`;
 
 export const ApiEnvironmentSection = ({ environments = [], category }: Props): JSX.Element => {
   const urlParser = useURLParser();

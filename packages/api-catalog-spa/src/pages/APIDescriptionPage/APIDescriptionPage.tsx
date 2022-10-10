@@ -256,7 +256,7 @@ const APIDescriptionPage = (): JSX.Element => {
                                 })}
                                 icon={
                                   <Avatar
-                                    src={`${config.baseURL}/images/${
+                                    src={`${config.baseURL}images/${
                                       schema.category === 'REST'
                                         ? 'swagger-black-logo.svg'
                                         : 'graphql-logo.svg'
