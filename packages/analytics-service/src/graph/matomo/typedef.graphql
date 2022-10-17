@@ -1,0 +1,170 @@
+type UserAnalytics {
+  id: ID
+  name: String
+  currency: String
+  createdOn: String
+  url: String
+  timezone: String
+}
+
+enum UserAnalyticsPeriod {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+  RANGE
+}
+
+enum UserAnalyticsDate {
+  TODAY
+  YESTERDAY
+  LAST_WEEK
+  LAST_MONTH
+  LAST_YEAR
+}
+
+enum Currency {
+  INR
+  USD
+}
+
+enum UserAnalyticsGeographyType {
+  COUNTRY
+  CONTINENT
+  REGION
+  CITY
+}
+
+enum UserAnalyticsDeviceType {
+  TYPE
+  BRAND
+  MODEL
+  OS_FAMILIES
+  BROWSERS
+}
+
+type UserAnalyticsVisitMetrics {
+  uniqueVisitors: Int
+  visits: Int
+  actions: Int
+  maxActions: Int
+  actionsPerVisit: Float
+  avgTimeOnSite: String
+  bounceRate: String
+}
+
+type UserAnalyticsVisitFrequencyMetrics {
+  uniqueNewVisitors: Int
+  newUsers: Int
+  newVisitors: Int
+  newActions: Int
+  maxNewActions: Int
+  newBounceRate: String
+  newActionsPerVisit: Float
+  newAvgTimeOnSite: String
+  uniqueVisitorsReturing: Int
+  usersReturing: Int
+  visitsReturing: Int
+  actionsReturing: Int
+  maxActionsReturing: Int
+  bounceRateReturning: String
+  actionPerVisitReturing: Float
+  avgSiteTimeOnReturning: String
+}
+
+type UserAnalyticsVisitHistoryMetrics {
+  label: String
+  uniqueVisitors: Int
+  visits: Int
+  actions: Int
+  revenue: String
+  actionsPerVisit: String
+  avgTimeOnSite: String
+  bounceRate: String
+}
+
+type UserAnalyticsActionsMetrics {
+  pageViews: Int
+  uniquePageViews: Int
+  downloads: Int
+  uniqueDownloads: Int
+  outlinks: Int
+  uniqueOutlinks: Int
+  searches: Int
+  keywords: Int
+}
+
+type UserAnalyticsActionByPageURLMetrics {
+  label: String
+  visits: Int
+  hits: Int
+  bounceRate: String
+  avgTimeOnPage: String
+  exitRate: String
+}
+
+input UserAnalyticsVisitConfig {
+  period: UserAnalyticsPeriod
+  date: UserAnalyticsDate
+  dateRange: String
+  limit: Int
+}
+
+input UserAnalyticsVisitGeographyInput {
+  period: UserAnalyticsPeriod
+  date: UserAnalyticsDate
+  dateRange: String
+  type: UserAnalyticsGeographyType
+}
+
+input UserAnalyticsVisitDeviceInput {
+  period: UserAnalyticsPeriod
+  date: UserAnalyticsDate
+  dateRange: String
+  type: UserAnalyticsDeviceType
+}
+
+input SetupUserAnalytics {
+  appID: String!
+  urls: [String!]!
+  currency: Currency!
+}
+
+input UpdateUserAnalytics {
+  urls: [String]
+  currency: Currency
+}
+
+type Query {
+  getUserAnalyticConfigs: [UserAnalytics]
+  getUserAnalyticsVisitMetrics(
+    appID: ID!
+    config: UserAnalyticsVisitConfig
+  ): UserAnalyticsVisitMetrics
+  getUserAnalyticsVisitFrequencyMetrics(
+    appID: ID!
+    config: UserAnalyticsVisitConfig
+  ): UserAnalyticsVisitFrequencyMetrics
+  getUserAnalyticsVisitGeography(
+    appID: ID!
+    config: UserAnalyticsVisitGeographyInput
+  ): [UserAnalyticsVisitHistoryMetrics]
+  getUserAnalyticsVisitDevices(
+    appID: ID!
+    config: UserAnalyticsVisitDeviceInput
+  ): [UserAnalyticsVisitHistoryMetrics]
+  getUserAnalyticsActionMetrics(
+    appID: ID!
+    config: UserAnalyticsVisitConfig
+  ): UserAnalyticsActionsMetrics
+  getUserAnalyticsActionByPageURL(
+    appID: ID!
+    config: UserAnalyticsVisitConfig
+  ): [UserAnalyticsActionByPageURLMetrics]
+}
+
+type Mutation {
+  setupUserAnalytics(config: SetupUserAnalytics!): UserAnalytics
+  updateUserAnalytics(appID: ID!, config: UpdateUserAnalytics!): UserAnalytics
+  deleteUserAnalytics(appID: ID!): UserAnalytics
+}

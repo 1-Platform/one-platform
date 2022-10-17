@@ -9,6 +9,10 @@ type Config = {
   apiGatewayToken: string;
   sentryAPIToken: string;
   sentryAPIURL: string;
+  sentryOrgName: string;
+  sentryTeamName: string;
+  matomoAPIURL: string;
+  matomoAPIToken: string;
 };
 
 export const setupConfig = (): Config => {
@@ -27,5 +31,9 @@ export const setupConfig = (): Config => {
     apiGatewayToken: process.env.API_GATEWAY_TOKEN || '',
     sentryAPIToken: process.env.SENTRY_API_TOKEN || '',
     sentryAPIURL: process.env.SENTRY_API_URL || 'https://sentry.io',
+    sentryOrgName: process.env.SENTRY_API_ORG || '',
+    sentryTeamName: process.env.SENTRY_API_TEAM || 'one-platform',
+    matomoAPIToken: process.env.MATOMO_API_TOKEN || '',
+    matomoAPIURL: process.env.MATOMO_API_URL || '',
   };
 };

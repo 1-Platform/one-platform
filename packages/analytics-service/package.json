@@ -1,6 +1,6 @@
 {
   "name": "analytics-service",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Analytics microservice is used for providing analytics api information for SPAs deployed in One Platform by connecting with Sentry and Pendo",
   "main": "dist/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "start": "tsnd -r tsconfig-paths/register  --project ./tsconfig.json --respawn src/index.ts | pino-pretty",
     "lint": "eslint ./src --ext js,ts",
     "lint:fix": "eslint ./src --ext js,ts --fix ",
-    "test": "jest --forceExit"
+    "test": "echo \"Error: no test specified\""
   },
   "author": "akhilmhdh",
   "license": "ISC",

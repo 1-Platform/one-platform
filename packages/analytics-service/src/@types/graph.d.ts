@@ -1,6 +1,7 @@
 import DataLoader from 'dataloader';
 
 import { AnalyticsConfig } from 'datasource/analyticConfigDB';
+import { MatomoAPI } from 'datasource/matomoAPI';
 import { SentryAPI } from 'datasource/sentryAPI';
 
 declare global {
@@ -8,6 +9,7 @@ declare global {
     dataSources: {
       analyticsConfig: AnalyticsConfig;
       sentryAPI: SentryAPI;
+      matomoAPI: MatomoAPI;
     };
     loaders: {
       user: DataLoader<string, User, string>;

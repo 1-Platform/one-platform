@@ -8,18 +8,16 @@ export const AnalyticsSchema: Schema = new Schema(
       unique: true,
       required: true,
     },
-    sentryTeamId: {
-      type: String,
-      default: process.env.OP_ANALYTICS_SENTRY_TEAM_ID || 'one-platform',
-      required: true,
-    },
     sentryProjectId: {
       type: String,
-      default() {
-        return `op-hosted-${(this as any).appId}-spa`;
-      },
-      unique: true,
-      required: true,
+      index: { unique: true, sparse: true },
+    },
+    sentryTeamId: {
+      type: String,
+    },
+    matomoSiteId: {
+      type: String,
+      index: { unique: true, sparse: true },
     },
     createdBy: { type: String, required: true },
     updatedBy: { type: String, required: true },

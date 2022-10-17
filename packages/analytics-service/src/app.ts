@@ -16,14 +16,19 @@ import { analyticConfigResolver } from './graph/analyticsConfig/resolver';
 import crashlyticsSchema from './graph/crashlytics/typedef.graphql';
 import { crashlyticsResolver } from './graph/crashlytics/resolver';
 
+import userAnalyticsSchema from './graph/matomo/typedef.graphql';
+import { userAnalyticsResolver } from './graph/matomo/resolver';
+
 import { AnalyticsConfig } from './datasource/analyticConfigDB';
 import { SentryAPI } from './datasource/sentryAPI';
+import { MatomoAPI } from './datasource/matomoAPI';
 import { setupUserDataLoader } from './dataloader/userLoader';
 import { Analytics } from './db/analytics';
 
 const config = setupConfig();
 const logger = setupLogger();
 const pool = new Pool(config.sentryAPIURL);
+const matomoDSPool = new Pool(config.matomoAPIURL);
 
 export const setupMongoose = async () => {
   /* Setup database connection */
@@ -37,10 +42,11 @@ export const setupMongoose = async () => {
 };
 
 export const graphqlSchema = mergeSchemas({
-  typeDefs: [analyticConfigSchema, crashlyticsSchema],
+  typeDefs: [analyticConfigSchema, crashlyticsSchema, userAnalyticsSchema],
   resolvers: [
     analyticConfigResolver,
     crashlyticsResolver,
+    userAnalyticsResolver,
   ] as IExecutableSchemaDefinition<IContext>['resolvers'],
 });
 
@@ -69,13 +75,21 @@ export async function startApolloServer(schema: GraphQLSchema) {
   const app = fastify({
     logger: true,
   });
+
   const server = new ApolloServer({
     schema,
     context,
     dataSources: () => {
       return {
         analyticsConfig: new AnalyticsConfig(Analytics),
-        sentryAPI: new SentryAPI(config.sentryAPIURL, config.sentryAPIToken, 'rhcp', pool),
+        sentryAPI: new SentryAPI(
+          config.sentryAPIURL,
+          config.sentryAPIToken,
+          config.sentryOrgName,
+          config.sentryTeamName,
+          pool,
+        ),
+        matomoAPI: new MatomoAPI(config.matomoAPIURL, config.matomoAPIToken, matomoDSPool),
       };
     },
     formatError: (error) => ({
@@ -92,6 +106,5 @@ export async function startApolloServer(schema: GraphQLSchema) {
 
   await server.start();
   app.register(server.createHandler());
-  await app.listen(config.port);
-  logger.info(`🚀 Server ready at http://localhost:${config.port}${server.graphqlPath}`);
+  await app.listen(config.port, '0.0.0.0');
 }

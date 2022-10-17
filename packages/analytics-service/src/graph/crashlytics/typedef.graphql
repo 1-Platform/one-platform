@@ -12,6 +12,14 @@ type SentryProject {
   team: SentryTeam
 }
 
+type Crashlytics {
+  id: ID
+  slug: String
+  name: String
+  platform: String
+  dsn: String
+}
+
 enum CrashlyticsGroupBy {
   OUTCOME
   CATEGORY
@@ -51,8 +59,27 @@ type CrashlyticsStats {
   total: Int
 }
 
+input CreateCrashlyticsInput {
+  appID: ID!
+  projectID: String
+  teamID: String
+  platform: String!
+}
+
+input UpdateCrashlyticsInput {
+  platform: String
+  projectID: String
+  teamID: String
+}
+
 type Query {
   getSentryTeams: [SentryTeam]
-  getSentryProjects(teamId: ID!): [SentryProject]
-  getCrashlyticStats(appId: String!, config: CrashlyticOptionInput!): CrashlyticsStats
+  getSentryProjects(teamID: ID!): [SentryProject]
+  getCrashlyticStats(appID: String!, config: CrashlyticOptionInput!): CrashlyticsStats
+}
+
+type Mutation {
+  setupCrashlytics(config: CreateCrashlyticsInput!): Crashlytics
+  updateCrashlytics(appID: ID!, config: UpdateCrashlyticsInput!): Crashlytics
+  deleteCrashlytics(appID: ID!): Crashlytics
 }

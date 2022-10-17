@@ -5,13 +5,6 @@ export type Pagination = {
   offset: number;
 };
 
-export type AnalyticsConfigInput = {
-  appId: string;
-  sentryTeamId: string;
-  sentryProjectId: string;
-  sentryPlatform: string;
-};
-
 export enum CrashlyticsGroupBy {
   Outcome = 'outcome',
   Category = 'category',
@@ -41,4 +34,26 @@ export type CrashlyticOptionInput = {
   groupBy: CrashlyticsGroupBy;
   field: CrashlyticsField;
   outcome?: Maybe<CrashlyticsOutcome>;
+};
+
+export type TSetupCrashlytics = {
+  config: {
+    appID: string;
+    projectID?: string;
+    teamID?: string;
+    platform: string;
+  };
+};
+
+export type TUpdateCrashlytics = {
+  appID: string;
+  config: {
+    platform: string;
+    projectID: string;
+    teamID: string;
+  };
+};
+
+export type TDeleteCrashlytics = {
+  appID: string;
 };
