@@ -2,10 +2,12 @@ name: Auto deployment for dev and qa
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
+  # TODO: Should be removed after testing
   pull_request:
-    branches: [master]
-  # Will be removed after testing
+    branches:
+      - master
 
 jobs:
   build_and_deploy:
@@ -15,16 +17,18 @@ jobs:
       - name: Check changed files
         id: changed-files
         uses: tj-actions/changed-files@v32.1.2
-        with:
-          fetch-depth: 0
 
       - name: List all added files
+        with:
+          fetch-depth: 0
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
 
       - name: Get changed files in specific
+        with:
+          fetch-depth: 0
         if: contains(steps.changed-files.outputs.modified_files, '-spa')
         run: |
           echo "SPA found"
