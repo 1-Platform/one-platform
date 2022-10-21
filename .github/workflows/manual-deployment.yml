@@ -1,0 +1,49 @@
+name: Manual deployments for all envs
+
+on:
+  workflow_dispatch:
+    inputs:
+      spaName:
+        description: Please enter the SPA name to deploy (eg. component-catalog).
+        default: 'home'
+        required: true
+        type: string
+      env:
+        description: Select then env you want to deploy your SPA.
+        options:
+          - dev
+          - qa
+          - stage
+          - prod
+        required: true
+        type: choice
+
+env:
+  NODE_VERSION: 16
+  SPA_NAME: "${{ inputs.spaName }}-spa"
+
+jobs:
+  build:
+   runs-on: self-hosted
+   timeout-minutes: 20
+   steps:
+    - uses: actions/checkout@v3
+      name: Use Node.js $NODE_VERSION.x
+    - uses: actions/setup-node@v3
+      with:
+        node-version: $NODE_VERSION
+        cache: 'npm'
+        cache-dependency-path: 'packages/**/package-lock.json'
+    - run: npm install
+    - name: Build SPA with env
+      env:
+        CI: false
+        API_KEY: ${{ secrets.SPASHIP_API_KEY }}
+      run: |
+        cd packages/$SPA_NAME
+        curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "https://gitlab.cee.redhat.com/api/v4/projects/9092/repository/files/spa-configs%2Fdev%2F$SPA_NAME%2F.env/raw?ref=master" -o .env
+        npm run build
+        export VERSION=\$(node -p "require('./package.json').version")
+        npx @spaship/cli@latest deploy --apikey=$API_KEY \
+        --env=${{ inputs.env }} \
+        --ref=\$VERSION
