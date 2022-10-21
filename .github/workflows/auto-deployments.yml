@@ -1,0 +1,26 @@
+name: Auto deployment for dev and qa
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ master ]
+  # Will be removed after testing
+
+
+jobs:
+  build_and_deploy:
+    runs-on: self-hosted
+    timeout-minutes: 20
+    steps:
+    - name: Check changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v32.1.2
+      run: |
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
+    - name: Get changed files in specific
+      if: contains(steps.changed-files.outputs.modified_files, '-spa')
+      run: |
+        echo "SPA found"

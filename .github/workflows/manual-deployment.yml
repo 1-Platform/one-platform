@@ -15,6 +15,7 @@ on:
           - qa
           - stage
           - prod
+        default: dev
         required: true
         type: choice
 
