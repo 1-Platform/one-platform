@@ -9,16 +9,14 @@ import React from "react";
 import clsx from "clsx";
 import ErrorBoundary from "@docusaurus/ErrorBoundary";
 import Head from "@docusaurus/Head";
-import {
-  ThemeClassNames,
-  useKeyboardNavigation,
-} from "@docusaurus/theme-common";
+import { ThemeClassNames } from "@docusaurus/theme-common";
+import { useKeyboardNavigation } from "@docusaurus/theme-common/internal";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import SkipToContent from "@theme/SkipToContent";
 import AnnouncementBar from "@theme/AnnouncementBar";
 import Navbar from "@theme/Navbar";
 import Footer from "@theme/Footer";
-import LayoutProviders from "@theme/LayoutProviders";
+import LayoutProvider from "@theme/Layout/Provider";
 import ErrorPageContent from "@theme/ErrorPageContent";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
@@ -86,7 +84,7 @@ function Layout(props) {
   useKeyboardNavigation();
 
   return (
-    <LayoutProviders>
+    <LayoutProvider>
       <Head>
         <html lang="en" />
 
@@ -136,7 +134,7 @@ function Layout(props) {
       </div>
 
       {!noFooter && <Footer />}
-    </LayoutProviders>
+    </LayoutProvider>
   );
 }
 
