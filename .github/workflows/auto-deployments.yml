@@ -31,7 +31,6 @@ jobs:
         run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
   matrix-job:
-    if: contains(matrix.container, '-spa')
     name: Job for ${{ matrix.container }}
     runs-on: ubuntu-latest
     needs: [get-changed-spas]
@@ -42,14 +41,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        if: contains(matrix.container, '-spa')
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
+        if: contains(matrix.container, '-spa')
         with:
           node-version: 16
           cache: 'npm'
           cache-dependency-path: 'packages/**/package-lock.json'
       - name: Get curl command and SPA NAME as strings
         id: get-spa-name
+        if: contains(matrix.container, '-spa')
         uses: actions/github-script@v6
         with:
           script: |
