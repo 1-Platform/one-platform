@@ -29,7 +29,7 @@ jobs:
           json: true
 
       - id: set-matrix
-        if: contains(matrix.container, '-spa')
+        if: contains(steps.changed-files.outputs.all_changed_files, '-spa')
         run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
   matrix-job:
