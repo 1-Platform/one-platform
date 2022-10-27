@@ -25,6 +25,7 @@ jobs:
         uses: tj-actions/changed-files@v32.1.2
         with:
           dir_names: true
+          json: true
 
       - name: Changed files only
         run: |
