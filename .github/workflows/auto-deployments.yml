@@ -9,9 +9,6 @@ on:
     branches:
       - master
 
-env:
-  NODE_VERSION: 16
-
 jobs:
   get-changed-spas:
     runs-on: ubuntu-latest
@@ -44,10 +41,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Use Node.js $NODE_VERSION.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
-          node-version: $NODE_VERSION
+          node-version: 16
           cache: 'npm'
           cache-dependency-path: 'packages/**/package-lock.json'
       - name: Get curl command and SPA NAME as strings
