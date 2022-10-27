@@ -42,7 +42,7 @@ jobs:
       fail-fast: false
     steps:
       - run: |
-          echo ${{ fromJSON(needs.get-changes-for-spas.outputs.matrix) }}
+          for d in ${{ fromJSON(needs.get-changes-for-spas.outputs.matrix) }}; do echo $d; done
       - name: Checkout
         uses: actions/checkout@v3
         if: contains(matrix.container, '-spa')
