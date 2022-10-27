@@ -31,7 +31,7 @@ jobs:
         run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
   matrix-job:
-    name: Run Matrix Job for changed SPAs - path:${{ matrix.container }}
+    name: Job for ${{ matrix.container }}
     if: contains(matrix.container, '-spa')
     runs-on: ubuntu-latest
     needs: [get-changed-spas]
