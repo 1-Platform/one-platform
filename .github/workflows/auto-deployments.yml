@@ -13,6 +13,7 @@ jobs:
   get-changed-spas:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # Outputs all changed files in a json format to start matrix jobs
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -32,7 +33,7 @@ jobs:
 
   matrix-job:
     name: Job for ${{ matrix.container }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [get-changed-spas]
     strategy:
       matrix: ${{ fromJSON(needs.get-changed-spas.outputs.matrix) }}
@@ -61,10 +62,16 @@ jobs:
         if: contains(matrix.container, '-spa')
         env:
           SPASHIP_DEPLOY_URL: "${{ secrets.SPASHIP_DEPLOY_URL }}dev"
+        # Steps in the following script
+        # #1 cd into dir
+        # #2 install the required node_modules
+        # #3 get env file from gitlab (note: without the full url curl does not resolve the endpoint)
+        # #4 build with the .env file
+        # #5 deploy using spaship cli
         run: |
           cd ${{ matrix.container }}
           npm install
-          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "${{ secrets.GITLAB_URL }}spa-configs%2Fdev%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
+          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "https://gitlab.cee.redhat.com/api/v4/projects/9092/repository/files/spa-configs%2Fdev%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
           npm run build
           export VERSION=\$(node -p "require('./package.json').version")
           npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
