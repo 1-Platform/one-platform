@@ -34,15 +34,13 @@ jobs:
 
   matrix-job:
     name: Job for ${{ matrix.container }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [get-changes-for-spas]
     strategy:
       matrix: ${{ fromJSON(needs.get-changes-for-spas.outputs.matrix) }}
       max-parallel: 4
       fail-fast: false
     steps:
-      - run: |
-          for d in ${{ fromJSON(needs.get-changes-for-spas.outputs.matrix) }}; do echo $d; done
       - name: Checkout
         uses: actions/checkout@v3
         if: contains(matrix.container, '-spa')
