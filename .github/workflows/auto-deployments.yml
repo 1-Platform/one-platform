@@ -57,6 +57,9 @@ jobs:
           script: |
             const spaName = "${{ matrix.container }}".split('/')[1];
             core.setOutput('spa-name', spaName)
+      - name: Install packages
+        if: contains(matrix.container, '-spa')
+        run: npm install
       - name: Build and deploy SPA on DEV
         if: contains(matrix.container, '-spa')
         env:
