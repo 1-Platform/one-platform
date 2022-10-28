@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+  # TODO: Should be removed after testing
+  pull_request:
+    branches:
+      - master
 
 jobs:
   get-changes-for-spas:
@@ -30,7 +34,7 @@ jobs:
 
   matrix-job:
     name: Job for ${{ matrix.container }}
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: [get-changes-for-spas]
     strategy:
       matrix: ${{ fromJSON(needs.get-changes-for-spas.outputs.matrix) }}
@@ -59,6 +63,7 @@ jobs:
         if: contains(matrix.container, '-spa')
         env:
           SPASHIP_DEPLOY_URL: "${{ secrets.SPASHIP_DEPLOY_URL }}dev"
+          GITLAB_ENV_URL: "${{ secrets.GITLAB_URL }}spa-configs"
         # Steps in the following script
         # #1 cd into dir
         # #2 install the required node_modules
@@ -68,22 +73,24 @@ jobs:
         run: |
           cd ${{ matrix.container }}
           npm install
-          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "https://gitlab.cee.redhat.com/api/v4/projects/9092/repository/files/spa-configs%2Fdev%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
+          export GITLAB_URL="$GITLAB_ENV_URL"
+          echo $GITLAB_URL
+          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "$GITLAB_URL%2Fdev%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
           npm run build
           export VERSION=\$(node -p "require('./package.json').version")
           npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
           --env=$SPASHIP_DEPLOY_URL \
           --ref=\$VERSION
-      - name: Build and deploy SPA on QA
-        if: contains(matrix.container, '-spa')
-        env:
-          SPASHIP_DEPLOY_URL: "${{ secrets.SPASHIP_DEPLOY_URL }}qa"
-        run: |
-          cd ${{ matrix.container }}
-          npm install
-          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" ""https://gitlab.cee.redhat.com/api/v4/projects/9092/repository/files/spa-configs%2Fqa%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
-          npm run build
-          export VERSION=\$(node -p "require('./package.json').version")
-          npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
-          --env=$SPASHIP_DEPLOY_URL \
-          --ref=\$VERSION
+      # - name: Build and deploy SPA on QA
+      #   if: contains(matrix.container, '-spa')
+      #   env:
+      #     SPASHIP_DEPLOY_URL: "${{ secrets.SPASHIP_DEPLOY_URL }}qa"
+      #   run: |
+      #     cd ${{ matrix.container }}
+      #     npm install
+      #     curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" ""https://gitlab.cee.redhat.com/api/v4/projects/9092/repository/files/spa-configs%2Fqa%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
+      #     npm run build
+      #     export VERSION=\$(node -p "require('./package.json').version")
+      #     npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
+      #     --env=$SPASHIP_DEPLOY_URL \
+      #     --ref=\$VERSION
