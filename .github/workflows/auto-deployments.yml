@@ -34,7 +34,7 @@ jobs:
 
   matrix-job:
     name: Job for ${{ matrix.container }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [get-changes-for-spas]
     strategy:
       matrix: ${{ fromJSON(needs.get-changes-for-spas.outputs.matrix) }}
@@ -74,6 +74,7 @@ jobs:
           cd ${{ matrix.container }}
           npm install
           export GITLAB_URL="$GITLAB_ENV_URL"
+          echo ${{ secrets.GITLAB_URL }}
           echo $GITLAB_URL
           curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "$GITLAB_URL%2Fdev%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
           npm run build
