@@ -68,7 +68,7 @@ jobs:
         run: |
           cd ${{ matrix.container }}
           npm install
-          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "https://gitlab.cee.redhat.com/api/v4/projects/9092/repository/files/spa-configs%2Fdev%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
+          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "${{ secrets.GITLAB_URL }}spa-configs%2Fdev%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
           npm run build
           export VERSION=\$(node -p "require('./package.json').version")
           npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
@@ -81,7 +81,7 @@ jobs:
         run: |
           cd ${{ matrix.container }}
           npm install
-          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" ""https://gitlab.cee.redhat.com/api/v4/projects/9092/repository/files/spa-configs%2Fqa%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
+          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "${{ secrets.GITLAB_URL }}spa-configs%2Fqa%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
           npm run build
           export VERSION=\$(node -p "require('./package.json').version")
           npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
