@@ -1,22 +1,24 @@
 import { ApolloServer } from 'apollo-server';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import CommonSchema from './modules/common';
-import AppsSchema from './modules/apps/schema.gql';
-import AppsResolver from './modules/apps/resolver';
-import MicroservicesSchema from './modules/microservices/schema.gql';
+import ProjectsSchema from './modules/projects/schema.gql';
+import ProjectsResolver from './modules/projects/resolver';
+import ApplicationsSchema from './modules/application-drawer-entry/schema.gql';
+import ApplicationsResolver from './modules/application-drawer-entry/resolver';
 import logger from './lib/logger';
-import MicroservicesResolver from './modules/microservices/resolver';
+import authDirective from './utils/auth-directive';
 
-export const schema = makeExecutableSchema( {
-  typeDefs: [ CommonSchema, AppsSchema, MicroservicesSchema ],
-  resolvers: [ AppsResolver, MicroservicesResolver ],
-} );
+export const schema = makeExecutableSchema({
+  typeDefs: [CommonSchema, ProjectsSchema, ApplicationsSchema],
+  resolvers: [ProjectsResolver, ApplicationsResolver],
+});
+const authDirectiveTransformer = authDirective('auth');
 
 export const getApp = async () => {
   /* Create the GraphQL Server */
   const server = new ApolloServer({
     onHealthCheck: (req) => Promise.resolve(req),
-    schema,
+    schema: authDirectiveTransformer(schema),
     plugins: [
       {
         requestDidStart: (requestContext): any => {
@@ -27,8 +29,10 @@ export const getApp = async () => {
             ?.replace(/\s+/g, ' ')
             .trim();
           const variables = JSON.stringify(requestContext.request.variables);
-          logger.info(
-            `[Request Started] { query: ${query?.trim()}, variables: ${variables}, operationName: ${requestContext.request.operationName} }`,
+          logger.debug(
+            `[Request Started] { query: ${query?.trim()}, variables: ${variables}, operationName: ${
+              requestContext.request.operationName
+            } }`
           );
         },
       },
@@ -41,7 +45,7 @@ export const getApp = async () => {
       return errorObject;
     },
     context: ({ req }) => ({
-      rhatUUID: req.headers['X-OP-User-ID'],
+      userId: req.headers['x-op-user-id'],
     }),
   });
 

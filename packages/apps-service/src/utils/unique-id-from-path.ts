@@ -3,10 +3,14 @@ import logger from '../lib/logger';
 
 const nanoid = customAlphabet('0123456789abcdef', 6);
 const defaultAppName = 'app';
+const nanoidSize = 6;
+const maxSize = 32;
 
 function hyphenateString(str: string) {
   return (
     str
+      .trim()
+      .slice(0, maxSize - nanoidSize)
       .toLowerCase()
       /* Replace any special characters with `-` */
       // eslint-disable-next-line no-useless-escape
@@ -19,8 +23,7 @@ function hyphenateString(str: string) {
 }
 
 export default function uniqueIdFromPath(appName: string): string {
-  logger.warn(appName);
   const hyphenatedStr = hyphenateString(appName) ?? defaultAppName;
-  const uniqueId = nanoid();
+  const uniqueId = nanoid(nanoidSize);
   return `${hyphenatedStr}-${uniqueId}`;
 }

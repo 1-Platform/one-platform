@@ -22,4 +22,5 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 **/tmp
+**/dist
 README.md

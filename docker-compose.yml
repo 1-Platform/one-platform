@@ -56,7 +56,8 @@ services:
 
   apps-service:
     build: ./packages/apps-service
-    command: npm start
+    command: npm run dev
+    env_file: ./packages/apps-service/.env
     environment:
       MONGO_URL: mongodb://mongo:27017/apps-service
       COUCHDB_ENDPOINT: http://couchdb:5984
