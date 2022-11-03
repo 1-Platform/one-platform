@@ -1,6 +1,6 @@
 {
   "name": "developer-console-spa",
-  "version": "0.3.0",
+  "version": "2.0.0",
   "homepage": "/console",
   "description": "The place where developers can get started with using One Platform for SPA deployments and integrating with One Platform Microservices.",
   "author": {
@@ -16,6 +16,11 @@
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^2.8.0",
+    "@one-platform/opc-base": "^1.1.7-beta",
+    "@one-platform/opc-feedback": "^0.0.11-prerelease",
+    "@one-platform/opc-menu-drawer": "^0.2.2-prerelease",
+    "@one-platform/opc-nav": "^0.0.4-prerelease",
+    "@one-platform/opc-notification-drawer": "^0.1.3-prerelease",
     "@patternfly/patternfly": "^4.102.2",
     "@patternfly/react-code-editor": "^4.39.19",
     "@patternfly/react-core": "^4.198.19",

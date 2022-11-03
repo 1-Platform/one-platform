@@ -1,0 +1,7 @@
+.opdcAppCard.pf-c-card.pf-m-rounded {
+  --pf-c-card--m-rounded--BorderRadius: 1rem;
+}
+
+.opdcAppCardBody.pf-c-card__body {
+  color: var(--pf-global--Color--200);
+}

@@ -1,0 +1,49 @@
+.project-card {
+  position: relative;
+  padding: 1rem;
+  transition: all 240ms ease;
+}
+
+.project-card:hover {
+  box-shadow: var(--pf-global--BoxShadow--lg);
+}
+
+.project-card--body__description {
+  --line-height: 1.25rem;
+  --max-lines: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: var(--max-lines);
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  color: rgba(0, 0, 0, .75);
+  margin-top: .5rem;
+  line-height: var(--line-height);
+  height: calc(var(--line-height) * var(--max-lines));
+}
+
+.project-card--footer {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  border-top: 1px solid #eee;
+}
+
+.project-card--footer a {
+  font-weight: bold;
+}
+
+.project-card--footer a>.ion-icon {
+  margin-left: .5rem;
+}
+
+.project-card--dropdown {
+  padding: 0;
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+}
+
+.project-card .pf-c-dropdown__toggle {
+  --pf-c-dropdown__toggle--PaddingRight: .5rem !important;
+  --pf-c-dropdown__toggle--PaddingLeft: .5rem !important;
+}

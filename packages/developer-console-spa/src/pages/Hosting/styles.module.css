@@ -1,0 +1,17 @@
+.opdc-listblock {
+  --pf-c-card--m-rounded--BorderRadius: .5rem !important;
+  border-radius: var(--pf-c-card--m-rounded--BorderRadius);
+  overflow: hidden;
+}
+
+.opdc-card-newApp {
+  --pf-c-card--m-rounded--BorderRadius: 1rem !important;
+  --pf-c-card--m-flat--BorderColor: var(--pf-global--BorderColor--300) !important;
+  height: 100%;
+}
+
+.opdc-card-newApp:hover {
+  --pf-c-card--m-flat--BorderColor: var(--pf-global--primary-color--100) !important;
+  --pf-c-card--m-flat--BorderWidth: 2px;
+  border-style: dashed !important;
+}

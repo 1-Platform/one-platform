@@ -16,11 +16,13 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!-- Ionicons -->
-    <script
+    <!-- <script
       src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"
       integrity="sha384-91eTn+dSetR0hKL4tQcexLB37O10IRrVo4AKvtSd0t16bLVsLLQiigN9ykASLTqG"
       crossorigin="anonymous"
-    ></script>
+    ></script> -->
+    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -31,63 +33,9 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Developer Console</title>
-    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/webcomponents-loader.js"></script>
-    <script
-      src="https://unpkg.com/@one-platform/opc-nav@0.0.4-prerelease/dist/opc-nav.js"
-      integrity="sha384-3V899EyWDdVFcXZjgNjZNDbTLciCZ+EMmniUFMwijYwepFA3RJX3FqIHUKRHy/zY"
-      crossorigin="anonymous"
-    ></script>
-
-    <script
-      src="https://unpkg.com/@one-platform/opc-menu-drawer@0.2.2-prerelease/dist/opc-menu-drawer.js"
-      integrity="sha384-wEtBNoLc5JFZEyDS8whrBMK6aV0gbGG4FV+YIo3LhGSzoC//g1Qp5PPAwWJmeg1A"
-      crossorigin="anonymous"
-    ></script>
-
-    <script
-      src="https://unpkg.com/@one-platform/opc-feedback@0.0.11-prerelease/dist/opc-feedback.js"
-      integrity="sha384-rqsSBu+oKVuuN8Ulwb0FEa2iVH8Xdb250TRAz8TUYNUMZct79X+xBEBsK+sqaf8j"
-      crossorigin="anonymous"
-    ></script>
-
-    <script
-      src="https://unpkg.com/@one-platform/opc-notification-drawer@0.1.3-prerelease/dist/opc-notification-drawer.js"
-      integrity="sha384-A+qgRjIalaYugVHRmgJhIdF2f9bczb8M//5D5wa7KwjQ8po83pfy9yYsuC5yBrg7"
-      crossorigin="anonymous"
-    ></script>
-
-    <script
-      src="https://unpkg.com/@one-platform/opc-base@1.1.7-beta/dist/umd/opc-base.js"
-      integrity="sha384-ASygq8hTB2fzRmsj592afrUnabfiwqMVOg2r0gdZfLG8EpjSZoWaHmgfhH4xGALS"
-      crossorigin="anonymous"
-    ></script>
-
-    <script
-      src="https://unpkg.com/@one-platform/opc-base@1.1.7-beta/dist/umd/opc-provider.js"
-      integrity="sha384-pLyLVxP9bSKPhEElwui49Pn6xhm2K2syjQ9k5AyPjltm/6aPmdf2+xfFZrZQI5Il"
-      crossorigin="anonymous"
-    ></script>
-
-    <script>
-      opcBase.configure({
-        apiBasePath: "%REACT_APP_API_URL%",
-        subscriptionsPath: "%REACT_APP_OP_SUBSCRIPTIONS_URL%",
-        keycloakUrl: "%REACT_APP_KEYCLOAK_IDP_URL%",
-        keycloakClientId: "%REACT_APP_KEYCLOAK_CLIENT_ID%",
-        keycloakRealm: "%REACT_APP_KEYCLOAK_REALM%",
-      });
-    </script>
   </head>
 
   <body>
-    <!-- #region NavBar -->
-    <opc-provider>
-      <opc-nav></opc-nav>
-      <opc-menu-drawer></opc-menu-drawer>
-      <opc-notification-drawer></opc-notification-drawer>
-      <opc-feedback theme="blue"></opc-feedback>
-    </opc-provider>
-    <!-- #endregion NavBar -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>

@@ -1,11 +1,22 @@
 type RouteParams = {
-  appId: string
+  projectId: string
 }
 
-interface IAppContext {
-  appId: string
-  app: App
+interface IProjectContext {
+  projectId: string
+  project: Project
   loading: boolean
-  setApp: React.Dispatch<any>
-  forceRefreshApp: any
+  navigateToProject: React.Dispatch<string>
+  forceRefresh: any
+}
+
+type HeaderTitle = {
+  title: string;
+  path?: string;
+};
+interface IHeaderContext {
+  pageTitle: HeaderTitle[];
+  setHeader: React.Dispatch<string[] | HeaderTitle[]>;
+  links: React.ReactNode[];
+  setHeaderLinks: React.Dispatch<React.ReactNode[]>;
 }

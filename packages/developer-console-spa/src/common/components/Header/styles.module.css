@@ -1,0 +1,36 @@
+.opdcHeader {
+  background-color: #fff;
+  box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .16);
+  padding: .5rem 1.5rem;
+  z-index: 97;
+  position: sticky;
+  top: var(--op-nav__height);
+}
+
+.opdcHeaderTitle {
+  margin-bottom: .25rem;
+}
+
+.opdcHeaderTitle>span>a {
+  color: initial;
+}
+
+.opdcHeaderTitle>*:not(:first-child)::before {
+  content: ">";
+  margin-inline: .75rem;
+}
+
+.opdcDropDown {
+  --pf-c-dropdown__menu--PaddingTop: 0 !important;
+  --pf-c-dropdown__menu--PaddingBottom: 0 !important;
+  --pf-c-dropdown__toggle--Color: var(--pf-global--Color--200) !important;
+  left: -.5rem;
+}
+.opdcDropDown>.pf-c-dropdown__menu {
+  border-radius: .5rem !important;
+  overflow: hidden !important;
+}
+
+.opdcDropDownToggle {
+  padding-inline: 0;
+}
