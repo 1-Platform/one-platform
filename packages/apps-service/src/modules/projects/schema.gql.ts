@@ -13,10 +13,16 @@ const ProjectsSchema = /* GraphQL */ `
     deleteProject(id: ID!): Project
     transferProjectOwnership(id: ID!, ownerId: String!): Project
 
-    # TODO:
-    newApplication(projectId: ID!, application: NewApplicationInput!): Application
-    updateApplication(projectId: ID!, appId: ID!, application: UpdateApplicationInput!): Application
-    deleteApplicataion(projectId: ID!, appId: ID!): Application
+    newApplication(
+      projectId: ID!
+      application: NewApplicationInput!
+    ): Application
+    updateApplication(
+      projectId: ID!
+      appId: ID!
+      application: UpdateApplicationInput!
+    ): Application
+    deleteApplication(projectId: ID!, appId: ID!): Application
 
     setApplicationAuthentication(
       projectId: String!
@@ -136,6 +142,29 @@ const ProjectsSchema = /* GraphQL */ `
     ref: String
     url: String
     createdAt: ISODate
+  }
+
+  input NewApplicationInput {
+    appId: String!
+    name: String!
+    path: String!
+    type: String
+    authenticate: Boolean
+    environments: [ApplicationEnvironmentInput]
+  }
+  input ApplicationEnvironmentInput {
+    name: String
+    ref: String
+    url: String
+    createdAt: Date
+  }
+  input UpdateApplicationInput {
+    appId: String
+    name: String
+    path: String
+    type: String
+    authenticate: Boolean
+    environments: [ApplicationEnvironmentInput]
   }
 
   type ProjectFeedbackConfig {

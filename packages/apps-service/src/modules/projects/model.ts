@@ -117,9 +117,9 @@ ProjectSchema.index({ name: 1, ownerId: 1 });
 
 ProjectSchema.static(
   'isAuthorized',
-  function isAuthorized(id: any, userId: string) {
+  function isAuthorized(projectId: string, userId: string) {
     return this.exists({
-      _id: id,
+      projectId,
       ownerId: userId,
     });
   }

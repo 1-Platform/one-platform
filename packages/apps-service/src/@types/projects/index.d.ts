@@ -24,7 +24,7 @@ declare type Project = {
   }>;
   hosting: {
     isEnabled: boolean;
-    applications: string[];
+    applications: Project.Application[];
   };
   feedback: {
     isEnabled: boolean;
@@ -82,6 +82,11 @@ namespace Project {
     users: Array<string>;
   };
   type Application = {
-
+    appId: string;
+    name: string;
+    path: string;
+    type: string;
+    authenticate: boolean;
+    environments: [{ name: string; ref: string; url: string; createdAt: Date }];
   };
 }

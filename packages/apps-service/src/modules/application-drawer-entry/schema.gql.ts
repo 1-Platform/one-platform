@@ -28,6 +28,8 @@ const ApplicationsSchema = /* GraphQL */ `
     appId: ID
     label: String
     application: Application
+    showInAppDrawer: Boolean
+    authenticate: Boolean
   }
 
   input ApplicationsFilter {
