@@ -24,9 +24,28 @@ jobs:
           dir_names: true
           json: true
 
+      - name: Get dir names
+        id: get-dir-names
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const folders = JSON.parse("${{ steps.changed-files.outputs.all_changed_files }}");
+            const newArr = [];
+            for (let folder of folders) {
+                if (folder.startsWith('packages')) {
+                    const folderNameParts = folder.split('/');
+                    const folderName = `${folderNameParts[0]}/${folderNameParts[1]}`
+                    if (!newArr.includes(folderName)) {
+                      if(folderName.endsWith('spa')) {
+                        newArr.push(folderName)
+                      }
+                    }
+                }
+            }
+            core.setOutput('dir_names', JSON.stringify(JSON.stringify(newArr)))
+
       - id: set-matrix
-        if: contains(steps.changed-files.outputs.all_changed_files, '-spa')
-        run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
+        run: echo "matrix={\"container\":${{ steps.get-dir-names.outputs.dir_names }}}" >> "$GITHUB_OUTPUT"
 
   # Steps in the following Job
   # #1 cd into dir
