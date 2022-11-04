@@ -1,4 +1,4 @@
-declare namespace App {
+declare namespace Project {
   declare type SearchConfig = {
     isEnabled: boolean;
     id: string;

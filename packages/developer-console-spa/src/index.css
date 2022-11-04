@@ -1,5 +1,5 @@
 :root {
-  --op-nav__height: 3.5rem;
+  --op-nav__height: 60px;
   --max-page-height: calc(100vh - var(--op-nav__height, 0px));
   --color-active: #06c;
 }

@@ -1,0 +1,138 @@
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 25%;
+}
+
+main.home {
+  background: rgb(221, 239, 255);
+  background: linear-gradient(180deg, rgba(221, 239, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  background-attachment: fixed;
+}
+
+.opdc-main--hero {
+  min-height: 15rem;
+}
+.opdc-main--hero__content {
+  display: grid;
+  place-content: center left;
+}
+.opdc-main--hero__bg {
+  text-align: right;
+  display: grid;
+  place-content: center;
+}
+.opdc-main--hero__bg > svg {
+  width: 90%;
+  margin-left: auto;
+}
+
+.opdc-main--project__tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+  border-right: 1px solid #eee;
+  height: 100%;
+}
+.opdc-main--project__tab > button {
+  appearance: none;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  color: var(--pf-global--Color--100);
+  cursor: pointer;
+}
+.opdc-main--project__tab[data-active="true"] > button {
+  color: var(--pf-global--link--Color);
+  font-weight: 600;
+}
+
+.opdc-main--offerings {
+  padding: 2rem 1.5rem;
+}
+
+.opdc-main--offerings__tabs {
+  position: sticky;
+  top: 40vh;
+  margin-top: 10rem;
+  padding: 0;
+  list-style: none;
+  margin-inline: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+.opdc-main--offerings__tab > a {
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  appearance: none;
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  border-radius: .5rem;
+  display: block;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  color: initial;
+  transition: all 120ms ease-in;
+}
+.opdc-main--offerings__tab[data-active="true"] > a {
+  background-color: #fff;
+  border-left: 3px solid #0085ff;
+  font-weight: 600;
+  color: #0085ff;
+  box-shadow: var(--pf-global--BoxShadow--md);
+}
+
+.opdc-main--offerings__section {
+  padding: 7rem 0;
+}
+.opdc-main--offerings__section:first-child {
+  padding-top: 5rem;
+}
+.opdc-main--offerings__section:last-child {
+  margin-bottom: 3rem;
+}
+.opdc-offering--serviceCard {
+  display: flex;
+  width: 100%;
+}
+.opdc-offering--serviceCard__icon {
+  height: 7rem;
+  text-align: center;
+}
+.opdc-offering--serviceCard__icon img {
+  height: 70%;
+  display: block;
+  margin-inline: auto;
+}
+
+.opdc-main--call2action.pf-c-card {
+  background-color: #0085ff;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: var(--pf-global--BoxShadow--lg);
+  padding-left: 1rem;
+}
+.opdc-main--call2action .pf-c-button {
+  border-radius: var(--pf-c-card--m-rounded--BorderRadius);
+  transition: all 240ms ease;
+  font-weight: inherit;
+}
+.opdc-main--call2action .opdc-main--call2action__btn-primary {
+  --pf-c-button--m-plain--BackgroundColor: #fff;
+  --pf-c-button--m-plain--Color: #0085ff;
+  --pf-c-button--m-plain--hover--Color: #fff;
+  --pf-c-button--m-plain--active--Color: #fff;
+  --pf-c-button--m-plain--focus--Color: #fff;
+  border: 1px solid #fff;
+}
+.opdc-main--call2action .opdc-main--call2action__btn-link {
+  --pf-c-button--m-link--Color: #fff;
+}

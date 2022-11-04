@@ -1,5 +1,4 @@
 #root {
-  min-height: var(--max-page-height);
   background-color: #fafafa;
 }
 
@@ -8,19 +7,29 @@
   max-width: calc(100% - 2rem);
   padding: 1.5rem 0;
 }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 900px) {
   .container {
-    max-width: 90%;
+    max-width: 95%;
   }
 }
 @media screen and (min-width: 1000px) {
   .container {
-    max-width: 75%;
+    max-width: 85%;
   }
 }
 @media screen and (min-width: 1200px) {
   .container {
+    max-width: 80%;
+  }
+}
+@media screen and (min-width: 1500px) {
+  .container {
     max-width: 65%;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .container {
+    max-width: 55%;
   }
 }
 
@@ -28,6 +37,19 @@ a {
   text-decoration: none;
 }
 
-ion-icon {
+ion-icon:not([data-reset-margin]) {
   margin-bottom: -3px;
+}
+
+.pf-c-backdrop{
+  --pf-c-backdrop--ZIndex: 999 !important;
+}
+
+.pf-c-card.pf-m-rounded {
+  --pf-c-card--m-rounded--BorderRadius: .5rem;
+}
+
+.pf-c-button {
+  --pf-c-button--BorderRadius: .5rem !important;
+  --pf-c-button--after--BorderRadius: .5rem !important;
 }

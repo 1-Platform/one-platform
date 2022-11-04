@@ -1,0 +1,61 @@
+[
+  {
+    "label": "Development",
+    "services": [
+      {
+        "name": "Auth",
+        "icon": "/static/icons/auth.svg"
+      },
+      {
+        "name": "Database",
+        "icon": "/static/icons/database.svg"
+      },
+      {
+        "name": "Lighthouse",
+        "icon": "/static/icons/lighthouse.svg"
+      },
+      {
+        "name": "OP Components",
+        "icon": "/static/icons/op-components.svg"
+      }
+    ]
+  },
+  {
+    "label": "Delivery",
+    "services": [
+      {
+        "name": "Hosting",
+        "icon": "/static/icons/hosting.svg"
+      },
+      {
+        "name": "Serverless",
+        "icon": "/static/icons/serverless.svg"
+      },
+      {
+        "name": "Reporting + Monitoring",
+        "icon": "/static/icons/reporting-monitoring.svg"
+      }
+    ]
+  },
+  {
+    "label": "Engagement",
+    "services": [
+      {
+        "name": "Analytics",
+        "icon": "/static/icons/analytics.svg"
+      },
+      {
+        "name": "Notifications",
+        "icon": "/static/icons/notifications.svg"
+      },
+      {
+        "name": "Search",
+        "icon": "/static/icons/search.svg"
+      },
+      {
+        "name": "Feedback",
+        "icon": "/static/icons/feedback.svg"
+      }
+    ]
+  }
+]

@@ -10,3 +10,13 @@ declare interface Window {
   OpAuthHelper?: any;
   OpNotification?: any;
 }
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    'opc-menu-drawer': any;
+    'opc-notification-drawer': any;
+    'opc-feedback': any;
+    'opc-provider': any;
+    'opc-nav': any;
+  }
+}

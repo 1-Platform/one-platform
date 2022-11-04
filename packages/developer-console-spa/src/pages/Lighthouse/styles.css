@@ -1,0 +1,50 @@
+.lighthouse-projectList--filled {
+  width: 100%;
+}
+
+.lighthouse-projectForm--marginTop {
+  margin-top: 1rem;
+}
+
+.success-header-fontSize {
+  font-size: var(--pf-global--icon--FontSize--lg);
+}
+
+.success-header-fontColor {
+  color: var(--pf-global--success-color--200);
+}
+
+.couch-db--card .pf-c-card__footer {
+  --pf-c-card--child--PaddingRight: 0.5rem;
+  --pf-c-card--child--PaddingBottom: 0.5rem;
+  --pf-c-card--child--PaddingLeft: 0.5rem;
+  border-top: 1px solid #d2d2d2;
+  padding-top: 0.5rem;
+}
+
+.couch-db--card .pf-c-dropdown__toggle {
+  --pf-c-dropdown__toggle--m-plain--PaddingRight: 0;
+  --pf-c-dropdown__toggle--m-plain--PaddingLeft: 0;
+}
+
+.couch-db--emptyStateBody .pf-c-empty-state__icon {
+  --pf-c-empty-state__icon--MarginBottom: 0px;
+}
+
+.memberCard-heading--padding {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.dbname-heading--fontSize {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dbname-timeStamp--fontSize {
+  font-size: 10px;
+  color: grey;
+  margin: 0.5rem 0;
+}
