@@ -22,43 +22,42 @@ on:
 env:
   NODE_VERSION: 16
   SPA_NAME: "${{ inputs.spaName }}-spa"
-  SPASHIP_DEPLOY_URL: "${{ secrets.SPASHIP_DEPLOY_URL }}${{ inputs.env }}"
 
 jobs:
-  build:
-   runs-on: self-hosted
-   timeout-minutes: 20
-   steps:
-    - uses: actions/checkout@v3
+  build-and-deployment:
+    name: "Deploy ${{ inputs.spaName }}"
+    runs-on: self-hosted
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v3
 
-      name: Use Node.js 16.x
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
+        name: Use Node.js 16.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
 
-    - name: Get env secrets for {{ inputs.env }}
-      run: |
-        cd packages/$SPA_NAME
-        curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "${{ secrets.GITLAB_URL }}spa-configs%2F${{ inputs.env }}%2F$SPA_NAME%2F.env/raw?ref=master" -o .env
+      - name: Get env secrets for {{ inputs.env }}
+        run: |
+          cd packages/$SPA_NAME
+          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "${{ secrets.GITLAB_URL }}spa-configs%2F${{ inputs.env }}%2F$SPA_NAME%2F.env/raw?ref=master" -o .env
 
-    - name: Install node modules
-      run: |
-        cd packages/$SPA_NAME
-        npm install
+      - name: Install node modules
+        run: |
+          cd packages/$SPA_NAME
+          npm install
 
 
-    - name: Build SPA with env
-      run: |
-        cd packages/$SPA_NAME
-        npm run build
+      - name: Build SPA with env
+        run: |
+          cd packages/$SPA_NAME
+          npm run build
 
-    - name: Deploy SPA for  {{ inputs.env }}
-      env:
-        CI: false
-        API_KEY: ${{ secrets.SPASHIP_API_KEY }}
-      run: |
-        cd packages/$SPA_NAME
-        npx @spaship/cli@latest deploy --apikey=$API_KEY \
-        --env=${{ inputs.env }} \
-        --ref=\$(node -p "require('./package.json').version")
+      - name: Deploy SPA for  {{ inputs.env }}
+        env:
+          CI: false
+        run: |
+          cd packages/$SPA_NAME
+          npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
+          --env="${{ secrets.SPASHIP_DEPLOY_URL }}${{ inputs.env }}" \
+          --ref=\$(node -p "require('./package.json').version")

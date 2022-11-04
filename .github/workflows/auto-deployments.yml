@@ -84,10 +84,8 @@ jobs:
 
       - name: Deploy SPA on QA
         if: contains(matrix.container, '-spa')
-        env:
-          SPASHIP_DEPLOY_URL: "${{ secrets.SPASHIP_DEPLOY_URL }}qa"
         run: |
           cd ${{ matrix.container }}
           npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
-          --env=$SPASHIP_DEPLOY_URL \
+          --env="${{ secrets.SPASHIP_DEPLOY_URL }}qa" \
           --ref=\$(node -p "require('./package.json').version")
