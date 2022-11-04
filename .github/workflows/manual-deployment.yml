@@ -5,7 +5,6 @@ on:
     inputs:
       spaName:
         description: Please enter the SPA name to deploy (eg. component-catalog).
-        default: 'home'
         required: true
         type: string
       env:
@@ -35,7 +34,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
+          cache: "npm"
 
       - name: Get env secrets for {{ inputs.env }}
         run: |
@@ -47,7 +46,6 @@ jobs:
           cd packages/$SPA_NAME
           npm install
 
-
       - name: Build SPA with env
         run: |
           cd packages/$SPA_NAME
@@ -58,6 +56,4 @@ jobs:
           CI: false
         run: |
           cd packages/$SPA_NAME
-          npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
-          --env="${{ secrets.SPASHIP_DEPLOY_URL }}${{ inputs.env }}" \
-          --ref=\$(node -p "require('./package.json').version")
+          npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} --env=${{ secrets.SPASHIP_DEPLOY_URL }}${{ inputs.env }} --ref=$(node -p "require('./package.json').version")
