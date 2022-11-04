@@ -22,7 +22,6 @@ on:
 env:
   NODE_VERSION: 16
   SPA_NAME: "${{ inputs.spaName }}-spa"
-  SPASHIP_DEPLOY_URL: "${{ secrets.SPASHIP_DEPLOY_URL }}${{ inputs.env }}"
 
 jobs:
   build:
@@ -56,9 +55,8 @@ jobs:
     - name: Deploy SPA for  {{ inputs.env }}
       env:
         CI: false
-        API_KEY: ${{ secrets.SPASHIP_API_KEY }}
       run: |
         cd packages/$SPA_NAME
-        npx @spaship/cli@latest deploy --apikey=$API_KEY \
-        --env=${{ inputs.env }} \
+        npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} \
+        --env="${{ secrets.SPASHIP_DEPLOY_URL }}${{ inputs.env }}" \
         --ref=\$(node -p "require('./package.json').version")
