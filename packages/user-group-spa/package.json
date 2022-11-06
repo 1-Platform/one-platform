@@ -24,16 +24,16 @@
   "homepage": "/user-groups/",
   "dependencies": {
     "@one-platform/opc-header": "0.0.2-prerelease",
-    "@patternfly/react-core": "4.135.0",
-    "@patternfly/react-table": "4.29.0",
+    "@patternfly/react-core": "4.250.1",
+    "@patternfly/react-table": "4.111.33",
     "@sentry/react": "^6.17.8",
-    "@testing-library/jest-dom": "5.11.9",
+    "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "11.2.7",
     "@testing-library/user-event": "12.8.3",
-    "history": "5.0.1",
+    "history": "5.3.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-router-dom": "5.2.0",
+    "react-router-dom": "5.3.4",
     "react-scripts": "4.0.3"
   },
   "scripts": {
@@ -69,7 +69,7 @@
     ]
   },
   "devDependencies": {
-    "msw": "^0.44.0",
+    "msw": "^0.47.0",
     "npm-watch": "0.11.0",
     "testing-library-selector": "^0.2.1"
   },
