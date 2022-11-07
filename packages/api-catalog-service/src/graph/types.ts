@@ -111,6 +111,7 @@ export type UpdateNamespaceArgs = {
 
 export type FetchSchemaArgs = {
   envSlug?: string;
+  shouldValidate?: boolean;
   config: { category: ApiCategory; schemaEndpoint: string; headers: ApiHeaderType[] };
 };
 

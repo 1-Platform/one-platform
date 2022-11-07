@@ -108,14 +108,16 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
     },
     async fetchAPISchema(
       _root: any,
-      { envSlug, config }: FetchSchemaArgs,
+      { envSlug, config, shouldValidate = true }: FetchSchemaArgs,
       { dataSources: { namespaceDB } },
     ) {
       const { category, schemaEndpoint, headers = [] } = config || {};
 
       if (!envSlug) {
         const spec = await fetchSchema(category, schemaEndpoint, headers);
-        await validateSpecSheet(spec, category);
+        if (shouldValidate) {
+          await validateSpecSheet(spec, category);
+        }
         const file = Buffer.from(spec).toString('base64');
         return {
           schema: null,
@@ -139,7 +141,9 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
       const newCategory = category || ns?.schemas[0].category;
 
       const spec = await fetchSchema(newCategory, newSchemaEndpoint, newHeaders);
-      await validateSpecSheet(spec, newCategory);
+      if (shouldValidate) {
+        await validateSpecSheet(spec, category);
+      }
       const file = Buffer.from(spec).toString('base64');
       return {
         schema: ns?.schemas?.[0],
