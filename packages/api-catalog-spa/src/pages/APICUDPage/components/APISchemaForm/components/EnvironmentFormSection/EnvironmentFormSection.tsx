@@ -93,7 +93,7 @@ export const EnvironmentFormSection = ({
   const setSchemaEndpointIsInvalid = (envIndex: number) => {
     setError(`schemas.${schemaPos}.environments.${envIndex}.schemaEndpoint`, {
       type: 'custom',
-      message: `Failed to get ${isGraphqlAPI ? 'introspection url' : 'api schema'}`,
+      message: `Invalid ${isGraphqlAPI ? 'introspection url' : 'API schema'}`,
     });
   };
 
