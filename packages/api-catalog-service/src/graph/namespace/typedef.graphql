@@ -215,7 +215,11 @@ type Query {
   """
   Fetch the API Schema
   """
-  fetchAPISchema(config: FetchApiSchemaInput, envSlug: String): FetchApiSchemaType
+  fetchAPISchema(
+    config: FetchApiSchemaInput
+    envSlug: String
+    shouldValidate: Boolean
+  ): FetchApiSchemaType
   """
   List outgage status of Red Hat products
   """
