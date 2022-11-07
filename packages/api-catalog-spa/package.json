@@ -1,7 +1,7 @@
 {
   "name": "api-catalog-spa",
   "private": true,
-  "version": "1.0.8",
+  "version": "1.0.9",
   "scripts": {
     "dev": "vite",
     "build": "NODE_OPTIONS=--max-old-space-size=4096 tsc --noEmit && vite build",

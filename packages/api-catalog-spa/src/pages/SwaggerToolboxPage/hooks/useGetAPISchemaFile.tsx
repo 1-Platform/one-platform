@@ -4,7 +4,7 @@ import { UseQueryReturn } from 'hooks/useQuery/types';
 
 export const GET_API_SCHEMA_FILE = /* GraphQL */ `
   query FetchAPISchema($envSlug: String) {
-    fetchAPISchema(envSlug: $envSlug) {
+    fetchAPISchema(envSlug: $envSlug, shouldValidate: false) {
       schema {
         name
         id
