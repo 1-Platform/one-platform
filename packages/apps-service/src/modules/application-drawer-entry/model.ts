@@ -8,6 +8,7 @@ const ApplicationDrawerEntrySchema = new Schema<ApplicationDrawerEntryModel, App
   projectId: { type: Schema.Types.ObjectId, required: true, },
   appId: { type: Schema.Types.ObjectId, required: true, },
   label: { type: String, },
+  authenticate: { type: Boolean, default: false, },
 });
 
 const ApplicationDrawerEntrys = model<ApplicationDrawerEntryModel, ApplicationDrawerEntryModelStatic>('ApplicationDrawerEntrys', ApplicationDrawerEntrySchema);

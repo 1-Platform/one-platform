@@ -1,7 +1,6 @@
 import { getDirective, MapperKind, mapSchema } from '@graphql-tools/utils';
-import { AuthenticationError, ForbiddenError, UserInputError, ValidationError } from 'apollo-server';
+import { ForbiddenError } from 'apollo-server';
 import { defaultFieldResolver, GraphQLSchema } from 'graphql';
-import NotFoundError from './not-found-error';
 
 export default function authDirective(directiveName: string) {
   const typeDirectiveArgumentMaps: Record<string, any> = {};

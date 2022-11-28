@@ -5,13 +5,13 @@ const ProjectsSchema = /* GraphQL */ `
     projects: [Project]
     myProjects: [Project]
     findProjects(selectors: FindProjectInput!): [Project]
-    project(id: ID, projectId: String): Project
+    project(projectId: ID!): Project
   }
   type Mutation {
     createProject(project: CreateProjectInput!): Project
-    updateProject(id: ID!, project: UpdateProjectInput!): Project
-    deleteProject(id: ID!): Project
-    transferProjectOwnership(id: ID!, ownerId: String!): Project
+    updateProject(projectId: ID!, project: UpdateProjectInput!): Project
+    deleteProject(projectId: ID!): Project
+    transferProjectOwnership(projectId: ID!, ownerId: String!): Project
 
     newApplication(
       projectId: ID!
@@ -24,14 +24,8 @@ const ProjectsSchema = /* GraphQL */ `
     ): Application
     deleteApplication(projectId: ID!, appId: ID!): Application
 
-    setApplicationAuthentication(
-      projectId: String!
-      appId: ID!
-      value: Boolean
-    ): ApplicationDrawerEntry
-
     createProjectDatabase(
-      id: ID!
+      projectId: ID!
       databaseName: String!
       description: String
       permissions: ProjectDatabasePermissionsInput
@@ -46,9 +40,7 @@ const ProjectsSchema = /* GraphQL */ `
   }
 
   type Project {
-    id: ID
-    projectId: String
-    isActive: Boolean
+    projectId: ID
     name: String
     description: String
     icon: String
@@ -66,15 +58,13 @@ const ProjectsSchema = /* GraphQL */ `
     updatedOn: ISODate
   }
   input FindProjectInput {
-    id: ID
-    projectId: String
+    projectId: ID
     name: String
     ownerId: String
     createdBy: String
     updatedBy: String
   }
   input CreateProjectInput {
-    isActive: Boolean
     name: String!
     description: String
     icon: String
@@ -84,7 +74,6 @@ const ProjectsSchema = /* GraphQL */ `
     permissions: [ProjectPermissionsInput]
   }
   input UpdateProjectInput {
-    isActive: Boolean
     name: String
     description: String
     icon: String
@@ -132,14 +121,13 @@ const ProjectsSchema = /* GraphQL */ `
   type Application {
     appId: ID
     name: String
-    path: String
-    authenticate: Boolean
+    url: String
     environments: ApplicationEnvironment
     createdOn: ISODate
   }
   type ApplicationEnvironment {
     name: String
-    ref: String
+    version: String
     url: String
     createdAt: ISODate
   }
@@ -147,23 +135,21 @@ const ProjectsSchema = /* GraphQL */ `
   input NewApplicationInput {
     appId: String!
     name: String!
-    path: String!
+    url: String!
     type: String
-    authenticate: Boolean
     environments: [ApplicationEnvironmentInput]
   }
   input ApplicationEnvironmentInput {
-    name: String
-    ref: String
-    url: String
-    createdAt: Date
+    name: String!
+    version: String!
+    url: String!
+    createdAt: ISODate
   }
   input UpdateApplicationInput {
     appId: String
     name: String
-    path: String
+    url: String
     type: String
-    authenticate: Boolean
     environments: [ApplicationEnvironmentInput]
   }
 

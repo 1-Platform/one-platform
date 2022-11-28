@@ -9,16 +9,22 @@ const ApplicationsSchema = /* GraphQL */ `
   type Mutation {
     addAppDrawerEntry(
       projectId: String!
-      appDrawerEntry: NewApplicationInput!
+      appDrawerEntry: NewAppDrawerEntryInput!
     ): ApplicationDrawerEntry
     updateAppDrawerEntry(
       projectId: String!
       appId: String!
-      appDrawerEntry: UpdateApplicationInput!
+      appDrawerEntry: UpdateAppDrawerEntryInput!
     ): ApplicationDrawerEntry
     deleteAppDrawerEntry(
       projectId: String!
       appId: String!
+    ): ApplicationDrawerEntry
+
+    setApplicationAuthentication(
+      projectId: String!
+      appId: ID!
+      value: Boolean
     ): ApplicationDrawerEntry
   }
 
@@ -27,41 +33,29 @@ const ApplicationsSchema = /* GraphQL */ `
     projectId: ID
     appId: ID
     label: String
-    application: Application
-    showInAppDrawer: Boolean
     authenticate: Boolean
+    application: Application
   }
 
   input ApplicationsFilter {
     appId: String
     name: String
     path: String
-    showInAppDrawer: Boolean
     authenticate: Boolean
   }
-  input NewApplicationInput {
+  input NewAppDrawerEntryInput {
     appId: String
     name: String!
     path: String!
-    showInAppDrawer: Boolean
     authenticate: Boolean
     icon: String
-    environments: [ApplicationEnvironmentInput!]
   }
-  input UpdateApplicationInput {
+  input UpdateAppDrawerEntryInput {
     appId: String
     name: String
     path: String
-    showInAppDrawer: Boolean
     authenticate: Boolean
     icon: String
-    environments: [ApplicationEnvironmentInput!]
-  }
-  input ApplicationEnvironmentInput {
-    name: String!
-    ref: String
-    url: String!
-    createdAt: ISODate!
   }
 `;
 

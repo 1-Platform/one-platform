@@ -1,5 +1,5 @@
 /* Mongoose schema/model definition */
-import { Document, Model, model, Schema, Types } from 'mongoose';
+import { Document, Model, model, Schema } from 'mongoose';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 
 export interface ProjectModel extends Document, Project {}
@@ -17,7 +17,6 @@ const ProjectSchema = new Schema<ProjectModel, ProjectModelStatic>({
       return uniqueIdFromPath((this as any).name);
     },
   },
-  isActive: { type: Boolean, default: false },
   name: { type: String, required: true },
   description: { type: String },
   tags: { type: [String] },
@@ -55,14 +54,13 @@ const ProjectSchema = new Schema<ProjectModel, ProjectModelStatic>({
         _id: false,
         appId: { type: String, required: true, unique: true },
         name: { type: String, required: true, unique: true },
-        path: { type: String, required: true, unique: true },
+        url: { type: String, required: true, unique: true },
         type: { type: String },
-        authenticate: { type: Boolean, default: false },
         environments: [
           {
             _id: false,
             name: String,
-            ref: String,
+            version: String,
             url: String,
             createdAt: Date,
           },

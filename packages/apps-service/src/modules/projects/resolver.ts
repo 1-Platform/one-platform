@@ -2,7 +2,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import { isEmpty, clone } from 'lodash';
 import Projects from './model';
-import uniqueIdFromPath from '../../utils/unique-id-from-path';
 import ProjectsHelper from '../../utils/apps-helper';
 import {
   createDatabase,
@@ -17,37 +16,26 @@ import { ForbiddenError, UserInputError } from 'apollo-server';
 const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
   Query: {
     projects: () => Projects.find().exec(),
-    myProjects: (parent, args, { userId }) => {
+    myProjects: (_, args, { userId }) => {
       if (!userId) {
         throw new ForbiddenError('Anonymous user unauthorized to view my apps');
       }
       return Projects.find({ ownerId: userId }).exec();
     },
-    findProjects: (parent, { selectors }) => {
-      const appSelector = selectors;
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      const _id = appSelector.id;
-      delete appSelector.id;
-
+    findProjects: (_, { selectors }) => {
       return Projects.find({
         ...selectors,
-        ...(_id && { _id }),
       }).exec();
     },
-    project: (parent, { id, projectId }) => {
-      if (!id && !projectId) {
-        throw new UserInputError(
-          'Please provide atleast one argument for id or projectId'
-        );
+    project: async (_, { projectId }, { userId }) => {
+      if (!await Projects.isAuthorized(projectId, userId)) {
+        throw new ForbiddenError('User unauthorized to view the app');
       }
-      return Projects.findOne({
-        ...(projectId && { projectId }),
-        ...(id && { _id: id }),
-      }).exec();
+      return Projects.findOne({ projectId }).exec();
     },
   },
   Mutation: {
-    createProject: async (parent, { project }, { userId }) => {
+    createProject: async (_, { project }, { userId }) => {
       if (!userId) {
         throw new ForbiddenError(
           'Anonymous user unauthorized to create new app'
@@ -69,18 +57,14 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
 
       return newProject;
     },
-    updateProject: async (parent, { id, project }, { userId }) => {
-      const projectRecord = project;
-      if (!Projects.isAuthorized(id, userId)) {
+    updateProject: async (_, { projectId, project }, { userId }) => {
+      if (!await Projects.isAuthorized(projectId, userId)) {
         throw new ForbiddenError('User unauthorized to update the app');
       }
-      if (projectRecord.path) {
-        projectRecord.projectId = uniqueIdFromPath(project.path);
-      }
-      const updatedProject = await Projects.findByIdAndUpdate(
-        id,
+      const updatedProject = await Projects.findOneAndUpdate(
+        { projectId },
         {
-          ...projectRecord,
+          ...project,
           updatedBy: userId,
           updatedOn: new Date(),
         },
@@ -95,16 +79,16 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
 
       return updatedProject;
     },
-    deleteProject: async (parent, { id }, { userId }) => {
-      if (!Projects.isAuthorized(id, userId)) {
+    deleteProject: async (_, { projectId }, { userId }) => {
+      if (!await Projects.isAuthorized(projectId, userId)) {
         throw new ForbiddenError('User unauthorized to delete the app');
       }
-      const project = await Projects.findByIdAndRemove(id).exec();
+      const project = await Projects.findOneAndRemove({projectId}).exec();
 
       if (project) {
         const input = {
           dataSource: 'oneportal',
-          documents: [{ id: project._id }],
+          documents: [{ id: projectId }],
         };
         ProjectsHelper.manageSearchIndex(input, 'delete');
       }
@@ -112,13 +96,13 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       return project;
     },
     transferProjectOwnership: async (
-      parent,
+      _,
       { projectId, ownerId },
       { userId }
     ) => {
       const project = await Projects.findOne({ projectId }).exec();
       if (!project) {
-        throw new NotFoundError(`Project not found for id: "${projectId}"`);
+        throw new NotFoundError(`Project not found for projectId: "${projectId}"`);
       }
       if (project.ownerId !== userId) {
         throw new ForbiddenError('User not authorized to transfer ownership.');
@@ -138,7 +122,7 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       permissions.unshift({
         name: owner.name,
         email: owner.email,
-        refId: owner.uuserId,
+        refId: owner.uuid,
         refType: Project.PermissionsRefType.USER,
         role: Project.PermissionsRole.EDIT,
       });
@@ -161,10 +145,10 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       ).exec();
     },
 
-    newApplication: async (parent, { projectId, application }, { userId }) => {
+    newApplication: async (_, { projectId, application }, { userId }) => {
       const project = await Projects.findOne({ projectId }).exec();
       if (!project) {
-        throw new NotFoundError(`Project not found for id: "${projectId}"`);
+        throw new NotFoundError(`Project not found for projectId: "${projectId}".`);
       }
       if (project.ownerId !== userId) {
         throw new ForbiddenError('User not authorized.');
@@ -176,21 +160,21 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
         applications.findIndex((app) => app.name === application.name) !== -1
       ) {
         throw new Error(
-          `Application with name "${application.name}" already exists`
+          `Application with name "${application.name}" already exists.`
         );
       }
       if (
         applications.findIndex((app) => app.appId === application.appId) !== -1
       ) {
         throw new Error(
-          `Application with appId "${application.appId}" already exists`
+          `Application with appId "${application.appId}" already exists.`
         );
       }
       if (
-        applications.findIndex((app) => app.path === application.path) !== -1
+        applications.findIndex((app) => app.url === application.url) !== -1
       ) {
         throw new Error(
-          `Application with path "${application.path}" already exists`
+          `Application with url "${application.url}" already exists.`
         );
       }
 
@@ -208,13 +192,13 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       ).exec();
     },
     updateApplication: async (
-      parent,
+      _,
       { projectId, appId, application },
       { userId }
     ) => {
       const project = await Projects.findOne({ projectId }).exec();
       if (!project) {
-        throw new NotFoundError(`Project not found for id: "${projectId}"`);
+        throw new NotFoundError(`Project not found for projectId: "${projectId}".`);
       }
       if (project.ownerId !== userId) {
         throw new ForbiddenError('User not authorized.');
@@ -225,7 +209,7 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       const appIndex = applications.findIndex((app) => app.appId === appId);
 
       if (appIndex === -1) {
-        throw new NotFoundError(`App not found for appId "${appId}"`);
+        throw new NotFoundError(`App not found for appId "${appId}".`);
       }
 
       applications[appIndex] = {
@@ -244,10 +228,10 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
         { new: true }
       ).exec();
     },
-    deleteApplication: async (parent, { projectId, appId }, { userId }) => {
+    deleteApplication: async (_, { projectId, appId }, { userId }) => {
       const project = await Projects.findOne({ projectId }).exec();
       if (!project) {
-        throw new NotFoundError(`Project not found for id: "${projectId}"`);
+        throw new NotFoundError(`Project not found for projectId: "${projectId}"`);
       }
       if (project.ownerId !== userId) {
         throw new ForbiddenError('User not authorized.');
@@ -274,18 +258,24 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
     },
 
     createProjectDatabase: async (
-      parent,
-      { id, databaseName, description, permissions },
+      _,
+      { projectId, databaseName, description, permissions },
       { userId }
     ) => {
-      if (!Projects.isAuthorized(id, userId)) {
+      if (!await Projects.isAuthorized(projectId, userId)) {
         throw new Error('User unauthorized to create database for the app');
       }
 
-      const project = await Projects.findById(id);
+      const project = await Projects.findOne({projectId}).exec();
       if (!project) {
-        throw new Error('App not found');
+        throw new Error('Project not found');
       }
+
+      const dbExists = project.database.databases.findIndex(db => db.name === databaseName) !== -1;
+      if (dbExists) {
+        throw new Error('Database already exists.');
+      }
+
       const database = {
         name: databaseName,
         description,
@@ -293,7 +283,7 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       };
 
       if (isEmpty(database.permissions)) {
-        /* TODO: Add default users from the app permission model */
+        /* TODO: Add default users from the project permissions */
         database.permissions = {
           admins: [`user:${project.ownerId}`],
           users: [`user:${project.ownerId}`, 'op-users'],
@@ -327,14 +317,14 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
         { new: true }
       ).exec();
     },
-    deleteProjectDatabase: async (parent, { id, databaseName }, { userId }) => {
-      if (!Projects.isAuthorized(id, userId)) {
+    deleteProjectDatabase: async (_, { projectId, databaseName }, { userId }) => {
+      if (!await Projects.isAuthorized(projectId, userId)) {
         throw new Error('User unauthorized to delete database from the app');
       }
 
-      const project = await Projects.findById(id);
+      const project = await Projects.findOne({projectId}).exec();
       if (!project) {
-        throw new Error('App not found');
+        throw new Error('Project not found');
       }
 
       try {
@@ -358,11 +348,11 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       ).exec();
     },
     manageProjectDatabase: async (
-      parent,
-      { id, databaseName, description, permissions },
+      _,
+      { projectId, databaseName, description, permissions },
       { userId }
     ) => {
-      if (!Projects.isAuthorized(id, userId)) {
+      if (!await Projects.isAuthorized(projectId, userId)) {
         throw new ForbiddenError('User unauthorized to manage the database');
       }
 
@@ -372,7 +362,7 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
         );
       }
 
-      const project = await Projects.findById(id);
+      const project = await Projects.findOne({projectId}).exec();
       if (!project) {
         throw new NotFoundError('App not found');
       }
@@ -383,7 +373,7 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       );
       if (dbIndex === -1) {
         throw new NotFoundError(
-          `The database "${databaseName}" does not exist for the given app.`
+          `The database "${databaseName}" does not exist for the given project.`
         );
       }
 

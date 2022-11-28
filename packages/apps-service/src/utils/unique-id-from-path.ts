@@ -1,5 +1,4 @@
 import { customAlphabet } from 'nanoid';
-import logger from '../lib/logger';
 
 const nanoid = customAlphabet('0123456789abcdef', 6);
 const defaultAppName = 'app';

@@ -1,12 +1,12 @@
 import { IResolvers } from '@graphql-tools/utils';
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import NotFoundError from '../../utils/not-found-error';
 import Projects from '../projects/model';
 import ApplicationDrawerEntrys from './model';
 
 const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
   Query: {
-    apps: (_, { filter, sort }) => {
+    apps: (_, { filter, sort = { field: 'createdOn', order: -1 } }) => {
       return ApplicationDrawerEntrys.find(filter)
         .sort({ [sort.field]: sort.order })
         .exec();
@@ -16,7 +16,7 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
     },
   },
   Mutation: {
-    addAppDrawerEntry: async (_, { projectId, appDrawerEntry}, ctx) => {
+    addAppDrawerEntry: async (_, { projectId, appDrawerEntry }, ctx) => {
       if (!ctx.userId) {
         throw new AuthenticationError('User Not Authenticated');
       }
@@ -27,11 +27,13 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         );
       }
 
-      return new ApplicationDrawerEntrys(
-        appDrawerEntry
-      ).save();
+      return new ApplicationDrawerEntrys(appDrawerEntry).save();
     },
-    updateAppDrawerEntry: async (_, { projectId, appId, appDrawerEntry }, ctx) => {
+    updateAppDrawerEntry: async (
+      _,
+      { projectId, appId, appDrawerEntry },
+      ctx
+    ) => {
       if (!ctx.userId) {
         throw new AuthenticationError('User Not Authenticated');
       }
@@ -40,6 +42,13 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         throw new NotFoundError(
           'Project with matching "projectId" does not exist.'
         );
+      }
+
+      const existingAppDrawerEntry = await ApplicationDrawerEntrys.findOne({
+        appId,
+      }).exec();
+      if (!existingAppDrawerEntry) {
+        throw new NotFoundError(`No entry found for appId: "${appId}".`);
       }
 
       return ApplicationDrawerEntrys.updateOne(
@@ -59,154 +68,47 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         );
       }
 
+      const appDrawerEntry = await ApplicationDrawerEntrys.findOne({
+        appId,
+      }).exec();
+      if (!appDrawerEntry) {
+        throw new NotFoundError(`No entry found for appId: "${appId}".`);
+      }
+
       return ApplicationDrawerEntrys.findOneAndRemove({
         projectId,
         appId,
       }).exec();
+    },
+    setApplicationAuthentication: async (_, { projectId, appId, value }, { userId }) => {
+      if (!userId) {
+        throw new AuthenticationError('User Not Authenticated.');
+      }
+
+      if (!await Projects.isAuthorized(projectId, userId)) {
+        throw new ForbiddenError('User not authorized to change app settings.');
+      }
+
+      const project = await Projects.findOne({ projectId }).exec();
+      if (!project) {
+        throw new NotFoundError('Project with matching "projectId" does not exist.');
+      }
+
+      const appDrawerEntry = await ApplicationDrawerEntrys.findOne({
+        appId,
+      }).exec();
+      if (!appDrawerEntry) {
+        throw new NotFoundError(`No entry found for appId: "${appId}".`);
+      }
+
+      return ApplicationDrawerEntrys.findOneAndUpdate(
+        { projectId, appId },
+        {
+          authenticate: value,
+        },
+        { new: true }
+      ).exec();
     }
-    // newApp: async (_, { projectId, app }, ctx) => {
-    //   if (!ctx.userId) {
-    //     throw new AuthenticationError('User Not Authenticated');
-    //   }
-    //   const project = await Projects.findOne({ projectId }).exec();
-    //   if (!project) {
-    //     throw new NotFoundError(
-    //       'Project with matching "projectId" does not exist.'
-    //     );
-    //   }
-
-    //   const application = new Applications({ ...app, projectId: project.id });
-    //   await application.validate();
-
-    //   const hosting = project.hosting;
-    //   if (!hosting.applications) {
-    //     hosting.applications = [];
-    //   }
-    //   hosting.applications.push(application._id);
-
-    //   await project.updateOne({ hosting });
-    //   return await application.save();
-    // },
-    // updateApp: async (_, { projectId, appId, app }, ctx) => {
-    //   if (!ctx.userId) {
-    //     throw new AuthenticationError('User Not Authenticated');
-    //   }
-    //   const project = await Projects.findOne({ projectId }).exec();
-    //   if (!project) {
-    //     throw new NotFoundError(
-    //       'Project with matching "projectId" does not exist.'
-    //     );
-    //   }
-
-    //   const application = await Applications.findOne({ appId }).exec();
-    //   if (!application) {
-    //     throw new NotFoundError(
-    //       'Application with matching "appId" does not exist.'
-    //     );
-    //   }
-
-    //   if (
-    //     project.hosting.applications.findIndex(
-    //       (id) => id === application._id
-    //     ) === -1
-    //   ) {
-    //     throw new NotFoundError(
-    //       'The Project does not contain any application matching the "appId"'
-    //     );
-    //   }
-
-    //   return await application.updateOne({ ...app }, { new: true }).exec();
-    // },
-    // deleteApp: async (_, { projectId, appId }, ctx) => {
-    //   if (!ctx.userId) {
-    //     throw new AuthenticationError('User Not Authenticated');
-    //   }
-    //   const project = await Projects.findOne({ projectId }).exec();
-    //   if (!project) {
-    //     throw new NotFoundError(
-    //       'Project with matching "projectId" does not exist.'
-    //     );
-    //   }
-
-    //   const application = await Applications.findOne({ appId }).exec();
-    //   if (!application) {
-    //     throw new NotFoundError(
-    //       'Application with matching "appId" does not exist.'
-    //     );
-    //   }
-
-    //   if (
-    //     project.hosting.applications.findIndex(
-    //       (id) => id === application._id
-    //     ) === -1
-    //   ) {
-    //     throw new NotFoundError(
-    //       'The Project does not contain any application matching the "appId"'
-    //     );
-    //   }
-
-    //   return application.remove();
-    // },
-    // setAppAuthentication: async (_, { projectId, appId, value }, ctx) => {
-    //   if (!ctx.userId) {
-    //     throw new AuthenticationError('User Not Authenticated');
-    //   }
-    //   const project = await Projects.findOne({ projectId }).exec();
-    //   if (!project) {
-    //     throw new NotFoundError(
-    //       'Project with matching "projectId" does not exist.'
-    //     );
-    //   }
-
-    //   const application = await Applications.findOne({ appId }).exec();
-    //   if (!application) {
-    //     throw new NotFoundError(
-    //       'Application with matching "appId" does not exist.'
-    //     );
-    //   }
-
-    //   if (
-    //     project.hosting.applications.findIndex(
-    //       (id) => id === application._id
-    //     ) === -1
-    //   ) {
-    //     throw new NotFoundError(
-    //       'The Project does not contain any application matching the "appId"'
-    //     );
-    //   }
-
-    //   return application.updateOne({ authenticate: value }).exec();
-    // },
-    // showAppInAppDrawer: async (_, { projectId, appId, value }, ctx) => {
-    //   if (!ctx.userId) {
-    //     throw new AuthenticationError('User Not Authenticated');
-    //   }
-    //   const project = await Projects.findOne({ projectId }).exec();
-    //   if (!project) {
-    //     throw new NotFoundError(
-    //       'Project with matching "projectId" does not exist.'
-    //     );
-    //   }
-
-    //   const application = await Applications.findOne({ appId }).exec();
-    //   if (!application) {
-    //     throw new NotFoundError(
-    //       'Application with matching "appId" does not exist.'
-    //     );
-    //   }
-
-    //   if (
-    //     project.hosting.applications.findIndex(
-    //       (id) => id === application._id
-    //     ) === -1
-    //   ) {
-    //     throw new NotFoundError(
-    //       'The Project does not contain any application matching the "appId"'
-    //     );
-    //   }
-
-    //   return application.updateOne({ showInAppDrawer: value }).exec();
-    // },
   },
 };
 

@@ -1,11 +1,9 @@
 declare type Project = {
-  appId: string;
-  isActive: boolean;
+  projectId: string;
   name: string;
   description: string;
   path: string;
   icon: string;
-  entityType: Project.EntityType;
   colorScheme: string;
   videoUrl: string;
   ownerId: string;
@@ -54,10 +52,6 @@ declare type Project = {
 };
 
 namespace Project {
-  declare const enum EntityType {
-    SPA = 'SPA',
-    MICROSERVICE = 'MICROSERVICE',
-  }
   declare const enum PermissionsRole {
     EDIT = 'EDIT',
     VIEW = 'VIEW',
@@ -84,9 +78,8 @@ namespace Project {
   type Application = {
     appId: string;
     name: string;
-    path: string;
+    url: string;
     type: string;
-    authenticate: boolean;
-    environments: [{ name: string; ref: string; url: string; createdAt: Date }];
+    environments: [{ name: string; version: string; url: string; createdAt: Date }];
   };
 }

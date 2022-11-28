@@ -3,4 +3,5 @@ declare type ApplicationDrawerEntry = {
   projectId: string,
   appId: string,
   label: string,
+  authenticate: boolean,
 };
