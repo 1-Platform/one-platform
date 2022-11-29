@@ -38,8 +38,8 @@
                     <div class="pf-u-font-weight-bold">Presets :</div>
                     <div *ngFor="let preset of presets;index as i" class="pf-c-radio">
                         <input type="radio" name="preset" value="{{ preset.value }}" [(ngModel)]="selectedPreset"
-                            class="pf-c-radio__input">
-                        <label for="preset" class="pf-c-radio__label">{{ preset.name }}</label>
+                            class="pf-c-radio__input" id="{{ preset.name }}">
+                        <label for="{{ preset.name }}" class="pf-c-radio__label">{{ preset.name }}</label>
                     </div>
                 </div>
             </div>
