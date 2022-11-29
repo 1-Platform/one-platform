@@ -178,7 +178,10 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
         );
       }
 
-      applications.push(application);
+      applications.push( {
+        ...application,
+        createdBy: userId,
+      } );
 
       return Projects.findOneAndUpdate(
         { projectId },
@@ -189,7 +192,11 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
           },
         },
         { new: true }
-      ).exec();
+      )
+        .exec()
+        .then((project) => {
+          return project?.hosting.applications.at(-1);
+        });
     },
     updateApplication: async (
       _,
@@ -215,6 +222,8 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       applications[appIndex] = {
         ...applications[appIndex],
         ...application,
+        updatedBy: userId,
+        updatedOn: new Date(),
       };
 
       return Projects.findOneAndUpdate(
@@ -226,7 +235,11 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
           },
         },
         { new: true }
-      ).exec();
+      )
+        .exec()
+        .then((project) => {
+          return project?.hosting.applications.at(-1);
+        });
     },
     deleteApplication: async (_, { projectId, appId }, { userId }) => {
       const project = await Projects.findOne({ projectId }).exec();
@@ -242,6 +255,7 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
       if (appIndex === -1) {
         throw new NotFoundError(`App not found for appId "${appId}"`);
       }
+      const application = applications[ appIndex ];
 
       applications.splice(appIndex, 1);
 
@@ -254,7 +268,11 @@ const ProjectsResolver = <IResolvers<Project, IAppsContext>>{
           },
         },
         { new: true }
-      ).exec();
+      )
+        .exec()
+        .then((_) => {
+          return application;
+        });
     },
 
     createProjectDatabase: async (

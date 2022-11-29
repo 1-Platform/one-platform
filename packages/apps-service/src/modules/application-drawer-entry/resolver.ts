@@ -27,7 +27,19 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         );
       }
 
-      return new ApplicationDrawerEntrys(appDrawerEntry).save();
+      const application = project.hosting.applications.find(
+        (app) => app.appId === appDrawerEntry.appId
+      );
+      if (!application) {
+        throw new NotFoundError(
+          'Application with matching "appId" does not exist.'
+        );
+      }
+
+      return new ApplicationDrawerEntrys({
+        ...appDrawerEntry,
+        projectId,
+      }).save();
     },
     updateAppDrawerEntry: async (
       _,
@@ -80,18 +92,24 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         appId,
       }).exec();
     },
-    setApplicationAuthentication: async (_, { projectId, appId, value }, { userId }) => {
+    setApplicationAuthentication: async (
+      _,
+      { projectId, appId, value },
+      { userId }
+    ) => {
       if (!userId) {
         throw new AuthenticationError('User Not Authenticated.');
       }
 
-      if (!await Projects.isAuthorized(projectId, userId)) {
+      if (!(await Projects.isAuthorized(projectId, userId))) {
         throw new ForbiddenError('User not authorized to change app settings.');
       }
 
       const project = await Projects.findOne({ projectId }).exec();
       if (!project) {
-        throw new NotFoundError('Project with matching "projectId" does not exist.');
+        throw new NotFoundError(
+          'Project with matching "projectId" does not exist.'
+        );
       }
 
       const appDrawerEntry = await ApplicationDrawerEntrys.findOne({
@@ -108,7 +126,34 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         },
         { new: true }
       ).exec();
-    }
+    },
+  },
+  ApplicationDrawerEntry: {
+    application: (parent) => {
+      return Projects.findOne({ projectId: parent.projectId })
+        .exec()
+        .then((project) => {
+          if (!project) {
+            throw new NotFoundError(
+              'Project with matching "projectId" does not exist.'
+            );
+          }
+
+          const application = project.hosting.applications.find(
+            (app) => app.appId === parent.appId
+          );
+          if (!application) {
+            throw new NotFoundError(
+              'Application with matching "appId" does not exist.'
+            );
+          }
+
+          return application;
+        });
+    },
+    name: (parent) => parent.label,
+    applicationType: (parent) => 'HOSTED',
+    isActive: (_) => true,
   },
 };
 

@@ -29,8 +29,8 @@ export const getApp = async () => {
             ?.replace(/\s+/g, ' ')
             .trim();
           const variables = JSON.stringify(requestContext.request.variables);
-          logger.debug(
-            `[Request Started] { query: ${query?.trim()}, variables: ${variables}, operationName: ${
+          logger.info(
+            `[Request Started] { query: "${query?.trim()}", variables: ${variables}, operationName: ${
               requestContext.request.operationName
             } }`
           );

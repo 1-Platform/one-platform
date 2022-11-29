@@ -3,56 +3,62 @@
 const ApplicationsSchema = /* GraphQL */ `
   type Query {
     apps(filter: ApplicationsFilter, sort: SortInput): [ApplicationDrawerEntry]
-    app(appId: String): ApplicationDrawerEntry
+    app(appId: ID): ApplicationDrawerEntry
   }
 
   type Mutation {
     addAppDrawerEntry(
-      projectId: String!
+      projectId: ID!
       appDrawerEntry: NewAppDrawerEntryInput!
     ): ApplicationDrawerEntry
     updateAppDrawerEntry(
-      projectId: String!
-      appId: String!
+      projectId: ID!
+      appId: ID!
       appDrawerEntry: UpdateAppDrawerEntryInput!
     ): ApplicationDrawerEntry
-    deleteAppDrawerEntry(
-      projectId: String!
-      appId: String!
-    ): ApplicationDrawerEntry
+    deleteAppDrawerEntry(projectId: ID!, appId: ID!): ApplicationDrawerEntry
 
     setApplicationAuthentication(
-      projectId: String!
+      projectId: ID!
       appId: ID!
-      value: Boolean
+      value: Boolean!
     ): ApplicationDrawerEntry
   }
 
   type ApplicationDrawerEntry {
-    _id: ID
     projectId: ID
     appId: ID
     label: String
+    path: String
     authenticate: Boolean
+    icon: String
     application: Application
+    name: String
+      @deprecated(
+        reason: "This field will be deprecated in the future. Please use 'label' instead."
+      )
+    applicationType: String
+      @deprecated(reason: "This field will be deprecated in the future.")
+    isActive: Boolean
+      @deprecated(reason: "This field will be deprecated in the future.")
   }
 
   input ApplicationsFilter {
-    appId: String
-    name: String
+    appId: ID
+    label: String
     path: String
     authenticate: Boolean
   }
   input NewAppDrawerEntryInput {
-    appId: String
-    name: String!
+    appId: ID!
+    label: String!
     path: String!
-    authenticate: Boolean
     icon: String
+    authenticate: Boolean
   }
   input UpdateAppDrawerEntryInput {
-    appId: String
-    name: String
+    appId: ID
+    label: String
     path: String
     authenticate: Boolean
     icon: String
