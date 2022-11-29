@@ -62,7 +62,10 @@ const ConfigureLighthouse = (props: any) => {
   const lighthouseConfigDocLink =
     'https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md';
   const opLighthouseDocLink =
-    window.location.origin + '/get-started/docs/apps/internal/lighthouse';
+    window.location.origin + '/get-started/docs/lighthouse';
+  const opLighthouseTokenGuideLink =
+    window.location.origin +
+    '/get-started/docs/lighthouse/guides#build-tokens-and-admin-tokens';
   const lighthouseSPALink = window.location.origin + '/lighthouse';
 
   // Modal helpers
@@ -265,6 +268,7 @@ const ConfigureLighthouse = (props: any) => {
                 You can link your app with a project on One Platform Lighthouse
                 CI server
                 <Button
+                  component="a"
                   variant="link"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -305,7 +309,15 @@ const ConfigureLighthouse = (props: any) => {
               <div>
                 Please note the following build and admin tokens for your
                 lighthouse property
-                <Button variant="link">Learn more about these tokens</Button>
+                <Button
+                  variant="link"
+                  component="a"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={opLighthouseTokenGuideLink}
+                >
+                  Learn more about these tokens
+                </Button>
               </div>
               <br />
               <form>
