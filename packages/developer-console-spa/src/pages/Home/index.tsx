@@ -3,31 +3,44 @@ import {
   Card,
   CardBody,
   DropdownItem,
+  EmptyState,
+  EmptyStateBody,
   Flex,
   FlexItem,
   Grid,
   GridItem,
+  Pagination,
   Split,
   Stack,
   StackItem,
   Text,
   Title,
 } from '@patternfly/react-core';
-import { ReactComponent as HeroBg } from 'assets/hero-bg.svg';
 import Loader from 'common/components/Loader';
 import ProjectCard from 'common/components/ProjectCard';
-import UnderDevelopment from 'common/components/UnderDevelopment';
 import { useDynamicScrollSpy } from 'common/hooks/useDynamicScrollSpy';
 import useMyProjectsAPI from 'common/hooks/useMyProjectsAPI';
 import config from 'config';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import NotFound from 'pages/NotFound';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import offerings from './app-services.json';
 import './styles.css';
+import HeroBg from 'assets/hero-bg.png';
+import { usePagination } from 'common/hooks/usePagination';
+
+const projectsTabs = [
+  { label: 'My Projects', id: 'myProjects' },
+  { label: 'Shared with me', id: 'shared' },
+];
 
 function AppIndex() {
   const { projects, loading } = useMyProjectsAPI();
-  const [activeProjectsTab, setActiveProjectsTab] = useState(0);
+  const [activeProjectsTab, setActiveProjectsTab] = useState(projectsTabs[0].id);
+
+  const { pagination, onSetPage, onPerPageSelect } = usePagination({ page: 1, perPage: 2 });
+  const { page: currentPage, perPage } = pagination;
+
   const [activeServicesTabKey, setActiveServicesTabKey] = useState(
     offerings[0].label.toLowerCase()
   );
@@ -47,58 +60,79 @@ function AppIndex() {
     }
   }, [activeEntry]);
 
-  const handleProjectsTab = useCallback((tabIndex: number) => {
-    setActiveProjectsTab(tabIndex);
-  }, []);
+  const handleProjectsTab = (tabId: string) => {
+    setActiveProjectsTab(tabId);
+  };
 
-  const handleServicesTab = useCallback((tabKey: string) => {
+  const handleServicesTab = (tabKey: string) => {
     setActiveServicesTabKey(tabKey);
-  }, []);
+  };
 
-  const cardDropdownItems = useCallback(
-    (appId: string) => [
-      <DropdownItem
-        key="edit"
-        href={process.env.PUBLIC_URL + '/' + appId + '/settings'}
-      >
-        Edit App
-      </DropdownItem>,
-      <DropdownItem
-        key="delete"
-        className="pf-u-danger-color-100"
-        href={process.env.PUBLIC_URL + '/' + appId + '/settings?action=delete'}
-      >
-        Delete App
-      </DropdownItem>,
-    ],
-    []
-  );
+  const cardDropdownItems = (appId: string) => [
+    <DropdownItem
+      key="edit"
+      href={process.env.PUBLIC_URL + '/' + appId + '/settings'}
+    >
+      Edit Project
+    </DropdownItem>,
+    <DropdownItem
+      key="delete"
+      className="pf-u-danger-color-100"
+      href={process.env.PUBLIC_URL + '/' + appId + '/settings?action=delete'}
+    >
+      Delete Project
+    </DropdownItem>,
+  ];
 
-  const generateProjectCards = useCallback(
-    (filteredProjects: Project[]) =>
-      filteredProjects
-        .map((project) => (
-          <GridItem key={project.id}>
-            <ProjectCard
-              project={project}
-              dropdownItems={cardDropdownItems(project.projectId)}
-            />
-          </GridItem>
-        ))
-        .reverse(),
-    [cardDropdownItems]
-  );
+  const filteredProjects = useMemo( () => {
+    return projectsTabs[0].id === activeProjectsTab ? projects : [];
+  }, [activeProjectsTab, projects] );
 
-  const filteredProjectCards = useMemo(() => {
-    if (activeProjectsTab === 0) {
-      return generateProjectCards(projects || []);
+  const renderFilteredProjectCards = () => {
+    if ( projectsTabs.findIndex( tab => tab.id === activeProjectsTab ) === -1 ) {
+      return (
+        <NotFound/>
+      );
     }
+
+    if (filteredProjects.length === 0) {
+      return (
+        <EmptyState>
+          <EmptyStateBody>
+            <Title headingLevel="h3">Nothing to show here!</Title>
+            <Text>
+              You can create a new project by clicking on the 'New Project'
+              button on the left!
+            </Text>
+          </EmptyStateBody>
+        </EmptyState>
+      );
+    }
+
+    const paginateProjects = (projectsList: Project[]) => {
+      return projectsList.slice(
+        (currentPage - 1) * perPage,
+        currentPage * perPage
+      );
+    };
+
     return (
-      <GridItem span={12}>
-        <UnderDevelopment />
-      </GridItem>
+      <>
+        <Grid hasGutter span={4}>
+          {paginateProjects(filteredProjects)
+            .map((project) => (
+              <GridItem key={project.projectId}>
+                <ProjectCard
+                  project={project}
+                  dropdownItems={cardDropdownItems(project.projectId)}
+                />
+              </GridItem>
+            ))
+            .reverse()}
+        </Grid>
+      </>
     );
-  }, [activeProjectsTab, projects, generateProjectCards]);
+  }
 
   return (
     <>
@@ -121,15 +155,21 @@ function AppIndex() {
                 </Text>
                 <Split hasGutter>
                   <Link to="/?new=true">
-                    <Button variant="primary">Get Started</Button>
+                    <Button
+                      className="opdc-main--hero__cta-btn"
+                      variant="primary"
+                    >
+                      Get Started
+                    </Button>
                   </Link>
                   <Button
                     variant="link"
                     component="a"
+                    className="opdc-main--hero__btn-link"
                     href="/get-started/docs/console"
                     target="_blank"
                   >
-                    Learn More
+                    Docs
                   </Button>
                 </Split>
               </GridItem>
@@ -138,32 +178,27 @@ function AppIndex() {
                 order={{ default: '1', md: '2' }}
                 className="opdc-main--hero__bg"
               >
-                <HeroBg />
+                <img src={HeroBg} alt="hero" />
               </GridItem>
             </Grid>
           </StackItem>
-          <StackItem>
-            <Card isRounded>
+          <StackItem id="project-cards">
+            <Card isRounded className="pf-u-box-shadow-md">
               <CardBody>
                 <Grid hasGutter>
                   <GridItem span={2}>
                     <ul className="opdc-main--project__tabs">
-                      <li
-                        className="opdc-main--project__tab"
-                        data-active={activeProjectsTab === 0}
-                      >
-                        <button onClick={() => handleProjectsTab(0)}>
-                          My Projects
-                        </button>
-                      </li>
-                      <li
-                        className="opdc-main--project__tab"
-                        data-active={activeProjectsTab === 1}
-                      >
-                        <button onClick={() => handleProjectsTab(1)}>
-                          Shared with me
-                        </button>
-                      </li>
+                      {projectsTabs.map((tab) => (
+                        <li
+                          key={tab.id}
+                          className="opdc-main--project__tab"
+                          data-active={activeProjectsTab === tab.id}
+                        >
+                          <button onClick={() => handleProjectsTab(tab.id)}>
+                            {tab.label}
+                          </button>
+                        </li>
+                      ))}
                       <li className="opdc-main--project__tab pf-u-mt-lg">
                         <Link to="/?new=true">
                           <Button
@@ -177,12 +212,20 @@ function AppIndex() {
                     </ul>
                   </GridItem>
                   <GridItem span={10}>
-                    {loading ? (
-                      <Loader />
-                    ) : (
-                      <Grid hasGutter span={4}>
-                        {filteredProjectCards}
-                      </Grid>
+                    {loading ? <Loader /> : renderFilteredProjectCards()}
+
+                    {filteredProjects.length > perPage && (
+                      <Pagination
+                        itemCount={filteredProjects.length}
+                        perPage={perPage}
+                        page={currentPage}
+                        onSetPage={(_, nextPage) => onSetPage(nextPage)}
+                        onPerPageSelect={(_, newPerPage, newPage) => {
+                          onPerPageSelect(newPerPage);
+                          onSetPage(newPage);
+                        } }
+                        perPageOptions={[]}
+                      />
                     )}
                   </GridItem>
                 </Grid>

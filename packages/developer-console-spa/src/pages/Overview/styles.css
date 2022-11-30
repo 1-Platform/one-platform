@@ -3,4 +3,5 @@
   --pf-c-menu__item--PaddingBottom: 1rem;
   --pf-c-menu__item--PaddingLeft: 1.5rem;
   --pf-c-menu__item--PaddingRight: 1.5rem;
+  z-index: 0;
 }

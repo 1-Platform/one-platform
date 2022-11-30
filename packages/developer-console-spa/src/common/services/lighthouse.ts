@@ -81,13 +81,13 @@ export const createLHSpaConfig = async (config: Lighthouse.Config) => {
       throw err;
     });
 };
-export const deleteLHSpaConfig = async (id: string) => {
-  if (id === (null || undefined)) {
+export const deleteLHSpaConfig = async (projectId: string) => {
+  if (projectId === (null || undefined)) {
     throw Error('Id can not be null');
   }
   return gqlClient({
     query: deleteLHSPAConfig,
-    variables: { id },
+    variables: { projectId },
   })
     .then((res) => {
       if (res.errors && !res?.data?.deleteLHSpaConfig) {
@@ -103,13 +103,13 @@ export const deleteLHSpaConfig = async (id: string) => {
 };
 
 export const getLHSpaConfigByAppId = async (
-  appId: string,
+  projectId: string,
   signal: AbortSignal
 ) => {
   return gqlClient(
     {
       query: LHSpaConfigByAppId,
-      variables: { appId },
+      variables: { projectId },
     },
     signal
   )

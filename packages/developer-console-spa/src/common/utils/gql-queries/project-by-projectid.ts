@@ -1,13 +1,10 @@
 export const projectByProjectId = /* GraphQL */`
-query App($projectId: String!) {
-  project: app ( appId: $projectId ) {
-    id
+query ($projectId: ID!) {
+  project ( projectId: $projectId ) {
     name
-    projectId: appId
-    path
+    projectId
     description
     ownerId
-    isActive
     createdOn
     createdBy
     updatedOn

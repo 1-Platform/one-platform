@@ -13,7 +13,7 @@ function ProjectCard ({ project, dropdownItems }: IProjectCardProps) {
 
   return (
     <>
-      <Card isRounded className="project-card">
+      <Card isRounded className="project-card" isFullHeight>
         <section className="project-card--body">
           <Link to={project.projectId}><Title headingLevel='h2'>{ project.name }</Title></Link>
           <p className="project-card--body__description">{ project.description }</p>

@@ -33,9 +33,6 @@ function AppOverview () {
                 <FlexItem flex={ { default: 'flex_1' } }>
                   <Title headingLevel="h1" className="pf-u-mb-sm">{ loading ? 'Loading...' : app.name }</Title>
                   <Flex direction={ { default: 'row' } }>
-                    {/* <FlexItem>
-                      <Text>Owner: <strong>{ app.owner }</strong></Text>
-                    </FlexItem> */}
                     <FlexItem>
                       <Text>Path: <strong>{ app.path }</strong></Text>
                     </FlexItem>

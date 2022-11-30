@@ -1,5 +1,5 @@
 export const listLHProjectBranches = /* GraphQL */`
- query ListLHProjectBranches($projectId: String!) {
+ query ($projectId: String!) {
   listLHProjectBranches(projectId: $projectId) {
     rows {
       branch

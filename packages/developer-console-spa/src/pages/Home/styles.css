@@ -4,28 +4,58 @@ html {
 }
 
 main.home {
-  background: rgb(221, 239, 255);
-  background: linear-gradient(180deg, rgba(221, 239, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-  background-attachment: fixed;
+  position: relative;
+}
+
+main.home::before {
+  width: 100dvw;
+  height: 20rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+  background: #fddbdb;
+  z-index: -1;
 }
 
 .opdc-main--hero {
   min-height: 15rem;
+  padding-top: 3rem;
+  padding-bottom: 6rem;
 }
+
 .opdc-main--hero__content {
   display: grid;
   place-content: center left;
 }
 .opdc-main--hero__bg {
-  text-align: right;
+  contain: size;
   display: grid;
   place-content: center;
 }
-.opdc-main--hero__bg > svg {
-  width: 90%;
-  margin-left: auto;
+.opdc-main--hero__bg > img {
+  width: 100%;
 }
 
+.opdc-main--hero__cta-btn.pf-c-button {
+  --pf-c-button--m-primary--BackgroundColor: #ee0000;
+  --pf-c-button--m-primary--hover--BackgroundColor: #a20000;
+  --pf-c-button--m-primary--focus--BackgroundColor: #a20000;
+  --pf-c-button--m-primary--active--BackgroundColor: #a20000;
+  font-weight: 600;
+}
+.opdc-main--hero__btn-link.pf-c-button {
+  --pf-c-button--m-link--Color: #ee0000;
+  --pf-c-button--m-link--hover--Color: #a20000;
+  --pf-c-button--m-link--focus--Color: #a20000;
+  --pf-c-button--m-link--active--Color: #a20000;
+}
+
+#project-cards {
+  margin-top: -2.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 .opdc-main--project__tabs {
   list-style: none;
   padding: 0;

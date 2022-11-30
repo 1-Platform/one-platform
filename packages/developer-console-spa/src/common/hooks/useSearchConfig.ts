@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { appSearchConfig } from 'common/utils/gql-queries';
+import { projectSearchConfig } from 'common/utils/gql-queries';
 import gqlClient from 'common/utils/gqlClient';
 
-export default function useSearchConfig ( appId: string ) {
+export default function useSearchConfig ( projectId: string ) {
   const [ searchConfig, setSearchConfig ] = useState<Project.SearchConfig>();
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {
-    if ( !appId ) {
+    if ( !projectId ) {
       return;
     }
     const abortController = new AbortController();
@@ -15,7 +15,7 @@ export default function useSearchConfig ( appId: string ) {
 
     setLoading( true );
 
-    gqlClient( { query: appSearchConfig, variables: { appId } }, signal )
+    gqlClient( { query: projectSearchConfig, variables: { projectId } }, signal )
       .then( res => {
         if ( !res || !res.data ) {
           setLoading( false );
@@ -32,7 +32,7 @@ export default function useSearchConfig ( appId: string ) {
       } );
 
     return () => abortController.abort();
-  }, [ appId ] );
+  }, [ projectId ] );
 
   return { searchConfig, setSearchConfig, loading };
 }

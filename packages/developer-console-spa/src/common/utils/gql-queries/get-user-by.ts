@@ -1,5 +1,5 @@
 export const getUsersBy = /* GraphQL */`
-query GetUsersBy($uid: String!) {
+query ($uid: String!) {
   getUsersBy ( uid: $uid ) {
     cn
     rhatUUID

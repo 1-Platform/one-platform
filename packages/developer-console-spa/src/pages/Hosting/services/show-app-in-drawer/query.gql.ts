@@ -1,5 +1,5 @@
 const query = /* GraphQL */`
-mutation ShowAppInDrawer ($projectId: String!, $enable: Boolean!) {
+mutation ShowAppInDrawer ($projectId: ID!, $enable: Boolean!) {
   showAppInDrawer(projectId: $projectId, enable: $enable) {
     name
     path

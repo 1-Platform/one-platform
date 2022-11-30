@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { appFeedbackConfig } from 'common/utils/gql-queries';
+import { projectFeedbackConfig } from 'common/utils/gql-queries';
 import gqlClient from 'common/utils/gqlClient';
 
-export default function useFeedbackConfig ( appId: string ) {
+export default function useFeedbackConfig ( projectId: string ) {
   const [ feedbackConfig, setFeedbackConfig ] = useState<FeedbackConfig>( {} as FeedbackConfig );
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {
-    if ( !appId ) {
+    if ( !projectId ) {
       return;
     }
     const abortController = new AbortController();
@@ -15,7 +15,7 @@ export default function useFeedbackConfig ( appId: string ) {
 
     setLoading( true );
 
-    gqlClient( { query: appFeedbackConfig, variables: { appId } }, signal )
+    gqlClient( { query: projectFeedbackConfig, variables: { projectId } }, signal )
       .then( res => {
         if ( !res || !res.data ) {
           setLoading( false );
@@ -32,7 +32,7 @@ export default function useFeedbackConfig ( appId: string ) {
       });
 
     return () => abortController.abort();
-  }, [ appId ] );
+  }, [ projectId ] );
 
   return { feedbackConfig, setFeedbackConfig, loading };
 }

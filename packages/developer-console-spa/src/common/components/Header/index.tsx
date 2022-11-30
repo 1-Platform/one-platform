@@ -166,7 +166,7 @@ export default function Header () {
                   {dropDownPanel}
                 </Dropdown>
               </SplitItem>
-              <SplitItem className="pf-u-ml-auto">
+              <SplitItem className="pf-u-ml-auto pf-u-my-auto">
                 <Link to="#" className="pf-u-font-weight-bold">
                   Go to docs
                 </Link>

@@ -14,7 +14,7 @@ import * as yup from 'yup';
 import gqlClient from 'common/utils/gqlClient';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TrashIcon from '@patternfly/react-icons/dist/esm/icons/trash-icon';
-import { deleteAppDatabase } from 'common/utils/gql-queries/delete-app-database';
+import { deleteAppDatabase } from 'common/utils/gql-queries';
 import { ProjectContext } from 'common/context/ProjectContext';
 
 interface DeleteDBInput {

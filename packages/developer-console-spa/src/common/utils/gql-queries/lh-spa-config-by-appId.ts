@@ -1,6 +1,6 @@
 export const LHSpaConfigByAppId = /* GraphQL */`
-  query GetLHSpaConfigByAppId($appId: String!) {
-    getLHSpaConfigByAppId(appId: $appId) {
+  query ($projectId: String!) {
+    getLHSpaConfigByAppId(appId: $projectId) {
       _id
       appId
       branch

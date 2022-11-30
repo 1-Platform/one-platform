@@ -4,7 +4,11 @@ export const HeaderContext = createContext<IHeaderContext>({} as IHeaderContext)
 
 export default function HeaderContextProvider(props: any) {
   const [pageTitle, setPageTitle] = useState<HeaderTitle[]>([]);
-  const [links, setLinks] = useState<ReactNode[]>([]);
+  const [ links, setLinks ] = useState<ReactNode[]>( [] );
+  const defaultTitle = {
+    title: 'Home',
+    path: '/',
+  }
 
   const setHeader = (args: string[] | HeaderTitle[]) => {
     const crumbs = args.map((arg: string | HeaderTitle) => {
@@ -16,7 +20,10 @@ export default function HeaderContextProvider(props: any) {
       return arg;
     });
 
-    setPageTitle(crumbs);
+    setPageTitle( [
+      defaultTitle,
+      ...crumbs
+    ] );
   };
 
   const setHeaderLinks = (components: ReactNode[]) => {

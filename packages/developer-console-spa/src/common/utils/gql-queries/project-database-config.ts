@@ -1,7 +1,7 @@
 export const appDatabaseConfig = /* GraphQL */`
-  query ($appId: String!) {
-    app(appId: $appId) {
-      appId
+  query ($projectId: ID!) {
+    project(projectId: $projectId) {
+      projectId
       database {
         isEnabled
         databases {

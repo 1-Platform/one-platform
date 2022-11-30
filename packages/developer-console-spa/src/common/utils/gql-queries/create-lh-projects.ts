@@ -1,5 +1,5 @@
 export const createLHProject = /* GraphQL */`
- mutation CreateLHProject($project: AddLHProjectInput!) {
+ mutation ($project: AddLHProjectInput!) {
   createLHProject(project: $project) {
     id
     name

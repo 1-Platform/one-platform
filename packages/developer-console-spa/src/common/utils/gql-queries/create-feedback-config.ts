@@ -1,8 +1,8 @@
 export const CreateFeedbackConfig = /* GraphQL */ `
-  mutation CreateFeedbackConfig($payload: FeedbackConfigInput!) {
+  mutation ($payload: FeedbackConfigInput!) {
     createFeedbackConfig(payload: $payload) {
       id
-      appId
+      projectId
     }
   }
 `;

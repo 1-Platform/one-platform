@@ -1,6 +1,6 @@
 const query = /* GraphQL */`
-query NewApp ($projectId: String!, $app: ApplicationInput!) {
-  newApp(projectId: $projectId, app: $app!) {
+query NewApp ($projectId: ID!, $app: ApplicationInput!) {
+  newApplication(projectId: $projectId, app: $app!) {
     name
     path
     authenticate

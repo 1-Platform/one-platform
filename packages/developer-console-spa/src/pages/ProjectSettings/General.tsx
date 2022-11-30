@@ -30,9 +30,9 @@ interface IGeneralSettings {
 }
 
 export default function General ( { project }: IGeneralSettings ) {
-  const { forceRefresh: forceRefreshApp } = useContext( ProjectContext );
+  const { projectId, forceRefresh } = useContext( ProjectContext );
   const [ isDeleteModalOpen, setDeleteModalOpen ] = useState( false );
-  const [ deleteAppConfirmation, setDeleteAppConfirmation ] = useState( '' );
+  const [ deleteProjectConfirmation, setDeleteProjectConfirmation ] = useState( '' );
   const history = useHistory();
   const searchParams = useQueryParams();
   const { control, handleSubmit, formState: { errors, isValid }, watch, reset } = useForm<IAppInput>( {
@@ -60,18 +60,18 @@ export default function General ( { project }: IGeneralSettings ) {
 
   const handleSaveApp = useCallback(( data: any ) => {
     setIsSaving( true );
-    updateProjectService( project.id, data )
+    updateProjectService( projectId, data )
       .then( updatedApp => {
-        forceRefreshApp( updatedApp );
-        window.OpNotification?.success( { subject: 'App Updated Successfully!' } );
+        forceRefresh( updatedApp );
+        window.OpNotification?.success( { subject: 'Project Updated Successfully!' } );
         setIsSaving( false );
       } )
       .catch( err => {
-        window.OpNotification?.danger( { subject: 'An error occurred when updating the App.', body: 'Please try again later.' } );
+        window.OpNotification?.danger( { subject: 'An error occurred when updating the Project.', body: 'Please try again later.' } );
         console.error( err );
         setIsSaving( false );
       } );
-  }, [ project.id, forceRefreshApp ] );
+  }, [forceRefresh, projectId] );
 
   useEffect( () => {
     handleReset();
@@ -89,11 +89,11 @@ export default function General ( { project }: IGeneralSettings ) {
     event.preventDefault();
     deleteProjectService( project.id )
       .then( () => {
-        window.OpNotification?.success( { subject: 'App Deleted Successfully!' } );
+        window.OpNotification?.success( { subject: 'Project Deleted Successfully!' } );
         history.push( '/' );
       } )
       .catch( err => {
-        window.OpNotification?.danger( { subject: 'An error occurred when deleting the App.', body: 'Please try again later.' } );
+        window.OpNotification?.danger( { subject: 'An error occurred when deleting the Project.', body: 'Please try again later.' } );
         console.error( err );
       } );
   };
@@ -102,7 +102,7 @@ export default function General ( { project }: IGeneralSettings ) {
     /* Remove the action=delete from the url search params */
     searchParams.delete( 'action' );
     history.replace( { search: searchParams.toString() } );
-    setDeleteAppConfirmation( '' );
+    setDeleteProjectConfirmation( '' );
   };
 
   return (
@@ -117,7 +117,7 @@ export default function General ( { project }: IGeneralSettings ) {
                     <FormGroup
                       isRequired
                       fieldId="name"
-                      label="App Name"
+                      label="Project Name"
                       helperText="Name of the project"
                       helperTextInvalid={ errors.name?.message }
                       validated={errors.name ? 'error' : 'default' }>
@@ -211,9 +211,9 @@ export default function General ( { project }: IGeneralSettings ) {
         <br />
         <Form onSubmit={ handleDeleteApp }>
           <FormGroup fieldId="delete-app" label={ `Please type "${ project.name }" to confirm` } isRequired>
-            <TextInput id="delete-app" autoFocus onChange={ val => setDeleteAppConfirmation( val ) } isRequired></TextInput>
+            <TextInput id="delete-app" autoFocus onChange={ val => setDeleteProjectConfirmation( val ) } isRequired></TextInput>
           </FormGroup>
-          <Button variant="danger" type="submit" isDisabled={ project.name !== deleteAppConfirmation }>I understand the consequences, delete this project</Button>
+          <Button variant="danger" type="submit" isDisabled={ project.name !== deleteProjectConfirmation }>I understand the consequences, delete this project</Button>
         </Form>
       </Modal>
     </>
