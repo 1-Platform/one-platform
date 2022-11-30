@@ -1,11 +1,8 @@
-export const createAppMutation = /* GraphQL */ `
-  mutation ($app: CreateAppInput!) {
-    createApp (app: $app) {
-      id
-      appId
+export const createProjectMutation = /* GraphQL */ `
+  mutation ($project: CreateProjectInput!) {
+    createProject (project: $project) {
+      projectId
       name
-      path
-      isActive
       ownerId
       createdBy
       createdOn
@@ -13,85 +10,72 @@ export const createAppMutation = /* GraphQL */ `
   }
 `;
 
-export const appsQuery = /* GraphQL */`
+export const projectsQuery = /* GraphQL */`
   query {
-    apps {
-      id
-      appId
-      name
-    }
-  }
-`;
-
-export const myAppsQuery = /* GraphQL */`
-  query {
-    myApps {
-      id
-      appId
+    projects {
+      projectId
       name
       ownerId
     }
   }
 `;
 
-export const appByIdQuery = /* GraphQL */ `
-  query ($id: ID) {
-    app(id: $id) {
-      id
-      appId
+export const myProjectsQuery = /* GraphQL */`
+  query {
+    myProjects {
+      projectId
       name
+      ownerId
     }
   }
 `;
 
-export const appByAppIdQuery = /* GraphQL */ `
-  query ($appId: String) {
-    app(appId: $appId) {
-      id
-      appId
+export const projectQuery = /* GraphQL */ `
+  query ($projectId: ID!) {
+    project(projectId: $projectId) {
+      projectId
       name
+      ownerId
     }
   }
 `;
 
-export const updateAppMutation = /* GraphQL */ `
-  mutation ($id: ID!, $app: UpdateAppInput!) {
-    updateApp(id: $id, app: $app) {
-      id
-      appId
+export const updateProjectMutation = /* GraphQL */ `
+  mutation ($projectId: ID!, $project: UpdateProjectInput!) {
+    updateProject(projectId: $projectId, project: $project) {
+      projectId
       name
-      path
       description
     }
   }
 `;
 
-export const findAppsQuery = /* GraphQL */`
-  query ($selectors: FindAppInput!) {
-    findApps (selectors: $selectors) {
-      id
-      appId
+export const findProjectsQuery = /* GraphQL */`
+  query ($selectors: FindProjectInput!) {
+    findProjects (selectors: $selectors) {
+      projectId
       name
-      path
     }
   }
 `;
 
-export const transferAppOwnershipMutation = /* GraphQL */`
-  mutation ($id: ID!, $ownerId: String!) {
-    transferAppOwnership (id: $id, ownerId: $ownerId) {
-      id
-      appId
+export const transferProjectOwnershipMutation = /* GraphQL */ `
+  mutation ($projectId: ID!, $ownerId: String!) {
+    transferProjectOwnership(projectId: $projectId, ownerId: $ownerId) {
+      projectId
       ownerId
+      permissions {
+        refId
+        role
+      }
     }
   }
 `;
 
-export const deleteAppMutation = /* GraphQL */`
-  mutation ($id: ID!) {
-    deleteApp (id: $id) {
-      id
-      appId
+export const deleteProjectMutation = /* GraphQL */`
+  mutation ($projectId: ID!) {
+    deleteProject (projectId: $projectId) {
+      projectId
     }
   }
 `;
