@@ -1,31 +1,26 @@
 /* Mongoose schema/model definition */
-import {
-  Document, Model, model, Schema,
-} from 'mongoose';
+import { Document, Model, model, Schema } from 'mongoose';
 import uniqueIdFromPath from '../../utils/unique-id-from-path';
 
-export interface AppModel extends Document, App {}
+export interface ProjectModel extends Document, Project {}
 
-interface AppModelStatic extends Model<AppModel> {
-  isAuthorized(appId: any, userId: string): Promise<boolean>;
+interface ProjectModelStatic extends Model<ProjectModel> {
+  isAuthorized(projectId: any, userId: string): Promise<boolean>;
 }
 
-const AppSchema = new Schema<AppModel, AppModelStatic>({
-  appId: {
+const ProjectSchema = new Schema<ProjectModel, ProjectModelStatic>({
+  projectId: {
     type: String,
     unique: true,
-    default():string {
+    default(): string {
       // referenced as any due to mongoose this typescript issue getting typed from closest object
       return uniqueIdFromPath((this as any).name);
     },
   },
-  isActive: { type: Boolean, default: false },
-  name: { type: String, unique: true, required: true },
+  name: { type: String, required: true },
   description: { type: String },
-  path: { type: String },
+  tags: { type: [String] },
   icon: { type: String },
-  colorScheme: { type: String },
-  videoUrl: { type: String },
   ownerId: { type: String },
   permissions: [
     {
@@ -47,12 +42,6 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
       customRoles: { type: [String] },
     },
   ],
-  applicationType: {
-    type: String,
-    enum: ['BUILTIN', 'HOSTED'],
-    default: App.Type.HOSTED,
-    required: true,
-  },
   contacts: {
     developers: { type: [String] },
     qe: { type: [String] },
@@ -60,8 +49,28 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
   },
   hosting: {
     isEnabled: { type: String },
-    path: { type: String },
-    refId: { type: String },
+    applications: [
+      {
+        _id: false,
+        appId: { type: String, required: true, unique: true },
+        name: { type: String, required: true, unique: true },
+        url: { type: String, required: true, unique: true },
+        type: { type: String },
+        createdOn: { type: Date, default: Date.now },
+        createdBy: { type: String },
+        updatedOn: { type: Date, default: Date.now },
+        updatedBy: { type: String },
+        environments: [
+          {
+            _id: false,
+            name: String,
+            version: String,
+            url: String,
+            createdAt: Date,
+          },
+        ],
+      },
+    ],
   },
   feedback: {
     isEnabled: { type: Boolean, default: false },
@@ -106,12 +115,21 @@ const AppSchema = new Schema<AppModel, AppModelStatic>({
   updatedOn: { type: Date, default: Date.now },
 });
 
-AppSchema.static('isAuthorized', function isAuthorized(id: any, userId: string) {
-  return this.exists({
-    _id: id, ownerId: userId,
-  });
-});
+ProjectSchema.index({ name: 1, ownerId: 1 });
 
-const Apps = model<AppModel, AppModelStatic>('App', AppSchema);
+ProjectSchema.static(
+  'isAuthorized',
+  function isAuthorized(projectId: string, userId: string) {
+    return this.exists({
+      projectId,
+      ownerId: userId,
+    });
+  }
+);
 
-export default Apps;
+const Projects = model<ProjectModel, ProjectModelStatic>(
+  'Project',
+  ProjectSchema
+);
+
+export default Projects;

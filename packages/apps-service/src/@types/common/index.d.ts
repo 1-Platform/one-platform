@@ -1,3 +1,3 @@
 interface IAppsContext {
-  rhatUUID: string;
+  userId: string;
 }

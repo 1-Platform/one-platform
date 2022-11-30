@@ -4,31 +4,23 @@ import {
   disconnectMockDatabase,
   setupMockDatabase,
 } from './mocks/mockDatabase';
-import {
-  appByAppIdQuery,
-  appByIdQuery,
-  appsQuery,
-  createAppMutation,
-  deleteAppMutation,
-  findAppsQuery,
-  myAppsQuery,
-  transferAppOwnershipMutation,
-  updateAppMutation,
-} from './query.gql';
+import { createProjectMutation, deleteProjectMutation, findProjectsQuery, myProjectsQuery, projectQuery, projectsQuery, transferProjectOwnershipMutation, updateProjectMutation } from './query.gql';
 
 let server: ApolloServer;
-let appName = 'Test-App-' + Math.round(Math.random() * 50);
-let id = '';
-let appId = '';
-let userId = 'some-user-id';
+let projectName = 'Test-Project-' + Math.round(Math.random() * 50);
+let projectId = '';
+let originalUserId = 'some-user-id';
+let newUserId = 'new-user-id';
 
 jest.mock('../utils/apps-helper', () => ({
   manageSearchIndex: jest.fn(),
   formatSearchInput: jest.fn(),
 }));
 jest.mock('../services/user-group', () => ({
-  getUser: jest.fn(() => () => ({
-    rhatUUID: 'new-user-id'
+  getUser: jest.fn((userId: string) => ({
+    uuid: userId,
+    name: 'User ' + userId,
+    email: userId + '@example.com',
   })),
 }));
 
@@ -42,18 +34,18 @@ beforeEach(() => {
   server = new ApolloServer({
     schema: schema,
     context: {
-      rhatUUID: userId,
+      userId: originalUserId,
     },
   });
 });
 
-describe('Apps Queries and Mutations Test', () => {
-  it('should create a new app', async () => {
+describe('Projects Queries and Mutations Test', () => {
+  it('should create a new project', async () => {
     const result = await server.executeOperation({
-      query: createAppMutation,
+      query: createProjectMutation,
       variables: {
-        app: {
-          name: appName,
+        project: {
+          name: projectName,
           description: 'Lorem ipsum dolor sit amet',
         },
       },
@@ -61,166 +53,161 @@ describe('Apps Queries and Mutations Test', () => {
 
     expect(result.errors).toBeUndefined();
     expect(result.data).toBeTruthy();
-    expect(result.data).toHaveProperty('createApp');
-    expect(result.data?.createApp).toBeTruthy();
-    expect(result.data?.createApp).toHaveProperty('id');
-    expect(result.data?.createApp).toHaveProperty('appId');
-    expect(result.data?.createApp).toHaveProperty('name', appName);
-    expect(result.data?.createApp).toHaveProperty('path');
-    expect(result.data?.createApp).toHaveProperty('isActive');
-    expect(result.data?.createApp).toHaveProperty('ownerId', userId);
-    expect(result.data?.createApp).toHaveProperty('createdBy', userId);
-    expect(result.data?.createApp).toHaveProperty('createdOn');
-    expect(Date.parse(result.data?.createApp.createdOn)).not.toBeNaN();
+    expect(result.data).toHaveProperty('createProject');
+    expect(result.data?.createProject).toBeTruthy();
+    expect(result.data?.createProject).toHaveProperty('projectId');
+    expect(result.data?.createProject).toHaveProperty('name', projectName);
+    expect(result.data?.createProject).toHaveProperty('ownerId', originalUserId);
+    expect(result.data?.createProject).toHaveProperty('createdBy', originalUserId);
+    expect(result.data?.createProject).toHaveProperty('createdOn');
+    expect(Date.parse(result.data?.createProject.createdOn)).not.toBeNaN();
 
-    /* Storing the id and appId for other tests cases */
-    id = result.data?.createApp.id;
-    appId = result.data?.createApp.appId;
+    /* Storing the projectId for other tests cases */
+    projectId = result.data?.createProject.projectId;
   });
 
-  it('should list all Apps', async () => {
+  it('should list all Projects', async () => {
     const result = await server.executeOperation({
-      query: appsQuery,
+      query: projectsQuery,
     });
 
     expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('apps');
-    expect(Array.isArray(result.data?.apps)).toBe(true);
-    expect(result.data?.apps.length).toBeGreaterThanOrEqual(1);
+    expect(result.data).toHaveProperty('projects');
+    expect(Array.isArray(result.data?.projects)).toBe(true);
+    expect(result.data?.projects.length).toBeGreaterThanOrEqual(1);
 
-    result.data?.apps.map((app: any) => {
-      expect(app).toHaveProperty('id');
-      expect(app).toHaveProperty('appId');
-      expect(app).toHaveProperty('name');
+    result.data?.projects.map((project: Project) => {
+      expect(project).toHaveProperty('projectId');
+      expect(project).toHaveProperty('name');
+      expect(project).toHaveProperty('ownerId');
     });
   });
 
-  it('should list the apps of the user: ' + userId, async () => {
+  it('should list the projects of the user: ' + originalUserId, async () => {
     const result = await server.executeOperation({
-      query: myAppsQuery,
+      query: myProjectsQuery,
     });
 
     expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('myApps');
-    expect(Array.isArray(result.data?.myApps)).toBe(true);
-    expect(result.data?.myApps.length).toBeGreaterThanOrEqual(1);
+    expect(result.data).toHaveProperty('myProjects');
+    expect(Array.isArray(result.data?.myProjects)).toBe(true);
+    expect(result.data?.myProjects.length).toBeGreaterThanOrEqual(1);
 
-    result.data?.myApps.map((app: any) => {
-      expect(app).toHaveProperty('id');
-      expect(app).toHaveProperty('appId');
+    result.data?.myProjects.map((app: any) => {
+      expect(app).toHaveProperty('projectId');
       expect(app).toHaveProperty('name');
-      expect(app).toHaveProperty('ownerId', userId);
+      expect(app).toHaveProperty('ownerId', originalUserId);
     });
   });
 
-  it('should return an app with id', async () => {
+  it('should return a project with projectId: ' + projectId, async () => {
     const result = await server.executeOperation({
-      query: appByIdQuery,
+      query: projectQuery,
       variables: {
-        id,
+        projectId,
       },
     });
 
     expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('app');
-    expect(result.data?.app).toBeTruthy();
-    expect(result.data?.app).toHaveProperty('id', id);
-    expect(result.data?.app).toHaveProperty('appId');
-    expect(result.data?.app).toHaveProperty('name');
+    expect(result.data).toHaveProperty('project');
+    expect(result.data?.project).toBeTruthy();
+    expect(result.data?.project).toHaveProperty('projectId', projectId);
+    expect(result.data?.project).toHaveProperty('name');
+    expect(result.data?.project).toHaveProperty('ownerId');
   });
 
-  it('should return an app with appId: ' + appId, async () => {
-    const result = await server.executeOperation({
-      query: appByAppIdQuery,
-      variables: {
-        appId,
-      },
-    });
-
-    expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('app');
-    expect(result.data?.app).toBeTruthy();
-    expect(result.data?.app).toHaveProperty('id');
-    expect(result.data?.app).toHaveProperty('appId', appId);
-    expect(result.data?.app).toHaveProperty('name');
-  });
-
-  it('should update the app description', async () => {
-    const path = '/' + appName.toLocaleLowerCase();
+  it('should update the project description', async () => {
     const description = 'updated description';
 
     const result = await server.executeOperation({
-      query: updateAppMutation,
+      query: updateProjectMutation,
       variables: {
-        id,
-        app: {
-          path,
+        projectId,
+        project: {
           description,
         },
       },
     });
 
     expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('updateApp');
-    expect(result.data?.updateApp).toBeTruthy();
-    expect(result.data?.updateApp).toHaveProperty('id', id);
-    expect(result.data?.updateApp).toHaveProperty('appId');
-    expect(result.data?.updateApp).toHaveProperty('name');
-    expect(result.data?.updateApp).toHaveProperty('path', path);
-    expect(result.data?.updateApp).toHaveProperty('description', description);
+    expect(result.data).toHaveProperty('updateProject');
+    expect(result.data?.updateProject).toBeTruthy();
+    expect(result.data?.updateProject).toHaveProperty('projectId');
+    expect(result.data?.updateProject).toHaveProperty('name');
+    expect(result.data?.updateProject).toHaveProperty('description', description);
   });
 
-  it('should find apps by a selector', async () => {
+  it('should find projects by a selector', async () => {
     const result = await server.executeOperation({
-      query: findAppsQuery,
+      query: findProjectsQuery,
       variables: {
         selectors: {
-          name: appName,
+          name: projectName,
         },
       },
     });
 
     expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('findApps');
-    expect(Array.isArray(result.data?.findApps)).toBe(true);
-    expect(result.data?.findApps.length).toEqual(1);
-    expect(result.data?.findApps[0]).toHaveProperty('id');
-    expect(result.data?.findApps[0]).toHaveProperty('appId');
-    expect(result.data?.findApps[0]).toHaveProperty('name');
-    expect(result.data?.findApps[0]).toHaveProperty('path');
+    expect(result.data).toHaveProperty('findProjects');
+    expect(Array.isArray(result.data?.findProjects)).toBe(true);
+    expect(result.data?.findProjects.length).toEqual(1);
+    expect(result.data?.findProjects[0]).toHaveProperty('projectId');
+    expect(result.data?.findProjects[0]).toHaveProperty('name');
   });
 
-  it('should transfer the ownership to different user', async () => {
-    userId = 'new-user-id';
-
+  it('should delete the project', async () => {
     const result = await server.executeOperation({
-      query: transferAppOwnershipMutation,
+      query: deleteProjectMutation,
       variables: {
-        id,
-        ownerId: userId,
+        projectId,
       },
     });
 
     expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('transferAppOwnership');
-    expect(result.data?.transferAppOwnership).toBeTruthy();
-    expect(result.data?.transferAppOwnership).toHaveProperty('id', id);
-    expect(result.data?.transferAppOwnership).toHaveProperty('appId');
-    expect(result.data?.transferAppOwnership).toHaveProperty('ownerId', userId);
-  });
+    expect(result.data).toHaveProperty('deleteProject');
+    expect(result.data?.deleteProject).toBeTruthy();
+    expect(result.data?.deleteProject).toHaveProperty('projectId');
+  } );
 
-  it('should delete the app', async () => {
-    const result = await server.executeOperation({
-      query: deleteAppMutation,
+  it('should transfer the project ownership to different user', async () => {
+    /* Create a new project as originalUser */
+    const project1 = await server.executeOperation({
+      query: createProjectMutation,
       variables: {
-        id,
+        project: {
+          name: projectName,
+          description: 'Lorem ipsum dolor sit amet',
+        },
+      },
+    });
+    /* Storing the projectId for other tests cases */
+    const newProjectId = project1.data?.createProject.projectId;
+
+    const result = await server.executeOperation({
+      query: transferProjectOwnershipMutation,
+      variables: {
+        projectId: newProjectId,
+        ownerId: newUserId,
       },
     });
 
     expect(result.errors).toBeUndefined();
-    expect(result.data).toHaveProperty('deleteApp');
-    expect(result.data?.deleteApp).toBeTruthy();
-    expect(result.data?.deleteApp).toHaveProperty('id', id);
-    expect(result.data?.deleteApp).toHaveProperty('appId');
+    expect(result.data).toHaveProperty('transferProjectOwnership');
+    expect(result.data?.transferProjectOwnership).toBeTruthy();
+    expect(result.data?.transferProjectOwnership).toHaveProperty('projectId', newProjectId);
+    expect(result.data?.transferProjectOwnership).toHaveProperty(
+      'ownerId',
+      newUserId
+    );
+
+    /* Check if the original user has edit permission */
+    expect(result.data?.transferProjectOwnership.permissions[0]).toHaveProperty(
+      'refId',
+      originalUserId
+    );
+    expect(result.data?.transferProjectOwnership.permissions[0]).toHaveProperty(
+      'role',
+      Project.PermissionsRole.EDIT
+    );
   });
 });
