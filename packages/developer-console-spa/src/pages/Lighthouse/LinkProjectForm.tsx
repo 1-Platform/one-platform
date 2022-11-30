@@ -52,8 +52,12 @@ const LinkProjectForm = (props: LinkProjectProps) => {
     setIsModalOpen,
     setActiveTabKey,
   } = props;
-  const [isPrimaryLoading, setIsPrimaryLoading] = useState(false);
-  const { control, handleSubmit, setValue } = useForm<LinkProjectFormInput>();
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { isSubmitting },
+  } = useForm<LinkProjectFormInput>();
 
   //For branch select
   const [branches, setBranches] = useState(Array<string>());
@@ -104,21 +108,7 @@ const LinkProjectForm = (props: LinkProjectProps) => {
   const onBranchToggle = (isOpen: any) => {
     setIsBranchListOpen((isOpen: boolean) => !isOpen);
   };
-  const onCreateOption = (newValue: any) => {
-    const config = {
-      appId: projectId,
-      projectId: selectedProject.id,
-      branch: newValue,
-      createdBy: window.OpAuthHelper.getUserInfo().rhatUUID,
-    };
-    createLHSpaConfig(config).then((res) => {
-      setLighthouseConfig(res);
-      window.OpNotification?.success({
-        subject: 'SPA configuration saved successfully!',
-      });
-      setBranches([...branches, newValue]);
-    });
-  };
+
   const clearSelection = () => {
     setValue('branch', '');
     setIsBranchListOpen(false);
@@ -144,23 +134,27 @@ const LinkProjectForm = (props: LinkProjectProps) => {
     setFilteredProjects(filteredProjects);
   };
 
-  const linkProject = (data: LinkProjectFormInput) => {
-    setIsPrimaryLoading(true);
+  const linkProject = async (data: LinkProjectFormInput) => {
     const config = {
       appId: projectId,
       projectId: selectedProject.id,
       branch: data.branch,
       createdBy: window.OpAuthHelper.getUserInfo().rhatUUID,
     };
-    createLHSpaConfig(config).then((res: any) => {
-      setIsPrimaryLoading(false);
+    try {
+      const res = await createLHSpaConfig(config);
       setLighthouseConfig(res);
       window.OpNotification?.success({
         subject: 'SPA configuration saved successfully!',
       });
       setIsModalOpen(false);
-    });
+    } catch (error) {
+      window.OpNotification?.danger({
+        subject: 'Failed to save SPA configuration!',
+      });
+    }
   };
+
   const removeLHSpaConfig = () => {
     if (!lighthouseConfig?._id) {
       return;
@@ -200,6 +194,7 @@ const LinkProjectForm = (props: LinkProjectProps) => {
                   isOpen={isProjectListOpen}
                   searchInputValue={searchTerm}
                   onToggle={onToggle}
+                  menuAppendTo={() => document.body}
                   onSelect={(
                     event: React.FormEvent<HTMLSelectElement>,
                     selection: any
@@ -267,6 +262,7 @@ const LinkProjectForm = (props: LinkProjectProps) => {
                   isPlain={false}
                   variant={SelectVariant.typeahead}
                   typeAheadAriaLabel="Select a state"
+                  menuAppendTo={() => document.body}
                   onToggle={onBranchToggle}
                   onSelect={(
                     event: any,
@@ -285,7 +281,7 @@ const LinkProjectForm = (props: LinkProjectProps) => {
                   aria-labelledby={'Select a branch'}
                   placeholderText="Select a branch"
                   isCreatable={true}
-                  onCreateOption={onCreateOption}
+                  onCreateOption={(value) => field.onChange(value)}
                 >
                   {branches.map((branch: any, index: any) => (
                     <SelectOption key={index} value={branch} />
@@ -315,7 +311,8 @@ const LinkProjectForm = (props: LinkProjectProps) => {
               type="submit"
               variant="primary"
               //onClick={ linkProject }
-              isLoading={isPrimaryLoading}
+              isLoading={isSubmitting}
+              isDisabled={isSubmitting}
             >
               Link Project
             </Button>

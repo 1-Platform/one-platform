@@ -91,7 +91,7 @@ function AppIndex() {
 
   const filteredProjectCards = useMemo(() => {
     if (activeProjectsTab === 0) {
-      return generateProjectCards(projects);
+      return generateProjectCards(projects || []);
     }
     return (
       <GridItem span={12}>
