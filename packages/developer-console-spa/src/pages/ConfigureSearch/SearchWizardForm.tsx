@@ -23,7 +23,7 @@ import { HeaderContext } from 'common/context/HeaderContext';
 
 createStore(
   {
-    appId: '',
+    projectId: '',
     savedStepId: 0,
     formData: {},
   },
@@ -62,8 +62,8 @@ export default function SearchWizardForm(props: any) {
   useEffect(() => {
     if (!isEmpty(searchConfig)) {
       setDefaultValues( searchConfig );
-      if ( isEmpty( state.formData ) || state.appId !== projectId ) {
-        actions.saveState( { appId: projectId, formData: { ...searchConfig } } );
+      if ( isEmpty( state.formData ) || state.projectId !== projectId ) {
+        actions.saveState( { projectId: projectId, formData: { ...searchConfig } } );
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

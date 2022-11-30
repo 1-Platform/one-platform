@@ -1,7 +1,7 @@
 export const projectPermissionsQuery = /* GraphQL */ `
-  query ($projectId: String!) {
-    project: app(appId: $projectId) {
-      appId
+  query ($projectId: ID!) {
+    project(projectId: $projectId) {
+      projectId
       permissions {
         name
         email

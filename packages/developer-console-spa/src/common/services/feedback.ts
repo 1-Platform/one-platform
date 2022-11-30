@@ -1,4 +1,4 @@
-import { getAppFeedbacks } from 'common/utils/gql-queries';
+import { getProjectFeedbacks } from 'common/utils/gql-queries';
 import gqlClient from 'common/utils/gqlClient';
 
 type Filters = {
@@ -9,13 +9,13 @@ type Filters = {
 };
 
 export const getAppFeedbacksService = async (
-  appId: string,
+  projectId: string,
   { limit = 20, offset = 0, search = '', sortBy }: Filters = {}
 ): Promise<{ count: number; data: Partial<FeedbackType>[] }> => {
   return gqlClient({
-    query: getAppFeedbacks,
+    query: getProjectFeedbacks,
     variables: {
-      appId: [appId],
+      projectId: [projectId],
       limit,
       offset,
       search,

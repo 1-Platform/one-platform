@@ -9,7 +9,6 @@ import {
   Modal,
 } from '@patternfly/react-core';
 import { useParams } from 'react-router-dom';
-import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import EditIcon from '@patternfly/react-icons/dist/esm/icons/edit-icon';
 import UsersTable from './UsersTable';
 import { useContext, useState } from 'react';
@@ -50,11 +49,6 @@ function UpdateCouchDBConfig(props: any) {
             <Flex>
               <FlexItem className="dbname-heading--fontSize">
                 {dbname} <EditIcon />
-              </FlexItem>
-              <FlexItem align={{ default: 'alignRight' }}>
-                <Button variant="link">
-                  Open Fauxton GUI &nbsp; <ExternalLinkAltIcon />
-                </Button>
               </FlexItem>
             </Flex>
             <br />

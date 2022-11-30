@@ -1,13 +1,10 @@
 export const myProjects = /* GraphQL */`
-query AppsList {
-  myProjects: myApps {
-    id
-    projectId: appId
+query {
+  myProjects {
+    projectId
     name
-    path
     description
     ownerId
-    isActive
     updatedOn
   }
 }`;

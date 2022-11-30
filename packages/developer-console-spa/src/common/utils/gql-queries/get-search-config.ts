@@ -1,6 +1,6 @@
-export const appSearchConfig = /* GraphQL */`
-query SearchConfig($appId: String!) {
-  searchConfig: getSearchMapsByApp(appId: $appId) {
+export const projectSearchConfig = /* GraphQL */`
+query ($projectId: String!) {
+  searchConfig: getSearchMapsByApp(appId: $projectId) {
     method
     apiUrl
     body

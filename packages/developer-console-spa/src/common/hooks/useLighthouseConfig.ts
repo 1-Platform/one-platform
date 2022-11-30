@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getLHSpaConfigByAppId } from 'common/services/lighthouse';
 
-export default function useLighthouseConfig ( id: string ) {
+export default function useLighthouseConfig ( projectId: string ) {
   const [ lighthouseConfig, setLighthouseConfig ] = useState<Lighthouse.Config>( {} as Lighthouse.Config );
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {
-    if ( !id ) {
+    if ( !projectId ) {
       return;
     }
     const abortController = new AbortController();
@@ -14,7 +14,7 @@ export default function useLighthouseConfig ( id: string ) {
 
     setLoading( true );
 
-    getLHSpaConfigByAppId( id, signal )
+    getLHSpaConfigByAppId( projectId, signal )
       .then( res => {
         setLighthouseConfig( res || {} );
         setLoading( false );
@@ -28,7 +28,7 @@ export default function useLighthouseConfig ( id: string ) {
       });
 
     return () => abortController.abort();
-  }, [ id ] );
+  }, [ projectId ] );
 
   return { lighthouseConfig, setLighthouseConfig, loading };
 }

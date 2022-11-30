@@ -1,10 +1,10 @@
 export const updateSearchMap = /* GraphQL */ `
-  mutation UpdateSearchMap(
-    $appId: String!
+  mutation (
+    $projectId: String!
     $searchMap: UpdateSearchMapInput!
   ) {
-    updateSearchMap(appId: $appId, searchMap: $searchMap) {
-      appId
+    updateSearchMap(appId: $projectId, searchMap: $searchMap) {
+      projectId: appId
     }
   }
 `;

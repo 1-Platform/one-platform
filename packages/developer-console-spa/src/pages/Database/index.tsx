@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardActions,
   CardTitle,
-  CardFooter,
   Modal,
   DropdownItem,
   Dropdown,
@@ -35,7 +34,7 @@ import UpdateCouchDBConfig from './UpdateDBConfig';
 import { HeaderContext } from 'common/context/HeaderContext';
 
 export default function Database() {
-  const { projectId, project: app, loading: appLoading } = useContext(ProjectContext);
+  const { projectId, project, loading: appLoading } = useContext(ProjectContext);
   const { setHeader } = useContext(HeaderContext);
   const [isCreateDBFormOpen, setIsCreateDBFormOpen] = useState(false);
   const [expandedMenuCardId, setExpandedMenuCardId] = useState('');
@@ -78,10 +77,10 @@ export default function Database() {
   };
 
   const filteredDBs = useMemo( () => {
-    return app.database?.databases.filter( ( db ) =>
+    return project.database?.databases.filter( ( db ) =>
       db.name.includes( escapeString( searchTerm.trim() ) )
     )
-  }, [app.database?.databases, searchTerm]);
+  }, [project.database?.databases, searchTerm]);
 
   const openCreateDBForm = useCallback(() => {
     setIsCreateDBFormOpen(true);
@@ -90,14 +89,6 @@ export default function Database() {
   const handleModalClose = useCallback(() => {
     setIsCreateDBFormOpen(false);
   }, []);
-
-  /**
-   *
-   * @param name This function will be uncommented once we have Fauxton UI is available
-
-  const openFauxtonGUI = (name: string) => {
-    window.open(`${process.env.REACT_APP_FAUXTON_URL}/${name}/_all_docs`, '_blank' );
-  }*/
 
   const getEmptyState = useCallback(() => {
     const noSearchResults = searchTerm && filteredDBs?.length === 0;
@@ -141,7 +132,7 @@ export default function Database() {
                   </FlexItem>
                   <FlexItem>
                     <SearchInput
-                      isDisabled={app.database?.databases?.length === 0}
+                      isDisabled={project.database?.databases?.length === 0}
                       value={searchTerm}
                       onChange={(value: string) => setSearchTerm(value)}
                       placeholder={'Search'}
@@ -150,7 +141,7 @@ export default function Database() {
                 </Flex>
               </StackItem>
               <StackItem>
-                {app.database?.databases?.length === 0 ||
+                {project.database?.databases?.length === 0 ||
                 filteredDBs.length === 0 ? (
                   getEmptyState()
                 ) : (
@@ -190,17 +181,6 @@ export default function Database() {
                             <CardBody>
                               {db.description || 'No description'}
                             </CardBody>
-                            <CardFooter>
-                              <Button
-                                variant="link"
-                                icon={
-                                  <ion-icon name="open-outline"></ion-icon>
-                                }
-                                iconPosition="right"
-                              >
-                                Open Fauxton GUI
-                              </Button>
-                            </CardFooter>
                           </Card>
                         </GalleryItem>
                       );
@@ -225,10 +205,8 @@ export default function Database() {
           showClose={true}
         >
           <CreateDBForm
-            isCreateDBFormOpen={isCreateDBFormOpen}
             setIsCreateDBFormOpen={setIsCreateDBFormOpen}
-            appUniqueId={app.id}
-            appId={app.projectId}
+            projectId={project.projectId}
           />
         </Modal>
       )}

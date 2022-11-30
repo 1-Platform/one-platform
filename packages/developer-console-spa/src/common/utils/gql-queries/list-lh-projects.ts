@@ -1,5 +1,5 @@
 export const listLHProjects = /* GraphQL */`
- query ListLHProjects($limit: Int!) {
+ query ($limit: Int!) {
   listLHProjects(limit: $limit) {
     rows {
       name

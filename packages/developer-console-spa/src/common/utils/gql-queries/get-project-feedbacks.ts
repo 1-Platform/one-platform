@@ -1,13 +1,13 @@
-export const getAppFeedbacks = /* GraphQL */ `
-  query listFeedbacks(
-    $appId: [String]
+export const getProjectFeedbacks = /* GraphQL */ `
+  query (
+    $projectId: [String]
     $search: String
     $limit: Int
     $offset: Int
     $sortBy: FeedbackSortType
   ) {
     listFeedbacks(
-      appId: $appId
+      appId: $projectId
       search: $search
       limit: $limit
       offset: $offset

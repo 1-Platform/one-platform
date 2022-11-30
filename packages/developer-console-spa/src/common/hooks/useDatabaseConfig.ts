@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { appDatabaseConfig } from 'common/utils/gql-queries';
 import gqlClient from 'common/utils/gqlClient';
 
-export default function useDatabaseConfig (appId: string) {
+export default function useDatabaseConfig (projectId: string) {
   const [ databaseConfig, setDatabaseConfig ] = useState<Project.DatabaseConfig>( {} as Project.DatabaseConfig );
   const [ loading, setLoading ] = useState( true );
 
   useEffect( () => {
-    if ( !appId ) {
+    if ( !projectId ) {
       return;
     }
     const abortController = new AbortController();
@@ -15,13 +15,13 @@ export default function useDatabaseConfig (appId: string) {
 
     setLoading( true );
 
-    gqlClient( { query: appDatabaseConfig, variables: { appId } }, signal )
+    gqlClient( { query: appDatabaseConfig, variables: { projectId } }, signal )
       .then( res => {
         if ( !res?.data ) {
           setLoading( false );
           return;
         }
-        setDatabaseConfig( res.data?.app?.database ?? {} );
+        setDatabaseConfig( res.data?.project?.database ?? {} );
         setLoading( false );
       } )
       .catch( err => {
@@ -33,7 +33,7 @@ export default function useDatabaseConfig (appId: string) {
       } );
 
     return () => abortController.abort();
-  }, [ appId ] );
+  }, [ projectId ] );
 
   return { databaseConfig, setDatabaseConfig, loading };
 }

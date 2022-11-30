@@ -1,5 +1,5 @@
 const query = /* GraphQL */`
-mutation AuthenticateApp ($projectId: String!, $enable: Boolean!) {
+mutation AuthenticateApp ($projectId: ID!, $enable: Boolean!) {
   enableAuthentication(projectId: $projectId, enable: $enable) {
     name
     path

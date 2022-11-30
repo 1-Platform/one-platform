@@ -1,6 +1,6 @@
-export const appFeedbackConfig = /* GraphQL */ `
-  query FeedbackConfig($appId: String!) {
-    getFeedbackConfigByAppId(appId: $appId) {
+export const projectFeedbackConfig = /* GraphQL */ `
+  query ($projectId: String!) {
+    getFeedbackConfigByAppId(appId: $projectId) {
       id
       appId
       isEnabled

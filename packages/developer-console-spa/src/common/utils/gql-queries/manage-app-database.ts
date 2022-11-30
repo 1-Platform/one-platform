@@ -1,17 +1,7 @@
 export const manageAppDatabase = /* GraphQL */`
-mutation ManageAppDatabase($id: ID!, $databaseName: String!, $description: String, $permissions: AppDatabasePermissionsInput) {
-  manageAppDatabase(id: $id, databaseName: $databaseName, description: $description, permissions: $permissions) {
-    id
-    name
-    appId
-    path
-    description
-    ownerId
-    isActive
-    createdOn
-    createdBy
-    updatedOn
-    updatedBy
+mutation ($projectId: ID!, $databaseName: String!, $description: String, $permissions: AppDatabasePermissionsInput) {
+  manageProjectDatabase(projectId: $projectId, databaseName: $databaseName, description: $description, permissions: $permissions) {
+    projectId
     database {
       isEnabled
       databases {

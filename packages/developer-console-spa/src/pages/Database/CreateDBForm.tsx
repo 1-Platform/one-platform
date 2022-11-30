@@ -7,7 +7,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import gqlClient from 'common/utils/gqlClient';
-import { createAppDatabase } from 'common/utils/gql-queries';
+import { createProjectDatabase } from 'common/utils/gql-queries';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -16,7 +16,6 @@ import { ProjectContext } from 'common/context/ProjectContext';
 interface IDBInput {
   dbname: string;
   description: string;
-  appId: string;
 }
 const appSchema = yup.object().shape({
   dbname: yup.string().trim().required(),
@@ -25,19 +24,16 @@ const appSchema = yup.object().shape({
 
 interface CreateDBProps {
   isCreateDBFormOpen?: boolean;
-  appId: string;
-  appUniqueId: string;
+  projectId: string;
   setIsCreateDBFormOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const CreateDBForm = ( {
-  isCreateDBFormOpen,
-  appId,
-  appUniqueId,
+  projectId,
   setIsCreateDBFormOpen
 }: CreateDBProps ) => {
   const [ isCreatingDB, setIsCreatingDB ] = useState<boolean>( false );
-  const { forceRefresh: forceRefreshApp } = useContext(ProjectContext);
+  const { forceRefresh } = useContext(ProjectContext);
 
   const {
     control,
@@ -62,10 +58,10 @@ const CreateDBForm = ( {
   function submitForm(db: IDBInput) {
     setIsCreatingDB(true);
     gqlClient({
-      query: createAppDatabase,
+      query: createProjectDatabase,
       variables: {
+        projectId,
         databaseName: db.dbname,
-        id: appUniqueId,
         description: db.description,
       },
     })
@@ -76,7 +72,7 @@ const CreateDBForm = ( {
             subject: `Database ${db.dbname} created successfully!`,
           } );
           setIsCreateDBFormOpen(false);
-          forceRefreshApp(res.data.createAppDatabase);
+          forceRefresh(res.data.createAppDatabase);
         }
         if (res?.errors) {
           window.OpNotification?.danger({

@@ -1,5 +1,5 @@
 export const addLHSpaConfig = /* GraphQL */`
-  mutation createLHSpaConfig($lhSpaConfig: CreateLHSpaConfigInput!) {
+  mutation ($lhSpaConfig: CreateLHSpaConfigInput!) {
     createLHSpaConfig(lhSpaConfig: $lhSpaConfig) {
       _id
       branch
