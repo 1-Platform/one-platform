@@ -14,10 +14,10 @@ export const updateProjectService = async ( projectId: string, project: Partial<
   }
 }
 
-export const deleteProjectService = async ( id: string ) => {
+export const deleteProjectService = async ( projectId: string ) => {
   try {
-    const res = await gqlClient( { query: deleteProject, variables: { id } } );
-    if ( res.errors && !res?.data?.deletProject ) {
+    const res = await gqlClient( { query: deleteProject, variables: { projectId } } );
+    if ( res.errors && !res?.data?.deleteProject ) {
       const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
       throw new Error( errMessage );
     }
@@ -27,9 +27,9 @@ export const deleteProjectService = async ( id: string ) => {
   }
 }
 
-export const updateProjectPermissionsService = async ( id: string, permissions: Project.Permission[] ) => {
+export const updateProjectPermissionsService = async ( projectId: string, permissions: Project.Permission[] ) => {
   try {
-    const res = await gqlClient( { query: updateProjectPermissions, variables: { id, permissions } } );
+    const res = await gqlClient( { query: updateProjectPermissions, variables: { projectId, permissions } } );
     if ( res.errors && !res?.data?.updateProject ) {
       const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
       throw new Error( errMessage );

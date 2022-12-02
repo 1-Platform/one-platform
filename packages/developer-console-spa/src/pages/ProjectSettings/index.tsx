@@ -9,7 +9,7 @@ import APIKeys from './APIKeys';
 import Permissions from './Permissions';
 import Loader from 'common/components/Loader';
 
-export default function AppSettings () {
+export default function ProjectSettings () {
   const history = useHistory();
   const { projectId, project, loading } = useContext( ProjectContext );
   const { setHeader } = useContext( HeaderContext );
