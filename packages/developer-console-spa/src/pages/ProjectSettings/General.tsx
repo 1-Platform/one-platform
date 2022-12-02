@@ -16,7 +16,7 @@ import { deleteProjectService, updateProjectService } from 'common/services/proj
 import { ProjectContext } from 'common/context/ProjectContext';
 import useQueryParams from 'common/hooks/useQueryParams';
 
-interface IAppInput {
+interface IProjectInput {
   name: string;
   description: string;
 }
@@ -35,7 +35,7 @@ export default function General ( { project }: IGeneralSettings ) {
   const [ deleteProjectConfirmation, setDeleteProjectConfirmation ] = useState( '' );
   const history = useHistory();
   const searchParams = useQueryParams();
-  const { control, handleSubmit, formState: { errors, isValid }, watch, reset } = useForm<IAppInput>( {
+  const { control, handleSubmit, formState: { errors, isValid }, watch, reset } = useForm<IProjectInput>( {
     mode: 'onBlur',
     resolver: yupResolver( formSchema ),
     defaultValues: {
@@ -58,11 +58,11 @@ export default function General ( { project }: IGeneralSettings ) {
     } );
   }, [ project, reset ] );
 
-  const handleSaveApp = useCallback(( data: any ) => {
+  const handleSaveProject = useCallback(( data: any ) => {
     setIsSaving( true );
     updateProjectService( projectId, data )
-      .then( updatedApp => {
-        forceRefresh( updatedApp );
+      .then( updatedProject => {
+        forceRefresh( updatedProject );
         window.OpNotification?.success( { subject: 'Project Updated Successfully!' } );
         setIsSaving( false );
       } )
@@ -85,9 +85,9 @@ export default function General ( { project }: IGeneralSettings ) {
     /* TODO: gqlQuery for toggling ownership transfer */
   };
 
-  const handleDeleteApp: FormEventHandler = ( event ) => {
+  const handleDeleteProject: FormEventHandler = ( event ) => {
     event.preventDefault();
-    deleteProjectService( project.id )
+    deleteProjectService( projectId )
       .then( () => {
         window.OpNotification?.success( { subject: 'Project Deleted Successfully!' } );
         history.push( '/' );
@@ -109,7 +109,7 @@ export default function General ( { project }: IGeneralSettings ) {
     <>
       <Stack hasGutter>
         <StackItem>
-          <Form onSubmit={ handleSubmit( handleSaveApp ) } onReset={ handleReset }>
+          <Form onSubmit={ handleSubmit( handleSaveProject ) } onReset={ handleReset }>
             <Card isRounded>
               <CardBody>
                 <Grid hasGutter>
@@ -182,16 +182,16 @@ export default function General ( { project }: IGeneralSettings ) {
                     Transfer ownership
                   </MenuItem>
                   <MenuItem
-                    description="Deletes the app from One Platform. Cannot be reverted."
+                    description="Deletes the Project from One Platform. Cannot be reverted."
                     itemId={ 1 }
                     onClick={ () => history.push( { search: 'action=delete' } ) }
                     actions={
                       <MenuItemAction
                         actionId="delete"
                         icon={ <ion-icon class="pf-u-danger-color-100" name="trash" /> }
-                        aria-label="Delete the app" />
+                        aria-label="Delete the Project" />
                     }>
-                    <span className="pf-u-danger-color-100">Delete this App</span>
+                    <span className="pf-u-danger-color-100">Delete this Project</span>
                   </MenuItem>
                 </MenuList>
               </MenuContent>
@@ -209,9 +209,9 @@ export default function General ( { project }: IGeneralSettings ) {
         onClose={ handleModalClose }>
         <Text>This action is irreversible and will permanently delete the <strong><em>{ project.name }</em></strong> project from One Platform.</Text>
         <br />
-        <Form onSubmit={ handleDeleteApp }>
-          <FormGroup fieldId="delete-app" label={ `Please type "${ project.name }" to confirm` } isRequired>
-            <TextInput id="delete-app" autoFocus onChange={ val => setDeleteProjectConfirmation( val ) } isRequired></TextInput>
+        <Form onSubmit={ handleDeleteProject }>
+          <FormGroup fieldId="delete-project" label={ `Please type "${ project.name }" to confirm` } isRequired>
+            <TextInput id="delete-project" autoFocus onChange={ val => setDeleteProjectConfirmation( val ) } isRequired></TextInput>
           </FormGroup>
           <Button variant="danger" type="submit" isDisabled={ project.name !== deleteProjectConfirmation }>I understand the consequences, delete this project</Button>
         </Form>
