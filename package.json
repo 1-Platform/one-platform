@@ -1,7 +1,12 @@
 {
   "name": "one-platform",
+  "version": "0.2.4",
   "private": true,
   "description": "An integrated application hosting platform.",
+  "engines": {
+    "node": "^16.18.0",
+    "npm": "^8.1.0"
+  },
   "keywords": [
     "one",
     "platform",
@@ -13,7 +18,6 @@
     "type": "git",
     "url": "git+https://github.com/1-Platform/one-platform.git"
   },
-  "version": "0.2.4",
   "author": {
     "name": "Sayak Sarkar",
     "email": "sayak.bugsmith@gmail.com"
