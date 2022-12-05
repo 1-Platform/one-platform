@@ -9,8 +9,9 @@ describe('FormErrorMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FormErrorMessageComponent],
-    }).compileComponents();
+    declarations: [FormErrorMessageComponent],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

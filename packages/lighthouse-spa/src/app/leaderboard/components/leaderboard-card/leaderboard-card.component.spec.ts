@@ -9,9 +9,10 @@ describe('LeaderboardCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LeaderboardCardComponent],
-      imports: [SharedModule],
-    }).compileComponents();
+    declarations: [LeaderboardCardComponent],
+    imports: [SharedModule],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

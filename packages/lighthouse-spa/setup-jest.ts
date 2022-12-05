@@ -1,4 +1,4 @@
-import 'jest-preset-angular';
+import 'jest-preset-angular/setup-jest';
 
 /* global mocks for jsdom */
 const mock = () => {
@@ -7,7 +7,7 @@ const mock = () => {
     getItem: (key: string) => (key in storage ? storage[key] : null),
     setItem: (key: string, value: string) => (storage[key] = value || ''),
     removeItem: (key: string) => delete storage[key],
-    clear: () => (storage = {})
+    clear: () => (storage = {}),
   };
 };
 

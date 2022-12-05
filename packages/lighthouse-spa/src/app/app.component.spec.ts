@@ -6,14 +6,15 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterTestingModule
-      ],
-      declarations: [
+    ],
+    declarations: [
         AppComponent
-      ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   it('should create the app', () => {

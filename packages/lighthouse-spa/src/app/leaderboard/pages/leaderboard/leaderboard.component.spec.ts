@@ -25,18 +25,19 @@ describe('LeaderboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         LeaderboardComponent,
         LeaderboardLabelFormaterPipe,
         LeaderboardCardComponent,
-      ],
-      imports: [CommonModule, SharedModule, ApolloTestingModule],
-      providers: [
+    ],
+    imports: [CommonModule, SharedModule, ApolloTestingModule],
+    providers: [
         { provide: 'Window', useValue: window },
         Apollo,
         TitleCasePipe,
-      ],
-    }).compileComponents();
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

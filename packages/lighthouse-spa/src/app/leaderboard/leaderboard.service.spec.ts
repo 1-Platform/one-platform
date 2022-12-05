@@ -15,8 +15,9 @@ describe('LeaderboardService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ApolloTestingModule],
-    });
+    imports: [ApolloTestingModule],
+    teardown: { destroyAfterEach: false }
+});
     service = TestBed.inject(LeaderboardService);
     controller = TestBed.inject(ApolloTestingController);
   });

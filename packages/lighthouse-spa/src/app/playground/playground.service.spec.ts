@@ -14,8 +14,9 @@ describe('PlaygroundService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ApolloTestingModule],
-    });
+    imports: [ApolloTestingModule],
+    teardown: { destroyAfterEach: false }
+});
     service = TestBed.inject(PlaygroundService);
     controller = TestBed.inject(ApolloTestingController);
   });

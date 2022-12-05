@@ -20,21 +20,22 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeComponent],
-      imports: [
+    declarations: [HomeComponent],
+    imports: [
         RouterTestingModule,
         FormsModule,
         SharedModule,
         ApolloTestingModule,
         ReactiveFormsModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [
         { provide: PlaygroundService, useValue: appService },
         { provide: 'Window', useValue: window },
         Apollo,
-      ],
-    }).compileComponents();
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

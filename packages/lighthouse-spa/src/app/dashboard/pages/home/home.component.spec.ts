@@ -26,14 +26,15 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeComponent, PropertyCardComponent],
-      imports: [
+    declarations: [HomeComponent, PropertyCardComponent],
+    imports: [
         RouterTestingModule,
         FormsModule,
         SharedModule,
         ApolloTestingModule,
-      ],
-    }).compileComponents();
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

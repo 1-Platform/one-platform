@@ -14,8 +14,9 @@ describe('OutlinedPieGraphComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OutlinedPieGraphComponent],
-    }).compileComponents();
+    declarations: [OutlinedPieGraphComponent],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

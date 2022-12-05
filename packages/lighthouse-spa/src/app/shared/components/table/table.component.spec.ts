@@ -17,15 +17,16 @@ describe('TableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         TableComponent,
         EmptyStateComponent,
         LoaderComponent,
         FloorPipe,
         GetDecimalPipe,
-      ],
-      imports: [],
-    }).compileComponents();
+    ],
+    imports: [],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

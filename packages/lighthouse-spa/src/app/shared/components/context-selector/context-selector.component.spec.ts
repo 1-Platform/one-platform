@@ -14,8 +14,9 @@ describe('ContextSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ContextSelectorComponent],
-    }).compileComponents();
+    declarations: [ContextSelectorComponent],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -25,8 +25,9 @@ describe('DashboardService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ApolloTestingModule],
-    });
+    imports: [ApolloTestingModule],
+    teardown: { destroyAfterEach: false }
+});
     service = TestBed.inject(DashboardService);
     controller = TestBed.inject(ApolloTestingController);
   });

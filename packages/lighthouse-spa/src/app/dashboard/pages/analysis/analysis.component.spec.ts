@@ -28,29 +28,30 @@ describe('AnalysisComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AnalysisComponent, TimelineScoreFormaterPipe],
-      imports: [
+    declarations: [AnalysisComponent, TimelineScoreFormaterPipe],
+    imports: [
         CommonModule,
         RouterTestingModule,
         SharedModule,
         NgxChartsModule,
         BrowserAnimationsModule,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of({
-              name: 'one-platform',
-            }),
-            params: of({
-              id: '1',
-            }),
-          },
+            provide: ActivatedRoute,
+            useValue: {
+                queryParams: of({
+                    name: 'one-platform',
+                }),
+                params: of({
+                    id: '1',
+                }),
+            },
         },
         TitleCasePipe,
-      ],
-    }).compileComponents();
+    ],
+    teardown: { destroyAfterEach: false }
+}).compileComponents();
   });
 
   beforeEach(() => {

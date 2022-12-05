@@ -129,7 +129,7 @@ module.exports = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ["<rootDir>/src/setup-jest.ts"],
+  setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
@@ -174,9 +174,9 @@ module.exports = {
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: [
-    "node_modules/(?!angular2-datetimepicker|ng-circle-progress|@one-platform/opc-base)",
-  ],
+  // transformIgnorePatterns: [
+  //   "node_modules/(?!angular2-datetimepicker|ng-circle-progress|@one-platform/opc-base)",
+  // ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

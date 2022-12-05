@@ -8,8 +8,9 @@ describe('LHCardLegendComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LHCardLegendComponent ]
-    })
+    declarations: [LHCardLegendComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   });
 

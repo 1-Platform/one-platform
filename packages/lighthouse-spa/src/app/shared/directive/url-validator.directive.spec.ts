@@ -23,9 +23,10 @@ describe('UrlValidatorDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      declarations: [UrlValidatorDirective, URLValidatorTestComponent],
-      imports: [FormsModule],
-    }).createComponent(URLValidatorTestComponent);
+    declarations: [UrlValidatorDirective, URLValidatorTestComponent],
+    imports: [FormsModule],
+    teardown: { destroyAfterEach: false }
+}).createComponent(URLValidatorTestComponent);
     form = fixture.componentInstance;
     fixture.detectChanges();
   });
