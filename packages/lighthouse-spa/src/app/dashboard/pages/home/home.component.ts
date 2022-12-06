@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { DashboardService } from 'app/dashboard/dashboard.service';
-import { environment } from 'environments/environment';
+import { DashboardService } from '../../../dashboard/dashboard.service';
+import { environment } from '../../../../environments/environment';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 

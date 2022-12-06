@@ -1,16 +1,16 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DashboardService } from 'app/dashboard/dashboard.service';
-import { Row } from 'app/shared/components/table/table.component';
+import { DashboardService } from '../../../dashboard/dashboard.service';
+import { Row } from '../../../shared/components/table/table.component';
 import {
   getLeaderboardCells,
   LEADERBOARD_COLUMNS,
-} from 'app/utils/leaderboardTable';
+} from '../../../utils/leaderboardTable';
 import { Subject } from 'rxjs';
-import { environment } from 'environments/environment';
+import { environment } from '../../../../environments/environment';
 import { takeUntil } from 'rxjs/operators';
-import { csvExport } from 'app/utils/csvExport';
+import { csvExport } from '../../../utils/csvExport';
 
 @Component({
   selector: 'app-analysis',

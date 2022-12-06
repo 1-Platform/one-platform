@@ -4,8 +4,8 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { FloorPipe } from 'app/shared/pipes/floor.pipe';
-import { GetDecimalPipe } from 'app/shared/pipes/get-decimal.pipe';
+import { FloorPipe } from '../../../shared/pipes/floor.pipe';
+import { GetDecimalPipe } from '../../../shared/pipes/get-decimal.pipe';
 import { EmptyStateComponent } from '../empty-state/empty-state.component';
 import { LoaderComponent } from '../loader/loader.component';
 

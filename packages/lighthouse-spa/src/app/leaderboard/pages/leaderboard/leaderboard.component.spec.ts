@@ -8,14 +8,14 @@ import {
 } from '@angular/core/testing';
 import { Apollo } from 'apollo-angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
-import { LeaderboardCardComponent } from 'app/leaderboard/components/leaderboard-card/leaderboard-card.component';
-import { SharedModule } from 'app/shared/shared.module';
-import { LeaderboardService } from 'app/leaderboard/leaderboard.service';
+import { LeaderboardCardComponent } from '../../../leaderboard/components/leaderboard-card/leaderboard-card.component';
+import { SharedModule } from '../../../shared/shared.module';
+import { LeaderboardService } from '../../../leaderboard/leaderboard.service';
 import {
   mockLeaderboardAPI,
   mockLeaderboardRows,
-} from 'app/leaderboard/mock-leaderboard';
-import { LeaderboardLabelFormaterPipe } from 'app/leaderboard/pipes/leaderboard-label-formater.pipe';
+} from '../../../leaderboard/mock-leaderboard';
+import { LeaderboardLabelFormaterPipe } from '../../../leaderboard/pipes/leaderboard-label-formater.pipe';
 import { LeaderboardComponent } from './leaderboard.component';
 
 describe('LeaderboardComponent', () => {

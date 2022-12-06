@@ -9,14 +9,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { DashboardService } from 'app/dashboard/dashboard.service';
+import { DashboardService } from '../../../dashboard/dashboard.service';
 import {
   mockLeaderboardAPI,
   mockListProjectBranches,
   mockListProjectScores,
-} from 'app/dashboard/mock-dashboard';
-import { TimelineScoreFormaterPipe } from 'app/dashboard/pipes/timeline-score-formater.pipe';
-import { SharedModule } from 'app/shared/shared.module';
+} from '../../../dashboard/mock-dashboard';
+import { TimelineScoreFormaterPipe } from '../../../dashboard/pipes/timeline-score-formater.pipe';
+import { SharedModule } from '../../../shared/shared.module';
 import { of } from 'rxjs';
 
 import { AnalysisComponent } from './analysis.component';

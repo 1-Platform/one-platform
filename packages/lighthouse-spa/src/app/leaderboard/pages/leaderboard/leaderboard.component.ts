@@ -6,13 +6,13 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { LeaderboardCategory } from 'app/leaderboard/enum';
-import { LeaderboardService } from 'app/leaderboard/leaderboard.service';
-import { Row } from 'app/shared/components/table/table.component';
+import { LeaderboardCategory } from '../../enum'
+import { LeaderboardService } from '../../leaderboard.service';
+import { Row } from '../../../shared/components/table/table.component';
 import {
   getLeaderboardCells,
   LEADERBOARD_COLUMNS,
-} from 'app/utils/leaderboardTable';
+} from '../../../utils/leaderboardTable';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 

@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApolloTestingModule } from 'apollo-angular/testing';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { Apollo } from 'apollo-angular';
 import { of } from 'rxjs';
-import { PlaygroundService } from 'app/playground/playground.service';
+import { PlaygroundService } from '../../../playground/playground.service';
 
 import { HomeComponent } from './home.component';
 

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
 
 import { LeaderboardCardComponent } from './leaderboard-card.component';
 

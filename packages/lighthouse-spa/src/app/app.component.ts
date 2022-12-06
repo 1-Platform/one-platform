@@ -8,7 +8,7 @@ import '@one-platform/opc-footer/dist/opc-footer';
 
 import opcBase from '@one-platform/opc-base';
 import '@one-platform/opc-base/dist/opc-provider';
-import { environment } from 'environments/environment';
+import { environment } from '../environments/environment'
 
 opcBase.configure({
   apiBasePath: environment.OPCBASE_API_BASE_PATH,

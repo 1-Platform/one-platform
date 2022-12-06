@@ -169,14 +169,14 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.(ts|html)$": "ts-jest",
+    "^.+\\.(ts|html)$": "jest-preset-angular",
     "^.+\\.js$": "babel-jest",
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "node_modules/(?!angular2-datetimepicker|ng-circle-progress|@one-platform/opc-base)",
-  // ],
+  "transformIgnorePatterns": [
+    "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+  ]
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,

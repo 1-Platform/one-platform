@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { GraphQLModule } from 'app/graphql.module';
+import { GraphQLModule } from '../graphql.module';
 import * as _ from 'lodash';
 import { AuditWebsite, Autorun } from './playground.gql';
 import { map } from 'rxjs/operators';

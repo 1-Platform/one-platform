@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
-import { LHScoreLabelFormaterPipe } from 'app/shared/pipes/lhscore-label-formater.pipe';
+import { LHScoreLabelFormaterPipe } from '../../shared/pipes/lhscore-label-formater.pipe';
 
 @Pipe({
   name: 'timelineScoreFormater',

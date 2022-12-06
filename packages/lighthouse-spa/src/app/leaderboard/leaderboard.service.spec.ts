@@ -1,4 +1,4 @@
-import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, flushMicrotasks, TestBed } from '@angular/core/testing';
 import {
   ApolloTestingController,
   ApolloTestingModule,
@@ -46,5 +46,6 @@ describe('LeaderboardService', () => {
     op.flush({ data: { listLHLeaderboard: mockLeaderboardData } });
 
     controller.verify();
+    flush();
   }));
 });

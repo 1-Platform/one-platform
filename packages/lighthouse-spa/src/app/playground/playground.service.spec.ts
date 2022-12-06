@@ -1,4 +1,4 @@
-import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, flushMicrotasks, TestBed } from '@angular/core/testing';
 import {
   ApolloTestingController,
   ApolloTestingModule,
@@ -43,6 +43,7 @@ describe('PlaygroundService', () => {
     op.flush({ data: mockAuditWebsite.data });
 
     controller.verify();
+    flush();
   } ) );
 
   it('Autorun subscription', fakeAsync(() => {
@@ -60,5 +61,6 @@ describe('PlaygroundService', () => {
     op.flush({ data: mockAutorun.data });
 
     controller.verify();
+    flush();
   }));
 });

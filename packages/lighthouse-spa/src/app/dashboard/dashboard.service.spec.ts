@@ -1,9 +1,9 @@
-import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, flushMicrotasks, TestBed } from '@angular/core/testing';
 import {
   ApolloTestingController,
   ApolloTestingModule,
 } from 'apollo-angular/testing';
-import { LeaderboardCategory } from 'app/leaderboard/enum';
+import { LeaderboardCategory } from '../leaderboard/enum';
 import {
   ListLHLeaderboard,
   ListLHProjectBranches,
@@ -52,6 +52,7 @@ describe('DashboardService', () => {
     op.flush({ data: mockListProjects });
 
     controller.verify();
+    flush();
   }));
 
   it('listLHProjectBranches query', fakeAsync(() => {
@@ -68,6 +69,7 @@ describe('DashboardService', () => {
     op.flush({ data: mockListProjectBranches });
 
     controller.verify();
+    flush();
   }));
 
   it('ListLHProjectScores query', fakeAsync(() => {
@@ -85,6 +87,7 @@ describe('DashboardService', () => {
     op.flush({ data: mockListProjectScores });
 
     controller.verify();
+    flush();
   }));
 
   it('ListLHLeaderboard query', fakeAsync(() => {
@@ -103,5 +106,6 @@ describe('DashboardService', () => {
     op.flush({ data: mockLeaderboardAPI });
 
     controller.verify();
+    flush();
   }));
 });

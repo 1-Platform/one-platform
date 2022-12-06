@@ -10,11 +10,11 @@ import {
   ApolloTestingModule,
   ApolloTestingController,
 } from 'apollo-angular/testing';
-import { PropertyCardComponent } from 'app/dashboard/components/property-card/property-card.component';
-import { DashboardService } from 'app/dashboard/dashboard.service';
-import { mockListProjects } from 'app/dashboard/mock-dashboard';
+import { PropertyCardComponent } from '../../../dashboard/components/property-card/property-card.component';
+import { DashboardService } from '../../../dashboard/dashboard.service';
+import { mockListProjects } from '../../../dashboard/mock-dashboard';
 
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { of } from 'rxjs';
 
 import { HomeComponent } from './home.component';

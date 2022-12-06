@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
-import { LeaderboardCategory } from 'app/leaderboard/enum';
-import { Column } from 'app/shared/components/table/table.component';
+import { LeaderboardCategory } from '../leaderboard/enum';
+import { Column } from '../shared/components/table/table.component';
 
 type Options = {
   row: LHLeaderboard;
