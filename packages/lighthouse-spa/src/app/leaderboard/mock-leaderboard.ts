@@ -8,6 +8,7 @@ export const mockLeaderboardData = {
         seo: 50,
         bestPractices: 50,
         performance: 50,
+        overall: 50,
       },
       rank: 1,
       branch: 'main',
@@ -38,26 +39,32 @@ export const mockLeaderboardRows = [
       },
       {
         title: 50,
+        "key": "ACCESSIBILITY",
         cellClassName: 'score-avg pf-u-font-weight-bold',
       },
       {
         title: 50,
+        "key": "BEST_PRACTICES",
         cellClassName: 'score-avg pf-u-font-weight-bold',
       },
       {
         title: 50,
+        "key": "PERFORMANCE",
         cellClassName: 'score-avg pf-u-font-weight-bold',
       },
       {
         title: 50,
+        "key": "PWA",
         cellClassName: 'score-avg pf-u-font-weight-bold',
       },
       {
         title: 50,
+        "key": "SEO",
         cellClassName: 'score-avg pf-u-font-weight-bold',
       },
       {
         title: 50,
+        "key": "OVERALL",
         cellClassName: 'score-avg pf-u-font-weight-bold',
       },
     ],
