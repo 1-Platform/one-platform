@@ -18,7 +18,7 @@ import {
 import { TimelineScoreFormaterPipe } from '../../../dashboard/pipes/timeline-score-formater.pipe';
 import { SharedModule } from '../../../shared/shared.module';
 import { of } from 'rxjs';
-
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AnalysisComponent } from './analysis.component';
 
 describe('AnalysisComponent', () => {
@@ -35,6 +35,7 @@ describe('AnalysisComponent', () => {
         SharedModule,
         NgxChartsModule,
         BrowserAnimationsModule,
+        HttpClientModule,
     ],
     providers: [
         {
@@ -48,7 +49,8 @@ describe('AnalysisComponent', () => {
                 }),
             },
         },
-        TitleCasePipe,
+      TitleCasePipe,
+      HttpClient,
     ],
     teardown: { destroyAfterEach: false }
 }).compileComponents();

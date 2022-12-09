@@ -11,6 +11,11 @@ import { Subject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { csvExport } from '../../../utils/csvExport';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+imports: [
+  HttpClientModule
+]
+providers: [HttpClient]
 
 @Component({
   selector: 'app-analysis',

@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { FormControl, NG_VALIDATORS, ValidatorFn } from '@angular/forms';
+import { UntypedFormControl, NG_VALIDATORS, ValidatorFn } from '@angular/forms';
 import * as yup from 'yup';
 
 @Directive({
@@ -14,12 +14,12 @@ export class UrlValidatorDirective {
     this.validator = this.urlValidator();
   }
 
-  validate(c: FormControl) {
+  validate(c: UntypedFormControl) {
     return this.validator(c);
   }
 
   urlValidator(): ValidatorFn {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       const url = control.value;
       try {
         if (yup.string().url().isValidSync(url)) {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlaygroundService } from '../../../playground/playground.service';
 import { Subject, Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 
 const Ansi = require('ansi-to-html');
@@ -71,16 +71,16 @@ export class HomeComponent implements OnInit {
   destroySub: Subject<boolean> = new Subject<boolean>();
 
   // upload form management
-  auditUploadForm = new FormGroup({
-    project: new FormControl('', [
+  auditUploadForm = new UntypedFormGroup({
+    project: new UntypedFormControl('', [
       Validators.required,
       this.whitespaceValidator,
     ]),
-    branch: new FormControl('', [
+    branch: new UntypedFormControl('', [
       Validators.required,
       this.whitespaceValidator,
     ]),
-    buildToken: new FormControl('', [
+    buildToken: new UntypedFormControl('', [
       Validators.required,
       this.whitespaceValidator,
     ]),
@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit {
       .scrollTo(0, document.querySelector('#codeBlock').scrollHeight);
   };
 
-  whitespaceValidator(control: FormControl) {
+  whitespaceValidator(control: UntypedFormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };

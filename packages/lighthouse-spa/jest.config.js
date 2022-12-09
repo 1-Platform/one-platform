@@ -174,9 +174,13 @@ module.exports = {
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  "transformIgnorePatterns": [
-    "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
-  ]
+ 
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)|@one-platform/opc-base'],
+  // transformIgnorePatterns: [
+  //   "node_modules/(?!angular2-datetimepicker|ng-circle-progress|@one-platform/opc-base)",
+  // ],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+  resolver: 'jest-preset-angular/build/resolvers/ng-jest-resolver.js',
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
