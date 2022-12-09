@@ -36,7 +36,7 @@
     "@sentry/angular": "^6.17.8",
     "@swimlane/ngx-charts": "^19.0.1",
     "ansi-to-html": "^0.6.15",
-    "apollo-angular": "^2.4.0",
+    "apollo-angular": "^4.1.1",
     "apollo-link": "^1.2.14",
     "apollo-link-error": "^1.1.13",
     "apollo-link-retry": "^2.2.16",
