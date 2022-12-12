@@ -51,7 +51,7 @@ jobs:
           cd packages/$SPA_NAME
           npm run build
 
-      - name: Deploy SPA for  {{ inputs.env }}
+      - name: Deploy SPA for  ${{ inputs.env }}
         env:
           CI: false
         run: |
@@ -60,12 +60,12 @@ jobs:
 
       - name: Get SPA NAME as strings
         id: get-lighthouse-branch-name
-        if: contains(matrix.container, '-spa')
         uses: actions/github-script@v6
         with:
           script: core.setOutput('LIGHTHOUSE_BRANCH_NAME', "$SPA_NAME".toUpperCase())
 
       - name: Lighthouse CI
+        if: ${{inputs.env}} == 'prod'
         env:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
           SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
@@ -76,4 +76,8 @@ jobs:
         run: |
           cd packages/$SPA_NAME
           npm i puppeteer
-          npx @lhci/cli@0.10.0 autorun --upload.serverBaseUrl=${{ secrets.SERVER_BASE_URL }} --upload.token=${{ secrets.LIGHTHOUSE_TOKEN }} || echo 'Lighthouse assert failed'
+          npx @lhci/cli@0.10.0 autorun \
+          --upload.serverBaseUrl=${{ secrets.SERVER_BASE_URL }} \
+          --upload.token=${{ secrets.LIGHTHOUSE_TOKEN }} \
+          --headful=false
+          || echo 'Lighthouse assert failed'
