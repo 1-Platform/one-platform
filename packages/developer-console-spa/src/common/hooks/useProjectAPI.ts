@@ -6,6 +6,7 @@ export default function useProjectAPI ( projectId: string ) {
   const [ project, setProject ] = useState<Project>( {} as Project );
   const [ loading, setLoading ] = useState<boolean>( true );
 
+
   useEffect( () => {
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -16,6 +17,7 @@ export default function useProjectAPI ( projectId: string ) {
       .then( res => {
         if ( !res?.data?.project ) {
           setLoading( false );
+          setProject( {} as Project );
           return;
         }
         setProject( res.data.project );
@@ -23,7 +25,7 @@ export default function useProjectAPI ( projectId: string ) {
       } );
 
     return () => abortController.abort();
-  }, [ projectId ] );
+  }, [projectId] );
 
   return { project, loading, setProject };
 }
