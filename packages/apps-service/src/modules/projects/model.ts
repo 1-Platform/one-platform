@@ -52,9 +52,9 @@ const ProjectSchema = new Schema<ProjectModel, ProjectModelStatic>({
     applications: [
       {
         _id: false,
-        appId: { type: String, required: true, unique: true },
-        name: { type: String, required: true, unique: true },
-        url: { type: String, required: true, unique: true },
+        appId: { type: String, required: true, },
+        name: { type: String, required: true, },
+        url: { type: String, required: true, },
         type: { type: String },
         createdOn: { type: Date, default: Date.now },
         createdBy: { type: String },
@@ -115,7 +115,19 @@ const ProjectSchema = new Schema<ProjectModel, ProjectModelStatic>({
   updatedOn: { type: Date, default: Date.now },
 });
 
-ProjectSchema.index({ name: 1, ownerId: 1 });
+ProjectSchema.index({ name: 1, ownerId: 1 }, { unique: true, });
+ProjectSchema.index(
+  { 'hosting.applications.appId': 1 },
+  { sparse: true, unique: true }
+);
+ProjectSchema.index(
+  { 'hosting.applications.name': 1 },
+  { sparse: true, unique: true }
+);
+ProjectSchema.index(
+  { 'hosting.applications.url': 1 },
+  { sparse: true, unique: true }
+);
 
 ProjectSchema.static(
   'isAuthorized',
