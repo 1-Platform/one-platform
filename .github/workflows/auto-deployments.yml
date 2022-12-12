@@ -81,13 +81,14 @@ jobs:
         with:
           script: |
             const spaName = "${{ matrix.container }}".split('/')[1];
-            core.setOutput('spa-name', spaName)
+            core.setOutput('LIGHTHOUSE_BRANCH_NAME', spaName.toUpperCase())
+            core.setOutput('SPA_NAME', spaName)
 
       - name: Get env secrets for QA
         if: contains(matrix.container, '-spa')
         run: |
           cd ${{ matrix.container }}
-          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "${{ secrets.GITLAB_URL }}spa-configs%2Fqa%2F${{ steps.get-spa-name.outputs.spa-name }}%2F.env/raw?ref=master" -o .env
+          curl -k --header "PRIVATE-TOKEN:${{ secrets.GITLAB_TOKEN }}" "${{ secrets.GITLAB_URL }}spa-configs%2Fqa%2F${{ steps.get-spa-name.outputs.SPA_NAME }}%2F.env/raw?ref=master" -o .env
 
       - name: Install node modules
         if: contains(matrix.container, '-spa')
@@ -106,3 +107,15 @@ jobs:
         run: |
           cd ${{ matrix.container }}
           npx @spaship/cli@latest deploy --apikey=${{ secrets.SPASHIP_API_KEY }} --env=${{ secrets.SPASHIP_DEPLOY_URL }}qa --ref=$(node -p "require('./package.json').version")
+
+      - name: Lighthouse CI
+        env:
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
+          SSO_PASSWORD: ${{ secrets.SSO_PASSWORD }}
+          SSO_USERNAME: ${{ secrets.SSO_USERNAME }}
+          LH_HOST: ${{ secrets.LH_HOST }}
+          LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ steps.get-spa-name.outputs.LIGHTHOUSE_BRANCH_NAME }}
+        run: |
+          cd ${{ matrix.container }}
+          npm i puppeteer
+          npx @lhci/cli@0.10.0 autorun --upload.serverBaseUrl=${{ secrets.SERVER_BASE_URL }} --upload.token=${{ secrets.LIGHTHOUSE_TOKEN }} || echo 'Lighthouse assert failed'
