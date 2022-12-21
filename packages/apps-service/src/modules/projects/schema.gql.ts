@@ -30,9 +30,9 @@ const ProjectsSchema = /* GraphQL */ `
       description: String
       permissions: ProjectDatabasePermissionsInput
     ): Project
-    deleteProjectDatabase(id: ID!, databaseName: String!): Project
+    deleteProjectDatabase(projectId: ID!, databaseName: String!): Project
     manageProjectDatabase(
-      id: ID!
+      projectId: ID!
       databaseName: String!
       description: String
       permissions: ProjectDatabasePermissionsInput
