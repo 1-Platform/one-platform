@@ -1,4 +1,4 @@
-import { deleteProject, updateProject, updateProjectPermissions } from 'common/utils/gql-queries';
+import { deleteProject, transferProjectOwnership, updateProject, updateProjectPermissions } from 'common/utils/gql-queries';
 import gqlClient from 'common/utils/gqlClient';
 
 export const updateProjectService = async ( projectId: string, project: Partial<Project> ) => {
@@ -35,6 +35,19 @@ export const updateProjectPermissionsService = async ( projectId: string, permis
       throw new Error( errMessage );
     }
     return res.data.updateProject;
+  } catch ( err ) {
+    throw err;
+  }
+}
+
+export const transferProjectOwnershipService = async ( projectId: string, userId: string ) => {
+  try {
+    const res = await gqlClient( { query: transferProjectOwnership, variables: { projectId, userId } } );
+    if ( res.errors && !res?.data?.project ) {
+      const errMessage = res.errors.map( ( err: any ) => err.message ).join( ', ' );
+      throw new Error( errMessage );
+    }
+    return res.data.project;
   } catch ( err ) {
     throw err;
   }
