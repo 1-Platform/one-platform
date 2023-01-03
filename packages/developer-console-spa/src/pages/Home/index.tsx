@@ -38,7 +38,7 @@ function AppIndex() {
   const { projects, loading } = useMyProjectsAPI();
   const [activeProjectsTab, setActiveProjectsTab] = useState(projectsTabs[0].id);
 
-  const { pagination, onSetPage, onPerPageSelect } = usePagination({ page: 1, perPage: 2 });
+  const { pagination, onSetPage, onPerPageSelect } = usePagination({ page: 1, perPage: 6 });
   const { page: currentPage, perPage } = pagination;
 
   const [activeServicesTabKey, setActiveServicesTabKey] = useState(
