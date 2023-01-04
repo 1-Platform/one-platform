@@ -107,7 +107,7 @@ export const APIBasicDetailsForm = forwardRef<HTMLDivElement, Props>(
                   >
                     <TextArea
                       id="api-source-name"
-                      placeholder="Give a name for the API datasource"
+                      placeholder="Tell us more about your API datasource"
                       {...field}
                     />
                   </FormGroup>

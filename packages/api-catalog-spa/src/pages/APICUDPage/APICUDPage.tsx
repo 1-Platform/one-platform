@@ -223,14 +223,14 @@ const APICUDPage = () => {
         });
       } else {
         window.OpNotification.danger({
-          subject: 'Failed to fetch schema',
+          subject: 'Failed to validate schema',
         });
       }
 
       return res.data?.fetchAPISchema;
     } catch (error) {
       window.OpNotification.danger({
-        subject: 'Failed to fetch schema',
+        subject: 'Failed to validate schema',
       });
     }
     return undefined;
@@ -276,16 +276,18 @@ const APICUDPage = () => {
 
     try {
       const res = await gqlClient.query<UserSearchQuery>(GET_USERS_QUERY, { search }).toPromise();
-      const options = (res.data?.searchRoverUsers || []).map((owner) => (
-        <SelectOption
-          key={`user:${owner.mail}-owner-${owner.rhatUUID}`}
-          value={{
-            ...owner,
-            toString: () => owner.cn,
-          }}
-          description={owner.mail}
-        />
-      ));
+      const options = (res.data?.searchRoverUsers || [])
+        .filter(({ employeeType }) => Boolean(employeeType) && employeeType !== "Service Account")
+        .map((owner) => (
+          <SelectOption
+            key={`user:${owner.mail}-owner-${owner.rhatUUID}`}
+            value={{
+              ...owner,
+              toString: () => owner.cn,
+            }}
+            description={owner.mail}
+          />
+        ));
       return options;
     } catch (error) {
       window.OpNotification.danger({

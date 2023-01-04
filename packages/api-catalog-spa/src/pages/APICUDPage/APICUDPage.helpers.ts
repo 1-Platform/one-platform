@@ -21,6 +21,7 @@ export const GET_USERS_QUERY = /* GraphQL */ `
       mail
       cn
       rhatUUID
+      employeeType
     }
   }
 `;
