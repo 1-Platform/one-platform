@@ -26,19 +26,19 @@ describe('LeaderboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [
+      declarations: [
         LeaderboardComponent,
         LeaderboardLabelFormaterPipe,
         LeaderboardCardComponent,
-    ],
-    imports: [CommonModule, SharedModule, ApolloTestingModule],
-    providers: [
+      ],
+      imports: [CommonModule, SharedModule, ApolloTestingModule],
+      providers: [
         { provide: 'Window', useValue: window },
         Apollo,
         TitleCasePipe,
-    ],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+      ],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -54,14 +54,12 @@ describe('LeaderboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it( 'should setup a leaderboard on component mount', () => {
-    console.log(JSON.stringify(mockLeaderboardRows))
+  it('should setup a leaderboard on component mount', () => {
     expect(component.rows).toEqual(mockLeaderboardRows);
-    // expect(component.totalCount).toEqual(
-    //   mockLeaderboardAPI.data.listLHLeaderboard.count
-    // );
-    // expect( component.isPageLoading ).toBeFalsy();
-
+    expect(component.totalCount).toEqual(
+      mockLeaderboardAPI.data.listLHLeaderboard.count
+    );
+    expect(component.isPageLoading).toBeFalsy();
   });
 
   it('should disable both pagination button', () => {
