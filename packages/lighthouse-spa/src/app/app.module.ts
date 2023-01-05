@@ -7,6 +7,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Apollo } from 'apollo-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [Apollo],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -18,7 +18,7 @@ import {
 import { TimelineScoreFormaterPipe } from '../../../dashboard/pipes/timeline-score-formater.pipe';
 import { SharedModule } from '../../../shared/shared.module';
 import { of } from 'rxjs';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Apollo } from 'apollo-angular';
 import { AnalysisComponent } from './analysis.component';
 
 describe('AnalysisComponent', () => {
@@ -28,32 +28,30 @@ describe('AnalysisComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [AnalysisComponent, TimelineScoreFormaterPipe],
-    imports: [
+      declarations: [AnalysisComponent, TimelineScoreFormaterPipe],
+      imports: [
         CommonModule,
         RouterTestingModule,
         SharedModule,
         NgxChartsModule,
         BrowserAnimationsModule,
-        HttpClientModule,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: ActivatedRoute,
-            useValue: {
-                queryParams: of({
-                    name: 'one-platform',
-                }),
-                params: of({
-                    id: '1',
-                }),
-            },
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              name: 'one-platform',
+            }),
+            params: of({
+              id: '1',
+            }),
+          },
         },
-      TitleCasePipe,
-      HttpClient,
-    ],
-    teardown: { destroyAfterEach: false }
-}).compileComponents();
+        TitleCasePipe,
+        Apollo,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
