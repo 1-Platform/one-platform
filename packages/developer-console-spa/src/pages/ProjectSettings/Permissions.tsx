@@ -3,7 +3,7 @@ import Loader from 'common/components/Loader';
 import useProjectPermissions from 'common/hooks/useProjectPermissions';
 import { useCallback, useMemo, useState } from 'react';
 import { updateProjectPermissionsService } from 'common/services/project';
-import AddMemberForm from './AddMemberForm';
+import AddMemberForm from './components/AddMemberForm';
 
 interface IPermissionsProps {
   project: Project;

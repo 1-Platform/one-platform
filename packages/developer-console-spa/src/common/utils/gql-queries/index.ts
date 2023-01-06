@@ -23,3 +23,4 @@ export * from './update-feedback-config';
 export * from './get-project-feedbacks';
 export * from './get-search-config';
 export * from './update-search-config';
+export * from './transfer-project-ownership';

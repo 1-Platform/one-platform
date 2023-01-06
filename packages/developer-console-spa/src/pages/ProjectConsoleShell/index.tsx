@@ -16,7 +16,7 @@ function ProjectConsoleShell(props: any) {
     if (!loading && isEmpty(project)) {
       window.OpNotification?.danger({
         subject: 'Could not open the project page',
-        body: 'Please check if the url is correct and that you have access to the porject and try again.',
+        body: 'Please check if the url is correct and that you have access to the project and try again.',
       } );
       history.replace( '/' );
     }
