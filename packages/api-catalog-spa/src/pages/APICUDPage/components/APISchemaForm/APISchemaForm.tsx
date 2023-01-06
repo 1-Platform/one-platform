@@ -128,7 +128,6 @@ export const APISchemaForm = forwardRef<HTMLDivElement, Props>(
                           <TextArea
                             isRequired
                             id="api-source-name"
-                            placeholder="Give a name for the API datasource"
                             {...field}
                           />
                         </FormGroup>

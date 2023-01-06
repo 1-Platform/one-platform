@@ -11,6 +11,7 @@ export type UserRoverDetails = {
   uid: string;
   rhatUUID: string;
   rhatJobTitle: string;
+  employeeType: string;
 };
 
 export type CMDBCode = {
