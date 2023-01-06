@@ -12,6 +12,8 @@ import {
   UpdateNamespaceArgs,
 } from '../types';
 
+import { formatSearchInput, manageSearchIndex } from './updateSearch';
+
 const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
   NamespaceSortType: {
     CREATED_ON: 'createdOn',
@@ -182,7 +184,6 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
           flags: { isPublic: env.isPublic || false },
         })),
       }));
-
       const res = await namespaceDB.createNamespace({
         ...payload,
         createdBy: user.id,
@@ -190,7 +191,8 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
         description,
         schemas: formatedSchema,
       });
-
+      const searchData = await formatSearchInput(res);
+      await manageSearchIndex(searchData, 'index');
       return res;
     },
     async updateNamespace(
@@ -213,7 +215,13 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
       if (!user.id) {
         throw Error('Unauthorized Access');
       }
-      return namespaceDB.updateNamespace(id, { ...namespace, schemas: formatedSchema });
+      const updatedRecord = await namespaceDB.updateNamespace(id, {
+        ...namespace,
+        schemas: formatedSchema,
+      });
+      const searchData = await formatSearchInput(updatedRecord);
+      await manageSearchIndex(searchData, 'index');
+      return updatedRecord;
     },
     async deleteNamespace(
       _root: any,
@@ -223,10 +231,11 @@ const NamespaceResolver: IExecutableSchemaDefinition<IContext>['resolvers'] = {
       if (!user.id) {
         throw Error('Unauthorized Access');
       }
-
       const ns = await namespaceDB.deleteNamespace(id);
       await specStoreDB.deleteSpecsOfANamespace(id);
       await subscriptionDB.removeSubscribersOfANamespace(id);
+      const searchData = await formatSearchInput(ns);
+      await manageSearchIndex(searchData, 'delete');
       return ns;
     },
   },
