@@ -28,5 +28,10 @@
     "name": "Lighthouse",
     "uri": "http://lighthouse-service:8080/graphql",
     "subscriptionsUri": "ws://lighthouse-service:8080/subscriptions"
+  },
+  {
+    "name": "API Catalog",
+    "uri": "http://api-catalog-service:8080/graphql",
+    "subscriptionsUri": "ws://api-catalog-service:8080/subscriptions"
   }
 ]
