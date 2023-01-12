@@ -18,8 +18,8 @@ export function getDatabase() {
   return mongodbClient.db(APPS_DB_NAME);
 }
 
-export function getCollection<T>(name: string) {
-  return getDatabase().collection<T | Document>(name);
+export function getCollection<T extends Document>(name: string) {
+  return getDatabase().collection<T>(name);
 }
 
 type Apps = {
