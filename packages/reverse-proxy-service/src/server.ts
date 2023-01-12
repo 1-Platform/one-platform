@@ -62,7 +62,7 @@ const getServer = async () => {
   /* Build initial application cache */
   await updateApplicationCache();
   /* Update application cache every 15 seconds */
-  const intervalId = setInterval(updateApplicationCache, 15 * 1000); // update cache every 2 seconds
+  const intervalId = setInterval(updateApplicationCache, 15 * 1000); // update cache every 15 seconds
   server.on('close', () => {
     clearInterval(intervalId);
   });
