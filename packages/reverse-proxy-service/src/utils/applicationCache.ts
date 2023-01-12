@@ -22,8 +22,13 @@ export const updateApplicationCache = async () => {
   if (apps?.length === 0) {
     return;
   }
-  logger.debug('updating application cache');
-  logger.debug({ newApps: apps, oldApps: JSON.stringify(allApps) });
+
+  logger.info('updating application cache');
+  logger.info({
+    newApps: apps?.length,
+    previousApps: allApps?.length,
+  });
+  logger.debug( { newApps: apps, previousApps: allApps } );
 
   try {
     allApps = [

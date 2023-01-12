@@ -14,8 +14,8 @@ function resolver(req: Request, res: Response, next: NextFunction): void {
     ignorePath: false,
     headers: {
       'X-OP-Authenticated': req.oidc.isAuthenticated() ? 'true' : 'false',
-      ...(req.oidc.isAuthenticated() && {
-        'X-OP-Auth-Token': req.oidc.accessToken?.access_token,
+      ...( req.oidc.isAuthenticated() && {
+        'X-OP-Auth-Token': req.oidc.idToken ?? '',
       }),
     },
     logProvider: logger.info,
