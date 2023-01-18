@@ -83,7 +83,7 @@ const SwaggerToolboxPage = (): JSX.Element => {
     );
   }
 
-  return <SwaggerUI spec={schemaFile} tryItOutEnabled />;
+  return <SwaggerUI spec={schemaFile} tryItOutEnabled deepLinking />;
 };
 
 export default SwaggerToolboxPage;
