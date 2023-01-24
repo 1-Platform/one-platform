@@ -10,3 +10,5 @@ module.exports.OP_SUBSCRIPTIONS_URL = process.env.OP_SUBSCRIPTIONS_URL;
 module.exports.SENTRY_DSN = process.env.SENTRY_DSN;
 module.exports.environment = process.env.ELEVENTY_ENV || "development";
 module.exports.version = pkg.version;
+module.exports.MATOMO_URL = process.env.MATOMO_URL;
+module.exports.MATOMO_SITE_ID = process.env.MATOMO_SITE_ID;

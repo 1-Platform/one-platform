@@ -1,6 +1,6 @@
 {
   "name": "home-spa",
-  "version": "3.0.10",
+  "version": "3.1.0",
   "description": "A landing page application for One Platform",
   "main": "index.js",
   "scripts": {
@@ -25,10 +25,12 @@
     "patternFly"
   ],
   "author": "hybridx",
-  "contributors": [{
-    "name": "Rigin Oommen",
-    "email": "riginoommen@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Rigin Oommen",
+      "email": "riginoommen@gmail.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/1-Platform/one-platform/issues"
