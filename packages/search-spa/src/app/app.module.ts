@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
 import { SearchComponent } from './search/search.component';
+import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,15 @@ import { SearchComponent } from './search/search.component';
     GraphQLModule,
     HttpClientModule,
     NgPipesModule,
+    NgxMatomoTrackerModule.forRoot( {
+      siteId: environment.production === true ? environment.MATOMO_SITE_ID : null,
+      trackerUrl: environment.production === true ? environment.MATOMO_URL : '',
+      trackAppInitialLoad: true,
+      mode: 0
+    }),
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
