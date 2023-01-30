@@ -20,6 +20,8 @@ export const environment = {
    OPCBASE_KEYCLOAK_CLIENT_ID: '${process.env.OPCBASE_KEYCLOAK_CLIENT_ID}' ,
    OPCBASE_KEYCLOAK_REALM: '${process.env.OPCBASE_KEYCLOAK_REALM}',
    SENTRY_DSN: ${sentryDSN},
+   MATOMO_URL: '${process.env.MATOMO_URL}',
+   MATOMO_SITE_ID: '${process.env.MATOMO_SITE_ID}',
 };
 `;
 // write the content to the respective file

@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-spa",
-  "version": "0.0.20",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "npm run config -- --environment=dev && ng serve",
@@ -27,6 +27,7 @@
     "@angular/platform-browser-dynamic": "11.2.14",
     "@angular/router": "11.2.14",
     "@apollo/client": "3.3.19",
+    "@ngx-matomo/tracker": "^1.3.6",
     "@one-platform/opc-base": "^1.1.7-beta",
     "@one-platform/opc-feedback": "0.0.12-prerelease",
     "@one-platform/opc-footer": "0.0.3-prerelease",

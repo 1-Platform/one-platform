@@ -6,6 +6,7 @@ import { Router } from 'routes';
 
 import opcBase from '@one-platform/opc-base';
 import '@one-platform/opc-base/dist/opc-provider';
+import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react';
 
 import './app.css';
 
@@ -28,21 +29,54 @@ const client = createClient({
   },
 });
 
+let instance: any;
+
+if (import.meta.env.MODE === 'production') {
+  instance = createInstance({
+    urlBase: import.meta.env.VITE_MATOMO_URL || '',
+    siteId: import.meta.env.VITE_MATOMO_SITE_ID || '',
+  });
+}
+
 const App = () => {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <Suspense fallback={<Loader />}>
-        <Provider value={client}>
-          <opc-provider>
-            <opc-nav />
-            <opc-menu-drawer />
-            <opc-notification-drawer />
-            <opc-feedback />
-          </opc-provider>
-          <Router />
-        </Provider>
-      </Suspense>
-    </BrowserRouter>
+    <div>
+      {import.meta.env.MODE === 'production' ? (
+        <div>
+          <MatomoProvider value={instance}>
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
+              <Suspense fallback={<Loader />}>
+                <Provider value={client}>
+                  <opc-provider>
+                    <opc-nav />
+                    <opc-menu-drawer />
+                    <opc-notification-drawer />
+                    <opc-feedback />
+                  </opc-provider>
+                  <Router />
+                </Provider>
+              </Suspense>
+            </BrowserRouter>
+          </MatomoProvider>
+        </div>
+      ) : (
+        <div>
+          <BrowserRouter basename={import.meta.env.BASE_URL}>
+            <Suspense fallback={<Loader />}>
+              <Provider value={client}>
+                <opc-provider>
+                  <opc-nav />
+                  <opc-menu-drawer />
+                  <opc-notification-drawer />
+                  <opc-feedback />
+                </opc-provider>
+                <Router />
+              </Provider>
+            </Suspense>
+          </BrowserRouter>
+        </div>
+      )}
+    </div>
   );
 };
 
