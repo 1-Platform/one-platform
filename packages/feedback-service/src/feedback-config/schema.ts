@@ -5,6 +5,11 @@ import {
 export const FeedbackConfigSchema: Schema = new Schema({
   appId: {
     type: String,
+    required: false,
+    unique: true,
+  },
+  projectId: {
+    type: String,
     required: true,
     unique: true,
   },

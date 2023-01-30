@@ -5,7 +5,7 @@
     "className": "Feedback",
     "serviceName": "feedback"
   },
-  "version": "0.0.9",
+  "version": "0.1.0",
   "keywords": [
     "feedback",
     "microservice",
@@ -37,7 +37,12 @@
     "name": "Rigin Oommen",
     "email": "riginoommen@gmail.com"
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Deepesh Nair",
+      "email": "hybridx18@gmail.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "@graphql-tools/schema": "^8.3.1",

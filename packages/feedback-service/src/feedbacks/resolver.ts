@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 import { Feedback } from './schema';
 import FeedbackHelper from './helpers';
 import { FeedbackConfig } from '../feedback-config/schema';
+import Logger from '../lib/logger';
 
 const FeedbackResolver = {
   FeedbackSortType: {
@@ -84,7 +85,6 @@ const FeedbackResolver = {
   Mutation: {
     async createFeedback(root: any, args: any, ctx: any) {
       const userFeedback = args.input;
-      let appList = [];
       let userData: any[] = [];
       let integrationResponse;
 
@@ -94,15 +94,13 @@ const FeedbackResolver = {
 
       const userQuery = FeedbackHelper.buildUserQuery([userFeedback.createdBy]);
       userData = await FeedbackHelper.getUserProfiles(userQuery);
-      appList = await FeedbackHelper.listApps();
 
-      const app = appList.sort((a, b) => b.path.localeCompare(a.path))
-        .find(({ path }) => userFeedback.stackInfo.path.includes(path));
-      if (!app) {
-        throw new Error('App not found. Please visit developer-console');
+      const { projectId } = userFeedback;
+      if (!projectId) {
+        throw new Error('ProjectId not found. Please visit developer-console');
       }
       const feedbackConfig = await FeedbackConfig.find({
-        appId: app.id,
+        projectId,
       }).exec();
       userFeedback.config = (feedbackConfig[0] as any)?._id;
 
@@ -111,11 +109,12 @@ const FeedbackResolver = {
           'Feedback configuration not registered. Please visit developer-console',
         );
       }
+      // TODO: This can be an enum or object
       if (feedbackConfig[0]?.sourceType === 'GITHUB') {
         integrationResponse = await FeedbackHelper.createGithubIssue(
           feedbackConfig,
           userFeedback,
-          app,
+          projectId,
           userData,
         );
         userFeedback.state = integrationResponse.issue.state;
@@ -123,7 +122,7 @@ const FeedbackResolver = {
         integrationResponse = await FeedbackHelper.createJira(
           feedbackConfig,
           userFeedback,
-          app,
+          projectId,
           userData,
         );
         userFeedback.ticketUrl = `${
@@ -134,7 +133,7 @@ const FeedbackResolver = {
         integrationResponse = await FeedbackHelper.createGitlabIssue(
           feedbackConfig,
           userFeedback,
-          app,
+          projectId,
           userData,
         );
         userFeedback.state = integrationResponse.state;
@@ -153,7 +152,7 @@ const FeedbackResolver = {
           const emailTemplate = FeedbackHelper.createEmailTemplate(
             userData,
             userFeedback,
-            app,
+            projectId,
             feedbackConfig[0],
           );
           FeedbackHelper.sendEmail(emailTemplate);
@@ -164,7 +163,7 @@ const FeedbackResolver = {
           FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
           return response;
         })
-        .catch((error: Error) => error);
+        .catch(Logger.error);
     },
     updateFeedback(root: any, { id, input }: any, ctx: any) {
       const userFeedback = input;

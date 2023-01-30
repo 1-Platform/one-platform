@@ -63,6 +63,7 @@ type QueryListFeedbackConfigByIdArgs = {
 
 type QueryListFeedbackConfigByAppIdArgs = {
   appId?: string;
+  projectId?: string;
 };
 
 type MutationCreateFeedbackConfigArgs = {
@@ -79,7 +80,8 @@ type MutationDeleteFeedbackConfigArgs = {
 };
 
 type FeedbackConfigType = {
-  appId: string;
+  appId?: string;
+  projectId: string;
   isEnabled: boolean;
   sourceType: FeedbackSource;
   sourceApiUrl: string;
@@ -93,7 +95,8 @@ type FeedbackConfigType = {
 
 type FeedbackConfigInput = {
   id?: string;
-  appId: string;
+  appId?: string;
+  projectId: string;
   isEnabled: boolean;
   sourceType: FeedbackSource;
   sourceApiUrl: string;
@@ -107,7 +110,8 @@ type FeedbackConfigInput = {
 
 type App = {
   id: string;
-  appId: string;
+  appId?: string;
+  projectId: string;
   path: string;
   name: string;
 };
