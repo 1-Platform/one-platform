@@ -36,10 +36,7 @@ const FeedbackConfigResolver = {
       { projectId }: QueryListFeedbackConfigByAppIdArgs,
       ctx: any,
     ) {
-      return FeedbackConfig.findOne({ projectId })
-        .exec()
-        .then((response: any) => response)
-        .catch((error: Error) => error);
+      return FeedbackConfig.findOne({ projectId }).exec();
     },
   },
   Mutation: {
@@ -68,13 +65,9 @@ const FeedbackConfigResolver = {
       ctx: any,
     ) {
       return FeedbackConfig.findByIdAndRemove(id)
-        .exec()
-        .then(() => {
+        .then((response: any) => {
           Feedback.remove({ config: id }).exec();
-        })
-        .catch((error) => {
-          Logger.error(error);
-          return error;
+          return response;
         });
     },
   },
