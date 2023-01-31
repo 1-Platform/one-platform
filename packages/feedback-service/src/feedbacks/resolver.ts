@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 import { Feedback } from './schema';
 import FeedbackHelper from './helpers';
 import { FeedbackConfig } from '../feedback-config/schema';
+import Logger from '../lib/logger';
 
 const FeedbackResolver = {
   FeedbackSortType: {
@@ -26,7 +27,7 @@ const FeedbackResolver = {
     async listFeedbacks(
       root: any,
       {
-        limit = 10, offset = 0, search, category, appId, createdBy, status, sort = 'createdOn',
+        limit = 10, offset = 0, search, category, projectId, createdBy, status, sort = 'createdOn',
       }: any,
       ctx: any,
     ) {
@@ -45,8 +46,8 @@ const FeedbackResolver = {
       }
 
       // multiple application based filter
-      if (appId) {
-        const feedbackConfig = await FeedbackConfig.find({ appId: { $in: appId } }).exec();
+      if (projectId) {
+        const feedbackConfig = await FeedbackConfig.find({ appId: { $in: projectId } }).exec();
         if (FeedbackConfig) {
           const config = feedbackConfig.map(({ _id }) => _id?.toString());
           match.config = { $in: config };
@@ -84,7 +85,6 @@ const FeedbackResolver = {
   Mutation: {
     async createFeedback(root: any, args: any, ctx: any) {
       const userFeedback = args.input;
-      let appList = [];
       let userData: any[] = [];
       let integrationResponse;
 
@@ -94,55 +94,54 @@ const FeedbackResolver = {
 
       const userQuery = FeedbackHelper.buildUserQuery([userFeedback.createdBy]);
       userData = await FeedbackHelper.getUserProfiles(userQuery);
-      appList = await FeedbackHelper.listApps();
 
-      const app = appList.sort((a, b) => b.path.localeCompare(a.path))
-        .find(({ path }) => userFeedback.stackInfo.path.includes(path));
-      if (!app) {
-        throw new Error('App not found. Please visit developer-console');
+      const { projectId } = userFeedback;
+      if (!projectId) {
+        throw new Error('ProjectId not found. Please visit developer-console');
       }
-      const feedbackConfig = await FeedbackConfig.find({
-        appId: app.id,
+      const feedbackConfig = await FeedbackConfig.findOne({
+        projectId,
       }).exec();
-      userFeedback.config = (feedbackConfig[0] as any)?._id;
+      userFeedback.config = (feedbackConfig as any)?._id;
 
-      if (feedbackConfig.length === 0) {
+      if (!feedbackConfig) {
         throw new Error(
           'Feedback configuration not registered. Please visit developer-console',
         );
       }
-      if (feedbackConfig[0]?.sourceType === 'GITHUB') {
+      // TODO: This can be an enum or object
+      if (feedbackConfig?.sourceType === 'GITHUB') {
         integrationResponse = await FeedbackHelper.createGithubIssue(
-          feedbackConfig,
+          [feedbackConfig],
           userFeedback,
-          app,
+          projectId,
           userData,
         );
         userFeedback.state = integrationResponse.issue.state;
-      } else if (feedbackConfig[0]?.sourceType === 'JIRA') {
+      } else if (feedbackConfig?.sourceType === 'JIRA') {
         integrationResponse = await FeedbackHelper.createJira(
-          feedbackConfig,
+          [feedbackConfig],
           userFeedback,
-          app,
+          projectId,
           userData,
         );
         userFeedback.ticketUrl = `${
           new URL(integrationResponse.self).origin
         }/browse/${integrationResponse.key}`;
         userFeedback.state = 'To Do';
-      } else if (feedbackConfig[0]?.sourceType === 'GITLAB') {
+      } else if (feedbackConfig?.sourceType === 'GITLAB') {
         integrationResponse = await FeedbackHelper.createGitlabIssue(
-          feedbackConfig,
+          [feedbackConfig],
           userFeedback,
-          app,
+          projectId,
           userData,
         );
         userFeedback.state = integrationResponse.state;
-      } else if (feedbackConfig[0]?.sourceType === 'EMAIL') {
+      } else if (feedbackConfig?.sourceType === 'EMAIL') {
         userFeedback.state = 'To Do';
       }
 
-      if (feedbackConfig[0].sourceType !== 'JIRA') {
+      if (feedbackConfig.sourceType !== 'JIRA') {
         userFeedback.ticketUrl = integrationResponse?.issue?.url
           || integrationResponse?.webUrl
           || null;
@@ -153,8 +152,8 @@ const FeedbackResolver = {
           const emailTemplate = FeedbackHelper.createEmailTemplate(
             userData,
             userFeedback,
-            app,
-            feedbackConfig[0],
+            projectId,
+            feedbackConfig,
           );
           FeedbackHelper.sendEmail(emailTemplate);
           const formattedSearchResponse = FeedbackHelper.formatSearchInput(
@@ -164,7 +163,8 @@ const FeedbackResolver = {
           FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
           return response;
         })
-        .catch((error: Error) => error);
+        // Cannot return this error as it returns the API key
+        .catch(Logger.error);
     },
     updateFeedback(root: any, { id, input }: any, ctx: any) {
       const userFeedback = input;

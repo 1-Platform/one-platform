@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Feedback } from '../feedbacks/schema';
+import Logger from '../lib/logger';
 import { FeedbackConfig } from './schema';
 
 const FeedbackConfigResolver = {
@@ -30,6 +31,13 @@ const FeedbackConfigResolver = {
         .then((response: any) => response)
         .catch((error: Error) => error);
     },
+    getFeedbackConfigByProjectId(
+      root: any,
+      { projectId }: QueryListFeedbackConfigByAppIdArgs,
+      ctx: any,
+    ) {
+      return FeedbackConfig.findOne({ projectId }).exec();
+    },
   },
   Mutation: {
     createFeedbackConfig(
@@ -37,7 +45,11 @@ const FeedbackConfigResolver = {
       { payload }: MutationCreateFeedbackConfigArgs,
       ctx: any,
     ) {
-      return new FeedbackConfig(payload).save();
+      return new FeedbackConfig(payload).save()
+        .catch((error) => {
+          Logger.error(error);
+          return error;
+        });
     },
     updateFeedbackConfig(
       root: any,
@@ -52,9 +64,11 @@ const FeedbackConfigResolver = {
       { id }: MutationDeleteFeedbackConfigArgs,
       ctx: any,
     ) {
-      return FeedbackConfig.findByIdAndRemove(id).exec().then(() => {
-        Feedback.remove({ config: id }).exec();
-      });
+      return FeedbackConfig.findByIdAndRemove(id)
+        .then((response: any) => {
+          Feedback.remove({ config: id }).exec();
+          return response;
+        });
     },
   },
 };

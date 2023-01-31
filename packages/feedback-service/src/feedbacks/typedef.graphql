@@ -69,6 +69,7 @@ type FeedbackType {
 input FeedbackInput {
   id: ID
   summary: String
+  projectId: String
   description: String
   stackInfo: StackInfoInput
   experience: String
@@ -95,6 +96,7 @@ type Query {
     offset: Int
     category: [FeedbackCategory]
     appId: [String]
+    projectId: String
     createdBy: String
     status: FeedbackStatus
     sortBy: FeedbackSortType

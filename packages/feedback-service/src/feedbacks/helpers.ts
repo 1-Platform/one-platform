@@ -212,8 +212,8 @@ async function listApps(): Promise<App[]> {
     data: JSON.stringify({
       query: `query Apps {
                 apps {
-                  id
                   appId
+                  projectId
                   path
                   name
                 }

@@ -7,6 +7,7 @@ export const FeedbackSchema: Schema = new Schema({
   description: String,
   experience: String,
   state: String,
+  projectId: String,
   error: String,
   config: String,
   ticketUrl: String,

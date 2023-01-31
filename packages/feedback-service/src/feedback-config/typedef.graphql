@@ -17,6 +17,7 @@ input FeedbackHeaderInput {
 type FeedbackConfigType {
   id: ID
   appId: String
+  projectId: String
   isEnabled: Boolean
   sourceType: FeedbackSource
   sourceApiUrl: String
@@ -28,6 +29,7 @@ type FeedbackConfigType {
 input FeedbackConfigInput {
   id: ID
   appId: String
+  projectId: String
   isEnabled: Boolean
   sourceType: FeedbackSource
   sourceApiUrl: String
@@ -40,6 +42,7 @@ type Query {
   listFeedbackConfigs: [FeedbackConfigType]
   getFeedbackConfigById(id: ID!): FeedbackConfigType
   getFeedbackConfigByAppId(appId: String): FeedbackConfigType
+  getFeedbackConfigByProjectId(projectId: String): FeedbackConfigType
 }
 
 type Mutation {
