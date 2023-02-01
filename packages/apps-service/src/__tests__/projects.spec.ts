@@ -4,7 +4,16 @@ import {
   disconnectMockDatabase,
   setupMockDatabase,
 } from './mocks/mockDatabase';
-import { createProjectMutation, deleteProjectMutation, findProjectsQuery, myProjectsQuery, projectQuery, projectsQuery, transferProjectOwnershipMutation, updateProjectMutation } from './query.gql';
+import {
+  createProjectMutation,
+  deleteProjectMutation,
+  findProjectsQuery,
+  myProjectsQuery,
+  projectQuery,
+  projectsQuery,
+  transferProjectOwnershipMutation,
+  updateProjectMutation,
+} from './projects-queries.gql';
 
 let server: ApolloServer;
 let projectName = 'Test-Project-' + Math.round(Math.random() * 50);
@@ -39,7 +48,7 @@ beforeEach(() => {
   });
 });
 
-describe('Projects Queries and Mutations Test', () => {
+describe('Projects Queries and Mutations', () => {
   it('should create a new project', async () => {
     const result = await server.executeOperation({
       query: createProjectMutation,
@@ -57,8 +66,14 @@ describe('Projects Queries and Mutations Test', () => {
     expect(result.data?.createProject).toBeTruthy();
     expect(result.data?.createProject).toHaveProperty('projectId');
     expect(result.data?.createProject).toHaveProperty('name', projectName);
-    expect(result.data?.createProject).toHaveProperty('ownerId', originalUserId);
-    expect(result.data?.createProject).toHaveProperty('createdBy', originalUserId);
+    expect(result.data?.createProject).toHaveProperty(
+      'ownerId',
+      originalUserId
+    );
+    expect(result.data?.createProject).toHaveProperty(
+      'createdBy',
+      originalUserId
+    );
     expect(result.data?.createProject).toHaveProperty('createdOn');
     expect(Date.parse(result.data?.createProject.createdOn)).not.toBeNaN();
 
@@ -134,7 +149,10 @@ describe('Projects Queries and Mutations Test', () => {
     expect(result.data?.updateProject).toBeTruthy();
     expect(result.data?.updateProject).toHaveProperty('projectId');
     expect(result.data?.updateProject).toHaveProperty('name');
-    expect(result.data?.updateProject).toHaveProperty('description', description);
+    expect(result.data?.updateProject).toHaveProperty(
+      'description',
+      description
+    );
   });
 
   it('should find projects by a selector', async () => {
@@ -167,7 +185,7 @@ describe('Projects Queries and Mutations Test', () => {
     expect(result.data).toHaveProperty('deleteProject');
     expect(result.data?.deleteProject).toBeTruthy();
     expect(result.data?.deleteProject).toHaveProperty('projectId');
-  } );
+  });
 
   it('should transfer the project ownership to different user', async () => {
     /* Create a new project as originalUser */
@@ -194,7 +212,10 @@ describe('Projects Queries and Mutations Test', () => {
     expect(result.errors).toBeUndefined();
     expect(result.data).toHaveProperty('transferProjectOwnership');
     expect(result.data?.transferProjectOwnership).toBeTruthy();
-    expect(result.data?.transferProjectOwnership).toHaveProperty('projectId', newProjectId);
+    expect(result.data?.transferProjectOwnership).toHaveProperty(
+      'projectId',
+      newProjectId
+    );
     expect(result.data?.transferProjectOwnership).toHaveProperty(
       'ownerId',
       newUserId
