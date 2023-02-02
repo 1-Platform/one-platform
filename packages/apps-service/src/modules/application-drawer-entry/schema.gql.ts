@@ -3,7 +3,7 @@
 const ApplicationsSchema = /* GraphQL */ `
   type Query {
     apps(filter: ApplicationsFilter, sort: SortInput): [ApplicationDrawerEntry]
-    app(appId: ID): ApplicationDrawerEntry
+    app(appId: ID!): ApplicationDrawerEntry
   }
 
   type Mutation {
@@ -33,6 +33,7 @@ const ApplicationsSchema = /* GraphQL */ `
     authenticate: Boolean
     icon: String
     application: Application
+    project: Project
     name: String
       @deprecated(
         reason: "This field will be deprecated in the future. Please use 'label' instead."

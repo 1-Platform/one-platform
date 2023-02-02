@@ -27,13 +27,16 @@ services:
       PORT: 8000
       COUCHDB_HOST: http://couchdb:5984
       COUCHDB_SECRET: couchdbsecret123                # as defined in the couchdb service environment
+      REDIS_HOST: redis
+      MONGO_URL: mongodb://mongo:27017/apps-service
     volumes:
-      - ./packages/reverse-proxy-service:/usr/src
+      - ./packages/reverse-proxy-service:/opt/app-root/src
     ports:
       - 5500:8000
     depends_on:
       - couchdb
       - redis
+      - mongo
 
   api-gateway:
     build: ./packages/api-gateway-service
@@ -63,7 +66,7 @@ services:
       COUCHDB_ENDPOINT: http://couchdb:5984
       # COUCHDB_ADMIN_TOKEN: "<add admin token to test couchdb integration>"   # Basic <base64 of COUCHDB_USER:COUCHDB_PASSWORD>
     volumes:
-      - ./packages/apps-service:/opt/app-root/src/app
+      - ./packages/apps-service:/opt/app-root/src
     ports:
       - 8081:8080
     depends_on:

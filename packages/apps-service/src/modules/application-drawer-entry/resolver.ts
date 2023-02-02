@@ -12,7 +12,7 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         .exec();
     },
     app: (_, { appId }) => {
-      return ApplicationDrawerEntrys.findOne(appId).exec();
+      return ApplicationDrawerEntrys.findOne({ appId }).exec();
     },
   },
   Mutation: {
@@ -63,7 +63,7 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         throw new NotFoundError(`No entry found for appId: "${appId}".`);
       }
 
-      return ApplicationDrawerEntrys.updateOne(
+      return ApplicationDrawerEntrys.findOneAndUpdate(
         { appId },
         { ...appDrawerEntry },
         { new: true }
@@ -129,6 +129,9 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
     },
   },
   ApplicationDrawerEntry: {
+    project: (parent) => {
+      return Projects.findOne({ projectId: parent.projectId }).exec();
+    },
     application: (parent) => {
       return Projects.findOne({ projectId: parent.projectId })
         .exec()
@@ -152,7 +155,7 @@ const ApplicationsResolver = <IResolvers<ApplicationDrawerEntry, IAppsContext>>{
         });
     },
     name: (parent) => parent.label,
-    applicationType: (parent) => 'HOSTED',
+    applicationType: (_) => 'HOSTED',
     isActive: (_) => true,
   },
 };
