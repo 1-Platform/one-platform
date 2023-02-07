@@ -47,7 +47,9 @@ const FeedbackResolver = {
 
       // multiple application based filter
       if (projectId) {
-        const feedbackConfig = await FeedbackConfig.find({ appId: { $in: projectId } }).exec();
+        const feedbackConfig = await FeedbackConfig.find({
+          projectId: { $in: projectId },
+        }).exec();
         if (FeedbackConfig) {
           const config = feedbackConfig.map(({ _id }) => _id?.toString());
           match.config = { $in: config };
@@ -162,9 +164,7 @@ const FeedbackResolver = {
           );
           FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
           return response;
-        })
-        // Cannot return this error as it returns the API key
-        .catch(Logger.error);
+        });
     },
     updateFeedback(root: any, { id, input }: any, ctx: any) {
       const userFeedback = input;

@@ -41,8 +41,9 @@ input FeedbackConfigInput {
 type Query {
   listFeedbackConfigs: [FeedbackConfigType]
   getFeedbackConfigById(id: ID!): FeedbackConfigType
-  getFeedbackConfigByAppId(appId: String): FeedbackConfigType
-  getFeedbackConfigByProjectId(projectId: String): FeedbackConfigType
+  getFeedbackConfigByAppId(appId: String!): FeedbackConfigType
+  getFeedbackConfigByProjectId(projectId: String!): FeedbackConfigType
+  getFeedbackConfigByProjectKey(projectKey: String!): [FeedbackConfigType]
 }
 
 type Mutation {
