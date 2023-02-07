@@ -64,6 +64,7 @@ type QueryListFeedbackConfigByIdArgs = {
 type QueryListFeedbackConfigByAppIdArgs = {
   appId?: string;
   projectId?: string;
+  projectKey?: string;
 };
 
 type MutationCreateFeedbackConfigArgs = {

@@ -52,6 +52,7 @@ type FeedbackType {
   description: String
   stackInfo: StackInfoType
   experience: String
+  projectId: String
   error: String
   config: String
   state: String

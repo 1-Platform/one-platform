@@ -38,6 +38,13 @@ const FeedbackConfigResolver = {
     ) {
       return FeedbackConfig.findOne({ projectId }).exec();
     },
+    getFeedbackConfigByProjectKey(
+      root: any,
+      { projectKey }: QueryListFeedbackConfigByAppIdArgs,
+      ctx: any,
+    ) {
+      return FeedbackConfig.find({ projectKey }).exec();
+    },
   },
   Mutation: {
     createFeedbackConfig(
