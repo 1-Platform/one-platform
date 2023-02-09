@@ -9,4 +9,5 @@ const config = {
   keycloakUrl: "",
   keycloakClientId: "",
   keycloakRealm: "",
+  projectId: "",
 };

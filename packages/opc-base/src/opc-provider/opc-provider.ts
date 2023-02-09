@@ -326,7 +326,10 @@ export class OpcProvider extends LitElement {
       {
         title: "Applications",
         links: apps
-          .filter(({ applicationType }) => applicationType === "HOSTED")
+          .filter(
+            ({ applicationType, name }) =>
+              applicationType === "HOSTED" && Boolean(name)
+          )
           .map(({ name, path, isActive }) => ({
             name,
             href: path,
@@ -336,7 +339,10 @@ export class OpcProvider extends LitElement {
       {
         title: "Built In Services",
         links: apps
-          .filter(({ applicationType }) => applicationType === "BUILTIN")
+          .filter(
+            ({ applicationType, name }) =>
+              applicationType === "BUILTIN" && Boolean(name)
+          )
           .map(({ name, path, isActive }) => ({
             name,
             href: path,
@@ -411,11 +417,13 @@ export class OpcProvider extends LitElement {
     }
   }
 
-  async sendFeedback(feedbackInput: CreateFeedbackVariable["input"]) {
+  async sendFeedback(
+    feedbackInput: Omit<CreateFeedbackVariable["input"], "projectId">
+  ) {
     try {
       const res = await this.api.gqlClient
         .mutation<CreateFeedback, CreateFeedbackVariable>(CREATE_FEEDBACK, {
-          input: feedbackInput,
+          input: { projectId: opcBase.config.projectId, ...feedbackInput },
         })
         .toPromise();
       if (res?.data?.createFeedback) {
@@ -443,7 +451,6 @@ export class OpcProvider extends LitElement {
             body: `The Server returned an empty response.`,
           })
         : alert("Error in Feedback Submission");
-      throw new Error("The Server returned an empty response.");
     }
   }
 
