@@ -43,6 +43,7 @@ type FeedbackCategory = "BUG" | "FEEDBACK";
 
 export type FeedbackInput = {
   summary: string;
+  projectId: string;
   experience?: string;
   error?: string;
   category: FeedbackCategory;

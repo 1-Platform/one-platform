@@ -13,6 +13,8 @@ export type KeycloakConfig = {
 export type Config = {
   apiBasePath: string;
   subscriptionsPath: string;
+  projectId: string;
+  appId?: string;
   cachePolicy?: RequestPolicy;
   isDebugMode?: boolean;
 } & KeycloakConfig;

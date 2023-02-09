@@ -14,6 +14,7 @@ suite("opcBase", () => {
       keycloakUrl: "",
       keycloakRealm: "",
       keycloakClientId: "",
+      projectId: "",
     };
     opcBase.configure(config);
     expect(opcBase.config).to.deep.eq(config);

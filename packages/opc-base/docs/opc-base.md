@@ -18,6 +18,7 @@ On using as UMD `opc-base` is injected as global variable. Copy and paste this s
   opcBase.configure({
     apiBasePath: "<api base for fetching app list>",
     subscriptionsPath: "<subscriptions base url for notifications>",
+    projectId: "<your project id>",
     keycloakUrl: "<keycloak url>",
     keycloakClientId: "<keycloak client id>",
     keycloakRealm: "<keycloak clock realm>",
@@ -41,6 +42,7 @@ import opcBase from "@one-platform/opc-base";
 opcBase.configure({
   apiBasePath: "<api base for fetching app list>",
   subscriptionsPath: "<subscriptions base url for notifications>",
+  projectId: "<your project id>",
   keycloakUrl: "<keycloak url>",
   keycloakClientId: "<keycloak client id>",
   keycloakRealm: "<keycloak clock realm>",
@@ -60,6 +62,7 @@ Object properties
 - apiBasePath: api base for fetching app list
 - subscriptionsPath: subscriptions base url for notifications
 - keycloakUrl: keycloak url
+- projectId: app project id registered in dev console
 - keycloakClientId: keycloak client id
 - keycloakRealm: keycloak clock realm
 - cachePolicy (optional): The fetch policy strategy followed by the graphql instance([urql](https://formidable.com/open-source/urql/)) used in opc-base. By default `cache-first`

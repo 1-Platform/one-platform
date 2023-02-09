@@ -8,5 +8,6 @@ export const config = {
   subscriptionsPath: "",
   keycloakUrl: "",
   keycloakClientId: "",
+  projectId: "",
   keycloakRealm: "",
 };
