@@ -1,6 +1,6 @@
 ---
-id: spa-deployment-guideline
-title: SPA Deployment Guideline
+id: spa-deployment-guidelines
+title: SPA Deployment Guidelines
 slug: /deployments/spa
 sidebar_label: SPA Guideline
 ---
