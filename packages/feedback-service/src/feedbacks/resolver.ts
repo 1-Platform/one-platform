@@ -27,7 +27,19 @@ const FeedbackResolver = {
     async listFeedbacks(
       root: any,
       {
-        limit = 10, offset = 0, search, category, projectId, createdBy, status, sort = 'createdOn',
+        limit = 10,
+        offset = 0,
+        search,
+        category,
+        projectId,
+        state,
+        createdBy,
+        ticketUrl,
+        stackInfo,
+        description,
+        module,
+        status,
+        sort = 'createdOn',
       }: any,
       ctx: any,
     ) {
@@ -36,6 +48,11 @@ const FeedbackResolver = {
       if (search) match.summary = { $regex: search, $options: 'i' };
       if (category) match.category = { $in: category };
       if (createdBy) match.createdBy = createdBy;
+      if (state) match.state = state;
+      if (ticketUrl) match.ticketUrl = { $regex: ticketUrl, $options: 'i' };
+      if (module) match.module = { $regex: module, $options: 'i' };
+      if (description) match.description = { $regex: description, $options: 'i' };
+      if (stackInfo) match['stackInfo.path'] = { $regex: stackInfo, $options: 'i' };
 
       if (status) {
         if (status === 'OPEN') {

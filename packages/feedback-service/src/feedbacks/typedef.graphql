@@ -101,6 +101,11 @@ type Query {
     createdBy: String
     status: FeedbackStatus
     sortBy: FeedbackSortType
+    state: String
+    ticketUrl: String
+    module: String
+    description: String
+    stackInfo: String
   ): PaginatedFeedbackType
   """
   List the Feedback by id and appId parameters
