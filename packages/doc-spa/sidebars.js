@@ -122,7 +122,7 @@ const sidebars = {
       label: "Deployment Guidelines",
       collapsed: false,
       items: [
-        "deployment-guidelines/spa-deployment-guideline",
+        "deployment-guidelines/spa-deployment-guidelines",
         "deployment-guidelines/service-deployment-guideline",
       ],
     },

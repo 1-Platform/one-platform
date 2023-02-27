@@ -2,7 +2,7 @@
 id: spa-deployment-guidelines
 title: SPA Deployment Guidelines
 slug: /deployments/spa
-sidebar_label: SPA Guideline
+sidebar_label: SPA Guidelines
 ---
 
 ## Guide
