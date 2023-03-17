@@ -10,6 +10,7 @@ import { SearchMapResolver } from './src/search-mapping/resolver';
 import searchMapSchema from './src/search-mapping/typedef.graphql';
 import database from './src/setup/database';
 import { NODE_ENV, PORT } from './src/setup/env';
+import { getSiteMap } from './src/search-sitemap/resolver';
 
 (async function setConfig() {
   /* Setup database connection */
@@ -20,6 +21,11 @@ import { NODE_ENV, PORT } from './src/setup/env';
 }());
 
 const app = express();
+
+app.get('/sitemap', async (req, res) => {
+  const data = await getSiteMap(req);
+  res.send(data);
+});
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 const schema = mergeSchemas({
