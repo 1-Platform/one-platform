@@ -100,6 +100,38 @@ const FeedbackResolver = {
       const feedback = await FeedbackHelper.processFeedbackRecords([feedbackDoc]);
       return feedback?.[0];
     },
+    async searchFeedbacks(
+      root: any,
+      {
+        limit = 10, offset = 0, searchQuery, sort = 'createdOn',
+      }: any,
+      ctx: any,
+    ) {
+      const paginatedFeedback = await Feedback.aggregate([
+        {
+          $match: {
+            $or: [
+              { summary: { $regex: searchQuery, $options: 'i' } },
+              { ticketUrl: { $regex: searchQuery, $options: 'i' } },
+            ],
+          },
+        },
+        { $sort: { [sort]: -1 } },
+        {
+          $facet: {
+            data: [{ $skip: offset }, { $limit: limit }],
+            total: [{ $count: 'total' }],
+          },
+        },
+      ]).exec();
+      const feedbackRecords = paginatedFeedback[0].data.map((doc: any) => Feedback.hydrate(doc),);
+      const count = paginatedFeedback[0].total[0]?.total || 0;
+      const data = await FeedbackHelper.processFeedbackRecords(feedbackRecords);
+      return {
+        count,
+        data,
+      } as PaginatedFeedbackType;
+    },
   },
   Mutation: {
     async createFeedback(root: any, args: any, ctx: any) {
