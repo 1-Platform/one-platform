@@ -113,6 +113,10 @@ type Query {
   getFeedbackById(
     id: ID!
     ): FeedbackType
+  """
+  Search the Feedbacks by a search query string
+  """
+  searchFeedbacks(searchQuery:String):PaginatedFeedbackType
 }
 
 type Mutation {
