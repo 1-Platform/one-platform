@@ -1,7 +1,7 @@
 [
   {
     "name": "Authentication",
-    "description": "Adding authentication to your application is pice of cake. Just integrate with our API and focus on application development.",
+    "description": "Adding authentication to your application is piece of cake. Just integrate with our API and focus on application development.",
     "link": "/get-started/docs/architecture#authentication",
     "icon": "/static/img/auth.svg",
     "imgBgColor": "#F3FAF2"
