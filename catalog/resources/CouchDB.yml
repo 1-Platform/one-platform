@@ -1,0 +1,25 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: one-platform-couchdb
+  title: One Platform CouchDB
+  namespace: devex
+  description: Serverless Database Solution for Single Page Applications. Provides HTTP API to interact with Database.
+  tags:
+    - couchdb
+    - one-platform
+    - native
+  links:
+    - url: https://docs.couchdb.org/en/stable/api/index.html
+      title: API Docs
+    - url: https://one.redhat.com/api/couchdb
+      title: API Endpoint
+spec:
+  type: database
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  lifecycle: production
+dependsOn:
+  - component:devex/one-platform-reverse-proxy
+  - component:devex/one-platform-apps-service

@@ -1,0 +1,31 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-search-spa
+  title: Search SPA
+  namespace: devex
+  description: A web interface returns the results based on the user query.
+  annotations:
+    lighthouse.com/website-url: https://one.redhat.com/search
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-001
+    spaship.io/property-id: 'one-platform'
+    spaship.io/app-id: 'search'
+    matomo.io/site-id: '6'
+  links:
+    - url: https://one.redhat.com/search
+      title: Search SPA
+  tags:
+    - spa
+    - search
+    - developers
+    - one-platform
+    - angular
+spec:
+  type: website
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  dependsOn:
+    - component:devex/one-platform-api-gateway

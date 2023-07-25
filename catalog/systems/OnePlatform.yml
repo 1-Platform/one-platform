@@ -1,0 +1,27 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: one-platform
+  title: One Platform
+  namespace: devex
+  description: One Platform provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
+  tags:
+    - digital-experience
+    - javascript
+    - nodejs
+    - one-platform
+    - developer-experience
+  links:
+  - url: https://redhat-internal.slack.com/archives/C04FC8AUM3M
+    title: Slack
+    icon: chat
+  - url: https://one.redhat.com
+    title: Production
+  - url: https://stage.one.redhat.com
+    title: Stage
+  - url: https://qa.one.redhat.com
+    title: QA
+spec:
+  owner: user:redhat/npatil
+  domain: devex/platform-engineering

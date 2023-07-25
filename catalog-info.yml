@@ -1,0 +1,31 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: one-platform-root-config
+  title: One Platform Root Configuration
+  namespace: devex
+  description: A root collection of all One Platform configurations for Backstage.
+spec:
+  owner: user:redhat/roommen
+  targets:
+    - ./catalog/resources/NativeMongoDB.yml
+    - ./catalog/resources/NonNativeMongoDB.yml
+    - ./catalog/systems/OnePlatform.yml
+    - ./packages/analytics-service/catalog-info.yml
+    - ./packages/api-catalog-service/catalog-info.yml
+    - ./packages/api-catalog-spa/catalog-info.yml
+    - ./packages/api-gateway-service/catalog-info.yml
+    - ./packages/apps-service/catalog-info.yml
+    - ./packages/component-catalog-spa/catalog-info.yml
+    - ./packages/developer-console-spa/catalog-info.yml
+    - ./packages/doc-spa/catalog-info.yml
+    - ./packages/feedback-service/catalog-info.yml
+    - ./packages/feedback-spa/catalog-info.yml
+    - ./packages/home-spa/catalog-info.yml
+    - ./packages/lighthouse-service/catalog-info.yml
+    - ./packages/lighthouse-spa/catalog-info.yml
+    - ./packages/opc-base/catalog-info.yml
+    - ./packages/reverse-proxy-service/catalog-info.yml
+    - ./packages/search-service/catalog-info.yml
+    - ./packages/search-spa/catalog-info.yml
+    - ./packages/user-group-service/catalog-info.yml

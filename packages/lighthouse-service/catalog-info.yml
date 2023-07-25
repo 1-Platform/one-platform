@@ -1,0 +1,28 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-lighthouse-service
+  title: Lighthouse Microservice
+  namespace: devex
+  description: Microservice based GraphQL API Backend ecosystem for Lighthouse.
+  annotations:
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-008
+  tags:
+    - microservice
+    - lighthouse
+    - developers
+    - one-platform
+    - nodejs
+spec:
+  type: service
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  dependsOn:
+    - resource:devex/native-apps-mongodb
+    - component:devex/one-platform-lighthouse-ci
+    - resource:devex/one-platform-lighthouse-postgres
+  dependencyOf:
+    - component:devex/one-platform-api-gateway

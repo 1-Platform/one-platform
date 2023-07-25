@@ -1,0 +1,28 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-component-catalog-spa
+  title: Component Catalog SPA
+  namespace: devex
+  description: A storybook application shows the catalog for the one platform web components.
+  annotations:
+    lighthouse.com/website-url: https://one.redhat.com/components
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-001
+    spaship.io/property-id: 'one-platform'
+    spaship.io/app-id: 'components'
+  links:
+    - url: https://one.redhat.com/components
+      title: Component Catalog SPA
+  tags:
+    - spa
+    - component-catalog
+    - developers
+    - one-platform
+    - react
+spec:
+  type: website
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform

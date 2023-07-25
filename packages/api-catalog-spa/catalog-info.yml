@@ -1,0 +1,30 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-api-catalog-spa
+  title: API Catalog SPA
+  namespace: devex
+  description: A web interface of APIs to manage, promote and share APIs with developers and users.
+  annotations:
+    lighthouse.com/website-url: https://one.redhat.com/developers/api-catalog
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-007
+    spaship.io/property-id: 'one-platform'
+    spaship.io/app-id: 'op-api-catalog'
+  links:
+    - url: https://one.redhat.com/developers/api-catalog
+      title: API Catalog SPA
+  tags:
+    - spa
+    - api-catalog
+    - developers
+    - one-platform
+    - react
+spec:
+  type: website
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  dependsOn:
+    - component:devex/one-platform-api-gateway
