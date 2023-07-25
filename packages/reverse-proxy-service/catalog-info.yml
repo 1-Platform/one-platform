@@ -1,0 +1,21 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-reverse-proxy
+  title: Reverse Proxy
+  namespace: devex
+  description: Reverse-proxy/authentication layer for some internal services and APIs.
+  annotations:
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-001
+  tags:
+    - reverse-proxy
+    - developers
+    - one-platform
+    - nodejs
+spec:
+  type: service
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform

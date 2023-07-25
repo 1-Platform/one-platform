@@ -1,0 +1,17 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: native-apps-mongodb
+  title: Native Apps MongoDB
+  namespace: devex
+  description: Stores data for one platform native apps
+  tags:
+    - mongodb
+    - one-platform
+    - native
+spec:
+  type: database
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  lifecycle: production

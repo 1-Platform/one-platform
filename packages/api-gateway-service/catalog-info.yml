@@ -1,0 +1,30 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-api-gateway
+  title: API Gateway
+  namespace: devex
+  description: GraphQL API Gateway with single-defined schema and source data from across many different microservices.
+  annotations:
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-001
+  tags:
+    - api-gateway
+    - developers
+    - one-platform
+    - nodejs
+spec:
+  type: service
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  dependsOn:
+    - component:devex/one-platform-lighthouse-service
+    - component:devex/one-platform-search-service
+    - component:devex/one-platform-feedback-service
+    - component:devex/one-platform-api-catalog-service
+    - component:devex/one-platform-user-group-service
+    - component:devex/one-platform-apps-service-service
+  dependencyOf:
+    - component:devex/one-platform-api-gateway

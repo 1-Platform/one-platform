@@ -1,0 +1,28 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-docs-spa
+  title: Docs SPA
+  namespace: devex
+  description: A Documentation portal for managing docs with One Platform.
+  annotations:
+    lighthouse.com/website-url: https://one.redhat.com/get-started
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-001
+    spaship.io/property-id: 'one-platform'
+    spaship.io/app-id: 'op-docs'
+  links:
+    - url: https://one.redhat.com/get-started
+      title: Doc SPA
+  tags:
+    - spa
+    - doc
+    - developers
+    - one-platform
+    - react
+spec:
+  type: website
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform

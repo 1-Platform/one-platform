@@ -1,0 +1,30 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-home-spa
+  title: Home SPA
+  namespace: devex
+  description: Home Page of One Platform.
+  annotations:
+    lighthouse.com/website-url: https://one.redhat.com
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-001
+    spaship.io/property-id: 'one-platform'
+    spaship.io/app-id: 'home-spa'
+    matomo.io/site-id: '2'
+  links:
+    - url: https://one.redhat.com
+      title: Home SPA
+  tags:
+    - spa
+    - home
+    - developers
+    - one-platform
+spec:
+  type: website
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  dependsOn:
+    - component:devex/one-platform-api-gateway

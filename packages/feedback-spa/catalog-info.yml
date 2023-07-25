@@ -1,0 +1,31 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: one-platform-feedback-spa
+  title: Feedback SPA
+  namespace: devex
+  description: A web interface of the feedbacks which is collected from JIRA, GitHub and GitLab via One Platform GraphQL APIs.
+  annotations:
+    lighthouse.com/website-url: https://one.redhat.com/feedback
+    github.com/project-slug: '1-Platform/one-platform'
+    servicenow.com/appcode: ONEP-004
+    spaship.io/property-id: 'one-platform'
+    spaship.io/app-id: 'developer-console'
+    matomo.io/site-id: '3'
+  links:
+    - url: https://one.redhat.com/feedback
+      title: Feedback SPA
+  tags:
+    - spa
+    - feedback
+    - developers
+    - one-platform
+    - react
+spec:
+  type: website
+  lifecycle: production
+  owner: group:redhat/one-platform-devs
+  system: devex/one-platform
+  dependsOn:
+    - component:devex/one-platform-api-gateway
