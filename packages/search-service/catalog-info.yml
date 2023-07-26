@@ -20,5 +20,5 @@ spec:
   lifecycle: production
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
-dependsOn:
+  dependsOn:
     - component:devex/one-platform-api-gateway
