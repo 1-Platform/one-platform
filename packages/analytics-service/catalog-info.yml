@@ -3,7 +3,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: one-platform-analytics-service
-  title: API Catalog Microservice
+  title: Analytics Microservice
   namespace: devex
   description: Analytics microservice is used for providing analytics api information for SPAs deployed in One Platform by connecting with Sentry and Pendo.
   annotations:
