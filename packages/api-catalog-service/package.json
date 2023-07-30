@@ -48,7 +48,7 @@
     "agenda": "^4.2.1",
     "apollo-datasource-http": "^0.20.0",
     "apollo-datasource-mongodb": "^0.5.4",
-    "apollo-server-core": "^3.6.7",
+    "@apollo/server": "^4.0.0",
     "apollo-server-fastify": "^3.6.7",
     "apollo-server-plugin-base": "^3.5.2",
     "dataloader": "^2.1.0",
