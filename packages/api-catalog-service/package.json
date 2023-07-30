@@ -50,7 +50,7 @@
     "apollo-datasource-mongodb": "^0.5.4",
     "apollo-server-core": "^3.6.7",
     "apollo-server-fastify": "^3.6.7",
-    "apollo-server-plugin-base": "^3.5.2",
+    "@apollo/server": "^4.0.0",
     "dataloader": "^2.1.0",
     "dotenv-safe": "8.2.0",
     "esbuild": "^0.14.37",
