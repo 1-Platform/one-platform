@@ -59,7 +59,7 @@
     "lodash": "4.17.21",
     "method-override": "3.0.0",
     "moment": "2.29.4",
-    "mongoose": "5.13.9",
+    "mongoose": "5.13.20",
     "morgan": "^1.10.0",
     "node-schedule": "2.0.0",
     "nodemon-webpack-plugin": "4.8.1",
