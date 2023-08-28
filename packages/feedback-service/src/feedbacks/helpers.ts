@@ -134,7 +134,7 @@ async function createJira(
     sourceUrl: feedbackConfig[0].sourceApiUrl || process.env.JIRA_HOST,
   };
   const jiraResponse = await axios.request<any>({
-    url: `${params.sourceUrl || process.env.JIRA_HOST}/rest/api/2/issue/`,
+    url: `${params.sourceUrl || process.env.JIRA_HOST}/rest/api/2/issue`,
     method: 'POST',
     headers: {
       Authorization: `${process.env.JIRA_AUTH_TOKEN}`,

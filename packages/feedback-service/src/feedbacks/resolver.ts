@@ -87,10 +87,10 @@ const FeedbackResolver = {
       ]).exec();
       const feedbackRecords = paginatedFeedback[0].data.map((doc: any) => Feedback.hydrate(doc));
       const count = paginatedFeedback[0].total[0]?.total || 0;
-      const data = await FeedbackHelper.processFeedbackRecords(feedbackRecords);
+      // const data = await FeedbackHelper.processFeedbackRecords(feedbackRecords);
       return {
         count,
-        data,
+        data: feedbackRecords,
       } as PaginatedFeedbackType;
     },
     async getFeedbackById(
@@ -124,7 +124,7 @@ const FeedbackResolver = {
           },
         },
       ]).exec();
-      const feedbackRecords = paginatedFeedback[0].data.map((doc: any) => Feedback.hydrate(doc),);
+      const feedbackRecords = paginatedFeedback[0].data.map((doc: any) => Feedback.hydrate(doc));
       const count = paginatedFeedback[0].total[0]?.total || 0;
       const data = await FeedbackHelper.processFeedbackRecords(feedbackRecords);
       return {
@@ -137,7 +137,7 @@ const FeedbackResolver = {
     async createFeedback(root: any, args: any, ctx: any) {
       const userFeedback = args.input;
       let userData: any[] = [];
-      let integrationResponse;
+      // let integrationResponse = '';
 
       if (!userFeedback.createdBy) {
         throw new Error('Field `createdBy` is missing in the request');
@@ -161,42 +161,42 @@ const FeedbackResolver = {
         );
       }
       // TODO: This can be an enum or object
-      if (feedbackConfig?.sourceType === 'GITHUB') {
-        integrationResponse = await FeedbackHelper.createGithubIssue(
-          [feedbackConfig],
-          userFeedback,
-          projectId,
-          userData,
-        );
-        userFeedback.state = integrationResponse.issue.state;
-      } else if (feedbackConfig?.sourceType === 'JIRA') {
-        integrationResponse = await FeedbackHelper.createJira(
-          [feedbackConfig],
-          userFeedback,
-          projectId,
-          userData,
-        );
-        userFeedback.ticketUrl = `${
-          new URL(integrationResponse.self).origin
-        }/browse/${integrationResponse.key}`;
-        userFeedback.state = 'To Do';
-      } else if (feedbackConfig?.sourceType === 'GITLAB') {
-        integrationResponse = await FeedbackHelper.createGitlabIssue(
-          [feedbackConfig],
-          userFeedback,
-          projectId,
-          userData,
-        );
-        userFeedback.state = integrationResponse.state;
-      } else if (feedbackConfig?.sourceType === 'EMAIL') {
-        userFeedback.state = 'To Do';
-      }
+      // if (feedbackConfig?.sourceType === 'GITHUB') {
+      //   integrationResponse = await FeedbackHelper.createGithubIssue(
+      //     [feedbackConfig],
+      //     userFeedback,
+      //     projectId,
+      //     userData,
+      //   );
+      //   userFeedback.state = integrationResponse.issue.state;
+      // } else if (feedbackConfig?.sourceType === 'JIRA') {
+      //   integrationResponse = await FeedbackHelper.createJira(
+      //     [feedbackConfig],
+      //     userFeedback,
+      //     projectId,
+      //     userData,
+      //   );
+      //   userFeedback.ticketUrl = `${
+      //     new URL(integrationResponse.self).origin
+      //   }/browse/${integrationResponse.key}`;
+      //   userFeedback.state = 'To Do';
+      // } else if (feedbackConfig?.sourceType === 'GITLAB') {
+      //   integrationResponse = await FeedbackHelper.createGitlabIssue(
+      //     [feedbackConfig],
+      //     userFeedback,
+      //     projectId,
+      //     userData,
+      //   );
+      //   userFeedback.state = integrationResponse.state;
+      // } else if (feedbackConfig?.sourceType === 'EMAIL') {
+      //   userFeedback.state = 'To Do';
+      // }
 
-      if (feedbackConfig.sourceType !== 'JIRA') {
-        userFeedback.ticketUrl = integrationResponse?.issue?.url
-          || integrationResponse?.webUrl
-          || null;
-      }
+      // if (feedbackConfig.sourceType !== 'JIRA') {
+      //   userFeedback.ticketUrl = integrationResponse?.issue?.url
+      //     || integrationResponse?.webUrl
+      //     || null;
+      // }
       return new Feedback(userFeedback)
         .save()
         .then(async (response: FeedbackType) => {
