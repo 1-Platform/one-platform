@@ -15,6 +15,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   rules: {
-    'no-underscore-dangle':'off'
+    'no-underscore-dangle': 'off',
+    'space-in-parens': ['never']
   },
 };

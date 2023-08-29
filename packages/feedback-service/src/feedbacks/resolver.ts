@@ -1,22 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/**
- * MIT License
- * Copyright (c) 2021 Red Hat One Platform
- *
- * @version 0.0.6
- *
- * GraphQL interface for managing the business logic
- *
- * @author Rigin Oommen <riginoommen@gmail.com>
- *
- * Created at     : 2021-01-14 13:50:01
- * Last modified  : 2021-06-28 17:21:06
- */
 import * as _ from 'lodash';
 import { Feedback } from './schema';
-import FeedbackHelper from './helpers';
+import FeedbackHelper from '../helpers';
 import { FeedbackConfig } from '../feedback-config/schema';
-import Logger from '../lib/logger';
+import { jiraQueue, gitlabQueue, githubQueue } from '../lib/queue';
+import { JIRA_JOB_NAME } from '../jobs/createJira';
+import { WorkerProps } from '../jobs';
+import { GITHUB_JOB_NAME } from '../jobs/createGithubIssue';
+import { GITLAB_JOB_NAME } from '../jobs/createGitlabIssue';
 
 const FeedbackResolver = {
   FeedbackSortType: {
@@ -137,14 +127,23 @@ const FeedbackResolver = {
     async createFeedback(root: any, args: any, ctx: any) {
       const userFeedback = args.input;
       let userData: any[] = [];
-      let integrationResponse;
 
       if (!userFeedback.createdBy) {
         throw new Error('Field `createdBy` is missing in the request');
       }
 
-      const userQuery = FeedbackHelper.buildUserQuery([userFeedback.createdBy]);
-      userData = await FeedbackHelper.getUserProfiles(userQuery);
+      if (typeof userFeedback.createdBy === 'string' && userFeedback.createdBy.startsWith('user:')) {
+        const [_, cn] = userFeedback.createdBy.split('/');
+        userData = [ {
+          cn,
+          mail: `${ cn }@redhat.com`,
+          uid: cn,
+          rhatUUID: userFeedback.createdBy,
+        } ];
+      } else {
+        const userQuery = FeedbackHelper.buildUserQuery([userFeedback.createdBy]);
+        userData = await FeedbackHelper.getUserProfiles(userQuery);
+      }
 
       const { projectId } = userFeedback;
       if (!projectId) {
@@ -160,46 +159,35 @@ const FeedbackResolver = {
           'Feedback configuration not registered. Please visit developer-console',
         );
       }
-      // TODO: This can be an enum or object
-      if (feedbackConfig?.sourceType === 'GITHUB') {
-        integrationResponse = await FeedbackHelper.createGithubIssue(
-          [feedbackConfig],
-          userFeedback,
-          projectId,
-          userData,
-        );
-        userFeedback.state = integrationResponse.issue.state;
-      } else if (feedbackConfig?.sourceType === 'JIRA') {
-        integrationResponse = await FeedbackHelper.createJira(
-          [feedbackConfig],
-          userFeedback,
-          projectId,
-          userData,
-        );
-        userFeedback.ticketUrl = `${
-          new URL(integrationResponse.self).origin
-        }/browse/${integrationResponse.key}`;
-        userFeedback.state = 'To Do';
-      } else if (feedbackConfig?.sourceType === 'GITLAB') {
-        integrationResponse = await FeedbackHelper.createGitlabIssue(
-          [feedbackConfig],
-          userFeedback,
-          projectId,
-          userData,
-        );
-        userFeedback.state = integrationResponse.state;
-      } else if (feedbackConfig?.sourceType === 'EMAIL') {
-        userFeedback.state = 'To Do';
-      }
 
-      if (feedbackConfig.sourceType !== 'JIRA') {
-        userFeedback.ticketUrl = integrationResponse?.issue?.url
-          || integrationResponse?.webUrl
-          || null;
-      }
+      userFeedback.state = 'To Do';
+
       return new Feedback(userFeedback)
         .save()
         .then(async (response: FeedbackType) => {
+          /* Create tickets/issues for the respective sourceType */
+          if (feedbackConfig?.sourceType === 'GITHUB') {
+            await githubQueue.add(GITHUB_JOB_NAME, <WorkerProps>{
+              feedbackConfig,
+              userFeedback: response,
+              app: projectId,
+              userData,
+            });
+          } else if (feedbackConfig?.sourceType === 'JIRA') {
+            await jiraQueue.add(JIRA_JOB_NAME, <WorkerProps>{
+              feedbackConfig,
+              userFeedback,
+              app: projectId,
+              userData,
+            });
+          } else if (feedbackConfig?.sourceType === 'GITLAB') {
+            await gitlabQueue.add(GITLAB_JOB_NAME, <WorkerProps>{
+              feedbackConfig,
+              userFeedback,
+              app: projectId,
+              userData,
+            });
+          }
           const emailTemplate = FeedbackHelper.createEmailTemplate(
             userData,
             userFeedback,
@@ -238,11 +226,27 @@ const FeedbackResolver = {
         .then(async (feedbacks: FeedbackType[]) => {
           feedbacks.forEach(async (data: FeedbackType) => {
             userList.push(data.createdBy as string, data.updatedBy as string);
-            const userQuery = FeedbackHelper.buildUserQuery(userList);
-            const userData = await FeedbackHelper.getUserProfiles(userQuery);
+
+            const userData = await Promise.all(
+              [data.createdBy, data.updatedBy].map((user) => {
+                if (typeof user === 'string' && user.startsWith('user:')) {
+                  const [_, cn] = user.split('/');
+                  return [
+                    {
+                      cn,
+                      mail: `${cn}@redhat.com`,
+                      uid: cn,
+                      rhatUUID: user,
+                    },
+                  ];
+                }
+                const userQuery = FeedbackHelper.buildUserQuery([user as string]);
+                return FeedbackHelper.getUserProfiles(userQuery);
+              })
+            );
             const formattedSearchResponse = FeedbackHelper.formatSearchInput(
               data,
-              userData,
+              userData
             );
             FeedbackHelper.manageSearchIndex(formattedSearchResponse, 'index');
           });
