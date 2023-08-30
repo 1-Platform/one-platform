@@ -11,6 +11,8 @@ import FeedbackResolver from './src/feedbacks/resolver';
 import FeedbackSchema from './src/feedbacks/typedef.graphql';
 import FeedbackConfigResolver from './src/feedback-config/resolver';
 import FeedbackConfigSchema from './src/feedback-config/typedef.graphql';
+import { setupWorkers } from './src/jobs';
+import { serverAdapter } from './src/lib/bullboard';
 
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.test.env' });
@@ -25,6 +27,9 @@ const app = express();
 
 app.use(cookieParser());
 app.use(json());
+
+/* Setting up job workers */
+setupWorkers();
 
 /* Configuring Mongoose */
 mongoose.plugin((schema: any) => {
@@ -48,7 +53,7 @@ mongoose.connection.on('error', (error) => {
   Logger.error(error);
 });
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+app.use('/admin', serverAdapter.getRouter());
 
 const schema = mergeSchemas({
   typeDefs: [FeedbackConfigSchema, FeedbackSchema],

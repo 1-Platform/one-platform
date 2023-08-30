@@ -7,9 +7,9 @@ import flattenDeep from 'lodash/flattenDeep';
 
 import uniq from 'lodash/uniq';
 import { HttpsProxyAgent } from 'https-proxy-agent';
-import { FeedbackConfig } from '../feedback-config/schema';
-import logger from '../lib/logger';
-import { FeedbackModel } from './schema';
+import { FeedbackConfig } from './feedback-config/schema';
+import logger from './lib/logger';
+import { FeedbackModel } from './feedbacks/schema';
 
 const nodemailer = require('nodemailer');
 
@@ -23,11 +23,12 @@ const transporter = nodemailer.createTransport({
   logger: false,
   debug: false,
 });
-const proxyAgent = process.env.ENABLE_HYDRA_PROXY === 'true'
+
+export const proxyAgent = process.env.ENABLE_HYDRA_PROXY === 'true'
   ? { httpsAgent: new HttpsProxyAgent(`${process.env.AKAMAI_API}`) }
   : {};
 
-function processIntegrationInput(userFeedback: FeedbackType, app: any, userData: any) {
+export function processIntegrationInput(userFeedback: FeedbackType, app: any, userData: any) {
   const feedback = userFeedback;
   const descriptionTemplate = `
 ${
@@ -52,155 +53,6 @@ Reported by - ${userData[0].cn} (${userData[0].mail})`;
   return feedback;
 }
 
-async function createGithubIssue(
-  feedbackConfig: Array<FeedbackConfigType>,
-  userFeedback: any,
-  app: any,
-  userData: any,
-) {
-  const processedFeedback = processIntegrationInput(
-    userFeedback,
-    app,
-    userData,
-  );
-  const params = {
-    githubIssueInput: {
-      title: processedFeedback.summary,
-      body: processedFeedback.description,
-      repositoryId: feedbackConfig[0].projectKey,
-    },
-    sourceUrl: feedbackConfig[0].sourceApiUrl,
-  };
-  const githubResponse = await axios
-    .request<any>({
-    url: `${params.sourceUrl || process.env.GITHUB_API}`,
-    method: 'POST',
-    headers: {
-      Authorization: `${process.env.GITHUB_AUTH_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    data: JSON.stringify({
-      query: `mutation CreateGithubIssue($input: CreateIssueInput!) {
-                      createIssue(input: $input) {
-                          issue {
-                              title
-                              body
-                              url
-                              state
-                              createdAt
-                              author {
-                                  login
-                              }
-                          }
-                      }
-                  }`,
-      variables: {
-        input: params.githubIssueInput,
-      },
-    }),
-  })
-    .then((response) => response.data.data.createIssue)
-    .catch((err: Error) => {
-      logger.error(err);
-      throw new Error('createGithubIssue operation failed');
-    });
-  return githubResponse;
-}
-async function createJira(
-  feedbackConfig: Array<FeedbackConfigType>,
-  userFeedback: FeedbackType,
-  app: any,
-  userData: any,
-) {
-  const processedFeedback = processIntegrationInput(
-    userFeedback,
-    app,
-    userData,
-  );
-  const params = {
-    jiraIssueInput: {
-      fields: {
-        project: {
-          key: feedbackConfig[0].projectKey,
-        },
-        summary: processedFeedback.summary,
-        description: processedFeedback.description.replace(/(<([^>]+)>)/gi, ''),
-        labels: ['Reported-via-One-Platform'],
-        issuetype: {
-          name: 'Task',
-        },
-      },
-    },
-    sourceUrl: feedbackConfig[0].sourceApiUrl || process.env.JIRA_HOST,
-  };
-  const jiraResponse = await axios.request<any>({
-    url: `${params.sourceUrl || process.env.JIRA_HOST}/rest/api/2/issue/`,
-    method: 'POST',
-    headers: {
-      Authorization: `${process.env.JIRA_AUTH_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    data: JSON.stringify(params.jiraIssueInput),
-    ...proxyAgent,
-  });
-  return jiraResponse.data;
-}
-async function createGitlabIssue(
-  feedbackConfig: Array<FeedbackConfigType>,
-  userFeedback: FeedbackType,
-  app: any,
-  userData: any,
-) {
-  const processedFeedback = processIntegrationInput(
-    userFeedback,
-    app,
-    userData,
-  );
-  const params = {
-    gitlabIssueInput: {
-      title: processedFeedback.summary,
-      description: processedFeedback.description,
-      projectPath: feedbackConfig[0].projectKey,
-    },
-    sourceUrl: feedbackConfig[0].sourceApiUrl,
-  };
-  const gitlabResponse = await axios
-    .request<any>({
-    url: `${params.sourceUrl || process.env.GITLAB_API}`,
-    method: 'POST',
-    headers: {
-      Authorization: `${process.env.GITLAB_AUTH_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    data: JSON.stringify({
-      query: `
-      mutation CreateGitlabIssue($input: CreateIssueInput!) {
-        createIssue(input: $input) {
-          issue {
-            title
-            webUrl
-            state
-            description
-            author {
-              name
-              email
-              webUrl
-            }
-          }
-        }
-      }`,
-      variables: {
-        input: params.gitlabIssueInput,
-      },
-    }),
-  })
-    .then((response) => response.data.data.createIssue.issue)
-    .catch((err: Error) => {
-      logger.error(err);
-      throw new Error('createGitlabIssue operation failed');
-    });
-  return gitlabResponse;
-}
 async function listApps(): Promise<App[]> {
   const appsResponse = await axios.request({
     url: process.env.API_GATEWAY,
@@ -461,7 +313,6 @@ async function manageSearchIndex(data: any, mode: string) {
     })
     .catch((err: Error) => {
       logger.error(err.message);
-      throw new Error('ManageIndex operation failed with Search Microservice');
     });
   return searchResponse;
 }
@@ -479,12 +330,12 @@ We have received the ${feedback.category.toLowerCase()} for the ${
 
 Summary: ${feedback.summary}<br/><br/>
 URL: ${new URL(process.env.FEEDBACK_CLIENT as string).origin}${
-  (feedback.stackInfo as any).path
-}<br/><br/>
-A ticket has opened for the reported ${feedback.category.toLowerCase()} and you can track the progress at ${
-  feedback.ticketUrl
+  (feedback.stackInfo as any)?.path
 }<br/><br/>
 
+${ feedback.ticketUrl ? `A ticket has opened for the reported ${feedback.category.toLowerCase()} and you can track the progress at ${
+  feedback.ticketUrl
+}<br/><br/>` : ''}
 Thanks<br/><br/>
 
 P.S.: This is an automated email. Please do not reply.
@@ -512,7 +363,6 @@ async function processFeedbackRecords(userFeedbacks: any) {
     let intResponse: any = [];
     const jiraResponses: any = [];
     let jiraQueryPromises: any = null;
-    const appList = await listApps();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const integrationPromise = new Promise((resolve, reject) => {
       Object.keys(feedbacks).forEach(async (key: string, index: number) => {
@@ -523,6 +373,7 @@ async function processFeedbackRecords(userFeedbacks: any) {
               (conf) => key.toString() === conf._id.toString(),
             );
             if (!config) return;
+            if (!record.ticketUrl) return;
             const issueIdParam = record.ticketUrl.split('/').length;
             if (config.sourceType === 'JIRA') {
               query += `issue=${
@@ -626,12 +477,27 @@ async function processFeedbackRecords(userFeedbacks: any) {
         return flattenDeep(mergedJira.concat(intResponses));
       })
       .then(async (integrationResponses) => {
-        const userQuery = buildUserQuery(userList);
-        const userData = await getUserProfiles(userQuery);
+        let userData: any[] = [];
+        const ldapUsers = userList.filter(user => user && !user.startsWith('user:'));
+        if (ldapUsers.length > 0) {
+          const userQuery = buildUserQuery(ldapUsers);
+          userData = [userData, ...await getUserProfiles(userQuery)];
+        }
+        /* For other users */
+        userList.filter(user => user?.startsWith('user:')).forEach(user => {
+          const [ _, cn ] = user.split('/');
+          userData.push({
+            cn,
+            mail: `${cn}@redhat.com`,
+            uid: cn,
+            rhatUUID: user,
+          });
+        });
         const userDataObj = userData.reduce((prev, curr) => {
           const userObj = { ...prev, [curr.rhatUUID]: curr };
           return userObj;
         }, {});
+
         return userFeedbacks.map(async (feedback: FeedbackModel) => {
           const userFeedback = feedback.toObject({ virtuals: true });
           const selectedResponse: any = await integrationResponses.filter(
@@ -641,9 +507,7 @@ async function processFeedbackRecords(userFeedbacks: any) {
             (conf) => feedback.config === conf._id.toString(),
           );
           userFeedback.source = config?.sourceType || '';
-          userFeedback.module = appList.find(
-            (app: any) => app.id === config?.appId,
-          )?.name || '';
+          userFeedback.module = config?.projectId?.split('/')?.[1] ?? '';
           userFeedback.state = selectedResponse?.state || feedback?.state;
           userFeedback.assignee = selectedResponse?.assignee || {};
           userFeedback.createdBy = userDataObj?.[feedback.createdBy as string] || null;
@@ -658,9 +522,6 @@ async function processFeedbackRecords(userFeedbacks: any) {
 export default {
   buildUserQuery,
   createEmailTemplate,
-  createGithubIssue,
-  createGitlabIssue,
-  createJira,
   formatSearchInput,
   getApp,
   getUserProfiles,
