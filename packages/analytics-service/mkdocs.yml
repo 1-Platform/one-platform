@@ -1,0 +1,7 @@
+site_name: 'Analytics Service'
+
+nav:
+  - Getting Started: index.md
+
+plugins:
+  - techdocs-core

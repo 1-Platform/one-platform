@@ -8,6 +8,7 @@ metadata:
   description: An npm package that provides authentication, toast notification, injecting logic into opc components like opc-nav drawer components etc.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
+    backstage.io/techdocs-ref: dir:.
   tags:
     - library
     - developers

@@ -8,6 +8,7 @@ metadata:
   description: Microservice based GraphQL API Backend ecosystem for User Group information integrated with the Rover.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
+    backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-001
   tags:
     - microservice

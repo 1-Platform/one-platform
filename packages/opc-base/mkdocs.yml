@@ -1,0 +1,9 @@
+site_name: 'Opc Base'
+
+nav:
+  - Getting Started: index.md
+  - Opc Base: opc-base.yml
+  - Opc Provider: opc-provider.yml
+
+plugins:
+  - techdocs-core

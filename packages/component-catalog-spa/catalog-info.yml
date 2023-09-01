@@ -9,6 +9,7 @@ metadata:
   annotations:
     lighthouse.com/website-url: https://one.redhat.com/components
     github.com/project-slug: '1-Platform/one-platform'
+    backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-001
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'components'

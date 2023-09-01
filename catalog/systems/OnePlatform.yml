@@ -6,6 +6,9 @@ metadata:
   title: One Platform
   namespace: devex
   description: One Platform provides a single place for all internal applications and services, supports consistent User experience by providing standard platform for service hosting and data integration, efficient resource management, real time metrics availability, cross-team collaboration and unified documentation.
+  annotations:
+    github.com/project-slug: '1-Platform/one-platform'
+    backstage.io/techdocs-ref: dir:.
   tags:
     - digital-experience
     - javascript
