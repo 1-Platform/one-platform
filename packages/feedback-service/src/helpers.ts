@@ -319,23 +319,27 @@ async function manageSearchIndex(data: any, mode: string) {
 function createEmailTemplate(
   userInfo: any,
   feedback: FeedbackType,
-  app: App,
+  projectId: string,
   config: FeedbackConfigType,
 ) {
+  const appName = projectId.split( '/' )[ 1 ] ?? projectId;
+
   const emailBody = `
 Hi ${userInfo[0].cn},<br/><br/>
-We have received the ${feedback.category.toLowerCase()} for the ${
-  app.name
-}<br/><br/>
+We have received the ${feedback.category.toLowerCase()} for the ${appName}<br/><br/>
 
 Summary: ${feedback.summary}<br/><br/>
 URL: ${new URL(process.env.FEEDBACK_CLIENT as string).origin}${
-  (feedback.stackInfo as any)?.path
-}<br/><br/>
+    (feedback.stackInfo as any)?.path
+  }<br/><br/>
 
-${ feedback.ticketUrl ? `A ticket has opened for the reported ${feedback.category.toLowerCase()} and you can track the progress at ${
+${
   feedback.ticketUrl
-}<br/><br/>` : ''}
+    ? `A ticket has opened for the reported ${feedback.category.toLowerCase()} and you can track the progress at ${
+        feedback.ticketUrl
+      }<br/><br/>`
+    : ''
+}
 Thanks<br/><br/>
 
 P.S.: This is an automated email. Please do not reply.
@@ -347,7 +351,7 @@ P.S.: This is an automated email. Please do not reply.
     to: userInfo[0].mail,
     subject: `${feedback.error ? feedback.error : feedback.experience} - ${
       feedback.category.charAt(0) + feedback.category.substring(1).toLowerCase()
-    } reported for ${app.name}.`,
+    } reported for ${appName}.`,
     body: emailBody,
   };
   return emailData;

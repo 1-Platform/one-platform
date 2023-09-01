@@ -1,9 +1,9 @@
 import {Worker} from 'bullmq';
-import {redisConfiguration} from '../lib/queue';
 import {WorkerProps} from '.';
 import {processIntegrationInput} from '../helpers';
 import axios from 'axios';
 import logger from '../lib/logger';
+import { redisConnection } from '../lib/redis';
 
 export const GITHUB_JOB_NAME = 'createGithubIssue';
 export const createGithubIssue = new Worker<WorkerProps>(
@@ -59,5 +59,7 @@ export const createGithubIssue = new Worker<WorkerProps>(
       });
     return githubResponse;
   },
-  redisConfiguration
+  {
+    connection: redisConnection,
+  }
 );

@@ -1,5 +1,5 @@
 import {Worker} from 'bullmq';
-import {redisConfiguration} from '../lib/queue';
+import {redisConnection} from '../lib/redis';
 import {processIntegrationInput, proxyAgent} from '../helpers';
 import axios from 'axios';
 import {WorkerProps} from '.';
@@ -58,7 +58,9 @@ export const createJira = new Worker<WorkerProps>(
       throw err;
     }
   },
-  redisConfiguration
+  {
+    connection: redisConnection,
+  }
 );
 
 createJira.on('active', (job) => {
