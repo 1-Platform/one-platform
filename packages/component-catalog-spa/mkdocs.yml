@@ -1,0 +1,6 @@
+site_name: 'Component Catalog'
+
+nav:
+  - Getting Started: index.md
+plugins:
+  - techdocs-core

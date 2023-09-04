@@ -8,6 +8,7 @@ metadata:
   description: Microservice based GraphQL API Backend integrated with JIRA, GitHub and GitLab.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
+    backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-004
   tags:
     - microservice

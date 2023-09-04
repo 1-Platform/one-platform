@@ -8,6 +8,7 @@ metadata:
   description: Reverse-proxy/authentication layer for some internal services and APIs.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
+    backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-001
   tags:
     - reverse-proxy

@@ -1,0 +1,11 @@
+site_name: 'Search Service'
+
+nav:
+  - Getting Started: index.md
+  - API Reference: api-reference.md
+  - Guide: onboarding-guide.md
+  - Overview: overview.md
+  - FAQs: faqs.md
+
+plugins:
+  - techdocs-core

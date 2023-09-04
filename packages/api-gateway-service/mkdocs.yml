@@ -1,0 +1,6 @@
+site_name: 'API Gateway Service'
+
+nav:
+  - Getting Started: index.md
+plugins:
+  - techdocs-core

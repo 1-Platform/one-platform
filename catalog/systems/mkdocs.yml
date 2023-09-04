@@ -1,0 +1,13 @@
+site_name: 'One Platform'
+
+nav:
+  - What's One Platform: index.md
+  - One Platform Architecture: op-architecture.md
+  - OP Service Deployment Guideline: service-deployment-guideline.md
+  - SPA Deployment Guideline: spa-deployment-guidelines.md
+  - How to Contribute: how-to-contribute.md
+  - Code Of Conduct: code-of-conduct.md
+
+
+plugins:
+  - techdocs-core

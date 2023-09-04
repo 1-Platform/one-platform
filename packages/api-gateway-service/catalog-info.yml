@@ -8,6 +8,7 @@ metadata:
   description: GraphQL API Gateway with single-defined schema and source data from across many different microservices.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
+    backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-001
   tags:
     - api-gateway
