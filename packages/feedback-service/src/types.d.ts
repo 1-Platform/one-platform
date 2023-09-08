@@ -92,6 +92,7 @@ type FeedbackConfigType = {
   }>;
   projectKey: string;
   feedbackEmail: string;
+  projectFrontendUrl: string;
 };
 
 type FeedbackConfigInput = {
