@@ -24,6 +24,7 @@ type FeedbackConfigType {
   sourceHeaders: [FeedbackHeaderType]
   projectKey: String
   feedbackEmail: String
+  projectFrontendUrl: String
 }
 
 input FeedbackConfigInput {
@@ -36,6 +37,7 @@ input FeedbackConfigInput {
   sourceHeaders: [FeedbackHeaderInput]
   projectKey: String
   feedbackEmail: String
+  projectFrontendUrl: String
 }
 
 type Query {

@@ -324,14 +324,23 @@ function createEmailTemplate(
 ) {
   const appName = projectId.split( '/' )[ 1 ] ?? projectId;
 
+  const getPageUrl = ( str: string ) => {
+    try {
+      const url = new URL( str );
+      return url.toString();
+    } catch ( err ) {
+      return new URL( str, config.projectFrontendUrl ?? process.env.FEEDBACK_CLIENT!.toLowerCase() );
+    }
+  }
+
+  const pageUrl = getPageUrl(feedback.stackInfo?.path ?? '/');
+
   const emailBody = `
 Hi ${userInfo[0].cn},<br/><br/>
 We have received the ${feedback.category.toLowerCase()} for the ${appName}<br/><br/>
 
 Summary: ${feedback.summary}<br/><br/>
-URL: ${new URL(process.env.FEEDBACK_CLIENT as string).origin}${
-    (feedback.stackInfo as any)?.path
-  }<br/><br/>
+URL: ${pageUrl}<br/><br/>
 
 ${
   feedback.ticketUrl

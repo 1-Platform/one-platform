@@ -13,6 +13,9 @@ export const FeedbackConfigSchema: Schema = new Schema({
     required: true,
     unique: true,
   },
+  projectFrontendUrl: {
+    type: String,
+  },
   isEnabled: { type: Boolean, default: true },
   sourceType: { type: String, enum: ['JIRA', 'GITLAB', 'GITHUB', 'EMAIL'], default: 'JIRA' },
   sourceApiUrl: { type: String },
