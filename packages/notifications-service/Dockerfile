@@ -11,4 +11,4 @@ RUN npm install --silent && npm run build
 
 EXPOSE 8080
 
-CMD ["npm", "start"]
+CMD ["node", "dist/index.js"]
