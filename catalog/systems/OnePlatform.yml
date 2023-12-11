@@ -27,4 +27,4 @@ metadata:
     title: QA
 spec:
   owner: user:redhat/npatil
-  domain: devex/platform-engineering
+  domain: dx/platform-engineering
