@@ -27,3 +27,5 @@ spec:
     - resource:devex/one-platform-lighthouse-postgres
   dependencyOf:
     - component:devex/one-platform-api-gateway
+  consumesApi:
+    - api:devex/lighthouse-ci-server
