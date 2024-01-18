@@ -10,6 +10,8 @@ metadata:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-001
+    jira/project-key: DEE
+    feedback/type: JIRA
   tags:
     - api-gateway
     - developers

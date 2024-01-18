@@ -12,6 +12,8 @@ metadata:
     servicenow.com/appcode: ONEP-007
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'op-api-catalog'
+    jira/project-key: DEE
+    feedback/type: JIRA
   links:
     - url: https://one.redhat.com/developers/api-catalog
       title: API Catalog SPA

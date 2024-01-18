@@ -13,6 +13,8 @@ metadata:
     servicenow.com/appcode: ONEP-001
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'components'
+    jira/project-key: DEE
+    feedback/type: JIRA
   links:
     - url: https://one.redhat.com/components
       title: Component Catalog SPA

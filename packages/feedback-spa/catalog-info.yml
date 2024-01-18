@@ -13,6 +13,8 @@ metadata:
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'developer-console'
     matomo.io/site-id: '3'
+    jira/project-key: DEE
+    feedback/type: JIRA
   links:
     - url: https://one.redhat.com/feedback
       title: Feedback SPA
