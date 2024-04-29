@@ -41,7 +41,7 @@ export const footer = [
             },
             {
                 "text": "One Platform FAQs",
-                "href": "https://source.redhat.com/groups/public/pnt-devops/oneportal/one_portal_wiki/faqs_one_platform"
+                "href": "https://one.redhat.com/get-started/docs/faqs"
             },
             {
                 "text": "one-platform-devs@redhat.com",

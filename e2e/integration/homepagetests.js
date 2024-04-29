@@ -247,9 +247,7 @@ context("Home Page Tests", () => {
     footerPage
       .footerLinks()
       .shadow()
-      .find(
-        'a[href="https://source.redhat.com/groups/public/pnt-devops/oneportal/one_portal_wiki/faqs_one_platform"]'
-      )
+      .find('a[href="https://one.redhat.com/get-started/docs/faqs"]')
       .should("be.visible");
     footerPage
       .footerLinks()
