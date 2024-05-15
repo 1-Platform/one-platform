@@ -13,6 +13,8 @@ metadata:
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'search'
     matomo.io/site-id: '6'
+    jira/project-key: DEE
+    feedback/type: JIRA
   links:
     - url: https://one.redhat.com/search
       title: Search SPA
