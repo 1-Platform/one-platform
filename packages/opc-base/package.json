@@ -50,7 +50,7 @@
     "@one-platform/opc-nav": "0.0.4-prerelease",
     "@one-platform/opc-notification-drawer": "^0.1.3-prerelease",
     "@open-wc/testing": "^3.0.3",
-    "@rollup/plugin-commonjs": "19.0.0",
+    "@rollup/plugin-commonjs": "25.0.8",
     "@rollup/plugin-image": "2.0.6",
     "@rollup/plugin-node-resolve": "13.0.0",
     "@rollup/plugin-typescript": "8.2.1",
