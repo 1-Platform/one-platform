@@ -12,6 +12,8 @@ metadata:
     servicenow.com/appcode: ONEP-001
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'op-docs'
+    jira/project-key: DEE
+    feedback/type: JIRA
   links:
     - url: https://one.redhat.com/get-started
       title: Doc SPA
