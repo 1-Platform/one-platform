@@ -10,6 +10,9 @@ metadata:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-001
+    jira/project-key: ONEPLAT
+    feedback/type: JIRA
+    feedback/email-to: one-platform-devs+feedback-plugin-dev@redhat.com
   tags:
     - microservice
     - apps-service
