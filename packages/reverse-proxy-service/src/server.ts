@@ -14,8 +14,6 @@ import oidcAuth from './middleware/oidcAuth';
 import { updateApplicationCache } from './utils/applicationCache';
 import http from 'http';
 
-declare module 'http' { interface Agent { maxHeaderSize?: number; } }
-
 const MAX_HEADER_SIZE = 16 * 1024 * 1024; // 16MB
 
 ( http.globalAgent as http.Agent ).maxHeaderSize = MAX_HEADER_SIZE;
