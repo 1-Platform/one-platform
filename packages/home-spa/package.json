@@ -40,7 +40,7 @@
     "@11ty/eleventy": "^0.12.1",
     "dotenv-safe": "^8.2.0",
     "jest": "^27.5.1",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all2": "^5.0.0",
     "sass": "^1.49.9"
   }
 }
