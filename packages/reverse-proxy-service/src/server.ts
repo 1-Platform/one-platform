@@ -12,11 +12,6 @@ import store from './setup/store';
 import { COOKIE_SECRET } from './setup/env';
 import oidcAuth from './middleware/oidcAuth';
 import { updateApplicationCache } from './utils/applicationCache';
-import http from 'http';
-
-const MAX_HEADER_SIZE = 16 * 1024 * 1024; // 16MB
-
-( http.globalAgent as http.Agent ).maxHeaderSize = MAX_HEADER_SIZE;
 
 const getServer = async () => {
   const server = express();
