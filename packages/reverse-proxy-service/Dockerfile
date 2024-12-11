@@ -20,4 +20,4 @@ COPY --from=builder $HOME/.env.example .
 
 EXPOSE 8080
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "--max-http-header-size=10485760", "dist/index.js"]

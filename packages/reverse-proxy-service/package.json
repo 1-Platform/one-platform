@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "npm run serve",
-    "serve": "node dist/index.js",
+    "serve": "node --max-http-header-size=10485760 dist/index.js",
     "dev": "nodemon",
     "prebuild": "rimraf dist",
     "build": "tsc",
