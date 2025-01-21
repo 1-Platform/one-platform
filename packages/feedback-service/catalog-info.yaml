@@ -2,26 +2,26 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: one-platform-apps-service
-  title: Apps Microservice
+  name: one-platform-feedback-service
+  title: Feedback Microservice
   namespace: devex
-  description: Microservice based GraphQL API Backend ecosystem for Apps Service.
+  description: Microservice based GraphQL API Backend integrated with JIRA, GitHub and GitLab.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
-    servicenow.com/appcode: ONEP-001
-    jira/project-key: ONEPLAT
+    servicenow.com/appcode: ONEP-004
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
-    feedback/email-to: one-platform-devs+feedback-plugin-dev@redhat.com
   tags:
     - microservice
-    - apps-service
+    - feedback
     - developers
     - one-platform
     - nodejs
 spec:
   type: service
-  lifecycle: production
+  lifecycle: deprecated
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
   dependsOn:

@@ -2,23 +2,29 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: one-platform-reverse-proxy
-  title: Reverse Proxy
+  name: one-platform-apps-service
+  title: Apps Microservice
   namespace: devex
-  description: Reverse-proxy/authentication layer for some internal services and APIs.
+  description: Microservice based GraphQL API Backend ecosystem for Apps Service.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
     servicenow.com/appcode: ONEP-001
-    jira/project-key: DEE
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   tags:
-    - reverse-proxy
+    - microservice
+    - apps-service
     - developers
     - one-platform
     - nodejs
 spec:
   type: service
-  lifecycle: production
+  lifecycle: deprecated
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
+  dependsOn:
+    - resource:devex/native-apps-mongodb
+  dependencyOf:
+    - component:devex/one-platform-api-gateway

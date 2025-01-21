@@ -13,7 +13,8 @@ metadata:
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'search'
     matomo.io/site-id: '6'
-    jira/project-key: DEE
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   links:
     - url: https://one.redhat.com/search
@@ -26,7 +27,7 @@ metadata:
     - angular
 spec:
   type: website
-  lifecycle: production
+  lifecycle: deprecated
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
   dependsOn:

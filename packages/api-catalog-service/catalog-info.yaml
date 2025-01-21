@@ -2,19 +2,20 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: one-platform-search-service
-  title: Search Microservice
+  name: one-platform-api-catalog-service
+  title: API Catalog Microservice
   namespace: devex
-  description: Microservice based GraphQL API Backend ecosystem for Search.
+  description: Microservice based GraphQL API Backend ecosystem for API Catalog.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
-    servicenow.com/appcode: ONEP-001
-    jira/project-key: DEE
+    servicenow.com/appcode: ONEP-007
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   tags:
     - microservice
-    - search
+    - api-catalog
     - developers
     - one-platform
     - nodejs
@@ -24,4 +25,6 @@ spec:
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
   dependsOn:
+    - resource:devex/native-apps-mongodb
+  dependencyOf:
     - component:devex/one-platform-api-gateway

@@ -2,19 +2,19 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: one-platform-api-catalog-service
-  title: API Catalog Microservice
+  name: one-platform-reverse-proxy
+  title: Reverse Proxy
   namespace: devex
-  description: Microservice based GraphQL API Backend ecosystem for API Catalog.
+  description: Reverse-proxy/authentication layer for some internal services and APIs.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
-    servicenow.com/appcode: ONEP-007
-    jira/project-key: DEE
+    servicenow.com/appcode: ONEP-001
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   tags:
-    - microservice
-    - api-catalog
+    - reverse-proxy
     - developers
     - one-platform
     - nodejs
@@ -23,7 +23,3 @@ spec:
   lifecycle: production
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
-  dependsOn:
-    - resource:devex/native-apps-mongodb
-  dependencyOf:
-    - component:devex/one-platform-api-gateway

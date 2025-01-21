@@ -13,7 +13,8 @@ metadata:
     servicenow.com/appcode: ONEP-001
     spaship.io/property-id: 'one-platform'
     spaship.io/app-id: 'components'
-    jira/project-key: DEE
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   links:
     - url: https://one.redhat.com/components
@@ -26,6 +27,6 @@ metadata:
     - react
 spec:
   type: website
-  lifecycle: production
+  lifecycle: deprecated
   owner: group:redhat/one-platform-devs
   system: devex/one-platform

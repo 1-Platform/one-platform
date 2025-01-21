@@ -9,7 +9,8 @@ metadata:
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
-    jira/project-key: DEE
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   tags:
     - library

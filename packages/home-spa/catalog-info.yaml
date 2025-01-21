@@ -2,28 +2,28 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: one-platform-developer-console-spa
-  title: Developer Console SPA
+  name: one-platform-home-spa
+  title: Home SPA
   namespace: devex
-  description: A web console to manage the app in the One Platform.
+  description: Home Page of One Platform.
   annotations:
-    lighthouse.com/website-url: https://one.redhat.com/console
+    lighthouse.com/website-url: https://one.redhat.com
     github.com/project-slug: '1-Platform/one-platform'
     servicenow.com/appcode: ONEP-001
     spaship.io/property-id: 'one-platform'
-    spaship.io/app-id: 'developer-console'
-    matomo.io/site-id: '4'
-    jira/project-key: DEE
+    spaship.io/app-id: 'home-spa'
+    matomo.io/site-id: '2'
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   links:
-    - url: https://one.redhat.com/console
-      title: Developer Console SPA
+    - url: https://one.redhat.com
+      title: Home SPA
   tags:
     - spa
-    - developer-console
+    - home
     - developers
     - one-platform
-    - react
 spec:
   type: website
   lifecycle: production

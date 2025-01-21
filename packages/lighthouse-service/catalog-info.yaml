@@ -2,29 +2,33 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: one-platform-analytics-service
-  title: Analytics Microservice
+  name: one-platform-lighthouse-service
+  title: Lighthouse Microservice
   namespace: devex
-  description: Analytics microservice is used for providing analytics api information for SPAs deployed in One Platform by connecting with Sentry and Pendo.
+  description: Microservice based GraphQL API Backend ecosystem for Lighthouse.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
-    servicenow.com/appcode: ONEP-006
-    jira/project-key: DEE
+    servicenow.com/appcode: ONEP-008
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   tags:
     - microservice
-    - analytics
+    - lighthouse
     - developers
     - one-platform
     - nodejs
 spec:
   type: service
-  lifecycle: experimental
+  lifecycle: production
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
   dependsOn:
     - resource:devex/native-apps-mongodb
-    - resource:devex/one-platform-matomo
+    - component:devex/one-platform-lighthouse-ci
+    - resource:devex/one-platform-lighthouse-postgres
   dependencyOf:
     - component:devex/one-platform-api-gateway
+  consumesApi:
+    - api:devex/lighthouse-ci-server

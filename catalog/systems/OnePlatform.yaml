@@ -9,6 +9,9 @@ metadata:
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
+    servicenow.com/appcode: ONEP-001
+    jira/project-key: APD
+    jira/component: 'One-Platform'
   tags:
     - digital-experience
     - javascript
@@ -17,8 +20,8 @@ metadata:
     - developer-experience
   links:
   - url: https://redhat-internal.slack.com/archives/C04FC8AUM3M
-    title: Slack
-    icon: chat
+    title: '#forum-one-platform'
+    icon: slack_contact
   - url: https://one.redhat.com
     title: Production
   - url: https://stage.one.redhat.com
@@ -26,5 +29,5 @@ metadata:
   - url: https://qa.one.redhat.com
     title: QA
 spec:
-  owner: user:redhat/npatil
-  domain: dx/platform-engineering
+  owner: group:redhat/one-platform-devs
+  domain: uxe/platform-engineering

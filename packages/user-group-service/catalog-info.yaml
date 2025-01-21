@@ -2,25 +2,26 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: one-platform-feedback-service
-  title: Feedback Microservice
+  name: one-platform-user-group-service
+  title: User-Group Microservice
   namespace: devex
-  description: Microservice based GraphQL API Backend integrated with JIRA, GitHub and GitLab.
+  description: Microservice based GraphQL API Backend ecosystem for User Group information integrated with the Rover.
   annotations:
     github.com/project-slug: '1-Platform/one-platform'
     backstage.io/techdocs-ref: dir:.
-    servicenow.com/appcode: ONEP-004
-    jira/project-key: DEE
+    servicenow.com/appcode: ONEP-001
+    jira/project-key: APD
+    jira/component: 'One-Platform'
     feedback/type: JIRA
   tags:
     - microservice
-    - feedback
+    - user-group
     - developers
     - one-platform
     - nodejs
 spec:
   type: service
-  lifecycle: production
+  lifecycle: deprecated
   owner: group:redhat/one-platform-devs
   system: devex/one-platform
   dependsOn:
