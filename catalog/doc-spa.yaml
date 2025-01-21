@@ -1,0 +1,8 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: one-platform-docs-spa
+spec:
+  target: https://gitlab.cee.redhat.com/one-platform/docs-spa/-/blob/main/catalog-info.yml
+  presence: optional

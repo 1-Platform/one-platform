@@ -11,6 +11,7 @@ spec:
     - ./catalog/resources/NativeMongoDB.yaml
     - ./catalog/resources/NonNativeMongoDB.yaml
     - ./catalog/systems/OnePlatform.yaml
+    - ./catalog/doc-spa.yaml
     - ./packages/analytics-service/catalog-info.yaml
     - ./packages/api-catalog-service/catalog-info.yaml
     - ./packages/api-catalog-spa/catalog-info.yaml
@@ -18,7 +19,6 @@ spec:
     - ./packages/apps-service/catalog-info.yaml
     - ./packages/component-catalog-spa/catalog-info.yaml
     - ./packages/developer-console-spa/catalog-info.yaml
-    - ./packages/doc-spa/catalog-info.yaml
     - ./packages/feedback-service/catalog-info.yaml
     - ./packages/feedback-spa/catalog-info.yaml
     - ./packages/home-spa/catalog-info.yaml
