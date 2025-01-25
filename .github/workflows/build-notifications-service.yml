@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Generate a short tag using GITHUB_SHA
         run: echo "SHA_TAG=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
       - if: github.event.inputs.tags == '' && startsWith(github.ref, 'refs/heads/master')
