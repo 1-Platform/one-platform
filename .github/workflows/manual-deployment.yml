@@ -60,7 +60,7 @@ jobs:
 
       - name: Get SPA NAME as strings
         id: get-lighthouse-branch-name
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: core.setOutput('LIGHTHOUSE_BRANCH_NAME', "$SPA_NAME".toUpperCase())
 
