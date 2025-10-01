@@ -6,7 +6,7 @@ metadata:
   namespace: devex
   description: A root collection of all One Platform configurations for Backstage.
 spec:
-  owner: group:redhat/one-platform-devs
+  owner: group:redhat/xe-compass-devs
   targets:
     - ./catalog/resources/NativeMongoDB.yaml
     - ./catalog/resources/NonNativeMongoDB.yaml
