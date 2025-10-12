@@ -68,7 +68,7 @@
     "method-override": "3.0.0",
     "mongoose": "5.13.9",
     "morgan": "^1.10.0",
-    "nodemailer": "6.7.0",
+    "nodemailer": "6.9.9",
     "nodemon-webpack-plugin": "4.8.1",
     "supertest": "6.1.6",
     "ts-jest": "27.0.7",
