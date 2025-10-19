@@ -46,7 +46,7 @@
   "license": "MIT",
   "dependencies": {
     "@graphql-tools/schema": "^8.2.0",
-    "apollo-server-core": "3.10.1",
+    "apollo-server-core": "3.11.0",
     "apollo-server-express": "3.4.0",
     "body-parser": "^1.19.0",
     "chrome-launcher": "^0.15.0",
