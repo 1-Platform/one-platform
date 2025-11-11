@@ -6,14 +6,17 @@ import {
   KEYCLOAK_SERVER_URL,
 } from '../setup/env';
 
-function oidcAuth() {
-  return auth({
+function oidcAuth () {
+  return auth( {
     clientID: KEYCLOAK_CLIENT_ID,
     issuerBaseURL: KEYCLOAK_SERVER_URL,
     baseURL: KEYCLOAK_ORIGINAL_HOST,
     secret: KEYCLOAK_SECRET,
     authRequired: false,
-  });
+    authorizationParams: {
+      scope: 'openid',
+    }
+  } );
 }
 
 export default oidcAuth;
