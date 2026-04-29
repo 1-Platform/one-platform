@@ -78,5 +78,8 @@
   },
   "dependencies": {
     "browserstack-cypress-cli": "^1.11.0"
+  },
+  "overrides": {
+    "axios": "^1.15.2"
   }
 }
