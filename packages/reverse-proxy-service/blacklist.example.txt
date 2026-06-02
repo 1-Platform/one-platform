@@ -1,0 +1,3 @@
+# One identifier per line (uid or email)
+jdoe
+blocked.user@redhat.com
