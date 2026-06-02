@@ -31,3 +31,6 @@ export const { COUCHDB_HOST, COUCHDB_SECRET } = process.env;
 
 /* SPASHIP environment variables */
 export const { SPASHIP_ROUTER_HOST } = process.env;
+
+/* User blacklist */
+export const { BLACKLIST_FILE_PATH } = process.env;

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import blacklistOidc from '../middleware/blacklistOidc';
 import checkSSO from '../middleware/checkSSO';
 import resolver from './resolver';
 
@@ -13,6 +14,6 @@ router.get('/red-hat-in-vehicle-development-guide', (_, res) => {
   res.redirect('/in-vehicle-development-guide', 301);
 });
 /* Proxy all other apps using resolver */
-router.get('*', [checkSSO], resolver);
+router.get('*', [checkSSO, blacklistOidc], resolver);
 
 export default router;

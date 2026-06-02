@@ -4,7 +4,7 @@ import getApplicationCache from '../utils/applicationCache';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const apps = await getApplicationCache();
-  const app = apps.find((app) => req.url.startsWith(app.path));
+  const app = apps?.find((app) => req.url.startsWith(app.path));
 
   if (app && app.authenticate) {
     return requiresAuth()(req, res, next);

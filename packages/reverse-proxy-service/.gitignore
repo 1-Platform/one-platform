@@ -3,6 +3,7 @@ dist/
 build/
 
 tmp/
+blacklist.txt
 
 # Logs
 logs

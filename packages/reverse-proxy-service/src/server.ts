@@ -3,6 +3,7 @@ import cors from 'cors';
 import expressWinston from 'express-winston';
 import session from 'express-session';
 import rateLimit from 'express-rate-limit';
+import blacklistBearer from './middleware/blacklistBearer';
 import jwtAuth from './middleware/jwtAuth';
 import couchDBRouter from './couchdb';
 import noCorsRouter from './no-cors-proxy';
@@ -11,6 +12,7 @@ import winstonInstance from './setup/logger';
 import store from './setup/store';
 import { COOKIE_SECRET } from './setup/env';
 import oidcAuth from './middleware/oidcAuth';
+import { initBlacklist } from './blacklist/blacklist';
 import { updateApplicationCache } from './utils/applicationCache';
 
 const getServer = async () => {
@@ -39,9 +41,11 @@ const getServer = async () => {
     res.json({ message: 'This is a proxy service.' });
   });
 
-  server.use('/api/couchdb', [cors(), jwtAuth], couchDBRouter);
+  await initBlacklist();
 
-  server.use('/api/no-cors-proxy', [cors()], noCorsRouter);
+  server.use('/api/couchdb', [cors(), blacklistBearer, jwtAuth], couchDBRouter);
+
+  server.use('/api/no-cors-proxy', [cors(), blacklistBearer], noCorsRouter);
 
   /* Setting up session for keycloak */
   server.use(
