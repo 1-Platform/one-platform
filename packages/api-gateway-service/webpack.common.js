@@ -26,6 +26,8 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve( __dirname, 'dist' ),
+    // MD4 is unavailable under OpenSSL 3 (Node 17+)
+    hashFunction: 'sha256',
   },
   target: 'node',
   externals: [ nodeExternals() ],

@@ -5,5 +5,8 @@ node_modules
 # ignore dist
 dist
 
+# Local blacklist copy
+blacklist.txt
+
 # Logs
 npm-debug.log*

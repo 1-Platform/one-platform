@@ -16,7 +16,8 @@ module.exports = {
   },
   "collectCoverage": true,
   "testMatch": [
-    "**/src/e2e/*.spec.(ts|tsx|js)"
+    "**/src/e2e/*.spec.(ts|tsx|js)",
+    "**/src/blacklist/*.spec.(ts|tsx|js)"
   ],
   "testEnvironment": "node"
 }
