@@ -14,6 +14,31 @@ API Gateway handles all the tasks involved in accepting and processing up to hun
 
 *Note:* Before starting the gateway, also make sure the microservices in this project are configured properly.
 
+## User blacklist
+
+When `BLACKLIST_FILE_PATH` is set, the gateway loads a text file of blocked user identifiers once at startup. Restart the gateway to pick up file changes.
+
+```env
+BLACKLIST_FILE_PATH=./blacklist.txt
+```
+
+See [`blacklist.example.txt`](blacklist.example.txt). One **uid** or **email** per line; empty lines and `#` comments are ignored.
+
+Regenerate from Compass:
+
+```bash
+node scripts/generate-blacklist-from-compass-output.mjs <catalog-entity.json>
+```
+
+Matching uses the **token owner** identity (not `rhatUUID`):
+
+- **JWT:** Keycloak `uid` and `email` (or `mail`) from the access token
+- **API key:** owning user's `uid` and `mail` from User Group when `ownerType` is `User`
+
+Downstream forwarding still uses `rhatUUID` in Apollo context / `X-OP-User-ID` for JWTs. Group-owned API keys are not evaluated against the blacklist.
+
+OpenShift: [openshift/README.md](openshift/README.md).
+
 ## Running Tests
 
 ```bash

@@ -37,10 +37,22 @@ export function verifyJwtToken ( token: string, callback: any ) {
   return JWT.verify( token, getPublicKey(), callback );
 }
 
+export type ValidatedApiKey = {
+  _id: string;
+  ownerType?: string;
+  owner?: {
+    uid?: string;
+    mail?: string;
+  };
+  access?: Array<{ role: string; microservice: string }>;
+  roles?: string[];
+  scopes?: string[];
+};
+
 /**
  * Verifies the API Key
  */
-export function verifyAPIKey ( accessToken: string ) {
+export function verifyAPIKey ( accessToken: string ): Promise<ValidatedApiKey> {
   const userGroupAPI = microservices.find( service => service.name === 'User Group' );
   if ( !userGroupAPI ) {
     throw new Error( 'API Key Config error. User Group not configured properly.' );
@@ -56,6 +68,13 @@ export function verifyAPIKey ( accessToken: string ) {
         query ValidateAPIKey($accessToken: String!) {
           apiKey: validateAPIKey(accessToken: $accessToken) {
             _id
+            ownerType
+            owner {
+              ... on UserType {
+                uid
+                mail
+              }
+            }
             access {
               role
               microservice

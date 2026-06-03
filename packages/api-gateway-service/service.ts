@@ -6,7 +6,7 @@ if ( process.env.NODE_ENV === 'test' ) {
   dotenv.config();
 }
 
-import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import { ApolloServer, AuthenticationError, ForbiddenError } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -15,6 +15,14 @@ import { stitchedSchemas } from './src/stitch-schema';
 import { verifyAPIKey, verifyJwtToken } from './src/verify-token';
 import path from 'path';
 import helmet from 'helmet';
+import {
+  getBlacklistIndex,
+  initBlacklist,
+  isBlacklistEnabled,
+} from './src/blacklist/blacklist';
+import { extractTokenOwnerClaims } from './src/blacklist/extractUserClaims';
+import { extractOwnerClaims } from './src/blacklist/extractOwnerClaims';
+import { isUserBlacklisted } from './src/blacklist/isUserBlacklisted';
 
 /* Setting base url and port for the server */
 const baseUrl = process.env.BASE_URL ?? '/';
@@ -38,6 +46,15 @@ app.use( helmet( {
 /* include cors middleware */
 app.use( cors() );
 
+function assertNotBlacklisted( claims: { uid?: string; email?: string } ): void {
+  if ( !isBlacklistEnabled() ) {
+    return;
+  }
+  if ( isUserBlacklisted( getBlacklistIndex(), claims ) ) {
+    throw new ForbiddenError( 'Access denied' );
+  }
+}
+
 const context = ({ req, connection }: any) => {
   const authorizationHeader = req?.headers?.authorization || connection?.context?.Authorization;
 
@@ -52,71 +69,96 @@ const context = ({ req, connection }: any) => {
   const token = authorizationHeader.split( ' ' )[ 1 ];
 
   if ( uuidValidate( token ) ) {
-    return verifyAPIKey(token)
-      .then((res) => ({ uid: res._id, roles: res.roles, scopes: res.scopes, token }))
-      .catch((err) => {
-        throw new AuthenticationError(err.message);
-      });
-  } else {
-    return verifyJwtToken( token, ( err: any, payload: any ) => {
-      if ( err ) {
-        throw new AuthenticationError( err.message );
-      }
-      return { uid: payload.rhatUUID, roles: payload.role, scope: payload.scope?.split(' '), token };
-    } );
-  }
-};
-
-stitchedSchemas()
-  .then( schema => {
-    /* Defining the Apollo Server */
-    const apollo = new ApolloServer( {
-      subscriptions: {
-        path: subsciptionsBaseUrl,
-      },
-      schema,
-      context,
-      introspection: true,
-      tracing: process.env.NODE_ENV !== 'production',
-      playground: <any>{
-        title: 'API Gateway',
-        settings: {
-          'request.credentials': 'include'
-        },
-        headers: {
-          Authorization: `Bearer <ENTER_API_KEY_HERE>`, /* lgtm [js/hardcoded-credentials] */
-        },
-      },
-      plugins: [
-        {
-          requestDidStart: ( requestContext ) => {
-            if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
-              return;
-            }
-            console.log( new Date().toISOString(), `- Incoming ${ requestContext.request.http?.method } request from: ${ requestContext.request.http?.headers.get( 'origin' ) || 'unknown' }`, `- via ${ requestContext.request.http?.headers.get( 'user-agent' ) }` );
-          }
+    return verifyAPIKey( token )
+      .then( ( res ) => {
+        if ( res.ownerType === 'User' && res.owner ) {
+          assertNotBlacklisted( extractOwnerClaims( res.owner ) );
         }
-      ],
-      formatError: error => ( {
-        message: error.message,
-        locations: error.locations,
-        path: error.path,
-        ...error.extensions,
-      } ),
-    } );
+        return { uid: res._id, roles: res.roles, scopes: res.scopes, token };
+      } )
+      .catch( ( err ) => {
+        if ( err instanceof ForbiddenError ) {
+          throw err;
+        }
+        throw new AuthenticationError( err.message );
+      } );
+  }
 
-    /* Applying apollo middleware to express server */
-    apollo.applyMiddleware( { app, path: baseUrl } );
-    apollo.installSubscriptionHandlers( server );
-  } )
-  .catch( err => {
-    console.error( err );
-    throw err;
+  return new Promise( ( resolve, reject ) => {
+    verifyJwtToken( token, ( err: any, payload: any ) => {
+      if ( err ) {
+        reject( new AuthenticationError( err.message ) );
+        return;
+      }
+      try {
+        assertNotBlacklisted( extractTokenOwnerClaims( payload ) );
+        resolve( {
+          uid: payload.rhatUUID,
+          roles: payload.role,
+          scope: payload.scope?.split( ' ' ),
+          token,
+        } );
+      } catch ( blacklistErr ) {
+        reject( blacklistErr );
+      }
+    } );
   } );
+};
 
 /*  Creating the server based on the environment */
 const server = http.createServer( app );
 
-export default server.listen( port, () => {
-  console.log( `Gateway Running on ${ process.env.NODE_ENV } environment at port ${ port }` );
+async function startGateway(): Promise<void> {
+  await initBlacklist();
+
+  const schema = await stitchedSchemas();
+
+  const apollo = new ApolloServer( {
+    subscriptions: {
+      path: subsciptionsBaseUrl,
+    },
+    schema,
+    context,
+    introspection: true,
+    tracing: process.env.NODE_ENV !== 'production',
+    playground: <any>{
+      title: 'API Gateway',
+      settings: {
+        'request.credentials': 'include'
+      },
+      headers: {
+        Authorization: `Bearer <ENTER_API_KEY_HERE>`, /* lgtm [js/hardcoded-credentials] */
+      },
+    },
+    plugins: [
+      {
+        requestDidStart: ( requestContext ) => {
+          if ( requestContext.request.http?.headers.has( 'x-apollo-tracing' ) ) {
+            return;
+          }
+          console.log( new Date().toISOString(), `- Incoming ${ requestContext.request.http?.method } request from: ${ requestContext.request.http?.headers.get( 'origin' ) || 'unknown' }`, `- via ${ requestContext.request.http?.headers.get( 'user-agent' ) }` );
+        }
+      }
+    ],
+    formatError: error => ( {
+      message: error.message,
+      locations: error.locations,
+      path: error.path,
+      ...error.extensions,
+    } ),
+  } );
+
+  apollo.applyMiddleware( { app, path: baseUrl } );
+  apollo.installSubscriptionHandlers( server );
+
+  server.listen( port, () => {
+    console.log( `Gateway Running on ${ process.env.NODE_ENV } environment at port ${ port }` );
+  } );
+}
+
+startGateway().catch( err => {
+  console.error( err );
+  process.exit( 1 );
 } );
+
+export default server;
