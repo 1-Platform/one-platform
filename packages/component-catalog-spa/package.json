@@ -41,11 +41,10 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.2.7",
     "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "jest-watch-typeahead": "^0.6.5",
-    "react-test-render": "^1.1.2",
     "sass": "^1.42.1"
   }
 }

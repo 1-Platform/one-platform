@@ -7,12 +7,6 @@ import { MONGO_URL } from './env';
 /* Retry connection */
 const connectWithRetry = async () => mongoose.connect(
   MONGO_URL,
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  },
 );
 
 /* Connect database */

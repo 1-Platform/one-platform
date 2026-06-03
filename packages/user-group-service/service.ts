@@ -37,10 +37,6 @@ mongoose.plugin((schema: any) => {
   mongoSchema.options.usePushEach = true;
   return mongoSchema;
 });
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
 
 /* Establishing mongodb connection */
 const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
@@ -48,10 +44,7 @@ const dbCredentials = (process.env.DB_USER && process.env.DB_PASSWORD)
   : '';
 const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
 mongoose
-  .connect(dbConnection, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-  })
+  .connect(dbConnection)
   .catch(Logger.error);
 
 mongoose.connection.on('error', (error) => {

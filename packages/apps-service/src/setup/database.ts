@@ -2,12 +2,7 @@ import mongoose from 'mongoose';
 import logger from '../lib/logger';
 import { MONGO_URL } from './env';
 
-export const mongooseOpts = {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-};
+export const mongooseOpts = {};
 
 /* Retry Connection */
 async function connectWithRetry() {
