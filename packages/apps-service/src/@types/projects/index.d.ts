@@ -2,6 +2,7 @@ declare type Project = {
   projectId: string;
   name: string;
   description: string;
+  tags: string[];
   path: string;
   icon: string;
   colorScheme: string;
@@ -44,6 +45,11 @@ declare type Project = {
   database: {
     isEnabled: boolean;
     databases: Array<Project.Database>;
+  };
+  lighthouse: {
+    isEnabled: boolean;
+    projectId: string;
+    branch: string;
   };
   createdBy: string;
   createdOn: Date;

@@ -43,12 +43,7 @@ const dbCredentials = process.env.DB_USER && process.env.DB_PASSWORD
 const dbConnection = `mongodb://${dbCredentials}${process.env.DB_PATH}/${process.env.DB_NAME}`;
 
 mongoose
-  .connect(dbConnection, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
+  .connect(dbConnection)
   .catch((err: Error) => Logger.error(err));
 
 mongoose.connection.on('error', (error) => {
