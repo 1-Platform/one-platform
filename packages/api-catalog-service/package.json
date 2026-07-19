@@ -60,7 +60,7 @@
     "graphql": "^15.6.1",
     "graphql-import-node": "^0.0.4",
     "graphql-redis-subscriptions": "2.4.0",
-    "graphql-subscriptions": "^1.2.1",
+    "graphql-subscriptions": "^3.0.0",
     "handlebars": "^4.7.7",
     "ioredis": "^4.28.0",
     "js-yaml": "^4.1.0",
