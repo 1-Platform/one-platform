@@ -52,7 +52,7 @@
     "chrome-launcher": "^0.15.0",
     "clean-webpack-plugin": "3.0.0",
     "dotenv-safe": "8.2.0",
-    "ejs": "3.1.6",
+    "ejs": "3.1.7",
     "errorhandler": "1.5.1",
     "express": "4.17.1",
     "graphql": "^15.6.1",
