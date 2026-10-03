@@ -59,7 +59,7 @@
     "@web/test-runner": "^0.13.22",
     "electron": "15.5.5",
     "rimraf": "3.0.2",
-    "rollup": "2.52.3",
+    "rollup": "2.79.2",
     "rollup-plugin-copy": "3.4.0",
     "rollup-plugin-dts": "3.0.2",
     "rollup-plugin-minify-html-literals": "1.2.6",
