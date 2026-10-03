@@ -67,7 +67,7 @@
     "lodash": "4.17.21",
     "mongoose": "^6.3.0",
     "nanoid": "^3.3.3",
-    "nodemailer": "^6.7.5",
+    "nodemailer": "^7.0.0",
     "openapi-diff": "^0.23.5",
     "pino": "^7.10.0",
     "pino-pretty": "^7.6.1",
