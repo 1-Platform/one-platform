@@ -62,7 +62,7 @@
     "lighthouse": "^9.0.0",
     "lodash": "4.17.21",
     "method-override": "3.0.0",
-    "mongoose": "5.13.9",
+    "mongoose": "6.13.6",
     "morgan": "1.10.0",
     "node-fetch": "^2.6.7",
     "node-schedule": "2.0.0",
