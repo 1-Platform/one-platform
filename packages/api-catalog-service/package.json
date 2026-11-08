@@ -57,7 +57,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "fastify": "^3.28.0",
-    "graphql": "^15.6.1",
+    "graphql": "^16.0.0",
     "graphql-import-node": "^0.0.4",
     "graphql-redis-subscriptions": "2.4.0",
     "graphql-subscriptions": "^1.2.1",
